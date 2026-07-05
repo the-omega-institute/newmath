@@ -6151,6 +6151,7 @@ import BEDC.Derived.FieldUp.AlgebraReductCompatibility
 import BEDC.Derived.FieldUp.AssembledCertificateBoundary
 import BEDC.Derived.FieldUp.CanonicalExitActionInversePackage
 import BEDC.Derived.FieldUp.ConcreteExitObject
+import BEDC.Derived.FieldUp.ConcreteOperationTable
 import BEDC.Derived.FieldUp.ConcreteOperationTableLaws
 import BEDC.Derived.FieldUp.ConcreteRatupFieldupCertificateInstance
 import BEDC.Derived.FieldUp.ConcreteSchemaInstance
@@ -8717,6 +8718,7 @@ import BEDC.Derived.MetaCICCriticalPathUp.ParallelDiamondFrontierHandoffCertific
 import BEDC.Derived.MetaCICCriticalPathUp.ParallelDiamondFrontierHandoffScope
 import BEDC.Derived.MetaCICCriticalPathUp.ParallelDiamondFrontierSeed
 import BEDC.Derived.MetaCICCriticalPathUp.ParallelDiamondFrontierStatusSeed
+import BEDC.Derived.MetaCICCriticalPathUp.ParallelDiamondPublicExportRoute
 import BEDC.Derived.MetaCICCriticalPathUp.ParallelDiamondVisibleResidualConsumer
 import BEDC.Derived.MetaCICCriticalPathUp.PhaseRealAuditCleanFloor
 import BEDC.Derived.MetaCICCriticalPathUp.PhaseRealConsumerMinimality
