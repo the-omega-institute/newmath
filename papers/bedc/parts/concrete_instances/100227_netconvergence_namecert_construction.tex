@@ -111,6 +111,19 @@ The Real-facing part of the handoff reaches $L$ only after the stream schedule $
 \end{proof}
 \leanchecked{BEDC.Derived.NetConvergenceUp.NetConvergenceCarrier\_cauchy\_net\_limit\_handoff}
 
+\begin{theorem}[Net convergence CauchyNetLimit public package]
+\label{thm:net-convergence-cauchy-net-limit-public-package}
+Every CauchyNetLimit-facing read that reaches a public $\NetConvergenceUp$ package exposes the optional $\CauchyNetUp$ source row $A$, the terminal $\RealUp$ seal row $L$, the $\StreamNameUp$ and $\RegSeqRatUp$ readback route $S,R$, and the structural package row $H$ through one finite carrier route. The package exports the displayed source-to-seal handoff and structural rows only; it does not add a selected limit, quotient net, host convergence predicate, or ambient completeness witness.
+\end{theorem}
+\leanchecked{BEDC.Derived.NetConvergenceUp.NetConvergenceCarrier\_cauchy\_net\_limit\_real\_seal\_public\_package}
+\begin{proof}
+Begin with the CauchyNetLimit handoff theorem \autoref{thm:net-convergence-cauchy-net-limit-handoff}. It fixes the source route through $D,A$ and the limit route into $L$, while retaining the same Real-facing route $S,R,L$.
+
+The public package then reads the stream and seal rows before the structural handoff row $H$ is exposed. The carrier rows $C,P,M$ record replay, provenance, and local naming, so the resulting certificate is a package-level read of the same finite source-to-seal route.
+
+No carrier coordinate remains for a selected limit point, quotient-net representative, host convergence predicate, or ambient completeness principle. The public package is therefore just the displayed CauchyNetLimit route together with the Real seal and structural naming rows.
+\end{proof}
+
 \begin{theorem}[Net convergence Moore--Smith filter boundary]
 \label{thm:net-convergence-moore-smith-filter-boundary}
 Moore--Smith consumers and $\CauchyFilterUp$ consumers of an accepted $\NetConvergenceUp$ carrier meet only through the displayed finite directed-tail evidence $D,T,E,F$ and the structural rows $H,C,P,M$. The boundary exports no selected subnet, cofinal-choice operator, quotient net, host filter equality, or ambient completeness row.
