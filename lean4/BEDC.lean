@@ -3483,6 +3483,7 @@ import BEDC.Derived.CofinalDyadicMeshUp.TasteGate
 import BEDC.Derived.CofinalFilterBaseUp.TasteGate
 import BEDC.Derived.CofinalFilterUp.TasteGate
 import BEDC.Derived.CofinalFunctorUp
+import BEDC.Derived.CofinalModulusNormalizationSealUp.Carrier
 import BEDC.Derived.CofinalModulusNormalizationSealUp.PairedScheduleExposure
 import BEDC.Derived.CofinalModulusNormalizationSealUp.RealCompletionHandoff
 import BEDC.Derived.CofinalModulusNormalizationSealUp.TasteGate
@@ -5720,6 +5721,7 @@ import BEDC.Derived.EffectiveCauchyCriterionUp.TasteGate
 import BEDC.Derived.EffectiveCauchyModulusUp.TasteGate
 import BEDC.Derived.EffectiveCauchySequenceSpaceUp.TasteGate
 import BEDC.Derived.EffectiveCauchySequenceUp
+import BEDC.Derived.EffectiveCauchySequenceUp.ExtractorHandoff
 import BEDC.Derived.EffectiveCauchySequenceUp.ModulusReadback
 import BEDC.Derived.EffectiveCauchySequenceUp.Nonescape
 import BEDC.Derived.EffectiveCauchySequenceUp.TasteGate
@@ -9602,6 +9604,7 @@ import BEDC.Derived.NonAxiomAdmissionUp.WitnessRouteNonescape
 import BEDC.Derived.NonAxiomBoundaryFormUp.NameCertObligations
 import BEDC.Derived.NonAxiomBoundaryFormUp.TasteGate
 import BEDC.Derived.NonCollapseInvariantUp
+import BEDC.Derived.NontrivialZeroClassifierUp.Carrier
 import BEDC.Derived.NontrivialZeroClassifierUp.FalsifiableBoundary
 import BEDC.Derived.NontrivialZeroClassifierUp.NamecertObligations
 import BEDC.Derived.NontrivialZeroClassifierUp.TasteGate
