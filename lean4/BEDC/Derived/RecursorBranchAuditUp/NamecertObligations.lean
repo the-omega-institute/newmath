@@ -223,4 +223,31 @@ theorem RecursorBranchAudit_namecert_eventflow_readback [AskSetup] [PackageSetup
               y fields)
           alignment.right.right.right.right.right))
 
+theorem RecursorBranchAudit_motive_boundary_output_route
+    {motive branches output branchReplay outputReplay : BHist} :
+    Cont motive branches branchReplay ->
+      Cont branchReplay output outputReplay ->
+        hsame outputReplay output ->
+          (hsame outputReplay motive ∨ hsame outputReplay branches ∨ hsame outputReplay output) ∧
+            exists boundaryRead : BHist,
+              Cont motive branches boundaryRead ∧ Cont boundaryRead output outputReplay := by
+  -- BEDC touchpoint anchor: BHist Cont SemanticNameCert hsame
+  intro branchRoute outputRoute outputSame
+  have boundaryCert :
+      SemanticNameCert
+        (fun row : BHist => hsame row motive ∨ hsame row branches ∨ hsame row output)
+        (fun row : BHist => hsame row motive ∨ hsame row branches ∨ hsame row output)
+        (fun row : BHist => hsame row motive ∨ hsame row branches ∨ hsame row output)
+        hsame :=
+    RecursorBranchAuditCarrier_motive_boundary
+      (motive := motive) (branches := branches) (output := output)
+  have sourceOutput :
+      (fun row : BHist => hsame row motive ∨ hsame row branches ∨ hsame row output)
+        output := by
+    exact Or.inr (Or.inr (hsame_refl output))
+  have routedOutput :=
+    semanticNameCert_pattern_ledger_transport boundaryCert (hsame_symm outputSame) sourceOutput
+  exact And.intro routedOutput.left
+    (Exists.intro branchReplay (And.intro branchRoute outputRoute))
+
 end BEDC.Derived.RecursorBranchAuditUp
