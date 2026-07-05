@@ -6139,6 +6139,7 @@ import BEDC.Derived.FieldUp.AffineCentralizerNormalizerSubgroup
 import BEDC.Derived.FieldUp.AffineCompositeInverseReverseCoherence
 import BEDC.Derived.FieldUp.AffineCompositeProductWitnessIndependence
 import BEDC.Derived.FieldUp.AffineEquation
+import BEDC.Derived.FieldUp.AffineInnerConjugationExit
 import BEDC.Derived.FieldUp.AlgebraHierarchyExitWitness
 import BEDC.Derived.FieldUp.AlgebraReductCompatibility
 import BEDC.Derived.FieldUp.AssembledCertificateBoundary
@@ -7714,6 +7715,7 @@ import BEDC.Derived.LatticeUp.Monotonicity
 import BEDC.Derived.LatticeUp.NatExtrema
 import BEDC.Derived.LatticeUp.OneSidedDistributiveInequality
 import BEDC.Derived.LatticeUp.OppositeAbsorption
+import BEDC.Derived.LatticeUp.StabilityCertificate
 import BEDC.Derived.LatticeUp.StdBridge
 import BEDC.Derived.LatticeUp.UnaryPrefixExtrema
 import BEDC.Derived.LawCertificateUp.BridgeCarrierRoute
