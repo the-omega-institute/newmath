@@ -6768,6 +6768,7 @@ import BEDC.Derived.FpsUp.ZeroSeriesAbsorption
 import BEDC.Derived.FractionalPartUp
 import BEDC.Derived.FractionalPartUp.TasteGate
 import BEDC.Derived.FrechetCauchyCriterionUp.TasteGate
+import BEDC.Derived.FrechetCompleteMetricUp.TasteGate
 import BEDC.Derived.FrechetCompletionUp.TasteGate
 import BEDC.Derived.FrechetDerivativeUp.TasteGate
 import BEDC.Derived.FrechetFilterUp
@@ -12520,6 +12521,7 @@ import BEDC.Derived.SequentiallyCompleteMetricUp.TailStability
 import BEDC.Derived.SequentiallyCompleteMetricUp.TasteGate
 import BEDC.Derived.SequentiallyCompleteMetricUp.WindowLimitExtraction
 import BEDC.Derived.SequentiallyCompleteUniformSpaceUp.TasteGate
+import BEDC.Derived.SequentiallyLocatedRealUp.TasteGate
 import BEDC.Derived.SeriesDivergenceTestUp.TasteGate
 import BEDC.Derived.SeriesLimitComparisonUp
 import BEDC.Derived.SeriesLimitComparisonUp.TasteGate
