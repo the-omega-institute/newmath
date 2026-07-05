@@ -6354,6 +6354,7 @@ import BEDC.Derived.FiniteDimensionalNormedCompletenessUp
 import BEDC.Derived.FiniteDimensionalNormedCompletenessUp.TasteGate
 import BEDC.Derived.FiniteDimensionalSpectralGapUp.NameCertObligations
 import BEDC.Derived.FiniteDimensionalSpectralGapUp.TasteGate
+import BEDC.Derived.FiniteDiniModulusUp.TasteGate
 import BEDC.Derived.FiniteDyadicBisectionUp.TasteGate
 import BEDC.Derived.FiniteDyadicRefinementBudgetUp.TasteGate
 import BEDC.Derived.FiniteEpsilonNetUp.TasteGate
@@ -8041,6 +8042,7 @@ import BEDC.Derived.LocatedCutUp.TasteGate
 import BEDC.Derived.LocatedDecimalStreamNormalUp.TasteGate
 import BEDC.Derived.LocatedDyadicApproximationUp
 import BEDC.Derived.LocatedDyadicCompletionUp
+import BEDC.Derived.LocatedDyadicCompletionUp.TasteGate
 import BEDC.Derived.LocatedDyadicCutUp
 import BEDC.Derived.LocatedDyadicRealUp.TasteGate
 import BEDC.Derived.LocatedDyadicUniformMeshUp
@@ -9589,6 +9591,7 @@ import BEDC.Derived.NonAxiomAdmissionUp.WitnessRouteNonescape
 import BEDC.Derived.NonAxiomBoundaryFormUp.NameCertObligations
 import BEDC.Derived.NonAxiomBoundaryFormUp.TasteGate
 import BEDC.Derived.NonCollapseInvariantUp
+import BEDC.Derived.NontrivialZeroClassifierUp.FalsifiableBoundary
 import BEDC.Derived.NontrivialZeroClassifierUp.NamecertObligations
 import BEDC.Derived.NontrivialZeroClassifierUp.TasteGate
 import BEDC.Derived.NormUp
@@ -14156,6 +14159,7 @@ import BEDC.Derived.ZetaContinuationSocketUp
 import BEDC.Derived.ZetaContinuationSocketUp.AnalyticHandoff
 import BEDC.Derived.ZetaContinuationSocketUp.FunctionalEquationBoundary
 import BEDC.Derived.ZetaContinuationSocketUp.TasteGate
+import BEDC.Derived.ZetaContinuationSocketUp.VisionConcretization
 import BEDC.Derived.ZetaContinuationWitnessUp
 import BEDC.Derived.ZetaContinuationWitnessUp.AnalyticReadbackObligation
 import BEDC.Derived.ZetaContinuationWitnessUp.CarrierAdmissionTightening
