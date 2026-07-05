@@ -230,4 +230,27 @@ theorem AxiomDependencyAuditMapCarrier_top_window_obligation_route [AskSetup] [P
   }
   exact ⟨cert, modeUnary, ledgerUnary, publicUnary, dependencyUnary⟩
 
+theorem AxiomDependencyAuditMapCarrier_witness_required_axiom_exactness [AskSetup]
+    [PackageSetup] {K M W A L H C P N modeRead witnessAxiomRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    AxiomDependencyAuditMapCarrier K M W A L H C P N bundle pkg →
+      Cont M W modeRead →
+        Cont W A witnessAxiomRead →
+          PkgSig bundle witnessAxiomRead pkg →
+            UnaryHistory W ∧ UnaryHistory A ∧ UnaryHistory modeRead ∧
+              UnaryHistory witnessAxiomRead ∧ Cont M W modeRead ∧
+                Cont W A witnessAxiomRead ∧ PkgSig bundle witnessAxiomRead pkg := by
+  -- BEDC touchpoint anchor: BHist Cont ProbeBundle PkgSig UnaryHistory
+  intro carrier modeRoute witnessAxiomRoute witnessAxiomPkg
+  obtain ⟨_kUnary, mUnary, wUnary, aUnary, _lUnary, _hUnary, _cUnary, _pUnary,
+    _nUnary, _claimModeLedger, _ledgerAxiomTransport, _transportConsumerProvenance,
+    _namePkg⟩ := carrier
+  have modeUnary : UnaryHistory modeRead :=
+    unary_cont_closed mUnary wUnary modeRoute
+  have witnessAxiomUnary : UnaryHistory witnessAxiomRead :=
+    unary_cont_closed wUnary aUnary witnessAxiomRoute
+  exact
+    ⟨wUnary, aUnary, modeUnary, witnessAxiomUnary, modeRoute, witnessAxiomRoute,
+      witnessAxiomPkg⟩
+
 end BEDC.Derived.AxiomDependencyAuditMapUp
