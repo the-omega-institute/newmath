@@ -1,0 +1,79 @@
+\chapter{A Concrete Naming Certificate for $\ZetaEulerTickLedgerUp$}
+\label{ch:concrete-instances-zeta-euler-tick-ledger-namecert}
+\origin{ai}
+
+The $\ZetaEulerTickLedgerUp$ packet realizes the finite prime-window trace part of \autoref{ch:visions-rh-zeta-euler-tick-algebra} as NameCert data. It packages finite prime-window occupation rows, logarithmic weights, trace windows, Euler-factor rows, replay, provenance, and local naming so that the Zeta--Euler tick route has a concrete finite landing. The packet sits beside the zeta source of \autoref{ch:concrete-instances-zeta-basic-namecert}, the prime source of \autoref{ch:concrete-instances-prime-namecert}, the unary natural row of \autoref{ch:concrete-instances-nat-namecert}, the complex codomain of \autoref{ch:concrete-instances-complex-namecert}, and the continuation witness of \autoref{ch:concrete-instances-zeta-continuation-witness-namecert}. It does not claim analytic continuation, zero-location information, RH, an infinite Fock trace, or a completed Euler product.
+
+\begin{definition}[Zeta--Euler tick ledger carrier]
+\label{def:zeta-euler-tick-ledger-carrier}
+A $\ZetaEulerTickLedgerUp$ carrier is a finite $\BHist$ packet
+$$
+Z=(S,O,W,T,E,R,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the finite prime-window row, listing the displayed primes inspected by the trace request.
+\item $O$ is the occupation ledger, recording the finite-support exponent rows over $S$.
+\item $W$ is the logarithmic-weight row, assigning each displayed prime its $\log p$ energy contribution.
+\item $T$ is the trace-window row, naming the finite tensor window and the diagonal entries licensed for the request.
+\item $E$ is the Euler-factor row, displaying the finite product factors $\frac{1}{1-p^{-s}}$ for primes in $S$.
+\item $R$ is the sibling route row through $\ZetaBasicUp$, $\PrimeUp$, $\NatUp$, $\ComplexUp$, and $\ZetaContinuationWitnessUp$.
+\item $H$ records componentwise $\hsame$ transport for the prime window, occupation, weight, trace, Euler-factor, sibling route, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from a finite trace request through $S,O,W,T,E,R,H,P,N$.
+\item $P$ is the $\Pkg$ provenance over $\ZetaEulerTickLedgerUp$, $\ZetaBasicUp$, $\PrimeUp$, $\NatUp$, $\ComplexUp$, $\ZetaContinuationWitnessUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\ZetaEulerTickLedgerUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $S,O,W,T,E,R,H,C,P,N$. It has no coordinate for analytic continuation, a zero ledger, a completed infinite trace, an infinite Euler product, a spectral theorem, or RH.
+\end{definition}
+
+\begin{theorem}[Zeta--Euler tick ledger NameCert obligations]
+\label{thm:zeta-euler-tick-ledger-namecert-obligations}
+For every accepted $\ZetaEulerTickLedgerUp$ carrier
+$$
+Z=(S,O,W,T,E,R,H,C,P,N),
+$$
+the local $\NameCert_{\ZetaEulerTickLedgerUp}$ surface consists exactly of finite prime-window admission, finite occupation exposure, logarithmic-weight exposure, trace-window exposure, Euler-factor exposure, sibling routing, componentwise transport, displayed replay, provenance, and local naming through $S,O,W,T,E,R,H,C,P,N$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:zeta-euler-tick-ledger-carrier}. The finite prime window $S$, occupation ledger $O$, logarithmic weights $W$, trace window $T$, and Euler-factor row $E$ are explicit coordinates.
+
+The route is finite at every step. The occupation ledger ranges only over the displayed window $S$, and the trace-window row $T$ licenses only the diagonal entries visible in that same finite window.
+
+The sibling route $R$ ties the read to the zeta, prime, natural-number, complex, and continuation-witness surfaces. The rows $H,C,P,N$ transport, replay, source, and name the same finite packet.
+
+Since the carrier contains no analytic-continuation coordinate, zero ledger, completed infinite trace, spectral theorem, or RH predicate, the listed rows exhaust the local NameCert obligations.
+\end{proof}
+
+\begin{theorem}[Zeta--Euler tick ledger finite trace handoff]
+\label{thm:zeta-euler-tick-ledger-finite-trace-handoff}
+Every accepted finite-window trace read of a $\ZetaEulerTickLedgerUp$ packet factors through
+$$
+S,O,W \longmapsto T \longmapsto E \longmapsto R,H,C,P,N.
+$$
+Consequently an Euler-factor read is accepted only after the finite prime window, occupation ledger, logarithmic weights, and trace-window rows have been displayed.
+\end{theorem}
+\begin{proof}
+Start with a finite trace request. The packet first displays the prime window $S$, the occupation ledger $O$, and the logarithmic-weight row $W$, so the requested Hamiltonian data are scoped by finite BEDC rows.
+
+The trace-window row $T$ is then read over the same displayed window. Only after that trace window is in scope can the Euler-factor row $E$ expose the product factors for the primes in $S$.
+
+Finally, $R,H,C,P,N$ route, transport, replay, source, and name the finite trace handoff. A request that deletes the finite prime-window row has no displayed scope in which its occupation, trace, or Euler-factor read can be accepted.
+\end{proof}
+
+\falsifiablePrediction{Deleting the finite prime-window row $S$ prevents any accepted $\ZetaEulerTickLedgerUp$ Euler-factor trace read, because the occupation, logarithmic-weight, trace-window, and Euler-factor rows have no displayed prime scope.}
+
+\independenceWitness{zeta-basic, prime, nat, complex, zeta-continuation-witness: $\ZetaEulerTickLedgerUp$ is not bijective to any listed sibling because it carries finite prime-window occupation, logarithmic-weight, trace-window, Euler-factor, sibling route, transport, replay, provenance, and local NameCert rows. ZetaBasicUp lacks the finite tick ledger; PrimeUp lacks zeta trace data; NatUp supplies unary indexing without prime-window weights; ComplexUp supplies codomain rows without Euler factors; ZetaContinuationWitnessUp records continuation handoff without finite-window trace occupation.}
+
+The Lean follow-up must provide $\Nontrivial\ \ZetaEulerTickLedgerUp$ and $\FieldFaithful\ \ZetaEulerTickLedgerUp$ TasteGate instances before any checked theorem may cite the ledger as a field-faithful finite trace surface.
+
+\closureat{ZetaEulerTickLedgerUp}{seedStr}
+
+\begin{closurestatus}{\ZetaEulerTickLedgerUp}
+  \constructivestory{A $\ZetaEulerTickLedgerUp$ packet is generated from finite prime-window rows, occupation ledgers, logarithmic-weight rows, trace-window rows, Euler-factor rows, sibling route rows, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:zeta-euler-tick-ledger-carrier}, \autoref{thm:zeta-euler-tick-ledger-namecert-obligations}, and \autoref{thm:zeta-euler-tick-ledger-finite-trace-handoff} seed the finite prime-window trace handoff for the Zeta--Euler tick algebra route.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim analytic continuation, zero-location information, RH, an infinite Fock trace, a completed Euler product, spectral completeness, Lean theorem verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, finite prime-window exposure, occupation exposure, logarithmic-weight exposure, trace-window exactness, Euler-factor handoff, route coverage, transport, replay, provenance, local naming, Nontrivial TasteGate evidence, and FieldFaithful TasteGate evidence for BEDC.Derived.ZetaEulerTickLedgerUp.}
+\end{closurestatus}
