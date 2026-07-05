@@ -55,4 +55,29 @@ theorem AuditMapRouteBudgetCarrier_namecert_obligations [AskSetup] [PackageSetup
     ⟨eUnary, sUnary, rUnary, gUnary, qUnary, lUnary, routeUnary, gateUnary,
       reportUnary, routeRoute, gateRoute, reportRoute, namePkg, reportPkg⟩
 
+theorem AuditMapRouteBudgetCarrier_falsifiable_boundary [AskSetup] [PackageSetup]
+    {E S R G Q L H C P N routeRead gateRead reportRead refusalRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    AuditMapRouteBudgetCarrier E S R G Q L H C P N bundle pkg ->
+      Cont E S routeRead ->
+        Cont G Q gateRead ->
+          Cont L H refusalRead ->
+            PkgSig bundle reportRead pkg ->
+              PkgSig bundle refusalRead pkg ->
+                UnaryHistory G ∧ UnaryHistory L ∧ UnaryHistory gateRead ∧
+                  UnaryHistory refusalRead ∧ Cont G Q gateRead ∧
+                    Cont L H refusalRead ∧ PkgSig bundle reportRead pkg ∧
+                      PkgSig bundle refusalRead pkg := by
+  -- BEDC touchpoint anchor: BHist Cont ProbeBundle PkgSig UnaryHistory
+  intro carrier _routeRoute gateRoute refusalRoute reportPkg refusalPkg
+  obtain ⟨_token, _tokenEq, _eUnary, _sUnary, _rUnary, gUnary, qUnary, lUnary,
+    hUnary, _cUnary, _pUnary, _nUnary, _carrierPkg⟩ := carrier
+  have gateUnary : UnaryHistory gateRead :=
+    unary_cont_closed gUnary qUnary gateRoute
+  have refusalUnary : UnaryHistory refusalRead :=
+    unary_cont_closed lUnary hUnary refusalRoute
+  exact
+    ⟨gUnary, lUnary, gateUnary, refusalUnary, gateRoute, refusalRoute, reportPkg,
+      refusalPkg⟩
+
 end BEDC.Derived.AuditMapRouteBudgetUp

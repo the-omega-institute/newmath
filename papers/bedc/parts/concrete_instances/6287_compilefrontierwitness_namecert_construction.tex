@@ -121,14 +121,28 @@ The stage row $S$ routes the compile stages, while the audit row $A$ records acc
 Finally, $H,C,P,N$ preserve the same anchor list by transport, replay, provenance, and local naming. Any public consumer therefore factors through the displayed anchors and has no second route outside the finite packet.
 \end{proof}
 
+\begin{theorem}[Compile-frontier witness scope closure]
+\label{thm:compile-frontier-witness-scope-closure}
+The scoped surface of $\CompileFrontierWitnessUp$ is exactly the finite route through the present frontier coordinate $F$, halted target $T$, three Cook stage rows $S$, audit ledger $A$, nonchoice boundary $B$, componentwise $\hsame$ transport $H$, displayed $\Cont$ replay $C$, $\Pkg$ provenance $P$, and local $\NameCert_{\CompileFrontierWitnessUp}$ row $N$. Its only sibling anchors are $\CellularSubstrateClassifierUp$, $\CellularAutomatonUp$, $\HaltingObstructionUp$, and $\CompilerOptimizationEndomorphismUp$ as named by \autoref{ch:concrete-instances-cellularsubstrateclassifier-namecert}, \autoref{ch:concrete-instances-cellularautomaton-namecert}, \autoref{ch:concrete-instances-haltingobstruction-namecert}, and \autoref{ch:concrete-instances-compiler-optimization-endomorphism-namecert}; it exports no host evaluator, detached compiler oracle, unrecorded decoder, global halting classifier, or consumer route outside those rows.
+\end{theorem}
+\begin{proof}
+Start with the carrier definition \autoref{def:compile-frontier-witness-carrier}. It lists $F,T,S,A,B,H,C,P,N$ as the complete public coordinate inventory, so the scoped surface can only be assembled from those rows.
+
+Apply \autoref{thm:compile-frontier-witness-namecert-obligations}. The NameCert rows expose carrier admission, displayed coordinate comparison, pipeline-stage route exactness, audit-row nonescape, and ledger exhaustion for the same finite packet.
+
+Use the boundary results next. The nonchoice boundary of \autoref{thm:compile-frontier-witness-nonchoice-boundary} and the boundary exactness theorem \autoref{thm:compile-frontier-witness-boundary-exactness} force any halted-target read to pass through $B$ before the structural exit rows can be consumed.
+
+Finally apply the consumer nonescape theorem \autoref{thm:compile-frontier-witness-consumer-nonescape}. It restricts public consumers to the cellular substrate classifier, cellular automaton, halting obstruction, and compiler-optimization endomorphism anchors named in the provenance. Hence the scoped surface is exactly the finite route stated above.
+\end{proof}
+
 The later Lean development in \texttt{lean4/BEDC/Derived/CompileFrontierWitnessUp/TasteGate.lean} must provide \texttt{Nontrivial CompileFrontierWitnessUp} and \texttt{FieldFaithful CompileFrontierWitnessUp} instances for the same displayed carrier.
 
 \closureat{CompileFrontierWitnessUp}{obligationStr}[BEDC.Derived.CompileFrontierWitnessUp.CompileFrontierWitnessCarrier\_namecert\_obligations]
 
 \begin{closurestatus}{\CompileFrontierWitnessUp}
   \constructivestory{A $\CompileFrontierWitnessUp$ packet is generated from a present frontier coordinate, halted-machine target coordinate, Cook stage route, audit ledger, nonchoice boundary, componentwise hsame transports, displayed continuation routes, package provenance, and a local NameCert row.}
-  \theoryclosure{\obligationClosure}
-  \scopeclosed{\autoref{def:compile-frontier-witness-carrier}, \autoref{thm:compile-frontier-witness-namecert-obligations}, and \autoref{thm:compile-frontier-witness-nonchoice-boundary} specify the finite compile-frontier witness carrier, its five NameCert rows, and its nonchoice boundary.}
+  \theoryclosure{\scopedClosure}
+  \scopeclosed{\autoref{def:compile-frontier-witness-carrier}, \autoref{thm:compile-frontier-witness-namecert-obligations}, \autoref{thm:compile-frontier-witness-nonchoice-boundary}, \autoref{thm:compile-frontier-witness-boundary-exactness}, \autoref{thm:compile-frontier-witness-consumer-nonescape}, and \autoref{thm:compile-frontier-witness-scope-closure} specify the finite compile-frontier witness carrier, its five NameCert rows, nonchoice boundary, exact consumer route, and scoped sibling anchors.}
   \formalstatus{\unformalizedV}
   \leantarget{BEDC.Derived.CompileFrontierWitnessUp.CompileFrontierWitnessCarrier\_namecert\_obligations}
   \bridgestatus{none}
