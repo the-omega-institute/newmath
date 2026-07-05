@@ -13506,6 +13506,7 @@ import BEDC.Derived.UniformBoundednessUp.PublicBoundary
 import BEDC.Derived.UniformBoundednessUp.TasteGate
 import BEDC.Derived.UniformCauchyBicompletionUp.TasteGate
 import BEDC.Derived.UniformCauchyCompletionRealizerUp
+import BEDC.Derived.UniformCauchyCompletionRealizerUp.TasteGate
 import BEDC.Derived.UniformCauchyCompletionUp.TasteGate
 import BEDC.Derived.UniformCauchyCriterionFunctionUp
 import BEDC.Derived.UniformCauchyCriterionUp
