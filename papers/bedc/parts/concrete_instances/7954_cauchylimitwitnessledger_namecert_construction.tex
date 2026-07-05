@@ -68,6 +68,42 @@ Route the finite data through the sibling surfaces. The window row is read throu
 Apply the tail synchronization theorem. It fixes the order $D,W,G,T,S,R,H,C,P,N,A$, so a completion consumer cannot read the ledger as a Real limit witness before the readback and seal rows have been displayed. The missing carrier coordinates exclude selected limits, quotient equality, host real equality, hidden tail selectors, and ambient completeness.
 \end{proof}
 
+\begin{theorem}[CauchyLimitWitnessLedger tail-readback totality]
+\label{thm:cauchy-limit-witness-ledger-tail-readback-totality}
+For every accepted $\CauchyLimitWitnessLedgerUp$ carrier $L=(D,T,S,W,G,R,H,C,P,N,A)$, the exposed tail readback is total over the displayed finite ledger rows: the diagonal budget $D$ opens the $\StreamNameUp$ window $W$, the window determines the $\RegSeqRatUp$ readback row $G$, and the readback is consumed by the $\RealTailAgreementSealUp$ row $T$ before the $\CauchyLimitSealUp$ row $S$ and the $\RealUp$ seal row $R$ are available. The route uses only componentwise $\hsame$ transport $H$, displayed $\Cont$ replay $C$, provenance $P$, local naming $N$, and audit row $A$.
+\end{theorem}
+\begin{proof}
+Project the displayed carrier rows. The tuple $D,T,S,W,G,R,H,C,P,N,A$ is the whole accepted packet, so every tail read must be found inside the named rows of \autoref{def:cauchy-limit-witness-ledger-carrier}.
+
+Read the sibling certificates in order. The finite window comes from \autoref{ch:concrete-instances-streamname-namecert}, the regular-rational readback from \autoref{ch:concrete-instances-regseqrat-namecert}, and the tail agreement from \autoref{ch:concrete-instances-realtailagreementseal-namecert}.
+
+Finally use the readback-seal obligation. It forces the same read through $S,R,H,C,P,N,A$, so the ledger supplies a total finite route for every accepted tail readback without selecting a limit, quotient representative, or hidden tail selector.
+\end{proof}
+
+\begin{theorem}[CauchyLimitWitnessLedger limit-seal stability]
+\label{thm:cauchy-limit-witness-ledger-limit-seal-stability}
+Let $L=(D,T,S,W,G,R,H,C,P,N,A)$ and $L'=(D',T',S',W',G',R',H',C',P',N',A')$ be accepted $\CauchyLimitWitnessLedgerUp$ carriers whose displayed rows are related componentwise by the $\hsame$ transports recorded in $H$ and $H'$. Then the $\CauchyLimitSealUp$ readback exposed by $S$ is stable under that transport: the transported route through $D,W,G,T,S,R,C,P,N,A$ has the same visible limit-seal ledger as the route through $D',W',G',T',S',R',C',P',N',A'$.
+\end{theorem}
+\begin{proof}
+Start with the componentwise transport rows $H$ and $H'$. They classify the diagonal budget, tail agreement, limit seal, window, readback, Real seal, provenance, and local name rows on the two accepted carriers.
+
+Replay the route using $C$ and $C'$. The StreamName window and RegSeqRat readback are transported before the RealTailAgreementSeal row is consumed, and the CauchyLimitSeal row is reached only after those transported rows are visible, as in \autoref{ch:concrete-instances-cauchylimitseal-namecert}.
+
+The audit rows $A$ and $A'$ keep the transported read inside the same displayed finite packet. Hence the visible limit-seal ledger is stable under componentwise $\hsame$; the statement does not identify quotient reals, host real values, selected limits, or ambient completeness data.
+\end{proof}
+
+\begin{theorem}[CauchyLimitWitnessLedger RegSeqRat-to-Real handoff]
+\label{thm:cauchy-limit-witness-ledger-regseqrat-real-handoff}
+Every accepted $\CauchyLimitWitnessLedgerUp$ carrier $L=(D,T,S,W,G,R,H,C,P,N,A)$ exposes the $\RegSeqRatUp$-to-$\RealUp$ handoff as a finite ledger: the readback row $G$ is opened from $W$, sealed through $T$ and $S$, transported by $H$, replayed by $C$, recorded under $P$ and $N$, and only then made available as the $\RealUp$ seal row $R$. No accepted handoff may bypass the displayed readback, tail-agreement, or limit-seal rows.
+\end{theorem}
+\begin{proof}
+Project $W,G,T,S,R$ from the carrier. The StreamName row supplies the finite window, the RegSeqRat row supplies the regular-rational readback, and the Real row is reached only as the terminal seal of the displayed chain.
+
+Use the sibling surfaces. The route passes through \autoref{ch:concrete-instances-regseqrat-namecert}, then \autoref{ch:concrete-instances-realtailagreementseal-namecert}, and then \autoref{ch:concrete-instances-cauchylimitseal-namecert} before the Real-facing row is exposed.
+
+Finally apply transport, replay, provenance, and local naming. Rows $H,C,P,N,A$ certify that the handoff remains inside the same finite ledger, so the chapter exports no selected limit, quotient equality, host real equality, hidden tail selector, or ambient completeness assertion.
+\end{proof}
+
 \falsifiablePrediction{Every accepted CauchyLimitWitnessLedgerUp packet exposes a displayed limit-seal row and admits no public route to a selected limit, quotient real equality, or hidden tail selector.}
 
 \independenceWitness{Nearest siblings: cauchylimitseal, realtailagreementseal, cauchywitnessledger, streamname, and regseqrat. None is bijective to $\CauchyLimitWitnessLedgerUp$ because this chapter keeps the combined limit-witness ledger as one finite packet: diagonal budget, tail agreement, limit seal, StreamName window, RegSeqRat readback, RealUp seal, transport, replay, provenance, local name, and audit row are carried together.}
@@ -78,7 +114,7 @@ The Lean TasteGate boundary for this packet provides explicit \texttt{Nontrivial
 
 \begin{closurestatus}{\CauchyLimitWitnessLedgerUp}
   \constructivestory{A $\CauchyLimitWitnessLedgerUp$ packet is generated from a finite diagonal budget, displayed tail-agreement row, displayed Cauchy-limit seal, StreamName window, RegSeqRat readback, RealUp seal, componentwise transports, displayed replay, provenance, local NameCert row, and audit non-escape row.}
-  \theoryclosure{\seedClosure}
+  \theoryclosure{\obligationClosure}
   \scopeclosed{\autoref{def:cauchy-limit-witness-ledger-carrier}, \autoref{thm:cauchy-limit-witness-ledger-namecert-obligations}, and \autoref{thm:cauchy-limit-witness-ledger-tail-synchronization} bind the finite limit-witness ledger route over StreamName, RegSeqRat, RealUp, RealTailAgreementSeal, CauchyLimitSeal, hsame, Cont, Pkg, and NameCert rows.}
   \formalstatus{\axiomCleanV}
   \leantarget{BEDC.Derived.CauchyLimitWitnessLedgerUp.CauchyLimitWitnessLedgerTasteGate\_single\_carrier\_alignment}
