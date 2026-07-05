@@ -394,16 +394,30 @@ Transport stability is supplied by \autoref{thm:real-approximation-envelope-four
 Finally, \autoref{thm:real-completion-exact-boundary-four-face-exactness} and \autoref{thm:real-completion-exact-boundary-terminal-route-pullback} give the Real completion boundary consumed by this envelope. They use only the matching StreamName, DyadicRatCore, RegSeqRat, and Real faces, so the accepted envelope exports exactly the displayed public route and nothing beyond it.
 \end{proof}
 
-\closureat{RealApproximationEnvelopeUp}{publicStr}
+\begin{theorem}[Real approximation-envelope public schema bridge]
+\label{thm:real-approximation-envelope-public-schema-bridge}
+Every accepted $\RealApproximationEnvelopeUp$ carrier whose public boundary is exported by the four-face theorem and transported by the four-face stability theorem is a concrete instance of the public StreamNameUp, DyadicRatCoreUp, RegSeqRatUp, and RealUp envelope schema. The bridge data are exactly the displayed tolerance request, selected StreamName finite window, DyadicRatCore observation row, RegSeqRat classifier row, RealUp seal handoff, componentwise $\hsame$ rows, displayed $\Cont$ routes, $\Pkg$ provenance, and local $\NameCert_{\RealApproximationEnvelopeUp}$ row.
+
+This schema bridge adds no host real equality, quotient stream equality, selected limit, completed-real inverse law, arithmetic or order package, or ambient completeness premise.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:real-approximation-envelope-four-face-public-export}. It identifies the public envelope as the finite route from the selected $\StreamNameUp$ window through the $\DyadicRatCoreUp$ observation, the $\RegSeqRatUp$ classifier row, and the $\RealUp$ seal, supported by the tolerance, transport, replay, provenance, and local certificate rows.
+
+Apply \autoref{thm:real-approximation-envelope-four-face-transport-stability}. Componentwise transport preserves that same four-face route, so the concrete carrier can be read through the public envelope schema without adding a second carrier or quotient-level equality.
+
+Finally use \autoref{thm:real-approximation-envelope-public-export-boundary}. The boundary theorem excludes selected limits, quotient stream equality, host real equality, completed-real inverse laws, arithmetic or order packages, and ambient completeness from the public export. Hence the bridge is exactly the displayed public schema route and nothing beyond it.
+\end{proof}
+
+\closureat{RealApproximationEnvelopeUp}{bridgedStr}
 
 \begin{closurestatus}{\RealApproximationEnvelopeUp}
   \constructivestory{A $\RealApproximationEnvelopeUp$ packet is generated from a tolerance request, selected $\StreamNameUp$ finite window, $\DyadicRatCoreUp$ observation row, $\RegSeqRatUp$ classifier row, $\RealUp$ seal handoff, componentwise $\hsame$ transports, displayed $\Cont$ routes, $\Pkg$ provenance, and a local $\NameCert$ row.}
-  \theoryclosure{\publicClosure}
-  \scopeclosed{\autoref{def:real-approximation-envelope-carrier}, \autoref{thm:real-approximation-envelope-namecert-obligations}, \autoref{thm:real-approximation-envelope-obligation-coverage}, \autoref{thm:real-approximation-envelope-primitive-scope-closure}, \autoref{thm:real-approximation-envelope-four-face-public-export}, \autoref{thm:real-approximation-envelope-four-face-transport-stability}, and \autoref{thm:real-approximation-envelope-public-export-boundary} bind the primitive finite envelope from tolerance requests through StreamNameUp windows, DyadicRatCore observations, RegSeqRat classifier rows, RealUp seal handoffs, componentwise transport, and the public Real-and-Completion export boundary.}
+  \theoryclosure{\bridgedClosure}
+  \scopeclosed{\autoref{def:real-approximation-envelope-carrier}, \autoref{thm:real-approximation-envelope-namecert-obligations}, \autoref{thm:real-approximation-envelope-obligation-coverage}, \autoref{thm:real-approximation-envelope-primitive-scope-closure}, \autoref{thm:real-approximation-envelope-four-face-public-export}, \autoref{thm:real-approximation-envelope-four-face-transport-stability}, \autoref{thm:real-approximation-envelope-public-export-boundary}, and \autoref{thm:real-approximation-envelope-public-schema-bridge} bind the primitive finite envelope from tolerance requests through StreamNameUp windows, DyadicRatCore observations, RegSeqRat classifier rows, RealUp seal handoffs, componentwise transport, the public Real-and-Completion export boundary, and the public schema bridge.}
   \formalstatus{\axiomCleanV}
   \leantarget{BEDC.Derived.RealApproximationEnvelopeUp.RealApproximationEnvelope\_window\_classifier\_exactness}
   \bridgestatus{none}
   \origin{human}
   \notclaimed{This chapter does not close RealUp completeness, uniqueness of completed limits, quotient stream equality, host real equality, completed-real inverse laws, arithmetic/order packages, or bridge checking.}
-  \upgradepath{The remaining route to a higher closure grade is a bridge theorem for the public StreamNameUp, DyadicRatCoreUp, RegSeqRatUp, and RealUp four-face export.}
+  \upgradepath{Mature closure requires examples, downstream consumers, and completeness of the bridge treatment for the public StreamNameUp, DyadicRatCoreUp, RegSeqRatUp, and RealUp four-face export.}
 \end{closurestatus}
