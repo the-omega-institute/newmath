@@ -94,6 +94,18 @@ Use comparison-secondary and generator-recursor coverage. External comparison su
 Therefore the obligation boundary is exactly $G,E,R,A,B,H,C,P,N$, with every comparison-facing request remaining outside the identity carrier.
 \end{proof}
 
+\begin{theorem}[MetaCIC identity audit-map route]
+\label{thm:metacic-identity-audit-map-route}
+Every accepted $\MetaCICIdentityUp$ consumer reading BEDC.MetaCIC through its own substrate must first expose the $\AuditMapFamilyUp$ row and the $\GroundCompilerAuditMapUp$ row named by $P$, then the $\BHist$, $\hsame$, $\Cont$, and local $\NameCert$ route carried by $G,E,R,A,B,H,C,P,N$. Classical CIC is not a parent coordinate of this read, because the audit-map rows mediate the consumer route before any comparison-facing request can inspect the identity packet.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:metacic-identity-carrier}. The provenance row $P$ names the audit-map family and GroundCompiler audit-map packets together with the identity rows $G,E,R,A,B,H,C,N$.
+
+Apply \autoref{thm:metacic-identity-namecert-obligations}. A consumer must read the displayed generator, equality, recursor, purity, boundary, transport, continuation, provenance, and local naming rows before exporting the identity packet.
+
+Use \autoref{thm:metacic-identity-obligation-boundary}. Classical CIC comparison remains a comparison-facing request; it cannot add a generator, equality rule, recursor principle, purity witness, or parent coordinate. Thus the audit-map and GroundCompiler audit-map rows mediate the accepted read of BEDC.MetaCIC through its own substrate.
+\end{proof}
+
 \closureat{MetaCICIdentityUp}{seedStr}
 
 \begin{closurestatus}{\MetaCICIdentityUp}
