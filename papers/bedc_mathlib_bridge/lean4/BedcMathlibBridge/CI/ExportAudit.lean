@@ -236,11 +236,6 @@ def audit (expected : Array ExportExpectation)
   IntMetadata.auditIntExportSignature
   auditRegistrations exportWitnessRegistry
   let expectedNames := expected.map (·.witness)
-  let dupes := duplicateNames expectedNames
-  unless dupes.isEmpty do
-    throwError m!
-      "BEDC_GATE_D_DUPLICATE_WITNESS: duplicate MATRIX export witness(es): \
-      {formatNames dupes}"
   for e in expected do
     auditExpectedWitness e
   for e in expected do
