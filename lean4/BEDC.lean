@@ -3953,6 +3953,7 @@ import BEDC.Derived.ConstructiveRealTrichotomyBoundaryUp.TasteGate
 import BEDC.Derived.ConstructiveRefutationUp.TasteGate
 import BEDC.Derived.ConstructiveRiemannSumUp
 import BEDC.Derived.ConstructiveSobolevEnergyUp.TasteGate
+import BEDC.Derived.ConstructiveUniformCompletionUp.TasteGate
 import BEDC.Derived.ConstructiveUniformLimitUp.TasteGate
 import BEDC.Derived.ContFracBoundUp
 import BEDC.Derived.ContFracUp
@@ -11932,7 +11933,6 @@ import BEDC.Derived.RegularCauchyTailScheduleUp.ConsumerFactorization
 import BEDC.Derived.RegularCauchyTailScheduleUp.MeetFusionCompatibility
 import BEDC.Derived.RegularCauchyTailScheduleUp.ObligationClosure
 import BEDC.Derived.RegularCauchyTailScheduleUp.ObligationExhaustion
-import BEDC.Derived.RegularCauchyTailScheduleUp.PublicConsumerSurface
 import BEDC.Derived.RegularCauchyTailScheduleUp.TasteGate
 import BEDC.Derived.RegularCauchyTailScheduleUp.WindowReadiness
 import BEDC.Derived.RegularCauchyTailSealUp
@@ -12340,7 +12340,6 @@ import BEDC.Derived.SeparatedMetricUp.ZeroDistanceConsumerExactness
 import BEDC.Derived.SeparatedMetricUp.ZeroDistanceRealReflection
 import BEDC.Derived.SeparatedPseudometricCompletionUp
 import BEDC.Derived.SeparatedPseudometricCompletionUp.NameCertObligations
-import BEDC.Derived.SeparatedPseudometricCompletionUp.Scope
 import BEDC.Derived.SeparatedPseudometricCompletionUp.TasteGate
 import BEDC.Derived.SeparatedQuotientMetricUp
 import BEDC.Derived.SeparatedQuotientMetricUp.TasteGate
@@ -13075,7 +13074,6 @@ import BEDC.Derived.SubmartingaleUp.OneSidedComparisonTransport
 import BEDC.Derived.SubmartingaleUp.StoppingWindowHandoff
 import BEDC.Derived.SubmartingaleUp.TasteGate
 import BEDC.Derived.SubmartingaleUp.UpcrossingLedgerExactness
-import BEDC.Derived.SubnetUp
 import BEDC.Derived.SubordinateFiniteModulusCoverUp.TasteGate
 import BEDC.Derived.SubordinateModulusCoverUp.CompactUniformConsumerBoundary
 import BEDC.Derived.SubordinateModulusCoverUp.FiniteSelectionScope
