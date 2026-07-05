@@ -587,4 +587,11 @@ theorem DimLiftBoundaryZeckendorfCarrierScope
       exact ⟨scopeRoute, refusalRoute⟩
   · exact Nonempty.intro (DimLiftBoundaryUp.mk Z N A F R H C P Q)
 
+def DimLiftBoundaryClassifier (D1 D2 : DimLiftBoundaryUp) : Prop :=
+  -- BEDC touchpoint anchor: BHist Cont hsame DimLiftBoundaryUp
+  match D1, D2 with
+  | DimLiftBoundaryUp.mk Z N A F R H C P Q, DimLiftBoundaryUp.mk Zp Np Ap Fp Rp Hp _Cp Pp Qp =>
+      hsame Z Zp ∧ hsame N Np ∧ hsame A Ap ∧ hsame F Fp ∧ hsame R Rp ∧
+        Cont H C Hp ∧ hsame P Pp ∧ hsame Q Qp ∧ Nonempty DimLiftBoundaryUp
+
 end BEDC.Derived.DimLiftBoundaryUp
