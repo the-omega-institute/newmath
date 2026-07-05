@@ -184,6 +184,22 @@ def taste_gate : ChapterTasteGate HostTotalTraceUp :=
   -- BEDC touchpoint anchor: BHist BMark
   hostTotalTraceChapterTasteGate
 
+def HostTotalTraceClassifier (x y : HostTotalTraceUp) : Prop :=
+  -- BEDC touchpoint anchor: BHist BMark
+  hostTotalTraceToEventFlow x = hostTotalTraceToEventFlow y ∧
+    hostTotalTraceEncodeBHist BHist.Empty = ([] : List BMark)
+
+theorem HostTotalTraceClassifier_exactness (x : HostTotalTraceUp) :
+    HostTotalTraceClassifier x x ∧
+      hostTotalTraceFromEventFlow (hostTotalTraceToEventFlow x) = some x := by
+  -- BEDC touchpoint anchor: BHist BMark
+  constructor
+  · change
+      hostTotalTraceToEventFlow x = hostTotalTraceToEventFlow x ∧
+        hostTotalTraceEncodeBHist BHist.Empty = ([] : List BMark)
+    exact ⟨rfl, rfl⟩
+  · exact hostTotalTrace_round_trip x
+
 theorem HostTotalTraceTasteGate_single_carrier_alignment :
     (∀ h : BHist, hostTotalTraceDecodeBHist (hostTotalTraceEncodeBHist h) = h) ∧
       (∀ x : HostTotalTraceUp,
