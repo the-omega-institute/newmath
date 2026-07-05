@@ -33,6 +33,7 @@ import BedcMathlibBridge.Constructive.NatSuccPred
 import BedcMathlibBridge.Constructive.NatSuccInjective
 import BedcMathlibBridge.Constructive.ListMapEqMap
 import BedcMathlibBridge.Constructive.NatMulComm
+import BedcMathlibBridge.Constructive.NatMulSucc
 import BedcMathlibBridge.Constructive.NatFactorialSucc
 import BedcMathlibBridge.Constructive.NatFactorialPos
 import BedcMathlibBridge.Constructive.NatMulZero
