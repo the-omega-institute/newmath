@@ -994,6 +994,7 @@ import BEDC.Derived.BetaSubstitutionPreservationUp.Nonescape
 import BEDC.Derived.BetaSubstitutionPreservationUp.RedexClosure
 import BEDC.Derived.BetaSubstitutionPreservationUp.RedexLedgerExactness
 import BEDC.Derived.BetaSubstitutionPreservationUp.SubjectReductionHandoff
+import BEDC.Derived.BezoutIdentityUp.NameCertObligations
 import BEDC.Derived.BihariLaSalleUp
 import BEDC.Derived.BilinFormUp
 import BEDC.Derived.BilinFormUp.BilinFormStdBridge
@@ -5330,6 +5331,7 @@ import BEDC.Derived.DirichletApproximationUp.TasteGate
 import BEDC.Derived.DirichletBoxApproximationUp.TasteGate
 import BEDC.Derived.DirichletCharacterUp
 import BEDC.Derived.DirichletConvolutionUp
+import BEDC.Derived.DirichletFunctionUp.TasteGate
 import BEDC.Derived.DirichletKernelUp
 import BEDC.Derived.DirichletKernelUp.NameCertObligations
 import BEDC.Derived.DirichletKernelUp.TasteGate
@@ -11963,6 +11965,7 @@ import BEDC.Derived.RegularCauchyTailScheduleUp.MeetFusionCompatibility
 import BEDC.Derived.RegularCauchyTailScheduleUp.ObligationClosure
 import BEDC.Derived.RegularCauchyTailScheduleUp.ObligationExhaustion
 import BEDC.Derived.RegularCauchyTailScheduleUp.PublicConsumerSurface
+import BEDC.Derived.RegularCauchyTailScheduleUp.PublicExport
 import BEDC.Derived.RegularCauchyTailScheduleUp.TasteGate
 import BEDC.Derived.RegularCauchyTailScheduleUp.WindowReadiness
 import BEDC.Derived.RegularCauchyTailSealUp
