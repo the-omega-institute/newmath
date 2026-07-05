@@ -35,6 +35,7 @@ import BedcMathlibBridge.Export.NatSuccInjective
 import BedcMathlibBridge.Export.ListMapEqMap
 import BedcMathlibBridge.Export.NatMulComm
 import BedcMathlibBridge.Export.NatMulSucc
+import BedcMathlibBridge.Export.NatFactorialZero
 import BedcMathlibBridge.Export.NatFactorialSucc
 import BedcMathlibBridge.Export.NatFactorialPos
 import BedcMathlibBridge.Export.NatFactorialNeZero
