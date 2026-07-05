@@ -96,12 +96,38 @@ Use the critical-strip handoff theorem for the $Z,S,W,H,C,P,N$ route. Use the tr
 The two routes share only the displayed transport, continuation, provenance, and naming rows. Since the carrier has no field for RH proof, analytic search, host equality, quotient zero-set equality, or representative selection, every RH-facing consumer remains inside the stated finite boundary.
 \end{proof}
 
+\falsifiablePrediction{Every RH-facing read through an accepted $\NontrivialZeroClassifierUp$ packet displays both the critical-strip witness route and the trivial-zero exclusion ledger before the classifier row is consumed.}
+
+\independenceWitness{classifierboundary, trivial-zero-classifier, zeta-zeros, crit-strip, critical-line-witness: the classifier boundary supplies public route discipline without the zeta-zero witness row; the trivial-zero classifier supplies negative-even exclusion without the critical-strip witness row; the zeta-zero and crit-strip rows supply source data without the exclusion ledger; and the critical-line witness supplies an RH-facing witness surface without the classifier boundary. None is bijective to NontrivialZeroClassifierUp.}
+
+\begin{theorem}[NontrivialZeroClassifier falsifiable boundary]
+\label{thm:nontrivial-zero-classifier-falsifiable-boundary}
+Every RH-facing read through an accepted $\NontrivialZeroClassifierUp$ packet must display both the critical-strip witness route
+$$
+Z,S,W,H,C,P,N
+$$
+and the trivial-zero exclusion ledger
+$$
+T,R,A,H,C,P,N
+$$
+before the classifier boundary is consumed. Any read lacking either displayed row family is rejected as outside the $\NontrivialZeroClassifierUp$ boundary.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier $Q=(Z,S,W,T,R,A,H,C,P,N)$. The carrier admits no classifier row except through the displayed zero, strip, witness, trivial-zero, real-part, rational-comparison, transport, continuation, provenance, and naming coordinates.
+
+Apply \autoref{thm:nontrivial-zero-classifier-critical-strip-handoff}. It forces every RH-facing non-trivial-zero read to expose $Z,S,W,H,C,P,N$ before the critical-strip witness route is consumed.
+
+Apply \autoref{thm:nontrivial-zero-classifier-trivial-zero-exclusion-ledger}. It forces every trivial-zero separation read to expose $T,R,A,H,C,P,N$ before a negative-even row can be treated as excluded from the non-trivial-zero route.
+
+Finally use \autoref{thm:nontrivial-zero-classifier-rh-consumer-boundary}. The RH-facing consumer receives exactly the union of the displayed route families. If either family is absent, the consumer has not displayed the finite boundary named by the packet, so the read is outside the classifier boundary.
+\end{proof}
+
 \closureat{NontrivialZeroClassifierUp}{seedStr}
 
 \begin{closurestatus}{\NontrivialZeroClassifierUp}
   \constructivestory{A $\NontrivialZeroClassifierUp$ packet is generated from a supplied $\ZetaZerosUp$ zero row, supplied $\CritStripUp$ strip row, RH-facing critical-line or critical-strip witness row, trivial-zero ledger, real-part row, rational comparison ledger, componentwise $\hsame$ transports, displayed $\Cont$ routes, $\Pkg$ provenance, and a local $\NameCert$ row.}
   \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:nontrivial-zero-classifier-carrier}, \autoref{thm:nontrivial-zero-classifier-namecert-obligations}, \autoref{thm:nontrivial-zero-classifier-critical-strip-handoff}, \autoref{thm:nontrivial-zero-classifier-trivial-zero-exclusion-ledger}, and \autoref{thm:nontrivial-zero-classifier-rh-consumer-boundary} bind the finite classifier boundary separating critical-strip zero witnesses from trivial-zero rows.}
+  \scopeclosed{\autoref{def:nontrivial-zero-classifier-carrier}, \autoref{thm:nontrivial-zero-classifier-namecert-obligations}, \autoref{thm:nontrivial-zero-classifier-critical-strip-handoff}, \autoref{thm:nontrivial-zero-classifier-trivial-zero-exclusion-ledger}, \autoref{thm:nontrivial-zero-classifier-rh-consumer-boundary}, and \autoref{thm:nontrivial-zero-classifier-falsifiable-boundary} bind the finite classifier boundary separating critical-strip zero witnesses from trivial-zero rows.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{ai}
