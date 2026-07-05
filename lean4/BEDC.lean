@@ -2518,6 +2518,7 @@ import BEDC.Derived.CauchyNetUp
 import BEDC.Derived.CauchyNetUp.ObligationSurface
 import BEDC.Derived.CauchyNetUp.TasteGate
 import BEDC.Derived.CauchyNullDifferenceUp.TasteGate
+import BEDC.Derived.CauchyNullEquivalenceUp.DifferenceZeroRoute
 import BEDC.Derived.CauchyNullEquivalenceUp.TasteGate
 import BEDC.Derived.CauchyOscillationCriterionUp
 import BEDC.Derived.CauchyOscillationCriterionUp.TasteGate
@@ -11016,6 +11017,7 @@ import BEDC.Derived.RealDiagonalNonSurjectionUp
 import BEDC.Derived.RealDiagonalNonSurjectionUp.NameCertObligations
 import BEDC.Derived.RealDiagonalRegularitySealUp.Obligations
 import BEDC.Derived.RealDiagonalRegularitySealUp.TasteGate
+import BEDC.Derived.RealDiagonalRegularitySealUp.TriangleRoute
 import BEDC.Derived.RealDiagonalWindowCoverageUp
 import BEDC.Derived.RealDiagonalWindowCoverageUp.TasteGate
 import BEDC.Derived.RealDyadicEmbeddingUp.TasteGate
