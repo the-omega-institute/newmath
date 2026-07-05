@@ -62,6 +62,22 @@ Use the NameCert obligations above. They bind every accepted seal read to the di
 Now apply the componentwise transport rows. Transport preserves the named window, readback, radius, modulus, limit-seal, and Real-seal coordinates, while the displayed continuations replay the same order. No carrier coordinate remains for quotient stream equality, host real equality, selected limits, or a detached tail oracle, so transported completion-facing reads still factor through the same finite route.
 \end{proof}
 
+\begin{theorem}[Located Cauchy modulus seal routing]
+\label{thm:located-cauchy-modulus-seal-routing}
+Every accepted $\RealUp$ seal read from a $\LocatedCauchyModulusUp$ packet
+$$
+M=(S,R,D,T,L,E,H,C,P,N)
+$$
+must first pass through the StreamName window $S$, the RegSeqRat readback $R$, the DyadicRatCore radius ledger $D$, the located threshold $T$, and the CauchyLimitSeal row $L$ before exposing the seal row $E$. The route exports only this finite seal boundary and no quotient stream equality, selected limit, countable-choice row, host real equality, or ambient $\RealUp$ completeness principle.
+\end{theorem}
+\begin{proof}
+Start with the carrier and NameCert obligations. \autoref{def:located-cauchy-modulus-carrier} lists the packet rows, and \autoref{thm:located-cauchy-modulus-namecert-obligations} orders the read from $S,R,D$ through $T$ and $L$ before $E$ is consumed.
+
+Use window stability to keep the route fixed under transport. \autoref{thm:located-cauchy-modulus-window-stability} shows that transported completion-facing reads still factor through $S,R,D,T,L,E$ rather than through a second RealUp seal route.
+
+Finally read the falsifiable prediction and independence witness. They make the stated route refutable by any bypassing seal read and separate the carrier from siblings that lack one of the StreamName, RegSeqRat, dyadic radius, located threshold, CauchyLimitSeal, or Real seal rows. Hence the accepted seal read is routed exactly through the displayed finite modulus packet.
+\end{proof}
+
 \falsifiablePrediction{Every accepted RealUp seal read from a located modulus factors through a displayed StreamName window, RegSeqRat handoff, DyadicRatCore radius ledger, and CauchyLimitSeal compatibility row.}
 
 \independenceWitness{cauchymodulus, regseqrat, streamname, realcompletionsealclassifier, cauchysealbudgetsynchronizer: none is bijective to $\LocatedCauchyModulusUp$ because a Cauchy modulus row lacks the StreamName and RegSeqRat window readbacks, RegSeqRat lacks the dyadic radius and limit-seal rows, StreamName lacks the regular-rational and Real seal rows, RealCompletionSealClassifier lacks the located tail-modulus threshold as a carrier row, and CauchySealBudgetSynchronizer records synchronized budget rows without making the located modulus row the displayed threshold. The located carrier stores $S,R,D,T,L,E,H,C,P,N$ together in one finite surface.}
@@ -74,7 +90,7 @@ The proposed Lean \texttt{TasteGate.lean} boundary is \texttt{lean4/BEDC/Derived
 \begin{closurestatus}{\LocatedCauchyModulusUp}
   \constructivestory{A $\LocatedCauchyModulusUp$ packet is generated from a StreamName finite-window source, RegSeqRat readback, DyadicRatCore radius ledger, located tail-modulus row, CauchyLimitSeal compatibility row, RealUp seal, componentwise transports, displayed continuations, package provenance, and local NameCert row.}
   \theoryclosure{\obligationClosure}
-  \scopeclosed{\autoref{def:located-cauchy-modulus-carrier}, \autoref{thm:located-cauchy-modulus-namecert-obligations}, and \autoref{thm:located-cauchy-modulus-window-stability} bind the finite located tail-modulus route from StreamName and RegSeqRat windows through DyadicRatCore radius accounting to CauchyLimitSeal and RealUp seal rows.}
+  \scopeclosed{\autoref{def:located-cauchy-modulus-carrier}, \autoref{thm:located-cauchy-modulus-namecert-obligations}, \autoref{thm:located-cauchy-modulus-window-stability}, and \autoref{thm:located-cauchy-modulus-seal-routing} bind the finite located tail-modulus route from StreamName and RegSeqRat windows through DyadicRatCore radius accounting to CauchyLimitSeal and RealUp seal rows.}
   \formalstatus{\theoremCheckedV}
   \leantarget{BEDC.Derived.LocatedCauchyModulusUp.LocatedCauchyModulusNameCertObligations}
   \bridgestatus{none}
