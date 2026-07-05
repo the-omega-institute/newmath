@@ -9,3 +9,15 @@ Next read the sibling route row $R$. It forces the delimiter budget to pass thro
 
 Only after that route is in scope may a consumer read $F$ as a local finish row or $G$ as a global-refusal row. The structural rows transport and replay the same dependency, so the edge is substantive: erasing either channel-boundary sibling removes the route that justifies reading $F$ and $G$ as a budget-certificate surface.
 \end{proof}
+
+\begin{theorem}[Channel termination budget sibling route]
+\label{thm:channel-termination-budget-sibling-route}
+Every accepted $\ChannelTerminationBudgetCertificateUp$ termination-budget read consumes the channel boundary rows of \autoref{ch:concrete-instances-channel-termination-boundary-namecert} and \autoref{ch:concrete-instances-channel-termination-halting-boundary-namecert} before exposing budget exhaustion. In the carrier notation of this chapter, the consumer must display the active alphabet row $A$, legal-event row $L$, streaming budget row $Z$, sibling route row $R$, finish row $F$, and refusal row $G$ as one route.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier through \autoref{def:channel-termination-budget-certificate-carrier}. The budget rows $A,L,Z$ describe a finite channel read, not a standalone exhaustion oracle.
+
+Apply \autoref{thm:channel-termination-budget-certificate-channel-sibling-route}. The route row $R$ forces the read through the channel termination boundary and the channel termination halting boundary before $F$ or $G$ is visible.
+
+Thus any budget-exhaustion consumer that omits either boundary sibling has not displayed the route required by the local NameCert packet. The accepted read is therefore rejected as outside the channel termination budget certificate boundary.
+\end{proof}
