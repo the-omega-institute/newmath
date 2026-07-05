@@ -464,4 +464,42 @@ theorem ZetaContinuationSocketCarrier_boundary_exhaustion [AskSetup] [PackageSet
   }
   exact ⟨sealCert, witnessCert, finalCert, sealUnary, witnessReadUnary, finalReadUnary⟩
 
+theorem ZetaContinuationSocketCarrier_obligation_package [AskSetup] [PackageSetup]
+    {basic eta analytic pole functional trivial gamma transport route name analyticRead
+      sealRead witnessPkg witnessRead functionalRead finalRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ZetaContinuationSocketCarrier basic eta analytic pole functional trivial gamma transport
+        route name bundle pkg ->
+      Cont analytic route analyticRead ->
+        Cont analyticRead name sealRead ->
+          UnaryHistory witnessPkg ->
+            PkgSig bundle witnessPkg pkg ->
+              Cont route witnessPkg witnessRead ->
+                Cont functional gamma functionalRead ->
+                  Cont functionalRead route finalRead ->
+                    PkgSig bundle finalRead pkg ->
+                      UnaryHistory analyticRead ∧ UnaryHistory sealRead ∧
+                        UnaryHistory witnessRead ∧ UnaryHistory functionalRead ∧
+                          UnaryHistory finalRead ∧ PkgSig bundle route pkg ∧
+                            PkgSig bundle name pkg := by
+  -- BEDC touchpoint anchor: BHist Cont ProbeBundle PkgSig UnaryHistory
+  intro carrier analyticReadRoute sealRoute witnessUnary _witnessPkgSig witnessRoute
+    functionalRoute finalRoute _finalPkg
+  obtain ⟨_basicUnary, _etaUnary, analyticUnary, _poleUnary, functionalUnary,
+    _trivialUnary, gammaUnary, _transportUnary, routeUnary, nameUnary, _analyticRoute,
+    _trivialRoute, _routeRoute, routePkg, namePkg⟩ := carrier
+  have analyticReadUnary : UnaryHistory analyticRead :=
+    unary_cont_closed analyticUnary routeUnary analyticReadRoute
+  have sealReadUnary : UnaryHistory sealRead :=
+    unary_cont_closed analyticReadUnary nameUnary sealRoute
+  have witnessReadUnary : UnaryHistory witnessRead :=
+    unary_cont_closed routeUnary witnessUnary witnessRoute
+  have functionalReadUnary : UnaryHistory functionalRead :=
+    unary_cont_closed functionalUnary gammaUnary functionalRoute
+  have finalReadUnary : UnaryHistory finalRead :=
+    unary_cont_closed functionalReadUnary routeUnary finalRoute
+  exact
+    ⟨analyticReadUnary, sealReadUnary, witnessReadUnary, functionalReadUnary,
+      finalReadUnary, routePkg, namePkg⟩
+
 end BEDC.Derived.ZetaContinuationSocketUp
