@@ -681,6 +681,7 @@ import BEDC.Derived.AutomorphicNumberUp
 import BEDC.Derived.AutomorphicUp
 import BEDC.Derived.AutomorphicUp.TasteGate
 import BEDC.Derived.AxiomDependencyAuditMapUp
+import BEDC.Derived.AxiomDependencyAuditMapUp.TasteGate
 import BEDC.Derived.AxiomDependencyMapUp
 import BEDC.Derived.AxiomDependencyMapUp.TasteGate
 import BEDC.Derived.AxiomDependencyTupleUp
