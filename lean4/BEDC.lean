@@ -6516,6 +6516,7 @@ import BEDC.Derived.FiniteModulusDiagonalUp.TasteGate
 import BEDC.Derived.FiniteModulusRealUp.TasteGate
 import BEDC.Derived.FiniteMultiHistPacketUp.TasteGate
 import BEDC.Derived.FiniteNetEquicontinuityUp.TasteGate
+import BEDC.Derived.FiniteNetHeineCantorUp.TasteGate
 import BEDC.Derived.FiniteNetMinimumFoldUp
 import BEDC.Derived.FiniteNetMinimumFoldUp.CompactModulusAttainment
 import BEDC.Derived.FiniteNetMinimumFoldUp.CompactUniformPointwiseRadiusChain
@@ -7168,6 +7169,7 @@ import BEDC.Derived.HeineBorelIntervalUp.TailStability
 import BEDC.Derived.HeineBorelIntervalUp.TasteGate
 import BEDC.Derived.HeineBorelLocatedIntervalUp.TasteGate
 import BEDC.Derived.HeineBorelNetCompactnessUp.TasteGate
+import BEDC.Derived.HeineCantorModulusUp.FiniteNetExtraction
 import BEDC.Derived.HeineCantorModulusUp.TasteGate
 import BEDC.Derived.HeineCantorUp.TasteGate
 import BEDC.Derived.HellingerDistanceUp
