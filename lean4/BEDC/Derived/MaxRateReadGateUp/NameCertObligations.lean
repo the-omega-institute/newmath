@@ -322,4 +322,113 @@ theorem MaxRateReadGateCarrier_namecert_package [AskSetup] [PackageSetup]
   }
   exact ⟨cert, route, pPkg, nPkg⟩
 
+theorem MaxRateReadGateCarrier_namecert_obligation_coverage [AskSetup] [PackageSetup]
+    {M R S F L H Q C P N rateRead symmetryRead refusalRead lockedRead publicRead
+      handoffRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    UnaryHistory M ∧ UnaryHistory R ∧ UnaryHistory S ∧ UnaryHistory F ∧
+      UnaryHistory L ∧ UnaryHistory H ∧ UnaryHistory Q ∧ UnaryHistory C ∧
+        UnaryHistory P ∧ UnaryHistory N ∧ PkgSig bundle P pkg ∧ PkgSig bundle N pkg ->
+      Cont M R rateRead ->
+        Cont rateRead S symmetryRead ->
+          Cont R S symmetryRead ->
+            Cont symmetryRead F refusalRead ->
+              Cont refusalRead L lockedRead ->
+                Cont lockedRead C publicRead ->
+                  Cont publicRead N handoffRead ->
+                    hsame H Q ->
+                      hsame P N ->
+                        PkgSig bundle publicRead pkg ->
+                          PkgSig bundle handoffRead pkg ->
+                            SemanticNameCert
+                                (fun row : BHist =>
+                                  hsame row handoffRead ∧ UnaryHistory row)
+                                (fun row : BHist =>
+                                  hsame row M ∨ hsame row R ∨ hsame row S ∨
+                                    hsame row F ∨ hsame row L ∨ hsame row H ∨
+                                      hsame row Q ∨ hsame row C ∨ hsame row P ∨
+                                        hsame row N ∨ hsame row publicRead ∨
+                                          hsame row handoffRead)
+                                (fun row : BHist =>
+                                  UnaryHistory row ∧ Cont R S symmetryRead ∧
+                                    Cont symmetryRead F refusalRead ∧
+                                      Cont refusalRead L lockedRead ∧
+                                        Cont lockedRead C publicRead ∧
+                                          Cont publicRead N handoffRead ∧
+                                            PkgSig bundle handoffRead pkg)
+                                hsame ∧
+                              UnaryHistory handoffRead := by
+  -- BEDC touchpoint anchor: MaxRateReadGateUp BHist ProbeBundle Pkg Cont PkgSig hsame SemanticNameCert UnaryHistory
+  intro carrier rateRoute rateSymmetryRoute symmetryRoute refusalRoute lockRoute publicRoute
+    handoffRoute sameHQ samePN publicPkg handoffPkg
+  have rateSurface :=
+    MaxRateReadGateNameCertObligations carrier.left carrier.right.left carrier.right.right.left
+      carrier.right.right.right.left carrier.right.right.right.right.left rateRoute
+      rateSymmetryRoute (C := C) refusalRoute sameHQ samePN
+  have consumerSurface :=
+    MaxRateReadGateCarrier_downstream_consumer_boundary carrier symmetryRoute refusalRoute
+      lockRoute publicRoute publicPkg
+  have handoffSurface :=
+    MaxRateReadGateCarrier_cross_hist_causal_rate_handoff carrier symmetryRoute refusalRoute
+      lockRoute publicRoute handoffRoute publicPkg handoffPkg
+  have packageRows :
+      PkgSig bundle P pkg ∧ PkgSig bundle N pkg :=
+    ⟨carrier.right.right.right.right.right.right.right.right.right.right.left,
+      carrier.right.right.right.right.right.right.right.right.right.right.right⟩
+  obtain ⟨_rateCert, _refusalUnary⟩ := rateSurface
+  obtain ⟨_consumerCert, _symmetryUnary, _lockedRefusalUnary, _lockedUnary, _publicUnary⟩ :=
+    consumerSurface
+  obtain ⟨_handoffCert, handoffUnary⟩ := handoffSurface
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => hsame row handoffRead ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row M ∨ hsame row R ∨ hsame row S ∨ hsame row F ∨ hsame row L ∨
+              hsame row H ∨ hsame row Q ∨ hsame row C ∨ hsame row P ∨ hsame row N ∨
+                hsame row publicRead ∨ hsame row handoffRead)
+          (fun row : BHist =>
+            UnaryHistory row ∧ Cont R S symmetryRead ∧ Cont symmetryRead F refusalRead ∧
+              Cont refusalRead L lockedRead ∧ Cont lockedRead C publicRead ∧
+                Cont publicRead N handoffRead ∧ PkgSig bundle handoffRead pkg)
+          hsame := {
+    core := {
+      carrier_inhabited := Exists.intro handoffRead
+        ⟨hsame_refl handoffRead, handoffUnary⟩
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        exact
+          ⟨hsame_trans (hsame_symm sameRows) source.left,
+            unary_transport source.right sameRows⟩
+    }
+    pattern_sound := by
+      intro _row source
+      right
+      right
+      right
+      right
+      right
+      right
+      right
+      right
+      right
+      right
+      right
+      exact source.left
+    ledger_sound := by
+      intro _row source
+      exact
+        ⟨source.right, symmetryRoute, refusalRoute, lockRoute, publicRoute,
+          handoffRoute, handoffPkg⟩
+  }
+  exact ⟨cert, handoffUnary⟩
+
 end BEDC.Derived.MaxRateReadGateUp

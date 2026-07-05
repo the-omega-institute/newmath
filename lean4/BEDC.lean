@@ -11924,6 +11924,7 @@ import BEDC.Derived.RegularCauchyTailCollapseUp
 import BEDC.Derived.RegularCauchyTailCollapseUp.TasteGate
 import BEDC.Derived.RegularCauchyTailComparisonUp.TasteGate
 import BEDC.Derived.RegularCauchyTailCompositionUp.TasteGate
+import BEDC.Derived.RegularCauchyTailDiagonalUp
 import BEDC.Derived.RegularCauchyTailEnvelopeUp.TasteGate
 import BEDC.Derived.RegularCauchyTailEquivalenceUp.TasteGate
 import BEDC.Derived.RegularCauchyTailEstimateUp
