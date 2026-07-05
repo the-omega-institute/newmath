@@ -106,4 +106,31 @@ theorem GoursatCarrier_triangle_integral_boundary [AskSetup] [PackageSetup]
       integralUnary, triangleEdgeRoute, subdivisionMeshRoute, integralRoute, replayRoute,
       provenancePkg, integralPkg⟩
 
+theorem GoursatCarrier_holomorphic_handoff [AskSetup] [PackageSetup]
+    {triangle holomorphic edge subdivision mesh cancel replay provenance localName exported
+      diskRead handoffRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    GoursatCarrier triangle holomorphic edge subdivision mesh cancel replay provenance localName
+        exported bundle pkg ->
+      Cont holomorphic triangle diskRead ->
+        Cont diskRead subdivision handoffRead ->
+          PkgSig bundle localName pkg ->
+            UnaryHistory diskRead ∧ UnaryHistory handoffRead ∧
+              Cont holomorphic triangle diskRead ∧
+                Cont diskRead subdivision handoffRead ∧
+                  PkgSig bundle provenance pkg ∧ PkgSig bundle localName pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg UnaryHistory Cont PkgSig
+  intro carrier diskRoute handoffRoute localPkg
+  obtain
+    ⟨triangleUnary, holomorphicUnary, _edgeUnary, subdivisionUnary, _meshUnary,
+      _cancelUnary, _replayUnary, _provenanceUnary, _localNameUnary, _exportedUnary,
+      _triangleEdgeRoute, _subdivisionMeshRoute, _replayRoute, _localRoute, _exportedRoute,
+      provenancePkg, _localNamePkg⟩ := carrier
+  have diskUnary : UnaryHistory diskRead :=
+    unary_cont_closed holomorphicUnary triangleUnary diskRoute
+  have handoffUnary : UnaryHistory handoffRead :=
+    unary_cont_closed diskUnary subdivisionUnary handoffRoute
+  exact
+    ⟨diskUnary, handoffUnary, diskRoute, handoffRoute, provenancePkg, localPkg⟩
+
 end BEDC.Derived.GoursatUp
