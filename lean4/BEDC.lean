@@ -1155,6 +1155,7 @@ import BEDC.Derived.BishopLocatedCompletionUp.TasteGate
 import BEDC.Derived.BishopLocatedConvexHullUp
 import BEDC.Derived.BishopLocatedDiagonalUp.TasteGate
 import BEDC.Derived.BishopLocatedFilterBaseUp.TasteGate
+import BEDC.Derived.BishopLocatedIntervalOscillationUp.TasteGate
 import BEDC.Derived.BishopLocatedIntervalRefinementMapUp.TasteGate
 import BEDC.Derived.BishopLocatedIntervalUp.TasteGate
 import BEDC.Derived.BishopLocatedInverseFunctionUp.TasteGate
@@ -7529,6 +7530,7 @@ import BEDC.Derived.KKTUp.StationarityTransport
 import BEDC.Derived.KKTUp.TasteGate
 import BEDC.Derived.KSpaceUp.TasteGate
 import BEDC.Derived.KakutaniFixedPointUp.TasteGate
+import BEDC.Derived.KalmanBucyFilterUp.TasteGate
 import BEDC.Derived.KalmanFilterUp
 import BEDC.Derived.KalmanFilterUp.TasteGate
 import BEDC.Derived.KanExtensionUp.NamecertObligations
@@ -12754,6 +12756,7 @@ import BEDC.Derived.SixBoundaryTileCoverageUp.TasteGate
 import BEDC.Derived.SkorokhodSpaceUp
 import BEDC.Derived.SliceCategoryUp
 import BEDC.Derived.SliceCategoryUp.TasteGate
+import BEDC.Derived.SmirnovProximityCompactificationUp
 import BEDC.Derived.SmithNormalFormUp.TasteGate
 import BEDC.Derived.SmoothManifoldUp.BundleReadinessRoute
 import BEDC.Derived.SmoothManifoldUp.TasteGate
