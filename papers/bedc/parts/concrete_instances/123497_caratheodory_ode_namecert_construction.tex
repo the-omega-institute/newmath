@@ -1,0 +1,62 @@
+\chapter{A Concrete Naming Certificate for $\CaratheodoryOdeUp$}
+\label{ch:concrete-instances-caratheodory-ode-namecert}
+\origin{human}
+
+Following Caratheodory and Bishop--Bridges constructive analysis, the $\CaratheodoryOdeUp$ packet records the finite existence surface for ordinary differential equations whose vector field is time-measurable, state-continuous, and bounded by an integrable majorant on a displayed local window. It sits beside the ODE source of \autoref{ch:concrete-instances-ode-namecert}, the Picard--Lindelof local-flow packet of \autoref{ch:concrete-instances-picard-lindelof-namecert}, the Osgood uniqueness criterion of \autoref{ch:concrete-instances-osgood-criterion-namecert}, the Gronwall comparison route of \autoref{ch:concrete-instances-gronwall-inequality-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. The packet names a constructive local existence route by finite approximants and readback rows; it does not select a host solution curve, import ambient completeness, quotient measurable functions, or claim global continuation.
+
+\begin{definition}[Caratheodory ODE carrier]
+\label{def:caratheodory-ode-carrier}
+A $\CaratheodoryOdeUp$ carrier is a finite $\BHist$ packet
+$$
+K=(O,T,S,M,A,R,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $O$ is the $\OdeUp$ source row, naming the local time-state window, initial state, and vector-field source.
+\item $T$ is the time-window measurability row, recording the finite observation schedule by which time slices of the source are admitted.
+\item $S$ is the state-continuity row, recording the displayed state-window continuity checks used by local approximation consumers.
+\item $M$ is the integrable majorant row, recording the finite domination data that bounds the vector-field reads on the displayed window.
+\item $A$ is the finite Euler/Picard approximation row, recording the step ledger and local error budget used before any endpoint is read.
+\item $R$ is the $\RegSeqRatUp$ readback row for the approximant endpoint observations.
+\item $E$ is the $\RealUp$ seal exposed only after $O,T,S,M,A,R$ and their structural rows have been displayed.
+\item $H$ records componentwise $\hsame$ transport for the source, measurability, continuity, majorant, approximation, readback, seal, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from each local existence request through $O,T,S,M,A,R,E,H,P,N$.
+\item $P$ is the $\Pkg$ provenance over $\CaratheodoryOdeUp$, $\OdeUp$, $\PicardLindelofUp$, $\OsgoodCriterionUp$, $\GronwallInequalityUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\CaratheodoryOdeUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $O,T,S,M,A,R,E,H,C,P,N$. The carrier has no coordinate for host solution selection, quotient equality of vector fields, global continuation, ambient completeness, countable-choice schedules, or bridge checking.
+\end{definition}
+\leanstmt{BEDC.Derived.CaratheodoryOdeUp}
+
+\begin{theorem}[Caratheodory ODE NameCert obligations]
+\label{thm:caratheodory-ode-namecert-obligations}
+For every accepted $\CaratheodoryOdeUp$ carrier
+$$
+K=(O,T,S,M,A,R,E,H,C,P,N),
+$$
+the local $\NameCert_{\CaratheodoryOdeUp}$ surface consists exactly of ODE source admission through $O$, time-window measurability through $T$, state-window continuity through $S$, integrable majorant domination through $M$, finite Euler/Picard approximation through $A$, $\RegSeqRatUp$ endpoint readback through $R$, $\RealUp$ sealing through $E$, componentwise transport through $H$, displayed replay through $C$, provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier. The analytic rows are $O,T,S,M,A,R,E$: they display the ODE source, measurable time reads, continuous state reads, majorant domination, finite approximation ledger, regular rational endpoint observations, and Real seal.
+
+The approximation row is downstream of the measurability, continuity, and majorant rows. Hence a local existence consumer cannot read an endpoint before the time-window schedule, state-continuity checks, and domination budget have been displayed.
+
+The structural rows $H,C,P,N$ preserve and name the same route. Since no carrier coordinate stores a selected host solution, quotient vector-field equality, global continuation, ambient completeness, countable-choice schedule, or bridge data, none can become a local NameCert obligation.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\CaratheodoryOdeUp$ existence read exposes ODE source, time-window measurability, state-continuity, integrable majorant, finite Euler/Picard approximation, RegSeqRat readback, Real seal, transport, replay, provenance, and local naming rows before any endpoint is consumed.}
+
+\independenceWitness{ode, picard-lindelof, osgood-criterion, gronwall-inequality, real: none is bijective to $\CaratheodoryOdeUp$ because the packet jointly carries time-measurability, state-continuity, integrable-majorant, finite-approximation, regular-readback, Real-seal, transport, replay, provenance, and local NameCert rows.}
+
+\closureat{CaratheodoryOdeUp}{seedStr}
+
+\begin{closurestatus}{\CaratheodoryOdeUp}
+  \constructivestory{A $\CaratheodoryOdeUp$ packet is generated from an OdeUp source row, time-window measurability, state-window continuity, an integrable majorant, finite Euler/Picard approximation rows, RegSeqRat endpoint readback, a RealUp seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{This chapter seeds the carrier and NameCert obligations for the finite Caratheodory ODE existence route.}
+  \formalstatus{\formalTargetV}
+  \leantarget{BEDC.Derived.CaratheodoryOdeUp}
+  \bridgestatus{none}
+  \notclaimed{It does not close selected host solutions, quotient vector-field equality, global continuation, ambient completeness, countable-choice schedules, uniqueness, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, time-window measurability, state-continuity, integrable-majorant domination, finite approximation, endpoint readback, Real sealing, transport, replay, provenance, and local naming for BEDC.Derived.CaratheodoryOdeUp.}
+\end{closurestatus}
