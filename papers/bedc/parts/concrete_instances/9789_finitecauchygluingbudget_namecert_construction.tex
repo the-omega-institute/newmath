@@ -219,6 +219,24 @@ Apply the Real-seal handoff theorem, \autoref{thm:finite-cauchy-gluing-budget-re
 Finally apply nonescape, \autoref{thm:finite-cauchy-gluing-budget-nonescape}. Quotient streams, selected limits, hidden completion rows, and host Real-completeness data are not carrier coordinates, while $H,C,P,N$ remain visible throughout the tail induction.
 \end{proof}
 
+\begin{theorem}[Finite Cauchy gluing-budget seal-induction route]
+\label{thm:finite-cauchy-gluing-budget-seal-induction-route}
+Let
+$$
+B=(G,L,T,S,K,U,D,V,R,H,C,P,N)
+$$
+be an accepted $\FiniteCauchyGluingBudgetUp$ packet preserving the displayed gluing row, witness ledger, tail envelope, synchronizer, completion-seal classifier, StreamName window, DyadicRatCore tolerance ledger, RegSeqRat handoff, Real seal, transport, replay, provenance, and local naming rows. Then $B$ carries a seal-induction route from the witness ledger and synchronizer through the finite StreamName, DyadicRatCore, RegSeqRat, and Real seal rows. The route cannot be replaced by quotient streams, selected limits, hidden completion rows, countable choice, or ambient completeness.
+\end{theorem}
+\begin{proof}
+Start with route exactness, \autoref{thm:finite-cauchy-gluing-budget-route-exactness}. Preserving the accepted packet requires preserving the full displayed tuple, so the witness ledger, tail envelope, synchronizer, classifier, finite rows, Real seal, and structural rows are read as one route.
+
+Use synchronizer-window exactness, \autoref{thm:finite-cauchy-gluing-budget-synchronizer-window-exactness}. The induction step from the witness side to the seal side must pass through the same $S,K$ window before any downstream row can be exposed.
+
+Apply the common-tail theorem and the Real-seal handoff, \autoref{thm:finite-cauchy-gluing-budget-common-tail} and \autoref{thm:finite-cauchy-gluing-budget-real-seal-handoff}. Together they force the synchronized tail through $U,D,V,R$, with the Real seal reached only after the StreamName, DyadicRatCore, and RegSeqRat rows are visible.
+
+Finally apply tail-stream induction, \autoref{thm:finite-cauchy-gluing-budget-tail-stream-induction}. The induction state remains inside the displayed carrier rows while $H,C,P,N$ stay visible, so quotient streams, selected limits, hidden completion rows, countable choice, and ambient completeness cannot replace the seal-induction route.
+\end{proof}
+
 \begin{theorem}[Finite Cauchy gluing-budget tail synchronizer]
 \label{thm:finite-cauchy-gluing-budget-tail-sync}
 Let $B=(G,L,T,S,K,U,V,D,R,H,C,P,N)$ be an accepted $\FiniteCauchyGluingBudgetUp$ packet. Any $\RealUp$-facing tail induction that preserves the witness ledger $L$ and tail envelope $T$ must also preserve the synchronizer $S$ and completion-seal classifier $K$ before reading the StreamName row $U$, DyadicRatCore tolerance row $D$, RegSeqRat handoff row $V$, and Real seal row $R$. A tail induction that changes $S$ or $K$ while keeping $L$ and $T$ leaves the accepted classifier route of $B$.
