@@ -1093,6 +1093,7 @@ import BEDC.Derived.BishopCompletionModulusUp.RealSealOrdering
 import BEDC.Derived.BishopCompletionModulusUp.SameThresholdTransport
 import BEDC.Derived.BishopCompletionModulusUp.TasteGate
 import BEDC.Derived.BishopCompletionModulusUp.ThresholdHeredity
+import BEDC.Derived.BishopCompletionReflectionUp
 import BEDC.Derived.BishopCompletionSpaceUp.TasteGate
 import BEDC.Derived.BishopCompletionTheoremUp.TasteGate
 import BEDC.Derived.BishopCompletionUniversalBoundaryUp.NameCertObligations
@@ -4954,6 +4955,7 @@ import BEDC.Derived.DependentCodomainClosurePreservationUp.Nonescape
 import BEDC.Derived.DependentCodomainClosurePreservationUp.TasteGate
 import BEDC.Derived.DependentCodomainClosurePreservationUp.Transport
 import BEDC.Derived.DependentCodomainInversionBoundaryUp
+import BEDC.Derived.DependentCodomainInversionBoundaryUp.PublicNonescape
 import BEDC.Derived.DerangementUp
 import BEDC.Derived.DerivativeUp
 import BEDC.Derived.DerivativeUp.TasteGate
@@ -7598,6 +7600,7 @@ import BEDC.Derived.KernelMorphismUp.NonEscape
 import BEDC.Derived.KernelMorphismUp.ScopedConsumerPacket
 import BEDC.Derived.KernelMorphismUp.SourceGraphEdgeReadback
 import BEDC.Derived.KernelNormalizationAuditJoinUp.TasteGate
+import BEDC.Derived.KernelObservationSieveUp.InscriptionHandoff
 import BEDC.Derived.KernelObservationSieveUp.NonEscape
 import BEDC.Derived.KernelObservationSieveUp.TasteGate
 import BEDC.Derived.KernelPhaseRefusalUp.TasteGate
@@ -11545,6 +11548,7 @@ import BEDC.Derived.RegularCauchyCompletionReflectorUp.TasteGate
 import BEDC.Derived.RegularCauchyCompletionSeparationUp.TasteGate
 import BEDC.Derived.RegularCauchyCompletionStabilityUp.TasteGate
 import BEDC.Derived.RegularCauchyCompletionUniquenessUp.TasteGate
+import BEDC.Derived.RegularCauchyCompletionUnitCounitUp
 import BEDC.Derived.RegularCauchyCompletionUnitUp.TasteGate
 import BEDC.Derived.RegularCauchyCompletionUniversalPropertyUp.TasteGate
 import BEDC.Derived.RegularCauchyCompletionUniversalUp.TasteGate
