@@ -324,4 +324,30 @@ theorem FinitePrefixMachineNameCertObligations {M Q T F E A H C N : BHist} :
       exact ⟨carrier, source⟩
   }
 
+theorem FinitePrefixMachineCarrier_obligation_closure_route
+    {M Q T F E A H C N terminal acceptedReplay : BHist} :
+    FinitePrefixMachineCarrier M Q T F E A H C N ->
+      Cont M F terminal ->
+        Cont E A acceptedReplay ->
+          hsame acceptedReplay C ->
+            SemanticNameCert
+                (fun row : BHist => hsame row E ∨ hsame row C)
+                (fun row : BHist =>
+                  hsame row M ∨ hsame row F ∨ hsame row E ∨ hsame row A ∨
+                    hsame row C ∨ hsame row H ∨ hsame row N)
+                (fun row : BHist =>
+                  FinitePrefixMachineCarrier M Q T F E A H C N ∧
+                    (hsame row E ∨ hsame row C))
+                hsame ∧
+              hsame terminal E ∧ hsame acceptedReplay C ∧ hsame H T ∧ hsame N M := by
+  -- BEDC touchpoint anchor: BHist BMark Cont hsame SemanticNameCert NameCert
+  intro carrier terminalRoute acceptedReplayRoute sameAcceptedReplay
+  have bounded := FinitePrefixMachineCarrier_nonescape carrier terminalRoute
+  have exported :=
+    FinitePrefixMachine_public_export carrier terminalRoute acceptedReplayRoute bounded.left
+      sameAcceptedReplay
+  exact
+    ⟨FinitePrefixMachineNameCertObligations carrier, exported.left, exported.right.left,
+      exported.right.right.left, exported.right.right.right⟩
+
 end BEDC.Derived.FinitePrefixMachineUp
