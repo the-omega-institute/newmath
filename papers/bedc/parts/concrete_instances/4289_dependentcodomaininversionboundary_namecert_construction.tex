@@ -103,6 +103,7 @@ Finally use ledger nonescape from \autoref{thm:dependent-codomain-inversion-boun
 \label{thm:dependent-codomain-inversion-boundary-obligation-closure-package}
 The carrier of \autoref{def:dependent-codomain-inversion-boundary-carrier}, together with \autoref{thm:dependent-codomain-inversion-boundary-namecert-obligations}, \autoref{thm:dependent-codomain-inversion-boundary-subject-reduction-handoff}, \autoref{thm:dependent-codomain-inversion-boundary-codomain-readback-nonescape}, \autoref{thm:dependent-codomain-inversion-boundary-ledger-nonescape}, and \autoref{thm:dependent-codomain-inversion-boundary-readback-stability-request}, forms the complete displayed obligation package for $\DependentCodomainInversionBoundaryUp$ over $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$. The package contains carrier admission, paired codomain-readback visibility, syntactic substitution routing, subject-reduction handoff, codomain-readback nonescape, frontier-ledger nonescape, readback-stability request validation, componentwise transport, displayed replay, provenance, and local naming, and it exports no codomain equality, context reduction, closed subject reduction, inhabited discharge bundle, or host conversion principle.
 \end{theorem}
+\leanchecked{BEDC.Derived.DependentCodomainInversionBoundaryUp.DependentCodomainInversionBoundaryCarrier\_obligation\_closure\_package}
 \begin{proof}
 Start with the carrier definition. Its rows display the dependent function type, shared domain, paired arguments, paired codomain readbacks, syntactic substitution evidence, subject-reduction obstruction handoff, open-frontier ledger, transport, replay, provenance, and local name.
 
@@ -126,6 +127,48 @@ Use \autoref{thm:dependent-codomain-inversion-boundary-namecert-obligations}. It
 Use the subject-reduction handoff and readback-stability request theorems. They force every dependent-codomain request to pass through $S,R,O,H,K,P,N$ together with the paired readback rows.
 
 Finally apply codomain-readback nonescape and ledger nonescape. These theorems keep equality, context reduction, closed subject reduction, inhabited discharge, and host conversion outside the packet, so the frontier ledger covers every legal consumer route to inversion data.
+\end{proof}
+
+\begin{theorem}[Dependent-codomain inversion boundary public obligation]
+\label{thm:dependent-codomain-inversion-boundary-public-obligation}
+The carrier of \autoref{def:dependent-codomain-inversion-boundary-carrier}, the NameCert obligations of \autoref{thm:dependent-codomain-inversion-boundary-namecert-obligations}, the subject-reduction handoff of \autoref{thm:dependent-codomain-inversion-boundary-subject-reduction-handoff}, the codomain-readback nonescape theorem \autoref{thm:dependent-codomain-inversion-boundary-codomain-readback-nonescape}, the ledger nonescape theorem \autoref{thm:dependent-codomain-inversion-boundary-ledger-nonescape}, and the stability-request theorem \autoref{thm:dependent-codomain-inversion-boundary-readback-stability-request} form the public dependent-codomain boundary obligation consumed by MetaCIC subject-reduction attempts. The obligation is public only as this finite boundary: it displays carrier rows, paired readback rows, substitution evidence, obstruction handoff, frontier ledger, transport, replay, provenance, and local naming, and it exports no closed subject-reduction endpoint.
+\end{theorem}
+\begin{proof}
+Start with the obligation-closure package of \autoref{thm:dependent-codomain-inversion-boundary-obligation-closure-package}. It already collects the carrier, NameCert obligations, handoff, nonescape, ledger, and stability-request rows into one displayed package over $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$.
+
+Use frontier coverage from \autoref{thm:dependent-codomain-inversion-boundary-frontier-coverage}. It states that every dependent-codomain consumer reaches inversion data through the displayed frontier ledger rather than through an implicit equality or closed subject-reduction row.
+
+Together these two theorems give the public obligation surface. A MetaCIC subject-reduction attempt may consume the packet as a visible boundary obligation, but it receives only the finite request surface and not a completed dependent-codomain discharge.
+\end{proof}
+
+\begin{theorem}[Dependent-codomain inversion boundary codomain scope]
+\label{thm:dependent-codomain-inversion-boundary-codomain-scope}
+Every codomain readback request for an accepted $\DependentCodomainInversionBoundaryUp$ packet is scoped by the displayed rows
+$$
+D=(\Pi,A,a,a',C_0,C_1,S,R,O,H,K,P,N)
+$$
+over $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$. In particular the readback rows $C_0$ and $C_1$ may be inspected only together with the dependent function row $\Pi$, the shared domain row $A$, the argument rows $a,a'$, the substitution row $S$, the obstruction handoff $R$, the frontier ledger $O$, componentwise transport $H$, displayed replay $K$, provenance $P$, and local naming $N$.
+\end{theorem}
+\begin{proof}
+Project the carrier definition. The two readback rows $C_0,C_1$ are coordinates of the same finite packet as $\Pi,A,a,a',S,R,O,H,K,P,N$; no isolated codomain-readback coordinate is available.
+
+Apply the NameCert obligations of \autoref{thm:dependent-codomain-inversion-boundary-namecert-obligations}. They require paired codomain-readback visibility, substitution routing, obstruction handoff, frontier ledger exposure, transport, replay, provenance, and local naming to remain attached to one local NameCert surface.
+
+Use readback stability request from \autoref{thm:dependent-codomain-inversion-boundary-readback-stability-request}. It confirms that even a stability request between $C_0$ and $C_1$ is valid only through $S,R,O,H,K,P,N$.
+
+Thus every codomain readback request is scoped by the displayed packet over $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$.
+\end{proof}
+
+\begin{theorem}[Dependent-codomain inversion boundary public nonescape]
+\label{thm:dependent-codomain-inversion-boundary-nonescape}
+No consumer of the public $\DependentCodomainInversionBoundaryUp$ boundary can extract codomain equality, context reduction, closed subject reduction, inhabited discharge, or host conversion from the boundary packet. A consumer may inspect the paired readback rows, the substitution route, the obstruction handoff, the frontier ledger, transport, replay, provenance, and local naming only as the finite public request surface described by \autoref{thm:dependent-codomain-inversion-boundary-public-obligation}.
+\end{theorem}
+\begin{proof}
+Apply codomain-readback nonescape from \autoref{thm:dependent-codomain-inversion-boundary-codomain-readback-nonescape}. It blocks equality or interchangeability of $C_0$ and $C_1$ from being read out of the packet.
+
+Apply ledger nonescape from \autoref{thm:dependent-codomain-inversion-boundary-ledger-nonescape}. It keeps the open-frontier ledger attached to $S,R,C_0,C_1,H,K,P,N$ and refuses context reduction, closed subject reduction, inhabited discharge, and host conversion as exported endpoints.
+
+Finally use the public obligation theorem \autoref{thm:dependent-codomain-inversion-boundary-public-obligation}. The public surface is exactly the finite boundary obligation consumed by subject-reduction attempts, so no additional public row remains from which the excluded endpoints could be extracted.
 \end{proof}
 
 \closureat{DependentCodomainInversionBoundaryUp}{seedStr}
