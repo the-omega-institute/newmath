@@ -12789,6 +12789,7 @@ import BEDC.Derived.SignedDigitCauchyModulusUp.TasteGate
 import BEDC.Derived.SignedDigitIntervalRealUp.TasteGate
 import BEDC.Derived.SignedDigitRealUp
 import BEDC.Derived.SignedDigitRealUp.TasteGate
+import BEDC.Derived.SignedDigitRedundancyUp
 import BEDC.Derived.SignedDigitStreamUp
 import BEDC.Derived.SignedDigitStreamUp.Core
 import BEDC.Derived.SignedDigitStreamUp.PrefixStability
