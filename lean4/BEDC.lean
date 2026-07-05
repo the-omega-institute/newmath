@@ -13483,6 +13483,7 @@ import BEDC.Derived.TwinSubstrateAuditCouplingUp.GroundCompilerRoute
 import BEDC.Derived.TwinSubstrateAuditCouplingUp.MetaCICRoute
 import BEDC.Derived.TwinSubstrateAuditCouplingUp.NameCertObligations
 import BEDC.Derived.TwinSubstrateAuditCouplingUp.NonCollapse
+import BEDC.Derived.TwinSubstrateAuditCouplingUp.PublicExport
 import BEDC.Derived.TwinSubstrateAuditCouplingUp.TasteGate
 import BEDC.Derived.TwinSubstrateAuditPacketUp.TasteGate
 import BEDC.Derived.TwinSubstrateAuditSynthesisUp.TasteGate
