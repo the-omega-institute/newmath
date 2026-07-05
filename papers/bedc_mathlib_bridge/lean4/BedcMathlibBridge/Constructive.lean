@@ -26,6 +26,7 @@ import BedcMathlibBridge.Constructive.Superfactorial
 import BedcMathlibBridge.Constructive.Hyperfactorial
 import BedcMathlibBridge.Constructive.EuclidFactorial
 import BedcMathlibBridge.Constructive.PowTwo
+import BedcMathlibBridge.Constructive.NatPowZero
 import BedcMathlibBridge.Constructive.NatPowSucc
 import BedcMathlibBridge.Constructive.NatAddAssoc
 import BedcMathlibBridge.Constructive.NatAddComm
