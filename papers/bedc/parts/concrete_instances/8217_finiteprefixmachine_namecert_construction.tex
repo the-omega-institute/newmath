@@ -113,12 +113,30 @@ Non-escape is \autoref{thm:finite-prefix-machine-nonescape}. It prevents any dow
 Thus the exported surface is exactly the displayed bounded machine-prefix read, together with the transport, replay, and local naming rows that certify it.
 \end{proof}
 
+\begin{theorem}[FinitePrefixMachine obligation-closure route]
+\label{thm:finite-prefix-machine-obligation-closure-route}
+For every accepted $\FinitePrefixMachineUp$ carrier $P=(M,Q,T,F,E,A,H,C,N)$, the finite machine-prefix obligation surface is assembled by the carrier rows, the local $\NameCert_{\FinitePrefixMachineUp}$ obligations, prefix determinacy, non-escape, and public export. A downstream consumer receives exactly the bounded route
+$$
+M \longmapsto Q \longmapsto T \longmapsto F \longmapsto E \longmapsto A
+$$
+together with componentwise $\hsame$ transport $H$, displayed $\Cont$ replay $C$, and local naming $N$. No behavior quotient, language quotient, unbounded halting row, hidden trace oracle, unlisted transition rule, or host evaluator is part of this obligation surface.
+\end{theorem}
+\begin{proof}
+Start with the carrier theorem \autoref{thm:finite-prefix-machine-carrier}. It projects the accepted packet to the nine displayed rows $M,Q,T,F,E,A,H,C,N$ and supplies no other machine semantic coordinate.
+
+Apply the NameCert obligations of \autoref{thm:finite-prefix-machine-namecert-obligations}. Carrier admission, machine binding, prefix-bound exposure, transition exactness, endpoint exactness, acceptance exactness, transport, replay, and non-escape are all checked on the same finite packet.
+
+Prefix determinacy in \autoref{thm:finite-prefix-machine-prefix-determinacy} fixes the endpoint and acceptance rows from the displayed machine, transition ledger, and prefix row. Non-escape in \autoref{thm:finite-prefix-machine-nonescape} keeps every terminal read inside that same route.
+
+Finally use the public export theorem \autoref{thm:finite-prefix-machine-public-export}. It repacks the bounded machine-prefix route with $H,C,N$ for downstream consumers, so the obligation surface is exhausted by the listed rows and excludes the host and quotient endpoints named in the statement.
+\end{proof}
+
 The Lean file \texttt{Derived/FinitePrefixMachineUp/TasteGate.lean} will provide $\mathsf{Nontrivial}\ \FinitePrefixMachineUp$ and $\mathsf{FieldFaithful}\ \FinitePrefixMachineUp$ instances for the displayed rows $M,Q,T,F,E,A,H,C,N$.
 
 \begin{closurestatus}{\FinitePrefixMachineUp}
   \constructivestory{A $\FinitePrefixMachineUp$ packet is generated from a finite machine row, prefix word row, transition ledger, finite run row, endpoint row, acceptance row, componentwise $\hsame$ transport, displayed $\Cont$ replay, and local naming. The $\BHist$ carrier exposes a bounded machine-prefix computation: each transition step is read from the displayed ledger, the endpoint is determined by the same prefix, and the acceptance classifier receives only that finite endpoint surface. Transport preserves the row inventory, and continuation replay prevents a consumer from replacing the run with a host evaluator.}
   \theoryclosure{\seedClosure}
-  \scopeclosed{This chapter binds the finite-prefix machine carrier, prefix determinacy, non-escape, and exact exported surface.}
+  \scopeclosed{This chapter binds the finite-prefix machine carrier, prefix determinacy, non-escape, exact exported surface, and obligation-closure route.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{ai}
