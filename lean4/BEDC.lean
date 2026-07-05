@@ -3783,6 +3783,7 @@ import BEDC.Derived.CompleteRealModulusUp.TasteGate
 import BEDC.Derived.CompleteSeparableMetricUp.DensityCompletionHandoff
 import BEDC.Derived.CompleteSeparableMetricUp.FiniteDensityInduction
 import BEDC.Derived.CompleteSeparableMetricUp.FiniteWindowDensitySeal
+import BEDC.Derived.CompleteSeparableMetricUp.NameCertObligations
 import BEDC.Derived.CompleteSeparableMetricUp.TasteGate
 import BEDC.Derived.CompleteSeparatedMetricUp.LimitUniqueness
 import BEDC.Derived.CompleteSeparatedMetricUp.TasteGate
@@ -7652,6 +7653,7 @@ import BEDC.Derived.KoszulDualityUp
 import BEDC.Derived.KraftPrefixCodeUp.TasteGate
 import BEDC.Derived.KreinMilmanFiniteExtremeUp.TasteGate
 import BEDC.Derived.KreinMilmanUp
+import BEDC.Derived.KreiselLacombeShoenfieldUp.NameCertObligations
 import BEDC.Derived.KreiselLacombeShoenfieldUp.TasteGate
 import BEDC.Derived.KripkeSemanticsUp
 import BEDC.Derived.KroneckerApproximationUp.TasteGate
