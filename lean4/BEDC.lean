@@ -3649,6 +3649,7 @@ import BEDC.Derived.CompactOperatorUp.PublicExportStatus
 import BEDC.Derived.CompactOperatorUp.TailModulusConsumerExactness
 import BEDC.Derived.CompactOperatorUp.TasteGate
 import BEDC.Derived.CompactOscillationBarModulusUp.TasteGate
+import BEDC.Derived.CompactOscillationDecayLadderUp
 import BEDC.Derived.CompactOscillationEnvelopeUp.TasteGate
 import BEDC.Derived.CompactPolishSpaceUp.TasteGate
 import BEDC.Derived.CompactRealIntervalMinimumUp.TasteGate
@@ -7174,6 +7175,7 @@ import BEDC.Derived.HilbertAlexanderBlockerUp.TasteGate
 import BEDC.Derived.HilbertBasisUp.TasteGate
 import BEDC.Derived.HilbertCubeUp.TasteGate
 import BEDC.Derived.HilbertCurveUp.TasteGate
+import BEDC.Derived.HilbertMatrixUp
 import BEDC.Derived.HilbertUp
 import BEDC.Derived.HilbertUp.LedgerExhaustion
 import BEDC.Derived.HilbertUp.NameCertSurface
