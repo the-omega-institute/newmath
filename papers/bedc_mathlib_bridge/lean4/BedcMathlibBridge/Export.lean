@@ -45,6 +45,7 @@ import BedcMathlibBridge.Export.NatOneMul
 import BedcMathlibBridge.Export.NatChooseEqZeroOfLt
 import BedcMathlibBridge.Export.NatChooseSuccSucc
 import BedcMathlibBridge.Export.NatChooseZeroRight
+import BedcMathlibBridge.Export.NatChooseSuccSelf
 import BedcMathlibBridge.Export.NatChooseSuccSuccPrime
 import BedcMathlibBridge.Export.ListBindEqFlatMap
 import BedcMathlibBridge.Export.Jacobsthal

@@ -45,6 +45,7 @@ import BedcMathlibBridge.Constructive.NatOneMul
 import BedcMathlibBridge.Constructive.NatChooseEqZeroOfLt
 import BedcMathlibBridge.Constructive.NatChooseSuccSucc
 import BedcMathlibBridge.Constructive.NatChooseZeroRight
+import BedcMathlibBridge.Constructive.NatChooseSuccSelf
 import BedcMathlibBridge.Constructive.NatChooseSuccSuccPrime
 import BedcMathlibBridge.Constructive.ListBindEqFlatMap
 import BedcMathlibBridge.Constructive.Jacobsthal
