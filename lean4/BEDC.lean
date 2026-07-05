@@ -1066,6 +1066,7 @@ import BEDC.Derived.BishopCauchyModulusEquivalenceUp.TasteGate
 import BEDC.Derived.BishopCauchyModulusExtractionUp.TasteGate
 import BEDC.Derived.BishopCauchyNormalizationUp.TasteGate
 import BEDC.Derived.BishopCauchyProductBoundUp
+import BEDC.Derived.BishopCauchyRateCompletionUp.TasteGate
 import BEDC.Derived.BishopCauchyRealEnvelopeUp
 import BEDC.Derived.BishopCauchyRealUp
 import BEDC.Derived.BishopCauchyRealUp.TasteGate
@@ -5622,6 +5623,7 @@ import BEDC.Derived.DyadicRatCoreUp.RegSeqRatWindow
 import BEDC.Derived.DyadicRatCoreUp.SourceBoundary
 import BEDC.Derived.DyadicRatCoreUp.StandardSourceBridge
 import BEDC.Derived.DyadicRatCoreUp.TerminalFourFaceTolerance
+import BEDC.Derived.DyadicRatDenseEmbeddingUp
 import BEDC.Derived.DyadicRegularBridgeUp.TasteGate
 import BEDC.Derived.DyadicRegularErrorEnvelopeUp
 import BEDC.Derived.DyadicRoundingUp
@@ -6354,6 +6356,7 @@ import BEDC.Derived.FiniteDimensionalNormedCompletenessUp
 import BEDC.Derived.FiniteDimensionalNormedCompletenessUp.TasteGate
 import BEDC.Derived.FiniteDimensionalSpectralGapUp.NameCertObligations
 import BEDC.Derived.FiniteDimensionalSpectralGapUp.TasteGate
+import BEDC.Derived.FiniteDiniModulusUp.TasteGate
 import BEDC.Derived.FiniteDyadicBisectionUp.TasteGate
 import BEDC.Derived.FiniteDyadicRefinementBudgetUp.TasteGate
 import BEDC.Derived.FiniteEpsilonNetUp.TasteGate
@@ -9590,6 +9593,7 @@ import BEDC.Derived.NonAxiomAdmissionUp.WitnessRouteNonescape
 import BEDC.Derived.NonAxiomBoundaryFormUp.NameCertObligations
 import BEDC.Derived.NonAxiomBoundaryFormUp.TasteGate
 import BEDC.Derived.NonCollapseInvariantUp
+import BEDC.Derived.NontrivialZeroClassifierUp.FalsifiableBoundary
 import BEDC.Derived.NontrivialZeroClassifierUp.NamecertObligations
 import BEDC.Derived.NontrivialZeroClassifierUp.TasteGate
 import BEDC.Derived.NormUp
@@ -13267,6 +13271,7 @@ import BEDC.Derived.TaylorPolynomialUp.TasteGate
 import BEDC.Derived.TaylorRemainderUp
 import BEDC.Derived.TaylorRemainderUp.TasteGate
 import BEDC.Derived.TaylorTheoremUp.TasteGate
+import BEDC.Derived.TeichmullerSpaceUp.TasteGate
 import BEDC.Derived.TelephoneNumberUp
 import BEDC.Derived.TemperedDistributionUp.TasteGate
 import BEDC.Derived.TensorAlgebraUp.TasteGate
