@@ -10425,6 +10425,7 @@ import BEDC.Derived.RHRoute.LocatedGenerationTower
 import BEDC.Derived.RHRoute.LocatedGenerationTowerExample
 import BEDC.Derived.RHRoute.LocatedZetaZero
 import BEDC.Derived.RHRoute.NestedWindowConditional
+import BEDC.Derived.RHRoute.NewmanUnitCriterion
 import BEDC.Derived.RHRoute.NonfixedOrbit
 import BEDC.Derived.RHRoute.OCLSDCriticalCoupling
 import BEDC.Derived.RHRoute.OCLSDHamiltonian
