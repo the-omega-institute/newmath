@@ -17,6 +17,25 @@ def RegularCauchyTailSchedule_handoff_route
   Cont Q R route ∧ Cont route W tailRead ∧ Cont tailRead M meetRead ∧
     Cont meetRead F fusionRead ∧ Cont fusionRead E sealRead
 
+theorem RegularCauchyTailSchedule_carrier_route_rows [AskSetup] [PackageSetup]
+    {Q R W D K T M F E H C P N : BHist} {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RegularCauchyTailScheduleCarrier Q R W D K T M F E H C P N bundle pkg →
+      UnaryHistory Q ∧ UnaryHistory R ∧ UnaryHistory W ∧ UnaryHistory D ∧
+        UnaryHistory K ∧ UnaryHistory T ∧ UnaryHistory M ∧ UnaryHistory F ∧
+          UnaryHistory E ∧ UnaryHistory H ∧ UnaryHistory C ∧ UnaryHistory P ∧
+            UnaryHistory N ∧ Cont Q R C ∧ Cont C W T ∧ Cont T M F ∧
+              Cont F E H ∧ PkgSig bundle P pkg ∧ PkgSig bundle N pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont UnaryHistory
+  intro carrier
+  rcases carrier with
+    ⟨unaryQ, unaryR, unaryW, unaryD, unaryK, unaryT, unaryM, unaryF, unaryE,
+      unaryH, unaryC, unaryP, unaryN, routeQR, routeCW, routeTM, routeFE,
+      provenancePkg, namePkg⟩
+  exact
+    ⟨unaryQ, unaryR, unaryW, unaryD, unaryK, unaryT, unaryM, unaryF, unaryE,
+      unaryH, unaryC, unaryP, unaryN, routeQR, routeCW, routeTM, routeFE,
+      provenancePkg, namePkg⟩
+
 theorem RegularCauchyTailSchedule_scoped_closure_certificate [AskSetup] [PackageSetup]
     {Q R W D K T M F E H C P N qr rw wd dk kt tm mf fe completionRead : BHist}
     {bundle : ProbeBundle ProbeName} {pkg : Pkg} :

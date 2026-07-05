@@ -51,6 +51,7 @@ import BEDC.Derived.AbelSummationUp.DirichletTestRoute
 import BEDC.Derived.AbelSummationUp.NameCertObligations
 import BEDC.Derived.AbelSummationUp.PartialSumHandoff
 import BEDC.Derived.AbelSummationUp.TasteGate
+import BEDC.Derived.AbelTauberianBoundaryUp
 import BEDC.Derived.AbelTestUp.TasteGate
 import BEDC.Derived.AbelTheoremUp.TasteGate
 import BEDC.Derived.AbelUniformUp.TasteGate
