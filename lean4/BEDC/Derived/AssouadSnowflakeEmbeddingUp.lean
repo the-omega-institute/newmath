@@ -138,6 +138,99 @@ theorem AssouadSnowflakeEmbeddingCarrier_namecert_obligations [AskSetup] [Packag
     ⟨cert, mdUnary, daUnary, snowUnary, embedUnary, centersUnary, tolUnary, realReadUnary,
       transportedUnary⟩
 
+theorem AssouadSnowflakeEmbeddingCarrier_finite_net_handoff [AskSetup] [PackageSetup]
+    {M D A S E B Q R H C P N coverRead scaleRead netRead snowflakeRead distanceRead
+      embeddingRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    AssouadSnowflakeEmbeddingCarrier M D A S E B Q R H C P N →
+      Cont M D coverRead →
+        Cont coverRead A scaleRead →
+          Cont scaleRead E netRead →
+            Cont S Q snowflakeRead →
+              Cont snowflakeRead R distanceRead →
+                Cont netRead distanceRead embeddingRead →
+                  PkgSig bundle P pkg →
+                    PkgSig bundle embeddingRead pkg →
+                      SemanticNameCert
+                          (fun row : BHist => hsame row embeddingRead ∧ UnaryHistory row)
+                          (fun row : BHist =>
+                            hsame row M ∨ hsame row D ∨ hsame row A ∨ hsame row S ∨
+                              hsame row E ∨ hsame row Q ∨ hsame row R ∨
+                                hsame row embeddingRead)
+                          (fun row : BHist =>
+                            UnaryHistory row ∧ Cont M D coverRead ∧
+                              Cont coverRead A scaleRead ∧ Cont scaleRead E netRead ∧
+                                Cont S Q snowflakeRead ∧ Cont snowflakeRead R distanceRead ∧
+                                  Cont netRead distanceRead embeddingRead ∧ PkgSig bundle P pkg ∧
+                                    PkgSig bundle embeddingRead pkg)
+                          hsame ∧
+                        UnaryHistory embeddingRead := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont PkgSig hsame SemanticNameCert UnaryHistory
+  intro carrier coverRoute scaleRoute netRoute snowflakeRoute distanceRoute embeddingRoute
+    provenancePkg embeddingPkg
+  obtain ⟨mUnary, dUnary, aUnary, sUnary, eUnary, _bUnary, qUnary, rUnary, _hUnary,
+    _cUnary, _pUnary, _nUnary⟩ := carrier
+  have coverReadUnary : UnaryHistory coverRead :=
+    unary_cont_closed mUnary dUnary coverRoute
+  have scaleReadUnary : UnaryHistory scaleRead :=
+    unary_cont_closed coverReadUnary aUnary scaleRoute
+  have netReadUnary : UnaryHistory netRead :=
+    unary_cont_closed scaleReadUnary eUnary netRoute
+  have snowflakeReadUnary : UnaryHistory snowflakeRead :=
+    unary_cont_closed sUnary qUnary snowflakeRoute
+  have distanceReadUnary : UnaryHistory distanceRead :=
+    unary_cont_closed snowflakeReadUnary rUnary distanceRoute
+  have embeddingReadUnary : UnaryHistory embeddingRead :=
+    unary_cont_closed netReadUnary distanceReadUnary embeddingRoute
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => hsame row embeddingRead ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row M ∨ hsame row D ∨ hsame row A ∨ hsame row S ∨
+              hsame row E ∨ hsame row Q ∨ hsame row R ∨ hsame row embeddingRead)
+          (fun row : BHist =>
+            UnaryHistory row ∧ Cont M D coverRead ∧
+              Cont coverRead A scaleRead ∧ Cont scaleRead E netRead ∧
+                Cont S Q snowflakeRead ∧ Cont snowflakeRead R distanceRead ∧
+                  Cont netRead distanceRead embeddingRead ∧ PkgSig bundle P pkg ∧
+                    PkgSig bundle embeddingRead pkg)
+          hsame := {
+    core := {
+      carrier_inhabited :=
+        Exists.intro embeddingRead ⟨hsame_refl embeddingRead, embeddingReadUnary⟩
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        exact
+          ⟨hsame_trans (hsame_symm sameRows) source.left,
+            unary_transport source.right sameRows⟩
+    }
+    pattern_sound := by
+      intro _row source
+      exact
+        Or.inr
+          (Or.inr
+            (Or.inr
+              (Or.inr
+                (Or.inr
+                  (Or.inr
+                    (Or.inr source.left))))))
+    ledger_sound := by
+      intro _row source
+      exact
+        ⟨source.right, coverRoute, scaleRoute, netRoute, snowflakeRoute, distanceRoute,
+          embeddingRoute, provenancePkg, embeddingPkg⟩
+  }
+  exact ⟨cert, embeddingReadUnary⟩
+
 end AssouadSnowflakeEmbeddingUp
 
 end BEDC.Derived
