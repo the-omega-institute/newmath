@@ -30,11 +30,15 @@ theorem toNat_eq_nat_choose_div (m n : Nat) :
   unfold BEDC.Derived.FussCatalanUp.fussCatalanDenom
   rw [numerator_eq_nat_choose]
 
+theorem toNat_eq_nat_choose_formula (m n : Nat) :
+    toNat m n = Nat.choose (m * n) n / ((m - 1) * n + 1) :=
+  toNat_eq_nat_choose_div m n
+
 theorem toNat_binary_eq_centralBinom_div (n : Nat) :
     toNat 2 n = Nat.centralBinom n / (n + 1) := by
   calc
     toNat 2 n = Nat.choose (2 * n) n / ((2 - 1) * n + 1) :=
-      toNat_eq_nat_choose_div 2 n
+      toNat_eq_nat_choose_formula 2 n
     _ = Nat.centralBinom n / (n + 1) := by
       rw [Nat.centralBinom_eq_two_mul_choose]
       change Nat.choose (2 * n) n / (1 * n + 1) = Nat.choose (2 * n) n / (n + 1)
