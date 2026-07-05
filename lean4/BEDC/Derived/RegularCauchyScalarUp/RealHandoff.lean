@@ -198,4 +198,58 @@ theorem RegularCauchyScalarCarrier_obligation_closure_package [AskSetup] [Packag
     ⟨cert, sourceReadUnary, scaledReadUnary, realReadUnary, sameTransport, provenancePkg,
       realPkg⟩
 
+theorem RegularCauchyScalar_scoped_consumer_route [AskSetup] [PackageSetup]
+    {X A W D F E H C P N sourceRead scaledRead realRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RegularCauchyScalarCarrier X A W D F E H C P N bundle pkg →
+      Cont X W sourceRead →
+        Cont sourceRead F scaledRead →
+          Cont scaledRead E realRead →
+            PkgSig bundle realRead pkg →
+              SemanticNameCert
+                    (fun row : BHist => hsame row realRead ∧ UnaryHistory row)
+                    (fun row : BHist =>
+                      hsame row realRead ∧ Cont X W sourceRead ∧
+                        Cont sourceRead F scaledRead)
+                    (fun row : BHist =>
+                      UnaryHistory row ∧ Cont scaledRead E realRead ∧
+                        hsame H (append F C) ∧ PkgSig bundle P pkg ∧
+                          PkgSig bundle realRead pkg)
+                    hsame ∧
+                  SemanticNameCert
+                    (fun row : BHist =>
+                      (hsame row X ∨ hsame row A ∨ hsame row W ∨ hsame row D ∨
+                          hsame row F ∨ hsame row E ∨ hsame row realRead) ∧
+                        UnaryHistory row)
+                    (fun row : BHist =>
+                      hsame row X ∨ hsame row A ∨ hsame row W ∨ hsame row D ∨
+                        hsame row F ∨ hsame row E ∨ hsame row H ∨ hsame row C ∨
+                          hsame row P ∨ hsame row N ∨ hsame row realRead)
+                    (fun row : BHist =>
+                      UnaryHistory row ∧ Cont X W sourceRead ∧
+                        Cont sourceRead F scaledRead ∧ Cont scaledRead E realRead ∧
+                          PkgSig bundle realRead pkg)
+                    hsame ∧
+                UnaryHistory sourceRead ∧ UnaryHistory scaledRead ∧
+                  UnaryHistory realRead ∧ hsame H (append F C) ∧
+                    PkgSig bundle P pkg ∧ PkgSig bundle realRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame SemanticNameCert UnaryHistory PkgSig
+  intro carrier sourceCont scaledCont realCont realPkg
+  have closurePackage :=
+    RegularCauchyScalarCarrier_obligation_closure_package (X := X) (A := A) (W := W)
+      (D := D) (F := F) (E := E) (H := H) (C := C) (P := P) (N := N)
+      (sourceRead := sourceRead) (scaledRead := scaledRead) (realRead := realRead)
+      (bundle := bundle) (pkg := pkg) carrier sourceCont scaledCont realCont realPkg
+  have namecertObligations :=
+    RegularCauchyScalarCarrier_namecert_obligations (X := X) (A := A) (W := W)
+      (D := D) (F := F) (E := E) (H := H) (C := C) (P := P) (N := N)
+      (sourceRead := sourceRead) (scaledRead := scaledRead) (realRead := realRead)
+      (bundle := bundle) (pkg := pkg) carrier sourceCont scaledCont realCont realPkg
+  rcases closurePackage with
+    ⟨consumerCert, sourceReadUnary, scaledReadUnary, realReadUnary, sameTransport,
+      provenancePkg, realPkg'⟩
+  exact
+    ⟨consumerCert, namecertObligations, sourceReadUnary, scaledReadUnary, realReadUnary,
+      sameTransport, provenancePkg, realPkg'⟩
+
 end BEDC.Derived.RegularCauchyScalarUp
