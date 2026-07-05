@@ -98,6 +98,20 @@ Thus any replay of a refused dependency passes through $A$ and the displayed str
 \end{proof}
 \leanchecked{BEDC.Derived.ClosedGeneratorAuditCarrier\_refusal\_replay\_exactness}
 
+\begin{theorem}[Closed generator audit obligation boundary]
+\label{thm:closed-generator-audit-obligation-boundary}
+Every obligationClosure consumer of a $\ClosedGeneratorAuditUp$ packet must expose the generated object row $T$, kernel row $K$, authorized recursor row $R$, closed-substitution row $S$, audit-refusal row $A$, and structural rows $H,C,P,N$ before reading the packet as a ClosedGeneratorAudit obligation surface. No consumer may replace those rows by a host proof kernel, global recursor theorem, hidden substitution lemma, quotient transport, classical choice, proposition extensionality, or unrecorded proof oracle.
+\end{theorem}
+\begin{proof}
+Start with the carrier definition. It displays exactly $T,K,R,S,A,H,C,P,N$, so any obligationClosure read begins with those rows rather than with a host-side proof object.
+
+Apply the NameCert obligations. Carrier admission, generator-closure replay, closed-substitution non-escape, kernel-acceptance replay, and audit-refusal exactness each return to one of the displayed rows.
+
+Use the non-escape theorem to keep consumer access inside the same tuple. Then use refusal replay exactness to force every forbidden dependency request through $A$ together with $H,C,P,N$.
+
+Thus the obligation boundary is precisely the exposed generated object, kernel, recursor, substitution, audit, and structural rows. The excluded host, quotient, classical, extensional, conversion, and oracle routes remain absent coordinates.
+\end{proof}
+
 \begin{theorem}[Closed generator audit kernel-replay induction]
 \label{thm:closed-generator-audit-kernel-replay-induction}
 Every accepted $\ClosedGeneratorAuditUp$ replay over a finite generator-audit path must expose the kernel acceptance witness row, kernel acceptance trace row, generator audit closure row, and recursion authorization ledger row before any closed refusal replay is exported. Induction on the displayed replay length preserves the refusal boundary and exports no Lean kernel soundness, global recursor soundness, quotient transport, or classical choice.
