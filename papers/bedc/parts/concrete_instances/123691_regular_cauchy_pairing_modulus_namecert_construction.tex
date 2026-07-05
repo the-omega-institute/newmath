@@ -1,0 +1,85 @@
+\chapter{A Concrete Naming Certificate for $\RegularCauchyPairingModulusUp$}
+\label{ch:concrete-instances-regular-cauchy-pairing-modulus-namecert}
+\origin{human}
+
+Following Bishop and Bridges constructive analysis, the $\RegularCauchyPairingModulusUp$ packet records the finite modulus needed to pair two regular Cauchy names through shared $\StreamNameUp$ windows and dyadic tolerance rows. It sits after the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the finite observation surface of \autoref{ch:concrete-instances-streamname-namecert}, the dyadic tolerance core of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the pairing-function route of \autoref{ch:concrete-instances-regular-cauchy-pairing-function-namecert}, and the product-modulus route of \autoref{ch:concrete-instances-regular-cauchy-product-modulus-namecert}. The packet names a shared-window pairing modulus; it does not identify quotient streams, choose host limits, use choice, assert trichotomy, or import ambient $\RealUp$ completeness.
+
+\begin{definition}[Regular Cauchy pairing-modulus carrier]
+\label{def:regular-cauchy-pairing-modulus-carrier}
+A $\RegularCauchyPairingModulusUp$ carrier is a finite $\BHist$ packet
+$$
+Q=(X,Y,W,D,M,R,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $X$ is the first $\RegSeqRatUp$ regular Cauchy name row.
+\item $Y$ is the second $\RegSeqRatUp$ regular Cauchy name row.
+\item $W$ is the shared $\StreamNameUp$ finite-window row through which both names are inspected at the same requested precision.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance ledger recording the paired comparison budget and the retained slack.
+\item $M$ is the finite pairing-modulus row assigning each precision request to the shared source window used for $X$ and $Y$.
+\item $R$ is the downstream readback row for the paired name, exposed only through the $\RegularCauchyPairingFunctionUp$ and $\RegularCauchyProductModulusUp$ surfaces.
+\item $H$ records componentwise $\hsame$ transport for $X,Y,W,D,M,R,C,P,N$.
+\item $C$ records displayed $\Cont$ replay from a pairing request through the two regular names, the shared stream window, the dyadic tolerance ledger, the modulus row, and the downstream readback.
+\item $P$ is the $\Pkg$ provenance over $\RegularCauchyPairingModulusUp$, $\RegSeqRatUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegularCauchyPairingFunctionUp$, $\RegularCauchyProductModulusUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\RegularCauchyPairingModulusUp}$ row.
+\end{enumerate}
+The classifier compares accepted pairing-modulus packets only through these rows. It has no coordinate for quotient stream equality, selected limits, host product data, choice-selected moduli, trichotomy, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[Regular Cauchy pairing-modulus NameCert obligations]
+\label{thm:regular-cauchy-pairing-modulus-namecert-obligations}
+For every accepted $\RegularCauchyPairingModulusUp$ carrier $Q=(X,Y,W,D,M,R,H,C,P,N)$, the local $\NameCert_{\RegularCauchyPairingModulusUp}$ surface consists exactly of first-name admission, second-name admission, shared-window exposure, dyadic tolerance exposure, finite modulus readback, downstream pairing readback, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:regular-cauchy-pairing-modulus-carrier}. The only mathematical rows before transport and naming are $X,Y,W,D,M,R$.
+
+The two name rows are read through the same finite window. The row $W$ records the inspected stages for both names, while $D$ records the paired tolerance budget attached to that window.
+
+The modulus row $M$ selects no external limit and no host product. It records the finite response to a precision request, and the downstream row $R$ is available only after the pairing-function and product-modulus surfaces named in $P$ have been displayed.
+
+The structural rows $H,C,P,N$ preserve, replay, source, and name the same finite route. Since the carrier has no coordinate for quotient stream equality, selected limits, host product data, choice-selected moduli, trichotomy, or ambient completeness, the listed obligations exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[Regular Cauchy pairing-modulus window pairing]
+\label{thm:regular-cauchy-pairing-modulus-window-pairing}
+Every accepted $\RegularCauchyPairingModulusUp$ consumer that reads a paired regular Cauchy output must first display the two $\RegSeqRatUp$ source rows, the shared $\StreamNameUp$ window row, the $\DyadicRatCoreUp$ tolerance ledger, and the finite modulus row. The pairing read is therefore a finite shared-window route rather than a quotient-stream comparison or a host product construction.
+\end{theorem}
+\begin{proof}
+Start from the accepted carrier $Q=(X,Y,W,D,M,R,H,C,P,N)$. The rows $X$ and $Y$ are the only source names, and $W$ is the only window through which both can be inspected.
+
+Apply \autoref{thm:regular-cauchy-pairing-modulus-namecert-obligations}. Shared-window exposure and dyadic tolerance exposure force the consumer to read $W$ and $D$ before the modulus row $M$ can answer a precision request.
+
+The downstream row $R$ is then read through the pairing-function and product-modulus surfaces named by $P$. Transport and replay through $H$ and $C$ preserve the same route, so no quotient stream equality, host product carrier, selected limit, or trichotomy row is introduced.
+\end{proof}
+
+\begin{theorem}[Regular Cauchy pairing-modulus downstream use]
+\label{thm:regular-cauchy-pairing-modulus-downstream-use}
+Every downstream Real or Completion consumer of an accepted $\RegularCauchyPairingModulusUp$ carrier receives only the finite route
+$$
+X\longmapsto Y\longmapsto W\longmapsto D\longmapsto M\longmapsto R\longmapsto H\longmapsto C\longmapsto P\longmapsto N .
+$$
+Thus the packet can supply paired regular Cauchy data to product and equality routes without exporting quotient streams, host limits, choice, trichotomy, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Use \autoref{thm:regular-cauchy-pairing-modulus-window-pairing}. A downstream consumer cannot reach the paired output row $R$ before the source names, shared window, tolerance ledger, and modulus row have been displayed.
+
+The provenance row ties that read to $\RegularCauchyPairingFunctionUp$ and $\RegularCauchyProductModulusUp$. These sibling surfaces consume the same finite pairing route rather than a host product object.
+
+Finally replay $H,C,P,N$. They transport, replay, source, and name the route shown in the display. Since every excluded principle is absent from that display, none is exported to the downstream Real or Completion consumer.
+\end{proof}
+
+\falsifiablePrediction{An accepted $\RegularCauchyPairingModulusUp$ consumer that reads paired regular Cauchy output without displaying two $\RegSeqRatUp$ source rows, one shared $\StreamNameUp$ window row, a $\DyadicRatCoreUp$ tolerance ledger, a finite modulus row, downstream readback, transport, replay, provenance, and local $\NameCert$ data refutes the carrier surface.}
+
+\independenceWitness{regseqrat, streamname, dyadicratcore, regular-cauchy-pairing-function, regular-cauchy-product-modulus: $\RegularCauchyPairingModulusUp$ is not bijective to any listed sibling because it jointly binds two regular names, one shared observation window, a dyadic paired-tolerance ledger, a finite modulus row, downstream pairing readback, transport, replay, provenance, and local naming as one shared-window pairing certificate.}
+
+\closureat{RegularCauchyPairingModulusUp}{seedStr}
+
+\begin{closurestatus}{\RegularCauchyPairingModulusUp}
+  \constructivestory{A $\RegularCauchyPairingModulusUp$ packet is generated from two RegSeqRat source rows, a shared StreamName finite window, a DyadicRatCore tolerance ledger, a finite pairing-modulus row, downstream pairing readback, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:regular-cauchy-pairing-modulus-carrier}, \autoref{thm:regular-cauchy-pairing-modulus-namecert-obligations}, \autoref{thm:regular-cauchy-pairing-modulus-window-pairing}, and \autoref{thm:regular-cauchy-pairing-modulus-downstream-use} seed the finite shared-window pairing-modulus route for regular Cauchy names.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient streams, host limits, choice, trichotomy, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, two-name admission, shared-window exposure, dyadic tolerance exposure, finite modulus readback, downstream pairing readback, transport, replay, provenance, and local naming for BEDC.Derived.RegularCauchyPairingModulusUp.}
+\end{closurestatus}
