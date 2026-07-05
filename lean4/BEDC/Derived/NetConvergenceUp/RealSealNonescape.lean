@@ -177,6 +177,86 @@ theorem NetConvergenceCarrier_tail_window_real_seal_bridge
     ⟨cert, directedRoute, filterRoute, windowRoute, streamRoute, sealRoute, streamSame,
       sealSame, sameF, sameS, sameL, fields⟩
 
+theorem NetConvergenceCarrier_cauchy_filter_real_seal_boundary
+    {D T E A F S R L H C P M handoffRead realRead streamRead sealRead : BHist} :
+    NetConvergenceCarrier D T E A F S R L H C P M →
+      Cont D T E →
+        Cont E F S →
+          Cont S R L →
+            Cont F S streamRead →
+              Cont streamRead R sealRead →
+                hsame handoffRead D →
+                  hsame realRead D →
+                    hsame sealRead L →
+                      SemanticNameCert
+                          (fun row : BHist =>
+                            hsame row D ∧ NetConvergenceCarrier D T E A F S R L H C P M)
+                          (fun row : BHist =>
+                            Cont D T E ∧ Cont E F S ∧ hsame row D)
+                          (fun row : BHist =>
+                            Cont S R L ∧ Cont F S streamRead ∧
+                              Cont streamRead R sealRead ∧ hsame handoffRead D ∧
+                                hsame realRead D ∧ hsame sealRead L ∧ hsame row D ∧
+                                  hsame H H ∧ hsame C C ∧ hsame P P ∧ hsame M M)
+                          hsame ∧
+                        Cont D T E ∧ Cont E F S ∧ Cont S R L ∧
+                          Cont F S streamRead ∧ Cont streamRead R sealRead ∧
+                            hsame handoffRead D ∧ hsame realRead D ∧ hsame sealRead L ∧
+                              hsame H H ∧ hsame C C ∧ hsame P P ∧ hsame M M ∧
+                                netConvergenceFields
+                                    (NetConvergenceUp.mk D T E A F S R L H C P M) =
+                                  [D, T, E, A, F, S, R, L, H, C, P, M] := by
+  -- BEDC touchpoint anchor: BHist hsame Cont SemanticNameCert
+  intro carrier directedRoute filterRoute realRoute streamRoute sealRoute handoffSame
+    realSame sealSame
+  have handoffRows :=
+    NetConvergenceCarrier_cauchy_filter_handoff carrier directedRoute filterRoute
+      realRoute handoffSame realSame
+  obtain ⟨⟨directedRoute', filterRoute', handoffSame'⟩, ⟨realRoute', realSame',
+    sameH, sameC, sameP, sameM, fields⟩⟩ := handoffRows
+  have sealRows :=
+    NetConvergenceCarrier_real_seal_nonescape carrier directedRoute' filterRoute'
+      streamRoute sealRoute sealSame
+  obtain ⟨_directedRouteForSeal, _filterRouteForSeal, streamRoute', sealRoute',
+    sealSame', _sameL, _fieldsForSeal⟩ := sealRows
+  have cert :
+      SemanticNameCert
+          (fun row : BHist =>
+            hsame row D ∧ NetConvergenceCarrier D T E A F S R L H C P M)
+          (fun row : BHist => Cont D T E ∧ Cont E F S ∧ hsame row D)
+          (fun row : BHist =>
+            Cont S R L ∧ Cont F S streamRead ∧ Cont streamRead R sealRead ∧
+              hsame handoffRead D ∧ hsame realRead D ∧ hsame sealRead L ∧
+                hsame row D ∧ hsame H H ∧ hsame C C ∧ hsame P P ∧ hsame M M)
+          hsame := {
+    core := {
+      carrier_inhabited := Exists.intro D ⟨hsame_refl D, carrier⟩
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        exact ⟨hsame_trans (hsame_symm sameRows) source.left, source.right⟩
+    }
+    pattern_sound := by
+      intro _row source
+      exact ⟨directedRoute', filterRoute', source.left⟩
+    ledger_sound := by
+      intro _row source
+      exact
+        ⟨realRoute', streamRoute', sealRoute', handoffSame', realSame', sealSame',
+          source.left, sameH, sameC, sameP, sameM⟩
+  }
+  exact
+    ⟨cert, directedRoute', filterRoute', realRoute', streamRoute', sealRoute',
+      handoffSame', realSame', sealSame', sameH, sameC, sameP, sameM, fields⟩
+
 theorem NetConvergenceCarrier_filterbase_real_seal_finality_bridge
     {D T E A F S R L H C P M filterbaseRead handoffRead streamRead sealRead : BHist} :
     NetConvergenceCarrier D T E A F S R L H C P M →
