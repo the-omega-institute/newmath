@@ -10302,6 +10302,7 @@ import BEDC.Derived.PrecompactMetricUp.FilterNetModulusHandoff
 import BEDC.Derived.PrecompactMetricUp.MatureCompletionReflection
 import BEDC.Derived.PrecompactUniformUp.TasteGate
 import BEDC.Derived.PredictiveDescentUp.NameCertObligations
+import BEDC.Derived.PredictiveDescentUp.NonEscape
 import BEDC.Derived.PredictiveDescentUp.StabilityScope
 import BEDC.Derived.PredictiveDescentUp.TasteGate
 import BEDC.Derived.PrefixObserverUp
@@ -12846,6 +12847,7 @@ import BEDC.Derived.SorgenfreyLineUp.TasteGate
 import BEDC.Derived.SorgenfreyPlaneUp
 import BEDC.Derived.SorgenfreyPlaneUp.KernelCarrier
 import BEDC.Derived.SpanningTreeUp
+import BEDC.Derived.SparseGridQuadratureUp
 import BEDC.Derived.SpecializationOrderUp.TasteGate
 import BEDC.Derived.SpecializationTopologyUp
 import BEDC.Derived.SpeckerMonotoneBoundaryUp.TasteGate
@@ -12884,6 +12886,7 @@ import BEDC.Derived.SpinGroupUp.Transport
 import BEDC.Derived.SplitComplexUp
 import BEDC.Derived.SplitIntervalUp
 import BEDC.Derived.SplittingFieldUp
+import BEDC.Derived.SpreadSpaceUp.StreamNameRealHandoff
 import BEDC.Derived.SpreadSpaceUp.TasteGate
 import BEDC.Derived.Sqrt2ApartComplete
 import BEDC.Derived.Sqrt2BisectionUp
