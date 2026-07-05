@@ -91,6 +91,50 @@ Apply \autoref{thm:countable-choice-boundary-no-selected-limit}. The refusal row
 Finally read $U,H,C,P,N$. The deterministic finite readback inherited from $\UniqueChoicePrincipleUp$, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming rows preserve the same finite route, so the Real-completion consumer remains inside the finite witness boundary.
 \end{proof}
 
+\begin{theorem}[Countable choice boundary window transport]
+\label{thm:countable-choice-boundary-window-transport}
+Let $B=(Q,W,R,E,F,L,U,H,C,P,N)$ be an accepted $\CountableChoiceBoundaryUp$ carrier. Any finite witness transported from a $\StreamNameUp$ request to a $\RegSeqRatUp$ readback factors through
+$$
+Q \longmapsto W \longmapsto R \longmapsto F \longmapsto H \longmapsto C .
+$$
+Thus window witnesses may move between the displayed stream and rational rows only as finite carrier projections, not as a countable-choice selector or selected limit.
+\end{theorem}
+\begin{proof}
+Project the rows $Q,W,R,F$ of the carrier. The request row names the finite window, the stream row opens that window, the regular rational row reads it back, and the finite witness row records only the witnesses already displayed there.
+
+Transport is then componentwise. The row $H$ moves $Q,W,R,F$ together under $\hsame$, while the continuation row $C$ replays the same finite route.
+
+The refusal row $L$ remains part of the transported packet. It excludes countable choice, host sequence choice, selected limits, quotient stream equality, and ambient completion, so the transported witness is a finite window witness rather than a global selector.
+\end{proof}
+
+\begin{theorem}[Countable choice boundary unique-readback locality]
+\label{thm:countable-choice-boundary-unique-readback-locality}
+For every accepted carrier $B=(Q,W,R,E,F,L,U,H,C,P,N)$, the unique-readback row $U$ applies only to relation witnesses already displayed by the finite route $Q,W,R,F$. It may compare two reads of the same finite $\StreamNameUp$ and $\RegSeqRatUp$ window, but it does not choose witnesses for undisplayed requests and does not identify quotient stream presentations.
+\end{theorem}
+\begin{proof}
+Read the carrier inventory. The row $U$ occurs after the finite request, stream window, regular rational readback, Real seal, witness, and refusal rows; it is not a source row for new witnesses.
+
+Apply the finite witness row theorem. Every witness available to $U$ has already passed through $Q,W,R,F$, so unique readback is local to the displayed window.
+
+The rows $H,C,P,N$ preserve that locality by transport, replay, provenance, and naming. Since $L$ refuses quotient stream equality and countable choice, $U$ cannot be reinterpreted as equality of all stream presentations or as a selector over all requests.
+\end{proof}
+
+\begin{theorem}[Countable choice boundary Real seal finite route]
+\label{thm:countable-choice-boundary-real-seal-finite-route}
+Every Real-facing read of an accepted $\CountableChoiceBoundaryUp$ carrier reaches the $\RealUp$ seal $E$ only through the finite route
+$$
+Q,W,R,E,F,L,U,H,C,P,N .
+$$
+The seal records a displayed Real boundary for the inspected window; it is not a selected limit, countable-choice principle, host completion object, or quotient equality of stream presentations.
+\end{theorem}
+\begin{proof}
+Start with a Real-facing consumer. The carrier places $E$ after $Q,W,R$, so the Real seal is read only after the finite request, stream window, and regular rational readback have been displayed.
+
+The finite witness and refusal rows then determine the boundary. The row $F$ records witnesses inside the displayed window, while $L$ blocks selected limits, countable choice, host sequence choice, quotient stream equality, and ambient completion.
+
+Finally read $U,H,C,P,N$. Unique readback, componentwise transport, replay, provenance, and local naming preserve the same finite route. Hence a Real or Completion consumer receives a finite sealed route, not a chosen limit or global completion principle.
+\end{proof}
+
 \closureat{CountableChoiceBoundaryUp}{seedStr}
 \begin{closurestatus}{\CountableChoiceBoundaryUp}
   \theoryclosure{\seedClosure}
