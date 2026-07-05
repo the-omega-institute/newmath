@@ -378,6 +378,40 @@ theorem ParallelConfluenceAudit_conditional_bridge_route_closed
             (ParallelConfluenceAuditUp.mk parallelStep substitutionBoundary conditionalDiamond
               closedStar closedNormal atomShape nonClaim transports routes provenance localName)
 
+theorem ParallelConfluenceAudit_nonescape
+    {P S D C Nm At No H R L G substitutionRead diamondRead starRead publicRead : BHist} :
+    UnaryHistory P ->
+      UnaryHistory S ->
+        UnaryHistory D ->
+          UnaryHistory C ->
+            UnaryHistory No ->
+              UnaryHistory G ->
+                Cont P S substitutionRead ->
+                  Cont substitutionRead D diamondRead ->
+                    Cont diamondRead C starRead ->
+                      Cont No G publicRead ->
+                        UnaryHistory substitutionRead ∧ UnaryHistory diamondRead ∧
+                          UnaryHistory starRead ∧ UnaryHistory publicRead ∧
+                            parallelConfluenceAuditFromEventFlow
+                                (parallelConfluenceAuditToEventFlow
+                                  (ParallelConfluenceAuditUp.mk P S D C Nm At No H R L G)) =
+                              some (ParallelConfluenceAuditUp.mk P S D C Nm At No H R L G) := by
+  -- BEDC touchpoint anchor: BHist BMark Cont UnaryHistory
+  intro unaryParallel unarySubstitution unaryDiamond unaryStar unaryNonClaim unaryLocal
+    routeSubstitution routeDiamond routeStar routePublic
+  have unarySubstitutionRead : UnaryHistory substitutionRead :=
+    unary_cont_closed unaryParallel unarySubstitution routeSubstitution
+  have unaryDiamondRead : UnaryHistory diamondRead :=
+    unary_cont_closed unarySubstitutionRead unaryDiamond routeDiamond
+  have unaryStarRead : UnaryHistory starRead :=
+    unary_cont_closed unaryDiamondRead unaryStar routeStar
+  have unaryPublicRead : UnaryHistory publicRead :=
+    unary_cont_closed unaryNonClaim unaryLocal routePublic
+  exact
+    ⟨unarySubstitutionRead, unaryDiamondRead, unaryStarRead, unaryPublicRead,
+      parallelConfluenceAudit_round_trip
+        (ParallelConfluenceAuditUp.mk P S D C Nm At No H R L G)⟩
+
 theorem ParallelConfluenceAudit_namecert_obligations
     {P S D C Nm At No H R L G P' S' D' C' Nm' At' No' H' R' L' G' : BHist} :
     parallelConfluenceAuditToEventFlow (ParallelConfluenceAuditUp.mk P S D C Nm At No H R L G) =
