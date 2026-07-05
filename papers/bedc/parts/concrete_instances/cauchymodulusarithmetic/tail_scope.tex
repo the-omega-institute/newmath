@@ -199,15 +199,31 @@ Apply the public exactness row of \autoref{thm:cauchy-modulus-arithmetic-public-
 Finally use the scope package of \autoref{thm:cauchy-modulus-arithmetic-obligation-scope-package}. It keeps the exported packet inside the same $\BHist$ route over $\CauchyModulusUp$, $\CauchyModulusMeetUp$, $\RegularCauchySumUp$, $\RegularCauchyProductUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$.
 \end{proof}
 
-\closureat{CauchyModulusArithmeticUp}{publicStr}
+\begin{theorem}[Cauchy-modulus arithmetic mature examples]
+\label{thm:cauchy-modulus-arithmetic-mature-examples}
+The $\CauchyModulusArithmeticUp$ packet supplies mature example coverage for every downstream arithmetic read that uses two $\CauchyModulusUp$ schedules, their $\CauchyModulusMeetUp$ shared threshold, the $\RegularCauchySumUp$ and $\RegularCauchyProductUp$ consumer rows, and the terminal $\RealUp$ seal. Each such consumer is forced through the same finite rows
+$$
+S_0,S_1,\mu_0,\mu_1,\mu_{\wedge},\sigma,\pi,D,W,R,E,H,C,P,N
+$$
+before any threshold, sum budget, product budget, or Real-facing seal can be exported.
+\end{theorem}
+\begin{proof}
+Use the public export theorem to place every public Real or completion read on the displayed carrier rows. The rows name the two source schedules, the shared meet threshold, the sum and product consumers, the dyadic ledger, the readbacks, the seal, transport, replay, provenance, and local naming.
+
+For sum-facing and product-facing examples, apply tail-meet exhaustion together with the uniform product budget. These results keep the arithmetic examples on the same $\CauchyModulusMeetUp$ threshold and the same finite ledger, so no separate tail oracle can supply a budget.
+
+For the terminal $\RealUp$ examples, apply Real-seal congruence and scope-window reuse. The seal is reached only after the displayed schedules, arithmetic rows, readbacks, and structural rows are present. Thus the listed consumers exhaust the mature paper-axis example surface while bridge checking remains a verification-axis question.
+\end{proof}
+
+\closureat{CauchyModulusArithmeticUp}{matureStr}
 
 \begin{closurestatus}{\CauchyModulusArithmeticUp}
   \constructivestory{A $\CauchyModulusArithmeticUp$ packet is generated from two $\StreamNameUp$ windows, two $\CauchyModulusUp$ schedules, one $\CauchyModulusMeetUp$ shared-threshold row, $\RegularCauchySumUp$ and $\RegularCauchyProductUp$ consumer rows, a $\DyadicRatCoreUp$ tolerance ledger, $\RegSeqRatUp$ readbacks, a $\RealUp$ seal row, componentwise $\hsame$ transports, displayed $\Cont$ replay, $\Pkg$ provenance, and a local $\NameCert$ row.}
-  \theoryclosure{\bridgedClosure}
-  \scopeclosed{\autoref{thm:cauchy-modulus-arithmetic-scoped-route}, \autoref{thm:cauchy-modulus-arithmetic-real-seal-congruence}, \autoref{thm:cauchy-modulus-arithmetic-uniform-product-budget}, \autoref{thm:cauchy-modulus-arithmetic-scope-window-reuse}, \autoref{thm:cauchy-modulus-arithmetic-scoped-evidence-route}, \autoref{thm:cauchy-modulus-arithmetic-tail-meet-exhaustion}, \autoref{thm:cauchy-modulus-arithmetic-public-export}, and \autoref{thm:cauchy-modulus-arithmetic-bridged-route} bind the finite modulus-arithmetic scope, public export surface, and bridge-facing route over $\CauchyModulusUp$, $\CauchyModulusMeetUp$, $\RegularCauchySumUp$, $\RegularCauchyProductUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$.}
+  \theoryclosure{\matureClosure}
+  \scopeclosed{\autoref{thm:cauchy-modulus-arithmetic-scoped-route}, \autoref{thm:cauchy-modulus-arithmetic-real-seal-congruence}, \autoref{thm:cauchy-modulus-arithmetic-uniform-product-budget}, \autoref{thm:cauchy-modulus-arithmetic-scope-window-reuse}, \autoref{thm:cauchy-modulus-arithmetic-scoped-evidence-route}, \autoref{thm:cauchy-modulus-arithmetic-tail-meet-exhaustion}, \autoref{thm:cauchy-modulus-arithmetic-public-export}, \autoref{thm:cauchy-modulus-arithmetic-mature-examples}, and \autoref{thm:cauchy-modulus-arithmetic-bridged-route} bind the finite modulus-arithmetic scope, public export surface, mature example coverage, and bridge-facing route over $\CauchyModulusUp$, $\CauchyModulusMeetUp$, $\RegularCauchySumUp$, $\RegularCauchyProductUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$.}
   \formalstatus{\theoremCheckedV}
   \leantarget{BEDC.Derived.CauchyModulusArithmeticUp.CauchyModulusArithmeticCarrier\_public\_exactness}
   \bridgestatus{none}
   \notclaimed{This chapter does not claim quotient streams, selected limits, host real equality, ambient completeness, or bridge checking.}
-  \upgradepath{Mature closure requires completeness and example coverage over the shared $\CauchyModulusUp$ and $\CauchyModulusMeetUp$ arithmetic surface.}
+  \upgradepath{No theory-axis upgrade remains; bridge checking remains a separate verification-axis matter.}
 \end{closurestatus}
