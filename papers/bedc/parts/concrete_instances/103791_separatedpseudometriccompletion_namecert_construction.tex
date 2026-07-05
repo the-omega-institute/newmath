@@ -95,14 +95,35 @@ Transport, replay, and provenance do not add a second route. The rows $H,C,K,N$ 
 Since the carrier has no coordinate for any excluded quotient, choice, equality, compactness, completeness, verification, or bridge endpoint, the displayed rows exhaust the obligation-closure package.
 \end{proof}
 
+\begin{theorem}[SeparatedPseudometricCompletion scoped consumer route]
+\label{thm:separated-pseudometric-completion-scope}
+Every accepted $\SeparatedPseudometricCompletionUp$ packet
+$$
+A=(P,Z,Q,M,S,R,D,E,H,C,K,N)
+$$
+that is consumed by an L10 completion reader must expose $P,Z,Q,M,S,R,D,E,H,C,K,N$ in that order. The row $P$ is anchored in $\PseudometricUp$; $Z,Q$ are anchored in separated zero-distance classification; $M$ is anchored in $\MetricCompletionUp$; $S,R,D,E$ are anchored in $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, and $\RealUp$; and $H,C,K,N$ are anchored in $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$. The route exports no quotient primitive, host equality, selected representative, selected limit, countable choice, trichotomy, open-cover compactness, ambient $\RealUp$ completeness, Lean verification, or bridge checking.
+\end{theorem}
+\begin{proof}
+Begin with the NameCert obligations of \autoref{thm:separated-pseudometric-completion-namecert-obligations}. They identify the accepted carrier rows as the source pseudometric packet, zero-distance row, separated classifier output, completion handoff, finite windows, regular rational readback, dyadic ledger, Real seal, transport, replay, provenance, and local name.
+
+Next apply the completion-route theorem. By \autoref{thm:separated-pseudometric-completion-completion-route}, an L10 completion reader cannot pass directly from the source pseudometric row to completion equality. It must read $P$, then the zero-distance evidence $Z$, then the separated classifier output $Q$, and only then the completion handoff $M$.
+
+The numerical readback is the ordered block $S,R,D,E$. The finite-window row is exposed before regular rational readback, the dyadic ledger controls the tolerance comparison, and the $\RealUp$ seal is reached only after those rows have been displayed.
+
+Finally use the obligation-closure package of \autoref{thm:separated-pseudometric-completion-obligation-closure-package}. The rows $H,C,K,N$ transport, replay, source, and name the same finite route, so they do not create an additional completion path.
+
+The refusal clauses are carrier-local. None of the excluded quotient, equality, selection, choice, order, compactness, completeness, verification, or bridge objects occurs among $P,Z,Q,M,S,R,D,E,H,C,K,N$, hence none can be exported by an accepted L10 completion consumer.
+\end{proof}
+
 \closureat{SeparatedPseudometricCompletionUp}{obligationStr}
+\closureat{SeparatedPseudometricCompletionUp}{scopedStr}[thm:separated-pseudometric-completion-scope]
 
 \begin{closurestatus}{\SeparatedPseudometricCompletionUp}
   \constructivestory{A $\SeparatedPseudometricCompletionUp$ packet is generated from a source $\PseudometricUp$ packet, displayed zero-distance evidence, a $\SeparatedQuotientMetricUp$ classifier output, a $\MetricCompletionUp$ handoff, $\StreamNameUp$ windows, $\RegSeqRatUp$ readback, a $\DyadicRatCoreUp$ ledger, a $\RealUp$ seal, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and a local $\NameCert$ row.}
-  \theoryclosure{\obligationClosure}
-  \scopeclosed{\autoref{thm:separated-pseudometric-completion-obligation-closure-package} binds carrier admission, zero-distance separation, completion handoff, numerical readback ordering, transport and replay stability, provenance exactness, and non-escape for the L10 route from pre-separated pseudometric evidence through separated classification into metric completion.}
+  \theoryclosure{\scopedClosure}
+  \scopeclosed{\autoref{thm:separated-pseudometric-completion-scope} binds the scoped L10 consumer route over $P,Z,Q,M,S,R,D,E,H,C,K,N$ from pre-separated pseudometric evidence through separated classification into metric completion.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{This chapter does not close quotient primitives, host equality, selected representatives, selected limits, countable choice, trichotomy, open-cover compactness, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
-  \upgradepath{Scoped closure requires a kernel-scoped consumer route for the same pseudometric, zero-distance, separated classifier, completion handoff, finite-window, regular-readback, dyadic-ledger, Real-seal, transport, replay, provenance, and local NameCert rows.}
+  \upgradepath{Public closure requires an exported separated-completion NameCert theorem for downstream L10 completion consumers.}
 \end{closurestatus}
