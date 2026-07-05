@@ -47,6 +47,30 @@ The Cauchy readback rows are downstream. The stream row $S$ opens the inspected 
 Finally the Real seal $E$ and the structural rows $H,C,P,N$ preserve the same route. Since the carrier contains no field for host subsequence selection, quotient stream equality, selected limits, countable choice, or ambient completeness, the listed rows exhaust the local obligation surface.
 \end{proof}
 
+\begin{theorem}[Compact Cauchy subsequence finite-window monotonicity]
+\label{thm:compact-cauchy-subsequence-finite-window-monotonicity}
+For every accepted $\CompactCauchySubsequenceUp$ carrier $Q=(K,J,S,W,D,R,E,H,C,P,N)$, the selected finite subsequence-window row $W$ is consumed as an increasing finite inspection ledger after the compact source $K$, sequential-window row $J$, and stream row $S$ have been displayed. A later $\RegSeqRatUp$ or $\RealUp$ consumer may extend the inspected window only by appending indices above the previous displayed maximum, and it must keep the dyadic comparison row $D$ and regular readback row $R$ attached to the same increasing window.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:compact-cauchy-subsequence-carrier}. The row $W$ is the only coordinate that stores selected finite indices, so monotonicity is read from that displayed ledger rather than from host subsequence choice.
+
+The source rows $K,J,S$ are already visible before $W$ is consumed. The sequential compactness row $J$ supplies the finite subsequence-window surface, while $S$ identifies the original stream observations to which the inspected indices refer.
+
+Extending the window preserves the route only when the added indices lie above the current displayed maximum. The dyadic row $D$ and regular readback row $R$ are then read over the enlarged finite ledger, so a consumer cannot replace the monotone window by quotient stream equality, countable choice, or a selected infinite subsequence.
+\end{proof}
+
+\begin{theorem}[Compact Cauchy subsequence Real-seal nonescape]
+\label{thm:compact-cauchy-subsequence-real-seal-nonescape}
+For every accepted $\CompactCauchySubsequenceUp$ carrier $Q=(K,J,S,W,D,R,E,H,C,P,N)$, the terminal Real seal $E$ is readable only after the compact source $K$, sequential-window row $J$, stream row $S$, increasing finite window $W$, dyadic tolerance row $D$, and regular readback row $R$ have all been exposed. Thus no $\RealUp$ consumer may read $E$ as an ambient real limit, a selected completion point, or a proof of host completeness detached from the finite subsequence-window route.
+\end{theorem}
+\begin{proof}
+Project the carrier rows. The definition places $E$ after $K,J,S,W,D,R$, and describes it as the terminal $\RealUp$ seal reached only through those displayed rows.
+
+The dyadic and regular-rational rows determine the finite comparison data available to the seal. Since $D$ and $R$ are attached to the same increasing $W$ ledger, the real-name read has no independent coordinate through which it can import a limit object.
+
+The structural rows $H,C,P,N$ preserve that ordering for downstream consumers. Therefore every accepted Real-facing read remains inside the compact-source, sequential-window, stream, finite-window, dyadic, and RegSeqRat route, with no escape to ambient completeness or selected real limits.
+\end{proof}
+
 \closureat{CompactCauchySubsequenceUp}{seedStr}
 
 \begin{closurestatus}{\CompactCauchySubsequenceUp}

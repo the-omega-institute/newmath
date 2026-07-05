@@ -1,0 +1,66 @@
+\chapter{A Concrete Naming Certificate for $\RadonNikodymFiniteWindowUp$}
+\label{ch:concrete-instances-radon-nikodym-finite-window-namecert}
+\origin{human}
+
+Following Halmos on finite measure decompositions and the Radon--Nikodym theorem, the $\RadonNikodymFiniteWindowUp$ packet records the finite density-window surface that sits between theorem-level absolute-continuity data and derivative-density consumers. It sits beside the measure source of \autoref{ch:concrete-instances-measure-namecert}, the integral readback surface of \autoref{ch:concrete-instances-integral-namecert}, the density route of \autoref{ch:concrete-instances-radon-nikodym-namecert}, the derivative-density consumer of \autoref{ch:concrete-instances-radon-nikodym-derivative-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. The packet names a finite BEDC window for displayed density reads; it is not measure completion, quotient almost-everywhere equality, countable choice, an unrestricted density representative, or an ambient integration theorem.
+
+\begin{definition}[Radon--Nikodym finite density-window carrier]
+\label{def:radon-nikodym-finite-window-carrier}
+A $\RadonNikodymFiniteWindowUp$ carrier is a finite $\BHist$ packet
+$$
+F=(M_\mu,M_\nu,A,D,W,I,R,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $M_\mu$ is the base $\MeasureUp$ row whose event surface supplies the reference measure.
+\item $M_\nu$ is the absolutely continuous $\MeasureUp$ row read over the same displayed event surface.
+\item $A$ is the finite absolute-continuity ledger inherited from the $\RadonNikodymUp$ route.
+\item $D$ is the displayed density row admitted by the $\RadonNikodymUp$ packet.
+\item $W$ is the finite density-window ledger: a finite list of inspected events, simple-density pieces, and tolerance cells on which density reads are allowed.
+\item $I$ is the $\IntegralUp$ readback row for the simple-density pieces in $W$.
+\item $R$ is the terminal $\RealUp$ seal for the finitely many displayed integral and measure comparisons.
+\item $H$ records componentwise $\hsame$ transport for the two measure rows, absolute-continuity ledger, density row, window ledger, integral readback, real seal, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from a finite density-window request through $M_\mu,M_\nu,A,D,W,I,R,H,P,N$.
+\item $P$ is the $\Pkg$ provenance over $\RadonNikodymFiniteWindowUp$, $\MeasureUp$, $\IntegralUp$, $\RadonNikodymUp$, $\RadonNikodymDerivativeUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\RadonNikodymFiniteWindowUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through the displayed tuple $M_\mu,M_\nu,A,D,W,I,R,H,C,P,N$. It has no coordinate for measure completion, quotient almost-everywhere equality, unrestricted representative choice, countable choice, hidden derivative selection, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[Radon--Nikodym finite density-window NameCert obligations]
+\label{thm:radon-nikodym-finite-window-namecert-obligations}
+For every accepted $\RadonNikodymFiniteWindowUp$ carrier
+$$
+F=(M_\mu,M_\nu,A,D,W,I,R,H,C,P,N),
+$$
+the local $\NameCert_{\RadonNikodymFiniteWindowUp}$ surface consists exactly of carrier admission for the two displayed $\MeasureUp$ rows, the absolute-continuity ledger, the displayed density row, the finite density-window ledger, $\IntegralUp$ readback, the terminal $\RealUp$ seal, componentwise transport, displayed replay, provenance, and local naming.
+
+Consequently every $\RadonNikodymDerivativeUp$, $\IntegralUp$, $\MeasureUp$, or $\RealUp$ consumer of the packet must read the finite route
+$$
+\MeasureUp \longmapsto \RadonNikodymUp \longmapsto \RadonNikodymFiniteWindowUp \longmapsto \IntegralUp \longmapsto \RealUp
+$$
+through $M_\mu,M_\nu,A,D,W,I,R,H,C,P,N$ before it consumes derivative-facing density data. No consumer may replace the window by measure completion, quotient almost-everywhere equality, a host density representative, countable choice, or an ambient integration theorem.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:radon-nikodym-finite-window-carrier}. The two measure rows expose the reference and absolutely continuous event surfaces, while $A$ and $D$ are read only as the finite absolute-continuity and density rows already routed by $\RadonNikodymUp$.
+
+The window row $W$ is the new finite boundary. It records exactly the inspected events, simple-density pieces, and tolerance cells. The integral row $I$ can therefore read only those displayed pieces, and the real row $R$ seals only the finitely many measure and integral comparisons carried by the same window.
+
+The structural rows $H,C,P,N$ preserve this route for downstream derivative-density consumers. Since the carrier has no coordinate for measure completion, quotient almost-everywhere equality, representative choice, countable choice, hidden derivative selection, or ambient completeness, the listed rows exhaust the local NameCert obligations.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\RadonNikodymFiniteWindowUp$ density read exposes the two Measure rows, absolute-continuity ledger, density row, finite window ledger, Integral readback, Real seal, transport, replay, provenance, and local naming rows before any derivative-facing consumer can inspect it.}
+
+\independenceWitness{measure, integral, radon-nikodym, radon-nikodym-derivative, real: $\RadonNikodymFiniteWindowUp$ is not bijective to any listed sibling because it jointly carries two measure rows, an absolute-continuity ledger, a displayed density row, a finite density-window ledger, Integral readback, Real sealing, transport, replay, provenance, and local naming.}
+
+\closureat{RadonNikodymFiniteWindowUp}{seedStr}
+
+\begin{closurestatus}{\RadonNikodymFiniteWindowUp}
+  \constructivestory{A $\RadonNikodymFiniteWindowUp$ packet is generated from two displayed Measure rows, a RadonNikodym absolute-continuity ledger, a displayed density row, a finite density-window ledger, Integral readback, a RealUp seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:radon-nikodym-finite-window-carrier} and \autoref{thm:radon-nikodym-finite-window-namecert-obligations} seed the finite density-window route through MeasureUp, IntegralUp, RadonNikodymUp, RadonNikodymDerivativeUp, and RealUp rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close measure completion, quotient almost-everywhere equality, unrestricted density representatives, countable choice, ambient integration theorems, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, two-measure exposure, absolute-continuity ledger exactness, density-row admission, finite-window monotonicity, Integral readback, Real sealing, transport, replay, provenance, and local naming for BEDC.Derived.RadonNikodymFiniteWindowUp.}
+\end{closurestatus}

@@ -1,0 +1,11 @@
+\begin{theorem}[FieldExt sibling dependency route]
+\label{thm:fieldext-sibling-dependency-route}
+Every accepted $\FieldExtUp$ carrier read consumes the displayed $\FieldUp$, $\VecSpaceUp$, $\ModuleUp$, and $\PolynomialUp$ sibling rows before any extension read is public. The two field endpoints supply the base and ambient operation tables, the vector-space row supplies scalar action over the base, the module row supplies the additive scalar-action fragment, and the polynomial row supplies the finite algebraic-read boundary used by extension-facing consumers. A downstream read that omits one of these rows is not reading the accepted $\FieldExtUp$ packet.
+\end{theorem}
+\begin{proof}
+Project the displayed FieldExt carrier route. The existing field and vector-space dependency rows expose the base field, ambient field, embedding, and vector-space-over-base coordinates before the local $\NameCert_{\FieldExtUp}$ surface is readable.
+
+The module row is the additive scalar-action fragment of the same vector-space-over-base route. Reading it separately prevents a consumer from treating scalar action as an ambient host operation detached from the displayed $\VecSpaceUp$ packet.
+
+The polynomial row is a sibling algebraic boundary for finite extension-facing reads. It can be consumed only after the field endpoints and scalar-action rows are visible, so extension consumers receive a horizontal lattice of Field, VecSpace, Module, Polynomial, and local FieldExt rows rather than a hidden tower object.
+\end{proof}
