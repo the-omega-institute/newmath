@@ -1170,6 +1170,7 @@ import BEDC.Derived.BishopLocatedRealFilterUp.TasteGate
 import BEDC.Derived.BishopLocatedRealFunctionUp
 import BEDC.Derived.BishopLocatedRealSequenceCalibrationUp
 import BEDC.Derived.BishopLocatedRealUp.TasteGate
+import BEDC.Derived.BishopLocatedRootUniquenessUp
 import BEDC.Derived.BishopLocatedRootUp.TasteGate
 import BEDC.Derived.BishopLocatedSequenceUp.TasteGate
 import BEDC.Derived.BishopLocatedUniformConvergenceUp.TasteGate
@@ -13168,6 +13169,7 @@ import BEDC.Derived.SymplecticUp
 import BEDC.Derived.SymplecticUp.LedgerExactnessObligation
 import BEDC.Derived.SynchronizationCertificateUp.Locality
 import BEDC.Derived.SynchronizationCertificateUp.TasteGate
+import BEDC.Derived.SynonymousTransitionUp.TasteGate
 import BEDC.Derived.SyntacticMonoidUp.TasteGate
 import BEDC.Derived.SystemFUp.TasteGate
 import BEDC.Derived.TZeroReflectionUp.TasteGate
