@@ -31,7 +31,7 @@ theorem phiPow_ab (n : ℕ) :
     obtain ⟨iha, ihb⟩ := ih
     have hb : (phiPow (k + 1)).b = (Nat.fib (k + 1) : ℤ) := by
       simp only [phiPow, mul_b, phi_a, phi_b, iha, ihb]
-      push_cast; ring
+      ring
     have ha : (phiPow (k + 1)).a = (Nat.fib (k + 2) : ℤ) - Nat.fib (k + 1) := by
       simp only [phiPow, mul_a, phi_a, phi_b, iha, ihb]
       have : Nat.fib (k + 2) = Nat.fib k + Nat.fib (k + 1) := Nat.fib_add_two
