@@ -341,4 +341,25 @@ theorem MetaCICIdentity_generator_recursor_coverage
     ⟨rfl, recursorReadUnary, namedReadUnary, sameRecursorRead, sameNamedRead,
       metaCICIdentity_round_trip (MetaCICIdentityUp.mk G E R A B H C P N)⟩
 
+theorem MetaCICIdentity_comparison_secondary
+    {G E R A B H C P N comparisonRead diagnosticRead : BHist} :
+    UnaryHistory G -> UnaryHistory B -> UnaryHistory P -> UnaryHistory N ->
+      Cont G B comparisonRead -> Cont P N diagnosticRead ->
+        metaCICIdentityFields (MetaCICIdentityUp.mk G E R A B H C P N) =
+            [G, E, R, A, B, H, C, P, N] ∧
+          UnaryHistory comparisonRead ∧ UnaryHistory diagnosticRead ∧
+            hsame comparisonRead (append G B) ∧ hsame diagnosticRead (append P N) ∧
+              metaCICIdentityFromEventFlow
+                  (metaCICIdentityToEventFlow (MetaCICIdentityUp.mk G E R A B H C P N)) =
+                some (MetaCICIdentityUp.mk G E R A B H C P N) := by
+  -- BEDC touchpoint anchor: BHist BMark Cont hsame UnaryHistory MetaCICIdentityUp
+  intro generatorUnary boundaryUnary provenanceUnary nameUnary comparisonRoute diagnosticRoute
+  have comparisonUnary : UnaryHistory comparisonRead :=
+    unary_cont_closed generatorUnary boundaryUnary comparisonRoute
+  have diagnosticUnary : UnaryHistory diagnosticRead :=
+    unary_cont_closed provenanceUnary nameUnary diagnosticRoute
+  exact
+    ⟨rfl, comparisonUnary, diagnosticUnary, comparisonRoute, diagnosticRoute,
+      metaCICIdentity_round_trip (MetaCICIdentityUp.mk G E R A B H C P N)⟩
+
 end BEDC.Derived.MetaCICIdentityUp
