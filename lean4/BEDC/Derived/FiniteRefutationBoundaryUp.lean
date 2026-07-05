@@ -133,4 +133,72 @@ theorem FiniteRefutationBoundary_vision_concretization [AskSetup] [PackageSetup]
       (botR := botR) packet hpacket refutationReplay transportReplay terminalReadback
   exact ⟨obligations.left, groundLoop.right.left, groundLoop.left⟩
 
+theorem FiniteRefutationBoundary_decision_row_scope [AskSetup] [PackageSetup]
+    {decision witness audit boundary replay provenance localName readback packageRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    UnaryHistory decision ->
+      UnaryHistory witness ->
+        UnaryHistory audit ->
+          UnaryHistory boundary ->
+            UnaryHistory replay ->
+              UnaryHistory provenance ->
+                UnaryHistory localName ->
+                  Cont decision witness readback ->
+                    Cont provenance localName packageRead ->
+                      PkgSig bundle packageRead pkg ->
+                        SemanticNameCert
+                            (fun row : BHist => hsame row readback ∧ UnaryHistory row)
+                            (fun row : BHist =>
+                              hsame row decision ∨ hsame row witness ∨ hsame row audit ∨
+                                hsame row boundary ∨ hsame row readback ∨ hsame row packageRead)
+                            (fun row : BHist =>
+                              UnaryHistory row ∧ Cont decision witness readback ∧
+                                PkgSig bundle packageRead pkg)
+                            hsame ∧
+                          UnaryHistory readback ∧ UnaryHistory packageRead := by
+  -- BEDC touchpoint anchor: BHist BMark ProbeBundle Pkg Cont hsame SemanticNameCert UnaryHistory
+  intro decisionUnary witnessUnary _auditUnary _boundaryUnary _replayUnary provenanceUnary
+    localNameUnary decisionRead packageRoute packageSig
+  have readbackUnary : UnaryHistory readback :=
+    unary_cont_closed decisionUnary witnessUnary decisionRead
+  have packageReadUnary : UnaryHistory packageRead :=
+    unary_cont_closed provenanceUnary localNameUnary packageRoute
+  have sourceReadback :
+      (fun row : BHist => hsame row readback ∧ UnaryHistory row) readback := by
+    exact ⟨hsame_refl readback, readbackUnary⟩
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => hsame row readback ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row decision ∨ hsame row witness ∨ hsame row audit ∨
+              hsame row boundary ∨ hsame row readback ∨ hsame row packageRead)
+          (fun row : BHist =>
+            UnaryHistory row ∧ Cont decision witness readback ∧ PkgSig bundle packageRead pkg)
+          hsame := {
+    core := {
+      carrier_inhabited := Exists.intro readback sourceReadback
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        exact
+          ⟨hsame_trans (hsame_symm sameRows) source.left,
+            unary_transport source.right sameRows⟩
+    }
+    pattern_sound := by
+      intro _row source
+      exact Or.inr (Or.inr (Or.inr (Or.inr (Or.inl source.left))))
+    ledger_sound := by
+      intro _row source
+      exact ⟨source.right, decisionRead, packageSig⟩
+  }
+  exact ⟨cert, readbackUnary, packageReadUnary⟩
+
 end BEDC.Derived.FiniteRefutationBoundaryUp
