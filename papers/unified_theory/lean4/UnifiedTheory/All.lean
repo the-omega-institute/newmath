@@ -7,4 +7,5 @@ import UnifiedTheory.Arithmetic.Zeckendorf
 import UnifiedTheory.PZG.Carrier
 import UnifiedTheory.PZG.Decode
 import UnifiedTheory.PZG.Normalize
+import UnifiedTheory.Golden.PhiInt
 import UnifiedTheory.Kernel.LedgerStatus
