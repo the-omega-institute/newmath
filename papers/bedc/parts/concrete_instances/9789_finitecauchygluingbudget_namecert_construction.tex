@@ -215,6 +215,26 @@ Use synchronizer-window exactness \autoref{thm:finite-cauchy-gluing-budget-synch
 Finally apply the Real-seal handoff theorem \autoref{thm:finite-cauchy-gluing-budget-real-seal-handoff} and nonescape \autoref{thm:finite-cauchy-gluing-budget-nonescape}. A $\RealUp$-facing induction reaches $R$ only through the displayed $S,K,U,D,V$ route, so changing $S$ or $K$ exits the accepted classifier route rather than preserving the same packet.
 \end{proof}
 
+\begin{theorem}[Finite Cauchy gluing-budget ledger induction]
+\label{thm:finite-cauchy-gluing-budget-induction}
+Every accepted $\FiniteCauchyGluingBudgetUp$ packet
+$$
+B=(G,L,T,S,K,U,V,D,R,H,C,P,N)
+$$
+is obtained by induction over the displayed finite witness-ledger rows. The base case is the initial Cauchy witness envelope read through $G,L,T$ inside the same $\BHist$ packet. The step case appends one synchronized tail-budget row by preserving $L,T$ through $S$, then exposing $U,D,V$ under componentwise $\hsame$ transport and displayed $\Cont$ replay. The terminal case hands the resulting finite route to the $\RealCompletionSealClassifierUp$ row $K$ and then to the terminal $\RealUp$ seal $R$, with $\Pkg$ provenance and the local $\NameCert_{\FiniteCauchyGluingBudgetUp}$ row still visible.
+
+The induction exports only the finite carrier rows of \autoref{def:finite-cauchy-gluing-budget-carrier}; it does not use quotient completion, selected limits, host real equality, countable choice, or ambient completeness.
+\end{theorem}
+\begin{proof}
+For the base case, project the carrier. The rows $G,L,T$ display the witness-gluing route, the witness ledger, and the initial tail envelope as entries of one $\BHist$ packet, so the first envelope is already a local carrier row rather than an external completion witness.
+
+For the step case, use synchronizer-window exactness and the tail synchronizer theorem. A new finite tail-budget row can be attached only through $S$ while preserving the same $L,T$ side of the packet; the downstream rows $U,D,V$ are then read through componentwise $\hsame$ transport and displayed $\Cont$ replay, with $P$ and $N$ naming the same route.
+
+For the terminal case, apply route exactness, common tail, and the Real-seal handoff. These results force the completed finite ledger route through $K$ before the terminal seal $R$ is public, and they keep the $\Pkg$ and $\NameCert$ rows visible at the handoff.
+
+Finally apply nonescape. Since quotient completion, selected limits, host real equality, countable choice, and ambient completeness are not carrier coordinates, the induction is entirely over the displayed finite ledger rows of $B$.
+\end{proof}
+
 \falsifiablePrediction{If the finite gluing-budget packet is accepted, a consumer preserving the witness ledger and tail envelope but changing the synchronizer row is rejected by the classifier.}
 
 \independenceWitness{cauchywitnessgluing, cauchywitnessledger, cauchytailwitnessenvelope, cauchysealbudgetsynchronizer, realcompletionsealclassifier: none is bijective because each sibling omits at least one of the gluing route, witness ledger, tail envelope, synchronizer, completion-seal classifier, StreamName, RegSeqRat, DyadicRatCore, RealUp, hsame, Cont, Pkg, and NameCert rows required by this finite budget packet.}
