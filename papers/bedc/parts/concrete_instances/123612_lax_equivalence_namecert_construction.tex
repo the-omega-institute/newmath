@@ -1,0 +1,83 @@
+\chapter{A Concrete Naming Certificate for $\LaxEquivalenceUp$}
+\label{ch:concrete-instances-lax-equivalence-namecert}
+\origin{human}
+
+Following Lax and Richtmyer's equivalence theorem for well-posed linear initial-value problems, the $\LaxEquivalenceUp$ packet records the finite BEDC surface where consistency and stability rows make convergence available only as a displayed certificate route. It reads finite stencils from \autoref{ch:concrete-instances-finite-difference-namecert}, PDE source rows from \autoref{ch:concrete-instances-pde-namecert}, real endpoint seals from \autoref{ch:concrete-instances-real-namecert}, and metric or normed comparison rows from \autoref{ch:concrete-instances-metric-namecert} and \autoref{ch:concrete-instances-normedspace-namecert}. The chapter names the Lax--Richtmyer route as finite NameCert data; it does not claim a host analytic solution, an unbounded solver theorem, quotient function equality, selected mesh limit, or ambient $\RealUp$ completeness.
+
+\begin{definition}[Lax equivalence carrier]
+\label{def:lax-equivalence-carrier}
+A $\LaxEquivalenceUp$ carrier is a finite $\BHist$ packet
+$$
+L=(S,C,T,V,M,P_0,R,D,H,Q,G,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the finite-difference scheme row, listing the displayed stencil, time-step row, space-mesh row, update table, and initial-data readback consumed from $\FiniteDifferenceUp$.
+\item $C$ is the consistency row, recording that the displayed scheme row approximates the displayed $\PdeUp$ source row on the named finite mesh windows.
+\item $T$ is the stability row, carrying the finite norm or metric bound used by the scheme row on the displayed mesh levels.
+\item $V$ is the convergence row, available only after $C$ and $T$ are both exposed over the same source, mesh, endpoint, and comparison rows.
+\item $M$ is the mesh and refinement row, naming grid levels, refinement maps, boundary windows, and endpoint reuse schedules.
+\item $P_0$ is the PDE source row, read from the carried $\PdeUp$ relation, boundary data, and derivative endpoint rows.
+\item $R$ is the $\RealUp$ endpoint row for numerical values, tolerances, error budgets, and convergence witnesses.
+\item $D$ is the $\MetricUp$, $\MetricSpaceUp$, or $\NormedSpaceUp$ comparison row used to read stability and convergence bounds.
+\item $H$ records componentwise $\hsame$ transport for $S,C,T,V,M,P_0,R,D,Q,G,N$.
+\item $Q$ records displayed $\Cont$ replay from scheme, consistency, stability, mesh, PDE source, endpoint, and comparison reads through the same carrier.
+\item $G$ is the $\Pkg$ provenance over $\LaxEquivalenceUp$, $\FiniteDifferenceUp$, $\PdeUp$, $\RealUp$, $\MetricUp$, $\MetricSpaceUp$, $\NormedSpaceUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\LaxEquivalenceUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through these rows. It has no coordinate for an ambient solution operator, host analytic well-posedness theorem, quotient function equality, selected limiting mesh function, hidden norm completion, or solver-side convergence oracle.
+\end{definition}
+
+\begin{theorem}[Lax equivalence NameCert obligations]
+\label{thm:lax-equivalence-namecert-obligations}
+For every accepted $\LaxEquivalenceUp$ carrier
+$$
+L=(S,C,T,V,M,P_0,R,D,H,Q,G,N),
+$$
+the local $\NameCert_{\LaxEquivalenceUp}$ surface consists exactly of finite-difference scheme admission, consistency exposure, stability exposure, convergence exposure, mesh and refinement exposure, PDE source exposure, Real endpoint sealing, Metric or Normed comparison, componentwise transport, displayed replay, provenance, and local naming through $S,C,T,V,M,P_0,R,D,H,Q,G,N$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:lax-equivalence-carrier}. The finite-difference row $S$ and mesh row $M$ are the only places where stencils, time steps, space grids, update tables, boundary windows, and refinement maps are read.
+
+The consistency row $C$ is tied to the PDE source row $P_0$, while the stability row $T$ is tied to the comparison row $D$. These rows remain visible before any convergence row can be consumed.
+
+The Real endpoint row $R$ seals tolerances, numerical values, and error budgets. The convergence row $V$ is therefore downstream of the displayed scheme, consistency, stability, mesh, PDE source, endpoint, and comparison rows.
+
+Finally $H,Q,G,N$ transport, replay, source, and name the same packet. Since no excluded analytic endpoint appears as a carrier coordinate, the listed rows exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[Lax equivalence finite-difference route]
+\label{thm:lax-equivalence-finite-difference-route}
+Every convergence-facing consumer of an accepted $\LaxEquivalenceUp$ packet must read the finite route
+$$
+\FiniteDifferenceUp,\ \PdeUp,\ \RealUp,\ \MetricUp,\ \MetricSpaceUp,\ \NormedSpaceUp
+\longmapsto
+S,C,T,V,M,P_0,R,D,H,Q,G,N
+$$
+before it may consume the Lax--Richtmyer handoff. The route permits convergence only as the carrier-local combination of displayed consistency and stability rows over the same mesh, PDE source, endpoint, and comparison data. It exports no host solution theorem, unrestricted well-posedness theorem, quotient function equality, selected mesh limit, hidden completion principle, or solver-side convergence oracle.
+\end{theorem}
+\begin{proof}
+Begin with the finite-difference and PDE source rows. The scheme row $S$ is read through the finite stencil surface of $\FiniteDifferenceUp$, and the source row $P_0$ is read through the carried relation and boundary rows of $\PdeUp$.
+
+Next expose consistency and stability. The consistency row $C$ compares only the displayed scheme and PDE rows on the mesh row $M$, while the stability row $T$ reads its bound through the Metric or Normed comparison row $D$ and the Real endpoint row $R$.
+
+Only after those rows are visible may the convergence row $V$ be consumed. Componentwise transport $H$ and replay $Q$ preserve the same route, and provenance $G$ with local naming $N$ records that the packet remains carrier-local.
+
+Thus the Lax--Richtmyer handoff is a finite BEDC route from consistency and stability to convergence over displayed rows. None of the refused host analytic, quotient, completion, selected-limit, or solver-side endpoints is introduced.
+\end{proof}
+
+\falsifiablePrediction{An accepted $\LaxEquivalenceUp$ consumer that reads convergence without first displaying the finite-difference scheme row, consistency row, stability row, mesh and refinement row, PDE source row, Real endpoint row, Metric or Normed comparison row, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ row refutes the packet.}
+
+\independenceWitness{finite-difference, PDE, Real, Metric, Normed: no listed sibling supplies the joint Lax--Richtmyer packet $L=(S,C,T,V,M,P_0,R,D,H,Q,G,N)$, because stencil rows, PDE source rows, endpoint seals, and comparison bounds become convergence-facing only when consistency, stability, transport, replay, provenance, and local naming are bound in the same carrier.}
+
+\closureat{LaxEquivalenceUp}{seedStr}
+
+\begin{closurestatus}{\LaxEquivalenceUp}
+  \constructivestory{A $\LaxEquivalenceUp$ packet is generated from finite-difference scheme rows, consistency rows, stability rows, convergence rows, mesh and refinement rows, PDE source rows, Real endpoint rows, Metric or Normed comparison rows, componentwise hsame transport, Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:lax-equivalence-carrier}, \autoref{thm:lax-equivalence-namecert-obligations}, and \autoref{thm:lax-equivalence-finite-difference-route} seed the finite Lax--Richtmyer route from displayed consistency and stability rows to convergence over finite-difference, PDE, Real, Metric, and Normed sibling data.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close host analytic well-posedness, unrestricted solution existence, quotient function equality, selected mesh limits, hidden norm completion, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked finite-difference scheme admission, consistency exposure, stability exposure, convergence exposure, mesh and refinement exposure, PDE source exposure, Real endpoint sealing, Metric or Normed comparison, transport, replay, provenance, and local naming for BEDC.Derived.LaxEquivalenceUp.}
+\end{closurestatus}
