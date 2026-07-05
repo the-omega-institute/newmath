@@ -100,6 +100,35 @@ theorem CompileFrontierWitness_boundary_exactness [AskSetup] [PackageSetup]
   exact
     ⟨boundaryReadUnary, boundaryRoute, exitReadUnary, exitRoute, provenancePkg, namePkg⟩
 
+theorem CompileFrontierWitnessCarrier_admitted_rows [AskSetup] [PackageSetup]
+    {F T S A B H C P N auditRead boundaryRead exitRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CompileFrontierWitnessCarrier F T S A B H C P N bundle pkg ->
+      Cont S A auditRead ->
+        Cont auditRead B boundaryRead ->
+          Cont boundaryRead C exitRead ->
+            UnaryHistory F ∧ UnaryHistory T ∧ UnaryHistory S ∧ UnaryHistory A ∧
+              UnaryHistory B ∧ UnaryHistory H ∧ UnaryHistory C ∧ UnaryHistory P ∧
+                UnaryHistory N ∧ UnaryHistory auditRead ∧ UnaryHistory boundaryRead ∧
+                  UnaryHistory exitRead ∧ hsame auditRead (append S A) ∧
+                    hsame boundaryRead (append auditRead B) ∧
+                      hsame exitRead (append boundaryRead C) ∧
+                        PkgSig bundle P pkg ∧ PkgSig bundle N pkg := by
+  -- BEDC touchpoint anchor: CompileFrontierWitnessCarrier BHist Cont PkgSig hsame
+  intro carrier auditRoute boundaryRoute exitRoute
+  obtain ⟨fUnary, tUnary, sUnary, aUnary, bUnary, hUnary, cUnary, pUnary, nUnary,
+    provenancePkg, namePkg⟩ := carrier
+  have auditReadUnary : UnaryHistory auditRead :=
+    unary_cont_closed sUnary aUnary auditRoute
+  have boundaryReadUnary : UnaryHistory boundaryRead :=
+    unary_cont_closed auditReadUnary bUnary boundaryRoute
+  have exitReadUnary : UnaryHistory exitRead :=
+    unary_cont_closed boundaryReadUnary cUnary exitRoute
+  exact
+    ⟨fUnary, tUnary, sUnary, aUnary, bUnary, hUnary, cUnary, pUnary, nUnary,
+      auditReadUnary, boundaryReadUnary, exitReadUnary, auditRoute, boundaryRoute,
+      exitRoute, provenancePkg, namePkg⟩
+
 theorem CompileFrontierWitness_consumer_nonescape [AskSetup] [PackageSetup]
     {F T S A B H C P N auditRead boundaryRead cellularRead obstructionRead
       consumerRead : BHist}
