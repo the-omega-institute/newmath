@@ -1,0 +1,74 @@
+\chapter{A Concrete Naming Certificate for $\RegularCauchyTailDiagonalUp$}
+\label{ch:concrete-instances-regular-cauchy-tail-diagonal-namecert}
+\origin{human}
+
+Following Bishop and Bridges, the $\RegularCauchyTailDiagonalUp$ packet records the choice-free tail diagonal route used to compare regular Cauchy readbacks through finite stream windows. It sits over the finite $\StreamNameUp$ windows of \autoref{ch:concrete-instances-streamname-namecert}, the dyadic tolerance rows of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}, and the sibling diagonal packet of \autoref{ch:concrete-instances-regular-cauchy-subsequence-diagonal-namecert}. The packet names a displayed tail schedule and its finite readback; it is not countable choice, quotient equality of streams, a host-selected subsequence, or ambient $\RealUp$ completeness.
+
+\begin{definition}[Regular Cauchy tail diagonal carrier]
+\label{def:regular-cauchy-tail-diagonal-carrier}
+A $\RegularCauchyTailDiagonalUp$ carrier is a finite $\BHist$ packet
+$$
+T=(S,W,D,R,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the tail schedule row, listing the finite tail indices and diagonal requests already available to the packet.
+\item $W$ is the $\StreamNameUp$ finite-window row inspected along the schedule $S$.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance ledger, assigning each scheduled request its dyadic comparison budget.
+\item $R$ is the $\RegSeqRatUp$ readback row obtained from the displayed windows and dyadic tolerances.
+\item $E$ is the $\RealUp$ seal row reached only after $S,W,D,R$ have been displayed.
+\item $H$ records componentwise $\hsame$ transport for the tail schedule, stream windows, dyadic tolerances, regular readback, real seal, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay of the route
+$$
+S,W,D \longmapsto R \longmapsto E .
+$$
+\item $P$ is the $\Pkg$ provenance over $\RegularCauchyTailDiagonalUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, $\RealUp$, $\RegularCauchySubsequenceDiagonalUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\RegularCauchyTailDiagonalUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets exactly through $S,W,D,R,E,H,C,P,N$. It has no coordinate for countable choice, selected host tails, quotient stream equality, detached real equality, or ambient completeness.
+\end{definition}
+
+\begin{theorem}[Regular Cauchy tail diagonal NameCert obligations]
+\label{thm:regular-cauchy-tail-diagonal-namecert-obligations}
+For every accepted $\RegularCauchyTailDiagonalUp$ carrier $T=(S,W,D,R,E,H,C,P,N)$, the local $\NameCert_{\RegularCauchyTailDiagonalUp}$ surface consists exactly of carrier admission for the nine displayed rows; finite tail scheduling through $S$; StreamName window exposure through $W$; DyadicRatCore tolerance comparison through $D$; RegSeqRat readback through $R$; Real seal handoff through $E$; componentwise $\hsame$ transport through $H$; displayed $\Cont$ replay through $C$; package provenance through $P$; and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:regular-cauchy-tail-diagonal-carrier}. The tail schedule row $S$ is the only scheduling input, so every diagonal read starts from a finite list of tail requests already displayed in the packet.
+
+Read the analytic rows next. The $\StreamNameUp$ windows $W$ are inspected under the dyadic tolerance ledger $D$, and the regular rational readback $R$ is downstream of those two finite rows.
+
+The terminal row $E$ is therefore a seal, not a source of completeness. It is reached only after the schedule, windows, tolerances, and regular readback have been named.
+
+Finally $H,C,P,N$ transport, replay, source, and name the same finite route. Since the carrier has no coordinate for countable choice, quotient stream equality, selected host tails, detached real equality, or ambient completeness, the listed rows exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[Regular Cauchy tail diagonal choice-free route]
+\label{thm:regular-cauchy-tail-diagonal-choice-free-route}
+Every $\RealUp$-facing read from an accepted $\RegularCauchyTailDiagonalUp$ carrier factors through
+$$
+S,W,D,R,E,H,C,P,N .
+$$
+The tail diagonal route is choice-free: the finite schedule is read before the StreamName windows, the dyadic tolerance ledger is read before the RegSeqRat handoff, and the Real seal is downstream of that readback. No consumer receives a host tail selector, quotient representative of a stream, ambient real-completeness proof, or unlisted subsequence choice.
+\end{theorem}
+\begin{proof}
+Begin with the NameCert obligations of \autoref{thm:regular-cauchy-tail-diagonal-namecert-obligations}. They place the finite tail schedule $S$, StreamName windows $W$, and DyadicRatCore tolerance ledger $D$ before any regular rational readback can be consumed.
+
+The readback row $R$ is therefore the only route to the terminal $\RealUp$ seal $E$. A consumer reaches the seal after the displayed finite rows have been replayed through $C$.
+
+Use the sibling discipline of \autoref{ch:concrete-instances-regular-cauchy-subsequence-diagonal-namecert} only as a provenance anchor through $P$. The sibling route names a subsequence-facing diagonal packet, while this packet keeps the tail-facing schedule internal to $S$.
+
+The excluded objects are absent from the carrier. Thus every accepted read remains inside the displayed finite route and cannot be retyped as countable choice, quotient stream equality, host tail selection, or ambient $\RealUp$ completeness.
+\end{proof}
+\leanstmt{BEDC.Derived.RegularCauchyTailDiagonalUp}
+
+\closureat{RegularCauchyTailDiagonalUp}{seedStr}
+
+\begin{closurestatus}{\RegularCauchyTailDiagonalUp}
+  \constructivestory{A $\RegularCauchyTailDiagonalUp$ packet is generated from a finite tail schedule, StreamName windows, DyadicRatCore tolerances, RegSeqRat readback, a RealUp seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:regular-cauchy-tail-diagonal-carrier}, \autoref{thm:regular-cauchy-tail-diagonal-namecert-obligations}, and \autoref{thm:regular-cauchy-tail-diagonal-choice-free-route} seed the finite tail diagonal route from displayed windows and dyadic tolerances to a Real-facing seal.}
+  \formalstatus{\formalTargetV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close countable choice, host-selected tails, quotient stream equality, detached real equality, ambient $\RealUp$ completeness, checked Lean obligations, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, finite tail schedule exactness, StreamName window coverage, DyadicRatCore tolerance comparison, RegSeqRat readback, Real seal handoff, transport, replay, provenance, and local naming for BEDC.Derived.RegularCauchyTailDiagonalUp.}
+\end{closurestatus}

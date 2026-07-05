@@ -178,6 +178,18 @@ Use common-exponent normalization, \autoref{thm:dyadic-up-common-exponent-normal
 Finally apply the StreamName-RegSeqRat route of \autoref{thm:dyadic-up-streamname-regseqrat-route} and the real-seal factorization of \autoref{thm:dyadic-up-real-seal-factorization}. The shared consumer reaches the terminal Real seals only after the finite common window is visible, and no carrier row supplies a selected binary expansion, quotient stream, trichotomy, choice principle, host equality, or ambient Real-completeness witness.
 \end{proof}
 
+\begin{theorem}[Dyadic common-exponent canonical window]
+\label{thm:dyadic-common-exponent-canonical-window}
+Any two accepted $\DyadicUp$ packets read by the same $\RealUp$ or $\RegSeqRatUp$ consumer admit a shared finite exponent window whose mantissa scaling rows, dyadic tolerance scale, componentwise $\hsame$ transport, displayed $\Cont$ replay, and $\Pkg$ provenance are stable under the $\DyadicUp$ classifier. The canonical window is read before either terminal Real seal or regular rational readback is used, and it exports no selected binary expansion, quotient stream equality, trichotomy branch, countable-choice schedule, host equality, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Start with common-exponent totality, \autoref{thm:dyadic-common-exponent-totality}. It determines a common exponent and tolerance window from the two dyadic core rows, finite stream windows, regular rational readbacks, transport, replay, provenance, and local naming rows.
+
+Next apply the common-window tail envelope of \autoref{thm:dyadic-up-common-window-tail-envelope}. The shared tail envelope is the finite window in which the two mantissa scaling rows and the dyadic tolerance scale are compared before any terminal row is visible.
+
+Finally use the Real-RegSeqRat common-window readback theorem \autoref{thm:dyadic-up-real-regseqrat-common-window-readback}. It keeps both regular rational readbacks and both Real seals downstream of the same finite window, so classifier transport, replay, and provenance preserve the canonical window without importing quotient or choice data.
+\end{proof}
+
 \begin{theorem}[DyadicUp common-window tail envelope]
 \label{thm:dyadic-up-common-window-tail-envelope}
 Let $D_0=(Q_0,S_0,R_0,E_0,H_0,C_0,P_0,N_0)$ and $D_1=(Q_1,S_1,R_1,E_1,H_1,C_1,P_1,N_1)$ be accepted $\DyadicUp$ carriers read by one $\StreamNameUp$, $\RegSeqRatUp$, or $\RealUp$ consumer. Then the two reads determine a shared finite tail-envelope window before either terminal $\RealUp$ seal is visible.
