@@ -13080,6 +13080,7 @@ import BEDC.Derived.SubmartingaleUp.StoppingWindowHandoff
 import BEDC.Derived.SubmartingaleUp.TasteGate
 import BEDC.Derived.SubmartingaleUp.UpcrossingLedgerExactness
 import BEDC.Derived.SubnetUp
+import BEDC.Derived.SubnetUp.TasteGate
 import BEDC.Derived.SubordinateFiniteModulusCoverUp.TasteGate
 import BEDC.Derived.SubordinateModulusCoverUp.CompactUniformConsumerBoundary
 import BEDC.Derived.SubordinateModulusCoverUp.FiniteSelectionScope
@@ -13503,6 +13504,7 @@ import BEDC.Derived.UniformBoundednessUp.PublicBoundary
 import BEDC.Derived.UniformBoundednessUp.TasteGate
 import BEDC.Derived.UniformCauchyBicompletionUp.TasteGate
 import BEDC.Derived.UniformCauchyCompletionRealizerUp
+import BEDC.Derived.UniformCauchyCompletionRealizerUp.TasteGate
 import BEDC.Derived.UniformCauchyCompletionUp.TasteGate
 import BEDC.Derived.UniformCauchyCriterionFunctionUp
 import BEDC.Derived.UniformCauchyCriterionUp
