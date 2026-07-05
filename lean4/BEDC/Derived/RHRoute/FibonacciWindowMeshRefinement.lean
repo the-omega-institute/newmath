@@ -57,6 +57,36 @@ theorem window_grows_6 : fib (6 + 2) < fib (6 + 3) := by
 theorem window_grows_7 : fib (7 + 2) < fib (7 + 3) := by
   exact Nat.le.intro (show (fib (7 + 2) + 1) + 20 = fib (7 + 3) by rfl)
 
+theorem mesh_halves_3 : fib (3 + 5) ^ (2 * fib 3) < fib (3 + 2) ^ fib (3 + 3) := by
+  exact Nat.le.intro
+    (show (fib (3 + 5) ^ (2 * fib 3) + 1) + 196143 = fib (3 + 2) ^ fib (3 + 3) by rfl)
+
+theorem mesh_halves_4 : fib (4 + 5) ^ (2 * fib 4) < fib (4 + 2) ^ fib (4 + 3) := by
+  exact Nat.le.intro
+    (show (fib (4 + 5) ^ (2 * fib 4) + 1) + 548211009471 = fib (4 + 2) ^ fib (4 + 3) by rfl)
+
+theorem mesh_halves_5 : fib (5 + 5) ^ (2 * fib 5) < fib (5 + 2) ^ fib (5 + 3) := by
+  exact Nat.le.intro
+    (show (fib (5 + 5) ^ (2 * fib 5) + 1) + 247064275778288273563787 =
+      fib (5 + 2) ^ fib (5 + 3) by rfl)
+
+theorem mesh_halves_6 : fib (6 + 5) ^ (2 * fib 6) < fib (6 + 2) ^ fib (6 + 3) := by
+  exact Nat.le.intro
+    (show (fib (6 + 5) ^ (2 * fib 6) + 1) + 902518308877779694701814924466821275295726519 =
+      fib (6 + 2) ^ fib (6 + 3) by rfl)
+
+theorem mesh_halves_7 : fib (7 + 5) ^ (2 * fib 7) < fib (7 + 2) ^ fib (7 + 3) := by
+  exact Nat.le.intro
+    (show (fib (7 + 5) ^ (2 * fib 7) + 1) +
+      1703493329567268465942478062403647803958821057736322891530469761396530525446831341567 =
+        fib (7 + 2) ^ fib (7 + 3) by rfl)
+
+#print axioms mesh_halves_3
+#print axioms mesh_halves_4
+#print axioms mesh_halves_5
+#print axioms mesh_halves_6
+#print axioms mesh_halves_7
+
 theorem fibonacci_window_mesh_refinement_certificate :
     fib (3 + 3) ^ fib 3 < fib (3 + 2) ^ fib (3 + 1) ∧
       fib (4 + 3) ^ fib 4 < fib (4 + 2) ^ fib (4 + 1) ∧
@@ -67,7 +97,12 @@ theorem fibonacci_window_mesh_refinement_certificate :
       fib (4 + 2) < fib (4 + 3) ∧
       fib (5 + 2) < fib (5 + 3) ∧
       fib (6 + 2) < fib (6 + 3) ∧
-      fib (7 + 2) < fib (7 + 3) := by
+      fib (7 + 2) < fib (7 + 3) ∧
+      fib (3 + 5) ^ (2 * fib 3) < fib (3 + 2) ^ fib (3 + 3) ∧
+      fib (4 + 5) ^ (2 * fib 4) < fib (4 + 2) ^ fib (4 + 3) ∧
+      fib (5 + 5) ^ (2 * fib 5) < fib (5 + 2) ^ fib (5 + 3) ∧
+      fib (6 + 5) ^ (2 * fib 6) < fib (6 + 2) ^ fib (6 + 3) ∧
+      fib (7 + 5) ^ (2 * fib 7) < fib (7 + 2) ^ fib (7 + 3) := by
   exact And.intro mesh_refine_3
     (And.intro mesh_refine_4
       (And.intro mesh_refine_5
@@ -76,6 +111,11 @@ theorem fibonacci_window_mesh_refinement_certificate :
             (And.intro window_grows_3
               (And.intro window_grows_4
                 (And.intro window_grows_5
-                  (And.intro window_grows_6 window_grows_7))))))))
+                  (And.intro window_grows_6
+                    (And.intro window_grows_7
+                      (And.intro mesh_halves_3
+                        (And.intro mesh_halves_4
+                          (And.intro mesh_halves_5
+                            (And.intro mesh_halves_6 mesh_halves_7)))))))))))))
 
 end BEDC.Derived.RHRoute.FibonacciWindowMeshRefinement
