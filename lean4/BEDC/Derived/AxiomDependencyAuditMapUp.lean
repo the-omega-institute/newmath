@@ -253,4 +253,33 @@ theorem AxiomDependencyAuditMapCarrier_witness_required_axiom_exactness [AskSetu
     ⟨wUnary, aUnary, modeUnary, witnessAxiomUnary, modeRoute, witnessAxiomRoute,
       witnessAxiomPkg⟩
 
+theorem AxiomDependencyAuditMapCarrier_witness_ledger_totality [AskSetup] [PackageSetup]
+    {K M W A L H C P N modeRead witnessAxiomRead ledgerRead publicRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    AxiomDependencyAuditMapCarrier K M W A L H C P N bundle pkg →
+      Cont M W modeRead →
+        Cont W A witnessAxiomRead →
+          Cont modeRead L ledgerRead →
+            Cont ledgerRead N publicRead →
+              PkgSig bundle witnessAxiomRead pkg →
+                PkgSig bundle N pkg →
+                  UnaryHistory witnessAxiomRead ∧ UnaryHistory ledgerRead ∧
+                    UnaryHistory publicRead ∧ Cont modeRead L ledgerRead ∧
+                      PkgSig bundle witnessAxiomRead pkg ∧ PkgSig bundle N pkg := by
+  -- BEDC touchpoint anchor: BHist Cont ProbeBundle PkgSig UnaryHistory
+  intro carrier modeRoute witnessAxiomRoute ledgerRoute publicRoute witnessAxiomPkg namePkg
+  obtain ⟨_kUnary, mUnary, wUnary, aUnary, lUnary, _hUnary, _cUnary, _pUnary,
+    nUnary, _claimModeLedger, _ledgerAxiomTransport, _transportConsumerProvenance,
+    _carrierPkg⟩ := carrier
+  have modeUnary : UnaryHistory modeRead :=
+    unary_cont_closed mUnary wUnary modeRoute
+  have witnessAxiomUnary : UnaryHistory witnessAxiomRead :=
+    unary_cont_closed wUnary aUnary witnessAxiomRoute
+  have ledgerUnary : UnaryHistory ledgerRead :=
+    unary_cont_closed modeUnary lUnary ledgerRoute
+  have publicUnary : UnaryHistory publicRead :=
+    unary_cont_closed ledgerUnary nUnary publicRoute
+  exact
+    ⟨witnessAxiomUnary, ledgerUnary, publicUnary, ledgerRoute, witnessAxiomPkg, namePkg⟩
+
 end BEDC.Derived.AxiomDependencyAuditMapUp
