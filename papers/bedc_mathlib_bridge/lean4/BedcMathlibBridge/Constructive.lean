@@ -40,6 +40,7 @@ import BedcMathlibBridge.Constructive.NatFactorialNeZero
 import BedcMathlibBridge.Constructive.NatMulZero
 import BedcMathlibBridge.Constructive.NatMulOne
 import BedcMathlibBridge.Constructive.NatOneMul
+import BedcMathlibBridge.Constructive.NatChooseEqZeroOfLt
 import BedcMathlibBridge.Constructive.NatChooseSuccSucc
 import BedcMathlibBridge.Constructive.NatChooseZeroRight
 import BedcMathlibBridge.Constructive.NatChooseSuccSuccPrime
