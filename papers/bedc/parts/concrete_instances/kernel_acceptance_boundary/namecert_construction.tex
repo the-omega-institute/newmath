@@ -93,6 +93,22 @@ Read the refusal row $F$ from the same carrier. This row keeps forbidden ancestr
 A closed proof trace can therefore consume kernel acceptance only through the displayed boundary packet. The downstream trace replay receives an accepted-declaration row and a refusal row, not a proof of kernel implementation correctness or theorem-name semantics.
 \end{proof}
 
+\begin{theorem}[Kernel acceptance boundary gap-closure forward route]
+\label{thm:kernel-acceptance-boundary-gap-closure-forward-route}
+Every $\GapClosureBoundaryUp$ or gap-audit consumer reading a kernel accepted-declaration boundary must first expose the generated candidate row, classifier stamp, accepted declaration row, environment ledger, replay ledger, axiom-query refusal row, transport row, replay row, provenance row, and local naming row of the $\KernelAcceptanceBoundaryUp$ carrier
+$$
+Q=(G,K,A,E,L,F,H,C,P,N).
+$$
+The route is a forward audit dependency into \autoref{ch:concrete-instances-gapclosureboundary-namecert}: a gap-closure consumer may read kernel acceptance only through the displayed accepted-declaration exposure and replay boundary, not through kernel self-correctness, hidden theorem-name semantics, compiler correctness, hardware trust, or an unstored closure premise.
+\end{theorem}
+\begin{proof}
+Begin with accepted-declaration exposure, \autoref{thm:kernel-acceptance-boundary-accepted-declaration-exposure}. It displays $A$ only together with the generated candidate $G$, classifier stamp $K$, environment ledger $E$, replay ledger $L$, axiom-query refusal row $F$, transport $H$, replay $C$, provenance $P$, and local naming row $N$.
+
+Next use replay nonescape, \autoref{thm:kernel-acceptance-boundary-replay-nonescape}. Any gap-closure or gap-audit consumer that replays the accepted boundary remains inside those same rows and cannot manufacture a theorem from forbidden ancestry, unresolved marker targets, or non-kernel semantic claims.
+
+Finally route the visible boundary into the gap-closure chapter named in the statement. Since the $\GapClosureBoundaryUp$ side consumes displayed source and refusal rows, the kernel acceptance boundary supplies only the accepted-declaration exposure and axiom-query refusal surface; it does not supply kernel self-correctness, compiler correctness, hardware trust, theorem-name semantics, or hidden closure.
+\end{proof}
+
 \begin{theorem}[Kernel acceptance boundary replay nonescape]
 \label{thm:kernel-acceptance-boundary-replay-nonescape}
 Every $\Cont$ replay of a $\KernelAcceptanceBoundaryUp$ packet

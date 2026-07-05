@@ -4957,6 +4957,7 @@ import BEDC.Derived.DependentCodomainClosurePreservationUp.Nonescape
 import BEDC.Derived.DependentCodomainClosurePreservationUp.TasteGate
 import BEDC.Derived.DependentCodomainClosurePreservationUp.Transport
 import BEDC.Derived.DependentCodomainInversionBoundaryUp
+import BEDC.Derived.DependentCodomainInversionBoundaryUp.CodomainScope
 import BEDC.Derived.DependentCodomainInversionBoundaryUp.PublicNonescape
 import BEDC.Derived.DerangementUp
 import BEDC.Derived.DerivativeUp
@@ -9656,6 +9657,7 @@ import BEDC.Derived.ObservationClassifiedSymmetryUp
 import BEDC.Derived.ObservationConservationLedgerUp
 import BEDC.Derived.ObservationCouplingUp
 import BEDC.Derived.ObservationFiberDigestUp.TasteGate
+import BEDC.Derived.ObservationLogicBoundaryUp.AxisSeparation
 import BEDC.Derived.ObservationLogicBoundaryUp.NameCertObligations
 import BEDC.Derived.ObservationLogicBoundaryUp.TasteGate
 import BEDC.Derived.ObservationReflectionHandoffUp.TasteGate
@@ -12845,6 +12847,7 @@ import BEDC.Derived.SorgenfreyLineUp.TasteGate
 import BEDC.Derived.SorgenfreyPlaneUp
 import BEDC.Derived.SorgenfreyPlaneUp.KernelCarrier
 import BEDC.Derived.SpanningTreeUp
+import BEDC.Derived.SparseGridQuadratureUp
 import BEDC.Derived.SpecializationOrderUp.TasteGate
 import BEDC.Derived.SpecializationTopologyUp
 import BEDC.Derived.SpeckerMonotoneBoundaryUp.TasteGate
@@ -13834,6 +13837,7 @@ import BEDC.Derived.UpperDarbouxSumUp
 import BEDC.Derived.UpperDarbouxSumUp.TasteGate
 import BEDC.Derived.UpperHemicontinuityUp.CompactValuedHandoff
 import BEDC.Derived.UpperHemicontinuityUp.TasteGate
+import BEDC.Derived.UpperLowerRealEnclosureUp.TasteGate
 import BEDC.Derived.UpperRealEnvelopeUp.TasteGate
 import BEDC.Derived.UpperRealUp
 import BEDC.Derived.UpperRealUp.ObligationSurface
