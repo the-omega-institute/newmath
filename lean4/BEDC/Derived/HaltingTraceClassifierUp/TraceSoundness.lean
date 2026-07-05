@@ -275,4 +275,53 @@ theorem HaltingTraceClassifier_non_escape [AskSetup] [PackageSetup]
   }
   exact ⟨cert, namedUnary, namedRoute⟩
 
+theorem HaltingTraceClassifier_obligation_closure [AskSetup] [PackageSetup]
+    {M h F R D H C P N halted positiveRead namedRead escaped : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    UnaryHistory M ->
+      UnaryHistory h ->
+        UnaryHistory F ->
+          UnaryHistory R ->
+            UnaryHistory D ->
+              UnaryHistory H ->
+                UnaryHistory C ->
+                  UnaryHistory P ->
+                    UnaryHistory N ->
+                      Cont h F halted ->
+                        Cont R F positiveRead ->
+                          Cont positiveRead D namedRead ->
+                            Cont D escaped namedRead ->
+                              PkgSig bundle P pkg ->
+                                PkgSig bundle N pkg ->
+                                  SemanticNameCert
+                                      (fun row : BHist => hsame row namedRead ∧ UnaryHistory row)
+                                      (fun row : BHist =>
+                                        hsame row M ∨ hsame row h ∨ hsame row F ∨
+                                          hsame row R ∨ hsame row D ∨ hsame row H ∨
+                                            hsame row C ∨ hsame row P ∨ hsame row N ∨
+                                              hsame row namedRead)
+                                      (fun row : BHist =>
+                                        UnaryHistory row ∧ Cont h F halted ∧
+                                          Cont R F positiveRead ∧
+                                            Cont positiveRead D namedRead ∧
+                                              PkgSig bundle P pkg ∧ PkgSig bundle N pkg)
+                                      hsame ∧
+                                    UnaryHistory halted ∧ UnaryHistory positiveRead ∧
+                                      UnaryHistory namedRead := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont PkgSig hsame SemanticNameCert UnaryHistory
+  intro unaryM unaryh unaryF unaryR unaryD unaryH unaryC unaryP unaryN traceRoute
+    positiveRoute namedRoute escapeRoute pkgP pkgN
+  have positiveSurface :=
+    HaltingTraceClassifier_positive_trace_soundness unaryM unaryh unaryF unaryR unaryD
+      unaryH unaryC unaryP unaryN traceRoute positiveRoute namedRoute pkgP pkgN
+  have refusalSurface :=
+    HaltingTraceClassifier_diagonal_refusal unaryM unaryh unaryF unaryR unaryD unaryH
+      unaryC unaryP unaryN traceRoute positiveRoute namedRoute escapeRoute pkgP pkgN
+  have nonEscape :=
+    HaltingTraceClassifier_non_escape unaryM unaryh unaryF unaryR unaryD unaryH unaryC
+      unaryP unaryN traceRoute positiveRoute namedRoute escapeRoute pkgP pkgN
+  exact
+    ⟨nonEscape.left, positiveSurface.right.left, positiveSurface.right.right.left,
+      refusalSurface.right.left⟩
+
 end BEDC.Derived.HaltingTraceClassifierUp
