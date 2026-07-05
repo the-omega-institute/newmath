@@ -20,19 +20,19 @@ date-modified: today
 
 ## 当前观察 (auto-refresh)
 
-> 最后刷新: 2026-07-05T10:55:47Z
+> 最后刷新: 2026-07-05T12:12:35Z
 
-**Daemon 状态**: monitor (monitor cycle 307, adjust_since_research 2, round_counter 38307, last_adjust rule_evolution_completed)
+**Daemon 状态**: monitor (monitor cycle 308, adjust_since_research 2, round_counter 38340, last_adjust rule_evolution_completed)
 
-**待处理 queue** (1370 条 finding):
-- isolated_theorem: 996 条; 代表样本 `derived`, `derived`, `derived`
+**待处理 queue** (1372 条 finding):
+- isolated_theorem: 998 条; 代表样本 `derived`, `derived`, `derived`
 - unauthorized_capstone: 306 条; 代表样本 `cauchy`, `helly_theorem`, `metacic_candidate_strong_normalization`
 - low_entropy_template: 68 条; 代表样本 `variation_norm`, `kernelinductiveacceptance`, `polishspace`
 
 **最近 alert 概览** (24h 内):
-- TASTE ALERT category=isolated_theorem: 77 次
+- TASTE ALERT category=isolated_theorem: 81 次
+- TASTE ALERT category=low_entropy_template: 5 次
 - TASTE ALERT category=cycle_exception: 3 次
-- TASTE ALERT category=low_entropy_template: 3 次
 - TASTE ALERT category=resolution_json_parse_failed: 1 次
 
 **RESEARCH 候选 (尚未 ship)**: 本周期无新候选
@@ -612,6 +612,8 @@ error: build failed, audit=skipped, phase_d_lint=skipped.
 - 2026-07-05T09:31:35Z: `resolved` `add_downstream_user` for `BEDC.Derived.RecursorBranchAuditUp.RecursorBranchAuditTasteGate_single_carrier_alignment` (flag `isolated_theorem`, finding `isolated_theorem:recursorbranchaudit:BEDC.Derived.RecursorBranchAuditUp.RecursorBranchAuditTasteGate_single_carrier_alignment:7b6980d9`). Rationale: The target has meaningful BEDC content: it packages BHist encode/decode, EventFlow readback, carrier injectivity, field faithfulness, and nontriviality for the RecursorBranchAuditUp carrier, and the chapter uses it as the primary Lean marker for the carrier definition. Grep showed no prior Lean-side consumer, so I added RecursorBranchAudit_namecert_eventflow_readback in the same RecursorBranchAuditUp NameCert sibling; it consumes the existing NameCert obligations and explicitly uses RecursorBranchAuditTasteGate_single_carrier_alignment to supply EventFlow readback, field-faithful reconstruction, and nontrivial carrier evidence. Gate results: lake_build=ok, audit=ok, phase_d_lint=ok, axiom_purity=ok.
 
 - 2026-07-05T10:54:34Z: `resolved` `add_downstream_user` for `BEDC.Derived.RecursorBranchAuditUp.RecursorBranchAuditCarrier_motive_boundary` (flag `isolated_theorem`, finding `isolated_theorem:recursorbranchaudit:BEDC.Derived.RecursorBranchAuditUp.RecursorBranchAuditCarrier_motive_boundary:7b6980d9`). Rationale: The target is not a trivial wrapper: it builds a real SemanticNameCert for the motive/branch/output boundary. Source search showed no downstream Lean consumer before the change, while the paper uses it as the checked motive-boundary claim. I added RecursorBranchAudit_motive_boundary_output_route in the sibling NamecertObligations file, which explicitly instantiates the boundary theorem and transports an output-route read through the SemanticNameCert and Cont structure. Gate results: lake_build=ok, audit=ok, phase_d_lint=ok, axiom_purity=ok.
+
+- 2026-07-05T12:11:50Z: `resolved` `add_downstream_user` for `BEDC.Derived.RecursorBranchAuditUp.RecursorBranchAuditCarrier_branch_coverage` (flag `isolated_theorem`, finding `isolated_theorem:recursorbranchaudit:BEDC.Derived.RecursorBranchAuditUp.RecursorBranchAuditCarrier_branch_coverage:7b6980d9`). Rationale: The theorem has real BEDC content: it exposes the RecursorBranchAudit branch matrix route as a Cont witness plus a local NameCert over the branch row, and the paper's non-escape argument already conceptually depends on branch coverage. I added a sibling consumer theorem, RecursorBranchAudit_branch_coverage_namecert_route, in NamecertObligations.lean that explicitly uses RecursorBranchAuditCarrier_branch_coverage and ties its output to the FKernel NameCert and Cont structures. Gate results: lake_build=ok, audit=ok, phase_d_lint=ok, axiom_purity=ok.
 
 ## 注解
 
