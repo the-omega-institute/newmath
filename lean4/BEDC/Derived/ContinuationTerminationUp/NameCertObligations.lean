@@ -152,4 +152,20 @@ theorem ContinuationTerminationCarrier_classifier_stability [AskSetup] [PackageS
   have _traceComponent : hsame tau tau' := sameTrace
   exact ⟨sUnary', tUnary', route', sameU', sameB', sameH', pPkg, nPkg⟩
 
+theorem ContinuationTerminationClassifier_route_exactness [AskSetup] [PackageSetup]
+    {s t tau u b h p n s' t' tau' u' b' h' p' n' : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ContinuationTerminationCarrier s t tau u b h p n bundle pkg →
+      ContinuationTerminationClassifier s t tau u b h p n s' t' tau' u' b' h' p' n' →
+        UnaryHistory s' ∧ UnaryHistory t' ∧ hsame tau tau' ∧ Cont s' t' tau' ∧
+          hsame u u' ∧ hsame b b' ∧ hsame h h' := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont UnaryHistory hsame
+  intro carrier classifier
+  obtain ⟨sUnary, tUnary, _route, _sameU, _sameB, _sameH, _pPkg, _nPkg⟩ := carrier
+  obtain ⟨sameS, sameT, sameTau, route', sameU', sameB', sameH', _sameP',
+    _sameN'⟩ := classifier
+  have sUnary' : UnaryHistory s' := unary_transport sUnary sameS
+  have tUnary' : UnaryHistory t' := unary_transport tUnary sameT
+  exact ⟨sUnary', tUnary', sameTau, route', sameU', sameB', sameH'⟩
+
 end BEDC.Derived.ContinuationTerminationUp
