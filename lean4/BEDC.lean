@@ -1327,6 +1327,7 @@ import BEDC.Derived.BorrowedRecursorBoundaryUp.Nonescape
 import BEDC.Derived.BorrowedRecursorBoundaryUp.TasteGate
 import BEDC.Derived.BorsukUlamAntipodalUp
 import BEDC.Derived.BorsukUlamUp.TasteGate
+import BEDC.Derived.BoundaryAdmissionDecisionUp
 import BEDC.Derived.BoundaryAdmissionDecisionUp.RouterExhaustion
 import BEDC.Derived.BoundaryAdmissionDecisionUp.TasteGate
 import BEDC.Derived.BoundaryGateUp.TasteGate
@@ -1793,6 +1794,7 @@ import BEDC.Derived.CantorTernarySetUp.TasteGate
 import BEDC.Derived.CaratheodoryConvexHullUp.TasteGate
 import BEDC.Derived.CaratheodoryKernelConvergenceUp.TasteGate
 import BEDC.Derived.CaratheodoryMeasureExtensionUp.TasteGate
+import BEDC.Derived.CaratheodoryOdeUp
 import BEDC.Derived.CaristiFixedPointUp.TasteGate
 import BEDC.Derived.CarmichaelLambdaUp
 import BEDC.Derived.CarmichaelNumberUp
@@ -6087,6 +6089,7 @@ import BEDC.Derived.FaulhaberPolynomialUp
 import BEDC.Derived.FaulhaberUp
 import BEDC.Derived.FejerKernelUp.TasteGate
 import BEDC.Derived.FejerTheoremUp.TasteGate
+import BEDC.Derived.FeketeSubadditiveLemmaUp
 import BEDC.Derived.FeketeSubadditiveUp.TasteGate
 import BEDC.Derived.FellTopologyUp.TasteGate
 import BEDC.Derived.FenchelDualityUp
@@ -6672,6 +6675,7 @@ import BEDC.Derived.FiniteWindowRegSeqRatRefinementUp.TasteGate
 import BEDC.Derived.FiniteWitnessRouteUp
 import BEDC.Derived.FiniteWitnessedRefutationUp
 import BEDC.Derived.FiniteWitnessedRefutationUp.CarrierAlignment
+import BEDC.Derived.Finite_cauchy_density_netUp
 import BEDC.Derived.FinsetUp
 import BEDC.Derived.FirmNonexpansiveProjectionUp
 import BEDC.Derived.FirmNonexpansiveProjectionUp.TasteGate
@@ -9351,6 +9355,7 @@ import BEDC.Derived.MonodromyUp.TasteGate
 import BEDC.Derived.MonoidActionUp
 import BEDC.Derived.MonoidUp
 import BEDC.Derived.MonoidUp.StdBridge
+import BEDC.Derived.MonoidUp.TasteGate
 import BEDC.Derived.MonoidalCatUp
 import BEDC.Derived.MonoidalCompletionUp.TasteGate
 import BEDC.Derived.MonotoneBarModulusUp
@@ -9995,6 +10000,7 @@ import BEDC.Derived.PellLucasUp
 import BEDC.Derived.PellTowerUp
 import BEDC.Derived.PellUp
 import BEDC.Derived.PentagonalNumberTheoremUp
+import BEDC.Derived.PentaryOddEndpointUp
 import BEDC.Derived.PerfectNumberUp
 import BEDC.Derived.PerfectPowerUp
 import BEDC.Derived.PerfectSetUp.TasteGate
@@ -12329,6 +12335,7 @@ import BEDC.Derived.SeparatedMetricUp.RealCompletionConsumerBoundary
 import BEDC.Derived.SeparatedMetricUp.TasteGate
 import BEDC.Derived.SeparatedMetricUp.ZeroDistanceConsumerExactness
 import BEDC.Derived.SeparatedMetricUp.ZeroDistanceRealReflection
+import BEDC.Derived.SeparatedPseudometricCompletionUp
 import BEDC.Derived.SeparatedPseudometricCompletionUp.NameCertObligations
 import BEDC.Derived.SeparatedPseudometricCompletionUp.TasteGate
 import BEDC.Derived.SeparatedQuotientMetricUp
