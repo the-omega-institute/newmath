@@ -104,3 +104,21 @@ For synthesis-consumer handoff, the consumer row is exactly $S|_{E_0}$, and its 
 
 Finally let $e$ be a neighbouring map not displayed in $E_0$. A frontier entry of $I|_{E_0}$ must occur in the sole frontier coordinate $F|_{E_0}$, and every such coordinate was retained only when its neighbouring-map coordinate lay in $E_0$. Likewise every synthesis read in $I|_{E_0}$ factors through $S|_{E_0}$ and $C|_{E_0}$, whose entries were retained only over $E_0$. Therefore $e$ has no coordinate in the restricted frontier row and no displayed continuation into a restricted synthesis consumer, so it cannot supply a frontier entry of $I|_{E_0}$.
 \end{proof}
+
+\begin{theorem}[Audit-map frontier-index obstruction route]
+\label{thm:audit-map-frontier-index-obstruction-route}
+Let
+$$
+I=(T,A,E,P,R,O,F,S,H,C,K,N)
+$$
+be an accepted $\AuditMapFrontierIndexUp$ carrier. Every accepted route from the local audit row $A$ to a synthesis consumer named by $S$ must retain the obstruction row $O$ and the conditional route row $R$ as visible inputs to the frontier row $F$. Deleting a neighbouring map may delete exactly the frontier entries indexed by that neighbour, but it may not turn $O$ into a discharged theorem or replace $R$ by an unrecorded route.
+\end{theorem}
+\begin{proof}
+Project the carrier $I$. The only coordinates available to the route are the map tag, local audit row, neighbouring-map row, positive row, conditional route row, obstruction row, frontier row, synthesis-consumer row, transport row, continuation row, provenance row, and local name.
+
+Use \autoref{thm:audit-map-frontier-index-neighbour-restriction} for any displayed neighbouring subfamily. It permits deletion of the rows indexed by deleted neighbours, but the retained packet still has obstruction and conditional-route coordinates $O|_{E_0}$ and $R|_{E_0}$ attached to the retained frontier row $F|_{E_0}$.
+
+Now inspect the continuation row $C$ and the synthesis row $S$. The displayed routes in $C$ run from the local map to neighbouring maps, from conditional rows to named routes, from obstruction rows to frontier rows, and from frontier rows to synthesis consumers. Thus a synthesis read named by $S$ can consume $F$ only through a route that still displays the obstruction and conditional-route rows assigned to that frontier entry.
+
+Finite row exhaustion gives the conclusion. No remaining coordinate carries a proof that discharges $O$, and no coordinate carries a hidden route replacing $R$. Therefore neighbour deletion can remove the affected frontier entries, but every retained accepted route keeps $O$ and $R$ visible as inputs to $F$.
+\end{proof}
