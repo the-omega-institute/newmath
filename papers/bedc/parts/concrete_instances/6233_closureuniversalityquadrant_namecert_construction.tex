@@ -58,6 +58,24 @@ The sibling rows in $A$ witness non-bijection rather than collapse. $\CellularAu
 \end{proof}
 \leanchecked{BEDC.Derived.ClosureUniversalityQuadrantUp.ClosureUniversalityQuadrantCarrier\_axis\_independence\_boundary}
 
+\begin{theorem}[Closure-universality quadrant axis accountability]
+\label{thm:closure-universality-quadrant-axis-accountability}
+Every accepted $\ClosureUniversalityQuadrantUp$ consumer route must expose the universality row $U$ and the closure row $D$ before reading the quadrant tag $G$. Sibling anchors in $A$ may replay cellular-rule, substrate, obstruction, and bounded-trace evidence, but they cannot substitute for either axis row or make $G$ readable from one axis alone.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier
+$$
+Q=(U,D,G,S,A,H,C,P,N).
+$$
+The rows $U$ and $D$ are separate coordinates, while $G$ is the classifier row determined by the displayed pair.
+
+Apply \autoref{thm:closure-universality-quadrant-namecert-obligations}. The local NameCert surface lists universality-axis accountability through $U$ and closure-axis accountability through $D$ before any quadrant outcome can be read.
+
+Apply \autoref{thm:closure-universality-axis-independence-boundary}. It keeps the two axis rows independent and prevents a consumer from deriving either axis from the other, from the tag alone, or from a sibling certificate.
+
+The sibling-anchor ledger $A$ can therefore replay only the named supporting surfaces. Dropping $U$ or $D$ leaves the determining pair incomplete, so the quadrant tag $G$ is unreadable as a public $\ClosureUniversalityQuadrantUp$ row.
+\end{proof}
+
 \begin{theorem}[Closure-universality quadrant obligation separation]
 \label{thm:closure-universality-quadrant-obligation-separation}
 Every accepted $\ClosureUniversalityQuadrantUp$ packet separates carrier admission, universality-axis accountability, closure-axis accountability, quadrant-tag determinacy, sibling-anchor replay, and NameCert naming into distinct rows of the carrier
