@@ -5898,6 +5898,7 @@ import BEDC.Derived.FableMachineBoundaryUp.TasteGate
 import BEDC.Derived.FableMachineClockUp.Obligations
 import BEDC.Derived.FableMachineClockUp.StepLedgerExactness
 import BEDC.Derived.FableMachineClockUp.TasteGate
+import BEDC.Derived.FabryGapTheoremUp
 import BEDC.Derived.FactorUp
 import BEDC.Derived.FactorialResidueProduct
 import BEDC.Derived.FactorialUp
