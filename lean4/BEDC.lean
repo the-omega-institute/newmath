@@ -3757,6 +3757,7 @@ import BEDC.Derived.CompileFrontierWitnessUp.ConsumerNonescape
 import BEDC.Derived.CompileFrontierWitnessUp.TasteGate
 import BEDC.Derived.CompilerClassifierRouteUp.TasteGate
 import BEDC.Derived.CompilerCompositionTraceUp.Associativity
+import BEDC.Derived.CompilerCompositionTraceUp.Carrier
 import BEDC.Derived.CompilerCompositionTraceUp.TasteGate
 import BEDC.Derived.CompilerOptimizationEndomorphismUp.TasteGate
 import BEDC.Derived.CompilerTraceFaithfulnessUp
@@ -4215,6 +4216,7 @@ import BEDC.Derived.CookCompileFrontierWitnessUp.TasteGate
 import BEDC.Derived.CookFrontierCoordinateUp.NameCertObligations
 import BEDC.Derived.CookFrontierCoordinateUp.TasteGate
 import BEDC.Derived.CookFrontierCoordinateUp.WitnessedUniversalityBoundary
+import BEDC.Derived.CookFrontierWitnessUp.Carrier
 import BEDC.Derived.CookFrontierWitnessUp.TasteGate
 import BEDC.Derived.CoreCompactUp.TasteGate
 import BEDC.Derived.CoreRegistryIndexUp.RowSurfaceSemanticCertificate
@@ -6150,6 +6152,7 @@ import BEDC.Derived.FieldUp.CanonicalExitActionInversePackage
 import BEDC.Derived.FieldUp.ConcreteExitObject
 import BEDC.Derived.FieldUp.ConcreteOperationTableLaws
 import BEDC.Derived.FieldUp.ConcreteRatupFieldupCertificateInstance
+import BEDC.Derived.FieldUp.ConcreteSchemaInstance
 import BEDC.Derived.FieldUp.ConjugationEquation
 import BEDC.Derived.FieldUp.ContextualAction
 import BEDC.Derived.FieldUp.ContextualActionCertificate
