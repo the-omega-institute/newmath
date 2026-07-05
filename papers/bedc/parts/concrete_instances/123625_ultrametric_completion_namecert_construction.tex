@@ -1,0 +1,81 @@
+\chapter{A Concrete Naming Certificate for $\UltrametricCompletionUp$}
+\label{ch:concrete-instances-ultrametric-completion-namecert}
+\origin{human}
+
+Following Schikhof's non-Archimedean completion theory and Bourbaki's separated uniform completion conventions, the $\UltrametricCompletionUp$ packet records the standard ultrametric completion interface as finite NameCert data. It sits beside the metric source of \autoref{ch:concrete-instances-metric-namecert}, the completion interface of \autoref{ch:concrete-instances-completion-namecert}, the separated-completion boundary of \autoref{ch:concrete-instances-separatedcompletion-namecert}, the dyadic-radius ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, and the constructive strong-triangle route of \autoref{ch:concrete-instances-constructive-ultrametric-completion-namecert}. The packet records an ultrametric Cauchy-seal handoff without asserting quotient completion, selected representatives, host equality of limits, countable choice, or ambient $\RealUp$ completeness.
+
+\begin{definition}[Ultrametric completion carrier]
+\label{def:ultrametric-completion-carrier}
+An $\UltrametricCompletionUp$ carrier is a finite $\BHist$ packet
+$$
+U=(X,M,D,F,S,Q,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $X$ is the ultrametric source row, recording the underlying $\MetricSpaceUp$ carrier and the strong-triangle classifier used by completion-facing reads.
+\item $M$ is the $\MetricSpaceUp$ distance-read row consumed by every Cauchy request.
+\item $D$ is the $\DyadicRatCoreUp$ radius ledger, recording finite dyadic thresholds and maximum-radius comparisons.
+\item $F$ is the Cauchy filter or Cauchy sequence row over $X,M,D$.
+\item $S$ is the $\SeparatedCompletionUp$ seal row reached after the same Cauchy route is displayed.
+\item $Q$ is the $\CompletionUp$ interface row exported to completion consumers.
+\item $H$ stores componentwise $\hsame$ transport for the ultrametric source, metric row, radius ledger, Cauchy row, separated seal, completion interface, replay, provenance, and local naming rows.
+\item $C$ stores displayed $\Cont$ replay from distance reads to dyadic-radius checks and from the Cauchy row to the separated seal.
+\item $P$ is the $\Pkg$ provenance over $\UltrametricCompletionUp$, $\MetricSpaceUp$, $\CompletionUp$, $\SeparatedCompletionUp$, $\DyadicRatCoreUp$, $\ConstructiveUltrametricCompletionUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\UltrametricCompletionUp}$ row.
+\end{enumerate}
+The carrier stores only the displayed finite rows. It has no quotient-class coordinate, no chosen Cauchy representative, no host equality of limits, no countable-choice selector, and no ambient $\RealUp$ completeness coordinate.
+\end{definition}
+
+\begin{theorem}[Ultrametric completion NameCert obligations]
+\label{thm:ultrametric-completion-namecert-obligations}
+For an accepted packet $U=(X,M,D,F,S,Q,H,C,P,N)$, the local $\NameCert_{\UltrametricCompletionUp}$ obligations are exhausted by carrier admission for the ultrametric source $X$, metric distance row $M$, dyadic radius ledger $D$, Cauchy filter or sequence row $F$, separated seal $S$, completion interface $Q$, componentwise transport $H$, displayed replay $C$, package provenance $P$, and local naming row $N$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:ultrametric-completion-carrier}. The source and distance rows are $X$ and $M$, while the ultrametric radius information is visible only through the dyadic ledger $D$.
+
+Read the completion route next. The Cauchy row $F$ consumes the metric row and dyadic thresholds before the separated seal $S$ is available, and the completion interface $Q$ is exposed only after that seal has been displayed.
+
+Finally inspect $H,C,P,N$. These rows transport, replay, package, and name the same displayed data through $\MetricSpaceUp$, $\CompletionUp$, $\SeparatedCompletionUp$, $\DyadicRatCoreUp$, and $\ConstructiveUltrametricCompletionUp$. Since no quotient, selected representative, host equality, countable-choice, or Real-completeness coordinate occurs in the carrier, no local obligation can read one.
+\end{proof}
+
+\begin{theorem}[Ultrametric completion Cauchy-seal handoff]
+\label{thm:ultrametric-completion-cauchy-seal-handoff}
+Every completion-facing read of an accepted $\UltrametricCompletionUp$ packet must display the route
+$$
+X,M,D,F,S,Q
+$$
+in that order: the ultrametric source and metric row are read before the dyadic radius ledger, the ledger is read before the Cauchy row, the Cauchy row is read before the separated seal, and the separated seal is read before the completion interface.
+\end{theorem}
+\begin{proof}
+Use \autoref{thm:ultrametric-completion-namecert-obligations}. It identifies the only completion-facing rows in the packet as $X,M,D,F,S,Q$ together with structural rows $H,C,P,N$.
+
+Induct over the finite dyadic requests carried by $D$ and consumed by $F$. The empty request list exposes no completion interface except through the structural packet, so the seal cannot be bypassed.
+
+For the cons step, the head request reads the same ultrametric source $X$, metric row $M$, and dyadic radius ledger $D$ before it enters $F$. The induction hypothesis keeps the tail requests attached to the same Cauchy row, so $S$ remains the unique separated seal before $Q$ appears.
+\end{proof}
+
+\begin{theorem}[Ultrametric completion standard-interface boundary]
+\label{thm:ultrametric-completion-standard-interface-boundary}
+An accepted $\UltrametricCompletionUp$ packet may be consumed as a standard ultrametric completion interface only through the displayed carrier rows $X,M,D,F,S,Q,H,C,P,N$. Any read that asks for quotient completion, selected representatives, host equality of limits, countable choice, or ambient $\RealUp$ completeness is outside the packet boundary.
+\end{theorem}
+\begin{proof}
+The carrier definition lists every row admitted to the packet. The NameCert obligations in \autoref{thm:ultrametric-completion-namecert-obligations} then require each accepted read to project one of those rows.
+
+The Cauchy-seal handoff of \autoref{thm:ultrametric-completion-cauchy-seal-handoff} supplies the only path to the completion interface. The refused objects are not among $X,M,D,F,S,Q,H,C,P,N$, so a read requesting one of them cannot be a read of this NameCert packet.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\UltrametricCompletionUp$ completion-facing read displays the ultrametric source, metric distance row, dyadic radius ledger, Cauchy row, separated seal, completion interface, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming before any completion interface is visible.}
+
+\independenceWitness{metricspace, completion, separatedcompletion, dyadicratcore, constructive-ultrametric-completion: none is bijective to UltrametricCompletionUp because the packet jointly carries the ultrametric source, metric read row, dyadic radius ledger, Cauchy route, separated seal, completion interface, transport, replay, provenance, and local NameCert rows.}
+
+\closureat{UltrametricCompletionUp}{seedStr}
+
+\begin{closurestatus}{\UltrametricCompletionUp}
+  \constructivestory{An $\UltrametricCompletionUp$ packet is generated from an ultrametric source row, a metric distance row, a dyadic radius ledger, a Cauchy filter or sequence row, a separated seal, a completion interface, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:ultrametric-completion-carrier}, \autoref{thm:ultrametric-completion-namecert-obligations}, and \autoref{thm:ultrametric-completion-cauchy-seal-handoff} seed the finite ultrametric completion interface over MetricSpaceUp, CompletionUp, SeparatedCompletionUp, DyadicRatCoreUp, ConstructiveUltrametricCompletionUp, BHist, hsame, Cont, Pkg, and NameCert rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim quotient completion, selected representatives, host equality of limits, countable choice, ambient Real completeness, Lean verification, or a standard bridge.}
+  \upgradepath{Obligation closure requires checked carrier admission, Cauchy-seal stability, separated-completion handoff, and completion-interface nonescape for BEDC.Derived.UltrametricCompletionUp.}
+\end{closurestatus}
