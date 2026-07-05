@@ -208,6 +208,18 @@ Use the normal-form separation, scoped-kernel route, and scope-binding theorems 
 Therefore the public interface is exactly the finite row surface over $\BHist$ and $\NameCert$ data. Since none of the projected rows stores global normalization, subject reduction, evaluator equality, quotient term equality, or kernel consistency, those endpoints remain outside the accepted gallery interface.
 \end{proof}
 
+\begin{theorem}[Typed example gallery public interface route]
+\label{thm:typed-example-gallery-public-interface}
+Every public MetaCIC gallery interface read of an accepted $\TypedExampleGalleryUp$ packet is exactly the finite route through the gallery-entry row $E$, checker row $T$, closedness row $C$, selected beta row $B$, regression row $R$, componentwise transport row $H$, replay row $K$, sibling-provenance row $P$, and local naming row $N$. The sibling-provenance row is consumed only through \autoref{ch:concrete-instances-closedtermsubstitutionboundary-namecert}, \autoref{ch:concrete-instances-typecheckingderivationtrace-namecert}, and \autoref{ch:concrete-instances-prooftermerasuretrace-namecert}. The interface refuses subject reduction, normalization, confluence, global conversion, proof-erased compiler correctness, arbitrary checker completeness, and host evaluation.
+\end{theorem}
+\begin{proof}
+Project the carrier $G=(E,T,C,B,R,H,K,P,N)$ of \autoref{def:typed-example-gallery-carrier}. The obligation frontier and scoped kernel rows complete theorem, \autoref{thm:typed-example-gallery-obligation-frontier} and \autoref{thm:typed-example-gallery-scope-kernel-rows-complete}, exhaust the public reads by those nine displayed coordinates.
+
+Use checker-row exhaustion and the closed beta regression route. They force checker reads through $T$, closedness reads through $C$, selected computations through $B$, and regression reads through $R$ before structural replay or local naming can be consumed.
+
+Finally apply normal-form separation, scoped kernel route, and scope binding. These theorems keep the sibling-provenance row $P$ tied to the closed-substitution boundary, typechecking derivation trace, and proof-term erasure trace, and they leave subject reduction, normalization, confluence, global conversion, proof-erased compiler correctness, arbitrary checker completeness, and host evaluation outside the public interface.
+\end{proof}
+
 \closureat{TypedExampleGalleryUp}{scopedStr}
 
 \begin{closurestatus}{\TypedExampleGalleryUp}

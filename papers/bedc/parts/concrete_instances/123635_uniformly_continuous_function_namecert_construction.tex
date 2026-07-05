@@ -1,0 +1,78 @@
+\chapter{A Concrete Naming Certificate for $\UniformlyContinuousFunctionUp$}
+\label{ch:concrete-instances-uniformly-continuous-function-namecert}
+\origin{human}
+
+Following Bishop and Bridges on uniform continuity, the $\UniformlyContinuousFunctionUp$ packet records a displayed function between metric carriers together with one global modulus route that is read before any point, limit, or completion-facing consumer can use the map. It sits between the metric source and target rows of \autoref{ch:concrete-instances-metric-namecert}, the real-name tolerance boundary of \autoref{ch:concrete-instances-real-namecert}, the explicit modulus route of \autoref{ch:concrete-instances-moduluscontinuity-namecert}, the Lipschitz handoff of \autoref{ch:concrete-instances-lipschitz-function-namecert}, the uniform-tail surface of \autoref{ch:concrete-instances-uniform-convergence-namecert}, and the endpoint-continuity route of \autoref{ch:concrete-instances-uniform-limit-continuity-namecert}. The packet names the standard finite BEDC carrier for uniformly continuous functions; it is not a host function object, a quotient equality of maps, a compactness theorem, a pointwise-choice schedule, or an ambient $\RealUp$ completeness claim.
+
+\begin{definition}[UniformlyContinuousFunction carrier]
+\label{def:uniformly-continuous-function-carrier}
+A $\UniformlyContinuousFunctionUp$ carrier is a finite $\BHist$ packet
+$$
+F=(X,Y,G,M,T,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $X$ is the source $\MetricUp$ carrier row, including the finite source-distance requests and source naming data consumed by the function.
+\item $Y$ is the target $\MetricUp$ carrier row, including the finite target-distance requests and target naming data exposed after function readback.
+\item $G$ is the function graph and readback row, read through $\ContinuousMapUp$ and carrying only the displayed source-to-target relation.
+\item $M$ is the global modulus row: every displayed target tolerance request receives a source-tolerance answer depending only on the tolerance row and not on a chosen source point.
+\item $T$ is the classifier transport row for source metrics, target metrics, graph/readback data, global modulus data, continuation rows, provenance, and local naming.
+\item $H$ records componentwise $\hsame$ transport for $X,Y,G,M,T,C,P,N$.
+\item $C$ records displayed $\Cont$ replay from a target-tolerance request through $M$, then through the source metric row $X$, graph row $G$, and target metric row $Y$.
+\item $P$ is the $\Pkg$ provenance over $\UniformlyContinuousFunctionUp$, $\MetricUp$, $\ContinuousMapUp$, $\ModulusContinuityUp$, $\UniformModulusUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\UniformlyContinuousFunctionUp}$ row.
+\end{enumerate}
+The classifier admits exactly packets whose function readback and modulus readback are transported through the same displayed rows $X,Y,G,M,T,H,C,P,N$. It has no coordinate for arbitrary pointwise choice, host function equality, open-cover compactness, quotient real equality, a selected external modulus, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[UniformlyContinuousFunction NameCert obligations]
+\label{thm:uniformly-continuous-function-namecert-obligations}
+For every accepted $\UniformlyContinuousFunctionUp$ carrier
+$$
+F=(X,Y,G,M,T,H,C,P,N),
+$$
+the local $\NameCert_{\UniformlyContinuousFunctionUp}$ surface consists exactly of source metric admission, target metric admission, graph and readback admission, global modulus admission, classifier transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming through the rows $X,Y,G,M,T,H,C,P,N$. Every public read of the function must display the global modulus row before it can use the graph as a uniform map route.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier. The analytic rows are precisely the source metric $X$, target metric $Y$, graph/readback row $G$, and global modulus row $M$; the remaining rows transport, replay, source, and name those data.
+
+The global modulus obligation is independent of source points because $M$ answers a target tolerance request before any point-specific read is chosen. Thus a consumer cannot turn a family of local continuity witnesses into the exported function route.
+
+Classifier transport is componentwise through $T$ and $H$, while $C$ replays the same order from target tolerance to modulus, source metric, graph, and target metric. Provenance $P$ and local naming $N$ add no further analytic coordinate.
+
+Since the carrier contains no row for pointwise choice, host function equality, open-cover compactness, quotient real equality, selected external moduli, or ambient completeness, the listed rows exhaust the local NameCert obligations.
+\end{proof}
+
+\begin{theorem}[UniformlyContinuousFunction modulus route]
+\label{thm:uniformly-continuous-function-modulus-route}
+Every $\ModulusContinuityUp$, $\LipschitzFunctionUp$, $\UniformConvergenceUp$, $\UniformLimitContinuityUp$, $\MetricUp$, or $\RealUp$ consumer of an accepted $\UniformlyContinuousFunctionUp$ carrier reads the function only through the finite route
+$$
+M \to X \to G \to Y \to T,H,C,P,N .
+$$
+The route supplies a global tolerance-to-source-tolerance handoff before graph readback, and it exports no arbitrary pointwise choice, host function equality, open-cover compactness, quotient real equality, selected limit, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Begin with a consumer request for a target tolerance. By \autoref{def:uniformly-continuous-function-carrier}, the request first reads the global modulus row $M$, so the source tolerance is fixed before any pointwise graph read can occur.
+
+The source metric row $X$ then supplies the displayed source-distance comparison, and the graph/readback row $G$ carries that comparison to the target metric row $Y$. This is the same finite route consumed by modulus-continuity and Lipschitz handoff packets, but with the global tolerance row made explicit in the carrier itself.
+
+Uniform convergence and uniform-limit-continuity consumers read the same handoff before they expose tail, endpoint, or continuity rows. The structural rows $T,H,C,P,N$ preserve the carrier order under classifier transport, componentwise transport, replay, provenance, and local naming.
+
+Thus every named sibling consumer receives a finite modulus route rather than a host-level function theorem. The excluded pointwise-choice, host-equality, open-cover, quotient-equality, selected-limit, and completeness objects have no carrier coordinate through which to enter the read.
+\end{proof}
+
+\falsifiablePrediction{An accepted $\UniformlyContinuousFunctionUp$ packet is refuted if a consumer reads the graph as uniformly continuous without first displaying the global modulus row, source Metric row, target Metric row, classifier transport, hsame transport, Cont replay, Pkg provenance, and local NameCert evidence.}
+
+\independenceWitness{metric, real, modulus-continuity, lipschitz-function, uniform-convergence, uniform-limit-continuity: none is bijective to $\UniformlyContinuousFunctionUp$ because this packet jointly carries a source metric, target metric, graph/readback row, global modulus row, classifier transport, componentwise transport, replay, provenance, and local naming as one finite function route.}
+
+\closureat{UniformlyContinuousFunctionUp}{seedStr}
+
+\begin{closurestatus}{\UniformlyContinuousFunctionUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:uniformly-continuous-function-carrier}, \autoref{thm:uniformly-continuous-function-namecert-obligations}, and \autoref{thm:uniformly-continuous-function-modulus-route} seed the finite uniformly continuous function carrier over metric, graph, global-modulus, transport, replay, provenance, and local naming rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close arbitrary pointwise choice, host function equality, open-cover compactness, quotient real equality, selected external moduli, selected limits, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, classifier transport, global modulus exactness, graph readback, Cont replay, Pkg provenance, and local NameCert rows for BEDC.Derived.UniformlyContinuousFunctionUp.}
+  \constructivestory{A $\UniformlyContinuousFunctionUp$ packet is generated from source and target Metric rows, a ContinuousMap graph/readback row, a global modulus row, classifier transport, componentwise hsame transport, displayed Cont replay, Pkg provenance, and local NameCert evidence.}
+\end{closurestatus}
