@@ -25,6 +25,80 @@ theorem NetConvergenceCarrier_real_seal_nonescape
   exact
     ⟨directedRoute, filterRoute, streamRoute, sealRoute, sealSame, sameL, fields⟩
 
+theorem NetConvergenceCarrier_directed_window_real_seal_admission
+    {D T E A F S R L H C P M read filterRead streamRead sealRead : BHist} :
+    NetConvergenceCarrier D T E A F S R L H C P M →
+      Cont D T E →
+        Cont E F filterRead →
+          Cont F S streamRead →
+            Cont streamRead R sealRead →
+              hsame read D →
+                hsame sealRead L →
+                  SemanticNameCert
+                      (fun row : BHist =>
+                        hsame row D ∧ NetConvergenceCarrier D T E A F S R L H C P M)
+                      (fun row : BHist =>
+                        hsame D D ∧ hsame T T ∧ hsame E E ∧ Cont D T E ∧
+                          hsame row D)
+                      (fun row : BHist =>
+                        Cont E F filterRead ∧ Cont F S streamRead ∧
+                          Cont streamRead R sealRead ∧ hsame sealRead L ∧ hsame L L ∧
+                            hsame row D)
+                      hsame ∧
+                    hsame D D ∧ hsame T T ∧ hsame E E ∧ Cont D T E ∧
+                      Cont E F filterRead ∧ Cont F S streamRead ∧
+                        Cont streamRead R sealRead ∧ hsame read D ∧ hsame sealRead L ∧
+                          hsame L L ∧
+                            netConvergenceFields
+                                (NetConvergenceUp.mk D T E A F S R L H C P M) =
+                              [D, T, E, A, F, S, R, L, H, C, P, M] := by
+  -- BEDC touchpoint anchor: BHist hsame Cont SemanticNameCert
+  intro carrier directedRoute filterRoute streamRoute sealRoute readSame sealSame
+  have directedRows :=
+    NetConvergenceCarrier_directed_window_admission carrier directedRoute readSame
+  have sealRows :=
+    NetConvergenceCarrier_real_seal_nonescape carrier directedRoute filterRoute
+      streamRoute sealRoute sealSame
+  obtain ⟨sameD, sameT, sameE, directedRoute', readSame', fields⟩ := directedRows
+  obtain ⟨_directedRouteForSeal, filterRoute', streamRoute', sealRoute', sealSame',
+    sameL, _fieldsForSeal⟩ := sealRows
+  have carrierWitness : NetConvergenceCarrier D T E A F S R L H C P M := carrier
+  have cert :
+      SemanticNameCert
+          (fun row : BHist =>
+            hsame row D ∧ NetConvergenceCarrier D T E A F S R L H C P M)
+          (fun row : BHist =>
+            hsame D D ∧ hsame T T ∧ hsame E E ∧ Cont D T E ∧ hsame row D)
+          (fun row : BHist =>
+            Cont E F filterRead ∧ Cont F S streamRead ∧ Cont streamRead R sealRead ∧
+              hsame sealRead L ∧ hsame L L ∧ hsame row D)
+          hsame := {
+    core := {
+      carrier_inhabited := Exists.intro D ⟨hsame_refl D, carrierWitness⟩
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        exact ⟨hsame_trans (hsame_symm sameRows) source.left, source.right⟩
+    }
+    pattern_sound := by
+      intro _row source
+      exact ⟨sameD, sameT, sameE, directedRoute', source.left⟩
+    ledger_sound := by
+      intro _row source
+      exact ⟨filterRoute', streamRoute', sealRoute', sealSame', sameL, source.left⟩
+  }
+  exact
+    ⟨cert, sameD, sameT, sameE, directedRoute', filterRoute', streamRoute',
+      sealRoute', readSame', sealSame', sameL, fields⟩
+
 theorem NetConvergenceCarrier_tail_window_real_seal_bridge
     {D T E A F S R L H C P M filterRead streamRead sealRead : BHist} :
     NetConvergenceCarrier D T E A F S R L H C P M →

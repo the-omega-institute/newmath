@@ -125,15 +125,27 @@ Next apply non-escape and the obligation surface. \autoref{thm:axis-carry-diamon
 Finally use target-ledger exactness and value-ledger stability. They keep the shared target-normality ledger downstream of both routes and both value ledgers, so the scoped packet can be consumed only through the named kernel dependencies and never through a source-target $\hsame$ shortcut or an ambient rewrite rule.
 \end{proof}
 
+\begin{theorem}[Axis carry diamond-route public export]
+\label{thm:axis-carry-diamond-route-public-export}
+For every accepted $\AxisCarryDiamondRouteUp$ carrier $D=(a,b,c,n,\rho_0,\rho_1,\nu_0,\nu_1,\eta,H,C,P,N)$, the public interface exports exactly the paired route rows $\rho_0,\rho_1$, the shared target-normality ledger $\eta$, the two value ledgers $\nu_0,\nu_1$, the non-$\hsame$ boundary and componentwise transport rows in $H$, the displayed route replay in $C$, the provenance row $P$, and the local $\NameCert$ row $N$. A public consumer receives this finite diamond-route packet and no source-target $\hsame$ proof, host arithmetic quotient, global carry confluence theorem, hidden normalizer, or kernel rewrite rule.
+\end{theorem}
+\begin{proof}
+Start with the carrier and two-step confluence rows. \autoref{def:axis-carry-diamond-route-carrier} lists the public coordinates of $D$, and \autoref{thm:axis-carry-diamond-route-names-two-step-confluence} binds $\rho_0,\rho_1$ to the common source row and shared normal target row before any diamond consumer may read the packet.
+
+Next read the ledger exactness theorems. \autoref{thm:axis-carry-diamond-route-target-ledger-exactness} keeps $\eta$ downstream of both route rows and both value ledgers, while \autoref{thm:axis-carry-diamond-route-value-ledger-stability} keeps $\nu_0,\nu_1$ tied to their respective routes under transport.
+
+Finally apply the scoped dependency boundary. \autoref{thm:axis-carry-diamond-route-scoped-kernel-dependencies} exposes only the named $\ZCarryUp$, $\ZeckendorfCarryNormalizationUp$, $\ZeckendorfCarryValueUp$, $\AxisZeckendorfCarryBudgetUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows, and \autoref{thm:axis-carry-diamond-route-nonescape} removes the excluded host quotient, global confluence, hidden normalizer, source-target $\hsame$, and rewrite endpoints from the public read.
+\end{proof}
+
 \closureat{AxisCarryDiamondRouteUp}{obligationStr}[BEDC.Derived.AxisCarryDiamondRouteUp.AxisCarryDiamondRouteTasteGate\_single\_carrier\_alignment]
 
 \begin{closurestatus}{\AxisCarryDiamondRouteUp}
   \constructivestory{An $\AxisCarryDiamondRouteUp$ packet is generated from an overlap source row, two carry-successor rows, a shared normal target, two carry-normalization route rows, two value ledgers, a shared target-normality ledger, non-$\hsame$ boundary rows, componentwise transports, continuation routes, provenance, and a local $\NameCert$ row.}
-  \theoryclosure{\scopedClosure}
-  \scopeclosed{\autoref{def:axis-carry-diamond-route-carrier}, \autoref{thm:axis-carry-diamond-route-names-two-step-confluence}, \autoref{thm:axis-carry-diamond-route-nonescape}, \autoref{thm:axis-carry-diamond-route-obligation-surface}, \autoref{thm:axis-carry-diamond-route-target-ledger-exactness}, \autoref{thm:axis-carry-diamond-route-value-ledger-stability}, and \autoref{thm:axis-carry-diamond-route-scoped-kernel-dependencies} specify the finite two-route diamond carrier, obligation rows, shared target ledger, value-ledger stability, non-escape boundary, and scoped dependencies over ZCarry, ZeckendorfCarryNormalization, ZeckendorfCarryValue, AxisZeckendorfCarryBudget, BHist, hsame, Cont, Pkg, and NameCert.}
+  \theoryclosure{\publicClosure}
+  \scopeclosed{\autoref{def:axis-carry-diamond-route-carrier}, \autoref{thm:axis-carry-diamond-route-names-two-step-confluence}, \autoref{thm:axis-carry-diamond-route-nonescape}, \autoref{thm:axis-carry-diamond-route-obligation-surface}, \autoref{thm:axis-carry-diamond-route-target-ledger-exactness}, \autoref{thm:axis-carry-diamond-route-value-ledger-stability}, \autoref{thm:axis-carry-diamond-route-scoped-kernel-dependencies}, and \autoref{thm:axis-carry-diamond-route-public-export} specify the finite two-route diamond carrier, obligation rows, shared target ledger, value-ledger stability, non-escape boundary, scoped dependencies, and reusable public interface over ZCarry, ZeckendorfCarryNormalization, ZeckendorfCarryValue, AxisZeckendorfCarryBudget, BHist, hsame, Cont, Pkg, and NameCert.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{ai}
   \notclaimed{This chapter does not close Lean verification, bridge checking, arbitrary carry confluence, host arithmetic quotienting, global normalization, source-target $\hsame$, or kernel rewriting.}
-  \upgradepath{Public closure requires a checked export obligation for paired route rows, shared target-normality, value-ledger exactness, non-$\hsame$ preservation, route replay, provenance, and local naming for the same finite packet.}
+  \upgradepath{Bridge closure requires a standard bridge theorem for the same paired route rows, shared target-normality, value-ledger exactness, non-$\hsame$ preservation, route replay, provenance, and local naming packet.}
 \end{closurestatus}
