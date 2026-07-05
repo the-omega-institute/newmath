@@ -6334,7 +6334,6 @@ import BEDC.Derived.FiniteCauchyCompletenessCriterionUp
 import BEDC.Derived.FiniteCauchyFilterUp.TasteGate
 import BEDC.Derived.FiniteCauchyGluingBudgetUp.Classifier
 import BEDC.Derived.FiniteCauchyGluingBudgetUp.Induction
-import BEDC.Derived.FiniteCauchyGluingBudgetUp.SealInductionRoute
 import BEDC.Derived.FiniteCauchyGluingBudgetUp.SynchronizerLedgerInduction
 import BEDC.Derived.FiniteCauchyGluingBudgetUp.SynchronizerWindowExactness
 import BEDC.Derived.FiniteCauchyGluingBudgetUp.TailSynchronizer
@@ -6517,6 +6516,7 @@ import BEDC.Derived.FiniteModulusDiagonalUp.TasteGate
 import BEDC.Derived.FiniteModulusRealUp.TasteGate
 import BEDC.Derived.FiniteMultiHistPacketUp.TasteGate
 import BEDC.Derived.FiniteNetEquicontinuityUp.TasteGate
+import BEDC.Derived.FiniteNetHeineCantorUp.TasteGate
 import BEDC.Derived.FiniteNetMinimumFoldUp
 import BEDC.Derived.FiniteNetMinimumFoldUp.CompactModulusAttainment
 import BEDC.Derived.FiniteNetMinimumFoldUp.CompactUniformPointwiseRadiusChain
@@ -7169,6 +7169,7 @@ import BEDC.Derived.HeineBorelIntervalUp.TailStability
 import BEDC.Derived.HeineBorelIntervalUp.TasteGate
 import BEDC.Derived.HeineBorelLocatedIntervalUp.TasteGate
 import BEDC.Derived.HeineBorelNetCompactnessUp.TasteGate
+import BEDC.Derived.HeineCantorModulusUp.FiniteNetExtraction
 import BEDC.Derived.HeineCantorModulusUp.TasteGate
 import BEDC.Derived.HeineCantorUp.TasteGate
 import BEDC.Derived.HellingerDistanceUp
@@ -11008,7 +11009,6 @@ import BEDC.Derived.RealDiagonalMeshBudgetUp
 import BEDC.Derived.RealDiagonalModulusUp.TasteGate
 import BEDC.Derived.RealDiagonalNonSurjectionUp
 import BEDC.Derived.RealDiagonalNonSurjectionUp.NameCertObligations
-import BEDC.Derived.RealDiagonalRegularitySealUp.Obligations
 import BEDC.Derived.RealDiagonalRegularitySealUp.TasteGate
 import BEDC.Derived.RealDiagonalWindowCoverageUp
 import BEDC.Derived.RealDiagonalWindowCoverageUp.TasteGate
