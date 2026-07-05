@@ -195,4 +195,50 @@ theorem HypothesisTestDecisionCarrier_finite_risk_boundary
     ⟨nullLedger, ledgerJoint, ledgerUnary, typeTwoLedger.right.right.right.left,
       surfaceUnary⟩
 
+theorem HypothesisTestDecisionCarrier_decision_transport_stability
+    {null reject complement budget ledger endpoint alt accept altComplement typeII joint surface
+      null' ledger' endpoint' joint' surface' : BHist} :
+    ProbSpacePublicEventPacket null budget reject complement budget →
+      hsame complement BHist.Empty →
+        ProbSpacePublicEventPacket alt typeII accept altComplement typeII →
+          hsame altComplement BHist.Empty →
+            Cont reject budget ledger →
+              Cont null ledger endpoint →
+                Cont accept typeII joint →
+                  Cont ledger joint surface →
+                    hsame null null' →
+                      hsame ledger ledger' →
+                        hsame endpoint endpoint' →
+                          hsame joint joint' →
+                            hsame surface surface' →
+                              hsame endpoint' (append null' ledger') ∧
+                                hsame surface' (append ledger' joint') ∧
+                                  UnaryHistory ledger' ∧ UnaryHistory joint' ∧
+                                    UnaryHistory surface' := by
+  -- BEDC touchpoint anchor: BHist Cont append hsame UnaryHistory ProbSpacePublicEventPacket
+  intro nullPacket complementEmpty altPacket altComplementEmpty rejectBudget nullLedger
+    acceptTypeII ledgerJoint sameNull sameLedger sameEndpoint sameJoint sameSurface
+  have finite :
+      hsame endpoint (append null ledger) ∧ hsame surface (append ledger joint) ∧
+        UnaryHistory ledger ∧ UnaryHistory joint ∧ UnaryHistory surface :=
+    HypothesisTestDecisionCarrier_finite_risk_boundary nullPacket complementEmpty
+      altPacket altComplementEmpty rejectBudget nullLedger acceptTypeII ledgerJoint
+  have endpointRead : hsame endpoint' (append null' ledger') := by
+    cases sameNull
+    cases sameLedger
+    cases sameEndpoint
+    exact finite.left
+  have surfaceRead : hsame surface' (append ledger' joint') := by
+    cases sameLedger
+    cases sameJoint
+    cases sameSurface
+    exact finite.right.left
+  have ledgerUnary : UnaryHistory ledger' :=
+    unary_transport finite.right.right.left sameLedger
+  have jointUnary : UnaryHistory joint' :=
+    unary_transport finite.right.right.right.left sameJoint
+  have surfaceUnary : UnaryHistory surface' :=
+    unary_transport finite.right.right.right.right sameSurface
+  exact ⟨endpointRead, surfaceRead, ledgerUnary, jointUnary, surfaceUnary⟩
+
 end BEDC.Derived.HypothesisUp

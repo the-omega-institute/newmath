@@ -1,17 +1,30 @@
+import BEDC.FKernel.Cont
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
+import BEDC.FKernel.Unary.History
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.MachineExportBoundaryUp
 
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
+open BEDC.FKernel.Cont
+open BEDC.FKernel.Unary
 open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
 inductive MachineExportBoundaryUp : Type where
   | mk : (R T A F H C P N : BHist) → MachineExportBoundaryUp
   deriving DecidableEq
+
+def MachineExportBoundaryCarrier
+    (registry target audit refusal transport replay provenance localName : BHist) : Prop :=
+  -- BEDC touchpoint anchor: BHist Cont UnaryHistory
+  UnaryHistory registry ∧ UnaryHistory target ∧ UnaryHistory audit ∧
+    UnaryHistory refusal ∧ UnaryHistory transport ∧ UnaryHistory replay ∧
+      UnaryHistory provenance ∧ UnaryHistory localName ∧
+        Cont registry target replay ∧ Cont replay audit transport ∧
+          Cont transport refusal localName
 
 def machineExportBoundaryEncodeBHist : BHist → RawEvent
   -- BEDC touchpoint anchor: BHist BMark
