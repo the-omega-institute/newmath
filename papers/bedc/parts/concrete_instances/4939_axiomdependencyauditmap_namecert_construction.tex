@@ -123,6 +123,26 @@ For the externally supplied branch, $W$ is the displayed refusal, counterexample
 \end{proof}
 \leanchecked{BEDC.Derived.AxiomDependencyAuditMapUp.AxiomDependencyAuditMapCarrier\_witness\_required\_axiom\_exactness}
 
+\begin{theorem}[AxiomDependencyAuditMap witness-ledger totality]
+\label{thm:axiom-dependency-audit-map-witness-ledger-totality}
+For every accepted $\AxiomDependencyAuditMapUp$ packet
+$$
+D=(K,M,W,A,L,H,C,P,N),
+$$
+each branch selected by the mode row $M$ exposes a matching ledger segment in $L$ tying the audited claim row $K$, witness row $W$, and required-axiom row $A$ to the paper-Lean drift witness, forbidden-axiom ancestry, and dependency-map source rows. No internal, restricted, or externally supplied witness branch may be read unless its ledger segment is displayed in $L$ and replayed through $P,H,C,N$.
+\end{theorem}
+\begin{proof}
+Project the accepted packet as $D=(K,M,W,A,L,H,C,P,N)$. The mode row, witness row, required-axiom row, ledger row, structural transport, replay, provenance, and local name are visible coordinates of one finite carrier.
+
+Apply mode totality from \autoref{thm:axiom-dependency-audit-map-mode-totality}. It splits $M$ into the internal, restricted, and externally supplied branches and keeps the corresponding $W,A$ pair visible in each branch.
+
+Apply witness and required-axiom exactness from \autoref{thm:axiom-dependency-audit-map-witness-required-axiom-exactness}. The internal branch has the internal witness with empty supply, the restricted branch has the restricted witness with its restricted surface, and the externally supplied branch has the displayed refusal, counterexample, or socket witness with finite named supply.
+
+It remains to attach the ledger. The obligation surface of \autoref{thm:axiom-dependency-audit-map-obligation-surface} forces $L$ to expose the paper-Lean drift witness, forbidden-axiom ancestry row, dependency-map source row, and dependency edge ledger for the same audited claim row $K$.
+
+Finally use non-escape from \autoref{thm:axiom-dependency-audit-map-nonescape}. Since every public read remains inside $K,M,W,A,L,H,C,P,N$, a witness branch cannot bypass its ledger segment through a host import graph, hidden proof ancestry, external audit oracle, or unrecorded supply.
+\end{proof}
+
 \closureat{AxiomDependencyAuditMapUp}{seedStr}
 
 \begin{closurestatus}{\AxiomDependencyAuditMapUp}
