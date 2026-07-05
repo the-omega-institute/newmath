@@ -7720,6 +7720,7 @@ import BEDC.Derived.LargeModelAttentionGateUp.TasteGate
 import BEDC.Derived.LargeModelAuditChannelUp.TasteGate
 import BEDC.Derived.LargeModelContextAuditUp.TasteGate
 import BEDC.Derived.LargeModelCorpusSupplyUp.AuditNonescape
+import BEDC.Derived.LargeModelCorpusSupplyUp.Classifier
 import BEDC.Derived.LargeModelCorpusSupplyUp.FieldFaithfulBoundary
 import BEDC.Derived.LargeModelCorpusSupplyUp.FilterExactness
 import BEDC.Derived.LargeModelCorpusSupplyUp.NameCertObligations
@@ -11307,6 +11308,8 @@ import BEDC.Derived.RealWindowSynchronizerUp.StdBridge
 import BEDC.Derived.RealWindowSynchronizerUp.TasteGate
 import BEDC.Derived.RealZeroUp
 import BEDC.Derived.RealZeroUp.ComponentwiseTransport
+import BEDC.Derived.RealZeroUp.LedgerNonescape
+import BEDC.Derived.RealZeroUp.ReplayStability
 import BEDC.Derived.RealZeroUp.TasteGate
 import BEDC.Derived.Real_modulus_of_convergenceUp
 import BEDC.Derived.RealityConstrained.ConstructiveInfoGen
@@ -11416,6 +11419,7 @@ import BEDC.Derived.ReducedProductUp
 import BEDC.Derived.ReductionFuelBoundaryUp.EndpointTimeoutDisjointness
 import BEDC.Derived.ReductionFuelBoundaryUp.FuelTimeoutExactness
 import BEDC.Derived.ReductionFuelBoundaryUp.ObligationClosurePackage
+import BEDC.Derived.ReductionFuelBoundaryUp.PublicCertificate
 import BEDC.Derived.ReductionFuelBoundaryUp.ScopedSubstrateRoute
 import BEDC.Derived.ReductionFuelBoundaryUp.ScopedTimeoutRoute
 import BEDC.Derived.ReductionFuelBoundaryUp.TasteGate
