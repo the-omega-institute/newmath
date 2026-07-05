@@ -1155,6 +1155,7 @@ import BEDC.Derived.BishopLocatedCompletionUp.TasteGate
 import BEDC.Derived.BishopLocatedConvexHullUp
 import BEDC.Derived.BishopLocatedDiagonalUp.TasteGate
 import BEDC.Derived.BishopLocatedFilterBaseUp.TasteGate
+import BEDC.Derived.BishopLocatedIntervalOscillationUp.TasteGate
 import BEDC.Derived.BishopLocatedIntervalRefinementMapUp.TasteGate
 import BEDC.Derived.BishopLocatedIntervalUp.TasteGate
 import BEDC.Derived.BishopLocatedInverseFunctionUp.TasteGate
@@ -7529,6 +7530,7 @@ import BEDC.Derived.KKTUp.StationarityTransport
 import BEDC.Derived.KKTUp.TasteGate
 import BEDC.Derived.KSpaceUp.TasteGate
 import BEDC.Derived.KakutaniFixedPointUp.TasteGate
+import BEDC.Derived.KalmanBucyFilterUp.TasteGate
 import BEDC.Derived.KalmanFilterUp
 import BEDC.Derived.KalmanFilterUp.TasteGate
 import BEDC.Derived.KanExtensionUp.NamecertObligations
@@ -12754,6 +12756,7 @@ import BEDC.Derived.SixBoundaryTileCoverageUp.TasteGate
 import BEDC.Derived.SkorokhodSpaceUp
 import BEDC.Derived.SliceCategoryUp
 import BEDC.Derived.SliceCategoryUp.TasteGate
+import BEDC.Derived.SmirnovProximityCompactificationUp
 import BEDC.Derived.SmithNormalFormUp.TasteGate
 import BEDC.Derived.SmoothManifoldUp.BundleReadinessRoute
 import BEDC.Derived.SmoothManifoldUp.TasteGate
@@ -13080,6 +13083,7 @@ import BEDC.Derived.SubmartingaleUp.StoppingWindowHandoff
 import BEDC.Derived.SubmartingaleUp.TasteGate
 import BEDC.Derived.SubmartingaleUp.UpcrossingLedgerExactness
 import BEDC.Derived.SubnetUp
+import BEDC.Derived.SubnetUp.TasteGate
 import BEDC.Derived.SubordinateFiniteModulusCoverUp.TasteGate
 import BEDC.Derived.SubordinateModulusCoverUp.CompactUniformConsumerBoundary
 import BEDC.Derived.SubordinateModulusCoverUp.FiniteSelectionScope
@@ -13503,6 +13507,7 @@ import BEDC.Derived.UniformBoundednessUp.PublicBoundary
 import BEDC.Derived.UniformBoundednessUp.TasteGate
 import BEDC.Derived.UniformCauchyBicompletionUp.TasteGate
 import BEDC.Derived.UniformCauchyCompletionRealizerUp
+import BEDC.Derived.UniformCauchyCompletionRealizerUp.TasteGate
 import BEDC.Derived.UniformCauchyCompletionUp.TasteGate
 import BEDC.Derived.UniformCauchyCriterionFunctionUp
 import BEDC.Derived.UniformCauchyCriterionUp

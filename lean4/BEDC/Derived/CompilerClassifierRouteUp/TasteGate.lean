@@ -232,6 +232,21 @@ theorem compilerClassifierRouteChapterTasteGate :
       ⟨compilerClassifierRouteFieldFaithful⟩,
       ⟨compilerClassifierRouteNontrivial⟩⟩
 
+theorem CompilerClassifierRouteCarrier_empty_graph_trace :
+    ∃ x : CompilerClassifierRouteUp, ∃ graphRead routeRead : BHist,
+      x =
+          CompilerClassifierRouteUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+            BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+            BHist.Empty BHist.Empty BHist.Empty ∧
+        Cont BHist.Empty BHist.Empty graphRead ∧
+          Cont graphRead BHist.Empty routeRead ∧ hsame routeRead BHist.Empty := by
+  -- BEDC touchpoint anchor: BHist Cont hsame
+  refine
+    ⟨CompilerClassifierRouteUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+        BHist.Empty BHist.Empty BHist.Empty, BHist.Empty, BHist.Empty, ?_⟩
+  exact ⟨rfl, rfl, rfl, rfl⟩
+
 theorem CompilerClassifierRouteNameCertObligations [AskSetup] [PackageSetup]
     {S T A M K G E Q L H C P N graphRead routeRead : BHist}
     {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
