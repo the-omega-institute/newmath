@@ -14,7 +14,11 @@ The intended geometric condition is strict refinement,
 $$
 h_{m+1}<h_m.
 $$
-Because the core Lean certificate is mathlib-free and contains no logarithm interface, the formal side records the exact integer comparison obtained by exponentiating the logarithmic inequality. Namely, monotonicity of the logarithm gives the chain
+The quantitative mesh condition is the three-window halving law
+$$
+h_{m+3}<\frac{h_m}{2}.
+$$
+Because the core Lean certificate is mathlib-free and contains no logarithm interface, the formal side records the exact integer comparisons obtained by exponentiating the logarithmic inequalities. Namely, monotonicity of the logarithm gives the strict-refinement chain
 $$
 \begin{aligned}
 \frac{\log F_{m+3}}{F_{m+1}}<\frac{\log F_{m+2}}{F_m}
@@ -23,21 +27,42 @@ $$
 &\Longleftrightarrow F_{m+3}^{F_m}<F_{m+2}^{F_{m+1}} .
 \end{aligned}
 $$
-Thus the finite certificate is the pure natural-number inequality
+and the halving chain
+$$
+\begin{aligned}
+\frac{\log F_{m+5}}{F_{m+3}}<\frac{\log F_{m+2}}{2F_m}
+&\Longleftrightarrow 2F_m\log F_{m+5}<F_{m+3}\log F_{m+2}\\
+&\Longleftrightarrow \log(F_{m+5}^{2F_m})<\log(F_{m+2}^{F_{m+3}})\\
+&\Longleftrightarrow F_{m+5}^{2F_m}<F_{m+2}^{F_{m+3}} .
+\end{aligned}
+$$
+Thus the finite certificate contains the pure natural-number inequalities
 $$
 F_{m+3}^{F_m}<F_{m+2}^{F_{m+1}},
+$$
+and
+$$
+F_{m+5}^{2F_m}<F_{m+2}^{F_{m+3}},
 $$
 checked for the displayed Fibonacci-window range together with the window-growth comparisons
 $$
 F_{m+2}<F_{m+3}.
 $$
-These two families are the finite bricks behind the necessary geometric behavior: the mesh tends toward zero while the logarithmic window tends toward infinity. They are necessary conditions for the totality of the log-hat test system in the Weil space.
+The halving inequalities give
+$$
+h_{3+3k}<\frac{h_3}{2^k}\to 0,
+$$
+so the mesh tends toward zero at an explicit geometric rate while the logarithmic window tends toward infinity. These are necessary conditions for the totality of the log-hat test system in the Weil space.
 
 \begin{theorem}[Fibonacci-window mesh refinement bricks]
 \label{thm:fibonacci-window-mesh-refinement-bricks}
 For $m=3,4,5,6,7$ the integer mesh-refinement comparisons
 $$
 F_{m+3}^{F_m}<F_{m+2}^{F_{m+1}}
+$$
+and the integer mesh-halving comparisons
+$$
+F_{m+5}^{2F_m}<F_{m+2}^{F_{m+3}}
 $$
 hold, and the window-growth comparisons
 $$
@@ -54,6 +79,14 @@ The remaining comparisons are the same kind of integer certificates:
 $$
 13^3<8^5,\qquad 21^5<13^8,\qquad 34^8<21^{13},\qquad 55^{13}<34^{21}.
 $$
+The first halving comparison is
+$$
+21^4=194481<390625=5^8,
+$$
+and the remaining halving comparisons are certified by the displayed natural-number slack equalities in Lean:
+$$
+34^6<8^{13},\qquad 55^{10}<13^{21},\qquad 89^{16}<21^{34},\qquad 144^{26}<34^{55}.
+$$
 No analytic logarithm theorem is used inside Lean; the logarithmic bridge above is the paper-side interpretation of the integer certificate.
 \end{proof}
 
@@ -61,7 +94,7 @@ No analytic logarithm theorem is used inside Lean; the logarithmic bridge above 
 
 \begin{theorem}[Density frontier for the Fibonacci-window Weil packet]
 \label{thm:fibonacci-window-density-frontier}
-The mesh refinement and window growth are necessary conditions for the totality of the log-hat test system, but they are not a density theorem and not a proof of RH.
+The mesh refinement, three-window geometric mesh decay, and window growth are necessary conditions for the totality of the log-hat test system, but they are not a density theorem and not a proof of RH.
 \end{theorem}
 \begin{proof}
 The finite Weil shadow has a visible numerical decay law: the minimum eigenvalue of the inspected matrices behaves like
@@ -74,16 +107,16 @@ This is not a cosmetic numerical issue. Floating quadrature can certify the earl
 $$
 W^{(m)}\succeq \delta_m I.
 $$
-The mesh refinement and window growth are necessary conditions for the totality of the log-hat test system, but the full fundamentality statement -- that finite Weil positivity across all windows forces RH -- is entangled with the fine distribution of the zeros and is essentially equivalent to RH itself. This packet records the exact finite mesh-geometry bricks and the honest frontier, not a density theorem.
+The mesh refinement, three-window geometric mesh decay, and window growth are necessary conditions for the totality of the log-hat test system, but the full fundamentality statement -- that finite Weil positivity across all windows forces RH -- is entangled with the fine distribution of the zeros and is essentially equivalent to RH itself. This packet records the exact finite mesh-geometry bricks and the honest frontier, not a density theorem.
 \end{proof}
 
-\falsifiablePrediction{Recomputing the Fibonacci values, the five inequalities $F_{m+3}^{F_m}<F_{m+2}^{F_{m+1}}$ for $m=3,4,5,6,7$, the five comparisons $F_{m+2}<F_{m+3}$ for $m=3,4,5,6,7$, or the exact Lean certificate refutes this packet if any listed finite comparison fails.}
+\falsifiablePrediction{Recomputing the Fibonacci values, the five inequalities $F_{m+3}^{F_m}<F_{m+2}^{F_{m+1}}$, the five inequalities $F_{m+5}^{2F_m}<F_{m+2}^{F_{m+3}}$, the five comparisons $F_{m+2}<F_{m+3}$ for $m=3,4,5,6,7$, or the exact Lean certificate refutes this packet if any listed finite comparison fails.}
 
 \independenceWitness{fibonacci-window-mesh-refinement: this packet records finite mesh-geometry necessary conditions for the log-hat Weil window; it does not prove log-hat density, does not prove fundamentality of the finite windows, and does not prove RH.}
 
-\begin{closurestatus}{FibonacciWindowMeshRefinement}
+\begin{closurestatus}{\mathrm{FibonacciWindowMeshRefinement}}
   \theoryclosure{\scopedClosure}
-  \scopeclosed{the mesh-refinement integer inequalities $F_{m+3}^{F_m}<F_{m+2}^{F_{m+1}}$ (equivalently $h_{m+1}<h_m$) and window growth through $m=7$, the finite necessary conditions for log-hat totality}
+  \scopeclosed{the mesh-refinement integer inequalities $F_{m+3}^{F_m}<F_{m+2}^{F_{m+1}}$ (equivalently $h_{m+1}<h_m$), the geometric mesh-decay inequalities $F_{m+5}^{2F_m}<F_{m+2}^{F_{m+3}}$ (equivalently $h_{m+3}<h_m/2$), and window growth through $m=7$, giving $h_m\to 0$ at an explicit rate as finite necessary conditions for log-hat totality}
   \formalstatus{\theoremCheckedV}
   \leantarget{BEDC.Derived.RHRoute.FibonacciWindowMeshRefinement.fibonacci\_window\_mesh\_refinement\_certificate}
   \bridgestatus{none}
