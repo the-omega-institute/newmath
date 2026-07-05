@@ -19,6 +19,7 @@ import BedcMathlibBridge.Export.StirlingFirst
 import BedcMathlibBridge.Export.StirlingSecond
 import BedcMathlibBridge.Export.BellStirlingPrefix
 import BedcMathlibBridge.Export.TouchardPoly
+import BedcMathlibBridge.Export.BellPolynomialSecond
 import BedcMathlibBridge.Export.Derangement
 import BedcMathlibBridge.Export.DescFactorial
 import BedcMathlibBridge.Export.Superfactorial
