@@ -170,6 +170,24 @@ Finally apply \autoref{thm:finite-cauchy-gluing-budget-nonescape}. Every diagona
 \end{proof}
 \leanchecked{BEDC.Derived.FiniteCauchyGluingBudgetUp.FiniteCauchyGluingBudgetCarrier\_common\_tail}
 
+\begin{theorem}[Finite Cauchy gluing-budget synchronizer-ledger induction]
+\label{thm:finite-cauchy-gluing-budget-synchronizer-ledger-induction}
+Let
+$$
+B=(G,L,T,S,K,U,V,D,R,H,C,P,N)
+$$
+be an accepted $\FiniteCauchyGluingBudgetUp$ packet. Any consumer that preserves the witness ledger $L$, tail envelope $T$, synchronizer $S$, completion-seal classifier $K$, and downstream rows $U,D,V,R$ preserves the same finite gluing-budget route by induction over the displayed synchronizer window. The induction state never leaves the rows named by $G,L,T,S,K,U,D,V,R,H,C,P,N$.
+\end{theorem}
+\begin{proof}
+Project the accepted packet and apply route exactness from \autoref{thm:finite-cauchy-gluing-budget-route-exactness}. The induction base reads the witness side $G,L,T$ as displayed carrier rows, so there is no external witness ledger to select.
+
+Use synchronizer-window exactness from \autoref{thm:finite-cauchy-gluing-budget-synchronizer-window-exactness}. The step case is forced to pass through the same synchronizer $S$ and completion-seal classifier $K$ before any downstream tail row can be exposed.
+
+Apply the common-tail theorem, \autoref{thm:finite-cauchy-gluing-budget-common-tail}. Once $L,T,S,K$ are fixed, preserving the downstream rows means preserving the finite tail route through $U,D,V,R$ rather than constructing a second route with the same visible ledger.
+
+Finally combine the Real-seal handoff of \autoref{thm:finite-cauchy-gluing-budget-real-seal-handoff} with nonescape from \autoref{thm:finite-cauchy-gluing-budget-nonescape}. A Real-facing consumer reaches $R$ only through the displayed synchronizer window and cannot import quotient streams, selected limits, hidden completion rows, countable choice, or ambient completeness while claiming to preserve the same gluing budget.
+\end{proof}
+
 \begin{theorem}[Finite Cauchy gluing-budget Real seal handoff]
 \label{thm:finite-cauchy-gluing-budget-real-seal-handoff}
 Every $\RealUp$-facing consumer of an accepted $\FiniteCauchyGluingBudgetUp$ packet receives the terminal seal row $R$ only after the packet has displayed the $\StreamNameUp$ row $U$, the $\DyadicRatCoreUp$ row $D$, and the $\RegSeqRatUp$ row $V$ along the same finite route. The handoff is therefore a finite budget handoff through StreamName, DyadicRatCore, and RegSeqRat data, not a direct ambient Real-completeness read.

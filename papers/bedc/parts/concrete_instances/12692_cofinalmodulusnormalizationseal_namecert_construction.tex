@@ -171,6 +171,24 @@ Finally apply ledger non-escape from \autoref{thm:cofinal-modulus-normalization-
 \end{proof}
 \leanchecked{BEDC.Derived.CofinalModulusNormalizationSealUp.CofinalModulusNormalizationSeal\_obligation\_row\_transport}
 
+\begin{theorem}[Cofinal modulus normalization seal obligation scope]
+\label{thm:cofinal-modulus-normalization-seal-obligation-scope}
+For every accepted $\CofinalModulusNormalizationSealUp$ carrier
+$$
+S=(A,B,M,W,D,R,E,H,C,P,L,N),
+$$
+each exported obligation row is scoped by $\CofinalModulusSealUp$, $\RegularCauchyModulusNormalizerUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$. The scope contains the paired schedules $A,B$, the cofinal-seal row $M$, the normalized shared-window row $W$, the dyadic-ledger row $D$, the paired-readback row $R$, the terminal Real seal $E$, the transport row $H$, the replay row $C$, the provenance row $P$, the terminal ledger $L$, and the local name $N$, and it contains no quotient streams, selected limits, host equality, countable choice, or ambient completeness.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier as $S=(A,B,M,W,D,R,E,H,C,P,L,N)$. The carrier definition and the NameCert obligations expose exactly those rows, so the obligation surface begins inside the finite $\BHist$ packet rather than in an ambient Real or Completion principle.
+
+Use the Real-completion handoff of \autoref{thm:cofinal-modulus-normalization-seal-real-completion-handoff}. It forces every completion-facing read to pass from the paired schedules through the cofinal seal $M$, then through the normalized window, dyadic ledger, and paired readback rows $W,D,R$, and finally through $E,H,C,P,L,N$.
+
+Invoke classifier stability from \autoref{thm:cofinal-modulus-normalization-seal-classifier-stability} and paired-schedule exposure from \autoref{thm:cofinal-modulus-normalization-seal-paired-schedule-exposure}. Together they keep the shared-window route tied to $\CofinalModulusSealUp$ and $\RegularCauchyModulusNormalizerUp$ before any $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, or $\RealUp$ row can be read.
+
+Finally apply ledger non-escape from \autoref{thm:cofinal-modulus-normalization-seal-ledger-nonescape}. Since $L$ records the terminal boundary and the carrier has no coordinate for quotient streams, selected limits, host equality, countable choice, or ambient completeness, every obligation row remains inside the listed BEDC scope.
+\end{proof}
+
 \falsifiablePrediction{If the normalized cofinal modulus seal is atomic, then any RealUp diagonal-limit route consuming two cofinal schedules factors through its normalized shared-window row before reaching the RealUp seal.}
 
 \independenceWitness{regular-cauchy-modulus-normalizer, cofinal-tail-budget, dyadic-cofinal-tail-selector, real-tail-agreement-seal: the new carrier binds paired cofinal schedules, normalized shared-window data, and terminal RealUp seal handoff in one packet, while each sibling lacks at least one of those rows.}
