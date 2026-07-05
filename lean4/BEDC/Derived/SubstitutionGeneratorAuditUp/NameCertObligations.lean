@@ -16,6 +16,25 @@ open BEDC.FKernel.NameCert
 open BEDC.FKernel.Package
 open BEDC.FKernel.Unary
 
+def SubstitutionGeneratorAuditCarrier [AskSetup] [PackageSetup]
+    (T C R S K W H Q P N : BHist) (bundle : ProbeBundle ProbeName) (pkg : Pkg) :
+    Prop :=
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont PkgSig UnaryHistory
+  UnaryHistory T ∧ UnaryHistory C ∧ UnaryHistory R ∧ UnaryHistory S ∧
+    UnaryHistory K ∧ UnaryHistory W ∧ UnaryHistory H ∧ UnaryHistory Q ∧
+      UnaryHistory P ∧ UnaryHistory N ∧ Cont W Q N ∧ PkgSig bundle P pkg ∧
+        PkgSig bundle N pkg
+
+theorem SubstitutionGeneratorAuditCarrier_namecert_projection [AskSetup] [PackageSetup]
+    {T C R S K W H Q P N : BHist} {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    SubstitutionGeneratorAuditCarrier T C R S K W H Q P N bundle pkg →
+      UnaryHistory N ∧ Cont W Q N ∧ PkgSig bundle P pkg ∧ PkgSig bundle N pkg := by
+  -- BEDC touchpoint anchor: SubstitutionGeneratorAuditCarrier BHist ProbeBundle Pkg Cont PkgSig UnaryHistory
+  intro carrier
+  obtain ⟨_tUnary, _cUnary, _rUnary, _sUnary, _kUnary, _wUnary, _hUnary, _qUnary,
+    _pUnary, nUnary, nameRoute, provenancePkg, namePkg⟩ := carrier
+  exact ⟨nUnary, nameRoute, provenancePkg, namePkg⟩
+
 theorem SubstitutionGeneratorAuditCarrier_namecert_obligations [AskSetup] [PackageSetup]
     {T C R S K W H Q P N nameRead : BHist} {bundle : ProbeBundle ProbeName} {pkg : Pkg}
     (nameUnary : UnaryHistory N) (replayUnary : UnaryHistory W)
