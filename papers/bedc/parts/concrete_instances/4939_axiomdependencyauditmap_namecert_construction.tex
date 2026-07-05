@@ -74,12 +74,26 @@ Finally replay the packet through $H,C,P,N$. Componentwise transport and package
 \end{proof}
 \leanchecked{BEDC.Derived.AxiomDependencyAuditMapUp.AxiomDependencyAuditMapCarrier\_nonescape}
 
+\begin{theorem}[AxiomDependencyAuditMap obligation surface]
+\label{thm:axiom-dependency-audit-map-obligation-surface}
+Every accepted $\AxiomDependencyAuditMapUp$ packet exposes exactly the audit-source row, forbidden-axiom ancestry row, paper-Lean drift witness row, dependency edge ledger, componentwise $\hsame$ transport, $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ row needed by an audit-map consumer. No consumer may read $\mathsf{Classical.choice}$, $\mathsf{Quot.sound}$, $\mathsf{propext}$, a host import graph, or an external audit oracle outside those displayed rows.
+\end{theorem}
+\begin{proof}
+Project the accepted packet as $D=(K,M,W,A,L,H,C,P,N)$. The audit-source row is $K$, while $M,W,A$ give the mode, witness, and required-axiom readings attached to the source.
+
+The finite ledger $L$ supplies the dependency edge ledger. Through the provenance row $P$, the same ledger exposes the paper-Lean drift witness of \autoref{ch:concrete-instances-paper-lean-drift-witness-namecert} and the forbidden-axiom ancestry surface of \autoref{ch:concrete-instances-forbidden-axiom-ancestry-namecert}.
+
+It remains to read the structural rows. The componentwise transport row $H$, replay row $C$, provenance row $P$, and local naming row $N$ preserve only the displayed audit carrier.
+
+Since the carrier definition contains no coordinate for $\mathsf{Classical.choice}$, $\mathsf{Quot.sound}$, $\mathsf{propext}$, a host import graph, or an external audit oracle, row exhaustion blocks every read outside the listed obligation surface.
+\end{proof}
+
 \closureat{AxiomDependencyAuditMapUp}{seedStr}
 
 \begin{closurestatus}{\AxiomDependencyAuditMapUp}
   \constructivestory{An $\AxiomDependencyAuditMapUp$ packet is generated from an audited claim row, a mode row, a witness row, a required-axiom row, a finite audit ledger, displayed $\hsame$ and $\Cont$ routes, $\Pkg$ provenance, and a local $\NameCert$ row.}
   \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:axiom-dependency-audit-map-carrier}, \autoref{thm:axiom-dependency-audit-map-mode-totality}, \autoref{thm:axiom-dependency-audit-map-namecert-obligations}, and \autoref{thm:axiom-dependency-audit-map-nonescape} specify the finite dependency-map packet for mode, witness, required-axiom, ledger, and non-escape reads.}
+  \scopeclosed{\autoref{def:axiom-dependency-audit-map-carrier}, \autoref{thm:axiom-dependency-audit-map-mode-totality}, \autoref{thm:axiom-dependency-audit-map-namecert-obligations}, \autoref{thm:axiom-dependency-audit-map-nonescape}, and \autoref{thm:axiom-dependency-audit-map-obligation-surface} specify the finite dependency-map packet for mode, witness, required-axiom, ledger, non-escape, and obligation-surface reads.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{human}
