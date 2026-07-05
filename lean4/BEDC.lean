@@ -11308,6 +11308,8 @@ import BEDC.Derived.RealWindowSynchronizerUp.StdBridge
 import BEDC.Derived.RealWindowSynchronizerUp.TasteGate
 import BEDC.Derived.RealZeroUp
 import BEDC.Derived.RealZeroUp.ComponentwiseTransport
+import BEDC.Derived.RealZeroUp.LedgerNonescape
+import BEDC.Derived.RealZeroUp.ReplayStability
 import BEDC.Derived.RealZeroUp.TasteGate
 import BEDC.Derived.Real_modulus_of_convergenceUp
 import BEDC.Derived.RealityConstrained.ConstructiveInfoGen
