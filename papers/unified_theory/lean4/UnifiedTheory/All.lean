@@ -9,4 +9,5 @@ import UnifiedTheory.PZG.Decode
 import UnifiedTheory.PZG.Normalize
 import UnifiedTheory.Golden.PhiInt
 import UnifiedTheory.Golden.Lambda
+import UnifiedTheory.Golden.Deficit
 import UnifiedTheory.Kernel.LedgerStatus
