@@ -38,6 +38,7 @@ import BedcMathlibBridge.Constructive.NatMulSucc
 import BedcMathlibBridge.Constructive.NatFactorialSucc
 import BedcMathlibBridge.Constructive.NatFactorialPos
 import BedcMathlibBridge.Constructive.NatFactorialNeZero
+import BedcMathlibBridge.Constructive.NatSelfLeFactorial
 import BedcMathlibBridge.Constructive.NatMulZero
 import BedcMathlibBridge.Constructive.NatMulOne
 import BedcMathlibBridge.Constructive.NatOneMul
