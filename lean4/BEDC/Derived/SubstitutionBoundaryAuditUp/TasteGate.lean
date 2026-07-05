@@ -299,4 +299,28 @@ theorem SubstitutionBoundaryAuditNameCertObligations
       hsame_refl C, hsame_refl P, hsame_refl N, hclosedShift, hclosedSub,
       hexposureShift, hexposureSub⟩
 
+theorem SubstitutionBoundaryAuditCarrier_independence_witness
+    {T V d Csrc Cval Q R L E H C P N T' V' d' Csrc' Cval' Q' R' L' E' H' C'
+      P' N' : BHist}
+    (heq :
+      substitutionBoundaryAuditToEventFlow
+          (SubstitutionBoundaryAuditUp.mk T V d Csrc Cval Q R L E H C P N) =
+        substitutionBoundaryAuditToEventFlow
+          (SubstitutionBoundaryAuditUp.mk T' V' d' Csrc' Cval' Q' R' L' E' H' C'
+            P' N'))
+    (hexposureShift : Cont E Q N) (hexposureSub : Cont E R N) :
+    hsame E E' ∧ hsame Q Q' ∧ hsame R R' ∧ hsame N N' ∧ Cont E' Q' N' ∧
+      Cont E' R' N' := by
+  -- BEDC touchpoint anchor: BHist BMark Cont hsame
+  have hmk :=
+    substitutionBoundaryAuditToEventFlow_injective
+      (x := SubstitutionBoundaryAuditUp.mk T V d Csrc Cval Q R L E H C P N)
+      (y := SubstitutionBoundaryAuditUp.mk T' V' d' Csrc' Cval' Q' R' L' E' H' C'
+        P' N')
+      heq
+  cases hmk
+  exact
+    ⟨hsame_refl E, hsame_refl Q, hsame_refl R, hsame_refl N, hexposureShift,
+      hexposureSub⟩
+
 end BEDC.Derived.SubstitutionBoundaryAuditUp
