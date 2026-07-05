@@ -133,6 +133,10 @@ def exportWitnessRegistry : Array ExportRegistration := #[
   { witness := `BedcMathlibBridge.Export.NatFactorialPos.natFactorialPosExport,
     witnessType :=
       `BedcMathlibBridge.Export.NatFactorialPos.NatFactorialPosExportWitness },
+  { witness :=
+      `BedcMathlibBridge.Export.NatFactorialNeZero.natFactorialNeZeroExport,
+    witnessType :=
+      `BedcMathlibBridge.Export.NatFactorialNeZero.NatFactorialNeZeroExportWitness },
   { witness := `BedcMathlibBridge.Export.NatMulZero.natMulZeroExport,
     witnessType :=
       `BedcMathlibBridge.Export.NatMulZero.NatMulZeroExportWitness },
