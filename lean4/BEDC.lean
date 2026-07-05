@@ -6018,6 +6018,7 @@ import BEDC.Derived.FareySequenceUp.TasteGate
 import BEDC.Derived.FarkasLemmaUp.TasteGate
 import BEDC.Derived.FastCauchyCompletionUp.FiniteInduction
 import BEDC.Derived.FastCauchyCompletionUp.ModulusRealSeal
+import BEDC.Derived.FastCauchyCompletionUp.ObligationClosureSurface
 import BEDC.Derived.FastCauchyCompletionUp.TasteGate
 import BEDC.Derived.FastCauchyCriterionUp.TasteGate
 import BEDC.Derived.FastCauchyModulusUp.TasteGate
@@ -11466,6 +11467,7 @@ import BEDC.Derived.RegSeqRatUp.CommonRefinement
 import BEDC.Derived.RegSeqRatUp.CommonTailRealBoundaryEquivalence
 import BEDC.Derived.RegSeqRatUp.CommonTailTerminalSectionCover
 import BEDC.Derived.RegSeqRatUp.CommonTailWindow
+import BEDC.Derived.RegSeqRatUp.FiniteCoverDiagonal
 import BEDC.Derived.RegSeqRatUp.FiniteRequestSourceSection
 import BEDC.Derived.RegSeqRatUp.FiniteRequestTerminalBudgetFactorization
 import BEDC.Derived.RegSeqRatUp.RealSealFiniteWindowSaturation
