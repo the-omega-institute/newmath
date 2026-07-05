@@ -79,6 +79,46 @@ The large-model inscription and activation-orbit siblings consume the distilled 
 Since the carrier contains no hidden source selector or private provenance channel, a downstream audit read that reaches a corpus source row must pass through the displayed corpus provenance coordinate.
 \end{proof}
 
+\begin{theorem}[LargeModelCorpusSupply filter exactness]
+\label{thm:large-model-corpus-supply-filter-exactness}
+For every accepted $\LargeModelCorpusSupplyUp$ carrier $C=(R,F,W,I,A,H,K,P,N)$, every training-filter read exposed to a downstream consumer is exactly the displayed row $F$ transported with the corpus-source row $R$, distilled weight row $W$, inference-consumption row $I$, audit-ledger row $A$, route row $K$, provenance row $P$, and local name $N$. The TasteGate carrier-alignment marker displayed after \autoref{def:large-model-corpus-supply-carrier} is read as carrier alignment for these rows, not as hidden model truth or private corpus selection.
+\end{theorem}
+\begin{proof}
+Project the carrier. The filter row is a named coordinate $F$, and it appears between the corpus-source row $R$ and the distilled weight row $W$.
+
+Read the existing TasteGate carrier-alignment marker after the carrier definition as alignment of the displayed packet. Its role is to keep the carrier rows together, not to add a hidden semantic source.
+
+Transport is componentwise through $H$ and replayed through $K$. Hence every consumer-visible filter read is carried with $R,W,I,A,P,N$ and cannot bypass the displayed filter coordinate.
+\end{proof}
+
+\begin{theorem}[LargeModelCorpusSupply audit non-escape]
+\label{thm:large-model-corpus-supply-audit-nonescape}
+No accepted $\LargeModelCorpusSupplyUp$ packet exports an audit claim outside the displayed route
+$$
+R,F,W,I,A,H,K,P,N .
+$$
+The audit-ledger row $A$ may store corpus provenance, filter evidence, refusal evidence, and public read obligations, but it supplies no hidden corpus selector, corpus-wide truth predicate, private filtering policy outside $F$, host semantic-understanding oracle, or model-side proof of output truth.
+\end{theorem}
+\begin{proof}
+Inspect the carrier rows. The only audit coordinate is $A$, and it is read after corpus source, filter, distilled weight, and inference-consumption rows have already been displayed.
+
+Use the provenance boundary theorem. A downstream audit read that recovers a source row must pass through the displayed corpus provenance coordinate rather than a private channel.
+
+The rows $H,K,P,N$ only transport, replay, source, and name the same audit route. Since the carrier has no coordinate for hidden model truth or private corpus selection, the audit ledger cannot escape the displayed packet.
+\end{proof}
+
+\begin{theorem}[LargeModelCorpusSupply field-faithful boundary]
+\label{thm:large-model-corpus-supply-field-faithful-boundary}
+Every field of an accepted $\LargeModelCorpusSupplyUp$ carrier is faithful to one of the displayed rows $R,F,W,I,A,H,K,P,N$. Changing corpus source, filter, distilled weight, inference-consumption, audit, route, provenance, or local name data changes the corresponding displayed row rather than being absorbed into hidden model truth, private corpus selection, or an untracked field comparison.
+\end{theorem}
+\begin{proof}
+Read the classifier of \autoref{def:large-model-corpus-supply-classifier}. It compares accepted packets by the displayed rows $R,F,W,I,A,K,P,N$ under componentwise $\hsame$.
+
+The transport row $H$ carries the same componentwise comparison for corpus, filter, weight, inference, audit, route, provenance, and naming data. Thus field movement is visible at the row where it occurs.
+
+The TasteGate carrier-alignment marker after \autoref{def:large-model-corpus-supply-carrier} aligns this finite carrier surface. It does not introduce a hidden equality over model internals or a private corpus selector, so field faithfulness remains a boundary claim about the displayed packet.
+\end{proof}
+
 \falsifiablePrediction{If the corpus-supply packet is atomic, no accepted LargeModelAuditChannelUp read can recover a corpus source row without consuming the displayed corpus provenance coordinate.}
 
 \independenceWitness{large-model-inscription-point, large-model-activation-orbit, large-model-audit-channel, inscription-point, transcendental-supply-inscription: the corpus-supply carrier has corpus provenance and training-filter rows absent from each sibling, while the siblings respectively carry inscription-site, activation-orbit, audit-channel, local-inscription, or supply-socket rows instead.}
