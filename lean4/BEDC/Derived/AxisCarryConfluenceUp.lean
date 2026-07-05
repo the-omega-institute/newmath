@@ -331,6 +331,77 @@ theorem AxisCarryConfluenceCarrier_value_ledger_exhaustion [AskSetup] [PackageSe
   }
   exact ⟨cert, ledgerReadUnary⟩
 
+theorem AxisCarryConfluenceCarrier_nonescape [AskSetup] [PackageSetup]
+    {u v w n routeLeft routeRight valueLedger boundary continuation provenance nameRow
+      escapeRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    AxisCarryConfluenceCarrier u v w n routeLeft routeRight valueLedger boundary
+        continuation provenance nameRow bundle pkg →
+      Cont valueLedger boundary escapeRead →
+        PkgSig bundle escapeRead pkg →
+          SemanticNameCert
+              (fun row : BHist => hsame row escapeRead ∧ UnaryHistory row)
+              (fun row : BHist =>
+                hsame row routeLeft ∨ hsame row routeRight ∨ hsame row valueLedger ∨
+                  hsame row boundary ∨ hsame row continuation ∨ hsame row provenance ∨
+                    hsame row nameRow ∨ hsame row escapeRead)
+              (fun row : BHist =>
+                UnaryHistory row ∧ Cont valueLedger boundary escapeRead ∧
+                  PkgSig bundle escapeRead pkg)
+              hsame ∧ UnaryHistory escapeRead := by
+  -- BEDC touchpoint anchor: BHist Cont ProbeBundle PkgSig SemanticNameCert hsame UnaryHistory
+  intro carrier escapeRoute escapePkg
+  have valueLedgerUnary : UnaryHistory valueLedger :=
+    carrier.right.right.right.right.right.right.left
+  have boundaryUnary : UnaryHistory boundary :=
+    carrier.right.right.right.right.right.right.right.left
+  have escapeUnary : UnaryHistory escapeRead :=
+    unary_cont_closed valueLedgerUnary boundaryUnary escapeRoute
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => hsame row escapeRead ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row routeLeft ∨ hsame row routeRight ∨ hsame row valueLedger ∨
+              hsame row boundary ∨ hsame row continuation ∨ hsame row provenance ∨
+                hsame row nameRow ∨ hsame row escapeRead)
+          (fun row : BHist =>
+            UnaryHistory row ∧ Cont valueLedger boundary escapeRead ∧
+              PkgSig bundle escapeRead pkg)
+          hsame := {
+    core := {
+      carrier_inhabited := Exists.intro escapeRead
+        ⟨hsame_refl escapeRead, escapeUnary⟩
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        exact
+          ⟨hsame_trans (hsame_symm sameRows) source.left,
+            unary_transport source.right sameRows⟩
+    }
+    pattern_sound := by
+      intro _row source
+      exact
+        Or.inr
+          (Or.inr
+            (Or.inr
+              (Or.inr
+                (Or.inr
+                  (Or.inr
+                    (Or.inr source.left))))))
+    ledger_sound := by
+      intro _row source
+      exact ⟨source.right, escapeRoute, escapePkg⟩
+  }
+  exact ⟨cert, escapeUnary⟩
+
 theorem AxisCarryConfluenceCarrier_obligation [AskSetup] [PackageSetup]
     {u v w n routeLeft routeRight valueLedger boundary continuation provenance
       nameRow : BHist}
