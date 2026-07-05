@@ -724,6 +724,7 @@ import BEDC.Derived.AxisCarryRefusalLedgerUp
 import BEDC.Derived.AxisCarryRefusalLedgerUp.TasteGate
 import BEDC.Derived.AxisCarryRouteSeparationUp.TasteGate
 import BEDC.Derived.AxisNatReplacementRefusalUp.TasteGate
+import BEDC.Derived.AxisNatReplacementRefusalUp.VisionRealization
 import BEDC.Derived.AxisNatUp.TasteGate
 import BEDC.Derived.AxisUnarySpineNormalizerUp.Carrier
 import BEDC.Derived.AxisUnarySpineNormalizerUp.NameCertObligations
@@ -1323,6 +1324,7 @@ import BEDC.Derived.BornologyUp.ObligationClosureRoute
 import BEDC.Derived.BornologyUp.ScopeKernelGrounding
 import BEDC.Derived.BornologyUp.TasteGate
 import BEDC.Derived.BornologyUp.UnionStability
+import BEDC.Derived.BorrowedRecursorBoundaryUp.GateCorrespondence
 import BEDC.Derived.BorrowedRecursorBoundaryUp.Nonescape
 import BEDC.Derived.BorrowedRecursorBoundaryUp.TasteGate
 import BEDC.Derived.BorsukUlamAntipodalUp
@@ -3253,6 +3255,7 @@ import BEDC.Derived.ClosedConsistencyGapUp.TasteGate
 import BEDC.Derived.ClosedConsistencyReductionBoundaryUp.NameCertObligations
 import BEDC.Derived.ClosedConsistencyReductionBoundaryUp.ObstructionReadback
 import BEDC.Derived.ClosedConsistencyReductionBoundaryUp.TasteGate
+import BEDC.Derived.ClosedConsistencyReductionBoundaryUp.VisionHandoff
 import BEDC.Derived.ClosedGenerationRefusalUp.TasteGate
 import BEDC.Derived.ClosedGeneratorAuditUp
 import BEDC.Derived.ClosedGeneratorAuditUp.TasteGate
