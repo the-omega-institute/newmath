@@ -51,6 +51,20 @@ Apply \autoref{thm:audit-axis-separation-namecert-obligations}. The NameCert sur
 The registry and continuation rows preserve the displayed packet rather than computing a status grade. Hence a consumer may jointly report the two axes, but a collapsed status coordinate or cross-axis inference is outside the accepted $\AuditAxisSeparationUp$ carrier.
 \end{proof}
 
+\begin{theorem}[Audit axis separation obligation scope]
+\label{thm:audit-axis-separation-obligation-scope}
+The checked TasteGate alignment for an accepted $\AuditAxisSeparationUp$ packet is read through the separate rows $T,F,L,B,R,X,H,C,P,N$ of \autoref{def:audit-axis-separation-carrier}. The $\Nontrivial$ instance prevents the one-packet collapse that would identify all accepted packets, while the $\FieldFaithful$ instance preserves theory closure, formal status, Lean target, bridge status, refusal, registry export, transport, replay, provenance, and local naming as distinct rows before the carrier-alignment theorem is read.
+\end{theorem}
+\begin{proof}
+Project the carrier rows from \autoref{def:audit-axis-separation-carrier}. They expose $T,F,L,B,R,X,H,C,P,N$ as the complete displayed packet.
+
+Use \autoref{thm:audit-axis-separation-namecert-obligations} to identify the local NameCert surface and \autoref{thm:audit-axis-separation-noncollapse} to keep the theory and formal axes from becoming one status coordinate.
+
+The checked TasteGate target
+\texttt{BEDC.Derived.AuditAxisSeparationUp.AuditAxisSeparationTasteGate\_single\_carrier\_alignment}
+is then the verification touchpoint for this same carrier. Its surrounding $\Nontrivial$ and $\FieldFaithful$ instances are read as row-separation evidence for the displayed packet, not as a replacement for the paper-side obligation rows.
+\end{proof}
+
 \falsifiablePrediction{A packet with only a theory-closure row or only a formal-status row is not an accepted $\AuditAxisSeparationUp$ carrier.}
 
 \independenceWitness{audit-writing-discipline, closure-status-reference, registry-consistency-audit, registry-export-surface, registry-export-consistency-gate: none is bijective to $\AuditAxisSeparationUp$ because none carries the same paired noncollapsing theory/formal axis rows together with Lean-target, bridge-status, refusal, registry-export, transport, replay, provenance, and local NameCert rows.}

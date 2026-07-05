@@ -11450,6 +11450,7 @@ import BEDC.Derived.RefutationWitnessUp
 import BEDC.Derived.RefuterTraceUp.PermittedRefutationRoute
 import BEDC.Derived.RefuterTraceUp.TasteGate
 import BEDC.Derived.RegSeqObservationBudgetUp.TasteGate
+import BEDC.Derived.RegSeqRatIntervalIntersectionUp
 import BEDC.Derived.RegSeqRatLocatedModulusUp.TasteGate
 import BEDC.Derived.RegSeqRatUp
 import BEDC.Derived.RegSeqRatUp.AuditThresholdFiniteCoverGluing
