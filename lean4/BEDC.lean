@@ -1230,6 +1230,7 @@ import BEDC.Derived.BishopRegularCauchyCompletionUp.TailDiameterControl
 import BEDC.Derived.BishopRegularCauchyCompletionUp.TasteGate
 import BEDC.Derived.BishopRegularCauchyCompletionUp.UniversalHandoff
 import BEDC.Derived.BishopRegularCauchyCompletionUp.WindowInduction
+import BEDC.Derived.BishopRegularCauchyEnvelopeUp.TasteGate
 import BEDC.Derived.BishopRegularCauchyLimitSealUp.TasteGate
 import BEDC.Derived.BishopRegularCutEquivalenceUp.TasteGate
 import BEDC.Derived.BishopRegularRealLocatorUp.TasteGate
@@ -5840,6 +5841,7 @@ import BEDC.Derived.EquicontinuousCauchyFamilyUp.CompletionHandoff
 import BEDC.Derived.EquicontinuousCauchyFamilyUp.TasteGate
 import BEDC.Derived.EquicontinuousCompletionUp.TasteGate
 import BEDC.Derived.EquicontinuousFamilyUp.TasteGate
+import BEDC.Derived.EquicontinuousUniformCauchyModulusUp
 import BEDC.Derived.EquivCatUp
 import BEDC.Derived.ErdosSzekeresMonotoneSubsequenceUp
 import BEDC.Derived.ErgodicUp
