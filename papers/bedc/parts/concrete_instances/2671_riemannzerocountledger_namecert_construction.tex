@@ -115,6 +115,20 @@ Consequently the transported export preserves the displayed finite list and its 
 \end{proof}
 \leanchecked{BEDC.Derived.RiemannZeroCountLedgerUp.RiemannZeroCountLedgerCarrier\_zero\_list\_count\_transport}
 
+\begin{theorem}[RiemannZeroCountLedger formal-target contract]
+\label{thm:riemann-zero-count-ledger-formal-target-contract}
+Every accepted $\RiemannZeroCountLedgerUp$ zero-count ledger read factors through the displayed critical-line witness, zeta-zero packet, finite height window, comparison-error ledger, unary count row, and local $\NameCert$ provenance before it can be offered to a Lean formal target. The contract explicitly refuses $\mathsf{RH}$, analytic continuation, zero-set completeness, host cardinality, and bridge checking.
+\end{theorem}
+\begin{proof}
+Start with the window exhaustion theorem, \autoref{thm:riemann-zero-count-ledger-window-exhaustion}. It restricts every RH-facing zero-count read to the displayed rows $T,Z,U,M,E,H,C,P,N$.
+
+Apply height-filter stability from \autoref{thm:riemann-zero-count-ledger-height-filter-stability}. The finite height window remains the displayed row $T$ before the zero packet list $Z$ is filtered.
+
+Next apply comparison-error nonescape, \autoref{thm:riemann-zero-count-ledger-comparison-error-nonescape}. The comparison ledger $M$ and explicit error row $E$ must be read before the unary count row is exported.
+
+Finally apply zero-list count transport from \autoref{thm:riemann-zero-count-ledger-zero-list-count-transport}. The transported formal-target offer preserves the same finite zero list and unary count, while $H,C,P,N$ provide only transport, replay, provenance, and local naming. Since no carrier coordinate stores $\mathsf{RH}$, analytic continuation, zero-set completeness, host cardinality, or a bridge certificate, those endpoints remain refused.
+\end{proof}
+
 \closureat{RiemannZeroCountLedgerUp}{seedStr}
 
 \begin{closurestatus}{\RiemannZeroCountLedgerUp}
