@@ -1,0 +1,77 @@
+\chapter{A Concrete Naming Certificate for $\ProjectiveModuleUp$}
+\label{ch:concrete-instances-projective-module-namecert}
+\origin{human}
+
+Following Cartan--Eilenberg and Bourbaki, the $\ProjectiveModuleUp$ packet records the finite idempotent-splitting surface by which a displayed module row is read as a direct summand of a finite free module row. It sits after the scalar $\RingUp$ source of \autoref{ch:concrete-instances-ring-namecert}, the module carrier of \autoref{ch:concrete-instances-module-namecert}, the $\LinearMapUp$ endomorphism surface of \autoref{ch:concrete-instances-linearmap-namecert}, the exactness surface of \autoref{ch:concrete-instances-abeliancat-namecert}, and the injective comparison surface of \autoref{ch:concrete-instances-injective-module-namecert}. The Serre--Swan finite-projective consumer of \autoref{ch:concrete-instances-serre-swan-finite-projective-namecert} reads this packet as its projective-module idempotent surface, without importing host module categories or arbitrary splitting choices.
+
+\begin{definition}[Projective module idempotent-splitting carrier]
+\label{def:projective-module-carrier}
+A $\ProjectiveModuleUp$ carrier is a finite $\BHist$ packet
+$$
+J=(R,M,E,S,T,L,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $R$ is the scalar $\RingUp$ row.
+\item $M$ is the displayed $\ModuleUp$ row whose projective surface is being named.
+\item $E$ is the idempotent $\LinearMapUp$ endomorphism row over the finite free ambient module, carrying the displayed equation $E\circ E=E$.
+\item $S$ is the section row from $M$ into the displayed ambient module.
+\item $T$ is the retraction row from the ambient module back to $M$.
+\item $L$ is the linear-map compatibility ledger, recording that $S$, $T$, and $E$ are read through the same scalar ring and module action rows.
+\item $H$ records componentwise $\hsame$ transport for the ring, module, idempotent, section, retraction, compatibility, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from a projective-module request through $R,M,E,S,T,L,H,P,N$.
+\item $P$ is the $\Pkg$ provenance over $\ProjectiveModuleUp$, $\RingUp$, $\ModuleUp$, $\LinearMapUp$, $\ExactSequenceUp$, $\InjectiveModuleUp$, $\SerreSwanFiniteProjectiveUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\ProjectiveModuleUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $R,M,E,S,T,L,H,C,P,N$. It has no coordinate for a host category of modules, quotient representatives, arbitrary choice of splittings, selected bases, or derived-functor data.
+\end{definition}
+
+\begin{theorem}[Projective module NameCert obligations]
+\label{thm:projective-module-namecert-obligations}
+For every accepted $\ProjectiveModuleUp$ carrier
+$$
+J=(R,M,E,S,T,L,H,C,P,N),
+$$
+the local $\NameCert_{\ProjectiveModuleUp}$ surface consists exactly of scalar ring exposure, module-row exposure, idempotent endomorphism exposure, section and retraction exposure, linear-map compatibility, componentwise transport, displayed replay, provenance, and local naming through $R,M,E,S,T,L,H,C,P,N$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:projective-module-carrier}. The displayed rows are precisely the ring, module, idempotent, section, retraction, compatibility, transport, replay, provenance, and local name.
+
+The algebraic read is finite. The idempotent row $E$ is a $\LinearMapUp$ row over the displayed scalar and module rows, while $S$ and $T$ are the only rows that expose the splitting route.
+
+The compatibility ledger $L$ keeps all three linear maps over the same $R$ and $M$ data. The rows $H,C,P,N$ then transport, replay, source, and name the same finite packet.
+
+Since no host module category, quotient representative, arbitrary splitting choice, selected basis, or derived-functor coordinate is present, the listed rows exhaust the local NameCert obligations.
+\end{proof}
+
+\begin{theorem}[Projective module idempotent splitting]
+\label{thm:projective-module-idempotent-splitting}
+Every accepted $\ProjectiveModuleUp$ read factors through the finite idempotent-splitting route
+$$
+R,M \longmapsto E \longmapsto S,T,L \longmapsto H,C,P,N.
+$$
+Thus the packet exposes a displayed direct-summand surface for the module row, not a host module-category theorem, not quotient-representative equality, not an arbitrary choice of splittings, and not an Ext or derived-functor claim.
+\end{theorem}
+\begin{proof}
+Begin with a projective-module request. The carrier first exposes the scalar ring row $R$ and the module row $M$, so the request is scoped by displayed BEDC data.
+
+The idempotent row $E$ is read next. Only after the idempotent endomorphism is displayed can the section row $S$, retraction row $T$, and compatibility ledger $L$ certify the splitting surface.
+
+Finally, $H,C,P,N$ preserve the same route by componentwise transport, replay, provenance, and local naming. Any route using host categories, quotient representatives, arbitrary choices, or derived functors would require a coordinate absent from the accepted packet.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\ProjectiveModuleUp$ consumer must display scalar RingUp data, ModuleUp data, an idempotent LinearMapUp endomorphism, section and retraction rows, linear-map compatibility, transport, replay, provenance, and local $\NameCert$ rows before reading a projective-module surface.}
+
+\independenceWitness{ring, module, linearmap, exact-sequence, injective-module, serre-swan-finite-projective: $\ProjectiveModuleUp$ is not bijective to any listed sibling because it carries the joint idempotent, section, retraction, compatibility, transport, replay, provenance, and local NameCert rows. RingUp lacks a module row; ModuleUp lacks the idempotent splitting; LinearMapUp lacks the projective carrier boundary; ExactSequenceUp tracks exactness without this local summand surface; InjectiveModuleUp names the dual lifting surface; SerreSwanFiniteProjectiveUp consumes the projective-module row rather than supplying it.}
+
+\closureat{ProjectiveModuleUp}{seedStr}
+
+\begin{closurestatus}{\ProjectiveModuleUp}
+  \constructivestory{A $\ProjectiveModuleUp$ packet is generated from a scalar Ring row, Module row, idempotent LinearMap row, section row, retraction row, linear-map compatibility ledger, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:projective-module-carrier}, \autoref{thm:projective-module-namecert-obligations}, and \autoref{thm:projective-module-idempotent-splitting} seed the finite idempotent-splitting NameCert surface for displayed projective-module reads.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim host module categories, quotient representatives, arbitrary choice of splittings, selected bases, Ext groups, derived-functor claims, Lean theorem verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, idempotent exposure, section and retraction exposure, linear-map compatibility, transport, replay, provenance, local naming, Nontrivial TasteGate evidence, and FieldFaithful TasteGate evidence for BEDC.Derived.ProjectiveModuleUp.}
+\end{closurestatus}
