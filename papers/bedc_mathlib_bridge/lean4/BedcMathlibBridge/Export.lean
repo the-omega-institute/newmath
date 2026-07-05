@@ -33,6 +33,7 @@ import BedcMathlibBridge.Export.NatSuccPred
 import BedcMathlibBridge.Export.NatSuccInjective
 import BedcMathlibBridge.Export.ListMapEqMap
 import BedcMathlibBridge.Export.NatMulComm
+import BedcMathlibBridge.Export.NatMulZero
 import BedcMathlibBridge.Export.NatChooseSuccSucc
 import BedcMathlibBridge.Export.NatChooseZeroRight
 import BedcMathlibBridge.Export.NatChooseSuccSuccPrime
