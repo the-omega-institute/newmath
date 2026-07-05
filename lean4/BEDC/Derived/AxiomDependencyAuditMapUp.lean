@@ -159,4 +159,75 @@ theorem AxiomDependencyAuditMapCarrier_obligation_surface [AskSetup] [PackageSet
   }
   exact ⟨cert, modeUnary, ledgerUnary, publicUnary, auditUnary⟩
 
+theorem AxiomDependencyAuditMapCarrier_top_window_obligation_route [AskSetup] [PackageSetup]
+    {K M W A L H C P N modeRead ledgerRead publicRead dependencyRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    AxiomDependencyAuditMapCarrier K M W A L H C P N bundle pkg →
+      Cont M W modeRead →
+        Cont modeRead L ledgerRead →
+          Cont ledgerRead N publicRead →
+            Cont K H dependencyRead →
+              PkgSig bundle N pkg →
+                PkgSig bundle dependencyRead pkg →
+                  SemanticNameCert
+                      (fun row : BHist => hsame row dependencyRead ∧ UnaryHistory row)
+                      (fun row : BHist =>
+                        hsame row K ∨ hsame row M ∨ hsame row W ∨ hsame row A ∨
+                          hsame row L ∨ hsame row H ∨ hsame row C ∨ hsame row P ∨
+                            hsame row N ∨ hsame row dependencyRead)
+                      (fun row : BHist =>
+                        UnaryHistory row ∧ Cont K H dependencyRead ∧
+                          PkgSig bundle dependencyRead pkg)
+                      hsame ∧ UnaryHistory modeRead ∧ UnaryHistory ledgerRead ∧
+                    UnaryHistory publicRead ∧ UnaryHistory dependencyRead := by
+  -- BEDC touchpoint anchor: BHist Cont ProbeBundle PkgSig UnaryHistory SemanticNameCert hsame
+  intro carrier modeRoute ledgerRoute publicRoute dependencyRoute _namePkg dependencyPkg
+  obtain ⟨kUnary, mUnary, wUnary, _aUnary, lUnary, hUnary, _cUnary, _pUnary,
+    nUnary, _claimModeLedger, _ledgerAxiomTransport, _transportConsumerProvenance,
+    _carrierPkg⟩ := carrier
+  have modeUnary : UnaryHistory modeRead :=
+    unary_cont_closed mUnary wUnary modeRoute
+  have ledgerUnary : UnaryHistory ledgerRead :=
+    unary_cont_closed modeUnary lUnary ledgerRoute
+  have publicUnary : UnaryHistory publicRead :=
+    unary_cont_closed ledgerUnary nUnary publicRoute
+  have dependencyUnary : UnaryHistory dependencyRead :=
+    unary_cont_closed kUnary hUnary dependencyRoute
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => hsame row dependencyRead ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row K ∨ hsame row M ∨ hsame row W ∨ hsame row A ∨
+              hsame row L ∨ hsame row H ∨ hsame row C ∨ hsame row P ∨
+                hsame row N ∨ hsame row dependencyRead)
+          (fun row : BHist =>
+            UnaryHistory row ∧ Cont K H dependencyRead ∧ PkgSig bundle dependencyRead pkg)
+          hsame := {
+    core := {
+      carrier_inhabited :=
+        Exists.intro dependencyRead ⟨hsame_refl dependencyRead, dependencyUnary⟩
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows sourceRow
+        exact
+          ⟨hsame_trans (hsame_symm sameRows) sourceRow.left,
+            unary_transport sourceRow.right sameRows⟩
+    }
+    pattern_sound := by
+      intro _row sourceRow
+      repeat (first | exact sourceRow.left | apply Or.inr)
+    ledger_sound := by
+      intro _row sourceRow
+      exact ⟨sourceRow.right, dependencyRoute, dependencyPkg⟩
+  }
+  exact ⟨cert, modeUnary, ledgerUnary, publicUnary, dependencyUnary⟩
+
 end BEDC.Derived.AxiomDependencyAuditMapUp
