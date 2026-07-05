@@ -2103,6 +2103,7 @@ import BEDC.Derived.CauchyConvergenceCriterionUp.TasteGate
 import BEDC.Derived.CauchyConvergenceCriterionUp.WindowThreshold
 import BEDC.Derived.CauchyConvergenceModulusTailMonotonicityUp.TasteGate
 import BEDC.Derived.CauchyConvergenceModulusUp
+import BEDC.Derived.CauchyConvergenceModulusUp.TasteGate
 import BEDC.Derived.CauchyConvolutionUp
 import BEDC.Derived.CauchyCriterionEquivalenceUp.TasteGate
 import BEDC.Derived.CauchyCriterionForSeriesUp.TasteGate
@@ -12975,6 +12976,7 @@ import BEDC.Derived.StepIndexedTotalHostUp
 import BEDC.Derived.StepIndexedTotalHostUp.Separation
 import BEDC.Derived.StepIndexedTotalHostUp.SiblingBoundary
 import BEDC.Derived.StepIndexedTotalHostUp.TasteGate
+import BEDC.Derived.SternBrocotApproximationUp.Bracketing
 import BEDC.Derived.SternBrocotApproximationUp.TasteGate
 import BEDC.Derived.SternBrocotContinuedFractionBridgeUp.TasteGate
 import BEDC.Derived.SternBrocotDyadicApproximationUp
