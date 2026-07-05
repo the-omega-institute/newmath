@@ -20,17 +20,17 @@ date-modified: today
 
 ## 当前观察 (auto-refresh)
 
-> 最后刷新: 2026-07-05T08:14:07Z
+> 最后刷新: 2026-07-05T09:32:02Z
 
-**Daemon 状态**: monitor (monitor cycle 305, adjust_since_research 2, round_counter 38235, last_adjust rule_evolution_completed)
+**Daemon 状态**: monitor (monitor cycle 306, adjust_since_research 2, round_counter 38269, last_adjust rule_evolution_completed)
 
-**待处理 queue** (1364 条 finding):
-- isolated_theorem: 990 条; 代表样本 `derived`, `derived`, `derived`
+**待处理 queue** (1367 条 finding):
+- isolated_theorem: 993 条; 代表样本 `derived`, `derived`, `derived`
 - unauthorized_capstone: 306 条; 代表样本 `cauchy`, `helly_theorem`, `metacic_candidate_strong_normalization`
 - low_entropy_template: 68 条; 代表样本 `variation_norm`, `kernelinductiveacceptance`, `polishspace`
 
 **最近 alert 概览** (24h 内):
-- TASTE ALERT category=isolated_theorem: 81 次
+- TASTE ALERT category=isolated_theorem: 82 次
 - TASTE ALERT category=cycle_exception: 3 次
 - TASTE ALERT category=low_entropy_template: 2 次
 - TASTE ALERT category=resolution_json_parse_failed: 1 次
@@ -608,6 +608,8 @@ error: build failed, audit=skipped, phase_d_lint=skipped.
 - 2026-07-05T06:59:46Z: `resolved` `add_downstream_user` for `BEDC.Derived.NetConvergenceUp.NetConvergenceCarrier_filterbase_finality` (flag `isolated_theorem`, finding `isolated_theorem:derived:BEDC.Derived.NetConvergenceUp.NetConvergenceCarrier_filterbase_finality:9c4efedc`). Rationale: The theorem has meaningful BEDC content: it isolates the finite FilterBase/CauchyFilter finality route through D,T,E,F, and the paper already uses that route as a premise for the Real-seal handoff narrative. I added a sibling downstream theorem, NetConvergenceCarrier_filterbase_real_seal_finality_bridge, in the NetConvergenceUp real-seal file; it directly consumes NetConvergenceCarrier_filterbase_finality and combines it with NetConvergenceCarrier_real_seal_nonescape into a SemanticNameCert bridge, so the target is no longer staging-only or Lean-isolated. Gate results: lake_build=ok, audit=ok, phase_d_lint=ok, axiom_purity=ok.
 
 - 2026-07-05T08:13:39Z: `resolved` `add_downstream_user` for `BEDC.Derived.NetConvergenceUp.NetConvergenceCarrier_moore_smith_real_seal_handoff` (flag `isolated_theorem`, finding `isolated_theorem:netconvergence:BEDC.Derived.NetConvergenceUp.NetConvergenceCarrier_moore_smith_real_seal_handoff:0ac76294`). Rationale: The target is not a disposable wrapper: it combines the Moore--Smith source route with filter, stream, and Real-seal rows into a SemanticNameCert handoff matching the paper's completion-facing route. Repo search found no existing Lean downstream user, so I added NetConvergenceCarrier_moore_smith_real_seal_public_package in the same NetConvergenceUp sibling file; it materially consumes the flagged theorem, then extends its handoff through the package row and structural H,C,P,M rows. Gate results: lake_build=ok, audit=ok, phase_d_lint=ok, axiom_purity=ok.
+
+- 2026-07-05T09:31:35Z: `resolved` `add_downstream_user` for `BEDC.Derived.RecursorBranchAuditUp.RecursorBranchAuditTasteGate_single_carrier_alignment` (flag `isolated_theorem`, finding `isolated_theorem:recursorbranchaudit:BEDC.Derived.RecursorBranchAuditUp.RecursorBranchAuditTasteGate_single_carrier_alignment:7b6980d9`). Rationale: The target has meaningful BEDC content: it packages BHist encode/decode, EventFlow readback, carrier injectivity, field faithfulness, and nontriviality for the RecursorBranchAuditUp carrier, and the chapter uses it as the primary Lean marker for the carrier definition. Grep showed no prior Lean-side consumer, so I added RecursorBranchAudit_namecert_eventflow_readback in the same RecursorBranchAuditUp NameCert sibling; it consumes the existing NameCert obligations and explicitly uses RecursorBranchAuditTasteGate_single_carrier_alignment to supply EventFlow readback, field-faithful reconstruction, and nontrivial carrier evidence. Gate results: lake_build=ok, audit=ok, phase_d_lint=ok, axiom_purity=ok.
 
 ## 注解
 
