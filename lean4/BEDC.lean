@@ -3953,6 +3953,7 @@ import BEDC.Derived.ConstructiveRealTrichotomyBoundaryUp.TasteGate
 import BEDC.Derived.ConstructiveRefutationUp.TasteGate
 import BEDC.Derived.ConstructiveRiemannSumUp
 import BEDC.Derived.ConstructiveSobolevEnergyUp.TasteGate
+import BEDC.Derived.ConstructiveUniformCompletionUp.TasteGate
 import BEDC.Derived.ConstructiveUniformLimitUp.TasteGate
 import BEDC.Derived.ContFracBoundUp
 import BEDC.Derived.ContFracUp
