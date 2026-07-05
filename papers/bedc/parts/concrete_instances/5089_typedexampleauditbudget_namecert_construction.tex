@@ -90,6 +90,20 @@ Use the NameCert obligations to identify which rows a consumer may inspect. The 
 Regression non-escape prevents replacing $R$ with a gallery, seal, or beta-boundary sibling, while the public consumer contract prevents dropping any displayed coordinate from the public package. The resulting interface is therefore exactly the named row package and carries none of the refused endpoints.
 \end{proof}
 
+\begin{theorem}[TypedExampleAuditBudget public coverage monotonicity]
+\label{thm:typed-example-audit-budget-public-coverage-monotonicity}
+Let $A=(G,C,B,Z,R,H,K,P,N)$ and $A'=(G,C,B,Z,R',H,K,P,N)$ be accepted $\TypedExampleAuditBudgetUp$ packets with the same gallery, checker, beta, closedness, transport, continuation, provenance, and local naming rows. If every row counted by $R$ is also counted by $R'$ with the same or tighter consumer-spend boundary, then every public checker-audit consumer admitted by $A$ is admitted by $A'$. The monotone replacement exports no checker completeness, subject reduction, normalization, global beta closure, arbitrary gallery soundness, or unbudgeted spend.
+\end{theorem}
+\begin{proof}
+Project both accepted carriers. The only displayed coordinate that changes is the regression-budget row, from $R$ to $R'$; the rows $G,C,B,Z,H,K,P,N$ remain componentwise identical.
+
+Use the NameCert obligations of \autoref{thm:typed-example-audit-budget-namecert-obligations} to keep every public consumer on the finite package $G,C,B,Z,R,H,K,P,N$. The obligations expose no alternate checker-completeness or normalization coordinate.
+
+Apply regression non-escape from \autoref{thm:typed-example-audit-budget-regression-nonescape}. It identifies $R$ as the only coordinate controlling whether an accepted gallery row is counted as regression coverage together with its consumer-spend boundary.
+
+The inclusion premise replaces each admitted $R$ row by the corresponding $R'$ row while preserving the same or tighter spend boundary. Therefore the public consumer contract of \autoref{thm:typed-example-audit-budget-public-consumer-contract} admits the same checker-audit consumer through $A'$, and the refused endpoints remain absent because no new carrier coordinate has been introduced.
+\end{proof}
+
 \falsifiablePrediction{If the regression-budget row is removed from an accepted TypedExampleAuditBudget packet, a downstream checker-audit consumer can no longer distinguish gallery acceptance from regression coverage.}
 
 \independenceWitness{Nearest siblings: metacictypedexamplesgallery, typedexamplegallery, metacic-typedexamples-seal, betastepboundary. The budget packet is not bijective with any sibling because it carries a regression-budget row and a consumer-spend boundary that gallery and seal packets do not expose, while BetaStepBoundary carries reduction-boundary rows rather than typed-example gallery spend rows.}

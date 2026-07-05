@@ -20,18 +20,18 @@ date-modified: today
 
 ## 当前观察 (auto-refresh)
 
-> 最后刷新: 2026-07-05T01:46:09Z
+> 最后刷新: 2026-07-05T04:13:04Z
 
-**Daemon 状态**: monitor (monitor cycle 301, adjust_since_research 2, round_counter 38046, last_adjust rule_evolution_completed)
+**Daemon 状态**: monitor (monitor cycle 302, adjust_since_research 2, round_counter 38114, last_adjust rule_evolution_completed)
 
-**待处理 queue** (1342 条 finding):
-- isolated_theorem: 968 条; 代表样本 `derived`, `derived`, `derived`
+**待处理 queue** (1350 条 finding):
+- isolated_theorem: 976 条; 代表样本 `derived`, `derived`, `derived`
 - unauthorized_capstone: 306 条; 代表样本 `cauchy`, `helly_theorem`, `metacic_candidate_strong_normalization`
 - low_entropy_template: 68 条; 代表样本 `variation_norm`, `kernelinductiveacceptance`, `polishspace`
 
 **最近 alert 概览** (24h 内):
-- TASTE ALERT category=isolated_theorem: 73 次
-- TASTE ALERT category=cycle_exception: 2 次
+- TASTE ALERT category=isolated_theorem: 80 次
+- TASTE ALERT category=cycle_exception: 3 次
 - TASTE ALERT category=low_entropy_template: 1 次
 - TASTE ALERT category=resolution_json_parse_failed: 1 次
 
@@ -600,6 +600,8 @@ error: build failed, audit=skipped, phase_d_lint=skipped.
 - 2026-07-05T01:45:24Z: `resolved` `add_downstream_user` for `BEDC.Derived.NontrivialZeroClassifierUp.NontrivialZeroClassifier_namecert_obligations` (flag `isolated_theorem`, finding `isolated_theorem:nontrivialzeroclassifier:BEDC.Derived.NontrivialZeroClassifierUp.NontrivialZeroClassifier_namecert_obligations:b0e1fbfd`). Rationale: The target is not a staging-only shell: it constructs the local SemanticNameCert and proves the intermediate UnaryHistory closure chain for stripRead, witnessRead, trivialRead, ledgerRead, and consumerRead. Its only prior repo reference was the paper leanchecked marker, so I added NontrivialZeroClassifier_namecert_rh_consumer_package as a downstream Lean consumer in the same BHist row family; the new theorem calls the target, extracts its local certificate and closure results, and packages them into an RH-facing consumer SemanticNameCert whose ledger explicitly carries the local NameCert certificate. Gate results: lake_build=ok, audit=ok, phase_d_lint=ok, axiom_purity=ok.
 
 - 2026-07-05T03:04:42Z: `resolved` `add_downstream_user` for `BEDC.Derived.NontrivialZeroClassifierUp.NontrivialZeroClassifierCarrier_critical_strip_handoff` (flag `isolated_theorem`, finding `isolated_theorem:nontrivialzeroclassifier:BEDC.Derived.NontrivialZeroClassifierUp.NontrivialZeroClassifierCarrier_critical_strip_handoff:2315072a`). Rationale: The target has meaningful BEDC content as a SemanticNameCert for the critical-strip handoff surface, but grep showed no downstream Lean consumer and only the paper marker referenced it. I added a sibling RH consumer dependency theorem in NamecertObligations that uses the existing RH consumer boundary structure and explicitly consumes the critical-strip handoff certificate, then updated the paper RH consumer marker to point to this downstream theorem. Gate results: lake_build=ok, audit=ok, phase_d_lint=ok, axiom_purity=ok.
+
+- 2026-07-05T04:12:12Z: `resolved` `leave_with_rationale` for `BEDC.Derived.NontrivialZeroClassifierUp.NontrivialZeroClassifierCarrier_critical_strip_handoff` (flag `isolated_theorem`, finding `isolated_theorem:nontrivialzeroclassifier:BEDC.Derived.NontrivialZeroClassifierUp.NontrivialZeroClassifierCarrier_critical_strip_handoff:2315072a`). Rationale: The finding is stale: the target has meaningful BEDC content as the SemanticNameCert for the critical-strip handoff surface, and it is already consumed by the sibling theorem NontrivialZeroClassifierCarrier_rh_consumer_critical_strip_dependency in lean4/BEDC/Derived/NontrivialZeroClassifierUp/NamecertObligations.lean. The paper also presents the RH consumer boundary as consuming the handoff theorem, so deleting or marking this as staging would lose an already-connected chapter surface. Gate results: lake_build=skipped, audit=skipped, phase_d_lint=skipped.
 
 ## 注解
 
