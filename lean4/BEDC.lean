@@ -1558,6 +1558,7 @@ import BEDC.Derived.BoundedRegulatedFunctionUp.TasteGate
 import BEDC.Derived.BoundedResidualSubstitutionFrontierUp.NameCertObligations
 import BEDC.Derived.BoundedResidualSubstitutionFrontierUp.TasteGate
 import BEDC.Derived.BoundedRiemannConvergenceUp
+import BEDC.Derived.BoundedRiemannConvergenceUp.TasteGate
 import BEDC.Derived.BoundedSearchRefutationUp
 import BEDC.Derived.BoundedSearchRefutationUp.NameCertBoundary
 import BEDC.Derived.BoundedSearchRefutationUp.TasteGate
@@ -3183,6 +3184,8 @@ import BEDC.Derived.CliffordUp
 import BEDC.Derived.CliffordUp.TasteGate
 import BEDC.Derived.ClopenAlgebraUp
 import BEDC.Derived.ClosedBallCompactnessUp.TasteGate
+import BEDC.Derived.ClosedBetaPathUp.ClosurePreservationFactorization
+import BEDC.Derived.ClosedBetaPathUp.NameCertObligations
 import BEDC.Derived.ClosedBetaPathUp.TasteGate
 import BEDC.Derived.ClosedBoundedIntervalCompactUp
 import BEDC.Derived.ClosedBoundedIntervalCompactUp.TasteGate
@@ -4972,6 +4975,7 @@ import BEDC.Derived.DependentCodomainClosurePreservationUp.Transport
 import BEDC.Derived.DependentCodomainInversionBoundaryUp
 import BEDC.Derived.DependentCodomainInversionBoundaryUp.CodomainScope
 import BEDC.Derived.DependentCodomainInversionBoundaryUp.PublicNonescape
+import BEDC.Derived.DependentCodomainInversionBoundaryUp.TasteGate
 import BEDC.Derived.DerangementUp
 import BEDC.Derived.DerivativeUp
 import BEDC.Derived.DerivativeUp.TasteGate
@@ -7159,6 +7163,7 @@ import BEDC.Derived.HeineBorelIntervalUp.TailStability
 import BEDC.Derived.HeineBorelIntervalUp.TasteGate
 import BEDC.Derived.HeineBorelLocatedIntervalUp.TasteGate
 import BEDC.Derived.HeineBorelNetCompactnessUp.TasteGate
+import BEDC.Derived.HeineCantorModulusUp.TasteGate
 import BEDC.Derived.HeineCantorUp.TasteGate
 import BEDC.Derived.HellingerDistanceUp
 import BEDC.Derived.HellySelectionUp.NameCertObligations
@@ -11517,6 +11522,7 @@ import BEDC.Derived.RegularCauchyAdditionUp.NameCertObligations
 import BEDC.Derived.RegularCauchyAdditionUp.SiblingDependencyRoute
 import BEDC.Derived.RegularCauchyAdditionUp.TasteGate
 import BEDC.Derived.RegularCauchyAdditionUp.UniformModulus
+import BEDC.Derived.RegularCauchyAdditionUp.WindowFusionBoundary
 import BEDC.Derived.RegularCauchyAdditionUp.WindowSumStability
 import BEDC.Derived.RegularCauchyAffineCombinationUp.ConvexRoute
 import BEDC.Derived.RegularCauchyAffineCombinationUp.Ledger

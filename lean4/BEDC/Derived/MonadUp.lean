@@ -218,4 +218,43 @@ theorem MonadAdjunctionEndomorphism_semanticNameCert {p a : BHist}
   · intro unit source
     exact source
 
+theorem MonadAdjunctionEndomorphism_scoped_kernel_route
+    {p a unit counit left right unitBridge triangleBridge : BHist}
+    (pUnary : UnaryHistory p) (aUnary : UnaryHistory a)
+    (carrier : AdjunctionUnitCounitCarrier p p a unit counit left right)
+    (unitBridgeRoute : Cont unit unitBridge counit)
+    (triangleBridgeRoute : Cont left triangleBridge right) :
+    SemanticNameCert
+        (fun row : BHist => ∃ counit left right : BHist,
+          AdjunctionUnitCounitCarrier p p a row counit left right)
+        (fun row : BHist => ∃ counit left right : BHist,
+          AdjunctionUnitCounitCarrier p p a row counit left right)
+        (fun row : BHist => ∃ counit left right : BHist,
+          AdjunctionUnitCounitCarrier p p a row counit left right)
+        hsame ∧
+      hsame unit BHist.Empty ∧ hsame counit BHist.Empty ∧
+        hsame left BHist.Empty ∧ hsame right BHist.Empty ∧
+          hsame unitBridge BHist.Empty ∧ hsame triangleBridge BHist.Empty := by
+  -- BEDC touchpoint anchor: BHist Cont hsame SemanticNameCert
+  have semanticCert :
+      SemanticNameCert
+          (fun row : BHist => ∃ counit left right : BHist,
+            AdjunctionUnitCounitCarrier p p a row counit left right)
+          (fun row : BHist => ∃ counit left right : BHist,
+            AdjunctionUnitCounitCarrier p p a row counit left right)
+          (fun row : BHist => ∃ counit left right : BHist,
+            AdjunctionUnitCounitCarrier p p a row counit left right)
+          hsame :=
+    MonadAdjunctionEndomorphism_semanticNameCert pUnary aUnary
+  have componentEmpty :=
+    MonadAdjunctionEndomorphism_unit_counit_triangle_empty carrier
+  have unitBridgeEmpty : hsame unitBridge BHist.Empty :=
+    (MonadAdjunctionEndomorphism_unit_counit_bridge_empty_iff carrier).mp unitBridgeRoute
+  have triangleBridgeEmpty : hsame triangleBridge BHist.Empty :=
+    (MonadAdjunctionEndomorphism_triangle_bridge_empty_iff carrier).mp triangleBridgeRoute
+  exact
+    ⟨semanticCert, componentEmpty.left, componentEmpty.right.left,
+      componentEmpty.right.right.left, componentEmpty.right.right.right, unitBridgeEmpty,
+      triangleBridgeEmpty⟩
+
 end BEDC.Derived.MonadUp
