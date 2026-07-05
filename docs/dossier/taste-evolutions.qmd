@@ -20,18 +20,18 @@ date-modified: today
 
 ## 当前观察 (auto-refresh)
 
-> 最后刷新: 2026-07-05T13:25:54Z
+> 最后刷新: 2026-07-05T14:34:36Z
 
-**Daemon 状态**: monitor (monitor cycle 309, adjust_since_research 2, round_counter 38381, last_adjust rule_evolution_completed)
+**Daemon 状态**: monitor (monitor cycle 310, adjust_since_research 2, round_counter 38431, last_adjust rule_evolution_completed)
 
-**待处理 queue** (1374 条 finding):
-- isolated_theorem: 1000 条; 代表样本 `derived`, `derived`, `derived`
+**待处理 queue** (1380 条 finding):
+- isolated_theorem: 1006 条; 代表样本 `derived`, `derived`, `derived`
 - unauthorized_capstone: 306 条; 代表样本 `cauchy`, `helly_theorem`, `metacic_candidate_strong_normalization`
 - low_entropy_template: 68 条; 代表样本 `variation_norm`, `kernelinductiveacceptance`, `polishspace`
 
 **最近 alert 概览** (24h 内):
-- TASTE ALERT category=isolated_theorem: 84 次
-- TASTE ALERT category=low_entropy_template: 6 次
+- TASTE ALERT category=isolated_theorem: 87 次
+- TASTE ALERT category=low_entropy_template: 8 次
 - TASTE ALERT category=cycle_exception: 2 次
 - TASTE ALERT category=resolution_json_parse_failed: 1 次
 
@@ -616,6 +616,8 @@ error: build failed, audit=skipped, phase_d_lint=skipped.
 - 2026-07-05T12:11:50Z: `resolved` `add_downstream_user` for `BEDC.Derived.RecursorBranchAuditUp.RecursorBranchAuditCarrier_branch_coverage` (flag `isolated_theorem`, finding `isolated_theorem:recursorbranchaudit:BEDC.Derived.RecursorBranchAuditUp.RecursorBranchAuditCarrier_branch_coverage:7b6980d9`). Rationale: The theorem has real BEDC content: it exposes the RecursorBranchAudit branch matrix route as a Cont witness plus a local NameCert over the branch row, and the paper's non-escape argument already conceptually depends on branch coverage. I added a sibling consumer theorem, RecursorBranchAudit_branch_coverage_namecert_route, in NamecertObligations.lean that explicitly uses RecursorBranchAuditCarrier_branch_coverage and ties its output to the FKernel NameCert and Cont structures. Gate results: lake_build=ok, audit=ok, phase_d_lint=ok, axiom_purity=ok.
 
 - 2026-07-05T13:25:26Z: `resolved` `add_downstream_user` for `BEDC.Derived.NetConvergenceUp.NetConvergenceCarrier_entourage_tail_stability` (flag `isolated_theorem`, finding `isolated_theorem:derived:BEDC.Derived.NetConvergenceUp.NetConvergenceCarrier_entourage_tail_stability:9c4efedc`). Rationale: The theorem carries real BEDC content: it states that componentwise hsame transport preserves the displayed D,T,E-to-F entourage-tail handoff between accepted NetConvergence carriers, matching the paper's transport-stability claim. It had no downstream Lean consumer, so I added a NetClusterPoint sibling theorem that explicitly uses it to bind the stable handoff to the cluster-point neighbourhood-hit route and local field surface. Gate results: lake_build=ok, audit=ok, phase_d_lint=ok, axiom_purity=ok.
+
+- 2026-07-05T14:33:58Z: `resolved` `delete_theorem` for `BEDC.Derived.NetClusterPointUp.NetClusterPoint_netconvergence_ledger_nonescape_consumer` (flag `isolated_theorem`, finding `isolated_theorem:netclusterpoint:BEDC.Derived.NetClusterPointUp.NetClusterPoint_netconvergence_ledger_nonescape_consumer:4235e851`). Rationale: The target had no downstream Lean users and no paper marker: repo grep for the full target and declaration stem now returns no matches after deletion. Its proof was only a local wrapper around BEDC.Derived.NetConvergenceUp.NetConvergenceCarrier_ledger_nonescape, appending hsame compact source and the NetClusterPointUp field projection; the chapter already anchors the substantive neighbourhood-hit NetConvergence dependency through BEDC.Derived.NetClusterPointUp.NetClusterPoint_neighbourhood_hit_netconvergence_dependency. Keeping this isolated wrapper would add no independent BEDC content. Gate results: lake_build=ok, audit=ok, phase_d_lint=ok, axiom_purity=ok.
 
 ## 注解
 
