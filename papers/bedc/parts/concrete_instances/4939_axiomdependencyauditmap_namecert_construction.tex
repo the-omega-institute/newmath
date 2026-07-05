@@ -103,6 +103,24 @@ Apply the obligation surface of \autoref{thm:axiom-dependency-audit-map-obligati
 Finally use non-escape from \autoref{thm:axiom-dependency-audit-map-nonescape}. Since the carrier has no coordinate for a host import graph, external audit oracle, hidden proof ancestry, or unrecorded axiom supply, a top-window read reaches a dependency-map entry only through the displayed obligation route.
 \end{proof}
 
+\begin{theorem}[AxiomDependencyAuditMap witness and required-axiom exactness]
+\label{thm:axiom-dependency-audit-map-witness-required-axiom-exactness}
+For every accepted $\AxiomDependencyAuditMapUp$ packet
+$$
+D=(K,M,W,A,L,H,C,P,N),
+$$
+each mode branch pairs exactly one witness reading with the corresponding required-axiom reading. The internal branch pairs the internal witness row with empty supply, the restricted branch pairs the restricted witness row with the restricted surface, and the externally supplied branch pairs one of the finite named supply, refusal, counterexample, or socket witness rows with the matching finite named supply row. No branch turns required supply into a BEDC theorem, and no branch reads a witness without the required-axiom row displayed beside it.
+\end{theorem}
+\begin{proof}
+Begin with mode totality, \autoref{thm:axiom-dependency-audit-map-mode-totality}. It exhausts $M$ into the internal, restricted, and externally supplied branches, and in each branch it displays the paired $W$ and $A$ rows.
+
+For the internal branch, the totality row reads $W$ as the internal witness and $A$ as empty supply. Since the carrier has only one witness coordinate and one required-axiom coordinate, there is no second internal witness or hidden supply row to choose.
+
+For the restricted branch, the same carrier projection pairs the restricted witness with the restricted surface. The obligation surface of \autoref{thm:axiom-dependency-audit-map-obligation-surface} keeps both rows visible before any audit-map consumer may read the dependency entry.
+
+For the externally supplied branch, $W$ is the displayed refusal, counterexample, or socket witness row, while $A$ is the finite named supply required by that branch. Nonescape from \autoref{thm:axiom-dependency-audit-map-nonescape} prevents the supplied row from being reinterpreted as an internal BEDC theorem, so exactness is a visible audit pairing rather than a proof import.
+\end{proof}
+
 \closureat{AxiomDependencyAuditMapUp}{seedStr}
 
 \begin{closurestatus}{\AxiomDependencyAuditMapUp}
