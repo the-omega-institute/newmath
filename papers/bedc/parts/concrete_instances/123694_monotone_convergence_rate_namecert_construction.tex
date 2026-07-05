@@ -1,0 +1,72 @@
+\chapter{A Concrete Naming Certificate for $\MonotoneConvergenceRateUp$}
+\label{ch:concrete-instances-monotone-convergence-rate-namecert}
+\origin{human}
+
+Following Bishop and Bridges, \emph{Constructive Analysis}, the $\MonotoneConvergenceRateUp$ packet records the rate-bearing form of bounded monotone convergence used by the L10 Real and Completion phase. It sits between the real monotone sequence surface of \autoref{ch:concrete-instances-real-monotone-sequence-namecert}, the bounded monotone real modulus of \autoref{ch:concrete-instances-bounded-monotone-real-modulus-namecert}, the located-supremum route of \autoref{ch:concrete-instances-locatedsupremum-namecert}, the dyadic tolerance core of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the finite window discipline of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, and the terminal real seal of \autoref{ch:concrete-instances-real-namecert}. The packet names a displayed tolerance-to-tail route; it is not a selected supremum, a quotient of streams, a trichotomy argument, countable choice, or ambient real completeness.
+
+\begin{definition}[Monotone convergence rate carrier]
+\label{def:monotone-convergence-rate-carrier}
+A $\MonotoneConvergenceRateUp$ carrier is a finite $\BHist$ packet
+$$
+R=(S,B,L,D,W,Q,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the $\RealMonotoneSequenceUp$ source row, exposing the monotone real sequence through finite observation windows.
+\item $B$ is the boundedness and monotone-tail row, read through the bounded monotone real modulus boundary.
+\item $L$ is the $\LocatedSupremumUp$ or bounded-monotone upper-bound witness row that answers the order-facing side of the convergence request.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance ledger, including positive tolerance, halving, comparison, and requested error rows.
+\item $W$ is the $\StreamNameUp$ finite tail-window row selected by the rate for the displayed tolerance.
+\item $Q$ is the $\RegSeqRatUp$ regular Cauchy readback row exposed at the tail window named by $W$.
+\item $E$ is the terminal $\RealUp$ seal or completion-facing handoff row, readable only after $S,B,L,D,W,Q$ have been displayed.
+\item $H$ records componentwise $\hsame$ transport for the source, boundedness, located-bound, tolerance, window, readback, and seal rows.
+\item $C$ records displayed $\Cont$ replay from a tolerance request through the rate, finite tail window, regular Cauchy readback, and real seal.
+\item $P$ records $\Pkg$ provenance over $\MonotoneConvergenceRateUp$, $\RealMonotoneSequenceUp$, $\BoundedMonotoneRealModulusUp$, $\LocatedSupremumUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\MonotoneConvergenceRateUp}$ row.
+\end{enumerate}
+The carrier stores one finite rate route from positive dyadic tolerance to a displayed tail window and regular Cauchy handoff. It stores no selected limiting real, no quotient stream equality, no trichotomy branch, no countable-choice schedule, and no ambient completeness coordinate.
+\end{definition}
+
+\begin{theorem}[Monotone convergence rate NameCert obligations]
+\label{thm:monotone-convergence-rate-namecert-obligations}
+For every accepted $\MonotoneConvergenceRateUp$ carrier
+$$
+R=(S,B,L,D,W,Q,E,H,C,P,N),
+$$
+the local $\NameCert_{\MonotoneConvergenceRateUp}$ surface consists exactly of source monotone-sequence exposure, bounded monotone tail exposure, located upper-bound or supremum witness exposure, dyadic tolerance accounting, finite StreamName tail-window selection, RegSeqRat regular Cauchy readback, terminal Real or completion handoff, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:monotone-convergence-rate-carrier}. The analytic rows are precisely $S,B,L,D,W,Q,E$, and the structural rows are $H,C,P,N$.
+
+The tolerance request is read through $D$ before any tail row is inspected. The bounded monotone row $B$ and the located upper-bound row $L$ answer that request by displaying the finite tail window $W$ for the same source row $S$.
+
+The regular Cauchy handoff $Q$ and terminal seal $E$ are downstream of that window. Since the carrier has no row for selected limits, quotient stream equality, trichotomy, countable choice, or ambient completeness, the listed rows exhaust the local NameCert obligations.
+\end{proof}
+
+\begin{theorem}[Monotone convergence rate regular-Cauchy handoff]
+\label{thm:monotone-convergence-rate-regular-cauchy-handoff}
+Every Real or Completion consumer of an accepted $\MonotoneConvergenceRateUp$ packet reaches the terminal row $E$ only through the finite route
+$$
+S,B,L,D,W,Q \longmapsto E,H,C,P,N .
+$$
+In particular, the displayed rate supplies a positive-dyadic tolerance read in $D$, a finite tail window $W$, and a $\RegSeqRatUp$ readback $Q$ before any $\RealUp$ or completion-facing seal is available.
+\end{theorem}
+\begin{proof}
+Start with a consumer requesting the terminal row $E$. By \autoref{def:monotone-convergence-rate-carrier}, $E$ is not a standalone limit row; it is stored after the source, boundedness, located-bound, tolerance, window, and regular readback rows.
+
+Apply \autoref{thm:monotone-convergence-rate-namecert-obligations}. The dyadic tolerance ledger $D$ must be displayed before the tail-window row $W$, and $W$ must be displayed before the regular Cauchy readback $Q$.
+
+The continuation row $C$ replays exactly this route, while $H,P,N$ transport, source, and name it. Thus a completion-facing read receives a rate-bearing Cauchy handoff, not a selected limit or an ambient completeness theorem.
+\end{proof}
+
+\closureat{MonotoneConvergenceRateUp}{seedStr}
+
+\begin{closurestatus}{\MonotoneConvergenceRateUp}
+  \constructivestory{A $\MonotoneConvergenceRateUp$ packet is generated from a RealMonotoneSequence source row, a bounded monotone tail row, a located upper-bound row, a DyadicRatCore tolerance ledger, a StreamName finite tail window, a RegSeqRat readback row, a terminal Real or completion handoff, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:monotone-convergence-rate-carrier}, \autoref{thm:monotone-convergence-rate-namecert-obligations}, and \autoref{thm:monotone-convergence-rate-regular-cauchy-handoff} seed the rate-bearing bounded monotone convergence route for L10 Real and Completion consumers.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim selected limits, quotient stream equality, trichotomy, countable choice, host real equality, ambient real completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, monotone source exposure, bounded tail exposure, located upper-bound routing, dyadic tolerance accounting, StreamName window selection, RegSeqRat readback, terminal Real handoff, transport, replay, provenance, and local naming for BEDC.Derived.MonotoneConvergenceRateUp.}
+\end{closurestatus}
