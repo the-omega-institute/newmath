@@ -418,4 +418,99 @@ theorem NontrivialZeroClassifierCarrier_rh_consumer_boundary [AskSetup] [Package
   }
   exact And.intro cert consumerReadUnary
 
+theorem NontrivialZeroClassifierCarrier_rh_consumer_critical_strip_dependency
+    [AskSetup] [PackageSetup]
+    {zero strip witness trivialLedger realPart rationalLedger transport replay provenance
+      localName stripRead witnessRead trivialRead ledgerRead consumerRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    UnaryHistory zero →
+      UnaryHistory strip →
+        UnaryHistory witness →
+          UnaryHistory trivialLedger →
+            UnaryHistory realPart →
+              UnaryHistory rationalLedger →
+                UnaryHistory transport →
+                  UnaryHistory replay →
+                    UnaryHistory provenance →
+                      UnaryHistory localName →
+                        Cont zero strip stripRead →
+                          Cont stripRead witness witnessRead →
+                            Cont trivialLedger realPart trivialRead →
+                              Cont trivialRead rationalLedger ledgerRead →
+                                Cont witnessRead ledgerRead consumerRead →
+                                  PkgSig bundle provenance pkg →
+                                    PkgSig bundle localName pkg →
+                                      PkgSig bundle consumerRead pkg →
+                                        SemanticNameCert
+                                            (fun row : BHist =>
+                                              (hsame row consumerRead ∨
+                                                  hsame row witnessRead ∨
+                                                    hsame row ledgerRead) ∧
+                                                UnaryHistory row)
+                                            (fun row : BHist =>
+                                              hsame row zero ∨ hsame row strip ∨
+                                                hsame row witness ∨
+                                                  hsame row trivialLedger ∨
+                                                    hsame row realPart ∨
+                                                      hsame row rationalLedger ∨
+                                                        hsame row consumerRead ∨
+                                                          hsame row witnessRead ∨
+                                                            hsame row ledgerRead)
+                                            (fun row : BHist =>
+                                              UnaryHistory row ∧
+                                                Cont witnessRead ledgerRead consumerRead ∧
+                                                  PkgSig bundle consumerRead pkg)
+                                            hsame ∧
+                                          SemanticNameCert
+                                            (fun row : BHist =>
+                                              hsame row zero ∨ hsame row strip ∨
+                                                hsame row witness ∨ hsame row replay ∨
+                                                  hsame row provenance ∨ hsame row localName)
+                                            (fun row : BHist =>
+                                              hsame row zero ∨ hsame row strip ∨
+                                                hsame row witness ∨ hsame row replay ∨
+                                                  hsame row provenance ∨ hsame row localName)
+                                            (fun row : BHist =>
+                                              hsame row zero ∨ hsame row strip ∨
+                                                hsame row witness ∨ hsame row replay ∨
+                                                  hsame row provenance ∨ hsame row localName)
+                                            hsame ∧
+                                            UnaryHistory consumerRead := by
+  -- BEDC touchpoint anchor: BHist Cont ProbeBundle Pkg SemanticNameCert UnaryHistory
+  intro zeroUnary stripUnary witnessUnary trivialLedgerUnary realPartUnary rationalLedgerUnary
+    transportUnary replayUnary provenanceUnary localNameUnary stripRoute witnessRoute trivialRoute
+    ledgerRoute consumerRoute provenancePkg localNamePkg consumerPkg
+  have boundary :
+      SemanticNameCert
+          (fun row : BHist =>
+            (hsame row consumerRead ∨ hsame row witnessRead ∨ hsame row ledgerRead) ∧
+              UnaryHistory row)
+          (fun row : BHist =>
+            hsame row zero ∨ hsame row strip ∨ hsame row witness ∨ hsame row trivialLedger ∨
+              hsame row realPart ∨ hsame row rationalLedger ∨ hsame row consumerRead ∨
+                hsame row witnessRead ∨ hsame row ledgerRead)
+          (fun row : BHist =>
+            UnaryHistory row ∧ Cont witnessRead ledgerRead consumerRead ∧
+              PkgSig bundle consumerRead pkg)
+          hsame ∧
+        UnaryHistory consumerRead :=
+    NontrivialZeroClassifierCarrier_rh_consumer_boundary
+      zeroUnary stripUnary witnessUnary trivialLedgerUnary realPartUnary rationalLedgerUnary
+      transportUnary replayUnary provenanceUnary localNameUnary stripRoute witnessRoute trivialRoute
+      ledgerRoute consumerRoute provenancePkg localNamePkg consumerPkg
+  have handoff :
+      SemanticNameCert
+        (fun row : BHist =>
+          hsame row zero ∨ hsame row strip ∨ hsame row witness ∨ hsame row replay ∨
+            hsame row provenance ∨ hsame row localName)
+        (fun row : BHist =>
+          hsame row zero ∨ hsame row strip ∨ hsame row witness ∨ hsame row replay ∨
+            hsame row provenance ∨ hsame row localName)
+        (fun row : BHist =>
+          hsame row zero ∨ hsame row strip ∨ hsame row witness ∨ hsame row replay ∨
+            hsame row provenance ∨ hsame row localName)
+        hsame :=
+    NontrivialZeroClassifierCarrier_critical_strip_handoff
+  exact And.intro boundary.left (And.intro handoff boundary.right)
+
 end BEDC.Derived.NontrivialZeroClassifierUp

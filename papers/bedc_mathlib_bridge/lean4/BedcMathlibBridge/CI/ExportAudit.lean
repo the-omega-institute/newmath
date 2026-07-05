@@ -51,8 +51,6 @@ def exportWitnessRegistry : Array ExportRegistration := #[
       `BedcMathlibBridge.Export.BinomialIdentities.BinomialIdentitiesExportWitness },
   { witness := `BedcMathlibBridge.Export.Factorial.factorialExport,
     witnessType := `BedcMathlibBridge.Export.Factorial.FactorialExportWitness },
-  { witness := `BedcMathlibBridge.Export.Lah.lahFirstColumnExport,
-    witnessType := `BedcMathlibBridge.Export.Lah.LahFirstColumnExportWitness },
   { witness := `BedcMathlibBridge.Export.LahNumber.lahNumberFirstColumnChooseExport,
     witnessType :=
       `BedcMathlibBridge.Export.LahNumber.LahNumberFirstColumnChooseExportWitness },
@@ -61,9 +59,6 @@ def exportWitnessRegistry : Array ExportRegistration := #[
       `BedcMathlibBridge.Export.Eulerian.EulerianRowSumExportWitness },
   { witness := `BedcMathlibBridge.Export.Catalan.catalanExport,
     witnessType := `BedcMathlibBridge.Export.Catalan.CatalanExportWitness },
-  { witness := `BedcMathlibBridge.Export.FussCatalan.fussCatalanExport,
-    witnessType :=
-      `BedcMathlibBridge.Export.FussCatalan.FussCatalanExportWitness },
   { witness := `BedcMathlibBridge.Export.StirlingFirst.stirlingFirstExport,
     witnessType :=
       `BedcMathlibBridge.Export.StirlingFirst.StirlingFirstExportWitness },
@@ -76,6 +71,9 @@ def exportWitnessRegistry : Array ExportRegistration := #[
   { witness := `BedcMathlibBridge.Export.TouchardPoly.touchardCoeffExport,
     witnessType :=
       `BedcMathlibBridge.Export.TouchardPoly.TouchardCoeffExportWitness },
+  { witness := `BedcMathlibBridge.Export.BellPolynomialSecond.bellPolynomialSecondExport,
+    witnessType :=
+      `BedcMathlibBridge.Export.BellPolynomialSecond.BellPolynomialSecondExportWitness },
   { witness := `BedcMathlibBridge.Export.Derangement.derangementExport,
     witnessType :=
       `BedcMathlibBridge.Export.Derangement.DerangementExportWitness },
@@ -120,8 +118,13 @@ def exportWitnessRegistry : Array ExportRegistration := #[
       `BedcMathlibBridge.Export.QFactorial.QFactorialExportWitness },
   { witness := `BedcMathlibBridge.Export.Raney.raneyExport,
     witnessType := `BedcMathlibBridge.Export.Raney.RaneyExportWitness },
+  { witness := `BedcMathlibBridge.Export.FussCatalan.fussCatalanExport,
+    witnessType :=
+      `BedcMathlibBridge.Export.FussCatalan.FussCatalanExportWitness },
   { witness := `BedcMathlibBridge.Export.Lobb.lobbExport,
     witnessType := `BedcMathlibBridge.Export.Lobb.LobbExportWitness },
+  { witness := `BedcMathlibBridge.Export.Lah.lahFirstColumnExport,
+    witnessType := `BedcMathlibBridge.Export.Lah.LahFirstColumnExportWitness },
   { witness := `BedcMathlibBridge.Export.Tetrahedral.tetrahedralExport,
     witnessType :=
       `BedcMathlibBridge.Export.Tetrahedral.TetrahedralExportWitness },
