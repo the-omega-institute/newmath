@@ -1066,6 +1066,7 @@ import BEDC.Derived.BishopCauchyModulusEquivalenceUp.TasteGate
 import BEDC.Derived.BishopCauchyModulusExtractionUp.TasteGate
 import BEDC.Derived.BishopCauchyNormalizationUp.TasteGate
 import BEDC.Derived.BishopCauchyProductBoundUp
+import BEDC.Derived.BishopCauchyRateCompletionUp.TasteGate
 import BEDC.Derived.BishopCauchyRealEnvelopeUp
 import BEDC.Derived.BishopCauchyRealUp
 import BEDC.Derived.BishopCauchyRealUp.TasteGate
@@ -8041,6 +8042,7 @@ import BEDC.Derived.LocatedCutUp.TasteGate
 import BEDC.Derived.LocatedDecimalStreamNormalUp.TasteGate
 import BEDC.Derived.LocatedDyadicApproximationUp
 import BEDC.Derived.LocatedDyadicCompletionUp
+import BEDC.Derived.LocatedDyadicCompletionUp.TasteGate
 import BEDC.Derived.LocatedDyadicCutUp
 import BEDC.Derived.LocatedDyadicRealUp.TasteGate
 import BEDC.Derived.LocatedDyadicUniformMeshUp
@@ -13265,6 +13267,7 @@ import BEDC.Derived.TaylorPolynomialUp.TasteGate
 import BEDC.Derived.TaylorRemainderUp
 import BEDC.Derived.TaylorRemainderUp.TasteGate
 import BEDC.Derived.TaylorTheoremUp.TasteGate
+import BEDC.Derived.TeichmullerSpaceUp.TasteGate
 import BEDC.Derived.TelephoneNumberUp
 import BEDC.Derived.TemperedDistributionUp.TasteGate
 import BEDC.Derived.TensorAlgebraUp.TasteGate
@@ -14156,6 +14159,7 @@ import BEDC.Derived.ZetaContinuationSocketUp
 import BEDC.Derived.ZetaContinuationSocketUp.AnalyticHandoff
 import BEDC.Derived.ZetaContinuationSocketUp.FunctionalEquationBoundary
 import BEDC.Derived.ZetaContinuationSocketUp.TasteGate
+import BEDC.Derived.ZetaContinuationSocketUp.VisionConcretization
 import BEDC.Derived.ZetaContinuationWitnessUp
 import BEDC.Derived.ZetaContinuationWitnessUp.AnalyticReadbackObligation
 import BEDC.Derived.ZetaContinuationWitnessUp.CarrierAdmissionTightening
