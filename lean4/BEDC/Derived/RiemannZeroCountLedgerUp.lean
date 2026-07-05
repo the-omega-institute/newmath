@@ -400,4 +400,47 @@ theorem RiemannZeroCountLedgerCarrier_formal_target_contract
       comparisonUnary, exportUnary, filterRoute, countRoute, comparisonRoute, exportRoute,
       sameHeight, sameZeroList, sameCount, hsame_refl M, hsame_refl E⟩
 
+theorem RiemannZeroCountLedgerCarrier_obligation_routing
+    {T Z U M E H C P N T' Z' U' filterRead countRead comparisonRead exportRead publicRead :
+      BHist}
+    (count_unary : UnaryHistory U)
+    (t_unary : UnaryHistory T)
+    (z_unary : UnaryHistory Z)
+    (m_unary : UnaryHistory M)
+    (e_unary : UnaryHistory E)
+    (sameHeight : hsame T T')
+    (sameZeroList : hsame Z Z')
+    (sameCount : hsame U U')
+    (filterRoute : Cont T Z filterRead)
+    (countRoute : Cont filterRead U countRead)
+    (comparisonRoute : Cont M E comparisonRead)
+    (exportRoute : Cont comparisonRead U exportRead)
+    (publicRoute : Cont countRead exportRead publicRead) :
+    ∃ x : RiemannZeroCountLedgerUp,
+      x = RiemannZeroCountLedgerUp.mk T Z U M E H C P N count_unary ∧
+        UnaryHistory publicRead ∧
+          Cont T Z filterRead ∧
+            Cont filterRead U countRead ∧
+              Cont M E comparisonRead ∧
+                Cont comparisonRead U exportRead ∧
+                  Cont countRead exportRead publicRead ∧
+                    hsame T T' ∧
+                      hsame Z Z' ∧
+                        hsame U U' ∧ hsame M M ∧ hsame E E := by
+  -- BEDC touchpoint anchor: BHist hsame Cont UnaryHistory
+  have filterUnary : UnaryHistory filterRead :=
+    unary_cont_closed t_unary z_unary filterRoute
+  have countReadUnary : UnaryHistory countRead :=
+    unary_cont_closed filterUnary count_unary countRoute
+  have comparisonUnary : UnaryHistory comparisonRead :=
+    unary_cont_closed m_unary e_unary comparisonRoute
+  have exportUnary : UnaryHistory exportRead :=
+    unary_cont_closed comparisonUnary count_unary exportRoute
+  have publicUnary : UnaryHistory publicRead :=
+    unary_cont_closed countReadUnary exportUnary publicRoute
+  exact
+    ⟨RiemannZeroCountLedgerUp.mk T Z U M E H C P N count_unary, rfl,
+      publicUnary, filterRoute, countRoute, comparisonRoute, exportRoute, publicRoute,
+      sameHeight, sameZeroList, sameCount, hsame_refl M, hsame_refl E⟩
+
 end BEDC.Derived.RiemannZeroCountLedgerUp
