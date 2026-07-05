@@ -12844,6 +12844,7 @@ import BEDC.Derived.SorgenfreyLineUp.TasteGate
 import BEDC.Derived.SorgenfreyPlaneUp
 import BEDC.Derived.SorgenfreyPlaneUp.KernelCarrier
 import BEDC.Derived.SpanningTreeUp
+import BEDC.Derived.SparseGridQuadratureUp
 import BEDC.Derived.SpecializationOrderUp.TasteGate
 import BEDC.Derived.SpecializationTopologyUp
 import BEDC.Derived.SpeckerMonotoneBoundaryUp.TasteGate

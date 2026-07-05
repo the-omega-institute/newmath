@@ -1,0 +1,99 @@
+\chapter{A Concrete Naming Certificate for $\SparseGridQuadratureUp$}
+\label{ch:concrete-instances-sparse-grid-quadrature-namecert}
+\origin{human}
+
+Following Smolyak and Novak--Ritter on sparse-grid quadrature, the $\SparseGridQuadratureUp$ packet records a finite combination of tensor-product quadrature rules before any integration or completion consumer reads it as a real-valued approximation. It sits after the base quadrature surface of \autoref{ch:concrete-instances-quadrature-namecert}, the tensor-product construction of \autoref{ch:concrete-instances-tensorproduct-namecert}, the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}, the finite window route of \autoref{ch:concrete-instances-streamname-namecert}, and the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}. The packet names only the displayed Smolyak index rows, tensor-rule components, integer coefficients, dyadic budgets, stream windows, rational readbacks, Real seal, transport, replay, provenance, and local naming; it does not import open-cover compactness, host function spaces, quotient equality, selected limits, or ambient $\RealUp$ completeness.
+
+\begin{definition}[Sparse-grid quadrature carrier]
+\label{def:sparse-grid-quadrature-carrier}
+A $\SparseGridQuadratureUp$ carrier is a finite $\BHist$ packet
+$$
+S=(I,T,Q,C,E,W,R,D,S_0,H,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $I$ is the Smolyak multi-index row, listing the finite set of admissible level vectors and their dependency on the displayed anisotropic level budget.
+\item $T$ is the $\TensorProductUp$ row, recording for each index in $I$ the finitely many one-dimensional quadrature components and their tensor-product assembly.
+\item $Q$ is the $\QuadratureUp$ component row, exposing the finite node-weight rules consumed by the tensor-product entries.
+\item $C$ is the integer coefficient ledger, recording the signed Smolyak coefficients attached to each displayed multi-index row.
+\item $E$ is the dyadic error-budget row, read through $\DyadicRatCoreUp$ and containing only finite residual comparisons for the displayed level window.
+\item $W$ is the $\StreamNameUp$ window row, displaying the observation schedule by which nodes, weights, coefficients, and residuals are inspected.
+\item $R$ is the $\RegSeqRatUp$ readback row, binding the finite weighted sums and residual windows to regular rational names.
+\item $D$ is the $\RealUp$ seal row, admitting the terminal real-name read only after $I,T,Q,C,E,W,R$ have been displayed.
+\item $S_0$ is the sibling-dependency ledger tying the packet to \autoref{ch:concrete-instances-quadrature-namecert}, \autoref{ch:concrete-instances-tensorproduct-namecert}, \autoref{ch:concrete-instances-streamname-namecert}, \autoref{ch:concrete-instances-regseqrat-namecert}, and \autoref{ch:concrete-instances-real-namecert}.
+\item $H$ records componentwise $\hsame$ transport for all index, tensor-rule, coefficient, budget, window, readback, seal, dependency, provenance, and naming rows.
+\item $P$ records displayed $\Cont$ replay and $\Pkg$ provenance for the same finite route.
+\item $N$ is the local $\NameCert_{\SparseGridQuadratureUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $I,T,Q,C,E,W,R,D,S_0,H,P,N$. It has no coordinate for a host integrand space, open-cover compactness theorem, quotient equality of functions, selected limiting sparse grid, external cubature convergence theorem, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[Sparse-grid quadrature NameCert obligations]
+\label{thm:sparse-grid-quadrature-namecert-obligations}
+For every accepted $\SparseGridQuadratureUp$ carrier
+$$
+S=(I,T,Q,C,E,W,R,D,S_0,H,P,N),
+$$
+the local $\NameCert_{\SparseGridQuadratureUp}$ surface consists exactly of Smolyak multi-index admission, tensor-product component admission, base $\QuadratureUp$ node-weight admission, integer coefficient-ledger admission, dyadic error-budget exposure, $\StreamNameUp$ window admission, $\RegSeqRatUp$ readback, $\RealUp$ sealing, sibling-dependency exposure, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:sparse-grid-quadrature-carrier}. The rows $I,T,Q,C$ give the complete combinatorial side of the sparse-grid rule: displayed Smolyak levels, their tensor-product rule rows, the underlying finite quadrature components, and the signed coefficient ledger.
+
+The analytic read is confined to $E,W,R,D$. The dyadic row $E$ records the finite residual budget, $W$ records the observation windows, $R$ turns the displayed weighted sums into regular rational readbacks, and $D$ is the only terminal real-name seal.
+
+The sibling ledger $S_0$ fixes the dependency route through the quadrature, tensor-product, stream-name, regular-rational, and real-name chapters. The structural rows $H,P,N$ transport, replay, source, and name that same finite route.
+
+Since no carrier coordinate stores a host integrand space, open-cover compactness theorem, quotient function equality, selected limiting sparse grid, external cubature convergence theorem, or ambient real completeness, these rows exhaust the local certificate surface.
+\end{proof}
+
+\begin{theorem}[Sparse-grid quadrature Smolyak route]
+\label{thm:sparse-grid-quadrature-smolyak-route}
+Every integration-facing consumer of an accepted $\SparseGridQuadratureUp$ packet must read the finite route
+$$
+I \longmapsto (T,Q) \longmapsto C \longmapsto (E,W,R,D) \longmapsto (S_0,H,P,N)
+$$
+before using the sparse-grid value. The consumer receives the displayed Smolyak multi-index rows, tensor-product quadrature components, integer coefficients, dyadic budget, stream windows, regular rational readback, and Real seal, and receives no host function space, quotient equality, selected limit, open-cover compactness, or external cubature convergence principle.
+\end{theorem}
+\begin{proof}
+Begin with an integration-facing read. The first row available is $I$, so the consumer can inspect only the displayed finite multi-index set and level budget.
+
+The tensor and quadrature data are then read through $T$ and $Q$. The coefficient row $C$ records the signed Smolyak combination over those same displayed indices, so the weighted sparse-grid sum has no source outside the finite index surface.
+
+The readback route is downstream. Rows $E,W,R,D$ expose the dyadic budget, finite windows, regular rational readback, and terminal Real seal in that order.
+
+Finally $S_0,H,P,N$ bind the sibling dependencies, transport, replay, provenance, and local naming. Any use of host function spaces, quotient equality, selected limits, open-cover compactness, or external cubature convergence would require a coordinate absent from the packet.
+\end{proof}
+
+\begin{theorem}[Sparse-grid quadrature real readback]
+\label{thm:sparse-grid-quadrature-real-readback}
+For an accepted carrier $S=(I,T,Q,C,E,W,R,D,S_0,H,P,N)$, the $\RealUp$ readback row $D$ is reachable only through the finite window
+$$
+\StreamNameUp \longmapsto \RegSeqRatUp \longmapsto \RealUp .
+$$
+Thus every Real or Completion consumer must first display the stream-window row $W$, the regular rational row $R$, and the dyadic error row $E$ tied to the same Smolyak coefficient ledger $C$ and tensor-product quadrature rows $T,Q$.
+\end{theorem}
+\begin{proof}
+Project $W,R,D$ from \autoref{def:sparse-grid-quadrature-carrier}. The stream row $W$ is the only observation schedule for nodes, weights, coefficients, and residuals.
+
+The regular rational row $R$ reads the weighted sparse-grid sum through that schedule. Its source is still the same displayed $I,T,Q,C,E$ data, so no external sequence or host approximation object is introduced.
+
+The Real seal $D$ is downstream of $R$. Consequently a Real or Completion consumer can receive only the sealed value generated by the finite stream and regular-rational readback route, with $H,P,N$ preserving transport, replay, provenance, and naming.
+\end{proof}
+
+\falsifiablePrediction{An accepted $\SparseGridQuadratureUp$ read is refuted if a Real or Completion consumer obtains a sparse-grid value without displaying the Smolyak multi-index row, tensor-product quadrature components, integer coefficient ledger, dyadic error budget, StreamName windows, RegSeqRat readback, Real seal, hsame transport, Cont replay, Pkg provenance, and local NameCert evidence.}
+
+\independenceWitness{quadrature, tensorproduct, streamname, regseqrat, real: no listed sibling is bijective to $\SparseGridQuadratureUp$ because this packet jointly carries Smolyak index rows, tensor-product quadrature components, integer coefficients, dyadic budgets, stream windows, regular rational readback, a terminal Real seal, transport, replay, provenance, and local naming as one finite sparse-grid route.}
+
+\leanstmt{BEDC.Derived.SparseGridQuadratureUp}
+
+\closureat{SparseGridQuadratureUp}{seedStr}
+
+\begin{closurestatus}{\SparseGridQuadratureUp}
+  \constructivestory{A $\SparseGridQuadratureUp$ packet is generated from Smolyak multi-index rows, TensorProductUp quadrature components, QuadratureUp node-weight rules, integer coefficient ledgers, DyadicRatCoreUp error budgets, StreamNameUp windows, RegSeqRatUp readback, a RealUp seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:sparse-grid-quadrature-carrier}, \autoref{thm:sparse-grid-quadrature-namecert-obligations}, \autoref{thm:sparse-grid-quadrature-smolyak-route}, and \autoref{thm:sparse-grid-quadrature-real-readback} seed the finite Smolyak sparse-grid certificate over $\QuadratureUp$, $\TensorProductUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, and $\BHist$.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close host function spaces, open-cover compactness, quotient equality of functions, selected limiting sparse grids, external cubature convergence theorems, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked multi-index admission, tensor-product component admission, QuadratureUp component admission, integer coefficient-ledger admission, dyadic budget exposure, StreamNameUp window admission, RegSeqRatUp readback, RealUp sealing, transport, replay, provenance, and local naming for BEDC.Derived.SparseGridQuadratureUp.}
+\end{closurestatus}
