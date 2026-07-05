@@ -311,4 +311,25 @@ theorem ClosedSubstrateQuadrantCarrier_namecert_obligations
             ⟨substrate, universality, closure, quadrant, witness, transports, routes,
               provenance, nameCert, rfl, rfl⟩
 
+theorem ClosedSubstrateQuadrant_axis_independence_certificate
+    {substrate universality closure closure' quadrant witness transports routes provenance
+        nameCert : BHist}
+    (hclosure : closure ≠ closure') :
+    closedSubstrateQuadrantToEventFlow
+        (ClosedSubstrateQuadrantUp.mk substrate universality closure quadrant witness transports
+          routes provenance nameCert) ≠
+      closedSubstrateQuadrantToEventFlow
+        (ClosedSubstrateQuadrantUp.mk substrate universality closure' quadrant witness transports
+          routes provenance nameCert) := by
+  -- BEDC touchpoint anchor: BHist BMark
+  intro heq
+  have hcarrier :
+      ClosedSubstrateQuadrantUp.mk substrate universality closure quadrant witness transports
+          routes provenance nameCert =
+        ClosedSubstrateQuadrantUp.mk substrate universality closure' quadrant witness transports
+          routes provenance nameCert :=
+    closedSubstrateQuadrantToEventFlow_injective heq
+  cases hcarrier
+  exact hclosure rfl
+
 end BEDC.Derived.ClosedSubstrateQuadrantUp

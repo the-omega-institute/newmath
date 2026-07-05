@@ -235,4 +235,20 @@ theorem MultihistCouplingTasteGate_single_carrier_alignment :
     ⟨multihistCoupling_round_trip,
       fun _ _ => multihistCouplingToEventFlow_injective, rfl⟩
 
+theorem MultihistCoupling_invariant_handoff (x : MultihistCouplingUp) :
+    ∃ H0 H1 J S T C P N : BHist,
+      x = MultihistCouplingUp.mk H0 H1 J S T C P N ∧
+        multihistCouplingFields x = [H0, H1, J, S, T, C, P, N] ∧
+          BHistCarrier.fromEventFlow (BHistCarrier.toEventFlow x) = some x := by
+  -- BEDC touchpoint anchor: BHist BMark
+  cases x with
+  | mk H0 H1 J S T C P N =>
+      refine ⟨H0, H1, J, S, T, C, P, N, rfl, rfl, ?_⟩
+      change
+        multihistCouplingFromEventFlow
+          (multihistCouplingToEventFlow
+            (MultihistCouplingUp.mk H0 H1 J S T C P N)) =
+          some (MultihistCouplingUp.mk H0 H1 J S T C P N)
+      exact multihistCoupling_round_trip (MultihistCouplingUp.mk H0 H1 J S T C P N)
+
 end BEDC.Derived.MultihistCouplingUp.TasteGate

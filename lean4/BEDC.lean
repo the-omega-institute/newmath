@@ -1230,6 +1230,7 @@ import BEDC.Derived.BishopRegularCauchyCompletionUp.TailDiameterControl
 import BEDC.Derived.BishopRegularCauchyCompletionUp.TasteGate
 import BEDC.Derived.BishopRegularCauchyCompletionUp.UniversalHandoff
 import BEDC.Derived.BishopRegularCauchyCompletionUp.WindowInduction
+import BEDC.Derived.BishopRegularCauchyEnvelopeUp.TasteGate
 import BEDC.Derived.BishopRegularCauchyLimitSealUp.TasteGate
 import BEDC.Derived.BishopRegularCutEquivalenceUp.TasteGate
 import BEDC.Derived.BishopRegularRealLocatorUp.TasteGate
@@ -5840,6 +5841,7 @@ import BEDC.Derived.EquicontinuousCauchyFamilyUp.CompletionHandoff
 import BEDC.Derived.EquicontinuousCauchyFamilyUp.TasteGate
 import BEDC.Derived.EquicontinuousCompletionUp.TasteGate
 import BEDC.Derived.EquicontinuousFamilyUp.TasteGate
+import BEDC.Derived.EquicontinuousUniformCauchyModulusUp
 import BEDC.Derived.EquivCatUp
 import BEDC.Derived.ErdosSzekeresMonotoneSubsequenceUp
 import BEDC.Derived.ErgodicUp
@@ -6334,6 +6336,8 @@ import BEDC.Derived.FiniteCauchyCompletenessCriterionUp
 import BEDC.Derived.FiniteCauchyFilterUp.TasteGate
 import BEDC.Derived.FiniteCauchyGluingBudgetUp.Classifier
 import BEDC.Derived.FiniteCauchyGluingBudgetUp.Induction
+import BEDC.Derived.FiniteCauchyGluingBudgetUp.Scope
+import BEDC.Derived.FiniteCauchyGluingBudgetUp.SealInductionRoute
 import BEDC.Derived.FiniteCauchyGluingBudgetUp.SynchronizerLedgerInduction
 import BEDC.Derived.FiniteCauchyGluingBudgetUp.SynchronizerWindowExactness
 import BEDC.Derived.FiniteCauchyGluingBudgetUp.TailSynchronizer
@@ -7413,6 +7417,7 @@ import BEDC.Derived.IdealUp.RingMapZeroFiber
 import BEDC.Derived.IdealUp.StdBridge
 import BEDC.Derived.IdealUp.SumClosure
 import BEDC.Derived.ImplicitFunctionTheoremUp
+import BEDC.Derived.ImplicitFunctionTheoremUp.NameCertObligations
 import BEDC.Derived.ImplicitFunctionUp
 import BEDC.Derived.ImplicitFunctionUp.LocalGraphSealHandoff
 import BEDC.Derived.ImplicitFunctionUp.RootEquationCarrier
@@ -11009,6 +11014,7 @@ import BEDC.Derived.RealDiagonalMeshBudgetUp
 import BEDC.Derived.RealDiagonalModulusUp.TasteGate
 import BEDC.Derived.RealDiagonalNonSurjectionUp
 import BEDC.Derived.RealDiagonalNonSurjectionUp.NameCertObligations
+import BEDC.Derived.RealDiagonalRegularitySealUp.Obligations
 import BEDC.Derived.RealDiagonalRegularitySealUp.TasteGate
 import BEDC.Derived.RealDiagonalWindowCoverageUp
 import BEDC.Derived.RealDiagonalWindowCoverageUp.TasteGate
