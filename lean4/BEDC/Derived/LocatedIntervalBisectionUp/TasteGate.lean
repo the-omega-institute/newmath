@@ -278,4 +278,117 @@ theorem LocatedIntervalBisectionNameCertObligations [AskSetup] [PackageSetup]
   }
   exact ⟨cert, intervalUnary, midpointUnary, windowUnary, sealUnary⟩
 
+theorem LocatedIntervalBisectionCarrier_nonescape [AskSetup] [PackageSetup]
+    {I D M S W R H C P N intervalRead midpointRead windowRead sealRead publicRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    UnaryHistory I →
+      UnaryHistory D →
+        UnaryHistory M →
+          UnaryHistory S →
+            UnaryHistory W →
+              UnaryHistory R →
+                UnaryHistory H →
+                  UnaryHistory C →
+                    UnaryHistory P →
+                      UnaryHistory N →
+                        locatedIntervalBisectionFields
+                            (LocatedIntervalBisectionUp.mk I D M S W R H C P N) =
+                          [I, D, M, S, W, R, H, C, P, N] →
+                          Cont I D intervalRead →
+                            Cont intervalRead M midpointRead →
+                              Cont midpointRead W windowRead →
+                                Cont windowRead R sealRead →
+                                  Cont sealRead N publicRead →
+                                    PkgSig bundle P pkg →
+                                      PkgSig bundle sealRead pkg →
+                                        PkgSig bundle publicRead pkg →
+                                          SemanticNameCert
+                                              (fun row : BHist =>
+                                                hsame row publicRead ∧ UnaryHistory row)
+                                              (fun row : BHist =>
+                                                hsame row I ∨ hsame row D ∨ hsame row M ∨
+                                                  hsame row S ∨ hsame row W ∨ hsame row R ∨
+                                                    hsame row H ∨ hsame row C ∨
+                                                      hsame row P ∨ hsame row N ∨
+                                                        hsame row intervalRead ∨
+                                                          hsame row midpointRead ∨
+                                                            hsame row windowRead ∨
+                                                              hsame row sealRead ∨
+                                                                hsame row publicRead)
+                                              (fun row : BHist =>
+                                                UnaryHistory row ∧ Cont I D intervalRead ∧
+                                                  Cont intervalRead M midpointRead ∧
+                                                    Cont midpointRead W windowRead ∧
+                                                      Cont windowRead R sealRead ∧
+                                                        Cont sealRead N publicRead ∧
+                                                          PkgSig bundle P pkg ∧
+                                                            PkgSig bundle publicRead pkg)
+                                              hsame ∧
+                                            UnaryHistory intervalRead ∧
+                                              UnaryHistory midpointRead ∧
+                                                UnaryHistory windowRead ∧
+                                                  UnaryHistory sealRead ∧
+                                                    UnaryHistory publicRead := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont PkgSig hsame SemanticNameCert
+  intro iUnary dUnary mUnary _sUnary wUnary rUnary _hUnary _cUnary _pUnary nUnary
+    _fieldsExact intervalRoute midpointRoute windowRoute sealRoute publicRoute
+    provenancePkg _sealPkg publicPkg
+  have intervalUnary : UnaryHistory intervalRead :=
+    unary_cont_closed iUnary dUnary intervalRoute
+  have midpointUnary : UnaryHistory midpointRead :=
+    unary_cont_closed intervalUnary mUnary midpointRoute
+  have windowUnary : UnaryHistory windowRead :=
+    unary_cont_closed midpointUnary wUnary windowRoute
+  have sealUnary : UnaryHistory sealRead :=
+    unary_cont_closed windowUnary rUnary sealRoute
+  have publicUnary : UnaryHistory publicRead :=
+    unary_cont_closed sealUnary nUnary publicRoute
+  have sourcePublic :
+      (fun row : BHist => hsame row publicRead ∧ UnaryHistory row) publicRead := by
+    exact ⟨hsame_refl publicRead, publicUnary⟩
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => hsame row publicRead ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row I ∨ hsame row D ∨ hsame row M ∨ hsame row S ∨
+              hsame row W ∨ hsame row R ∨ hsame row H ∨ hsame row C ∨
+                hsame row P ∨ hsame row N ∨ hsame row intervalRead ∨
+                  hsame row midpointRead ∨ hsame row windowRead ∨ hsame row sealRead ∨
+                    hsame row publicRead)
+          (fun row : BHist =>
+            UnaryHistory row ∧ Cont I D intervalRead ∧ Cont intervalRead M midpointRead ∧
+              Cont midpointRead W windowRead ∧ Cont windowRead R sealRead ∧
+                Cont sealRead N publicRead ∧ PkgSig bundle P pkg ∧
+                  PkgSig bundle publicRead pkg)
+          hsame := {
+    core := {
+      carrier_inhabited := Exists.intro publicRead sourcePublic
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        exact
+          ⟨hsame_trans (hsame_symm sameRows) source.left,
+            unary_transport source.right sameRows⟩
+    }
+    pattern_sound := by
+      intro _row source
+      exact Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr
+        (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr
+          (Or.inr source.left)))))))))))))
+    ledger_sound := by
+      intro _row source
+      exact
+        ⟨source.right, intervalRoute, midpointRoute, windowRoute, sealRoute, publicRoute,
+          provenancePkg, publicPkg⟩
+  }
+  exact ⟨cert, intervalUnary, midpointUnary, windowUnary, sealUnary, publicUnary⟩
+
 end BEDC.Derived.LocatedIntervalBisectionUp
