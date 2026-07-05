@@ -13,6 +13,15 @@ open BEDC.FKernel.Hist
 open BEDC.FKernel.Package
 open BEDC.FKernel.Unary
 
+def SeparatedPseudometricCompletionCarrier [AskSetup] [PackageSetup]
+    (P Z Q M S R D E H C K N : BHist)
+    (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg UnaryHistory PkgSig
+  UnaryHistory P ∧ UnaryHistory Z ∧ UnaryHistory Q ∧ UnaryHistory M ∧
+    UnaryHistory S ∧ UnaryHistory R ∧ UnaryHistory D ∧ UnaryHistory E ∧
+      UnaryHistory H ∧ UnaryHistory C ∧ UnaryHistory K ∧ UnaryHistory N ∧
+        PkgSig bundle K pkg ∧ PkgSig bundle N pkg
+
 theorem SeparatedPseudometricCompletionCarrier_completion_route [AskSetup] [PackageSetup]
     {P Z Q M S R D E H C K N routeSep routeCompletion routeWindow routeReg routeDyadic
       routeReal : BHist}

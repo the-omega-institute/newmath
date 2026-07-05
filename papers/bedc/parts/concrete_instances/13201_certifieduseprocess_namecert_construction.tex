@@ -51,6 +51,22 @@ Thus a consumer that omits the rule witness or refusal ledger changes the packet
 \end{proof}
 \leanchecked{BEDC.Derived.CertifiedUseProcessUp.CertifiedUseProcess\_nonprivate\_rule\_following}
 
+\begin{theorem}[Certified-use process obligation ledger]
+\label{thm:certified-use-process-obligation-ledger}
+For every accepted $\CertifiedUseProcessUp$ carrier
+$$
+Q=(U,R,C,L,H,K,P,N),
+$$
+the local obligation ledger consists exactly of certified-use admission through $U$, public rule-witness exposure through $R$, continuation replay through $C$, refusal-ledger exposure through $L$, componentwise $\hsame$ transport through $H$, displayed $\Cont$ replay through $K$, $\Pkg$ provenance through $P$, and local $\NameCert_{\CertifiedUseProcessUp}$ binding through $N$. The ledger has no row for private meaning, unwitnessed repetition, hidden source supply, or registry-free machine export.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:certified-use-process-carrier}. The rows $U,R,C,L$ display the public use event, rule witness, continuation route, and refusals before any consumer may cite the process.
+
+The structural rows then preserve only that displayed surface. The row $H$ transports the certified-use, rule-witness, continuation, refusal, replay, provenance, and local naming rows componentwise, while $K$ replays the same route through $\Cont$.
+
+Finally $P$ records the sibling provenance and $N$ binds the local NameCert row. Since the carrier definition excludes private meaning, social repetition without a rule witness, machine-facing export without registry control, hidden source supply, and naming without NameCert, no such row is available in the obligation ledger.
+\end{proof}
+
 \falsifiablePrediction{A public use accepted without the rule-witness row or ledger row is not a CertifiedUseProcessUp packet.}
 
 \independenceWitness{socketuseledger, registryexportsurface, machineinterfaceboundary, apophaticname, nameeligibilityproof: none is bijective because CertifiedUseProcessUp binds use, rule witness, continuation route, refusal ledger, transport, provenance, and local naming in one packet.}
@@ -70,5 +86,5 @@ The Lean carrier realization provides $\Nontrivial\ \CertifiedUseProcessUp$ and 
   \bridgestatus{none}
   \origin{ai}
   \notclaimed{It does not claim private meaning, social repetition without a rule witness, machine-facing export without registry control, hidden source supply, or local naming without NameCert.}
-  \upgradepath{To reach obligationClosure, the certified-use carrier and nonprivate rule-following theorem must be checked as finite packet obligations.}
+  \upgradepath{Scoped closure requires checked replay, transport, provenance, and refusal-ledger nonescape for the same certified-use packet.}
 \end{closurestatus}
