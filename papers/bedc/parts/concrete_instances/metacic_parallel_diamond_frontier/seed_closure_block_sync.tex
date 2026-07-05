@@ -1,0 +1,11 @@
+\begin{theorem}[MetaCIC parallel diamond frontier seed closure block sync]
+\label{thm:metacic-parallel-diamond-frontier-seed-closure-block-sync}
+Every seed-closure read of $\MetaCICParallelDiamondFrontierUp$ is routed through the existing carrier, residual-join, retained-premise, and closurestatus-guard rows before the hub seed marker is consumed. Concretely, the read must expose \autoref{def:metacic-parallel-diamond-frontier-carrier}, \autoref{thm:metacic-parallel-diamond-frontier-obligations}, \autoref{thm:metacic-parallel-diamond-frontier-residual-join-locality}, \autoref{thm:metacic-parallel-diamond-frontier-retained-premise-closure}, and \autoref{thm:metacic-parallel-diamond-frontier-closurestatus-guard} as one child route.
+\end{theorem}
+\begin{proof}
+Begin with the carrier and obligation surface. They display the finite frontier rows $P,K,J,R,S,C,B,O,H,T,G,N$ and keep the residual-substitution premise and obstruction rows visible.
+
+Next read residual-join locality and retained-premise closure. These rows keep the local join and retained premise inside the same displayed packet before any seed-facing status is inspected.
+
+Finally apply the closurestatus guard. The guard forces the hub seed marker to be read through the child packet just displayed, so the block records a seed closure route only. It does not assert subject reduction, unrestricted Church--Rosser, evaluator equality, quotient equality of terms, residual-substitution discharge, or kernel consistency.
+\end{proof}
