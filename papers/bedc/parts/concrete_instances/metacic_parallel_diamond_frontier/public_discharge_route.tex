@@ -1,0 +1,11 @@
+\begin{theorem}[MetaCIC parallel-diamond frontier public-discharge route]
+\label{thm:metacic-parallel-diamond-frontier-public-discharge-route}
+Every public read of $\MetaCICParallelDiamondFrontierUp$ that has discharge-shaped form must first expose the retained premise row, critical-pair row, candidate-join row, residual-frontier row, bounded-check row, obstruction row, transport row, replay row, provenance row, and local $\NameCert_{\MetaCICParallelDiamondFrontierUp}$ row. The route does not claim residual-substitution discharge, subject reduction, full Church-Rosser, evaluator equality, quotient term equality, global normalization, or kernel consistency.
+\end{theorem}
+\begin{proof}
+Start with the retained premise and critical-pair rows. They are the displayed frontier data that make a candidate discharge readable as a local frontier question rather than as a theorem about the whole MetaCIC calculus.
+
+Next read the candidate-join, residual-frontier, bounded-check, and obstruction rows. These rows record the finite join attempt and the visible obstruction budget, so the public conclusion remains a bounded frontier statement.
+
+Finally transport the packet through the replay, provenance, and local naming rows. Since the carrier exposes only this finite route, it cannot export residual-substitution discharge, subject reduction, full Church-Rosser, evaluator equality, quotient term equality, global normalization, or kernel consistency.
+\end{proof}

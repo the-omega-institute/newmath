@@ -378,4 +378,41 @@ theorem ParallelConfluenceAudit_conditional_bridge_route_closed
             (ParallelConfluenceAuditUp.mk parallelStep substitutionBoundary conditionalDiamond
               closedStar closedNormal atomShape nonClaim transports routes provenance localName)
 
+theorem ParallelConfluenceAudit_namecert_obligations
+    {P S D C Nm At No H R L G P' S' D' C' Nm' At' No' H' R' L' G' : BHist} :
+    parallelConfluenceAuditToEventFlow (ParallelConfluenceAuditUp.mk P S D C Nm At No H R L G) =
+        parallelConfluenceAuditToEventFlow
+          (ParallelConfluenceAuditUp.mk P' S' D' C' Nm' At' No' H' R' L' G') →
+      hsame P P' ∧ hsame S S' ∧ hsame D D' ∧ hsame C C' ∧ hsame Nm Nm' ∧
+        hsame At At' ∧ hsame No No' ∧ hsame H H' ∧ hsame R R' ∧ hsame L L' ∧
+          hsame G G' := by
+  -- BEDC touchpoint anchor: BHist BMark hsame
+  intro sameDisplay
+  have carrierEq :
+      ParallelConfluenceAuditUp.mk P S D C Nm At No H R L G =
+        ParallelConfluenceAuditUp.mk P' S' D' C' Nm' At' No' H' R' L' G' :=
+    parallelConfluenceAuditToEventFlow_injective sameDisplay
+  cases carrierEq
+  constructor
+  · exact hsame_refl P
+  · constructor
+    · exact hsame_refl S
+    · constructor
+      · exact hsame_refl D
+      · constructor
+        · exact hsame_refl C
+        · constructor
+          · exact hsame_refl Nm
+          · constructor
+            · exact hsame_refl At
+            · constructor
+              · exact hsame_refl No
+              · constructor
+                · exact hsame_refl H
+                · constructor
+                  · exact hsame_refl R
+                  · constructor
+                    · exact hsame_refl L
+                    · exact hsame_refl G
+
 end BEDC.Derived.ParallelConfluenceAuditUp
