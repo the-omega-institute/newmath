@@ -17,3 +17,4 @@ import UnifiedTheory.Kernel.LedgerStatus
 import UnifiedTheory.Kernel.Components
 import UnifiedTheory.Reading.Fibers
 import UnifiedTheory.Reading.TwoSquare
+import UnifiedTheory.SelfCode.Diagonal
