@@ -1,0 +1,86 @@
+\chapter{A Concrete Naming Certificate for $\SignedDigitRedundancyUp$}
+\label{ch:concrete-instances-signed-digit-redundancy-namecert}
+\origin{human}
+
+Following Avizienis on signed-digit arithmetic and Bishop--Bridges constructive analysis, the $\SignedDigitRedundancyUp$ packet records the finite normalization boundary at which redundant signed digits are admitted as constructive readback data without selecting a representative stream. It sits between the signed-binary surface of \autoref{ch:concrete-instances-signed-binary-expansion-namecert}, the raw binary readback of \autoref{ch:concrete-instances-binaryexpansion-namecert}, and the endpoint uniqueness route of \autoref{ch:concrete-instances-binary-endpoint-uniqueness-namecert}. The packet is a finite Real-and-Completion handoff certificate; it is not quotient stream equality, a selected endpoint convention, trichotomy, or an appeal to ambient $\RealUp$ completeness.
+
+\begin{definition}[Signed digit redundancy carrier]
+\label{def:signed-digit-redundancy-carrier}
+A $\SignedDigitRedundancyUp$ carrier is a finite $\BHist$ packet
+$$
+G=(S,B,U,D,W,Q,R,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the accepted $\SignedBinaryExpansionUp$ row whose signed prefix windows supply the redundant digit observations.
+\item $B$ is the accepted $\BinaryExpansionUp$ row used only as the unsigned comparison boundary for the same finite precision window.
+\item $U$ is the $\BinaryEndpointUniquenessUp$ row, recording that endpoint ambiguity has already been routed through a named finite convention surface.
+\item $D$ is the $\DyadicRatCoreUp$ normalization ledger, carrying the displayed carry bounds, overlap margins, and finite tolerance requests.
+\item $W$ is the $\StreamNameUp$ window row listing the inspected signed-digit and binary-prefix positions.
+\item $Q$ is the $\RegSeqRatUp$ handoff row reached after the signed and unsigned windows have been compared through $D$.
+\item $R$ is the terminal $\RealUp$ seal row exposed only after $S,B,U,D,W,Q$ have been replayed.
+\item $E$ is the local redundancy classifier row, naming whether the displayed windows are already normal or require a finite carry replay.
+\item $H$ records componentwise $\hsame$ transport for the signed, unsigned, endpoint, ledger, window, handoff, seal, classifier, provenance, and naming rows.
+\item $C$ records displayed $\Cont$ replay of the normalization route from signed windows through dyadic ledger rows to regular rational and real seals.
+\item $P$ is the $\Pkg$ provenance over $\SignedDigitRedundancyUp$, $\SignedBinaryExpansionUp$, $\BinaryExpansionUp$, $\BinaryEndpointUniquenessUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\SignedDigitRedundancyUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $S,B,U,D,W,Q,R,E,H,C,P,N$. It has no coordinate for quotient stream equality, selected representatives, endpoint convention choice, trichotomy, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[Signed digit redundancy NameCert obligations]
+\label{thm:signed-digit-redundancy-namecert-obligations}
+For the carrier of \autoref{def:signed-digit-redundancy-carrier}, the local $\NameCert_{\SignedDigitRedundancyUp}$ surface consists exactly of signed-binary readback exposure, binary comparison exposure, endpoint-uniqueness routing, dyadic normalization ledger visibility, finite stream-window exposure, regular rational handoff, terminal Real seal routing, redundancy classifier exposure, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming.
+\end{theorem}
+\begin{proof}
+Project the accepted packet $G=(S,B,U,D,W,Q,R,E,H,C,P,N)$. The rows $S,B,U,D,W,Q,R,E,H,C,P,N$ are the whole carrier, so the local naming surface cannot read a signed digit, binary prefix, endpoint convention, tolerance budget, regular handoff, or Real seal outside those rows.
+
+The dependency order is finite. The signed-binary row supplies redundant signed windows, the binary row supplies the comparison prefix, and the endpoint row supplies the already named ambiguity boundary before the dyadic ledger classifies the local carry replay.
+
+Transport, replay, provenance, and naming preserve the same route. Since no remaining row is available, the certificate exports neither quotient stream equality nor a selected representative or endpoint convention.
+\end{proof}
+
+\begin{theorem}[Signed digit redundancy normalization nonescape]
+\label{thm:signed-digit-redundancy-normalization-nonescape}
+Let $G=(S,B,U,D,W,Q,R,E,H,C,P,N)$ be an accepted $\SignedDigitRedundancyUp$ carrier. Every normalization read admitted by $E$ factors through the signed-binary row $S$, the binary comparison row $B$, the endpoint-uniqueness row $U$, the shared finite window $W$, and the dyadic ledger $D$ before it can reach the $\RegSeqRatUp$ handoff $Q$ or the $\RealUp$ seal $R$.
+\end{theorem}
+\begin{proof}
+Start from the classifier row $E$. By the carrier definition, $E$ is local to the displayed redundancy packet and has no source other than the signed, unsigned, endpoint, window, and dyadic rows $S,B,U,W,D$.
+
+Replay through $C$ keeps the order of the route fixed. A normalization read must first expose the signed-digit window, compare it with the unsigned binary prefix, and consult the endpoint-uniqueness row before the carry ledger can admit a finite normalizing step.
+
+The handoff rows are downstream. Thus $Q$ and $R$ are reached only after the finite normalization route has been displayed, and the read remains a $\SignedDigitRedundancyUp$ certificate rather than quotient equality of streams or a selected representative.
+\end{proof}
+
+\begin{theorem}[Signed digit redundancy Real seal handoff]
+\label{thm:signed-digit-redundancy-real-seal-handoff}
+Every Real-or-Completion consumer of an accepted $\SignedDigitRedundancyUp$ packet must factor its seal read through
+$$
+\SignedBinaryExpansionUp,\quad \BinaryExpansionUp,\quad \BinaryEndpointUniquenessUp,\quad \DyadicRatCoreUp,\quad \StreamNameUp,\quad \RegSeqRatUp,\quad \RealUp .
+$$
+The handoff supplies only the displayed finite normalization boundary and does not supply quotient stream equality, a selected signed-digit representative, an endpoint convention choice, trichotomy, or ambient completeness for $\RealUp$.
+\end{theorem}
+\begin{proof}
+Use \autoref{thm:signed-digit-redundancy-normalization-nonescape}. It places every Real-facing seal downstream of the signed-binary row, binary comparison row, endpoint-uniqueness row, stream window, dyadic normalization ledger, and regular rational handoff.
+
+The cited sibling chapters determine the admissible reads. The signed-binary surface of \autoref{ch:concrete-instances-signed-binary-expansion-namecert} supplies signed windows, the binary surface of \autoref{ch:concrete-instances-binaryexpansion-namecert} supplies unsigned comparison prefixes, and \autoref{ch:concrete-instances-binary-endpoint-uniqueness-namecert} supplies endpoint routing.
+
+Project the structural rows $H,C,P,N$. They transport, replay, source, and name the same finite route, so the consumer receives a Real seal handoff but no quotient stream equality, selected representative, chosen endpoint convention, trichotomy proof, or ambient completeness principle.
+\end{proof}
+
+\falsifiablePrediction{An accepted $\SignedDigitRedundancyUp$ read is refuted if it reaches a RegSeqRat handoff or Real seal before displaying the SignedBinaryExpansion row, BinaryExpansion comparison row, BinaryEndpointUniqueness row, DyadicRatCore normalization ledger, StreamName window, redundancy classifier, transport, replay, provenance, and local NameCert rows.}
+
+\independenceWitness{signed-binary-expansion, binaryexpansion, binary-endpoint-uniqueness, dyadicratcore, streamname, regseqrat, real: $\SignedDigitRedundancyUp$ is not bijective to any listed sibling because it jointly binds redundant signed windows, unsigned comparison prefixes, endpoint routing, dyadic carry ledgers, regular handoff, Real sealing, transport, replay, provenance, and local naming.}
+
+\closureat{SignedDigitRedundancyUp}{seedStr}
+
+\begin{closurestatus}{\SignedDigitRedundancyUp}
+  \constructivestory{A $\SignedDigitRedundancyUp$ packet is generated from SignedBinaryExpansion rows, BinaryExpansion comparison rows, BinaryEndpointUniqueness routing, DyadicRatCore normalization ledgers, StreamName windows, RegSeqRat handoff, RealUp sealing, a local redundancy classifier, componentwise hsame transport, Cont replay, Pkg provenance, and local NameCert naming.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:signed-digit-redundancy-carrier}, \autoref{thm:signed-digit-redundancy-namecert-obligations}, \autoref{thm:signed-digit-redundancy-normalization-nonescape}, and \autoref{thm:signed-digit-redundancy-real-seal-handoff} seed the finite signed-digit normalization boundary for Real and Completion handoff.}
+  \formalstatus{\unformalizedV}
+  \leantarget{BEDC.Derived.SignedDigitRedundancyUp}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient stream equality, selected representatives, endpoint convention choice, trichotomy, ambient $\RealUp$ completeness, theorem-level Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, redundancy classifier visibility, normalization nonescape, Real seal handoff, transport, replay, provenance, and local naming for BEDC.Derived.SignedDigitRedundancyUp.}
+\end{closurestatus}
