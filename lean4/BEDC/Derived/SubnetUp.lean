@@ -95,4 +95,76 @@ theorem SubnetCarrier_namecert_obligations [AskSetup] [PackageSetup]
   }
   exact ⟨cert, tailUnary, valueUnary, convergenceUnary, pkgP, pkgN⟩
 
+theorem SubnetCarrier_convergence_route [AskSetup] [PackageSetup]
+    {I X J phi T V L H C P N tailRead valueRead convergenceRead publicRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    SubnetCarrier I X J phi T V L H C P N bundle pkg ->
+      Cont J phi tailRead ->
+        Cont tailRead X valueRead ->
+          Cont valueRead L convergenceRead ->
+            Cont convergenceRead N publicRead ->
+              PkgSig bundle P pkg ->
+                PkgSig bundle N pkg ->
+                  SemanticNameCert
+                      (fun row : BHist => hsame row publicRead ∧ UnaryHistory row)
+                      (fun row : BHist =>
+                        hsame row I ∨ hsame row X ∨ hsame row J ∨ hsame row phi ∨
+                          hsame row T ∨ hsame row V ∨ hsame row L ∨ hsame row H ∨
+                            hsame row C ∨ hsame row P ∨ hsame row N ∨
+                              hsame row publicRead)
+                      (fun row : BHist =>
+                        UnaryHistory row ∧ Cont convergenceRead N publicRead ∧
+                          PkgSig bundle N pkg)
+                      hsame ∧ UnaryHistory tailRead ∧ UnaryHistory valueRead ∧
+                    UnaryHistory convergenceRead ∧ UnaryHistory publicRead := by
+  -- BEDC touchpoint anchor: SubnetCarrier BHist ProbeBundle Pkg Cont PkgSig hsame SemanticNameCert UnaryHistory
+  intro carrier tailRoute valueRoute convergenceRoute publicRoute _pkgP pkgN
+  obtain ⟨_iUnary, xUnary, jUnary, phiUnary, _tUnary, _vUnary, lUnary, _hUnary, _cUnary,
+    _pUnary, nUnary, _carrierTail, _carrierValue, _carrierConvergence, _carrierPkgP,
+    _carrierPkgN⟩ := carrier
+  have tailUnary : UnaryHistory tailRead :=
+    unary_cont_closed jUnary phiUnary tailRoute
+  have valueUnary : UnaryHistory valueRead :=
+    unary_cont_closed tailUnary xUnary valueRoute
+  have convergenceUnary : UnaryHistory convergenceRead :=
+    unary_cont_closed valueUnary lUnary convergenceRoute
+  have publicUnary : UnaryHistory publicRead :=
+    unary_cont_closed convergenceUnary nUnary publicRoute
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => hsame row publicRead ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row I ∨ hsame row X ∨ hsame row J ∨ hsame row phi ∨
+              hsame row T ∨ hsame row V ∨ hsame row L ∨ hsame row H ∨
+                hsame row C ∨ hsame row P ∨ hsame row N ∨ hsame row publicRead)
+          (fun row : BHist =>
+            UnaryHistory row ∧ Cont convergenceRead N publicRead ∧ PkgSig bundle N pkg)
+          hsame := {
+    core := {
+      carrier_inhabited :=
+        Exists.intro publicRead ⟨hsame_refl publicRead, publicUnary⟩
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows sourceRow
+        exact
+          ⟨hsame_trans (hsame_symm sameRows) sourceRow.left,
+            unary_transport sourceRow.right sameRows⟩
+    }
+    pattern_sound := by
+      intro _row sourceRow
+      repeat (first | exact sourceRow.left | apply Or.inr)
+    ledger_sound := by
+      intro _row sourceRow
+      exact ⟨sourceRow.right, publicRoute, pkgN⟩
+  }
+  exact ⟨cert, tailUnary, valueUnary, convergenceUnary, publicUnary⟩
+
 end BEDC.Derived.SubnetUp

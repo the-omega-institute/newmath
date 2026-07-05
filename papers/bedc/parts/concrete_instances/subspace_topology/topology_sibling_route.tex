@@ -2,7 +2,7 @@
 \label{thm:subspace-topology-topology-sibling-route}
 Every accepted $\SubspaceTopologyUp$ read that exports a subspace-open row consumes the ambient $\TopologyUp$ carrier row of \autoref{ch:concrete-instances-topology-namecert}, the subcarrier classifier, restriction and replay rows, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and the local $\NameCert_{\SubspaceTopologyUp}$ row. The route is a sibling dependency on the displayed topology packet; it exports no detached host powerset, open-set lattice, quotient subset equality, selected ambient representative, or independent topology replacement.
 
-In particular, the subspace certificate reads the open-set classifier, neighborhood, finite-intersection, and union-closure rows of \autoref{ch:concrete-instances-topology-namecert} before restricting them along the displayed subcarrier.
+In particular, the subspace certificate reads the open-set classifier, neighborhood, finite-intersection, and union-closure rows of \autoref{ch:concrete-instances-topology-namecert} before restricting them along the displayed subcarrier. A downstream $\ProductTopologyUp$ consumer of \autoref{ch:concrete-instances-product-topology-namecert} may use this subspace row only after the ambient $\TopologyUp$ carrier, subcarrier classifier, restriction, replay, $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert$ rows remain visible.
 \end{theorem}
 \begin{proof}
 Project the carrier of \autoref{def:subspace-topology-carrier}. The ambient topology row $X$, admission row $A$, relative-open row $O$, restriction-exactness row $R$, replay row $C$, provenance row $P$, and local naming row $N$ are visible before any subspace-open row is public.
@@ -10,4 +10,6 @@ Project the carrier of \autoref{def:subspace-topology-carrier}. The ambient topo
 Apply the NameCert obligations of \autoref{thm:subspace-topology-namecert-obligations}. They force the relative-open read through the ambient $\TopologyUp$ carrier, the subcarrier classifier, restriction exactness, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$.
 
 The topology-forward route of \autoref{thm:subspace-topology-topology-forward-route} identifies this as a horizontal dependency on \autoref{ch:concrete-instances-topology-namecert}. Since host powersets, open-set lattices, quotient subset equality, selected ambient representatives, and independent topology replacements are absent from the carrier, no sibling consumer can export them.
+
+For the product-topology consumer, keep the same row order. The product read first sees the ambient topology and subcarrier classifier, then the restriction and replay rows, and only then the structural $\hsame$, $\Cont$, $\Pkg$, and local naming rows. Thus \autoref{ch:concrete-instances-product-topology-namecert} receives a displayed subspace-topology dependency rather than a detached host product input.
 \end{proof}

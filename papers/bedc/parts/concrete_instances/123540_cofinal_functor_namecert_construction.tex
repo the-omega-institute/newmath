@@ -1,0 +1,76 @@
+\chapter{A Concrete Naming Certificate for $\CofinalFunctorUp$}
+\label{ch:concrete-instances-cofinal-functor-namecert}
+\origin{human}
+
+Following Mac Lane on cofinal functors and limit computation, the $\CofinalFunctorUp$ packet records the finite BEDC carrier that lets a limit read pass through a displayed functor whose comma witnesses are already visible. It sits after the category carrier of \autoref{ch:concrete-instances-category-namecert}, the functor rows of \autoref{ch:concrete-instances-functor-namecert}, and the limit surface of \autoref{ch:concrete-instances-limit-namecert}. The packet contains category rows, a functor row, limit rows, finite comma-witness rows, connectedness witnesses, classifier transport, displayed $\Cont$ replay, $\Pkg$ provenance, and the local $\NameCert$ row; it does not import a host functor category, a quotient equality on cones, or an ambient theorem that computes limits outside the displayed rows.
+
+\begin{definition}[Cofinal functor carrier]
+\label{def:cofinal-functor-carrier}
+A $\CofinalFunctorUp$ carrier is a finite $\BHist$ packet
+$$
+Q=(C,D,F,L,U,W,K,H,R,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $C$ and $D$ are the source and target $\CategoryUp$ rows;
+\item $F$ is the $\FunctorUp$ row from $C$ to $D$;
+\item $L$ is the $\LimitUp$ row read in $D$;
+\item $U$ is the finite comma-object witness ledger, one row for each target object tested by the limit read;
+\item $W$ is the connectedness witness ledger for the displayed comma rows;
+\item $K$ is the classifier-transport row sending cone and comparison membership through $F,U,W,L$;
+\item $H$ records componentwise $\hsame$ transport for the two category rows, the functor row, the limit row, comma witnesses, connectedness witnesses, classifier transport, replay, provenance, and local naming;
+\item $R$ records displayed $\Cont$ replay for the target-object read, comma-witness read, connectedness read, cone comparison, and limit handoff;
+\item $P$ is the $\Pkg$ provenance over $\CategoryUp$, $\FunctorUp$, $\LimitUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$;
+\item $N$ is the local $\NameCert_{\CofinalFunctorUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for a host functor category, a selected terminal object in a comma category, quotient equality of cones, an ambient category of diagrams, or an external limit-computation theorem.
+\end{definition}
+
+\begin{theorem}[Cofinal functor NameCert obligations]
+\label{thm:cofinal-functor-namecert-obligations}
+For the carrier of \autoref{def:cofinal-functor-carrier}, the local $\NameCert_{\CofinalFunctorUp}$ surface consists exactly of the following finite obligations:
+\begin{enumerate}
+\item carrier admission for $Q=(C,D,F,L,U,W,K,H,R,P,N)$;
+\item functor-row compatibility between the displayed $\CategoryUp$ rows $C,D$ and the $\FunctorUp$ row $F$;
+\item comma-witness visibility, forcing every tested target-object row to expose its finite witness inside $U$ before the limit read can consume it;
+\item connectedness witness routing through $W$, with no hidden host comma category;
+\item classifier transport through $K$ for cone membership, comparison arrows, and limit-facing rows;
+\item componentwise $\hsame$ transport through $H$ for all displayed rows;
+\item displayed $\Cont$ replay through $R$ for witness inspection, connectedness routing, and limit handoff;
+\item dependency provenance through $P$ and the local naming row $N$.
+\end{enumerate}
+Thus a readable $\CofinalFunctorUp$ packet is exhausted by finite Category, Functor, Limit, comma-witness, connectedness, transport, replay, provenance, and NameCert rows.
+\end{theorem}
+\leanstmt{BEDC.Derived.CofinalFunctorUp}
+\begin{proof}
+Inspect the displayed carrier. The first four rows provide only the two category surfaces, the functor row between them, and the target-side limit row. The comma-witness ledger $U$ is read before any limit-facing consumer can treat $F$ as cofinal, and the connectedness ledger $W$ is the only route by which the packet records the finite connectivity evidence.
+
+The classifier and replay obligations are then forced by $K,H,R$. Cone membership and comparison rows move through the displayed functor, comma witnesses, and connectedness witnesses by $K$; componentwise sameness is retained in $H$; and the only continuation route is the finite replay row $R$.
+
+Finally read the provenance and naming rows $P,N$. Since the carrier has no coordinate for a host functor category, quotient cone equality, selected comma terminal object, ambient diagram category, or external limit theorem, the listed finite rows exhaust the local $\NameCert_{\CofinalFunctorUp}$ obligations.
+\end{proof}
+
+\begin{theorem}[Cofinal functor limit route]
+\label{thm:cofinal-functor-limit-route}
+Every limit read through an accepted $\CofinalFunctorUp$ carrier factors through the displayed $\CategoryUp$ rows $C,D$, the $\FunctorUp$ row $F$, the $\LimitUp$ row $L$, the comma-witness ledger $U$, the connectedness ledger $W$, and the classifier and replay rows $K,H,R$. The exported route is a finite BEDC handoff from the source category through the cofinal functor into the target-side limit row; it exports no host functor category, no quotient equality of cones, no selected comma-category terminal object, and no ambient limit-computation theorem outside $Q$.
+\end{theorem}
+\begin{proof}
+Project an accepted carrier $Q=(C,D,F,L,U,W,K,H,R,P,N)$. Any limit-facing read must first display the category rows and functor row, because $F$ is the only coordinate connecting $C$ to $D$ and $L$ is the only coordinate naming the target-side limit surface.
+
+Next read $U$ and $W$. The finite comma-witness rows make the target-object tests visible, and the connectedness rows record the required routing between witnesses. The classifier row $K$ transports cone and comparison membership through these displayed rows, while $H$ and $R$ keep the same finite handoff stable under $\hsame$ and $\Cont$ replay.
+
+The provenance and local naming rows close the packet. With no coordinate for a host functor category, quotient cone equality, or external limit computation, the limit route cannot bypass the displayed Category, Functor, Limit, comma-witness, connectedness, transport, replay, provenance, and naming rows.
+\end{proof}
+
+\closureat{CofinalFunctorUp}{seedStr}
+
+\begin{closurestatus}{\CofinalFunctorUp}
+  \constructivestory{A $\CofinalFunctorUp$ packet is generated from two $\CategoryUp$ rows, a $\FunctorUp$ row, a $\LimitUp$ row, finite comma-witness rows, connectedness witnesses, classifier transport, componentwise $\hsame$ transports, displayed $\Cont$ replay, package provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:cofinal-functor-carrier}, \autoref{thm:cofinal-functor-namecert-obligations}, and \autoref{thm:cofinal-functor-limit-route} bind the finite cofinal-functor carrier and its displayed limit route.}
+  \formalstatus{\formalTargetV}
+  \bridgestatus{none}
+  \origin{human}
+  \notclaimed{This chapter does not close host functor categories, quotient equality of cones, selected comma-category terminal objects, ambient diagram categories, Lean theorem verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, functor-row compatibility, comma-witness visibility, connectedness routing, classifier transport, replay, provenance, and non-escape for the same finite packet.}
+\end{closurestatus}

@@ -78,6 +78,7 @@ Finally replay the packet through $H,C,P,N$. Componentwise transport and package
 \label{thm:axiom-dependency-audit-map-obligation-surface}
 Every accepted $\AxiomDependencyAuditMapUp$ packet exposes exactly the audit-source row, forbidden-axiom ancestry row, paper-Lean drift witness row, dependency edge ledger, componentwise $\hsame$ transport, $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ row needed by an audit-map consumer. No consumer may read $\mathsf{Classical.choice}$, $\mathsf{Quot.sound}$, $\mathsf{propext}$, a host import graph, or an external audit oracle outside those displayed rows.
 \end{theorem}
+\leanchecked{BEDC.Derived.AxiomDependencyAuditMapUp.AxiomDependencyAuditMapCarrier\_obligation\_surface}
 \begin{proof}
 Project the accepted packet as $D=(K,M,W,A,L,H,C,P,N)$. The audit-source row is $K$, while $M,W,A$ give the mode, witness, and required-axiom readings attached to the source.
 
@@ -86,6 +87,20 @@ The finite ledger $L$ supplies the dependency edge ledger. Through the provenanc
 It remains to read the structural rows. The componentwise transport row $H$, replay row $C$, provenance row $P$, and local naming row $N$ preserve only the displayed audit carrier.
 
 Since the carrier definition contains no coordinate for $\mathsf{Classical.choice}$, $\mathsf{Quot.sound}$, $\mathsf{propext}$, a host import graph, or an external audit oracle, row exhaustion blocks every read outside the listed obligation surface.
+\end{proof}
+
+\begin{theorem}[AxiomDependencyAuditMap top-window obligation route]
+\label{thm:axiom-dependency-audit-map-top-window-obligation-route}
+Any top-window audit-map consumer that reads a dependency-map entry from an accepted $\AxiomDependencyAuditMapUp$ packet must first display the $\PaperLeanDriftWitnessUp$ row, the $\ForbiddenAxiomAncestryUp$ row, the $\AxiomDependencyMapUp$ source row, the mode row, the witness row, the required-axiom row, the ledger row, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and the local $\NameCert_{\AxiomDependencyAuditMapUp}$ row. The route admits no dependency-map read that bypasses those rows through a host import graph, external audit oracle, hidden proof ancestry, or unrecorded axiom supply.
+\end{theorem}
+\begin{proof}
+Project the accepted packet as $D=(K,M,W,A,L,H,C,P,N)$. The source row $K$ is the dependency-map entry under audit, while $M,W,A$ provide the mode, witness, and required-axiom rows that make the entry readable.
+
+Apply mode totality from \autoref{thm:axiom-dependency-audit-map-mode-totality}. It forces the top-window consumer to keep the internal, restricted, and externally supplied branches visible through the displayed mode row before interpreting the witness or supply rows.
+
+Apply the obligation surface of \autoref{thm:axiom-dependency-audit-map-obligation-surface}. The ledger $L$ and provenance $P$ expose the $\PaperLeanDriftWitnessUp$, $\ForbiddenAxiomAncestryUp$, and $\AxiomDependencyMapUp$ siblings, while $H,C,P,N$ keep transport, replay, provenance, and local naming attached to the same finite packet.
+
+Finally use non-escape from \autoref{thm:axiom-dependency-audit-map-nonescape}. Since the carrier has no coordinate for a host import graph, external audit oracle, hidden proof ancestry, or unrecorded axiom supply, a top-window read reaches a dependency-map entry only through the displayed obligation route.
 \end{proof}
 
 \closureat{AxiomDependencyAuditMapUp}{seedStr}
