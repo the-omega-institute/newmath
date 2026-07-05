@@ -10,6 +10,22 @@ open BEDC.FKernel.NameCert
 open BEDC.FKernel.Package
 open BEDC.FKernel.Unary
 
+theorem LocallyBoundedFunctionCarrier_finite_window_policy_transport [AskSetup] [PackageSetup]
+    {K F V B W R D A H C P N : BHist} {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    LocallyBoundedFunctionCarrier K F V B W R D A H C P N bundle pkg →
+      (UnaryHistory N ∧ Cont K F V ∧ PkgSig bundle P pkg) ∧
+        (UnaryHistory N ∧ Cont W R D ∧ Cont D A C ∧ PkgSig bundle P pkg) := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont PkgSig hsame SemanticNameCert
+  intro carrier
+  have obligations :=
+    LocallyBoundedFunctionCarrier_namecert_obligations
+      (K := K) (F := F) (V := V) (B := B) (W := W) (R := R) (D := D)
+      (A := A) (H := H) (C := C) (P := P) (N := N) (bundle := bundle)
+      (pkg := pkg) carrier
+  exact
+    semanticNameCert_pattern_ledger_transport obligations.left
+      (hsame_refl N) carrier
+
 theorem LocallyBoundedFunctionFiniteWindowBoundRoute [AskSetup] [PackageSetup]
     {K F V B W R D A H C P N windowRead boundRead sealRead : BHist}
     {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
