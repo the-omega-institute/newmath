@@ -1557,6 +1557,7 @@ import BEDC.Derived.BoundedRegulatedFunctionUp.TasteGate
 import BEDC.Derived.BoundedResidualSubstitutionFrontierUp.NameCertObligations
 import BEDC.Derived.BoundedResidualSubstitutionFrontierUp.TasteGate
 import BEDC.Derived.BoundedRiemannConvergenceUp
+import BEDC.Derived.BoundedRiemannConvergenceUp.TasteGate
 import BEDC.Derived.BoundedSearchRefutationUp
 import BEDC.Derived.BoundedSearchRefutationUp.NameCertBoundary
 import BEDC.Derived.BoundedSearchRefutationUp.TasteGate
@@ -4971,6 +4972,7 @@ import BEDC.Derived.DependentCodomainClosurePreservationUp.Transport
 import BEDC.Derived.DependentCodomainInversionBoundaryUp
 import BEDC.Derived.DependentCodomainInversionBoundaryUp.CodomainScope
 import BEDC.Derived.DependentCodomainInversionBoundaryUp.PublicNonescape
+import BEDC.Derived.DependentCodomainInversionBoundaryUp.TasteGate
 import BEDC.Derived.DerangementUp
 import BEDC.Derived.DerivativeUp
 import BEDC.Derived.DerivativeUp.TasteGate
