@@ -1,0 +1,71 @@
+\chapter{A Concrete Naming Certificate for $\RegularCauchyClusterEnvelopeUp$}
+\label{ch:concrete-instances-regular-cauchy-cluster-envelope-namecert}
+\origin{human}
+
+Following Bishop and Bridges-style constructive analysis, the $\RegularCauchyClusterEnvelopeUp$ packet records a finite envelope around bounded regular-Cauchy stream observations before a cluster-facing or completion-facing consumer reads a terminal real value. It sits after the dyadic tolerance core of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the finite stream-window carrier of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational sequence surface of \autoref{ch:concrete-instances-regseqrat-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. The packet names a finite cluster-envelope read for bounded regular-Cauchy streams; it does not assert Bolzano--Weierstrass selection, quotient real equality, countable choice, a selected subsequence, or ambient $\RealUp$ completeness.
+
+\begin{definition}[Regular-Cauchy cluster-envelope carrier]
+\label{def:regular-cauchy-cluster-envelope-carrier}
+A $\RegularCauchyClusterEnvelopeUp$ carrier is a finite $\BHist$ packet
+$$
+E=(B,W,D,R,L,U,S,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $B$ is the bounded regular-Cauchy source row, exposing the input $\RegSeqRatUp$ name and its displayed boundedness ledger.
+\item $W$ is the $\StreamNameUp$ finite-window schedule opened at the cluster-envelope request.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance ledger, recording the dyadic radius, comparison slack, and envelope scale.
+\item $R$ is the $\RegSeqRatUp$ readback row for the inspected window.
+\item $L$ and $U$ are the lower and upper envelope rows, each read from $B,W,D,R$ as finite rational bounds on the visible cluster window.
+\item $S$ is the terminal $\RealUp$ seal row reached only after the envelope rows have been compared through $D$ and $R$.
+\item $H$ records componentwise $\hsame$ transport for $B,W,D,R,L,U,S,C,P,N$.
+\item $C$ records displayed $\Cont$ replay from a cluster-envelope request through the same finite rows.
+\item $P$ is the $\Pkg$ provenance over $\RegularCauchyClusterEnvelopeUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\RegularCauchyClusterEnvelopeUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through these rows. It has no coordinate for selected subsequences, quotient stream equality, countable choice, host real equality, or ambient real completeness.
+\end{definition}
+
+\begin{theorem}[Regular-Cauchy cluster-envelope NameCert obligations]
+\label{thm:regular-cauchy-cluster-envelope-namecert-obligations}
+For every accepted $\RegularCauchyClusterEnvelopeUp$ carrier $E=(B,W,D,R,L,U,S,H,C,P,N)$, the local $\NameCert_{\RegularCauchyClusterEnvelopeUp}$ surface consists exactly of carrier admission for the bounded regular-Cauchy source, finite stream window, dyadic tolerance ledger, regular rational readback, lower-envelope row, upper-envelope row, terminal Real seal, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming. Every cluster-envelope consumer must expose $B,W,D,R,L,U,S,H,C,P,N$ before reading an envelope conclusion.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:regular-cauchy-cluster-envelope-carrier}. The only mathematical rows are the bounded regular-Cauchy source, stream window, dyadic tolerance, regular rational readback, lower and upper envelope rows, and terminal Real seal.
+
+The envelope rows are downstream of the finite readback. A consumer first opens $B$ and $W$, then reads the dyadic scale $D$ and the regular rational observations in $R$, and only then compares the lower and upper rows $L,U$.
+
+Finally $H,C,P,N$ transport, replay, source, and name the same finite packet. Since no selected subsequence, quotient equality, choice schedule, host equality, or ambient completeness coordinate is present, the listed rows exhaust the NameCert obligations.
+\end{proof}
+
+\begin{theorem}[Regular-Cauchy cluster-envelope real-seal route]
+\label{thm:regular-cauchy-cluster-envelope-real-seal-route}
+Every accepted $\RegularCauchyClusterEnvelopeUp$ packet exposes a Real-facing cluster-envelope read only through the finite route
+$$
+\DyadicRatCoreUp \longmapsto \StreamNameUp \longmapsto \RegSeqRatUp \longmapsto \RealUp .
+$$
+The lower and upper envelope rows are finite rational-window rows attached to the displayed bounded regular-Cauchy source, and the route exports no selected cluster point, selected subsequence, quotient real equality, countable choice, host equality, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Start with the NameCert obligations of \autoref{thm:regular-cauchy-cluster-envelope-namecert-obligations}. They force the bounded source, finite stream window, dyadic tolerance scale, and regular rational readback to be visible before the terminal seal.
+
+Read the envelope rows next. The lower row $L$ and upper row $U$ are compared only through the displayed dyadic ledger $D$ and regular readback $R$, so the cluster-envelope conclusion is a finite window statement rather than a selected cluster point.
+
+The terminal seal $S$ is reached after $L,U$ and the structural rows $H,C,P,N$. Therefore every Real-facing consumer remains inside the displayed finite route and cannot import quotient equality, countable choice, selected subsequences, host equality, or ambient completeness.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\RegularCauchyClusterEnvelopeUp$ read exposes bounded regular-Cauchy source rows, finite StreamName windows, DyadicRatCore tolerance rows, RegSeqRat readback, lower and upper envelope rows, Real seal, hsame transport, Cont replay, Pkg provenance, and local NameCert rows before any cluster-envelope conclusion is public.}
+
+\independenceWitness{dyadicratcore, streamname, regseqrat, real: $\RegularCauchyClusterEnvelopeUp$ is not bijective to any listed sibling because it jointly binds a bounded regular-Cauchy source to finite windows, dyadic tolerance, rational readback, two envelope rows, terminal Real sealing, transport, replay, provenance, and local naming.}
+
+\closureat{RegularCauchyClusterEnvelopeUp}{seedStr}
+
+\begin{closurestatus}{\RegularCauchyClusterEnvelopeUp}
+  \constructivestory{A $\RegularCauchyClusterEnvelopeUp$ packet is generated from a bounded regular-Cauchy source row, StreamName finite-window row, DyadicRatCore tolerance ledger, RegSeqRat readback, lower and upper envelope rows, a RealUp seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:regular-cauchy-cluster-envelope-carrier}, \autoref{thm:regular-cauchy-cluster-envelope-namecert-obligations}, and \autoref{thm:regular-cauchy-cluster-envelope-real-seal-route} seed the finite cluster-envelope route for bounded regular-Cauchy streams.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close Bolzano--Weierstrass selection, selected subsequences, quotient real equality, countable choice, host real equality, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, bounded-source exposure, stream-window exactness, dyadic tolerance exactness, RegSeqRat readback, lower and upper envelope comparison, Real sealing, transport, replay, provenance, and local naming for BEDC.Derived.RegularCauchyClusterEnvelopeUp.}
+\end{closurestatus}
