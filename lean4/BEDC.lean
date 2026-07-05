@@ -7703,6 +7703,7 @@ import BEDC.Derived.LargeModelActivationOrbitUp.TasteGate
 import BEDC.Derived.LargeModelAttentionGateUp.TasteGate
 import BEDC.Derived.LargeModelAuditChannelUp.TasteGate
 import BEDC.Derived.LargeModelContextAuditUp.TasteGate
+import BEDC.Derived.LargeModelCorpusSupplyUp.FilterExactness
 import BEDC.Derived.LargeModelCorpusSupplyUp.NameCertObligations
 import BEDC.Derived.LargeModelCorpusSupplyUp.ProvenanceBoundary
 import BEDC.Derived.LargeModelCorpusSupplyUp.TasteGate
@@ -8308,6 +8309,8 @@ import BEDC.Derived.LusinFiniteContinuityWindowUp
 import BEDC.Derived.LyapunovStabilityUp
 import BEDC.Derived.LyapunovUp
 import BEDC.Derived.LyapunovUp.TasteGate
+import BEDC.Derived.MachineExportBoundaryUp.NameCertObligations
+import BEDC.Derived.MachineExportBoundaryUp.TasteGate
 import BEDC.Derived.MachineInterfaceBoundaryUp.PaperBridgeCertificate
 import BEDC.Derived.MachineInterfaceBoundaryUp.TasteGate
 import BEDC.Derived.MachineInterfaceFormalizationTargetUp.RegistryConsistencyHandoff
@@ -13165,7 +13168,6 @@ import BEDC.Derived.SymplecticUp
 import BEDC.Derived.SymplecticUp.LedgerExactnessObligation
 import BEDC.Derived.SynchronizationCertificateUp.Locality
 import BEDC.Derived.SynchronizationCertificateUp.TasteGate
-import BEDC.Derived.SynonymousTransitionUp.TasteGate
 import BEDC.Derived.SyntacticMonoidUp.TasteGate
 import BEDC.Derived.SystemFUp.TasteGate
 import BEDC.Derived.TZeroReflectionUp.TasteGate
