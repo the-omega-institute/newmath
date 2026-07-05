@@ -250,4 +250,18 @@ theorem RecursorBranchAudit_motive_boundary_output_route
   exact And.intro routedOutput.left
     (Exists.intro branchReplay (And.intro branchRoute outputRoute))
 
+theorem RecursorBranchAudit_branch_coverage_namecert_route (x : RecursorBranchAuditUp) :
+    exists I S R M B D O H C P N branchReplay : BHist,
+      x = RecursorBranchAuditUp.mk I S R M B D O H C P N ∧
+        Cont S B branchReplay ∧
+          NameCert (fun h : BHist => hsame h B) hsame ∧
+            (fun h : BHist => hsame h B) B := by
+  -- BEDC touchpoint anchor: BHist Cont NameCert hsame RecursorBranchAuditUp
+  rcases RecursorBranchAuditCarrier_branch_coverage x with
+    ⟨I, S, R, M, B, D, O, H, C, P, N, branchReplay, hCarrier, _branchSame,
+      branchRoute, branchCert⟩
+  exact
+    ⟨I, S, R, M, B, D, O, H, C, P, N, branchReplay, hCarrier, branchRoute,
+      branchCert, branchCert.equiv_refl (hsame_refl B)⟩
+
 end BEDC.Derived.RecursorBranchAuditUp
