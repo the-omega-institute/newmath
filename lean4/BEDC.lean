@@ -1093,7 +1093,6 @@ import BEDC.Derived.BishopCompletionModulusUp.RealSealOrdering
 import BEDC.Derived.BishopCompletionModulusUp.SameThresholdTransport
 import BEDC.Derived.BishopCompletionModulusUp.TasteGate
 import BEDC.Derived.BishopCompletionModulusUp.ThresholdHeredity
-import BEDC.Derived.BishopCompletionReflectionUp
 import BEDC.Derived.BishopCompletionSpaceUp.TasteGate
 import BEDC.Derived.BishopCompletionTheoremUp.TasteGate
 import BEDC.Derived.BishopCompletionUniversalBoundaryUp.NameCertObligations
@@ -4954,6 +4953,7 @@ import BEDC.Derived.DependentCodomainClosurePreservationUp.Nonescape
 import BEDC.Derived.DependentCodomainClosurePreservationUp.TasteGate
 import BEDC.Derived.DependentCodomainClosurePreservationUp.Transport
 import BEDC.Derived.DependentCodomainInversionBoundaryUp
+import BEDC.Derived.DependentCodomainInversionBoundaryUp.PublicNonescape
 import BEDC.Derived.DerangementUp
 import BEDC.Derived.DerivativeUp
 import BEDC.Derived.DerivativeUp.TasteGate
