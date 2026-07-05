@@ -127,6 +127,10 @@ def exportWitnessRegistry : Array ExportRegistration := #[
     witnessType :=
       `BedcMathlibBridge.Export.Triangular.TriangularExportWitness },
   { witness :=
+      `BedcMathlibBridge.Export.FaulhaberPolynomial.faulhaberTriangularClosedNumeratorExport,
+    witnessType :=
+      `BedcMathlibBridge.Export.FaulhaberPolynomial.FaulhaberTriangularClosedNumeratorExportWitness },
+  { witness :=
       `BedcMathlibBridge.Export.PolygonalNumberTriangular.polygonalNumberTriangularExport,
     witnessType :=
       `BedcMathlibBridge.Export.PolygonalNumberTriangular.PolygonalNumberTriangularExportWitness },
