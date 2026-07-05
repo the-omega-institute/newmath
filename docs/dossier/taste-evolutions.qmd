@@ -20,17 +20,17 @@ date-modified: today
 
 ## 当前观察 (auto-refresh)
 
-> 最后刷新: 2026-07-05T00:25:29Z
+> 最后刷新: 2026-07-05T01:46:09Z
 
-**Daemon 状态**: monitor (monitor cycle 300, adjust_since_research 2, round_counter 38006, last_adjust rule_evolution_completed)
+**Daemon 状态**: monitor (monitor cycle 301, adjust_since_research 2, round_counter 38046, last_adjust rule_evolution_completed)
 
-**待处理 queue** (1343 条 finding):
-- isolated_theorem: 969 条; 代表样本 `derived`, `derived`, `derived`
+**待处理 queue** (1342 条 finding):
+- isolated_theorem: 968 条; 代表样本 `derived`, `derived`, `derived`
 - unauthorized_capstone: 306 条; 代表样本 `cauchy`, `helly_theorem`, `metacic_candidate_strong_normalization`
 - low_entropy_template: 68 条; 代表样本 `variation_norm`, `kernelinductiveacceptance`, `polishspace`
 
 **最近 alert 概览** (24h 内):
-- TASTE ALERT category=isolated_theorem: 76 次
+- TASTE ALERT category=isolated_theorem: 73 次
 - TASTE ALERT category=cycle_exception: 2 次
 - TASTE ALERT category=low_entropy_template: 1 次
 - TASTE ALERT category=resolution_json_parse_failed: 1 次
@@ -596,6 +596,8 @@ error: build failed, audit=skipped, phase_d_lint=skipped.
 - 2026-07-04T21:54:28Z: `resolved` `add_downstream_user` for `BEDC.Derived.BishopCompletionUp.BishopCompletionCarrier_namecert_obligations` (flag `isolated_theorem`, finding `isolated_theorem:derived:BEDC.Derived.BishopCompletionUp.BishopCompletionCarrier_namecert_obligations:99c7f777`). Rationale: The target carries real BEDC content: it constructs a SemanticNameCert and proves the regular, dyadic, real, filter, and universal readback rows are UnaryHistory. It had no Lean downstream consumer beyond the paper marker, so I added BishopCompletionCarrier_namecert_universal_ledger_readback in the existing UniversalFilterReadback sibling. The new theorem uses the target to obtain the NameCert, consumes cert.ledger_sound at universalRead, and exports a ledger witness tied to Cont filterRead U universalRead and PkgSig provenance. Gate results: lake_build=ok, audit=ok, phase_d_lint=ok, axiom_purity=ok.
 
 - 2026-07-05T00:24:10Z: `resolved` `leave_with_rationale` for `BEDC.Derived.BishopCompletionUp.BishopCompletionCarrier_universal_filter_readback` (flag `isolated_theorem`, finding `isolated_theorem:bishopcompletion:BEDC.Derived.BishopCompletionUp.BishopCompletionCarrier_universal_filter_readback:7cd9fc38`). Rationale: The target appears to be an unconsumed wrapper around BishopCompletionCarrier_filter_compatibility plus unary_cont_closed: exact repo search found only the declaration itself, and the bishopcompletion paper chapter does not mark it. I attempted delete_theorem, but the required audit gate exited with code 143 and no diagnostic output after a prolonged run, so the deletion was reverted as instructed and the daemon should record this as a blocked cleanup candidate rather than a completed deletion. Gate results: lake_build=ok, audit=exit 143 with no stdout/stderr tail after prolonged run; attempted deletion reverted, phase_d_lint=ok.
+
+- 2026-07-05T01:45:24Z: `resolved` `add_downstream_user` for `BEDC.Derived.NontrivialZeroClassifierUp.NontrivialZeroClassifier_namecert_obligations` (flag `isolated_theorem`, finding `isolated_theorem:nontrivialzeroclassifier:BEDC.Derived.NontrivialZeroClassifierUp.NontrivialZeroClassifier_namecert_obligations:b0e1fbfd`). Rationale: The target is not a staging-only shell: it constructs the local SemanticNameCert and proves the intermediate UnaryHistory closure chain for stripRead, witnessRead, trivialRead, ledgerRead, and consumerRead. Its only prior repo reference was the paper leanchecked marker, so I added NontrivialZeroClassifier_namecert_rh_consumer_package as a downstream Lean consumer in the same BHist row family; the new theorem calls the target, extracts its local certificate and closure results, and packages them into an RH-facing consumer SemanticNameCert whose ledger explicitly carries the local NameCert certificate. Gate results: lake_build=ok, audit=ok, phase_d_lint=ok, axiom_purity=ok.
 
 ## 注解
 
