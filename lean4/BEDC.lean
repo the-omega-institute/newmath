@@ -681,6 +681,7 @@ import BEDC.Derived.AutomorphicNumberUp
 import BEDC.Derived.AutomorphicUp
 import BEDC.Derived.AutomorphicUp.TasteGate
 import BEDC.Derived.AxiomDependencyAuditMapUp
+import BEDC.Derived.AxiomDependencyAuditMapUp.TasteGate
 import BEDC.Derived.AxiomDependencyMapUp
 import BEDC.Derived.AxiomDependencyMapUp.TasteGate
 import BEDC.Derived.AxiomDependencyTupleUp
@@ -7719,7 +7720,6 @@ import BEDC.Derived.LargeModelAttentionGateUp.TasteGate
 import BEDC.Derived.LargeModelAuditChannelUp.TasteGate
 import BEDC.Derived.LargeModelContextAuditUp.TasteGate
 import BEDC.Derived.LargeModelCorpusSupplyUp.AuditNonescape
-import BEDC.Derived.LargeModelCorpusSupplyUp.Classifier
 import BEDC.Derived.LargeModelCorpusSupplyUp.FieldFaithfulBoundary
 import BEDC.Derived.LargeModelCorpusSupplyUp.FilterExactness
 import BEDC.Derived.LargeModelCorpusSupplyUp.NameCertObligations
@@ -11416,7 +11416,6 @@ import BEDC.Derived.ReducedProductUp
 import BEDC.Derived.ReductionFuelBoundaryUp.EndpointTimeoutDisjointness
 import BEDC.Derived.ReductionFuelBoundaryUp.FuelTimeoutExactness
 import BEDC.Derived.ReductionFuelBoundaryUp.ObligationClosurePackage
-import BEDC.Derived.ReductionFuelBoundaryUp.PublicCertificate
 import BEDC.Derived.ReductionFuelBoundaryUp.ScopedSubstrateRoute
 import BEDC.Derived.ReductionFuelBoundaryUp.ScopedTimeoutRoute
 import BEDC.Derived.ReductionFuelBoundaryUp.TasteGate
