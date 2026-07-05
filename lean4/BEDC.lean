@@ -8041,6 +8041,7 @@ import BEDC.Derived.LocatedCutUp.TasteGate
 import BEDC.Derived.LocatedDecimalStreamNormalUp.TasteGate
 import BEDC.Derived.LocatedDyadicApproximationUp
 import BEDC.Derived.LocatedDyadicCompletionUp
+import BEDC.Derived.LocatedDyadicCompletionUp.TasteGate
 import BEDC.Derived.LocatedDyadicCutUp
 import BEDC.Derived.LocatedDyadicRealUp.TasteGate
 import BEDC.Derived.LocatedDyadicUniformMeshUp
@@ -14156,6 +14157,7 @@ import BEDC.Derived.ZetaContinuationSocketUp
 import BEDC.Derived.ZetaContinuationSocketUp.AnalyticHandoff
 import BEDC.Derived.ZetaContinuationSocketUp.FunctionalEquationBoundary
 import BEDC.Derived.ZetaContinuationSocketUp.TasteGate
+import BEDC.Derived.ZetaContinuationSocketUp.VisionConcretization
 import BEDC.Derived.ZetaContinuationWitnessUp
 import BEDC.Derived.ZetaContinuationWitnessUp.AnalyticReadbackObligation
 import BEDC.Derived.ZetaContinuationWitnessUp.CarrierAdmissionTightening
