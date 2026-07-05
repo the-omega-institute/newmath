@@ -1,0 +1,25 @@
+\begin{theorem}[List finite-data sibling lattice]
+\label{thm:list-finite-data-sibling-lattice}
+Every public $\ListUp$ spine read factors through the finite-data siblings
+$\BoolUp$, $\OptionUp$, $\SumUp$, and $\ProdUp$ before it exports constructor or
+length classifier data. The sibling lattice is the one displayed by
+\autoref{ch:concrete-instances-bool-namecert},
+\autoref{ch:concrete-instances-option-namecert},
+\autoref{ch:concrete-instances-sum-namecert}, and
+\autoref{ch:concrete-instances-prod-namecert}: Bool supplies tag rows, Option
+supplies absence and presence endpoints, Sum supplies branch alternatives, and
+Product supplies component envelopes for payload and tail rows.
+\end{theorem}
+\begin{proof}
+Read the finite list spine as carrier projection data. Before a public empty,
+cons, append, reverse, or length row can leave the $\ListUp$ certificate, the
+spine must expose the tag discipline, endpoint shape, branch selection, and
+component envelope that make the row finite.
+
+The existing sibling route and anchor,
+\autoref{thm:list-finite-data-sibling-route} and
+\autoref{thm:list-finite-data-sibling-anchor}, identify those rows with the Bool,
+Option, Sum, and Product certificates. Projecting the public spine through those
+four sibling surfaces gives exactly the constructor classifier and length
+classifier data, and no host list induction principle is used.
+\end{proof}
