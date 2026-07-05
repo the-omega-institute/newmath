@@ -1,4 +1,5 @@
 import BEDC.Derived.FieldUp.ConcreteExitObject
+import BEDC.Derived.FieldUp.ConcreteOperationTable
 import BEDC.Derived.FieldUp.ConcreteRatupFieldupCertificateInstance
 
 namespace BEDC.Derived.FieldUp
