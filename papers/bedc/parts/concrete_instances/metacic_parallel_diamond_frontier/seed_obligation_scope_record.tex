@@ -1,0 +1,11 @@
+\begin{theorem}[MetaCIC parallel-diamond frontier seed obligation scope]
+\label{thm:metacic-parallel-diamond-frontier-seed-obligation-scope}
+Every accepted $\MetaCICParallelDiamondFrontierUp$ seed packet scopes the critical-pair row, residual-substitution retained-premise row, candidate-normalization row, finite residual-witness row, and current-premise join row before any local diamond or confluence-facing read is public. Concretely, the seed read must pass through \autoref{thm:metacic-parallel-diamond-frontier-critical-pair-route}, \autoref{thm:metacic-parallel-diamond-frontier-residual-substitution-dependency-route}, \autoref{thm:metacic-parallel-diamond-frontier-candidate-normalization-scope}, \autoref{thm:metacic-parallel-diamond-frontier-finite-residual-witness-consumption}, and \autoref{thm:metacic-parallel-diamond-frontier-current-premise-join-budget} inside the same displayed frontier packet.
+\end{theorem}
+\begin{proof}
+Read the seed packet through the local frontier carrier. The critical-pair route supplies the bounded overlap rows, and the residual-substitution dependency route keeps the retained premise visible before any join-facing consumer can inspect the packet.
+
+Next read the candidate-normalization and finite residual-witness rows. They scope candidate normalization and bounded residual evidence as packet coordinates rather than as host normalization or unrestricted confluence facts.
+
+Finally read the current-premise join budget. Since the join row is public only after the preceding critical-pair, retained-premise, candidate-normalization, and finite-witness rows have been displayed, the seed packet exports only a local frontier scope record and no residual-substitution discharge, subject reduction, unrestricted confluence, evaluator equality, quotient term equality, or kernel consistency.
+\end{proof}
