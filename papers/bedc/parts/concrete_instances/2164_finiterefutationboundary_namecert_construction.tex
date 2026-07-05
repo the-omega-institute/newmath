@@ -80,6 +80,18 @@ For certificate-level excluded middle, inspect the naming ledger $N$. It is fixe
 Therefore each forbidden move is blocked by the absence of a carrier coordinate and by the explicit exclusion ledger.
 \end{proof}
 
+\begin{theorem}[Finite refutation boundary decision-row scope]
+\label{thm:finite-refutation-boundary-decision-row-scope}
+For every accepted $\FiniteRefutationBoundaryUp$ packet $B=(A,R,D,E,H,C,P,N,\bot_R)$, the optional decision row $D$ may be consumed only for the same displayed proposition row $A$ and only inside the local carrier tuple of \autoref{def:finite-refutation-boundary-carrier}. It cannot export excluded middle, global decidability, witness selection, or double-negation elimination for any other $\NameCert$ packet.
+\end{theorem}
+\begin{proof}
+Project the row $D$ from the carrier of \autoref{def:finite-refutation-boundary-carrier}. Its only address is the same proposition row $A$ carried by $B$, and its continuation route is one of the local rows governed by $H,C,P,N$.
+
+Apply the NameCert obligations of \autoref{thm:finite-refutation-boundary-namecert-obligations}. The decision-discipline clause permits consumption of $\neg\neg A$ only when $D$ supplies the branch for that same $A$ row, while the classifier and replay clauses keep the read inside the displayed packet.
+
+Finally apply \autoref{thm:finite-refutation-boundary-meta-escape-exclusion}. Excluded middle, global decidability, witness selection, and cross-packet double-negation export require selector, global classifier, or certificate-branch rows absent from $B$, so no such export can be projected from the decision row.
+\end{proof}
+
 \begin{theorem}[Finite refutation boundary concretizes the contradiction-boundary vision]
 \label{thm:finite-refutation-boundary-vision-concretization}
 The $\FiniteRefutationBoundaryUp$ carrier of \autoref{def:finite-refutation-boundary-carrier}, together with the obligations of \autoref{thm:finite-refutation-boundary-namecert-obligations}, realizes the boundary stated in \autoref{ch:visions-reasoning-by-contradiction-boundary}: permitted refutations are exactly those whose falsity route remains in the fixed ground-loop packet, while the forbidden patterns are refused because they require a meta-level branch or witness not displayed by that packet.
@@ -98,7 +110,7 @@ Combining these two facts gives the advertised boundary. The finite carrier supp
 \begin{closurestatus}{\FiniteRefutationBoundaryUp}
   \constructivestory{A $\FiniteRefutationBoundaryUp$ packet is generated from a proposition row, a permitted refutation row, an optional constructive decision row, meta-escape exclusions, componentwise transports, displayed continuation routes, package provenance, a fixed local $\NameCert$ ledger, and a falsity route.}
   \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:finite-refutation-boundary-carrier}, \autoref{thm:finite-refutation-boundary-namecert-obligations}, \autoref{thm:finite-refutation-boundary-ground-loop-soundness}, \autoref{thm:finite-refutation-boundary-meta-escape-exclusion}, and \autoref{thm:finite-refutation-boundary-vision-concretization} bind the finite carrier, obligation surface, ground-loop soundness, meta-escape exclusion, and vision realization.}
+  \scopeclosed{\autoref{def:finite-refutation-boundary-carrier}, \autoref{thm:finite-refutation-boundary-namecert-obligations}, \autoref{thm:finite-refutation-boundary-ground-loop-soundness}, \autoref{thm:finite-refutation-boundary-meta-escape-exclusion}, \autoref{thm:finite-refutation-boundary-decision-row-scope}, and \autoref{thm:finite-refutation-boundary-vision-concretization} bind the finite carrier, obligation surface, ground-loop soundness, meta-escape exclusion, local decision-row scope, and vision realization.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{human}
