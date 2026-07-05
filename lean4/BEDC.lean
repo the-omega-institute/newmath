@@ -2736,6 +2736,7 @@ import BEDC.Derived.CauchyRealEquivalenceModulusUp
 import BEDC.Derived.CauchyRealFieldUp.NameCertObligations
 import BEDC.Derived.CauchyRealFieldUp.OperationComposition
 import BEDC.Derived.CauchyRealFieldUp.ReciprocalBoundary
+import BEDC.Derived.CauchyRealFieldUp.ScopedOperationRoute
 import BEDC.Derived.CauchyRealFieldUp.TasteGate
 import BEDC.Derived.CauchyRealLimitUp.TasteGate
 import BEDC.Derived.CauchyRealLocatedOrderTestUp.TasteGate
@@ -11966,6 +11967,7 @@ import BEDC.Derived.RegularCauchyTailScheduleUp.BridgeRoute
 import BEDC.Derived.RegularCauchyTailScheduleUp.CofinalWindow
 import BEDC.Derived.RegularCauchyTailScheduleUp.ConsumerFactorization
 import BEDC.Derived.RegularCauchyTailScheduleUp.MeetFusionCompatibility
+import BEDC.Derived.RegularCauchyTailScheduleUp.NameCertObligations
 import BEDC.Derived.RegularCauchyTailScheduleUp.ObligationClosure
 import BEDC.Derived.RegularCauchyTailScheduleUp.ObligationExhaustion
 import BEDC.Derived.RegularCauchyTailScheduleUp.PublicConsumerSurface
@@ -13124,6 +13126,7 @@ import BEDC.Derived.SubordinateModulusCoverUp.FiniteSelectionScope
 import BEDC.Derived.SubordinateModulusCoverUp.LedgerExactness
 import BEDC.Derived.SubordinateModulusCoverUp.ObligationClosureRoute
 import BEDC.Derived.SubordinateModulusCoverUp.ScopeDependency
+import BEDC.Derived.SubordinateModulusCoverUp.ScopedPackage
 import BEDC.Derived.SubordinateModulusCoverUp.StageFDiscipline
 import BEDC.Derived.SubordinateModulusCoverUp.TasteGate
 import BEDC.Derived.SubsequenceLimitUp.TasteGate
