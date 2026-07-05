@@ -266,6 +266,19 @@ theorem FinitePrefixMachineCarrier_nonescape {M Q T F E A H C N terminal : BHist
   rcases carrier with ⟨endpointRoute, _acceptanceRoute, replaySame, nameSame, _stateSame⟩
   exact ⟨hsame_symm (cont_deterministic endpointRoute terminalRoute), replaySame, nameSame⟩
 
+theorem FinitePrefixMachine_public_export
+    {M Q T F E A H C N terminal acceptedReplay : BHist} :
+    FinitePrefixMachineCarrier M Q T F E A H C N →
+      Cont M F terminal →
+        Cont E A acceptedReplay →
+          hsame terminal E →
+            hsame acceptedReplay C →
+              hsame terminal E ∧ hsame acceptedReplay C ∧ hsame H T ∧ hsame N M := by
+  -- BEDC touchpoint anchor: BHist BMark Cont hsame
+  intro carrier terminalRoute _acceptedReplayRoute sameTerminal sameAcceptedReplay
+  have bounded := FinitePrefixMachineCarrier_nonescape carrier terminalRoute
+  exact ⟨sameTerminal, sameAcceptedReplay, bounded.right.left, bounded.right.right⟩
+
 theorem FinitePrefixMachineNameCertObligations {M Q T F E A H C N : BHist} :
     FinitePrefixMachineCarrier M Q T F E A H C N →
       SemanticNameCert
