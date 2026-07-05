@@ -13168,6 +13168,7 @@ import BEDC.Derived.SymplecticUp
 import BEDC.Derived.SymplecticUp.LedgerExactnessObligation
 import BEDC.Derived.SynchronizationCertificateUp.Locality
 import BEDC.Derived.SynchronizationCertificateUp.TasteGate
+import BEDC.Derived.SynonymousTransitionUp.TasteGate
 import BEDC.Derived.SyntacticMonoidUp.TasteGate
 import BEDC.Derived.SystemFUp.TasteGate
 import BEDC.Derived.TZeroReflectionUp.TasteGate
