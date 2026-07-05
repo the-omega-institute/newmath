@@ -11542,6 +11542,7 @@ import BEDC.Derived.RegularCauchyCompletionReflectorUp.TasteGate
 import BEDC.Derived.RegularCauchyCompletionSeparationUp.TasteGate
 import BEDC.Derived.RegularCauchyCompletionStabilityUp.TasteGate
 import BEDC.Derived.RegularCauchyCompletionUniquenessUp.TasteGate
+import BEDC.Derived.RegularCauchyCompletionUnitCounitUp
 import BEDC.Derived.RegularCauchyCompletionUnitUp.TasteGate
 import BEDC.Derived.RegularCauchyCompletionUniversalPropertyUp.TasteGate
 import BEDC.Derived.RegularCauchyCompletionUniversalUp.TasteGate
