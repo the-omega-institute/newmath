@@ -132,16 +132,60 @@ The dependency spine is fixed by the existing selector rows. Use schedule exposu
 The obligation surface of \autoref{thm:regular-cauchy-interval-selector-obligation-surface} says that these rows exhaust the public selector obligations. Finally, \autoref{thm:regular-cauchy-interval-selector-real-seal-handoff} places the seal row $E$ and the structural rows $H,C,P,N$ after the displayed route, which gives the finite package claimed here.
 \end{proof}
 
+\begin{theorem}[Regular Cauchy interval selector kernel scope]
+\label{thm:regular-cauchy-interval-selector-kernel-scope}
+For every accepted $\RegularCauchyIntervalSelectorUp$ packet
+$$
+Q=(D,S,R,J,E,H,C,P,N),
+$$
+the finite route package is scoped over exactly $\mathsf{BHist}$, $\hsame$,
+$\Cont$, $\Pkg$, $\NameCert$, $\StreamNameUp$, $\RegSeqRatUp$,
+$\LocatedIntervalUp$, $\DyadicRatCoreUp$, and $\RealUp$. The route exposes the
+dyadic precision ledger, selected schedule, regular-rational readback, located
+nesting ledger, RealUp seal row, componentwise transport, continuation replay,
+provenance, and local naming rows. It has no quotient equality, selected
+completed real, detached interval limit, or ambient completeness coordinate.
+\end{theorem}
+\begin{proof}
+Start with the carrier of
+\autoref{def:regular-cauchy-interval-selector-carrier}. Its visible coordinates
+are exactly $D,S,R,J,E,H,C,P,N$, and those coordinates name the dyadic,
+stream-schedule, regular-rational, located-interval, RealUp-facing, transport,
+replay, provenance, and local NameCert rows.
+
+The finite route is fixed by the already displayed selector rows. Use nesting
+extraction, \autoref{thm:regular-cauchy-interval-selector-nesting-extraction},
+and schedule exposure,
+\autoref{thm:regular-cauchy-interval-selector-schedule-exposure}, to bind
+$D\mapsto S\mapsto R\mapsto J$ inside the dyadic, StreamName, RegSeqRat, and
+LocatedInterval scopes.
+
+The remaining rows do not widen the scope. Located nesting transport,
+\autoref{thm:regular-cauchy-interval-selector-located-nesting-transport}, keeps
+transported interval refinements inside the displayed $\hsame$ and $\Cont$ rows,
+while the RealUp seal handoff,
+\autoref{thm:regular-cauchy-interval-selector-real-seal-handoff}, reaches the
+seal row only after the finite route is visible.
+
+Finally apply the obligation surface of
+\autoref{thm:regular-cauchy-interval-selector-obligation-surface} and the finite
+route obligation package of
+\autoref{thm:regular-cauchy-interval-selector-finite-route-obligation-package}.
+Together they exhaust the public selector obligations over $D,S,R,J,E,H,C,P,N$,
+so the excluded quotient, chosen-real, detached-limit, and completeness objects
+remain outside the scoped packet.
+\end{proof}
+
 \closureat{RegularCauchyIntervalSelectorUp}{obligationStr}
 
 \begin{closurestatus}{\RegularCauchyIntervalSelectorUp}
   \constructivestory{A $\RegularCauchyIntervalSelectorUp$ packet is generated from a selected finite schedule, regular-rational readback row, located-interval nesting ledger, seal-facing handoff row, componentwise $\hsame$ transports, displayed $\Cont$ routes, provenance, and local naming. The carrier reads interval selection through finite BEDC data: first the schedule is displayed, then the RegSeqRat readback and nesting ledger certify the selected interval route, and only then the RealUp-facing seal row is available. The classifier keeps the selector-to-seal handoff finite and refuses detached interval limits or quotient Cauchy names.}
-  \theoryclosure{\obligationClosure}
-  \scopeclosed{This chapter binds the finite route obligation package of \autoref{thm:regular-cauchy-interval-selector-finite-route-obligation-package}, including the checked rows of \autoref{thm:regular-cauchy-interval-selector-nesting-extraction} and \autoref{thm:regular-cauchy-interval-selector-real-seal-handoff}.}
+  \theoryclosure{\scopedClosure}
+  \scopeclosed{\autoref{thm:regular-cauchy-interval-selector-kernel-scope} binds the finite route package over BHist, hsame, Cont, Pkg, NameCert, StreamNameUp, RegSeqRatUp, LocatedIntervalUp, DyadicRatCoreUp, and RealUp.}
   \formalstatus{\axiomCleanV}
   \leantarget{BEDC.Derived.RegularCauchyIntervalSelectorUp.RegularCauchyIntervalSelectorCarrier\_nesting\_extraction}
   \bridgestatus{none}
   \origin{human}
   \notclaimed{It does not claim quotient equality of regular Cauchy names, selected completed reals, detached interval limits, or ambient completeness.}
-  \upgradepath{To reach scopedClosure, close the carrier interactions across BHist, hsame, Cont, Pkg, NameCert, StreamNameUp, RegSeqRatUp, LocatedIntervalUp, DyadicRatCoreUp, and RealUp.}
+  \upgradepath{The next closure step requires a public interval-selector export beyond the scoped finite route package.}
 \end{closurestatus}
