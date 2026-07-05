@@ -19,6 +19,7 @@ import BedcMathlibBridge.Constructive.StirlingFirst
 import BedcMathlibBridge.Constructive.StirlingSecond
 import BedcMathlibBridge.Constructive.BellStirlingPrefix
 import BedcMathlibBridge.Constructive.TouchardPoly
+import BedcMathlibBridge.Constructive.BellPolynomialSecond
 import BedcMathlibBridge.Constructive.Derangement
 import BedcMathlibBridge.Constructive.DescFactorial
 import BedcMathlibBridge.Constructive.Superfactorial
