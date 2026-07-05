@@ -7597,6 +7597,7 @@ import BEDC.Derived.KernelMorphismUp.NonEscape
 import BEDC.Derived.KernelMorphismUp.ScopedConsumerPacket
 import BEDC.Derived.KernelMorphismUp.SourceGraphEdgeReadback
 import BEDC.Derived.KernelNormalizationAuditJoinUp.TasteGate
+import BEDC.Derived.KernelObservationSieveUp.InscriptionHandoff
 import BEDC.Derived.KernelObservationSieveUp.NonEscape
 import BEDC.Derived.KernelObservationSieveUp.TasteGate
 import BEDC.Derived.KernelPhaseRefusalUp.TasteGate
