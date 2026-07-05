@@ -7704,6 +7704,7 @@ import BEDC.Derived.LargeModelActivationOrbitUp.TasteGate
 import BEDC.Derived.LargeModelAttentionGateUp.TasteGate
 import BEDC.Derived.LargeModelAuditChannelUp.TasteGate
 import BEDC.Derived.LargeModelContextAuditUp.TasteGate
+import BEDC.Derived.LargeModelCorpusSupplyUp.AuditNonescape
 import BEDC.Derived.LargeModelCorpusSupplyUp.FilterExactness
 import BEDC.Derived.LargeModelCorpusSupplyUp.NameCertObligations
 import BEDC.Derived.LargeModelCorpusSupplyUp.ProvenanceBoundary
@@ -9967,6 +9968,7 @@ import BEDC.Derived.ParacompactUp.NameCertObligations
 import BEDC.Derived.ParacompactUp.ObligationClosurePackage
 import BEDC.Derived.ParacompactUp.RefinementConsumerRoute
 import BEDC.Derived.ParacompactUp.TasteGate
+import BEDC.Derived.ParallelConfluenceAuditUp.ResidualPremiseRetention
 import BEDC.Derived.ParallelConfluenceAuditUp.TasteGate
 import BEDC.Derived.ParsevalUp
 import BEDC.Derived.ParsevalUp.CoefficientIntegralHandoff
