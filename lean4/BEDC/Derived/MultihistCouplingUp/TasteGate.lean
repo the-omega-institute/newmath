@@ -1,5 +1,6 @@
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
+import BEDC.FKernel.Cont
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.MultihistCouplingUp.TasteGate
@@ -256,6 +257,7 @@ end BEDC.Derived.MultihistCouplingUp.TasteGate
 namespace BEDC.Derived.MultihistCouplingUp
 
 open BEDC.FKernel.Hist
+open BEDC.FKernel.Cont
 
 theorem MultihistCoupling_pair_symmetry_obligation
     (x : TasteGate.MultihistCouplingUp) :
@@ -273,6 +275,21 @@ theorem MultihistCoupling_pair_symmetry_obligation
       exact
         ⟨H0, H1, J, S, T, C, P, N, rfl, rfl, rfl, hsame_refl J,
           hsame_refl S, hsame_refl T, hsame_refl C, hsame_refl P, hsame_refl N⟩
+
+theorem MultihistCoupling_ledger_transport
+    (x : TasteGate.MultihistCouplingUp) :
+    ∃ H0 H1 J S T C P N : BHist,
+      x = TasteGate.MultihistCouplingUp.mk H0 H1 J S T C P N ∧
+        TasteGate.multihistCouplingFields
+            (TasteGate.MultihistCouplingUp.mk H1 H0 J S T C P N) =
+          [H1, H0, J, S, T, C, P, N] ∧
+          Cont J S (append J S) ∧ Cont T C (append T C) ∧ hsame P P ∧ hsame N N := by
+  -- BEDC touchpoint anchor: BHist Cont append hsame
+  cases x with
+  | mk H0 H1 J S T C P N =>
+      exact
+        ⟨H0, H1, J, S, T, C, P, N, rfl, rfl, rfl, rfl, hsame_refl P,
+          hsame_refl N⟩
 
 theorem MultihistCoupling_source_exactness (x : TasteGate.MultihistCouplingUp) :
     ∃ H0 H1 J S T C P N : BHist,

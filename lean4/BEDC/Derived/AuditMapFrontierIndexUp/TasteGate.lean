@@ -512,6 +512,20 @@ theorem AuditMapFrontierIndexCarrier_namecert_obligations [AskSetup] [PackageSet
   }
   exact ⟨cert, familyUnary, frontierUnary, consumerUnary, nameUnary⟩
 
+theorem AuditMapFrontierIndex_synthesis_handoff_obligation [AskSetup] [PackageSetup]
+    {T A E P R O F S H C K N synthesisRead nameRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    AuditMapFrontierIndexCarrier T A E P R O F S H C K N bundle pkg ->
+      Cont F S synthesisRead -> Cont K N nameRead -> PkgSig bundle N pkg ->
+        UnaryHistory synthesisRead ∧ UnaryHistory nameRead ∧ PkgSig bundle N pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont UnaryHistory PkgSig
+  intro carrier synthesisRoute nameRoute namePkg
+  obtain ⟨_unaryT, _unaryA, _unaryE, _unaryP, _unaryR, _unaryO, unaryF, unaryS,
+    _unaryH, _unaryC, unaryK, unaryN, _provenancePkg, _carrierNamePkg⟩ := carrier
+  exact
+    ⟨unary_cont_closed unaryF unaryS synthesisRoute,
+      unary_cont_closed unaryK unaryN nameRoute, namePkg⟩
+
 theorem AuditMapFrontierIndex_neighbour_restriction [AskSetup] [PackageSetup]
     {T A E E0 P R O F S H C K N : BHist} {bundle : ProbeBundle ProbeName}
     {pkg : Pkg} :
