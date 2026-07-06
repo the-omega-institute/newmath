@@ -121,4 +121,147 @@ theorem RecursorBranchAudit_namecert_obligations [AskSetup] [PackageSetup]
       (And.intro signatureReadUnary
         (And.intro branchReadUnary (And.intro descentReadUnary outputReadUnary)))
 
+theorem RecursorBranchAudit_namecert_eventflow_readback [AskSetup] [PackageSetup]
+    {inductiveName signature recursor motive branches descent output transport replay
+      provenance localName signatureRead branchRead descentRead outputRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    UnaryHistory inductiveName ->
+      UnaryHistory signature ->
+        UnaryHistory recursor ->
+          UnaryHistory motive ->
+            UnaryHistory branches ->
+              UnaryHistory descent ->
+                UnaryHistory output ->
+                  UnaryHistory transport ->
+                    UnaryHistory replay ->
+                      UnaryHistory provenance ->
+                        UnaryHistory localName ->
+                          Cont inductiveName signature signatureRead ->
+                            Cont signatureRead branches branchRead ->
+                              Cont branchRead descent descentRead ->
+                                Cont descentRead output outputRead ->
+                                  PkgSig bundle provenance pkg ->
+                                    PkgSig bundle localName pkg ->
+                                      PkgSig bundle outputRead pkg ->
+                                        SemanticNameCert
+                                            (fun row : BHist =>
+                                              hsame row outputRead ∧ UnaryHistory row)
+                                            (fun row : BHist =>
+                                              hsame row inductiveName ∨
+                                                hsame row signature ∨
+                                                  hsame row recursor ∨
+                                                    hsame row motive ∨
+                                                      hsame row branches ∨
+                                                        hsame row descent ∨
+                                                          hsame row outputRead)
+                                            (fun row : BHist =>
+                                              UnaryHistory row ∧
+                                                Cont inductiveName signature signatureRead ∧
+                                                  Cont signatureRead branches branchRead ∧
+                                                    Cont branchRead descent descentRead ∧
+                                                      Cont descentRead output outputRead ∧
+                                                        PkgSig bundle outputRead pkg)
+                                            hsame ∧
+                                          recursorBranchAuditFromEventFlow
+                                              (recursorBranchAuditToEventFlow
+                                                (RecursorBranchAuditUp.mk inductiveName
+                                                  signature recursor motive branches descent
+                                                  output transport replay provenance localName)) =
+                                            some
+                                              (RecursorBranchAuditUp.mk inductiveName
+                                                signature recursor motive branches descent output
+                                                transport replay provenance localName) ∧
+                                            (∀ y : RecursorBranchAuditUp,
+                                              recursorBranchAuditFields
+                                                  (RecursorBranchAuditUp.mk inductiveName
+                                                    signature recursor motive branches descent
+                                                    output transport replay provenance localName) =
+                                                recursorBranchAuditFields y →
+                                                  RecursorBranchAuditUp.mk inductiveName
+                                                      signature recursor motive branches descent
+                                                      output transport replay provenance localName =
+                                                    y) ∧
+                                              (∃ x y : RecursorBranchAuditUp, x ≠ y) := by
+  -- BEDC touchpoint anchor: BHist Cont ProbeBundle Pkg SemanticNameCert RecursorBranchAuditUp
+  intro inductiveUnary signatureUnary recursorUnary motiveUnary branchesUnary descentUnary
+    outputUnary transportUnary replayUnary provenanceUnary localNameUnary signatureRoute
+    branchRoute descentRoute outputRoute provenancePkg localNamePkg outputPkg
+  have obligations :=
+    RecursorBranchAudit_namecert_obligations
+      (inductiveName := inductiveName)
+      (signature := signature)
+      (recursor := recursor)
+      (motive := motive)
+      (branches := branches)
+      (descent := descent)
+      (output := output)
+      (transport := transport)
+      (replay := replay)
+      (provenance := provenance)
+      (localName := localName)
+      (signatureRead := signatureRead)
+      (branchRead := branchRead)
+      (descentRead := descentRead)
+      (outputRead := outputRead)
+      (bundle := bundle)
+      (pkg := pkg)
+      inductiveUnary signatureUnary recursorUnary motiveUnary branchesUnary descentUnary
+      outputUnary transportUnary replayUnary provenanceUnary localNameUnary signatureRoute
+      branchRoute descentRoute outputRoute provenancePkg localNamePkg outputPkg
+  have alignment := RecursorBranchAuditTasteGate_single_carrier_alignment
+  exact
+    And.intro obligations.left
+      (And.intro
+        (alignment.right.left
+          (RecursorBranchAuditUp.mk inductiveName signature recursor motive branches descent
+            output transport replay provenance localName))
+        (And.intro
+          (fun y fields =>
+            alignment.right.right.right.right.left
+              (RecursorBranchAuditUp.mk inductiveName signature recursor motive branches descent
+                output transport replay provenance localName)
+              y fields)
+          alignment.right.right.right.right.right))
+
+theorem RecursorBranchAudit_motive_boundary_output_route
+    {motive branches output branchReplay outputReplay : BHist} :
+    Cont motive branches branchReplay ->
+      Cont branchReplay output outputReplay ->
+        hsame outputReplay output ->
+          (hsame outputReplay motive ∨ hsame outputReplay branches ∨ hsame outputReplay output) ∧
+            exists boundaryRead : BHist,
+              Cont motive branches boundaryRead ∧ Cont boundaryRead output outputReplay := by
+  -- BEDC touchpoint anchor: BHist Cont SemanticNameCert hsame
+  intro branchRoute outputRoute outputSame
+  have boundaryCert :
+      SemanticNameCert
+        (fun row : BHist => hsame row motive ∨ hsame row branches ∨ hsame row output)
+        (fun row : BHist => hsame row motive ∨ hsame row branches ∨ hsame row output)
+        (fun row : BHist => hsame row motive ∨ hsame row branches ∨ hsame row output)
+        hsame :=
+    RecursorBranchAuditCarrier_motive_boundary
+      (motive := motive) (branches := branches) (output := output)
+  have sourceOutput :
+      (fun row : BHist => hsame row motive ∨ hsame row branches ∨ hsame row output)
+        output := by
+    exact Or.inr (Or.inr (hsame_refl output))
+  have routedOutput :=
+    semanticNameCert_pattern_ledger_transport boundaryCert (hsame_symm outputSame) sourceOutput
+  exact And.intro routedOutput.left
+    (Exists.intro branchReplay (And.intro branchRoute outputRoute))
+
+theorem RecursorBranchAudit_branch_coverage_namecert_route (x : RecursorBranchAuditUp) :
+    exists I S R M B D O H C P N branchReplay : BHist,
+      x = RecursorBranchAuditUp.mk I S R M B D O H C P N ∧
+        Cont S B branchReplay ∧
+          NameCert (fun h : BHist => hsame h B) hsame ∧
+            (fun h : BHist => hsame h B) B := by
+  -- BEDC touchpoint anchor: BHist Cont NameCert hsame RecursorBranchAuditUp
+  rcases RecursorBranchAuditCarrier_branch_coverage x with
+    ⟨I, S, R, M, B, D, O, H, C, P, N, branchReplay, hCarrier, _branchSame,
+      branchRoute, branchCert⟩
+  exact
+    ⟨I, S, R, M, B, D, O, H, C, P, N, branchReplay, hCarrier, branchRoute,
+      branchCert, branchCert.equiv_refl (hsame_refl B)⟩
+
 end BEDC.Derived.RecursorBranchAuditUp

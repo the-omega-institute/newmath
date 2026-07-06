@@ -1,4 +1,4 @@
-import BEDC.Derived.SturmRootIsolationUp.TasteGate
+import BEDC.Derived.SturmRootIsolationUp.SignVariationHandoff
 import BEDC.FKernel.NameCert
 import BEDC.FKernel.Package
 import BEDC.FKernel.Unary
@@ -417,6 +417,210 @@ theorem SturmRootIsolationCarrier_scoped_interval_real_seal_route [AskSetup] [Pa
   exact
     ⟨cert, chainReadUnary, branchReadUnary, intervalReadUnary, refinedReadUnary,
       readbackReadUnary, sealReadUnary, realRouteUnary, variationListed, dyadicListed,
+      sealListed⟩
+
+theorem SturmRootIsolationCarrier_sign_variation_scope_real_seal_consumer [AskSetup]
+    [PackageSetup]
+    {P I D V B W R S H C Q N chainRead branchRead intervalRead refinedRead readbackRead
+      sealRead realRoute : BHist}
+    {bundle : ProbeBundle ProbeName} {branchPkg routePkg : Pkg} :
+    Cont P V chainRead →
+      Cont chainRead B branchRead →
+        Cont I D intervalRead →
+          Cont intervalRead W refinedRead →
+            Cont refinedRead R readbackRead →
+              Cont branchRead S sealRead →
+                Cont readbackRead sealRead realRoute →
+                  PkgSig bundle branchRead branchPkg →
+                    PkgSig bundle realRoute routePkg →
+                      UnaryHistory P →
+                        UnaryHistory V →
+                          UnaryHistory B →
+                            UnaryHistory I →
+                              UnaryHistory D →
+                                UnaryHistory W →
+                                  UnaryHistory R →
+                                    UnaryHistory S →
+                                      SemanticNameCert
+                                          (fun row : BHist => hsame row realRoute ∧
+                                            UnaryHistory row)
+                                          (fun row : BHist =>
+                                            hsame row P ∨ hsame row I ∨ hsame row D ∨
+                                              hsame row V ∨ hsame row B ∨ hsame row W ∨
+                                                hsame row R ∨ hsame row S ∨
+                                                  hsame row chainRead ∨
+                                                    hsame row branchRead ∨
+                                                      hsame row intervalRead ∨
+                                                        hsame row refinedRead ∨
+                                                          hsame row readbackRead ∨
+                                                            hsame row sealRead ∨
+                                                              hsame row realRoute)
+                                          (fun row : BHist =>
+                                            UnaryHistory row ∧ Cont P V chainRead ∧
+                                              Cont chainRead B branchRead ∧
+                                                Cont I D intervalRead ∧
+                                                  Cont intervalRead W refinedRead ∧
+                                                    Cont refinedRead R readbackRead ∧
+                                                      Cont branchRead S sealRead ∧
+                                                        Cont readbackRead sealRead realRoute ∧
+                                                          PkgSig bundle realRoute routePkg)
+                                          hsame ∧
+                                        UnaryHistory chainRead ∧ UnaryHistory branchRead ∧
+                                          UnaryHistory realRoute ∧ Cont P V chainRead ∧
+                                            Cont chainRead B branchRead ∧
+                                              PkgSig bundle branchRead branchPkg ∧
+                                                List.Mem (sturmRootIsolationEncodeBHist V)
+                                                  (sturmRootIsolationToEventFlow
+                                                    (SturmRootIsolationUp.mk P I D V B W R S H C
+                                                      Q N)) ∧
+                                                  List.Mem (sturmRootIsolationEncodeBHist S)
+                                                    (sturmRootIsolationToEventFlow
+                                                      (SturmRootIsolationUp.mk P I D V B W R S H
+                                                        C Q N)) := by
+  intro chainRoute branchRoute intervalRoute refinedRoute readbackRoute sealRoute realRouteCont
+    branchPkgSig routePkgSig polynomialUnary variationUnary branchUnary intervalUnary dyadicUnary
+    windowUnary readbackUnary sealUnary
+  have scope :=
+    SturmRootIsolationCarrier_sign_variation_scope
+      (P := P) (I := I) (D := D) (V := V) (B := B) (W := W) (R := R) (S := S)
+      (H := H) (C := C) (Q := Q) (N := N) (chainRead := chainRead)
+      (branchRead := branchRead) (bundle := bundle) (pkg := branchPkg)
+      chainRoute branchRoute branchPkgSig polynomialUnary variationUnary branchUnary
+  have route :=
+    SturmRootIsolationCarrier_scoped_interval_real_seal_route
+      (P := P) (I := I) (D := D) (V := V) (B := B) (W := W) (R := R) (S := S)
+      (H := H) (C := C) (Q := Q) (N := N) (chainRead := chainRead)
+      (branchRead := branchRead) (intervalRead := intervalRead) (refinedRead := refinedRead)
+      (readbackRead := readbackRead) (sealRead := sealRead) (realRoute := realRoute)
+      (bundle := bundle) (pkg := routePkg)
+      chainRoute branchRoute intervalRoute refinedRoute readbackRoute sealRoute realRouteCont
+      routePkgSig polynomialUnary variationUnary branchUnary intervalUnary dyadicUnary windowUnary
+      readbackUnary sealUnary
+  have chainReadUnary : UnaryHistory chainRead := scope.left
+  have branchReadUnary : UnaryHistory branchRead := scope.right.left
+  have realRouteUnary : UnaryHistory realRoute :=
+    route.right.right.right.right.right.right.right.left
+  have chainRouteOut : Cont P V chainRead := scope.right.right.left
+  have branchRouteOut : Cont chainRead B branchRead := scope.right.right.right.left
+  have branchPkgOut : PkgSig bundle branchRead branchPkg :=
+    scope.right.right.right.right.left
+  have variationListed :
+      List.Mem (sturmRootIsolationEncodeBHist V)
+        (sturmRootIsolationToEventFlow (SturmRootIsolationUp.mk P I D V B W R S H C Q N)) :=
+    scope.right.right.right.right.right
+  have sealListed :
+      List.Mem (sturmRootIsolationEncodeBHist S)
+        (sturmRootIsolationToEventFlow (SturmRootIsolationUp.mk P I D V B W R S H C Q N)) :=
+    route.right.right.right.right.right.right.right.right.right.right
+  exact
+    ⟨route.left, chainReadUnary, branchReadUnary, realRouteUnary, chainRouteOut, branchRouteOut,
+      branchPkgOut, variationListed, sealListed⟩
+
+theorem SturmRootIsolationCarrier_interval_refinement_real_seal_consumer [AskSetup]
+    [PackageSetup]
+    {P I D V B W R S H C Q N chainRead branchRead intervalRead refinedRead readbackRead
+      sealRead realRoute : BHist}
+    {bundle : ProbeBundle ProbeName} {windowPkg routePkg : Pkg} :
+    Cont P V chainRead →
+      Cont chainRead B branchRead →
+        Cont I D intervalRead →
+          Cont intervalRead W refinedRead →
+            Cont refinedRead R readbackRead →
+              Cont branchRead S sealRead →
+                Cont readbackRead sealRead realRoute →
+                  PkgSig bundle readbackRead windowPkg →
+                    PkgSig bundle realRoute routePkg →
+                      UnaryHistory P →
+                        UnaryHistory V →
+                          UnaryHistory B →
+                            UnaryHistory I →
+                              UnaryHistory D →
+                                UnaryHistory W →
+                                  UnaryHistory R →
+                                    UnaryHistory S →
+                                      SemanticNameCert
+                                          (fun row : BHist => hsame row realRoute ∧
+                                            UnaryHistory row)
+                                          (fun row : BHist =>
+                                            hsame row P ∨ hsame row I ∨ hsame row D ∨
+                                              hsame row V ∨ hsame row B ∨ hsame row W ∨
+                                                hsame row R ∨ hsame row S ∨
+                                                  hsame row chainRead ∨
+                                                    hsame row branchRead ∨
+                                                      hsame row intervalRead ∨
+                                                        hsame row refinedRead ∨
+                                                          hsame row readbackRead ∨
+                                                            hsame row sealRead ∨
+                                                              hsame row realRoute)
+                                          (fun row : BHist =>
+                                            UnaryHistory row ∧ Cont P V chainRead ∧
+                                              Cont chainRead B branchRead ∧
+                                                Cont I D intervalRead ∧
+                                                  Cont intervalRead W refinedRead ∧
+                                                    Cont refinedRead R readbackRead ∧
+                                                      Cont branchRead S sealRead ∧
+                                                        Cont readbackRead sealRead realRoute ∧
+                                                          PkgSig bundle realRoute routePkg)
+                                          hsame ∧
+                                        UnaryHistory intervalRead ∧ UnaryHistory refinedRead ∧
+                                          UnaryHistory readbackRead ∧ UnaryHistory realRoute ∧
+                                            Cont I D intervalRead ∧
+                                              Cont intervalRead W refinedRead ∧
+                                                Cont refinedRead R readbackRead ∧
+                                                  PkgSig bundle readbackRead windowPkg ∧
+                                                    List.Mem (sturmRootIsolationEncodeBHist D)
+                                                      (sturmRootIsolationToEventFlow
+                                                        (SturmRootIsolationUp.mk P I D V B W R
+                                                          S H C Q N)) ∧
+                                                      List.Mem (sturmRootIsolationEncodeBHist S)
+                                                        (sturmRootIsolationToEventFlow
+                                                          (SturmRootIsolationUp.mk P I D V B W
+                                                            R S H C Q N)) := by
+  -- BEDC touchpoint anchor: BHist BMark Cont ProbeBundle PkgSig hsame SemanticNameCert
+  intro chainRoute branchRoute intervalRoute refinedRoute readbackRoute sealRoute realRouteCont
+    windowPkgSig routePkgSig polynomialUnary variationUnary branchUnary intervalUnary dyadicUnary
+    windowUnary readbackUnary sealUnary
+  have refinement :=
+    SturmRootIsolationCarrier_interval_refinement
+      (P := P) (I := I) (D := D) (V := V) (B := B) (W := W) (R := R) (S := S)
+      (H := H) (C := C) (Q := Q) (N := N) (intervalRead := intervalRead)
+      (refinedRead := refinedRead) (windowRead := readbackRead) (bundle := bundle)
+      (pkg := windowPkg)
+      intervalRoute refinedRoute readbackRoute windowPkgSig intervalUnary dyadicUnary
+      windowUnary readbackUnary
+  have route :=
+    SturmRootIsolationCarrier_scoped_interval_real_seal_route
+      (P := P) (I := I) (D := D) (V := V) (B := B) (W := W) (R := R) (S := S)
+      (H := H) (C := C) (Q := Q) (N := N) (chainRead := chainRead)
+      (branchRead := branchRead) (intervalRead := intervalRead) (refinedRead := refinedRead)
+      (readbackRead := readbackRead) (sealRead := sealRead) (realRoute := realRoute)
+      (bundle := bundle) (pkg := routePkg)
+      chainRoute branchRoute intervalRoute refinedRoute readbackRoute sealRoute realRouteCont
+      routePkgSig polynomialUnary variationUnary branchUnary intervalUnary dyadicUnary windowUnary
+      readbackUnary sealUnary
+  have intervalReadUnary : UnaryHistory intervalRead := refinement.left
+  have refinedReadUnary : UnaryHistory refinedRead := refinement.right.left
+  have readbackReadUnary : UnaryHistory readbackRead := refinement.right.right.left
+  have realRouteUnary : UnaryHistory realRoute :=
+    route.right.right.right.right.right.right.right.left
+  have intervalRouteOut : Cont I D intervalRead := refinement.right.right.right.left
+  have refinedRouteOut : Cont intervalRead W refinedRead :=
+    refinement.right.right.right.right.left
+  have readbackRouteOut : Cont refinedRead R readbackRead :=
+    refinement.right.right.right.right.right.left
+  have windowPkgOut : PkgSig bundle readbackRead windowPkg :=
+    refinement.right.right.right.right.right.right.left
+  have dyadicListed :
+      List.Mem (sturmRootIsolationEncodeBHist D)
+        (sturmRootIsolationToEventFlow (SturmRootIsolationUp.mk P I D V B W R S H C Q N)) :=
+    refinement.right.right.right.right.right.right.right
+  have sealListed :
+      List.Mem (sturmRootIsolationEncodeBHist S)
+        (sturmRootIsolationToEventFlow (SturmRootIsolationUp.mk P I D V B W R S H C Q N)) :=
+    route.right.right.right.right.right.right.right.right.right.right
+  exact
+    ⟨route.left, intervalReadUnary, refinedReadUnary, readbackReadUnary, realRouteUnary,
+      intervalRouteOut, refinedRouteOut, readbackRouteOut, windowPkgOut, dyadicListed,
       sealListed⟩
 
 end BEDC.Derived.SturmRootIsolationUp

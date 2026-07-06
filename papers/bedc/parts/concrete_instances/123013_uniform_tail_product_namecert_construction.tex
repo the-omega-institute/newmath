@@ -1,0 +1,89 @@
+\chapter{Uniform tail product NameCert construction}
+\label{ch:concrete-instances-uniform-tail-product-namecert}
+\origin{human}
+
+Following Bishop--Bridges constructive analysis of regular Cauchy sequences and finite product estimates, the $\UniformTailProductUp$ packet records the finite tail-product bound used when two regular rational names are multiplied under a shared dyadic budget. It consumes the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the stream-window surface of \autoref{ch:concrete-instances-streamname-namecert}, the dyadic arithmetic core of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the Real seal of \autoref{ch:concrete-instances-real-namecert}, and the rational interval containment route of \autoref{ch:concrete-instances-rationalintervalrefinement-namecert}. The packet exports only a finite product-tail certificate; it is not a completed multiplication operation, a quotient of Cauchy names, a selected limit, or a host completeness principle.
+
+\begin{definition}[Uniform tail product carrier]
+\label{def:uniform-tail-product-carrier}
+A $\UniformTailProductUp$ carrier is a finite $\BHist$ packet
+$$
+U=(A,B,M,T,I,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $A$ and $B$ are the two $\RegSeqRatUp$ source rows, read only through finite $\StreamNameUp$ windows.
+\item $M$ is the shared dyadic modulus row naming the common tail stage and tolerance budget in $\DyadicRatCoreUp$.
+\item $T$ is the product-tail estimate row, asserting that every later inspected pair of windows for $A$ and $B$ keeps the product read inside the requested dyadic tolerance.
+\item $I$ is the rational-interval refinement row that contains the finite product read and records the retained window handed to $\RealUp$ consumers.
+\item $H$ records componentwise $\hsame$ transport for the two source rows, shared modulus, tail estimate, interval refinement, continuation row, provenance row, and local naming row.
+\item $C$ records displayed $\Cont$ replay from the two regular names through the shared modulus, finite product-tail estimate, rational-interval refinement, and terminal Real-facing handoff.
+\item $P$ is the $\Pkg$ provenance over $\UniformTailProductUp$, $\RegSeqRatUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\RationalIntervalRefinementUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\UniformTailProductUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for an infinite product proof, quotient stream equality, a selected Cauchy representative, host real multiplication, countable choice, or an ambient completeness theorem.
+\end{definition}
+
+\begin{theorem}[Uniform tail product NameCert obligations]
+\label{thm:uniform-tail-product-namecert-obligations}
+For every accepted $\UniformTailProductUp$ carrier
+$$
+U=(A,B,M,T,I,H,C,P,N),
+$$
+the local $\NameCert_{\UniformTailProductUp}$ surface consists exactly of carrier exposure for the two regular rational sources $A,B$; shared dyadic modulus exposure through $M$; finite product-tail estimate exposure through $T$; rational-interval retained-window exposure through $I$; componentwise transport through $H$; displayed replay through $C$; provenance through $P$; and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:uniform-tail-product-carrier}. The displayed rows are exactly the two source names, the shared dyadic modulus, the product-tail estimate, the rational interval refinement, and the structural rows.
+
+The shared modulus row $M$ is the only row that schedules the common tail stage. The estimate row $T$ is therefore read downstream of the same dyadic budget for both regular rational sources, rather than from two unrelated tail certificates.
+
+The row $I$ records the rational interval retained by the product read. It is the only route by which a $\RealUp$ consumer receives the finite product-tail information, and it uses the containment vocabulary already exposed by $\RationalIntervalRefinementUp$.
+
+Finally $H,C,P,N$ transport, replay, source, and locally name those rows. Since no further carrier coordinate exists, the listed rows exhaust the local NameCert obligation surface.
+\end{proof}
+
+\begin{theorem}[Uniform tail product stability]
+\label{thm:uniform-tail-product-stability}
+Let
+$$
+U=(A,B,M,T,I,H,C,P,N)
+$$
+be an accepted $\UniformTailProductUp$ packet. Any later finite $\StreamNameUp$ windows for the same $\RegSeqRatUp$ sources $A,B$ that preserve the shared $\DyadicRatCoreUp$ modulus row $M$ read the same product-tail estimate through $T$ and the same retained rational interval through $I$, up to the componentwise $\hsame$ transport recorded by $H$ and the displayed replay recorded by $C$.
+\end{theorem}
+\begin{proof}
+Start with the accepted packet and project its carrier. The only source rows are $A$ and $B$, and the only shared tail budget is $M$.
+
+Move to later finite windows using the $\StreamNameUp$ readback already attached to the two regular rational names. Because the later windows preserve $A,B$ and the same dyadic modulus row $M$, the product-tail estimate still reads through the row $T$.
+
+Transport by $H$ and replay by $C$. These rows identify the later finite windows with the displayed product-tail route and keep the retained rational interval row $I$ attached to the same estimate.
+
+No second modulus, quotient stream equality, selected representative, or host real multiplication coordinate is present. Thus the finite product-tail certificate is stable under the permitted later window reads.
+\end{proof}
+
+\begin{theorem}[Uniform tail product ledger exhaustion]
+\label{thm:uniform-tail-product-ledger-exhaustion}
+An accepted $\UniformTailProductUp$ packet exposes to every $\RegSeqRatUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\RationalIntervalRefinementUp$, or $\RealUp$ consumer only the rows
+$$
+A,B,M,T,I,H,C,P,N .
+$$
+In particular, the packet exports no quotient stream equality, no selected representative of either regular Cauchy name, no host real multiplication, no completed product limit, no countable-choice schedule, and no standard bridge.
+\end{theorem}
+\begin{proof}
+Project the accepted packet as $U=(A,B,M,T,I,H,C,P,N)$. The carrier contains exactly these rows, so every consumer read must start from the same finite inventory.
+
+Apply \autoref{thm:uniform-tail-product-namecert-obligations}. The local NameCert surface exposes the two source rows, shared modulus, product-tail estimate, rational interval refinement, transport, replay, provenance, and local naming, and no additional row.
+
+The excluded objects would require extra coordinates: quotient equality for streams, selected representatives, host multiplication, a completed limit, a countable-choice schedule, or a bridge row. Since none occurs in the carrier or obligation surface, none can be read by the listed consumers.
+\end{proof}
+
+\closureat{UniformTailProductUp}{seedStr}
+
+\begin{closurestatus}{\UniformTailProductUp}
+  \constructivestory{A $\UniformTailProductUp$ packet is generated from two RegSeqRat source rows, a shared DyadicRatCore modulus row, a finite product-tail estimate row, a rational interval refinement row, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:uniform-tail-product-carrier}, \autoref{thm:uniform-tail-product-namecert-obligations}, \autoref{thm:uniform-tail-product-stability}, and \autoref{thm:uniform-tail-product-ledger-exhaustion} seed the finite product-tail certificate over regular rational sources, stream windows, dyadic budgets, rational interval retained windows, Real-facing handoff, transport, replay, provenance, and local naming.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close host real multiplication, quotient Cauchy names, selected limits, countable choice, standard bridges, or Lean verification.}
+  \upgradepath{Obligation closure requires checked carrier admission, shared-modulus exactness, product-tail estimate stability, rational interval handoff, transport, replay, provenance, and local naming for BEDC.Derived.UniformTailProductUp.}
+\end{closurestatus}

@@ -500,4 +500,74 @@ theorem BaireOneFunctionCarrier_lowersemicontinuous_exhaustion [AskSetup] [Packa
   }
   exact ⟨cert, lscUnary, publicUnary⟩
 
+theorem BaireOneFunctionCarrier_finite_schedule_oscillation_boundary
+    [AskSetup] [PackageSetup]
+    {X F S Q R L H C P N pointwiseRead lscRead publicRead oscillationRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    BaireOneFunctionCarrier X F S Q R L H C P N bundle pkg ->
+      Cont S Q pointwiseRead ->
+        Cont R L lscRead ->
+          Cont L C publicRead ->
+            PkgSig bundle publicRead pkg ->
+              Cont R L oscillationRead ->
+                PkgSig bundle oscillationRead pkg ->
+                  SemanticNameCert
+                      (fun row : BHist =>
+                        (hsame row pointwiseRead ∨ hsame row lscRead ∨
+                            hsame row publicRead) ∧
+                          UnaryHistory row)
+                      (fun row : BHist =>
+                        hsame row X ∨ hsame row F ∨ hsame row S ∨ hsame row Q ∨
+                          hsame row R ∨ hsame row L ∨ hsame row H ∨ hsame row C ∨
+                            hsame row P ∨ hsame row N ∨ hsame row pointwiseRead ∨
+                              hsame row lscRead ∨ hsame row publicRead)
+                      (fun row : BHist =>
+                        UnaryHistory row ∧ Cont S Q pointwiseRead ∧ Cont R L lscRead ∧
+                          Cont L C publicRead ∧ PkgSig bundle publicRead pkg)
+                      hsame ∧
+                    SemanticNameCert
+                        (fun row : BHist =>
+                          hsame row H ∧
+                            BaireOneFunctionCarrier X F S Q R L H C P N bundle pkg)
+                        (fun row : BHist =>
+                          hsame row X ∨ hsame row F ∨ hsame row S ∨ hsame row Q ∨
+                            hsame row R ∨ hsame row L ∨ hsame row H ∨ hsame row C ∨
+                              hsame row P ∨ hsame row N)
+                        (fun row : BHist =>
+                          UnaryHistory row ∧ PkgSig bundle P pkg ∧ PkgSig bundle N pkg)
+                        hsame ∧
+                      SemanticNameCert
+                          (fun row : BHist => hsame row oscillationRead ∧ UnaryHistory row)
+                          (fun row : BHist =>
+                            hsame row X ∨ hsame row F ∨ hsame row S ∨ hsame row Q ∨
+                              hsame row R ∨ hsame row L ∨ hsame row oscillationRead)
+                          (fun row : BHist =>
+                            UnaryHistory row ∧ Cont X F S ∧ Cont S Q R ∧
+                              Cont R L oscillationRead ∧ PkgSig bundle P pkg ∧
+                                PkgSig bundle oscillationRead pkg)
+                          hsame ∧
+                        UnaryHistory pointwiseRead ∧ UnaryHistory lscRead ∧
+                          UnaryHistory publicRead ∧ UnaryHistory oscillationRead ∧
+                            Cont X F S ∧ Cont S Q R ∧ Cont R L H := by
+  -- BEDC touchpoint anchor: BHist Cont ProbeBundle PkgSig SemanticNameCert UnaryHistory
+  intro carrier pointwiseRoute lscRoute publicRoute publicPkg oscillationRoute
+    oscillationPkg
+  have finiteSchedule :=
+    _root_.BEDC.Derived.BaireOneFunctionUp.BaireOneFunctionCarrier_finite_schedule_nonescape
+      (X := X) (F := F) (S := S) (Q := Q) (R := R) (L := L) (H := H)
+      (C := C) (P := P) (N := N) (pointwiseRead := pointwiseRead)
+      (lscRead := lscRead) (publicRead := publicRead) (bundle := bundle)
+      (pkg := pkg) carrier pointwiseRoute lscRoute publicRoute publicPkg
+  obtain ⟨finiteCert, pointwiseUnary, lscUnary, publicUnary⟩ := finiteSchedule
+  have oscillationBoundary :=
+    BaireOneFunctionCarrier_oscillation_schedule_boundary
+      (X := X) (F := F) (S := S) (Q := Q) (R := R) (L := L) (H := H)
+      (C := C) (P := P) (N := N) (oscillationRead := oscillationRead)
+      (bundle := bundle) (pkg := pkg) carrier oscillationRoute oscillationPkg
+  obtain ⟨scheduleCert, oscillationCert, oscillationUnary, sourceApproxSchedule,
+    scheduleReadbackReal, realHandoffTransport⟩ := oscillationBoundary
+  exact
+    ⟨finiteCert, scheduleCert, oscillationCert, pointwiseUnary, lscUnary, publicUnary,
+      oscillationUnary, sourceApproxSchedule, scheduleReadbackReal, realHandoffTransport⟩
+
 end BEDC.Derived.BaireOneFunctionUp

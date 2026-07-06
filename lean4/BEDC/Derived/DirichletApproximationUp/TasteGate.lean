@@ -1,10 +1,12 @@
 import BEDC.FKernel.Hist
+import BEDC.FKernel.Cont
 import BEDC.FKernel.Mark
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.DirichletApproximationUp
 
 open BEDC.FKernel.Hist
+open BEDC.FKernel.Cont
 open BEDC.FKernel.Mark
 open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
@@ -322,5 +324,18 @@ theorem DirichletApproximationTasteGate_single_carrier_alignment :
         · constructor
           · exact dirichletApproximation_round_trip
           · rfl
+
+theorem DirichletApproximationCarrier_finite_handoff {x : DirichletApproximationUp} :
+    exists Q B M D S G R E H C P N : BHist,
+      dirichletApproximationFields x = [Q, B, M, D, S, G, R, E, H, C, P, N] ∧
+        hsame R R ∧ hsame E E ∧
+          hsame (append Q (append B (append M (append D (append S G)))))
+            (append Q (append B (append M (append D (append S G))))) := by
+  -- BEDC touchpoint anchor: BHist hsame
+  cases x with
+  | mk Q B M D S G R E H C P N =>
+      exact
+        ⟨Q, B, M, D, S, G, R, E, H, C, P, N, rfl, hsame_refl R, hsame_refl E,
+          hsame_refl (append Q (append B (append M (append D (append S G)))))⟩
 
 end BEDC.Derived.DirichletApproximationUp

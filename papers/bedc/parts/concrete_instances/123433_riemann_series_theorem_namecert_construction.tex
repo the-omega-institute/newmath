@@ -1,0 +1,85 @@
+\chapter{A Concrete Naming Certificate for $\RiemannSeriesTheoremUp$}
+\label{ch:concrete-instances-riemann-series-theorem-namecert}
+\origin{human}
+
+Following Riemann and Hardy, the $\RiemannSeriesTheoremUp$ packet records the finite rearrangement-schedule surface used by a conditionally balanced real series before any completion-facing consumer reads a target real seal. It sits over the finite real-series rows of \autoref{ch:concrete-instances-realseries-namecert}, the stream-window interface of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the dyadic tolerance core of \autoref{ch:concrete-instances-dyadicratcore-namecert}, and the terminal real-name boundary of \autoref{ch:concrete-instances-real-namecert}. The route is parallel to the Cauchy-product and Mertens sibling surfaces of \autoref{ch:concrete-instances-cauchy-product-theorem-namecert} and \autoref{ch:concrete-instances-mertens-cauchy-product-theorem-namecert}: all three packets expose finite series ledgers before a product, rearrangement, or sum boundary can be consumed.
+
+\begin{definition}[Riemann series theorem carrier]
+\label{def:riemann-series-theorem-carrier}
+A $\RiemannSeriesTheoremUp$ carrier is a finite $\BHist$ packet
+$$
+R=(S,P_{+},P_{-},W,A,T,D,E,H,C,Q,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the $\RealSeriesUp$ source row, exposing signed terms only through finite coefficient and partial-sum windows.
+\item $P_{+}$ is the positive-block ledger, recording the finite list of positive term blocks admitted by the current rearrangement stage.
+\item $P_{-}$ is the negative-block ledger, recording the finite list of negative term blocks admitted by the current rearrangement stage.
+\item $W$ is the signed partial-sum window ledger. It names the finite windows where alternating positive and negative block reads are compared.
+\item $A$ is the rearrangement schedule row. It records the finite order in which the displayed positive and negative blocks are read, without selecting an ambient infinite permutation.
+\item $T$ is the tolerance and target-readback row, carrying the dyadic tolerance requests and the regular rational target windows used by the consumer.
+\item $D$ is the $\DyadicRatCoreUp$ comparison row attached to $T$.
+\item $E$ is the $\RealUp$ seal boundary reached only after $S,P_{+},P_{-},W,A,T,D$ have been displayed.
+\item $H$ records componentwise $\hsame$ transport for the source series, block ledgers, signed windows, schedule, tolerance/readback rows, dyadic comparisons, Real seal, continuation, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from every rearranged partial-sum read through $S,P_{+},P_{-},W,A,T,D,E,H,Q,N$.
+\item $Q$ is the $\Pkg$ provenance over $\RiemannSeriesTheoremUp$, $\RealSeriesUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\RiemannSeriesTheoremUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for arbitrary permutation choice, quotient equality of infinite series, selected infinite sums, trichotomy, countable choice, or ambient $\RealUp$ completeness.
+\end{definition}
+\leanstmt{BEDC.Derived.RiemannSeriesTheoremUp}
+
+\begin{theorem}[Riemann series theorem NameCert obligations]
+\label{thm:riemann-series-theorem-namecert-obligations}
+For every accepted $\RiemannSeriesTheoremUp$ carrier $R=(S,P_{+},P_{-},W,A,T,D,E,H,C,Q,N)$, the local $\NameCert_{\RiemannSeriesTheoremUp}$ surface consists exactly of carrier admission for the displayed twelve-row packet, source-series exposure, positive-block ledger admission, negative-block ledger admission, signed partial-sum window exposure, finite rearrangement-schedule exposure, tolerance and target-readback admission, dyadic comparison exactness, Real seal non-escape, componentwise $\hsame$ transport, displayed $\Cont$ replay, provenance, and local naming.
+\end{theorem}
+\leanchecked{BEDC.Derived.RiemannSeriesTheoremUp.RiemannSeriesTheoremCarrier\_namecert\_obligations}
+\begin{proof}
+Project the carrier of \autoref{def:riemann-series-theorem-carrier}. The source row $S$ supplies only finite $\RealSeriesUp$ coefficient and partial-sum windows, while $P_{+}$ and $P_{-}$ expose the positive and negative block ledgers that the schedule may read.
+
+The schedule row $A$ is finite. It may reorder the displayed block ledgers inside the packet, but it has no coordinate for a choice-selected infinite permutation or for quotient equality of completed series.
+
+The endpoint route then reads $W,T,D,E$ in order. The signed partial-sum windows are compared at the requested tolerance, the $\DyadicRatCoreUp$ row supplies the displayed rational comparison, and the $\RealUp$ seal is consumed only after those rows remain visible.
+
+The structural rows add no further analytic principle. Transport through $H$, replay through $C$, provenance through $Q$, and local naming through $N$ preserve the displayed packet, so the listed rows exhaust the seed NameCert surface.
+\end{proof}
+
+\begin{theorem}[Riemann series theorem rearrangement route]
+\label{thm:riemann-series-theorem-rearrangement-route}
+Every Completion-facing or Real-facing consumer of an accepted $\RiemannSeriesTheoremUp$ packet must read the finite route
+$$
+\RealSeriesUp,\quad
+P_{+},\quad
+P_{-},\quad
+\StreamNameUp,\quad
+A,\quad
+\RegSeqRatUp,\quad
+\DyadicRatCoreUp,\quad
+\RealUp
+$$
+before using the rearranged endpoint seal. The route exports a finite rearrangement schedule over displayed positive and negative blocks; it exports no arbitrary permutation choice, quotient series equality, selected infinite sum, trichotomy, countable choice, or ambient Real completeness theorem.
+\end{theorem}
+\begin{proof}
+Begin with the NameCert obligations of \autoref{thm:riemann-series-theorem-namecert-obligations}. They force every accepted rearrangement read to expose the real-series source, both sign-separated block ledgers, the signed partial-sum windows, and the finite schedule row.
+
+Next read the tolerance and endpoint rows. The regular rational readback and dyadic comparison rows are downstream of the displayed schedule, so a consumer cannot reach the terminal seal by naming only an external target real or an uninspected permutation.
+
+Finally consume the Real seal boundary. Since the carrier contains no row for arbitrary infinite permutation choice, quotient equality of series, selected sums, trichotomy, countable choice, or ambient completeness, the endpoint remains a finite schedule route through the displayed packet.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\RiemannSeriesTheoremUp$ endpoint read displays a RealSeries source row, positive-block ledger, negative-block ledger, signed partial-sum windows, finite rearrangement schedule, RegSeqRat target readback, DyadicRatCore tolerance comparison, Real seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and local NameCert row before the endpoint can be consumed.}
+
+\independenceWitness{realseries, streamname, regseqrat, dyadicratcore, real, cauchy-product-theorem, mertens-cauchy-product-theorem: no listed sibling supplies the whole twelve-row packet $R=(S,P_{+},P_{-},W,A,T,D,E,H,C,Q,N)$, because each sibling contributes only source series data, finite stream windows, regular rational readback, dyadic tolerance rows, terminal Real sealing, or product-series routing while this chapter binds them into one finite rearrangement schedule.}
+
+\closureat{RiemannSeriesTheoremUp}{seedStr}
+
+\begin{closurestatus}{\RiemannSeriesTheoremUp}
+  \constructivestory{A $\RiemannSeriesTheoremUp$ packet is generated from a RealSeries source row, positive-block ledger, negative-block ledger, signed partial-sum windows, finite rearrangement schedule, tolerance and target-readback rows, DyadicRatCore comparison, RealUp seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:riemann-series-theorem-carrier}, \autoref{thm:riemann-series-theorem-namecert-obligations}, and \autoref{thm:riemann-series-theorem-rearrangement-route} seed the finite rearrangement-schedule route over displayed real-series and completion rows.}
+  \formalstatus{\formalTargetV}
+  \leantarget{BEDC.Derived.RiemannSeriesTheoremUp}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim arbitrary permutation choice, quotient series equality, selected infinite sums, trichotomy, countable choice, ambient Real completeness, or a standard bridge.}
+  \upgradepath{Obligation closure requires checked carrier admission, block-ledger exactness, finite schedule exposure, tolerance readback, Real seal non-escape, transport, replay, provenance, and local naming for BEDC.Derived.RiemannSeriesTheoremUp.}
+\end{closurestatus}

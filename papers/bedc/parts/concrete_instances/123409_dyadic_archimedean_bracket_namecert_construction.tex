@@ -1,0 +1,77 @@
+\chapter{A Concrete Naming Certificate for $\DyadicArchimedeanBracketUp$}
+\label{ch:concrete-instances-dyadic-archimedean-bracket-namecert}
+\origin{human}
+
+Following Bishop and Bridges on Archimedean approximation and constructive real names, this packet records finite dyadic brackets around a real-name route. The $\DyadicArchimedeanBracketUp$ carrier sits on the dyadic arithmetic core of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the finite stream-window discipline of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback route of \autoref{ch:concrete-instances-regseqrat-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. It names only displayed lower and upper dyadic endpoints at a requested precision, not a host real interval, quotient real equality, trichotomy, selected limits, countable choice, or ambient $\RealUp$ completeness.
+
+\begin{definition}[DyadicArchimedeanBracket carrier]
+\label{def:dyadic-archimedean-bracket-carrier}
+A $\DyadicArchimedeanBracketUp$ carrier is a finite $\BHist$ packet
+
+$$
+B=(L,U,E,W,R,S,H,C,P,N)
+$$
+
+with the following displayed rows:
+\begin{enumerate}
+\item $L$ is the lower $\DyadicRatCoreUp$ endpoint row read at the displayed precision.
+\item $U$ is the upper $\DyadicRatCoreUp$ endpoint row read at the same displayed precision.
+\item $E$ is the unary precision exponent row, naming the dyadic mesh on which $L$ and $U$ are compared.
+\item $W$ is the finite $\StreamNameUp$ window through which the real-name route is inspected before either endpoint is exposed.
+\item $R$ is the $\RegSeqRatUp$ handoff row reading the same window as regular rational data.
+\item $S$ is the terminal $\RealUp$ seal row reached only after the endpoint and handoff rows have been displayed.
+\item $H$ stores componentwise $\hsame$ transport for $L,U,E,W,R,S$.
+\item $C$ stores the displayed $\Cont$ replay route for reading the window, endpoints, handoff, and seal in that order.
+\item $P$ is the $\Pkg$ provenance over $\DyadicArchimedeanBracketUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\DyadicArchimedeanBracketUp}$ row.
+\end{enumerate}
+The carrier predicate asserts that these rows form one finite bracketing packet: $L$ and $U$ are displayed dyadic endpoints at precision $E$, both are read through $W$ and $R$, and the real-name seal $S$ is downstream of the same finite route.
+\end{definition}
+
+\begin{theorem}[DyadicArchimedeanBracket NameCert obligations]
+\label{thm:dyadic-archimedean-bracket-namecert-obligations}
+For every accepted $\DyadicArchimedeanBracketUp$ carrier $B=(L,U,E,W,R,S,H,C,P,N)$, the local $\NameCert_{\DyadicArchimedeanBracketUp}$ surface consists exactly of endpoint admission for $L$ and $U$, unary precision admission for $E$, finite window admission for $W$, regular-rational handoff through $R$, terminal real-name sealing through $S$, componentwise $\hsame$ transport through $H$, displayed $\Cont$ replay through $C$, $\Pkg$ provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier. The analytic rows are the lower endpoint $L$, the upper endpoint $U$, the precision exponent $E$, the inspected window $W$, the regular-rational handoff $R$, and the real-name seal $S$.
+
+The endpoint obligations are finite dyadic obligations. Both $L$ and $U$ are $\DyadicRatCoreUp$ rows at the precision named by $E$, so the bracket is read as displayed dyadic data rather than as an ambient real interval.
+
+The route obligations are the window and handoff rows. The $\StreamNameUp$ row $W$ fixes the inspected prefix, the $\RegSeqRatUp$ row $R$ reads the same prefix as regular rational data, and the $\RealUp$ seal $S$ appears only downstream of those rows.
+
+Finally $H,C,P,N$ transport, replay, source, and name the same packet. Since no coordinate stores quotient real equality, trichotomy, selected limits, countable choice, or ambient completeness, the local NameCert surface cannot project such data.
+\end{proof}
+
+\begin{theorem}[DyadicArchimedeanBracket L10 handoff]
+\label{thm:dyadic-archimedean-bracket-l10-handoff}
+Every Real-and-Completion consumer of an accepted $\DyadicArchimedeanBracketUp$ packet reaches the bracket through the finite route
+
+$$
+\StreamNameUp \longmapsto \DyadicRatCoreUp \longmapsto \RegSeqRatUp \longmapsto \RealUp .
+$$
+
+More concretely, the consumer first reads the finite window $W$, then the lower endpoint $L$, upper endpoint $U$, and precision exponent $E$, then the regular-rational handoff $R$, and only then the terminal seal $S$ with transport, replay, provenance, and naming supplied by $H,C,P,N$.
+\end{theorem}
+\begin{proof}
+Start with the NameCert obligations of \autoref{thm:dyadic-archimedean-bracket-namecert-obligations}. They expose $L,U,E,W,R,S,H,C,P,N$ as the complete public surface of the accepted packet.
+
+The window row $W$ is upstream of the endpoint rows because the endpoints are declared as observations of the inspected real-name route. The dyadic core rows $L,U,E$ are then read at the displayed precision before any regular-rational or real-name consumer can inspect the packet.
+
+The handoff row $R$ reads the same window as regular rational data, and the seal row $S$ is downstream of that handoff. The structural rows $H,C,P,N$ preserve the route without adding quotient streams, selected limits, countable choice, trichotomy, host real equality, or ambient $\RealUp$ completeness.
+\end{proof}
+
+\falsifiablePrediction{An accepted $\DyadicArchimedeanBracketUp$ consumer that reads a $\RealUp$ seal without the finite window $W$, endpoint rows $L,U$, precision exponent $E$, and regular-rational handoff $R$ refutes the carrier surface.}
+
+\independenceWitness{dyadicratcore, streamname, regseqrat, real: no listed sibling supplies the whole ten-row packet $B=(L,U,E,W,R,S,H,C,P,N)$, because each sibling contributes dyadic endpoints, finite windows, regular rational readback, or a terminal seal while this chapter binds the bracket, transport, replay, provenance, and local naming rows.}
+
+\closureat{DyadicArchimedeanBracketUp}{seedStr}
+
+\begin{closurestatus}{\DyadicArchimedeanBracketUp}
+  \constructivestory{A $\DyadicArchimedeanBracketUp$ packet is generated from lower and upper dyadic endpoint rows, a unary precision exponent, a finite StreamName window, a RegSeqRat handoff, a Real seal, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:dyadic-archimedean-bracket-carrier}, \autoref{thm:dyadic-archimedean-bracket-namecert-obligations}, and \autoref{thm:dyadic-archimedean-bracket-l10-handoff} seed the finite dyadic bracket route over DyadicRatCore, StreamName, RegSeqRat, and Real rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close host real intervals, quotient real equality, trichotomy, selected limits, countable choice, ambient $\RealUp$ completeness, Lean verification, or a standard bridge.}
+  \upgradepath{Obligation closure requires checked carrier admission, endpoint exactness, precision stability, StreamName window routing, RegSeqRat handoff, Real seal boundary, transport, replay, provenance, naming, and non-escape for the same packet rows.}
+\end{closurestatus}

@@ -52,11 +52,13 @@ For a request outside those coordinates, no row of $I$ supplies the requested pr
 
 Boundary exactness then prevents a boundary entry from being reclassified as a theorem of the substrate. The identity packet therefore exports only the displayed BEDC.MetaCIC commitments and keeps comparison-facing or host-theoretic supply outside the internal carrier.
 \end{proof}
+\leanchecked{BEDC.Derived.MetaCICIdentityUp.MetaCICIdentity\_boundary\_nonescape}
 
 \begin{theorem}[MetaCIC identity comparison is secondary]
 \label{thm:metacic-identity-comparison-secondary}
 Let $I=(G,E,R,A,B,H,C,P,N)$ be an accepted $\MetaCICIdentityUp$ carrier. Any comparison with classical CIC, audit-map methodology, or GroundCompiler audit evidence may read $I$ only after the five identity rows $G,E,R,A,B$ have already been fixed. Such a comparison can diagnose shared syntax, differing equality principles, differing axiom dependencies, or external sockets, but it cannot define the identity of BEDC.MetaCIC or add a new substrate commitment to $I$.
 \end{theorem}
+\leanchecked{BEDC.Derived.MetaCICIdentityUp.MetaCICIdentity\_comparison\_secondary}
 \begin{proof}
 Project the carrier. The identity rows $G,E,R,A,B$ are displayed before the transport, route, package, and naming rows that expose the packet to downstream consumers.
 
@@ -69,12 +71,41 @@ Finally apply boundary non-escape. If a comparison requests a classical conversi
 \label{thm:metacic-identity-generator-recursor-coverage}
 Let $I=(G,E,R,A,B,H,C,P,N)$ be an accepted $\MetaCICIdentityUp$ carrier. Every identity read that uses the closed-generator inventory and structural recursor authorization exposes exactly the finite rows $G,E,R,A,B,H,C,P,N$: $G$ supplies the generators, $E$ supplies literal AST identity, $R$ supplies the authorized structural recursors, $A$ supplies strict axiom-purity, $B$ supplies the boundary socket, and $H,C,P,N$ supply transport, replay, provenance, and local naming. This recursor coverage cannot become classical conversion, quotient equality, extensionality, choice, or a parent-CIC relation.
 \end{theorem}
+\leanchecked{BEDC.Derived.MetaCICIdentityUp.MetaCICIdentity\_generator\_recursor\_coverage}
 \begin{proof}
 Start with the carrier and NameCert obligations, \autoref{def:metacic-identity-carrier} and \autoref{thm:metacic-identity-namecert-obligations}. They display the generator inventory, literal AST equality row, structural recursor authorization, strict-purity witness, boundary socket, transport, continuation, provenance, and local naming as the whole identity packet.
 
 Use boundary non-escape, \autoref{thm:metacic-identity-boundary-nonescape}. A read that asks for conversion equality, quotient equality, extensionality, choice, or a parent-theory relation lands in $B$, because none of those requests is one of the generator or recursor rows exposed by $G,E,R,A$.
 
 Finally apply the comparison-secondary theorem \autoref{thm:metacic-identity-comparison-secondary}. Classical CIC, audit-map methodology, and GroundCompiler evidence may inspect the already fixed rows through $C,P,N$, but they do not define the identity packet and do not add a second recursor source. Hence generator-recursion coverage is exactly the displayed finite route through $G,E,R,A,B,H,C,P,N$.
+\end{proof}
+
+\begin{theorem}[MetaCIC identity obligation boundary]
+\label{thm:metacic-identity-obligation-boundary}
+An obligationClosure read of $\MetaCICIdentityUp$ is exactly the displayed route through $G,E,R,A,B,H,C,P,N$. Classical CIC comparison, audit-map methodology, and GroundCompiler evidence may inspect those fixed rows, but they cannot add a generator, equality rule, recursor principle, purity witness, boundary socket, internal theorem row, or parent-theory relation to the identity packet.
+\end{theorem}
+\leanchecked{BEDC.Derived.MetaCICIdentityUp.MetaCICIdentity\_obligation\_boundary}
+\begin{proof}
+Start with the carrier and NameCert obligations. They display the closed-generator inventory, literal AST equality row, structural recursor authorization, strict-purity witness, apophatic boundary socket, transport, replay, provenance, and local naming as the full packet.
+
+Use boundary non-escape. Any request for conversion equality, quotient soundness, propositional extensionality, choice, or a parent-CIC relation lands in $B$ and is not reclassified as an internal identity row.
+
+Use comparison-secondary and generator-recursor coverage. External comparison surfaces may inspect the already fixed rows through $C,P,N$, but inspection does not supply a new generator, equality rule, recursor source, purity witness, boundary socket, or theorem row.
+
+Therefore the obligation boundary is exactly $G,E,R,A,B,H,C,P,N$, with every comparison-facing request remaining outside the identity carrier.
+\end{proof}
+
+\begin{theorem}[MetaCIC identity audit-map route]
+\label{thm:metacic-identity-audit-map-route}
+Every accepted $\MetaCICIdentityUp$ consumer reading BEDC.MetaCIC through its own substrate must first expose the $\AuditMapFamilyUp$ row and the $\GroundCompilerAuditMapUp$ row named by $P$, then the $\BHist$, $\hsame$, $\Cont$, and local $\NameCert$ route carried by $G,E,R,A,B,H,C,P,N$. Classical CIC is not a parent coordinate of this read, because the audit-map rows mediate the consumer route before any comparison-facing request can inspect the identity packet.
+\end{theorem}
+\leanchecked{BEDC.Derived.MetaCICIdentityUp.MetaCICIdentity\_audit\_map\_route}
+\begin{proof}
+Project the carrier of \autoref{def:metacic-identity-carrier}. The provenance row $P$ names the audit-map family and GroundCompiler audit-map packets together with the identity rows $G,E,R,A,B,H,C,N$.
+
+Apply \autoref{thm:metacic-identity-namecert-obligations}. A consumer must read the displayed generator, equality, recursor, purity, boundary, transport, continuation, provenance, and local naming rows before exporting the identity packet.
+
+Use \autoref{thm:metacic-identity-obligation-boundary}. Classical CIC comparison remains a comparison-facing request; it cannot add a generator, equality rule, recursor principle, purity witness, or parent coordinate. Thus the audit-map and GroundCompiler audit-map rows mediate the accepted read of BEDC.MetaCIC through its own substrate.
 \end{proof}
 
 \closureat{MetaCICIdentityUp}{seedStr}

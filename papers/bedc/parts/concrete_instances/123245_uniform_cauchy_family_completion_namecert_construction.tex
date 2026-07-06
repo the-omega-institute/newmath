@@ -1,0 +1,86 @@
+\chapter{A Concrete Naming Certificate for $\UniformCauchyFamilyCompletionUp$}
+\label{ch:concrete-instances-uniform-cauchy-family-completion-namecert}
+\origin{human}
+
+Following Bishop and Bridges on constructive Cauchy completion and Kelley on uniform families, the $\UniformCauchyFamilyCompletionUp$ packet records the finite L10 route by which a family-level uniform Cauchy read becomes a Real-facing completion handoff. It sits after the shared threshold discipline of \autoref{ch:concrete-instances-uniformcauchycriterion-namecert}, the equicontinuous family surface of \autoref{ch:concrete-instances-equicontinuous-cauchy-family-namecert}, the stream and regular-rational rows of \autoref{ch:concrete-instances-streamname-namecert} and \autoref{ch:concrete-instances-regseqrat-namecert}, the terminal Real seal of \autoref{ch:concrete-instances-real-namecert}, and the universal handoff of \autoref{ch:concrete-instances-real-completion-universal-property-namecert}. The packet names only displayed family thresholds, finite windows, regular-rational readback, Real seals, transport, replay, provenance, and local naming; it does not import quotient streams, selected limits, countable choice, host equality, or ambient Real completeness.
+
+\begin{definition}[Uniform Cauchy family completion carrier]
+\label{def:uniform-cauchy-family-completion-carrier}
+A $\UniformCauchyFamilyCompletionUp$ carrier is a finite $\BHist$ packet
+$$
+K=(U,F,T,W,R,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $U$ is the $\UniformCauchyCriterionUp$ row recording the shared uniform Cauchy criterion inspected by the family consumer.
+\item $F$ is the $\EquicontinuousCauchyFamilyUp$ family row, including the equicontinuity and common source-window data consumed by the same request.
+\item $T$ is the shared threshold schedule row binding the uniform criterion row and family row to one displayed tail budget.
+\item $W$ is the $\StreamNameUp$ finite-window row exposed by that threshold schedule.
+\item $R$ is the $\RegSeqRatUp$ readback row for the regular rational data visible in $W$.
+\item $E$ is the terminal $\RealUp$ seal row reached only through $U,F,T,W,R$.
+\item $H$ records componentwise $\hsame$ transport for the criterion, family, threshold, window, readback, Real seal, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from a completion-facing request through $U,F,T,W,R,E$ and then through the structural rows.
+\item $P$ is the $\Pkg$ provenance over $\UniformCauchyFamilyCompletionUp$, $\UniformCauchyCriterionUp$, $\EquicontinuousCauchyFamilyUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\RealCompletionUniversalPropertyUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\UniformCauchyFamilyCompletionUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $U,F,T,W,R,E,H,C,P,N$. It has no coordinate for quotient stream equality, selected family limits, countable choice, host equality, or ambient $\RealUp$ completeness.
+\end{definition}
+\leanstmt{BEDC.Derived.UniformCauchyFamilyCompletionUp}
+
+\begin{theorem}[Uniform Cauchy family completion NameCert obligations]
+\label{thm:uniform-cauchy-family-completion-namecert-obligations}
+For every accepted $\UniformCauchyFamilyCompletionUp$ carrier
+$$
+K=(U,F,T,W,R,E,H,C,P,N),
+$$
+the local $\NameCert_{\UniformCauchyFamilyCompletionUp}$ surface consists exactly of carrier admission, shared-threshold exactness through $U,F,T$, finite-window replay through $W,C$, regular-rational readback through $R$, Real-seal handoff through $E$, componentwise transport through $H$, provenance through $P$, ledger nonescape, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:uniform-cauchy-family-completion-carrier}. The tuple lists the uniform criterion row, family row, shared threshold, finite windows, regular readback, Real seal, and structural rows as the whole accepted surface.
+
+The shared-threshold obligation is read first. The row $U$ supplies the uniform Cauchy criterion, the row $F$ supplies the equicontinuous family data, and the row $T$ binds them to one displayed tail budget before any window or seal can be consumed.
+
+Next the finite-window and readback obligations are exposed through $W$ and $R$. The replay row $C$ records that a completion-facing request reads those finite windows and regular rational data in that order.
+
+Finally $E,H,P,N$ seal, transport, source, and name the same packet. Since the carrier has no quotient stream equality, selected limit, countable-choice schedule, host equality, or ambient Real-completeness coordinate, the listed rows exhaust the local NameCert obligations and the ledger has no escape row.
+\end{proof}
+
+\begin{theorem}[Uniform Cauchy family completion Real-seal handoff]
+\label{thm:uniform-cauchy-family-completion-real-seal-handoff}
+Every completion-facing family read of an accepted $\UniformCauchyFamilyCompletionUp$ packet passes through
+$$
+\UniformCauchyCriterionUp
+\longmapsto
+\EquicontinuousCauchyFamilyUp
+\longmapsto
+\StreamNameUp
+\longmapsto
+\RegSeqRatUp
+\longmapsto
+\RealUp
+$$
+using the rows $U,F,T,W,R,E,H,C,P,N$. The exported handoff is a finite Real-seal route; it exports no quotient stream, selected limit, countable choice, host equality, or ambient Real completeness.
+\end{theorem}
+\begin{proof}
+Start with the NameCert obligations of \autoref{thm:uniform-cauchy-family-completion-namecert-obligations}. They force the family consumer to display the uniform criterion row $U$, the family row $F$, and the shared threshold row $T$ before the finite windows are read.
+
+The window and readback stage is then fixed by $W$ and $R$. The Real seal $E$ is downstream of that displayed readback, so a completion-facing consumer reaches the terminal Real row only after the family threshold and finite-window route have been shown.
+
+The rows $H,C,P,N$ transport, replay, source, and name the same finite route. None of them adds a quotient stream, selected family limit, countable-choice datum, host equality test, or ambient completeness principle, so every exported read remains the displayed Real-seal handoff.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\UniformCauchyFamilyCompletionUp$ family-completion read must display UniformCauchyCriterion, EquicontinuousCauchyFamily, a shared threshold schedule, StreamName finite windows, RegSeqRat readback, a Real seal, hsame transport, Cont replay, Pkg provenance, and local naming.}
+
+\independenceWitness{uniformcauchycriterion, equicontinuous-cauchy-family, streamname, regseqrat, real, real-completion-universal-property: no listed sibling is bijective to $\UniformCauchyFamilyCompletionUp$ because this packet binds the shared family threshold, finite window replay, regular readback, Real seal, transport, replay, provenance, and local NameCert rows in one completion-facing carrier.}
+
+\closureat{UniformCauchyFamilyCompletionUp}{seedStr}
+
+\begin{closurestatus}{\UniformCauchyFamilyCompletionUp}
+  \constructivestory{A $\UniformCauchyFamilyCompletionUp$ packet is generated from a UniformCauchyCriterion row, an EquicontinuousCauchyFamily row, a shared threshold schedule, StreamName finite windows, RegSeqRat readback, a terminal Real seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and local NameCert naming.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:uniform-cauchy-family-completion-carrier}, \autoref{thm:uniform-cauchy-family-completion-namecert-obligations}, and \autoref{thm:uniform-cauchy-family-completion-real-seal-handoff} seed the finite family-completion handoff consumed by L10 Real and Completion routes.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient stream equality, selected family limits, countable choice, host equality, ambient $\RealUp$ completeness, theorem-checked verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, shared-threshold exactness, finite-window replay, regular readback, Real-seal handoff, transport, replay, provenance, and local naming for BEDC.Derived.UniformCauchyFamilyCompletionUp.}
+\end{closurestatus}

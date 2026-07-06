@@ -1,0 +1,82 @@
+\chapter{A Concrete Naming Certificate for $\RegularCauchyBolzanoWeierstrassUp$}
+\label{ch:concrete-instances-regular-cauchy-bolzano-weierstrass-namecert}
+\origin{human}
+
+Following Bishop and Bridges-style constructive Bolzano--Weierstrass arguments, the $\RegularCauchyBolzanoWeierstrassUp$ packet records only the explicit-data route: a bounded $\RealUp$ stream together with a displayed dyadic nested-interval and subsequence schedule yields a $\RegSeqRatUp$ and $\RealUp$ cluster-name packet. It sits after the bounded sequence surface of \autoref{ch:concrete-instances-boundedrealsequence-namecert}, the finite stream-window rows of \autoref{ch:concrete-instances-streamname-namecert}, the dyadic tolerance ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the separation boundary of \autoref{ch:concrete-instances-regularcauchyseparation-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. The carrier names the route from finite interval data to a cluster-name packet; it does not assert unqualified sequential compactness, open-cover compactness, selected host subsequences, countable choice, quotient real equality, or ambient $\RealUp$ completeness.
+
+\begin{definition}[Regular Cauchy Bolzano--Weierstrass carrier]
+\label{def:regular-cauchy-bolzano-weierstrass-carrier}
+A $\RegularCauchyBolzanoWeierstrassUp$ carrier is a finite $\BHist$ packet
+$$
+K=(S,B,I,J,R,E,Z,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the bounded $\RealUp$ stream row, read through finite $\StreamNameUp$ windows and the bounded-source surface of \autoref{ch:concrete-instances-boundedrealsequence-namecert}.
+\item $B$ is the displayed bound and dyadic bracket row, naming the lower and upper dyadic interval endpoints used by the construction.
+\item $I$ is the nested-interval ledger, recording at stage $m$ a closed dyadic interval $I_m$ with $I_{m+1}\subseteq I_m$ and diameter at most $2^{-m}$.
+\item $J$ is the monotone subsequence schedule, recording finite indices $j_0<j_1<\cdots<j_m$ with the inspected source values lying in the corresponding intervals $I_0,\ldots,I_m$.
+\item $R$ is the $\RegSeqRatUp$ readback row obtained from the dyadic centers, interval diameters, and schedule $J$.
+\item $E$ is the $\RealUp$ cluster-name seal reached only after $S,B,I,J,R$ have all been displayed.
+\item $Z$ is the $\RegularCauchySeparationUp$ boundary row, recording that equality or separation reads of the cluster name pass through regular rational windows before $E$ is consumed.
+\item $H$ records componentwise $\hsame$ transport for the source stream, bounds, nested intervals, subsequence schedule, regular readback, cluster seal, separation boundary, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from bounded-stream inspection through dyadic interval refinement, subsequence scheduling, regular rational readback, separation-boundary preservation, and Real sealing.
+\item $P$ is the $\Pkg$ provenance over $\RegularCauchyBolzanoWeierstrassUp$, $\BoundedRealSequenceUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, $\RegularCauchySeparationUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\RegularCauchyBolzanoWeierstrassUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $S,B,I,J,R,E,Z,H,C,P,N$.
+\end{definition}
+
+\begin{theorem}[Regular Cauchy Bolzano--Weierstrass NameCert obligations]
+\label{thm:regular-cauchy-bolzano-weierstrass-namecert-obligations}
+For every accepted $\RegularCauchyBolzanoWeierstrassUp$ carrier
+$$
+K=(S,B,I,J,R,E,Z,H,C,P,N),
+$$
+the local $\NameCert_{\RegularCauchyBolzanoWeierstrassUp}$ surface consists exactly of bounded stream admission through $S$, displayed dyadic bracketing through $B$, nested-interval refinement through $I$, monotone subsequence scheduling through $J$, regular rational readback through $R$, terminal cluster-name sealing through $E$, separation-boundary preservation through $Z$, componentwise $\hsame$ transport through $H$, displayed $\Cont$ replay through $C$, $\Pkg$ provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:regular-cauchy-bolzano-weierstrass-carrier}. The analytic rows are $S,B,I,J,R,E,Z$, and the structural rows are $H,C,P,N$.
+
+The bounded source is read through $S$ before any interval refinement is available. The dyadic bracket $B$ and nested ledger $I$ then display the finite interval route, including containment of successive intervals and the diameter budget at each inspected stage.
+
+The subsequence schedule $J$ is tied to those same intervals. It records only the displayed monotone indices already witnessed by the finite construction, so it is not an independent host-level selector.
+
+Rows $R$ and $E$ are downstream of the schedule. The regular rational readback $R$ consumes dyadic centers, diameter data, and $J$ before the terminal $\RealUp$ cluster-name seal $E$ can be read.
+
+Finally $Z,H,C,P,N$ preserve the same route. They add separation-boundary routing, transport, replay, provenance, and local naming, but no coordinate for open-cover compactness, countable choice, quotient equality, selected host subsequences, or ambient Real completeness.
+\end{proof}
+
+\begin{theorem}[Regular Cauchy Bolzano--Weierstrass explicit subsequence route]
+\label{thm:regular-cauchy-bolzano-weierstrass-explicit-subsequence-route}
+Every $\RegularCauchyBolzanoWeierstrassUp$ consumer that reads a cluster-name packet from an accepted carrier must pass through the displayed route
+$$
+\BoundedRealSequenceUp \longmapsto \StreamNameUp \longmapsto \DyadicRatCoreUp \longmapsto \RegSeqRatUp \longmapsto \RegularCauchySeparationUp \longmapsto \RealUp .
+$$
+The route exports a bounded source stream, finite inspection windows, a dyadic nested-interval ledger, a monotone finite subsequence schedule, regular rational readback, the separation boundary, and a terminal Real seal. It exports no unqualified sequential compactness theorem, open-cover compactness theorem, countable-choice subsequence selector, quotient real equality, selected host limit, or ambient $\RealUp$ completeness coordinate.
+\end{theorem}
+\begin{proof}
+Use the NameCert obligations of \autoref{thm:regular-cauchy-bolzano-weierstrass-namecert-obligations}. They place the bounded source row, dyadic bracket row, nested-interval ledger, and subsequence schedule before the regular rational readback and the terminal Real seal.
+
+The finite windows are visible through the same stream route. A consumer first reads the bounded source and the inspected windows, then the dyadic interval choices and diameter budgets, and only then the monotone indices selected by the displayed construction.
+
+The regular rational row turns the interval centers and diameter bounds into a cluster-name readback. The separation boundary of \autoref{ch:concrete-instances-regularcauchyseparation-namecert} keeps equality and separation reads routed through regular Cauchy data before $E$ is consumed.
+
+The excluded principles are absent from the carrier. Since no row stores an arbitrary selector, a quotient equality, open-cover compactness, countable choice, a selected host limit, or ambient completeness, no consumer can receive one from this packet.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\RegularCauchyBolzanoWeierstrassUp$ cluster-name read exposes a bounded RealUp source stream, finite StreamName windows, a dyadic nested-interval ledger, a monotone subsequence schedule, RegSeqRat readback, a RegularCauchySeparationUp boundary row, a RealUp seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and local naming.}
+
+\independenceWitness{boundedrealsequence, streamname, dyadicratcore, regseqrat, regularcauchyseparation, real: $\RegularCauchyBolzanoWeierstrassUp$ is not bijective to any listed sibling because it jointly carries bounded stream inspection, nested dyadic intervals, explicit subsequence scheduling, regular rational readback, separation-boundary routing, Real sealing, transport, replay, provenance, and local NameCert in one packet.}
+
+\closureat{RegularCauchyBolzanoWeierstrassUp}{seedStr}
+
+\begin{closurestatus}{\RegularCauchyBolzanoWeierstrassUp}
+  \constructivestory{A $\RegularCauchyBolzanoWeierstrassUp$ packet is generated from a bounded RealUp stream, finite StreamName windows, dyadic bracket and nested-interval rows, a monotone subsequence schedule, RegSeqRat readback, a RegularCauchySeparationUp boundary row, a RealUp cluster-name seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:regular-cauchy-bolzano-weierstrass-carrier}, \autoref{thm:regular-cauchy-bolzano-weierstrass-namecert-obligations}, and \autoref{thm:regular-cauchy-bolzano-weierstrass-explicit-subsequence-route} seed the explicit bounded-stream, nested-interval, subsequence-schedule route to a regular Cauchy cluster-name packet.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim unqualified sequential compactness, open-cover compactness, countable choice, selected host subsequences, quotient real equality, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, bounded-stream visibility, dyadic nested-interval exactness, subsequence-schedule exactness, RegSeqRat readback, separation-boundary preservation, Real seal nonescape, transport, replay, provenance, and local naming for BEDC.Derived.RegularCauchyBolzanoWeierstrassUp.}
+\end{closurestatus}

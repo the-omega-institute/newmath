@@ -26,6 +26,7 @@ with the following displayed rows:
 \end{enumerate}
 The carrier exposes only a finite height-window count ledger. It contains no completed zero-set quotient, no proof that the listed packets exhaust all analytic zeros below the height, no analytic-continuation constructor, and no proof of $\mathsf{RH}$.
 \end{definition}
+\leanchecked{BEDC.Derived.RiemannZeroCountLedgerUp.RiemannZeroCountLedgerTasteGate\_single\_carrier\_alignment}
 
 \begin{theorem}[RiemannZeroCountLedger NameCert obligations]
 \label{thm:riemann-zero-count-ledger-namecert-obligations}
@@ -73,6 +74,7 @@ The remaining rows $H,C,P,N$ provide transport, replay, provenance, and local na
 \label{thm:riemann-zero-count-ledger-height-filter-stability}
 For every accepted $\RiemannZeroCountLedgerUp$ carrier $L=(T,Z,U,M,E,H,C,P,N)$, a transported zero-count read preserves the displayed height request row $T$ before the finite zero packet list $Z$ is filtered. The componentwise $\hsame$ row $H$ and displayed $\Cont$ replay row $C$ may transport and replay the height request, but they cannot replace $T$ by a new height window, a host real bound, or an untracked zero-set predicate.
 \end{theorem}
+\leanchecked{BEDC.Derived.RiemannZeroCountLedgerUp.RiemannZeroCountLedgerCarrier\_height\_filter\_stability}
 \begin{proof}
 Project the carrier of \autoref{def:riemann-zero-count-ledger-carrier}. The height request is the coordinate $T$, and the zero packet list $Z$ is filtered only after that coordinate is read.
 
@@ -111,16 +113,45 @@ Now use the hypothesis on the componentwise transport and replay rows. The $\hsa
 
 Consequently the transported export preserves the displayed finite list and its unary count. Any attempt to read a different finite list, host cardinality, zero-set completeness theorem, or analytic continuation would bypass the named coordinates and would no longer be a transported read of the accepted packet.
 \end{proof}
+\leanchecked{BEDC.Derived.RiemannZeroCountLedgerUp.RiemannZeroCountLedgerCarrier\_zero\_list\_count\_transport}
+
+\begin{theorem}[RiemannZeroCountLedger formal-target contract]
+\label{thm:riemann-zero-count-ledger-formal-target-contract}
+Every accepted $\RiemannZeroCountLedgerUp$ zero-count ledger read factors through the displayed critical-line witness, zeta-zero packet, finite height window, comparison-error ledger, unary count row, and local $\NameCert$ provenance before it can be offered to a Lean formal target. The contract explicitly refuses $\mathsf{RH}$, analytic continuation, zero-set completeness, host cardinality, and bridge checking.
+\end{theorem}
+\begin{proof}
+Start with the window exhaustion theorem, \autoref{thm:riemann-zero-count-ledger-window-exhaustion}. It restricts every RH-facing zero-count read to the displayed rows $T,Z,U,M,E,H,C,P,N$.
+
+Apply height-filter stability from \autoref{thm:riemann-zero-count-ledger-height-filter-stability}. The finite height window remains the displayed row $T$ before the zero packet list $Z$ is filtered.
+
+Next apply comparison-error nonescape, \autoref{thm:riemann-zero-count-ledger-comparison-error-nonescape}. The comparison ledger $M$ and explicit error row $E$ must be read before the unary count row is exported.
+
+Finally apply zero-list count transport from \autoref{thm:riemann-zero-count-ledger-zero-list-count-transport}. The transported formal-target offer preserves the same finite zero list and unary count, while $H,C,P,N$ provide only transport, replay, provenance, and local naming. Since no carrier coordinate stores $\mathsf{RH}$, analytic continuation, zero-set completeness, host cardinality, or a bridge certificate, those endpoints remain refused.
+\end{proof}
+\leanchecked{BEDC.Derived.RiemannZeroCountLedgerUp.RiemannZeroCountLedgerCarrier\_formal\_target\_contract}
+
+\begin{theorem}[RiemannZeroCountLedger obligation routing]
+\label{thm:riemann-zero-count-ledger-obligation-routing}
+For every accepted $\RiemannZeroCountLedgerUp$ carrier $L=(T,Z,U,M,E,H,C,P,N)$, an RH-facing consumer may use the packet only after all local obligations have been read through the displayed rows $T,Z,U,M,E,H,C,P,N$. Carrier admission is the displayed tuple, height-window binding is the row $T$, zero-list visibility is the row $Z$, unary-count exactness is the row $U$, comparison-error exactness is the pair $M,E$, and non-escape is enforced by the transport, continuation, provenance, and local naming rows $H,C,P,N$.
+\end{theorem}
+\begin{proof}
+Begin with the NameCert obligations of \autoref{thm:riemann-zero-count-ledger-namecert-obligations}. They identify carrier admission, height-window binding, zero-list visibility, unary-count exactness, comparison-error exposure, and non-escape as obligations on the single displayed packet.
+
+Use window exhaustion and comparison-error nonescape next. \autoref{thm:riemann-zero-count-ledger-window-exhaustion} confines the RH-facing read to $T,Z,U,M,E,H,C,P,N$, and \autoref{thm:riemann-zero-count-ledger-comparison-error-nonescape} requires $M$ and $E$ before the unary count is exported.
+
+Finally apply zero-list count transport and the formal-target contract. \autoref{thm:riemann-zero-count-ledger-zero-list-count-transport} preserves the displayed $Z$ and $U$ rows under transport, while \autoref{thm:riemann-zero-count-ledger-formal-target-contract} refuses RH proof, analytic continuation, zero-set completeness, host cardinality, and bridge endpoints. Thus every consumer-facing use is obligation-routed through the displayed finite rows.
+\end{proof}
+\leanchecked{BEDC.Derived.RiemannZeroCountLedgerUp.RiemannZeroCountLedgerCarrier\_obligation\_routing}
 
 \closureat{RiemannZeroCountLedgerUp}{seedStr}
 
 \begin{closurestatus}{\RiemannZeroCountLedgerUp}
   \constructivestory{A $\RiemannZeroCountLedgerUp$ packet is generated from a $\NatUp$ height request, a finite list of $\CriticalStripZetaZeroWitnessUp$ packets, a $\UnaryHistory$ count row, a Riemann-von Mangoldt comparison ledger, an explicit error row, displayed $\hsame$ transports, $\Cont$ routes, $\Pkg$ provenance, and a local $\NameCert$ row.}
-  \theoryclosure{\seedClosure}
-  \scopeclosed{The seed scope records the finite height-window zero-count carrier, local naming obligations, unary-count exactness, comparison-error ledger, and RH-facing readback boundary.}
+  \theoryclosure{\obligationClosure}
+  \scopeclosed{\autoref{def:riemann-zero-count-ledger-carrier}, \autoref{thm:riemann-zero-count-ledger-namecert-obligations}, \autoref{thm:riemann-zero-count-ledger-window-exhaustion}, \autoref{thm:riemann-zero-count-ledger-comparison-error-nonescape}, \autoref{thm:riemann-zero-count-ledger-zero-list-count-transport}, \autoref{thm:riemann-zero-count-ledger-formal-target-contract}, and \autoref{thm:riemann-zero-count-ledger-obligation-routing} bind the finite height-window zero-count carrier, local naming obligations, unary-count exactness, comparison-error ledger, non-escape, and RH-facing obligation boundary.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{human}
   \notclaimed{This chapter does not prove $\mathsf{RH}$, construct analytic continuation, enumerate all analytic zeros, close zero-set completeness, assert host cardinality, or provide bridge checking.}
-  \upgradepath{Obligation closure requires checked carrier admission, height-window binding, zero-list visibility, unary-count exactness, comparison-error ledger exactness, and non-escape for the displayed zero-count packet.}
+  \upgradepath{Public closure requires a reusable export theorem for the displayed height-window zero-count packet, preserving the same RH refusal, analytic-continuation refusal, zero-set-completeness refusal, host-cardinality refusal, and bridge boundary.}
 \end{closurestatus}

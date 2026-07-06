@@ -106,6 +106,22 @@ Apply the preservation boundary, failure boundary, and TasteGate contract of \au
 Finally read the sibling anchors already named in the chapter introduction and in the provenance row $K$: \autoref{ch:concrete-instances-metacicnormalizationfrontier-namecert}, \autoref{ch:concrete-instances-interhistinvariant-namecert}, \autoref{ch:concrete-instances-auditmapinterface-namecert}, and \autoref{ch:concrete-instances-apophaticname-namecert}. They supply normalization-frontier, inter-Hist, audit-map, and apophatic rows only as scoped dependencies, not as permissions to identify $A$ with $B$ or to drop $Q$ and $E$.
 \end{proof}
 
+\begin{theorem}[LayeredRelationCert public export]
+\label{thm:layered-relation-cert-public-export}
+Every public $\LayeredRelationCertUp$ export is the same-schema packet over
+$$
+S,A,B,L,M,P,Q,V,W,E,F,H,C,K,N .
+$$
+The export preserves the preservation-boundary row $P$, the failure-boundary rows $Q,E,F$, the ledger and exactness rows $V,W$, and the structural rows $H,C,K,N$. A public consumer may cite the packet as a relation certificate between the displayed source rows $A,B$, but the same-schema ledger cannot export object identity, erase the not-preserved row $Q$, bypass the failure-boundary row $E$, or replace the carrier by an ambient relation outside the finite packet.
+\end{theorem}
+\begin{proof}
+Project the scoped row discipline of \autoref{thm:layeredrelationcert-scope-closure}. It already fixes $S,A,B,L,M,P,Q,V,W,E,F,H,C,K,N$ as the complete row list available to a same-schema read.
+
+Apply the preservation boundary and failure boundary, \autoref{thm:layered-relation-preservation-boundary} and \autoref{thm:layered-relation-failure-boundary}. The preservation row $P$ is public only through the source rows, layer map, classifier row, provenance ledger, exactness row, and structural rows, while $Q,E,F$ remain visible for content that is not preserved and for overstrong requests.
+
+Finally use the checked TasteGate contract of \autoref{thm:layered-relation-namecert-tastegate-contract}. Its carrier alignment preserves the same finite field surface, so the public export is exactly the displayed packet. Because no carrier coordinate identifies $A$ with $B$, deletes $Q$, bypasses $E$, or supplies an ambient relation, the same-schema ledger cannot escape those boundaries.
+\end{proof}
+
 \falsifiablePrediction{If the not-preserved row is removed, same-schema relation certificates collapse into object-identity claims and cannot pass the failure-boundary readback.}
 
 \independenceWitness{metacicnormalizationfrontier, interhistinvariant, auditmapinterface, apophaticname, consciousobserverstate: none is bijective because LayeredRelationCertUp carries the same-schema request, paired source rows, layer map, preserved row, not-preserved row, exactness row, failure boundary, and strength row together, while those siblings separately supply frontier evidence, inter-Hist invariants, audit-map inventory, apophatic refusal, or observer-state surfaces without this full relation-certificate packet.}
@@ -114,11 +130,11 @@ Finally read the sibling anchors already named in the chapter introduction and i
 
 \begin{closurestatus}{\LayeredRelationCertUp}
   \constructivestory{A $\LayeredRelationCertUp$ packet is generated from a same-schema request row, paired source-domain rows, a finite layer map, classifier rows, preserved and not-preserved rows, provenance and exactness ledgers, failure and strength rows, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
-  \theoryclosure{\scopedClosure}
-  \scopeclosed{\autoref{def:layered-relation-namecert-carrier}, \autoref{thm:layered-relation-namecert-surface}, \autoref{thm:layered-relation-preservation-boundary}, \autoref{thm:layered-relation-failure-boundary}, \autoref{thm:layered-relation-namecert-tastegate-contract}, and \autoref{thm:layeredrelationcert-scope-closure} close the same-schema scope on rows $S,A,B,L,M,P,Q,V,W,E,F,H,C,K,N$ and the MetaCICNormalizationFrontierUp, InterHistInvariantUp, AuditMapInterfaceUp, and ApophaticNameUp sibling anchors.}
+  \theoryclosure{\publicClosure}
+  \scopeclosed{\autoref{def:layered-relation-namecert-carrier}, \autoref{thm:layered-relation-namecert-surface}, \autoref{thm:layered-relation-preservation-boundary}, \autoref{thm:layered-relation-failure-boundary}, \autoref{thm:layered-relation-namecert-tastegate-contract}, \autoref{thm:layeredrelationcert-scope-closure}, and \autoref{thm:layered-relation-cert-public-export} close the public same-schema export on rows $S,A,B,L,M,P,Q,V,W,E,F,H,C,K,N$ and the MetaCICNormalizationFrontierUp, InterHistInvariantUp, AuditMapInterfaceUp, and ApophaticNameUp sibling anchors.}
   \formalstatus{\axiomCleanV}
   \leantarget{BEDC.Derived.LayeredRelationCertUp.LayeredRelationCertTasteGate\_single\_carrier\_alignment}
   \bridgestatus{none}
   \notclaimed{This chapter does not close object identity between the source domains, physical-to-formal derivation, bridge checking, or relation reads that bypass the not-preserved and failure rows.}
-  \upgradepath{Scoped closure requires checked public-object stability for the displayed rows $S,A,B,L,M,P,Q,V,W,E,F,H,C,K,N$, including preservation-boundary, failure-boundary, and same-schema ledger nonescape obligations.}
+  \upgradepath{A bridge theorem must connect the public same-schema export to the standard bridge schema without changing the formal carrier target.}
 \end{closurestatus}

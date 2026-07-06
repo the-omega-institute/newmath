@@ -1,0 +1,75 @@
+\chapter{A Concrete Naming Certificate for $\KanFibrationUp$}
+\label{ch:concrete-instances-kan-fibration-namecert}
+\origin{human}
+
+Following Kan and Quillen, the $\KanFibrationUp$ packet records the finite lifting surface by which a simplicial-set map displays horn fillers while remaining visible to the model-category fibration route. It sits after the face-and-degeneracy ledger of \autoref{ch:concrete-instances-simplicialset-namecert}, the lifting and factorization surface of \autoref{ch:concrete-instances-modelcat-namecert}, and the finite replacement packet of \autoref{ch:concrete-instances-cofibrantreplacement-namecert}. The carrier names only a displayed simplicial map, horn-boundary packet, finite filler witness, model-category fibration route, transport, replay, provenance, and local naming; it does not import a host simplicial presheaf, a global filler choice function, a completed model structure, or an ambient homotopy theorem.
+
+\begin{definition}[Kan fibration carrier]
+\label{def:kan-fibration-carrier}
+A $\KanFibrationUp$ carrier is a finite $\BHist$ packet
+$$
+K=(S,A,B,F,M,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the source $\SimplicialSetUp$ map row, carrying the displayed domain, codomain, face, and degeneracy ledger of the map under inspection.
+\item $A$ is the horn-boundary packet, naming the finite horn shape, missing face, boundary inclusion, and compatibility rows read from the simplicial-set sibling.
+\item $B$ is the finite filler witness, recording one displayed simplex row and its boundary checks for the horn packet $A$.
+\item $F$ is the $\ModelCatUp$ fibration route, reading the same map as a displayed fibration-class row inside the model-category lifting surface.
+\item $M$ is the lifting-square route that binds the horn inclusion, the source map, the filler witness, and the fibration row into one finite lifting packet.
+\item $H$ records componentwise $\hsame$ transport for the simplicial map, horn-boundary packet, filler witness, model-category fibration route, lifting square, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from a horn-lifting request through $S,A,B,F,M,H,P,N$.
+\item $P$ is the $\Pkg$ provenance over $\KanFibrationUp$, $\SimplicialSetUp$, $\ModelCatUp$, $\CofibrantReplacementUp$, $\HomotopyUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\KanFibrationUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $S,A,B,F,M,H,C,P,N$. It stores no global filler function, no host simplicial set, no quotient homotopy class, no ambient model-category axiom, and no selected fibrant replacement object.
+\end{definition}
+
+\begin{theorem}[Kan fibration NameCert obligations]
+\label{thm:kan-fibration-namecert-obligations}
+For every accepted $\KanFibrationUp$ carrier
+$$
+K=(S,A,B,F,M,H,C,P,N),
+$$
+the local $\NameCert_{\KanFibrationUp}$ surface consists exactly of source simplicial-map admission through $S$, horn-boundary exposure through $A$, finite filler-witness exposure through $B$, model-category fibration-route exposure through $F$, lifting-square compatibility through $M$, componentwise $\hsame$ transport through $H$, displayed $\Cont$ replay through $C$, package provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:kan-fibration-carrier}. The analytic rows are the simplicial map $S$, horn-boundary packet $A$, finite filler witness $B$, model-category fibration route $F$, and lifting-square row $M$.
+
+The horn data are read through the simplicial-set sibling of \autoref{ch:concrete-instances-simplicialset-namecert}. The fibration route is read through the model-category sibling of \autoref{ch:concrete-instances-modelcat-namecert}, and replacement-facing consumers may cite the finite packet of \autoref{ch:concrete-instances-cofibrantreplacement-namecert} only through the provenance row.
+
+The structural rows $H,C,P,N$ transport, replay, source, and name the same finite lifting packet. Since the carrier has no coordinate for a global filler choice, host simplicial presheaf, quotient homotopy class, completed model structure, or selected replacement object, these rows exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[Kan fibration horn-lifting scope]
+\label{thm:kan-fibration-horn-lifting-scope}
+Every horn-lifting read exported by an accepted $\KanFibrationUp$ carrier factors through
+$$
+S,A,B,F,M,H,C,P,N.
+$$
+The read may expose the horn boundary, one finite filler witness, and the model-category fibration route for the displayed simplicial map, but it cannot claim functorial fillers, ambient fibrancy of every object, a host lifting theorem, quotient equality of homotopy classes, or a global model-category construction.
+\end{theorem}
+\begin{proof}
+Begin with a horn-lifting request. The carrier has no direct global lifting coordinate, so the request must first read the simplicial map row $S$ and the horn-boundary packet $A$.
+
+The filler row $B$ is then inspected only as a finite witness for that displayed horn packet. The model-category fibration row $F$ and lifting-square row $M$ bind the same map and filler to the lifting surface exposed by \autoref{ch:concrete-instances-modelcat-namecert}.
+
+Finally transport and replay preserve the route through $H$ and $C$, while $P$ and $N$ source and name it locally. Since the packet contains no global filler function, no host simplicial object, no quotient homotopy class, no completed model structure, and no selected replacement object, every accepted lifting read remains inside the displayed rows.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\KanFibrationUp$ horn-lifting consumer must display the simplicial-set map, horn-boundary packet, finite filler witness, model-category fibration route, lifting-square row, hsame transport, Cont replay, Pkg provenance, and local NameCert row before treating the map as a Kan fibration packet.}
+
+\independenceWitness{simplicialset, modelcat, cofibrantreplacement, homotopy: no listed sibling is bijective to $\KanFibrationUp$ because this packet jointly carries the displayed simplicial map, horn-boundary packet, filler witness, model-category fibration route, lifting-square compatibility, transport, replay, provenance, and local naming as one finite horn-lifting carrier.}
+
+\closureat{KanFibrationUp}{seedStr}
+
+\begin{closurestatus}{\KanFibrationUp}
+  \constructivestory{A $\KanFibrationUp$ packet is generated from a SimplicialSetUp map row, horn-boundary packet, finite filler witness, ModelCatUp fibration route, lifting-square compatibility row, componentwise hsame transport, displayed Cont replay, Pkg provenance, and local NameCert naming.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:kan-fibration-carrier}, \autoref{thm:kan-fibration-namecert-obligations}, and \autoref{thm:kan-fibration-horn-lifting-scope} seed the finite horn-lifting surface consumed by simplicial and model-category routes.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{human}
+  \notclaimed{This chapter does not close functorial horn fillers, ambient fibrancy, quotient homotopy equality, global model-category lifting, selected replacement objects, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked source-map admission, horn-boundary exposure, filler-witness exposure, model-category fibration-route exposure, lifting-square compatibility, transport, replay, provenance, and local naming for BEDC.Derived.KanFibrationUp.}
+\end{closurestatus}

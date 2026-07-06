@@ -221,4 +221,84 @@ theorem BinderContextSubstitutionSealCarrier_scope_triad [AskSetup] [PackageSetu
       boundaryEmpty, payloadResultTransport, transportBoundaryRoute, endpointRoute, compiledRoute,
       auditRoute, resultPkg, endpointPkg, compiledPkg, auditPkg⟩
 
+theorem BinderContextSubstitutionSealCarrier_bridged_export [AskSetup] [PackageSetup]
+    {term depth payload result boundary transport route provenance name endpoint compiled audit :
+      BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    BinderContextSubstitutionSealCarrier term depth payload result boundary transport route
+        provenance name bundle pkg ->
+      Cont result boundary endpoint ->
+        Cont payload endpoint compiled ->
+          Cont compiled provenance audit ->
+            PkgSig bundle endpoint pkg ->
+              PkgSig bundle compiled pkg ->
+                PkgSig bundle audit pkg ->
+                  SemanticNameCert
+                      (fun row : BHist => hsame row audit ∧ UnaryHistory row)
+                      (fun row : BHist =>
+                        hsame row term ∨ hsame row depth ∨ hsame row payload ∨
+                          hsame row result ∨ hsame row boundary ∨ hsame row transport ∨
+                            hsame row route ∨ hsame row provenance ∨ hsame row name ∨
+                              hsame row endpoint ∨ hsame row compiled ∨ hsame row audit)
+                      (fun row : BHist =>
+                        UnaryHistory row ∧ Cont term depth result ∧
+                          Cont result boundary endpoint ∧ Cont payload endpoint compiled ∧
+                            Cont compiled provenance audit ∧ PkgSig bundle audit pkg)
+                      hsame ∧
+                    UnaryHistory endpoint ∧ UnaryHistory compiled ∧ UnaryHistory audit := by
+  -- BEDC touchpoint anchor: BHist Cont ProbeBundle Pkg SemanticNameCert hsame UnaryHistory
+  intro carrier endpointRoute compiledRoute auditRoute endpointPkg compiledPkg auditPkg
+  obtain ⟨termUnary, depthUnary, payloadUnary, resultUnary, boundaryUnary, _transportUnary,
+    _routeUnary, provenanceUnary, _nameUnary, termDepthResult, _boundaryEmpty,
+    _payloadResultTransport, _transportBoundaryRoute, _provenanceResult, _resultPkg⟩ :=
+    carrier
+  have endpointUnary : UnaryHistory endpoint :=
+    unary_cont_closed resultUnary boundaryUnary endpointRoute
+  have compiledUnary : UnaryHistory compiled :=
+    unary_cont_closed payloadUnary endpointUnary compiledRoute
+  have auditUnary : UnaryHistory audit :=
+    unary_cont_closed compiledUnary provenanceUnary auditRoute
+  have _pkgRows :
+      PkgSig bundle endpoint pkg ∧ PkgSig bundle compiled pkg ∧ PkgSig bundle audit pkg :=
+    ⟨endpointPkg, compiledPkg, auditPkg⟩
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => hsame row audit ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row term ∨ hsame row depth ∨ hsame row payload ∨ hsame row result ∨
+              hsame row boundary ∨ hsame row transport ∨ hsame row route ∨
+                hsame row provenance ∨ hsame row name ∨ hsame row endpoint ∨
+                  hsame row compiled ∨ hsame row audit)
+          (fun row : BHist =>
+            UnaryHistory row ∧ Cont term depth result ∧ Cont result boundary endpoint ∧
+              Cont payload endpoint compiled ∧ Cont compiled provenance audit ∧
+                PkgSig bundle audit pkg)
+          hsame := {
+    core := {
+      carrier_inhabited := Exists.intro audit ⟨hsame_refl audit, auditUnary⟩
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        exact
+          ⟨hsame_trans (hsame_symm sameRows) source.left,
+            unary_transport source.right sameRows⟩
+    }
+    pattern_sound := by
+      intro _row source
+      repeat (first | exact source.left | apply Or.inr)
+    ledger_sound := by
+      intro _row source
+      exact
+        ⟨source.right, termDepthResult, endpointRoute, compiledRoute, auditRoute, auditPkg⟩
+  }
+  exact ⟨cert, endpointUnary, compiledUnary, auditUnary⟩
+
 end BEDC.Derived.BinderContextSubstitutionSealUp

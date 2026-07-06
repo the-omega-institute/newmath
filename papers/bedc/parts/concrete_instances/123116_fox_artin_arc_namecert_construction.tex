@@ -1,0 +1,60 @@
+\chapter{A Concrete Naming Certificate for $\FoxArtinArcUp$}
+\label{ch:concrete-instances-fox-artin-arc-namecert}
+\origin{human}
+
+Following Fox and Artin, the $\FoxArtinArcUp$ packet records a wild arc in three-dimensional topology by displaying the finite rows a BEDC consumer may inspect: an arc row, an ambient endpoint row, compact-window rows around the wild end, tame-shadow comparison rows, knot-shadow obstruction rows, topology routes, package provenance, and a local naming ledger. The chapter places the classical example beside the topology surface of \autoref{ch:concrete-instances-topology-namecert}, the compact metric boundary of \autoref{ch:concrete-instances-compactmetric-namecert}, the knot row of \autoref{ch:concrete-instances-knot-namecert}, and the continuous-map route of \autoref{ch:concrete-instances-continuousmap-namecert}; it does not assert a host embedding theorem, a selected ambient isotopy, a quotient path equality, or a complete three-manifold classifier.
+
+\begin{definition}[Fox-Artin arc carrier]
+\label{def:fox-artin-arc-carrier}
+A $\FoxArtinArcUp$ carrier is a finite $\BHist$ packet
+$$
+F=(A,E,W,T,K,R,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $A$ is the arc row, recording a compact interval-shaped source and its embedded image as topology-facing data;
+\item $E$ is the ambient endpoint row, including the distinguished wild endpoint and the tame endpoint read by local consumers;
+\item $W$ is the compact-window ledger around the wild endpoint, with nested compact neighbourhood rows and finite boundary-intersection witnesses;
+\item $T$ is the tame-shadow comparison row, naming the finite local test by which a tame arc packet would be recognized away from the wild endpoint;
+\item $K$ is the knot-shadow obstruction row, recording the finite knotting data seen in the complement windows;
+\item $R$ stores the displayed $\Cont$ and $\hsame$ routes through $\TopologyUp$, $\CompactMetricUp$, $\KnotUp$, and $\ContinuousMapUp$;
+\item $P$ is the $\Pkg$ provenance over the same topology, compact-metric, knot, continuous-map, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows;
+\item $N$ is the local $\NameCert_{\FoxArtinArcUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through these rows and their componentwise transports. It has no coordinate for a host ambient isotopy classifier, a selected homeomorphism of complements, quotient path equality, or a global three-manifold recognition oracle.
+\end{definition}
+\leanstmt{BEDC.Derived.FoxArtinArcUp}
+
+\begin{theorem}[Fox-Artin arc NameCert obligations]
+\label{thm:fox-artin-arc-namecert-obligations}
+The local $\NameCert_{\FoxArtinArcUp}$ surface consists of five finite obligations:
+\begin{enumerate}
+\item carrier admission for the displayed arc, endpoint, compact-window, tame-shadow, knot-shadow, route, provenance, and local naming rows;
+\item topology routing through $\TopologyUp$ and $\ContinuousMapUp$, so every arc read exposes its ambient topology and map route before any complement-facing consumer proceeds;
+\item compact-window locality through $\CompactMetricUp$, so wild-end neighbourhood data is consumed as finite compact rows rather than as an open-cover compactness theorem;
+\item knot-shadow visibility through $\KnotUp$, so obstruction reads remain finite complement-window rows and not a global knot classification;
+\item non-escape from host ambient isotopy classification, quotient path equality, selected complement homeomorphisms, and global three-manifold recognition.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Carrier admission is projection of the tuple $F$. The arc, endpoint, compact-window, tame-shadow, knot-shadow, routing, provenance, and naming rows are explicitly listed, so the packet is finite at the point where a BEDC consumer reads it.
+
+The topology route is supplied by $R$. A consumer that asks for the arc image must first pass through the displayed $\TopologyUp$ and $\ContinuousMapUp$ rows, and the same route records componentwise $\hsame$ transport of the source and ambient data.
+
+The compact-window obligation is read through $W$ and the $\CompactMetricUp$ dependency. The nested windows around the wild endpoint are therefore finite compact rows with boundary witnesses, not an appeal to an ambient compactness theorem.
+
+The knot-shadow obligation is read through $K$. It names the complement-window obstruction data seen by the classical Fox-Artin arc, while refusing to export a global knot or three-manifold classifier.
+
+Finally inspect the carrier shape. No coordinate stores an ambient isotopy classifier, selected complement homeomorphism, quotient path equality, or global recognition oracle, so the local NameCert cannot return such data.
+\end{proof}
+
+\begin{closurestatus}{\FoxArtinArcUp}
+  \constructivestory{A $\FoxArtinArcUp$ packet is generated from a displayed arc row, ambient endpoint row, compact wild-end windows, tame-shadow comparison rows, knot-shadow obstruction rows, topology and continuous-map routes, package provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:fox-artin-arc-carrier} and \autoref{thm:fox-artin-arc-namecert-obligations} seed the finite carrier and obligation surface over topology, compact metric, knot, and continuous-map dependency rows.}
+  \formalstatus{\formalTargetV}
+  \leantarget{BEDC.Derived.FoxArtinArcUp}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim ambient isotopy classification, complement homeomorphism classification, quotient path equality, global three-manifold recognition, Lean verification of the obligations, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, topology routing, compact-window locality, knot-shadow visibility, and non-escape for the displayed Fox-Artin arc packet.}
+\end{closurestatus}

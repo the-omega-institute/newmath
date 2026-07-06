@@ -44,6 +44,50 @@ The checker obligation reads $T$ only against entries already present in $E$. Th
 Finally read $R,H,K,P,N$. The regression row names the finite families whose checked behavior is preserved as a gallery surface, while transport, replay, provenance, and local naming keep every consumer inside the same displayed packet. No row adds a general subject-reduction, normalisation, confluence, global conversion, proof-erasure, or host-evaluation endpoint.
 \end{proof}
 
+\begin{theorem}[TypedExampleGallery finite obligation surface]
+\label{thm:typedexamplegallery-obligation-surface}
+Every public $\TypedExampleGalleryUp$ read factors through the finite rows
+$$
+E,T,C,B,R,H,K,P,N
+$$
+and through sibling provenance to the closed-substitution boundary, the typechecking derivation trace, and the proof-term erasure trace. The read exposes gallery entries, checker derivation data, closedness inputs, selected beta rows, regression rows, transport, replay, provenance, and local naming; it refuses subject reduction, normalization, confluence, conversion decidability, and host evaluation.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:typed-example-gallery-carrier}. The visible rows are exactly $E,T,C,B,R,H,K,P,N$, so every public gallery read starts inside the finite packet rather than from a global MetaCIC theorem.
+
+Apply \autoref{thm:typed-example-gallery-namecert-obligations}. Its carrier admission, checker visibility, closedness visibility, beta visibility, and regression-surface visibility clauses force the read through the displayed rows before transport, replay, provenance, and local naming are consumed.
+
+Finally use \autoref{thm:typed-example-gallery-regression-surface} and \autoref{thm:typed-example-gallery-closed-beta-regression-route}. The regression theorem keeps the public surface finite, while the closed-beta route sends the examples through closed substitution, typechecking derivation trace, and proof-term erasure trace as sibling provenance. Since no carrier coordinate stores subject reduction, normalization, confluence, conversion decidability, or host evaluation, none of those endpoints is exported.
+\end{proof}
+
+\begin{theorem}[Typed example gallery obligation frontier]
+\label{thm:typed-example-gallery-obligation-frontier}
+Every obligation consumer of an accepted $\TypedExampleGalleryUp$ packet must expose the rows
+$$
+E,T,C,B,R,H,K,P,N
+$$
+in that order before any gallery result is public. The entry row $E$ is read before checker visibility in $T$; checker visibility is read before closedness in $C$; closedness is read before the selected beta row $B$; beta rows are read before the regression surface $R$; and only then may componentwise transport $H$, replay $K$, provenance $P$, and the local $\NameCert_{\TypedExampleGalleryUp}$ row $N$ be consumed. The frontier exports the finite gallery obligation surface only, not subject reduction, normalization, confluence, or conversion decidability.
+\end{theorem}
+\begin{proof}
+Project the carrier $G=(E,T,C,B,R,H,K,P,N)$ from \autoref{def:typed-example-gallery-carrier}. Its coordinates already list the entry, checker, closedness, beta, regression, transport, replay, provenance, and local naming rows in the required order.
+
+Apply \autoref{thm:typed-example-gallery-namecert-obligations}. Carrier admission exposes the whole packet, checker visibility uses $T$ against entries in $E$, closedness visibility uses $C$ only for displayed inputs, beta visibility uses $B$ only for selected computations, and regression visibility uses $R$ through $H,K,P,N$.
+
+Finally use \autoref{thm:typed-example-gallery-regression-surface} and \autoref{thm:typed-example-gallery-typed-normal-form-separation}. These keep the public read inside the finite regression and displayed normal-form surface. Since the carrier has no coordinate for arbitrary term reduction, global normalization, confluence, or conversion decidability, none of those conclusions can cross the obligation frontier.
+\end{proof}
+
+\begin{theorem}[Typed example gallery checker-row exhaustion]
+\label{thm:typed-example-gallery-checker-row-exhaustion}
+For an accepted $\TypedExampleGalleryUp$ packet $G=(E,T,C,B,R,H,K,P,N)$, every public checker read for a gallery entry factors through the displayed checker row $T$ after entry exposure through $E$ and before any closedness row $C$, beta row $B$, regression row $R$, or structural row $H,K,P,N$ is consumed. The packet exports no checker result for entries outside $E$ and no arbitrary checker completeness theorem.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:typed-example-gallery-carrier}. The only checker-facing coordinate is $T$, and its statement is indexed by accepted gallery entries already displayed in $E$.
+
+Use \autoref{thm:typed-example-gallery-namecert-obligations}. Its checker-visibility clause reads $T$ only for accepted entries in $E$, while its closedness, beta, and regression clauses are separate rows rather than alternate checker sources.
+
+Finally apply \autoref{thm:typed-example-gallery-obligation-frontier}. The frontier places checker visibility after entry exposure and before $C,B,R,H,K,P,N$. Since the carrier has no coordinate for entries outside $E$ and no row asserting arbitrary checker completeness, every public checker read is exhausted by the displayed row $T$.
+\end{proof}
+
 \begin{theorem}[Typed example gallery regression surface]
 \label{thm:typed-example-gallery-regression-surface}
 Every consumer of an accepted $\TypedExampleGalleryUp$ packet receives a finite regression surface for the typed-example corpus: accepted typing rows, closedness inputs, selected beta computations, and sibling provenance through \autoref{ch:concrete-instances-closedtermsubstitutionboundary-namecert}, \autoref{ch:concrete-instances-typecheckingderivationtrace-namecert}, and \autoref{ch:concrete-instances-prooftermerasuretrace-namecert}. The packet cannot be reread as a theorem about all represented terms, all closed substitutions, all beta steps, all erased proof terms, or all checker results.
@@ -68,15 +112,123 @@ Read the closedness and computation rows next. The closedness row $C$ supplies e
 Finally apply the NameCert obligations and the regression surface theorem. The row $R$ records the regression family, while $P$ keeps the closed-substitution boundary, type-checking derivation trace, and proof-erasure trace as sibling provenance. Transport, replay, provenance, and local naming through $H,K,P,N$ preserve the same finite route and add no global metatheorem.
 \end{proof}
 
-\closureat{TypedExampleGalleryUp}{seedStr}
+\begin{theorem}[Typed example gallery formal-target frontier]
+\label{thm:typed-example-gallery-formal-target-frontier}
+Any formal target emitted by the $\TypedExampleGalleryUp$ packet may quantify only over the finite rows
+$$
+E,T,C,B,R,H,K,P,N
+$$
+of \autoref{def:typed-example-gallery-carrier}: entry exposure, checker row, closedness row, beta row, regression row, transport, replay, provenance, and local $\NameCert$ naming. The gallery may therefore request formalization of carrier admission, row exhaustion, checker visibility, closed-beta regression, and structural nonescape for those rows, but it may not emit a target for subject reduction, normalization, confluence, global conversion, arbitrary checker completeness, proof-erased compiler correctness, or host evaluation.
+\end{theorem}
+\begin{proof}
+Project the carrier and the NameCert obligations. They expose only $E,T,C,B,R,H,K,P,N$, so every formal target must be a statement about those displayed gallery rows and their transport, replay, provenance, and local naming surface.
+
+Use the obligation frontier and checker-row exhaustion theorems next. They identify the checker-facing and closedness-facing data with the finite rows $T$ and $C$, and they leave no coordinate for arbitrary checker completeness or a host evaluator.
+
+Finally apply the closed beta regression route. The row $B$ and regression row $R$ cover only the displayed examples, while $P$ keeps the closed-substitution, typechecking-derivation, and proof-erasure siblings as provenance. Since the carrier has no coordinate for arbitrary terms or global reduction theory, subject reduction, normalization, confluence, global conversion, arbitrary checker completeness, proof-erased compiler correctness, and host evaluation remain outside the formal-target frontier.
+\end{proof}
+
+\begin{theorem}[Typed example gallery normal-form separation]
+\label{thm:typed-example-gallery-typed-normal-form-separation}
+Every accepted $\TypedExampleGalleryUp$ packet separates displayed normal-form examples from global normalization. A public normal-form read must pass through the displayed entry row $E$, type row $T$, closedness row $C$, beta row $B$, regression row $R$, and sibling provenance $P$ to \autoref{ch:concrete-instances-closedtermsubstitutionboundary-namecert}, \autoref{ch:concrete-instances-typecheckingderivationtrace-namecert}, and \autoref{ch:concrete-instances-prooftermerasuretrace-namecert}. No consumer may infer strong normalization, confluence, or global conversion decidability from that finite gallery route.
+\end{theorem}
+\begin{proof}
+Project the carrier $G=(E,T,C,B,R,H,K,P,N)$ from \autoref{def:typed-example-gallery-carrier}. A normal-form example is visible only as an entry in $E$, with its accepted type evidence read from $T$ and any closedness premise read from $C$.
+
+The computation-facing information is still finite gallery data. The beta row $B$ records only the selected examples, while $R$ records the regression family used to keep those examples stable as displayed tests.
+
+Finally read the sibling provenance row $P$. It routes the displayed examples through the closed-substitution boundary, typechecking-derivation trace, and proof-erasure trace already named by the chapter, while $H,K,N$ preserve transport, replay, and local naming. Since the carrier has no coordinate for arbitrary terms, a global evaluator, confluence, strong normalization, or global conversion decidability, none of those conclusions can be exported.
+\end{proof}
+
+\begin{theorem}[Typed example gallery scoped kernel route]
+\label{thm:typed-example-gallery-scoped-kernel-route}
+Every scoped kernel read of an accepted $\TypedExampleGalleryUp$ packet is confined to the displayed rows
+$$
+E,T,C,B,R,H,K,P,N
+$$
+and to the three sibling chapters \autoref{ch:concrete-instances-closedtermsubstitutionboundary-namecert}, \autoref{ch:concrete-instances-typecheckingderivationtrace-namecert}, and \autoref{ch:concrete-instances-prooftermerasuretrace-namecert}. Carrier admission, checker visibility, closedness visibility, beta visibility, regression-surface non-escape, and sibling provenance are scoped to those finite rows and cited siblings; they do not assert global subject reduction, normalization, confluence, conversion decidability, proof-erased compiler correctness, arbitrary checker completeness, or host evaluation.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:typed-example-gallery-carrier}. The rows $E,T,C,B,R$ are the only gallery, checker, closedness, beta, and regression rows available before the structural data are read.
+
+Apply the NameCert obligations and the obligation frontier. These force checker visibility through $T$, closedness visibility through $C$, beta visibility through $B$, and regression-surface visibility through $R$ before $H,K,P,N$ can transport, replay, source, or name the packet.
+
+The sibling provenance is exactly the three displayed chapters named in the statement. The closed-substitution boundary supplies the closedness source, the typechecking-derivation trace supplies checker routes, and the proof-term-erasure trace supplies proof-facing readback discipline.
+
+Finally use the regression and normal-form separation theorems. They keep all public reads inside the finite gallery surface, so none of the global MetaCIC conclusions can be exported from the scoped kernel route.
+\end{proof}
+
+\begin{theorem}[Typed example gallery scope binding]
+\label{thm:typed-example-gallery-scope-binding}
+Every accepted $\TypedExampleGalleryUp$ obligation is scoped only over the displayed rows
+$$
+E,T,C,B,R,H,K,P,N
+$$
+of \autoref{def:typed-example-gallery-carrier}, together with the closed-substitution boundary, typechecking derivation trace, and proof-term erasure trace named in the provenance row $P$. The obligation binds the finite gallery entries, checker row, closedness row, selected beta row, regression row, componentwise transport, replay, provenance, and local naming surface. It exports no subject reduction, normalization, confluence, global conversion decidability, arbitrary checker completeness, proof-erased compiler correctness, or host evaluation.
+\end{theorem}
+\begin{proof}
+Project the carrier $G=(E,T,C,B,R,H,K,P,N)$. The carrier and the NameCert obligations expose only the finite gallery-entry row, checker row, closedness row, beta row, regression row, transport rows, replay routes, provenance, and local naming row.
+
+Apply the regression surface and closed-beta route, \autoref{thm:typed-example-gallery-regression-surface} and \autoref{thm:typed-example-gallery-closed-beta-regression-route}. They force the displayed examples through the closed-substitution boundary, typechecking derivation trace, and proof-term erasure trace before any consumer reads the gallery as a regression surface.
+
+Next use the formal-target frontier and normal-form separation, \autoref{thm:typed-example-gallery-formal-target-frontier} and \autoref{thm:typed-example-gallery-typed-normal-form-separation}. These results keep checker, closedness, beta, and normal-form reads inside $E,T,C,B,R,H,K,P,N$ rather than turning them into global MetaCIC theorems.
+
+Finally apply the scoped kernel route of \autoref{thm:typed-example-gallery-scoped-kernel-route}. It identifies the same finite rows and sibling provenance as the complete kernel-facing route, so subject reduction, normalization, confluence, global conversion decidability, arbitrary checker completeness, proof-erased compiler correctness, and host evaluation remain outside the accepted obligation scope.
+\end{proof}
+
+\begin{theorem}[Typed example gallery scoped kernel rows are complete]
+\label{thm:typed-example-gallery-scope-kernel-rows-complete}
+Every accepted public $\TypedExampleGalleryUp$ read is one of the following finite row reads from the carrier $G=(E,T,C,B,R,H,K,P,N)$: entry exposure through $E$, checker visibility through $T$, closedness visibility through $C$, selected beta visibility through $B$, regression-surface visibility through $R$, componentwise transport through $H$, finite replay through $K$, provenance through $P$, or local naming through $N$. No additional MetaCIC theorem endpoint is part of the gallery interface; subject reduction, normalization, confluence, global conversion decidability, arbitrary checker completeness, proof-erased compiler correctness, and host evaluation remain outside the packet.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:typed-example-gallery-carrier}. Its displayed rows are exactly $E,T,C,B,R,H,K,P,N$, so every public read must begin as a projection from one of those coordinates.
+
+Apply the NameCert obligations and the obligation frontier, \autoref{thm:typed-example-gallery-namecert-obligations} and \autoref{thm:typed-example-gallery-obligation-frontier}. They exhaust carrier admission, checker visibility, closedness visibility, beta visibility, regression-surface visibility, transport, replay, provenance, and local naming in the listed row order.
+
+Use checker-row exhaustion from \autoref{thm:typed-example-gallery-checker-row-exhaustion}. It prevents a consumer from reading a checker result outside $T$ or from turning the gallery into arbitrary checker completeness.
+
+Finally apply scope binding from \autoref{thm:typed-example-gallery-scope-binding}. The accepted obligation scope is exactly the finite row surface and sibling provenance already displayed, so no global MetaCIC theorem endpoint can be added to the public gallery interface.
+\end{proof}
+
+\begin{theorem}[TypedExampleGalleryUp public interface]
+\label{thm:typedexamplegallery-public-interface}
+Every accepted $\TypedExampleGalleryUp$ packet exposes the gallery-entry row, checker row, closedness row, beta and regression rows, sibling-provenance row, normal-form separation row, and local naming row as one public MetaCIC gallery interface over $\BHist$ and $\NameCert$ data. The interface exports only the finite rows
+$$
+E,T,C,B,R,H,K,P,N
+$$
+and their displayed sibling routes; it does not export full MetaCIC normalization, subject reduction, evaluator equality, quotient term equality, or kernel consistency.
+\end{theorem}
+\begin{proof}
+Project the accepted packet $G=(E,T,C,B,R,H,K,P,N)$ from \autoref{def:typed-example-gallery-carrier}. The gallery-entry row $E$, checker row $T$, closedness row $C$, beta row $B$, regression row $R$, transport row $H$, replay row $K$, provenance row $P$, and local naming row $N$ are the complete public inventory.
+
+Use the checker-row exhaustion and obligation-frontier theorems. They route every exported checker read through $T$, every closedness read through $C$, and every beta or regression read through $B$ and $R$ before structural replay or naming can be consumed.
+
+Use the normal-form separation, scoped-kernel route, and scope-binding theorems next. These identify $P$ as sibling provenance, keep normal-form examples inside the displayed gallery route, and bind the local name through $\NameCert$ rather than through a host evaluator.
+
+Therefore the public interface is exactly the finite row surface over $\BHist$ and $\NameCert$ data. Since none of the projected rows stores global normalization, subject reduction, evaluator equality, quotient term equality, or kernel consistency, those endpoints remain outside the accepted gallery interface.
+\end{proof}
+
+\begin{theorem}[Typed example gallery public interface route]
+\label{thm:typed-example-gallery-public-interface}
+Every public MetaCIC gallery interface read of an accepted $\TypedExampleGalleryUp$ packet is exactly the finite route through the gallery-entry row $E$, checker row $T$, closedness row $C$, selected beta row $B$, regression row $R$, componentwise transport row $H$, replay row $K$, sibling-provenance row $P$, and local naming row $N$. The sibling-provenance row is consumed only through \autoref{ch:concrete-instances-closedtermsubstitutionboundary-namecert}, \autoref{ch:concrete-instances-typecheckingderivationtrace-namecert}, and \autoref{ch:concrete-instances-prooftermerasuretrace-namecert}. The interface refuses subject reduction, normalization, confluence, global conversion, proof-erased compiler correctness, arbitrary checker completeness, and host evaluation.
+\end{theorem}
+\begin{proof}
+Project the carrier $G=(E,T,C,B,R,H,K,P,N)$ of \autoref{def:typed-example-gallery-carrier}. The obligation frontier and scoped kernel rows complete theorem, \autoref{thm:typed-example-gallery-obligation-frontier} and \autoref{thm:typed-example-gallery-scope-kernel-rows-complete}, exhaust the public reads by those nine displayed coordinates.
+
+Use checker-row exhaustion and the closed beta regression route. They force checker reads through $T$, closedness reads through $C$, selected computations through $B$, and regression reads through $R$ before structural replay or local naming can be consumed.
+
+Finally apply normal-form separation, scoped kernel route, and scope binding. These theorems keep the sibling-provenance row $P$ tied to the closed-substitution boundary, typechecking derivation trace, and proof-term erasure trace, and they leave subject reduction, normalization, confluence, global conversion, proof-erased compiler correctness, arbitrary checker completeness, and host evaluation outside the public interface.
+\end{proof}
+
+\closureat{TypedExampleGalleryUp}{scopedStr}
 
 \begin{closurestatus}{\TypedExampleGalleryUp}
   \constructivestory{A $\TypedExampleGalleryUp$ packet is generated from finite typed-example entries, checker rows, closedness rows, selected beta-computation rows, a regression-surface row, componentwise transport, continuation routes, package provenance, and a local NameCert row.}
-  \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:typed-example-gallery-carrier}, \autoref{thm:typed-example-gallery-namecert-obligations}, \autoref{thm:typed-example-gallery-regression-surface}, and \autoref{thm:typed-example-gallery-closed-beta-regression-route} bind the finite gallery-entry, checker, closedness, beta, regression, sibling-provenance, and local naming surface.}
+  \theoryclosure{\scopedClosure}
+  \scopeclosed{\autoref{thm:typed-example-gallery-scoped-kernel-route}, \autoref{thm:typed-example-gallery-scope-binding}, and \autoref{thm:typed-example-gallery-scope-kernel-rows-complete} bind the finite gallery-entry, checker, closedness, beta, regression, sibling-provenance, normal-form separation, and local naming rows to the displayed kernel routes.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{human}
   \notclaimed{This chapter does not close subject reduction, strong normalisation, confluence, global conversion decidability, proof-erased compiler correctness, arbitrary checker completeness, or bridge checking.}
-  \upgradepath{Obligation closure requires checking carrier admission, checker visibility, closedness visibility, beta visibility, regression-surface non-escape, and sibling provenance for the displayed packet.}
+  \upgradepath{Public closure requires exposing the same finite gallery-entry, checker, closedness, beta, regression, sibling-provenance, normal-form separation, and local naming route as a public MetaCIC gallery interface.}
 \end{closurestatus}

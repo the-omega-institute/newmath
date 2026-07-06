@@ -65,6 +65,24 @@ Therefore the handoff to Lean must use a field-faithful carrier. The proposed Le
 \end{proof}
 \leanchecked{BEDC.Derived.PackageExportDisciplineUp.PackageExportDisciplineTasteGate\_single\_carrier\_alignment}
 
+\begin{theorem}[Package export discipline obligation-closure package]
+\label{thm:package-export-discipline-obligation-closure-package}
+For an accepted $\PackageExportDisciplineUp$ carrier
+$$
+E=(M,R,S,G,T,U,H,C,P,N),
+$$
+carrier admission, package-map coverage, refusal-registry coverage, registry-export coverage, cannot-claim export-gate coverage, formal-target coverage, non-smuggling, transport, replay, provenance, and local naming jointly form the obligation-closure package for $E$. In particular, no export route can drop one of $M,R,S,G,T$ or identify those five sibling rows with one another while remaining an accepted $\PackageExportDisciplineUp$ packet.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:package-export-discipline-carrier}. The projection exposes exactly $M,R,S,G,T,U,H,C,P,N$, with $M$ for package-map coverage, $R$ for refusal-registry coverage, $S$ for registry-export coverage, $G$ for cannot-claim export-gate coverage, and $T$ for formal-target coverage.
+
+Apply the NameCert obligations of \autoref{thm:package-export-discipline-namecert-obligations}. They require carrier admission for the same packet and force the five sibling rows, non-smuggling row, transport row, replay row, provenance row, and local naming row to be read as one finite obligation surface.
+
+Use the non-smuggling boundary of \autoref{thm:package-export-discipline-non-smuggling-boundary}. It blocks any route that bypasses $M,R,S,G,T$ by prose adjacency, hidden registry state, or unchecked machine target routing.
+
+Finally read the cross-reference handoff of \autoref{thm:package-export-discipline-cross-reference-handoff}. That handoff keeps $M,R,S,G,T$ field-faithful, so the obligation package cannot collapse them into one row or recover a missing row from the remaining fields. Hence the displayed carrier supplies exactly the package-export obligation-closure package.
+\end{proof}
+
 \falsifiablePrediction{Removing the cannot-claim gate row or registry-export row permits an export that the package discipline theorem rejects.}
 
 \independenceWitness{packagemapboundary, philosophycannotclaimregistry, registryexportsurface, cannotclaimexportgate, philosophyformaltargetledger: none is bijective to $\PackageExportDisciplineUp$ because the export packet preserves package-map, registry-export, cannot-claim, export-gate, and formal-target rows simultaneously.}
@@ -74,11 +92,11 @@ Therefore the handoff to Lean must use a field-faithful carrier. The proposed Le
 
 \begin{closurestatus}{\PackageExportDisciplineUp}
   \constructivestory{A $\PackageExportDisciplineUp$ packet is generated from a package-map row, registry row, refusal row, export-gate row, formal-target row, synthesis row, componentwise $\hsame$ transport, displayed $\Cont$ replay, package provenance, and local naming. The classifier requires all of these rows before an export can be read as disciplined; no single package map, registry entry, refusal, gate, or formal target is enough by itself. The ledger story is anti-smuggling: the same finite $\BHist$ packet must carry map, registry, refusal, gate, target, and synthesis evidence, and the continuation routes expose exactly which rows a downstream export consumes.}
-  \theoryclosure{\seedClosure}
+  \theoryclosure{\obligationClosure}
   \scopeclosed{This chapter binds the carrier definition, NameCert-obligation, non-smuggling-boundary, cross-reference-handoff, independence witness, and existing closure annotations for $\PackageExportDisciplineUp$.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{ai}
   \notclaimed{It does not claim exports preserving only one constituent row or hidden package-level synthesis outside the displayed packet.}
-  \upgradepath{To reach obligationClosure, the export-discipline carrier and non-smuggling boundary must be checked as finite-row dependency obligations.}
+  \upgradepath{To reach scopedClosure, the export-discipline carrier, non-smuggling boundary, cross-reference handoff, and obligation package rows must be bound as one scoped dependency route.}
 \end{closurestatus}

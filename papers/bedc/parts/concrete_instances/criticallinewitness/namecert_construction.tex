@@ -538,6 +538,7 @@ Use \autoref{thm:critical-line-witness-nonescape-boundary}, \autoref{thm:critica
 \label{thm:critical-line-witness-zero-strip-route-totality}
 For every accepted $\CriticalLineWitnessUp$ packet $W=(Z,S,M,R,Q,H,C,P,N)$, every public route that reads the supplied zero row $Z$ together with the critical-strip row $S$ factors through the displayed transport coordinate $H$ and continuation coordinate $C$. The route may consume the supplied zero and strip rows as the same displayed history, but it cannot replace that route by host complex equality or by a zero-producing search.
 \end{theorem}
+\leanchecked{BEDC.Derived.CriticalLineWitnessUp.CriticalLineWitnessCarrier\_zero\_strip\_route\_transport\_totality}
 \begin{proof}
 Start with the carrier of \autoref{def:critical-line-witness-carrier} and the local NameCert obligations of \autoref{thm:critical-line-witness-namecert-obligations}. They list $Z,S,H,C$ as displayed rows of the same finite packet.
 
@@ -750,6 +751,7 @@ Finally use \autoref{thm:critical-line-witness-obligation-closure-package}. It r
 \label{thm:critical-line-witness-hsame-cont-ledger-obligation}
 Let $W=(Z,S,M,R,Q,H,C,P,N)$ be an accepted $\CriticalLineWitnessUp$ packet anchored in $\BHist$. The local transport obligation binds componentwise $\hsame$ evidence from $H$, displayed $\Cont$ replay from $C$, package provenance from $\Pkg$ through $P$, and local $\NameCert$ replay through $N$ to the same zero-strip-modulus ledger. The replay may transport the finite rows, but it may not replace them with host equality, quotient representatives, analytic continuation, or an external naming certificate.
 \end{theorem}
+\leanchecked{BEDC.Derived.CriticalLineWitnessUp.CriticalLineWitnessCarrier\_transport\_replay\_namecert\_route}
 \begin{proof}
 Read $H,C,P,N$ together with the zero, strip, modulus, real-part, and rational rows of the carrier. These are coordinates of the same accepted $\BHist$ packet, so the transport and replay evidence is local to $W$.
 
@@ -785,11 +787,11 @@ Finally apply the downstream refusal package and downstream source obligation. T
 
 \begin{closurestatus}{\CriticalLineWitnessUp}
   \constructivestory{A $\CriticalLineWitnessUp$ packet is generated from a supplied zeta-zero row, a supplied critical-strip row, an on-critical-line modulus row, a real-part row, rational half-line and dyadic comparison rows, displayed transports, continuation routes, package provenance, and local naming.}
-  \theoryclosure{\publicClosure}
-  \scopeclosed{The public scope records the finite carrier, witness-ledger, and public route surface for supplied zero-in-strip inputs over $\ZetaZerosUp$, $\CritStripUp$, $\RealUp$, $\RatUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$.}
-  \formalstatus{\unformalizedV}
-  \bridgestatus{none}
-  \origin{human}
-  \notclaimed{This chapter does not prove $\mathsf{RH}$, produce zeros, close the global zero-set classifier, construct analytic continuation, assert host equality, select quotient representatives, or invoke ambient analytic completeness.}
-  \upgradepath{Scoped closure requires grounding the carrier admission, zero-strip compatibility, and ledger non-escape obligations against the named $\ZetaZerosUp$, $\CritStripUp$, $\RealUp$, $\RatUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.}
+  \theoryclosure{\matureClosure}
+  \scopeclosed{The mature scope records the finite critical-line witness packet, witness-ledger, public route surface, and fixed-tuple StdBridge premise surface for supplied zero-in-strip inputs over $\ZetaZerosUp$, $\CritStripUp$, $\RealUp$, $\RatUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$, while making no claim of $\mathsf{RH}$, zero-free strip, analytic continuation, or checked standard bridge.}
+  \formalstatus{\theoremCheckedV}
+  \leantarget{BEDC.Derived.CriticalLineWitnessUp.CriticalLineWitnessCarrier\_fixed\_tuple\_stdbridge\_premise\_surface}
+  \bridgestatus{paperBridge}
+  \notclaimed{This chapter does not prove $\mathsf{RH}$, produce zeros, close the global zero-set classifier, construct analytic continuation, assert host equality, select quotient representatives, invoke ambient analytic completeness, or claim a checked standard bridge theorem.}
+  \upgradepath{A checked standard bridge would have to certify the same fixed finite route and refusal boundary without strengthening the packet into $\mathsf{RH}$, a zero-free strip theorem, analytic continuation, or a host analytic classifier.}
 \end{closurestatus}

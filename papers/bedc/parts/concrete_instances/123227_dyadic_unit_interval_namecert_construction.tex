@@ -1,0 +1,87 @@
+\chapter{A Concrete Naming Certificate for $\DyadicUnitIntervalUp$}
+\label{ch:concrete-instances-dyadic-unit-interval-namecert}
+\origin{human}
+
+Following Bishop and Bridges constructive interval arithmetic, the $\DyadicUnitIntervalUp$ packet isolates the bounded dyadic interval $[0,1]$ as a finite L10 NameCert carrier. It reads the dyadic endpoint arithmetic of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the one-step subdivision route of \autoref{ch:concrete-instances-dyadic-interval-refinement-namecert}, the precision-scale ledger of \autoref{ch:concrete-instances-dyadic-tolerance-scale-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. The packet provides the bounded endpoint window consumed by regular-sequence and Real routes; it does not import Heine--Borel compactness, open-cover compactness, quotient streams, selected limits, trichotomy, or choice.
+
+\begin{definition}[Dyadic unit interval carrier]
+\label{def:dyadic-unit-interval-carrier}
+A $\DyadicUnitIntervalUp$ carrier is a finite $\BHist$ packet
+$$
+U=(L,R,I,F,S,Q,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $L$ is the dyadic zero-endpoint row read through $\DyadicRatCoreUp$.
+\item $R$ is the dyadic one-endpoint row read through $\DyadicRatCoreUp$.
+\item $I$ is the closed dyadic interval row binding $L$ and $R$ as the displayed $[0,1]$ cell.
+\item $F$ is the $\DyadicIntervalRefinementUp$ row for finite subdivision and endpoint reuse inside the same unit cell.
+\item $S$ is the $\DyadicToleranceScaleUp$ row that records the precision scale used by endpoint and subinterval consumers.
+\item $Q$ is the $\RegSeqRatUp$ readback row reached only after $L,R,I,F,S$ have been displayed.
+\item $E$ is the terminal $\RealUp$ seal row for Real-facing consumers of the bounded interval.
+\item $H$ records componentwise $\hsame$ transport for the endpoint, interval, refinement, scale, readback, seal, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from dyadic endpoints through refinement, tolerance scale, regular rational readback, and Real seal.
+\item $P$ is the $\Pkg$ provenance over $\DyadicUnitIntervalUp$, $\DyadicRatCoreUp$, $\DyadicIntervalRefinementUp$, $\DyadicToleranceScaleUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\DyadicUnitIntervalUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for open covers, finite subcover selection, quotient stream equality, selected limits, trichotomy, ambient $\RealUp$ completeness, or countable choice.
+\end{definition}
+\leanstmt{BEDC.Derived.DyadicUnitIntervalUp}
+
+\begin{theorem}[Dyadic unit interval endpoint stability]
+\label{thm:dyadic-unit-interval-endpoint-stability}
+For every accepted $\DyadicUnitIntervalUp$ carrier $U=(L,R,I,F,S,Q,E,H,C,P,N)$, every endpoint-facing read of the unit cell must expose the same dyadic zero row $L$ and dyadic one row $R$ before any refinement, tolerance-scale, regular-readback, or Real-seal row is public. Refinement through $F$ may reuse or subdivide displayed endpoint rows, but it cannot replace the unit endpoints by host rationals, quotient streams, selected limits, or an ambient compactness principle.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:dyadic-unit-interval-carrier}. The endpoint rows $L$ and $R$ precede the interval row $I$, the refinement row $F$, the tolerance row $S$, the readback row $Q$, and the Real seal row $E$.
+
+The dyadic arithmetic source is the sibling $\DyadicRatCoreUp$ route. Since both endpoints are displayed as dyadic rows, endpoint inspection remains a finite BHist read rather than a host rational equality or quotient-stream comparison.
+
+Next read the refinement row $F$. Its role is endpoint reuse and finite subdivision inside the displayed cell, so it can only transport the same $L,R,I$ packet through $H,C,P,N$.
+
+Therefore every endpoint-facing consumer sees the same zero and one rows before any later readback. The absent open-cover, quotient, selected-limit, trichotomy, completeness, and choice coordinates cannot be exported by endpoint stability.
+\end{proof}
+
+\begin{theorem}[Dyadic unit interval NameCert obligations]
+\label{thm:dyadic-unit-interval-namecert-obligations}
+For every accepted $\DyadicUnitIntervalUp$ carrier $U=(L,R,I,F,S,Q,E,H,C,P,N)$, the local $\NameCert_{\DyadicUnitIntervalUp}$ surface consists exactly of carrier admission, dyadic zero-endpoint exposure through $L$, dyadic one-endpoint exposure through $R$, closed unit-cell exposure through $I$, finite subdivision and endpoint-reuse exposure through $F$, precision-scale exposure through $S$, regular rational readback through $Q$, terminal Real seal exposure through $E$, componentwise transport through $H$, displayed continuation replay through $C$, package provenance through $P$, local naming through $N$, and non-escape for open-cover compactness, quotient streams, selected limits, trichotomy, ambient Real completeness, and choice.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:dyadic-unit-interval-carrier}. The packet lists precisely the dyadic endpoint rows, the unit-cell row, the refinement row, the tolerance-scale row, the regular readback row, the Real seal, and the structural rows.
+
+Read the endpoint and interval obligations first. The rows $L,R,I$ bind the unit cell before any precision or Real-facing consumer is available.
+
+Read the refinement, tolerance, and readback obligations next. The sibling rows $\DyadicIntervalRefinementUp$, $\DyadicToleranceScaleUp$, and $\RegSeqRatUp$ are consumed in the displayed order, so no endpoint or interval consumer can bypass the finite dyadic route.
+
+Finally attach $E,H,C,P,N$. These rows seal, transport, replay, source, and name the same packet. Since the carrier lacks open-cover, quotient, selected-limit, trichotomy, ambient-completeness, and choice coordinates, the listed obligations exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[Dyadic unit interval RegSeqRat boundary consumption]
+\label{thm:dyadic-unit-interval-regseqrat-boundary-consumption}
+Every $\RegSeqRatUp$ or $\RealUp$ consumer of an accepted $\DyadicUnitIntervalUp$ carrier must consume the finite boundary route
+$$
+L,R\longmapsto I\longmapsto F\longmapsto S\longmapsto Q\longmapsto E
+$$
+before it reads the interval as a regular rational or Real-facing bounded object. The route exports only the displayed dyadic endpoint, refinement, tolerance, readback, and seal rows; it does not assert Heine--Borel compactness, open-cover compactness, quotient stream equality, selected Real limits, trichotomy, or choice.
+\end{theorem}
+\begin{proof}
+Start with the carrier projection. The regular rational row $Q$ is listed after the dyadic endpoints, the interval row, the refinement row, and the tolerance-scale row.
+
+Use the sibling dependencies named in the carrier. $\DyadicRatCoreUp$ supplies the endpoint arithmetic, $\DyadicIntervalRefinementUp$ supplies finite subdivision and endpoint reuse, and $\DyadicToleranceScaleUp$ supplies the precision scale that a regular-rational read must consume.
+
+Only then may the terminal route reach $Q$ and $E$. The Real seal is therefore downstream of the displayed boundary route, while $H,C,P,N$ preserve the same packet.
+
+The missing compactness, quotient, selected-limit, trichotomy, completeness, and choice coordinates are not recoverable from the boundary route. A consumer that needs them must cite a separate chapter rather than the $\DyadicUnitIntervalUp$ carrier.
+\end{proof}
+
+\closureat{DyadicUnitIntervalUp}{seedStr}
+
+\begin{closurestatus}{\DyadicUnitIntervalUp}
+  \constructivestory{A $\DyadicUnitIntervalUp$ packet is generated from dyadic zero and one endpoint rows, a closed unit-cell row, finite dyadic refinement, dyadic tolerance scale, RegSeqRat readback, RealUp seal, componentwise hsame transport, Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:dyadic-unit-interval-carrier}, \autoref{thm:dyadic-unit-interval-endpoint-stability}, \autoref{thm:dyadic-unit-interval-namecert-obligations}, and \autoref{thm:dyadic-unit-interval-regseqrat-boundary-consumption} seed the finite L10 unit-interval route over dyadic endpoints, refinement, tolerance scale, regular readback, and the Real seal.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close Heine--Borel compactness, open-cover compactness, quotient streams, selected limits, trichotomy, countable choice, Lean theorem verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked endpoint stability, refinement reuse, tolerance-scale exposure, regular readback, Real-seal nonescape, provenance exhaustion, and local naming for BEDC.Derived.DyadicUnitIntervalUp.}
+\end{closurestatus}

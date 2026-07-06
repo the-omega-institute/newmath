@@ -1,0 +1,71 @@
+\chapter{A Concrete Naming Certificate for $\FrechetFanUp$}
+\label{ch:concrete-instances-frechet-fan-namecert}
+\origin{human}
+
+Following Frechet and Arens, the $\FrechetFanUp$ packet records the classical fan whose apex is approached along countably many finite tails as BEDC NameCert data. It sits after the topology carrier of \autoref{ch:concrete-instances-topology-namecert}, the sequential-space interface of \autoref{ch:concrete-instances-sequential-space-namecert}, the Frechet--Urysohn route of \autoref{ch:concrete-instances-frechet-urysohn-namecert}, and the finite stream-window surface of \autoref{ch:concrete-instances-streamname-namecert}. The packet names only displayed spoke indices, tail windows, apex-neighbourhood tests, convergence readback, transport, replay, provenance, and local naming; it does not import quotient sequence equality, selected representatives, countable choice, a host open-set lattice, or ambient topological semantics.
+
+\begin{definition}[Frechet fan carrier]
+\label{def:frechet-fan-carrier}
+A $\FrechetFanUp$ carrier is a finite $\BHist$ packet
+$$
+F=(S,T,A,Q,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the spoke-index row, naming the finitely inspected natural-number spokes and the apex marker.
+\item $T$ is the tail-window row, recording which finite initial segment of each inspected spoke is excluded before a neighbourhood read accepts the tail.
+\item $A$ is the apex-neighbourhood row, exposing the finite schedule by which all displayed spokes are eventually admitted near the apex.
+\item $Q$ is the sequential readback row, routing convergence and non-closure reads through \autoref{ch:concrete-instances-sequential-space-namecert} and \autoref{ch:concrete-instances-frechet-urysohn-namecert}.
+\item $H$ records componentwise $\hsame$ transport for spoke indices, tail windows, apex-neighbourhood tests, sequential readback, provenance, replay, and local naming.
+\item $C$ records displayed $\Cont$ replay from a topology or sequence request through $S,T,A,Q$ and then through the structural rows.
+\item $P$ is the $\Pkg$ provenance over $\FrechetFanUp$, $\TopologyUp$, $\SequentialSpaceUp$, $\FrechetUrysohnUp$, $\StreamNameUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\FrechetFanUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $S,T,A,Q,H,C,P,N$. It has no coordinate for host quotienting of sequences, a chosen representative for a fan point, countable choice over spokes, a completed lattice of all open sets, or ambient topological semantics.
+\end{definition}
+
+\begin{theorem}[Frechet fan NameCert obligations]
+\label{thm:frechet-fan-namecert-obligations}
+For every accepted $\FrechetFanUp$ carrier $F=(S,T,A,Q,H,C,P,N)$, the local $\NameCert_{\FrechetFanUp}$ surface consists exactly of spoke-index admission through $S$, tail-window readback through $T$, apex-neighbourhood testing through $A$, sequential readback through $Q$, componentwise $\hsame$ transport through $H$, displayed $\Cont$ replay through $C$, $\Pkg$ provenance through $P$, and local naming through $N$. Every topology- or sequence-facing consumer must expose these rows before reading an apex neighbourhood, a spoke tail, a convergent fan sequence, or a sequential-closure handoff.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:frechet-fan-carrier}. The spoke-index row $S$ and tail-window row $T$ are the only rows from which a consumer can inspect a fan spoke and its finite excluded prefix.
+
+Read the apex-neighbourhood and sequential rows next. The row $A$ records the displayed tail schedule near the apex, while $Q$ routes sequence-facing reads through the existing sequential-space and Frechet--Urysohn sibling chapters.
+
+Finally inspect $H,C,P,N$. These rows transport, replay, source, and name the same finite packet. Since no row stores quotient sequence equality, a selected representative, countable choice, a completed open lattice, or host topology semantics, the listed rows exhaust the NameCert obligations.
+\end{proof}
+
+\begin{theorem}[Frechet fan sequential-closure handoff]
+\label{thm:frechet-fan-sequential-closure-handoff}
+Every accepted $\FrechetFanUp$ consumer that hands an apex-neighbourhood or sequential-closure read to a sibling chapter factors through the finite route
+$$
+S,T \longrightarrow A \longrightarrow Q \longrightarrow H,C,P,N .
+$$
+The handoff consumes the topology surface of \autoref{ch:concrete-instances-topology-namecert}, the sequential-space interface of \autoref{ch:concrete-instances-sequential-space-namecert}, the Frechet--Urysohn route of \autoref{ch:concrete-instances-frechet-urysohn-namecert}, and the finite-window discipline of \autoref{ch:concrete-instances-streamname-namecert}; it exports no quotient sequence equality, selected subsequence, countable-choice schedule, host open-set lattice, or ambient topological theorem.
+\end{theorem}
+\begin{proof}
+Begin with $S,T$. They display the inspected spokes and the finite tail windows before any apex or sequence read is available.
+
+Apply the apex-neighbourhood row $A$. It turns the displayed tail windows into the fan-neighbourhood route and does not add a host open-set lattice.
+
+Now apply the sequential readback row $Q$. It is the only handoff to the sequential-space and Frechet--Urysohn sibling surfaces, so the consumer cannot replace it by quotient sequence equality or by a selected subsequence.
+
+The structural rows $H,C,P,N$ preserve and name the same route. Therefore the sequential-closure handoff is exactly the displayed finite packet route.
+\end{proof}
+
+\falsifiablePrediction{An accepted $\FrechetFanUp$ consumer is refuted if it reads apex neighbourhoods, spoke tails, sequential closure, transport, replay, provenance, or local naming without displaying the corresponding $S,T,A,Q,H,C,P,N$ rows.}
+
+\independenceWitness{topology, sequential-space, frechet-urysohn, streamname: no listed sibling is bijective to $\FrechetFanUp$ because the packet jointly carries spoke indices, tail windows, apex-neighbourhood tests, sequential readback, transport, replay, provenance, and local naming.}
+
+\closureat{FrechetFanUp}{seedStr}
+
+\begin{closurestatus}{\FrechetFanUp}
+  \constructivestory{A $\FrechetFanUp$ packet is generated from spoke-index rows, tail-window rows, apex-neighbourhood rows, sequential readback rows, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:frechet-fan-carrier}, \autoref{thm:frechet-fan-namecert-obligations}, and \autoref{thm:frechet-fan-sequential-closure-handoff} seed the finite Frechet fan route over displayed spokes, tail windows, apex neighbourhoods, sequential readback, transport, replay, provenance, and naming rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim quotient sequence equality, selected representatives, countable choice, a completed open-set lattice, ambient topological semantics, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, spoke-index exactness, tail-window exactness, apex-neighbourhood routing, sequential-closure handoff, transport, replay, provenance, and local naming for BEDC.Derived.FrechetFanUp.}
+\end{closurestatus}

@@ -1,0 +1,80 @@
+\chapter{A Concrete Naming Certificate for $\EventuallyUp$}
+\label{ch:concrete-instances-eventually-namecert}
+\origin{human}
+
+Following Bourbaki, Kelley, and Bishop--Bridges on directed sets, nets, and finite tail evidence, the $\EventuallyUp$ packet records the generic eventual-tail substrate consumed by L10 completion routes. It sits after the directed index surface of \autoref{ch:concrete-instances-directedset-namecert}, the Moore--Smith net surface of \autoref{ch:concrete-instances-moore-smith-net-namecert}, the filter-facing eventuality row of \autoref{ch:concrete-instances-eventually-filter-namecert}, the stream naming surface of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, and the terminal real-name boundary of \autoref{ch:concrete-instances-real-namecert}. The packet names finite eventual-tail evidence only; it does not provide selected limits, quotient filters, countable choice, host equality, or $\RealUp$ completeness.
+
+\begin{definition}[Eventually carrier]
+\label{def:eventually-carrier}
+An $\EventuallyUp$ carrier is a finite $\BHist$ packet
+$$
+E=(D,W,T,S,R,A,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $D$ is the $\DirectedSetUp$ row, naming the directed index relation whose tails are inspected.
+\item $W$ is the finite window row, listing the index entries and comparison witnesses visible to the packet.
+\item $T$ is the tail-threshold row, recording the displayed threshold after which the inspected predicate is required.
+\item $S$ is the $\StreamNameUp$ row, exposing the finite stream reads used to inspect the tail.
+\item $R$ is the $\RegSeqRatUp$ row, supplying regular rational readback where the eventuality is consumed by real-name or completion routes.
+\item $A$ is the $\RealUp$ terminal-read row available only after the directed, window, threshold, stream, and regular readback rows have been displayed.
+\item $H$ records componentwise $\hsame$ transport for $D,W,T,S,R,A,C,P,N$.
+\item $C$ records displayed $\Cont$ replay from an eventuality consumer through the directed-tail rows.
+\item $P$ is the $\Pkg$ provenance over $\EventuallyUp$, $\DirectedSetUp$, $\MooreSmithNetUp$, $\EventuallyFilterUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\EventuallyUp}$ row.
+\end{enumerate}
+The classifier accepts only packets whose eventual read uses $D,W,T,S,R,A,H,C,P,N$. It has no coordinate for a selected limit, quotient filter equality, countable-choice schedule, host equality of streams, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[Eventually NameCert obligations]
+\label{thm:eventually-namecert-obligations}
+For every accepted $\EventuallyUp$ carrier $E=(D,W,T,S,R,A,H,C,P,N)$, the local $\NameCert_{\EventuallyUp}$ surface consists exactly of carrier admission, directed-index exposure through $D$, finite-window exposure through $W$, tail-threshold exposure through $T$, stream readback through $S$, regular rational readback through $R$, terminal $\RealUp$ handoff through $A$, componentwise transport through $H$, displayed replay through $C$, provenance through $P$, and local naming through $N$.
+\end{theorem}
+\leanchecked{BEDC.Derived.EventuallyUp.EventuallyCarrier\_namecert\_obligations}
+\leandef{BEDC.Derived.EventuallyUp.EventuallyCarrier}
+\begin{proof}
+Project the carrier of \autoref{def:eventually-carrier}. The tuple lists the directed index row, finite window, tail threshold, stream read, regular readback, Real-facing handoff, and structural rows as the whole accepted surface.
+
+The tail read is row-ordered. A consumer first exposes the directed set $D$ and finite window $W$, then reads the threshold row $T$ before any stream or regular-rational tail evidence is available.
+
+Finally $S,R,A,H,C,P,N$ replay the same finite eventuality packet for completion-facing consumers. Since no selected-limit, quotient-filter, countable-choice, host-equality, or ambient Real-completeness coordinate appears in the carrier, the listed rows exhaust the local NameCert obligations.
+\end{proof}
+
+\begin{theorem}[Eventually directed-tail handoff]
+\label{thm:eventually-directed-tail-handoff}
+Every L10 net, filter, stream, regular-rational, or real-completion consumer of an accepted $\EventuallyUp$ packet receives eventual-tail evidence through the finite sibling route
+$$
+\DirectedSetUp
+\longmapsto
+\MooreSmithNetUp
+\longmapsto
+\EventuallyFilterUp
+\longmapsto
+\StreamNameUp
+\longmapsto
+\RegSeqRatUp
+\longmapsto
+\RealUp .
+$$
+The handoff exports only the displayed directed index, finite window, threshold, stream readback, regular rational readback, terminal real-facing row, transport, replay, provenance, and local naming data.
+\end{theorem}
+\leanchecked{BEDC.Derived.EventuallyUp.EventuallyCarrier\_directed\_tail\_handoff}
+\begin{proof}
+Begin with the carrier projection. The directed row $D$, finite window $W$, and threshold row $T$ expose the tail boundary before any consumer can read stream or regular-rational data.
+
+Next read the sibling surfaces. $\MooreSmithNetUp$ supplies the net-facing interpretation of the directed row, $\EventuallyFilterUp$ supplies the filter-facing eventuality row, $\StreamNameUp$ supplies finite readback, and $\RegSeqRatUp$ supplies the rational approximation row used by real-name consumers.
+
+The terminal row $A$ then hands the displayed tail evidence to $\RealUp$ without adding a selected limit or completeness theorem. Transport through $H$, replay through $C$, provenance through $P$, and local naming through $N$ preserve the same finite route and add no quotient filter, countable choice, host equality, or ambient $\RealUp$ completeness.
+\end{proof}
+
+\closureat{EventuallyUp}{seedStr}
+
+\begin{closurestatus}{\EventuallyUp}
+  \constructivestory{An $\EventuallyUp$ packet is generated from a DirectedSetUp row, a finite window, a tail-threshold row, StreamNameUp readback, RegSeqRatUp readback, a RealUp terminal row, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:eventually-carrier}, \autoref{thm:eventually-namecert-obligations}, and \autoref{thm:eventually-directed-tail-handoff} seed the finite eventual-tail substrate consumed by L10 net, filter, stream, regular-rational, and real-completion routes.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close selected limits, quotient filters, countable choice, host equality of streams, ambient RealUp completeness, Lean verification, or bridge checking for $\EventuallyUp$.}
+  \upgradepath{Obligation closure requires checked carrier admission, directed-index exposure, finite-window exposure, tail-threshold exactness, stream readback, regular rational readback, RealUp terminal handoff, transport, replay, provenance, and local naming for BEDC.Derived.EventuallyUp.}
+\end{closurestatus}

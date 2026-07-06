@@ -1,0 +1,79 @@
+\chapter{A Concrete Naming Certificate for $\FiniteDeBruijnSequenceUp$}
+\label{ch:concrete-instances-finite-de-bruijn-sequence-namecert}
+\origin{human}
+
+Following de Bruijn's classical finite sequence construction, the $\FiniteDeBruijnSequenceUp$ packet records a cyclic word whose fixed-length windows cover all displayed finite words over a finite alphabet exactly once. It sits after the endpoint discipline of \autoref{ch:concrete-instances-bool-namecert}, the finite spine discipline of \autoref{ch:concrete-instances-list-namecert}, the directed successor route of \autoref{ch:concrete-instances-graph-namecert}, the deterministic replay surface of \autoref{ch:concrete-instances-finite-automaton-namecert}, and the accepted-word consumer of \autoref{ch:concrete-instances-regularlanguage-namecert}. The packet names finite cyclic coverage data only; it does not import an infinite shift space, quotient word equality, a selected global enumeration oracle, choice over alphabets, or ambient automata minimization.
+
+\begin{definition}[Finite De Bruijn sequence carrier]
+\label{def:finite-de-bruijn-sequence-carrier}
+A $\FiniteDeBruijnSequenceUp$ carrier is a finite $\BHist$ packet
+$$
+B=(A,n,W,S,L,U,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $A$ is the finite alphabet row, with the binary specialization read through $\BoolUp$ when the alphabet has two endpoints.
+\item $n$ is the positive window-length row fixing the length of each inspected word.
+\item $W$ is the cyclic finite word row, represented as a $\ListUp$ spine with a named wrap boundary.
+\item $S$ is the successor-rotation row, read as a directed $\GraphUp$ edge from each length-$n$ window to the next cyclic window.
+\item $L$ is the coverage ledger listing the displayed length-$n$ windows over $A$ that occur in $W$.
+\item $U$ is the uniqueness ledger asserting that two displayed start positions with the same length-$n$ window are the same cyclic position in the ledger.
+\item $H$ records componentwise $\hsame$ transport for the alphabet, length, cyclic word, successor rotation, coverage ledger, uniqueness ledger, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from the cyclic word through successor rotation, coverage, uniqueness, and the downstream $\FiniteAutomatonUp$ and $\RegularLanguageUp$ consumers.
+\item $P$ is the $\Pkg$ provenance over $\FiniteDeBruijnSequenceUp$, $\BoolUp$, $\ListUp$, $\GraphUp$, $\FiniteAutomatonUp$, $\RegularLanguageUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\FiniteDeBruijnSequenceUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through these rows. It has no coordinate for a host circular string quotient, an infinite symbolic shift, a selected universal enumeration, nondeterministic automaton choice, quotient equality of words, or a completed regular-language theory.
+\end{definition}
+
+\begin{theorem}[Finite De Bruijn sequence obligation surface]
+\label{thm:finite-de-bruijn-sequence-obligation-surface}
+For every accepted $\FiniteDeBruijnSequenceUp$ carrier
+$$
+B=(A,n,W,S,L,U,H,C,P,N),
+$$
+the local $\NameCert_{\FiniteDeBruijnSequenceUp}$ surface consists exactly of carrier admission for the displayed alphabet row, window-length row, cyclic finite word, successor-rotation row, coverage ledger, uniqueness ledger, componentwise transport, replay, provenance, and local naming rows; cyclic-word exactness through $W$; successor exactness through $S$; coverage exactness through $L$; uniqueness exactness through $U$; downstream finite-automaton and regular-language replay through $C$; and nonescape excluding host circular strings, infinite shifts, selected enumerations, nondeterministic choice, and quotient word equality.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:finite-de-bruijn-sequence-carrier}. The tuple $A,n,W,S,L,U,H,C,P,N$ is the complete public inventory of the packet.
+
+The finite-data rows are $A,n,W$. The alphabet row supplies the displayed symbols, the length row fixes the inspected window size, and the $\ListUp$ spine supplies the cyclic word with its wrap boundary.
+
+The rotation and ledger rows are $S,L,U$. The $\GraphUp$ successor row records the next-window relation, the coverage ledger lists the windows over the displayed alphabet, and the uniqueness ledger identifies repeated displayed windows only when their cyclic positions agree.
+
+Finally $H,C,P,N$ transport, replay, source, and name the same finite route for $\FiniteAutomatonUp$ and $\RegularLanguageUp$ consumers. Since no excluded object is a carrier coordinate, the listed rows exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[Finite De Bruijn sequence window coverage]
+\label{thm:finite-de-bruijn-sequence-window-coverage}
+Every accepted $\FiniteDeBruijnSequenceUp$ packet covers its displayed length-$n$ words only through the finite route
+$$
+\BoolUp,\ListUp,\GraphUp \longmapsto A,n,W,S,L,U \longmapsto H,C,P,N .
+$$
+Each displayed word over the alphabet row $A$ is read as a length-$n$ $\ListUp$ window in the cyclic word $W$, and its successor is read through the rotation edge $S$. The coverage ledger $L$ and uniqueness ledger $U$ jointly expose the De Bruijn coverage boundary before any $\FiniteAutomatonUp$ or $\RegularLanguageUp$ consumer reads the packet.
+\end{theorem}
+\begin{proof}
+Start with the finite alphabet and word rows. The alphabet is a displayed finite row, with the two-symbol case routed through $\BoolUp$, and the cyclic word is a finite $\ListUp$ spine with a named wrap boundary.
+
+Read successor rotation through $S$. Each length-$n$ window advances by one cyclic position, so the successor relation is a displayed $\GraphUp$ route rather than an ambient operation on host strings.
+
+Use the coverage ledger $L$ and uniqueness ledger $U$. Coverage records that the displayed length-$n$ windows over $A$ occur in the cyclic word, while uniqueness records that a repeated displayed window identifies the same cyclic position in the ledger.
+
+Downstream automaton and regular-language consumers may then replay the same finite route through $C$. They receive only the displayed alphabet, cyclic word, rotation, coverage, uniqueness, transport, provenance, and local naming rows, not an infinite shift, selected enumeration, nondeterministic choice, or quotient word equality.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\FiniteDeBruijnSequenceUp$ consumer exposes the finite alphabet row, window-length row, cyclic $\ListUp$ word, successor $\GraphUp$ rotation, coverage ledger, and uniqueness ledger before any finite-automaton or regular-language read is public.}
+
+\independenceWitness{bool, list, graph, finite-automaton, regularlanguage: $\FiniteDeBruijnSequenceUp$ is not bijective to any listed sibling because it jointly binds finite alphabet rows, a cyclic word spine, successor rotation, coverage and uniqueness ledgers, downstream automaton replay, regular-language provenance, transport, replay, and local NameCert rows.}
+
+\closureat{FiniteDeBruijnSequenceUp}{seedStr}
+
+\begin{closurestatus}{\FiniteDeBruijnSequenceUp}
+  \constructivestory{A $\FiniteDeBruijnSequenceUp$ packet is generated from a finite alphabet row, a window-length row, a cyclic ListUp word spine, a GraphUp successor-rotation row, coverage and uniqueness ledgers, componentwise hsame transport, displayed Cont replay, Pkg provenance naming BoolUp, ListUp, GraphUp, FiniteAutomatonUp, and RegularLanguageUp, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:finite-de-bruijn-sequence-carrier}, \autoref{thm:finite-de-bruijn-sequence-obligation-surface}, and \autoref{thm:finite-de-bruijn-sequence-window-coverage} seed the finite cyclic window-coverage interface over Bool, List, Graph, FiniteAutomaton, and RegularLanguage rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close infinite shift spaces, host circular-string quotients, selected global enumerations, nondeterministic automaton choice, quotient word equality, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, cyclic-word exactness, successor-rotation exactness, coverage exactness, uniqueness exactness, downstream replay, transport stability, and nonescape for BEDC.Derived.FiniteDeBruijnSequenceUp.}
+\end{closurestatus}

@@ -30,6 +30,7 @@ The carrier has no coordinate for a parallel active reading, hidden target alias
 \label{thm:active-reading-gate-obligation-surface}
 For the carrier of \autoref{def:active-reading-gate-carrier}, the local $\NameCert_{\ActiveReadingGateUp}$ surface consists exactly of carrier admission for $G=(T,A,R,B,E,H,C,P,N)$; target admission through $T$; active-reading uniqueness through $A$ and $B$; retired-reading exposure through $R$; registry and blocking coverage through $\RegistryExportSurfaceUp$, $\RegistryLayerUp$, and $\ClaimRegistryLayerUp$; export non-escape through $E$; and transport, replay, provenance, and naming stability through $H,C,P,N$.
 \end{theorem}
+\leanchecked{BEDC.Derived.ActiveReadingGateUp.ActiveReadingGateCarrier\_obligation\_surface}
 \begin{proof}
 Project the carrier of \autoref{def:active-reading-gate-carrier}. The rows $T,A,R,B,E,H,C,P,N$ are the only coordinates available to the local certificate.
 
@@ -40,10 +41,93 @@ The registry siblings provide the public routes. $\RegistryExportSurfaceUp$ cont
 Rows $E,H,C,P,N$ make that boundary stable. They expose the single export route, preserve the displayed rows componentwise, replay the route through the blocking surface, record package provenance, and name the packet. No remaining coordinate can create a parallel active reading or bypass the refusal row.
 \end{proof}
 
+\begin{theorem}[Active reading gate obligation carrier window]
+\label{thm:active-reading-gate-obligation-carrier-window}
+Every accepted $\ActiveReadingGateUp$ carrier exposes registry export, registry layer, claim registry, audit transcript, writing item, active row, retired row, transport, replay, provenance, and local name before any public active-read decision is exported. In carrier notation, the public window is the displayed route
+$$
+T,A,R,B,E,H,C,P,N
+$$
+together with the registry, claim, transcript, and writing-item sibling rows named by $P$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:active-reading-gate-carrier}. The rows $T,A,R,B,E,H,C,P,N$ display target, current reading, retired reading, refusal, export, transport, replay, provenance, and local naming before any public decision can leave the packet.
+
+Now read the sibling rows named in the provenance row. Registry export, registry layer, claim registry, audit transcript, and writing-item audit are available only as displayed consumers of the same packet.
+
+Componentwise $\hsame$ transport through $H$ and displayed $\Cont$ replay through $C$ preserve that window. Thus a public active-read decision cannot be exported until the carrier window and sibling rows listed in the statement have all been exposed.
+\end{proof}
+\leanchecked{BEDC.Derived.ActiveReadingGateUp.ActiveReadingGateCarrier\_obligation\_carrier\_window}
+
+\begin{theorem}[Active reading gate scope handoff]
+\label{thm:active-reading-gate-scope-handoff}
+Every public $\ActiveReadingGateUp$ handoff factors through $\BHist$, $\hsame$, $\Cont$, $\Pkg$, $\NameCert$, registry exports, claim registry, and writing-item audit rows. The handoff carries the active and retired reading rows as displayed data and exports no hidden target alias, registry bypass, claim bypass, writing-item bypass, or active-read decision outside the finite packet.
+\end{theorem}
+\begin{proof}
+Start with the obligation surface of \autoref{thm:active-reading-gate-obligation-surface}. It binds the local NameCert surface to the finite carrier and to the registry, claim, transcript, and writing-item siblings named by the packet.
+
+The structural rows supply the handoff route. The carrier itself is a $\BHist$ packet, $H$ supplies componentwise $\hsame$ transport, $C$ supplies displayed $\Cont$ replay, $P$ supplies $\Pkg$ provenance, and $N$ supplies the local $\NameCert$ row.
+
+The registry export, claim registry, and writing-item audit rows are therefore reached only through that same finite packet. Since no row remains for a hidden target alias or bypass route, every public handoff factors through the listed kernel and sibling rows.
+\end{proof}
+\leanchecked{BEDC.Derived.ActiveReadingGateUp.ActiveReadingGateCarrier\_scope\_handoff}
+
+\begin{theorem}[Active reading gate export uniqueness obligation]
+\label{thm:active-reading-gate-export-uniqueness-obligation}
+For every accepted $\ActiveReadingGateUp$ packet $G=(T,A,R,B,E,H,C,P,N)$, the export row $E$ is unique as an active-reading export for the target row $T$. Any registry, claim, transcript, or writing-item consumer must read $E$ through the current row $A$ and the blocking row $B$, with $\RegistryExportSurfaceUp$, $\RegistryLayerUp$, $\ClaimRegistryLayerUp$, $\AuditTranscriptEnvelopeUp$, and $\WritingItemAuditUp$ acting only on that displayed route.
+\end{theorem}
+\leanchecked{BEDC.Derived.ActiveReadingGateUp.ActiveReadingGateCarrier\_export\_uniqueness}
+\begin{proof}
+Project the carrier of \autoref{def:active-reading-gate-carrier}. The only active-reading row is $A$, the only retired-reading row is $R$, and the only export row is $E$.
+
+Apply the obligation surface of \autoref{thm:active-reading-gate-obligation-surface}. It routes registry export through $\RegistryExportSurfaceUp$, registry admission through $\RegistryLayerUp$, claim admission through $\ClaimRegistryLayerUp$, transcript replay through $\AuditTranscriptEnvelopeUp$, and writing-item legality through $\WritingItemAuditUp$.
+
+The blocking row $B$ sits between $A$ and $E$. Since $H$ transports only displayed rows, $C$ replays only the displayed route, and $P,N$ only record provenance and local naming, no sibling route can introduce a second active export for the same target.
+\end{proof}
+
+\begin{theorem}[Active reading gate current-retired boundary]
+\label{thm:active-reading-gate-current-retired-boundary}
+For every accepted $\ActiveReadingGateUp$ packet $G=(T,A,R,B,E,H,C,P,N)$, a retired row $R$ may be transported, replayed, and audited only as retired data. It cannot become the current row $A$ or an export row $E$ unless the blocking row $B$ is replaced by a new displayed carrier packet with its own $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ support rows.
+\end{theorem}
+\leanchecked{BEDC.Derived.ActiveReadingGateUp.ActiveReadingGateCarrier\_current\_retired\_boundary}
+\begin{proof}
+Project the carrier of \autoref{def:active-reading-gate-carrier}. The accepted packet is a finite $\BHist$ row with separate coordinates for current reading, retired reading, blocking, export, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and the local $\NameCert_{\ActiveReadingGateUp}$ row.
+
+Apply \autoref{thm:active-reading-gate-obligation-surface} and \autoref{thm:active-reading-gate-export-uniqueness-obligation}. The obligation surface exposes $R$ as retired-reading data, while export uniqueness routes every active export through $A$, then $B$, then $E$. Thus the retired row can be carried by transport and replay, but it is not a current-reading coordinate and not an export coordinate.
+
+Finally use ledger closure from \autoref{thm:active-reading-gate-ledger-closure-obligation} together with provenance stability from \autoref{thm:active-reading-gate-provenance-stability-obligation}. Rows $H,C,P,N$ preserve and name the displayed route already present in $G$; they do not replace the blocking row. Therefore promoting $R$ to $A$ or $E$ requires a different displayed carrier packet with a new blocking row, not an audit replay of the retired row.
+\end{proof}
+
+\begin{theorem}[Active reading gate ledger closure obligation]
+\label{thm:active-reading-gate-ledger-closure-obligation}
+For every accepted $\ActiveReadingGateUp$ packet $G=(T,A,R,B,E,H,C,P,N)$, the ledger for target, active reading, retired reading, blocking, export, replay, provenance, and local naming is closed by the displayed rows $R,E,L,H,C,P,N$, where $L$ denotes the visible registry and claim ledger induced by $\RegistryExportSurfaceUp$, $\RegistryLayerUp$, $\ClaimRegistryLayerUp$, $\AuditTranscriptEnvelopeUp$, and $\WritingItemAuditUp$. No consumer may replace that ledger by an export outside $E$ or by a retired row outside $R$.
+\end{theorem}
+\leanchecked{BEDC.Derived.ActiveReadingGateUp.ActiveReadingGateCarrier\_ledger\_closure}
+\begin{proof}
+Read $L$ as the finite ledger route exposed by the sibling chapters named in the provenance row $P$. The route records registry export, registry admission, claim admission, transcript replay, and writing-item legality before any public consumer sees an export.
+
+Rows $R$ and $E$ are therefore not free coordinates. The retired row $R$ is held as audit data, while $E$ is the only public export row admitted by the ledger route $L$.
+
+Rows $H,C,P,N$ close the ledger under transport, replay, provenance, and local naming. They can preserve or replay the displayed route, but they cannot add a hidden active reading, registry bypass, claim bypass, transcript bypass, writing-item bypass, or second local name.
+\end{proof}
+
+\begin{theorem}[Active reading gate provenance stability obligation]
+\label{thm:active-reading-gate-provenance-stability-obligation}
+For every accepted $\ActiveReadingGateUp$ packet $G=(T,A,R,B,E,H,C,P,N)$, provenance row $P$ is stable under componentwise $\hsame$ transport $H$ and displayed $\Cont$ replay $C$ precisely for the rows $R,E,L,H,C,P,N$ over the routes $\RegistryExportSurfaceUp$, $\RegistryLayerUp$, $\ClaimRegistryLayerUp$, $\AuditTranscriptEnvelopeUp$, and $\WritingItemAuditUp$. A transported or replayed packet preserves the same active-reading export boundary and cannot turn provenance into a new active row.
+\end{theorem}
+\leanchecked{BEDC.Derived.ActiveReadingGateUp.ActiveReadingGateCarrier\_provenance\_stability}
+\begin{proof}
+Start from the provenance row $P$. It names the active-reading gate together with the registry export surface, registry layer, claim registry layer, audit transcript envelope, writing-item audit route, and the BEDC structural rows.
+
+Componentwise $\hsame$ transport in $H$ preserves the rows $T,A,R,B,E$ and the induced ledger route $L$. Displayed $\Cont$ replay in $C$ follows the same target, active-reading, blocking, and export chain.
+
+Thus a transported or replayed packet has the same public export boundary. The provenance row can certify the route already present in $G$, but it has no coordinate that can promote $R$ or any sibling ledger entry into a second active reading.
+\end{proof}
+
 \begin{theorem}[Active reading gate single export route]
 \label{thm:active-reading-gate-single-export-route}
 Every registry, claim, transcript, or writing-item consumer of an accepted $\ActiveReadingGateUp$ packet must read the target row $T$ through the active-reading row $A$ and the blocking row $B$ before the export row $E$. Such a consumer cannot export a parallel active reading for the same target.
 \end{theorem}
+\leanchecked{BEDC.Derived.ActiveReadingGateUp.ActiveReadingGateCarrier\_single\_export\_route}
 \begin{proof}
 Start with an accepted packet
 $$
@@ -57,6 +141,125 @@ Transcript and writing-item consumers receive the same route through the provena
 
 Thus every accepted export factors through $T,A,B,E$, with $R$ blocked from active export. A packet exporting both $A$ and $R$ as active readings for the same target leaves $\ActiveReadingGateUp$ and is refused by $B$.
 \end{proof}
+
+\begin{theorem}[Active reading gate ledger non-escape]
+\label{thm:active-reading-gate-ledger-nonescape}
+Every accepted $\ActiveReadingGateUp$ consumer read factors through
+$$
+T,A,R,B,E,H,C,P,N.
+$$
+Consequently a retired reading cannot become a second active export, and no hidden target alias, registry bypass, claim bypass, transcript bypass, writing-item bypass, or local name outside the displayed carrier is available.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:active-reading-gate-carrier}. The packet exposes exactly the target row $T$, active-reading row $A$, retired-reading row $R$, blocking row $B$, export row $E$, transport row $H$, replay row $C$, provenance row $P$, and local naming row $N$.
+
+Apply the obligation surface of \autoref{thm:active-reading-gate-obligation-surface}. It makes active-reading uniqueness, retired-reading exposure, registry coverage, export non-escape, transport, replay, provenance, and local naming the displayed local obligations.
+
+Use the single-export route of \autoref{thm:active-reading-gate-single-export-route}. Since every public export reaches $E$ through $T,A,B$, the retired row $R$ remains audit data and cannot become a parallel active export.
+\end{proof}
+\leanchecked{BEDC.Derived.ActiveReadingGateUp.ActiveReadingGateCarrier\_ledger\_nonescape}
+
+\begin{theorem}[Active reading gate current retired disjointness]
+\label{thm:active-reading-gate-current-retired-disjointness}
+For every accepted $\ActiveReadingGateUp$ packet $G=(T,A,R,B,E,H,C,P,N)$, the current row $A$ and retired row $R$ have disjoint export roles. Row $A$ is the only current-reading source for the export row $E$, while $R$ remains audit-visible retired-reading data and cannot be exported as a second active reading for the same target $T$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:active-reading-gate-carrier}. The rows $A$ and $R$ are separate displayed coordinates, and only $A$ is named as the active-reading row.
+
+Apply the obligation surface of \autoref{thm:active-reading-gate-obligation-surface}. It exposes retired-reading data through $R$ while routing active-reading uniqueness through $A$ and $B$.
+
+Use the single export route of \autoref{thm:active-reading-gate-single-export-route} and ledger non-escape from \autoref{thm:active-reading-gate-ledger-nonescape}. Every export reaches $E$ through $T,A,B$, while every consumer still factors through the displayed carrier containing $R$ as audit data. Thus the two rows have disjoint export roles.
+\end{proof}
+\leanchecked{BEDC.Derived.ActiveReadingGateUp.ActiveReadingGateCarrier\_current\_retired\_disjointness}
+
+\begin{theorem}[Active reading gate blocking row determinacy]
+\label{thm:active-reading-gate-blocking-row-determinacy}
+For every accepted $\ActiveReadingGateUp$ packet $G=(T,A,R,B,E,H,C,P,N)$, the row $B$ is the unique refusal row for any request that presents a second active reading of the same target row $T$. No registry, claim, transcript, writing-item, transport, replay, provenance, or local naming row may replace $B$ as the blocking witness.
+\end{theorem}
+\leanchecked{BEDC.Derived.ActiveReadingGateUp.ActiveReadingGateCarrier\_blocking\_row\_determinacy}
+\begin{proof}
+The carrier of \autoref{def:active-reading-gate-carrier} contains exactly one blocking or refusal row, namely $B$. The target row $T$ and active row $A$ are fixed before export, and $R$ is retired audit data.
+
+The obligation surface of \autoref{thm:active-reading-gate-obligation-surface} places active-reading uniqueness through $A$ and $B$. The single export route of \autoref{thm:active-reading-gate-single-export-route} then forces every public route to read $B$ before $E$.
+
+Ledger non-escape prevents the structural rows from supplying another refusal coordinate. Rows $H,C,P,N$ transport, replay, source, and name the displayed route, so the second-active-reading request is determined by the unique blocking row $B$.
+\end{proof}
+
+\begin{theorem}[Active reading gate registry consumer coverage]
+\label{thm:active-reading-gate-registry-consumer-coverage}
+Every registry, claim, transcript, or writing-item consumer of an accepted $\ActiveReadingGateUp$ packet enters through the displayed rows
+$$
+T,A,B,E,H,C,P,N.
+$$
+The retired row $R$ remains visible to audit consumers, but no registry, claim, transcript, or writing-item export can bypass the target, active-reading, blocking, export, transport, replay, provenance, and naming route.
+\end{theorem}
+\begin{proof}
+Start from the carrier of \autoref{def:active-reading-gate-carrier}. Registry, claim, transcript, and writing-item siblings are named only through the provenance row $P$ and the export obligations attached to $E$.
+
+Apply the obligation surface and single export route. They force every consumer to read the target row $T$, active-reading row $A$, blocking row $B$, and export row $E$ before any public route leaves the packet.
+
+Finally apply ledger non-escape from \autoref{thm:active-reading-gate-ledger-nonescape}. Transport $H$, replay $C$, provenance $P$, and local naming $N$ preserve the same entry route, while $R$ remains audit-visible and non-exportable. Hence the listed rows cover every registry, claim, transcript, or writing-item consumer.
+\end{proof}
+\leanchecked{BEDC.Derived.ActiveReadingGateUp.ActiveReadingGateCarrier\_registry\_consumer\_coverage}
+
+\begin{theorem}[Active reading gate scope grounding]
+\label{thm:active-reading-gate-scope-grounding}
+The $\ActiveReadingGateUp$ scope is grounded in the displayed $\BHist$ rows $T,A,R,B,E,H,C,P,N$, componentwise $\hsame$ transport through $H$, $\Cont$ replay through $C$, $\Pkg$ provenance through $P$, the registry-export siblings, the claim-registry siblings, the audit transcript envelope, the writing-item audit route, and the local $\NameCert_{\ActiveReadingGateUp}$ row $N$. No accepted read has a scope coordinate outside that finite surface.
+\end{theorem}
+\begin{proof}
+Start from the carrier of \autoref{def:active-reading-gate-carrier}. Its rows name the target, active reading, retired reading, blocking ledger, export route, transport, replay, provenance, and local certificate.
+
+The obligation surface of \autoref{thm:active-reading-gate-obligation-surface} grounds the registry and claim sides through $\RegistryExportSurfaceUp$, $\RegistryLayerUp$, and $\ClaimRegistryLayerUp$. It also keeps the audit transcript envelope and writing-item audit route visible through the provenance row $P$.
+
+Apply ledger non-escape from \autoref{thm:active-reading-gate-ledger-nonescape} and the single-export route from \autoref{thm:active-reading-gate-single-export-route}. The same finite rows that admit the packet also bound every consumer read, so no hidden target alias or bypass route can supply an additional scope coordinate.
+\end{proof}
+\leanchecked{BEDC.Derived.ActiveReadingGateUp.ActiveReadingGateCarrier\_scope\_grounding}
+
+\begin{theorem}[Active reading gate single-active obstruction]
+\label{thm:active-reading-gate-single-active-obstruction}
+For every accepted $\ActiveReadingGateUp$ packet
+$$
+G=(T,A,R,B,E,H,C,P,N),
+$$
+the blocking row $B$ rejects any consumer route that presents two active readings for the same target row $T$. The rejected route may mention retired-reading data in $R$, but it cannot classify $R$ as a second active row beside $A$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:active-reading-gate-carrier}. The target row $T$ and the active-reading row $A$ are single displayed coordinates, and the blocking row $B$ is attached to the same target.
+
+Use the export uniqueness obligation of \autoref{thm:active-reading-gate-export-uniqueness-obligation}. Any public route to the export row $E$ passes through $A$ and then through $B$ before a registry, claim, transcript, or writing-item consumer can read it.
+
+The retired row $R$ remains visible as audit data. Since $H$ transports only the displayed carrier rows and $C$ replays the displayed route, neither structural row can reclassify $R$ as another active reading for $T$.
+\end{proof}
+\leanchecked{BEDC.Derived.ActiveReadingGateUp.ActiveReadingGateCarrier\_single\_active\_obstruction}
+
+\begin{theorem}[Active reading gate retired-reading nonescape]
+\label{thm:active-reading-gate-retired-reading-nonescape}
+For every accepted $\ActiveReadingGateUp$ packet $G=(T,A,R,B,E,H,C,P,N)$, the retired-reading row $R$ remains visible in the audit surface and cannot be erased by export. Every consumer that reads the export row $E$ still factors through the displayed carrier containing $R$, even though $R$ is not active.
+\end{theorem}
+\begin{proof}
+Start with the obligation surface of \autoref{thm:active-reading-gate-obligation-surface}. It lists retired-reading exposure through $R$ as part of the local $\NameCert_{\ActiveReadingGateUp}$ surface.
+
+Apply the ledger closure obligation of \autoref{thm:active-reading-gate-ledger-closure-obligation}. The ledger route records $R$ and $E$ together before any public consumer sees the export, so export cannot remove the retired-reading coordinate from the visible packet.
+
+Finally use ledger non-escape from \autoref{thm:active-reading-gate-ledger-nonescape}. Every accepted consumer read factors through $T,A,R,B,E,H,C,P,N$, and therefore the retired row remains audit-visible while the blocking row prevents it from becoming active.
+\end{proof}
+\leanchecked{BEDC.Derived.ActiveReadingGateUp.ActiveReadingGateCarrier\_retired\_reading\_nonescape}
+
+\begin{theorem}[Active reading gate export scope]
+\label{thm:active-reading-gate-export-scope}
+Every export route of an accepted $\ActiveReadingGateUp$ packet reaches a consumer only through the target row $T$, active-reading row $A$, blocking row $B$, export row $E$, componentwise transport row $H$, displayed replay row $C$, provenance row $P$, and local naming row $N$. The retired row $R$ remains visible to audit readers, but the public export scope is exactly the route
+$$
+T,A,B,E,H,C,P,N.
+$$
+\end{theorem}
+\begin{proof}
+Project the accepted carrier $G=(T,A,R,B,E,H,C,P,N)$. The only public export coordinate is $E$, and it is tied to the target and active-reading rows by the blocking row.
+
+Use the single export route of \autoref{thm:active-reading-gate-single-export-route}. It forces registry, claim, transcript, and writing-item consumers to read $T,A,B,E$ in the displayed order before any public export is available.
+
+The structural rows then bound the rest of the route. Componentwise transport uses $H$, replay uses $C$, provenance uses $P$, and local naming uses $N$. The retired row $R$ stays in the audit packet by \autoref{thm:active-reading-gate-retired-reading-nonescape}, but it is not part of the active export chain.
+\end{proof}
+\leanchecked{BEDC.Derived.ActiveReadingGateUp.ActiveReadingGateCarrier\_export\_scope}
 
 \falsifiablePrediction{If both $A$ and $R$ are exported as active readings for the same target, the packet is refuted by the blocking row.}
 

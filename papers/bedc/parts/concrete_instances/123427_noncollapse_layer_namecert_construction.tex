@@ -1,0 +1,76 @@
+\chapter{A Concrete Naming Certificate for $\NonCollapseLayerUp$}
+\label{ch:concrete-instances-noncollapse-layer-namecert}
+\origin{ai}
+
+The $\NonCollapseLayerUp$ packet realizes the rational, located, and apophatic non-collapse layer of \autoref{sec:cataphatic-apophatic-layering} as finite NameCert data. It sits between the rational carrier of \autoref{ch:concrete-instances-rat-namecert}, the located-real carrier of \autoref{ch:concrete-instances-located-real-namecert}, the apophatic socket surface of \autoref{ch:concrete-instances-apophaticsocket-namecert}, and the checked invariant rows displayed at \autoref{prin:cataphatic-apophatic-noncollapse-invariant}. The packet records the exact place where rational snapshots, located evidence, and refusal rows remain jointly visible, rather than collapsing located presentations to rational names.
+
+\begin{definition}[NonCollapseLayer packet]
+\label{def:noncollapse-layer-packet}
+A $\NonCollapseLayerUp$ packet is a finite $\BHist$ carrier
+$$
+L=(Q,R,A,E,M,S,G,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $Q$ is the $\RatUp$ snapshot row, carrying the rational point proposed as a retraction target.
+\item $R$ is the $\LocatedRealUp$ presentation row whose located evidence is being compared against $Q$.
+\item $A$ is the displayed apartness row separating a rational snapshot from the located presentation at a fixed scale.
+\item $E$ is the equality-modulus challenge row, recording the proposed finite modulus that would make $R$ stationary at $Q$.
+\item $M$ is the $\mathsf{NonCollapseInvariant}$ witness row read from \autoref{prin:cataphatic-apophatic-noncollapse-invariant}.
+\item $S$ is the $\ApophaticSocketUp$ refusal row for unsupported rational retraction.
+\item $G$ is the TasteGate verdict row that must later be supplied by \texttt{TasteGate.lean} as the \texttt{Nontrivial} and \texttt{FieldFaithful} instance surface for the same packet.
+\item $H$ records componentwise $\hsame$ transport for the rational, located, apartness, modulus, invariant, socket, gate, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from rational snapshot to located evidence, invariant check, refusal, and local consumption.
+\item $P$ is the $\Pkg$ provenance over $\NonCollapseLayerUp$, $\RatUp$, $\LocatedRealUp$, $\ApophaticSocketUp$, $\mathsf{NonCollapseInvariant}$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\NonCollapseLayerUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through these rows. It has no coordinate for a rational retraction, quotient collapse of located names, arbitrary representative selection, rational trichotomy as located equality, or a hidden pointification theorem.
+\end{definition}
+
+\begin{theorem}[NonCollapseLayer NameCert obligations]
+\label{thm:noncollapse-layer-namecert-obligations}
+For every accepted $\NonCollapseLayerUp$ packet
+$$
+L=(Q,R,A,E,M,S,G,H,C,P,N),
+$$
+the local $\NameCert_{\NonCollapseLayerUp}$ surface consists exactly of carrier admission for the eleven displayed rows, rational snapshot admission through $Q$, located-real presentation through $R$, apartness evidence through $A$, equality-modulus challenge through $E$, invariant witness through $M$, apophatic refusal through $S$, TasteGate verdict through $G$, componentwise transport through $H$, displayed replay through $C$, provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the packet of \autoref{def:noncollapse-layer-packet}. The rational and located rows are $Q$ and $R$, while $A$ and $E$ display the apartness/equality-modulus pair that tests a proposed collapse.
+
+Read $M$ and $S$ next. The invariant witness says that a rational retraction row must meet the displayed apartness evidence beyond the proposed modulus, and the socket row records that unsupported retraction as refusal rather than as theorem content.
+
+The TasteGate row $G$ is an obligation row for the later Lean instance surface, not an external proof source. The structural rows $H,C,P,N$ preserve the same packet under transport, replay, provenance, and naming.
+
+Since no carrier coordinate stores a rational retraction, quotient collapse, representative selector, rational trichotomy-as-located-equality, or hidden pointification theorem, the listed rows exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[NonCollapseLayer rational retraction refusal]
+\label{thm:noncollapse-layer-rational-retraction-refusal}
+An accepted $\NonCollapseLayerUp$ packet refuses any rational retraction row that identifies the located presentation $R$ with the stationary rational snapshot $Q$ while preserving both the apartness evidence $A$ and the equality-modulus challenge $E$. Any such row contradicts the displayed apartness/equality-modulus pair carried by $A,E,M$ and must be routed through the apophatic socket row $S$ rather than through local naming as a valid classifier.
+\end{theorem}
+\begin{proof}
+Begin with the NameCert obligations of \autoref{thm:noncollapse-layer-namecert-obligations}. They make the proposed rational target $Q$, the located presentation $R$, the apartness evidence $A$, and the equality-modulus challenge $E$ visible in the same packet.
+
+Apply the invariant row $M$ as displayed in \autoref{prin:cataphatic-apophatic-noncollapse-invariant}. A rational retraction would require $E$ to stabilize the located presentation at $Q$, while the invariant supplies apartness evidence beyond that proposed modulus.
+
+The socket row $S$ is therefore the only admitted continuation for the retraction request. Transport, replay, provenance, and local naming preserve the refusal route through $H,C,P,N$ and cannot turn it into a hidden classifier or proof source.
+\end{proof}
+
+\falsifiablePrediction{A rational retraction row from $\LocatedRealUp$ to $\RatUp$ that preserves the displayed apartness row $A$ and equality-modulus row $E$ contradicts the invariant row $M$ of an accepted $\NonCollapseLayerUp$ packet.}
+
+\independenceWitness{real, rat, located-real, apophaticsocket, noncollapseinvariant: no listed sibling is bijective to NonCollapseLayerUp because the Real, Rat, LocatedReal, ApophaticSocket, and NonCollapseInvariant surfaces each expose one side of the rational, located, or refusal boundary, while this packet binds rational snapshot, located evidence, apartness, equality-modulus challenge, invariant witness, socket refusal, TasteGate verdict, transport, replay, provenance, and local naming rows together.}
+
+The Lean follow-up lives at \texttt{lean4/BEDC/Derived/NonCollapseLayerUp/TasteGate.lean} and must provide \texttt{Nontrivial NonCollapseLayerUp} and \texttt{FieldFaithful NonCollapseLayerUp} instances for the same displayed carrier.
+
+\closureat{NonCollapseLayerUp}{seedStr}
+
+\begin{closurestatus}{\NonCollapseLayerUp}
+  \constructivestory{A $\NonCollapseLayerUp$ packet is generated from a Rat snapshot row, LocatedReal presentation row, apartness row, equality-modulus challenge row, NonCollapseInvariant witness row, ApophaticSocket refusal row, TasteGate verdict row, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:noncollapse-layer-packet}, \autoref{thm:noncollapse-layer-namecert-obligations}, and \autoref{thm:noncollapse-layer-rational-retraction-refusal} seed the finite rational, located, and apophatic non-collapse layer.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close rational retraction, quotient collapse of located names, arbitrary representative selection, rational trichotomy as located equality, hidden pointification, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, rational snapshot exactness, located presentation readback, apartness and equality-modulus compatibility, invariant witness routing, socket refusal, TasteGate field faithfulness, transport, replay, provenance, and local naming for BEDC.Derived.NonCollapseLayerUp.}
+\end{closurestatus}

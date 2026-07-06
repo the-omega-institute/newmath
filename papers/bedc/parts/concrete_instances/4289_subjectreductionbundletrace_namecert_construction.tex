@@ -59,6 +59,7 @@ public export theorems below. Together they account for every consumer read
 while keeping the packet on the bundle discharge surface described in
 \autoref{ch:sr-discharge-routes}.
 \end{proof}
+\leanchecked{BEDC.Derived.SubjectReductionBundleTraceUp.SubjectReductionBundleTraceCarrier\_namecert\_obligations}
 
 \begin{theorem}[SubjectReduction bundle trace route readback]
 \label{thm:subject-reduction-bundle-trace-route-readback}
@@ -101,6 +102,7 @@ The obstruction boundary from \autoref{ch:sr-discharge-routes} remains external
 to this packet. Since the carrier contains no row discharging that boundary for
 the present substrate, no public read can escape the finite route packet.
 \end{proof}
+\leanchecked{BEDC.Derived.SubjectReductionBundleTraceUp.SubjectReductionBundleTraceCarrier\_non\_escape}
 
 \begin{theorem}[SubjectReduction bundle trace public export]
 \label{thm:subject-reduction-bundle-trace-public-export}
@@ -115,6 +117,7 @@ subject-reduction work may consume it as a BEDC-native route packet for bundle
 discharge, but not as an inhabitant of any discharge hypothesis not listed in
 $L$.
 \end{theorem}
+\leanchecked{BEDC.Derived.SubjectReductionBundleTraceUp.SubjectReductionBundleTraceCarrier\_public\_export}
 \begin{proof}
 The carrier supplies the finite rows $B,E,L,H,C,P,N$. The NameCert obligations
 bind carrier admission, classifier stability, route readback, non-escape, and
@@ -128,6 +131,42 @@ Repacking these clauses yields the public export. It is the concrete BEDC
 route packet for the bundle discharge interface, with the same four discharge
 rows visible and no hidden subject-reduction evidence outside the finite
 ledger.
+\end{proof}
+
+\begin{theorem}[SubjectReduction bundle trace obligation route]
+\label{thm:subject-reduction-bundle-trace-obligation-route}
+An obligation-closure consumer of $\SubjectReductionBundleTraceUp$ must read
+\autoref{def:subject-reduction-bundle-trace-carrier}, the five NameCert
+obligations of
+\autoref{thm:subject-reduction-bundle-trace-namecert-obligations}, the route
+readback of \autoref{thm:subject-reduction-bundle-trace-route-readback}, the
+non-escape boundary of
+\autoref{thm:subject-reduction-bundle-trace-non-escape}, the public export of
+\autoref{thm:subject-reduction-bundle-trace-public-export}, componentwise
+transport through $H$, provenance through $P$, and local naming through $N$
+before treating the packet as an obligation-surface object. This route does
+not discharge dependent-codomain evidence, evaluator equality, quotient
+reduction behaviour, or full subject reduction.
+\end{theorem}
+\leanchecked{BEDC.Derived.SubjectReductionBundleTraceUp.SubjectReductionBundleTraceCarrier\_obligation\_route}
+\begin{proof}
+Start with the carrier row. It displays exactly the bundle row, extraction
+row, finite ledger, componentwise transport, continuation route, provenance,
+and local naming coordinates $B,E,L,H,C,P,N$.
+
+Apply the NameCert-obligations theorem. It names carrier admission,
+classifier stability, route readback, non-escape, and public export as the
+five finite obligations attached to that carrier.
+
+Now read the route readback, non-escape, and public-export theorems. These
+theorems force the consumer to stay on the displayed bundle ledger, exclude
+the absent dependent-codomain and evaluator objects, and expose only the
+finite BEDC route packet.
+
+Finally use the structural rows $H,P,N$ for componentwise transport,
+provenance, and local naming. Since every cited row is part of the displayed
+packet, the consumer may regard it as an obligation-surface object, but no
+claim outside the listed rows is exported.
 \end{proof}
 
 \closureat{SubjectReductionBundleTraceUp}{seedStr}

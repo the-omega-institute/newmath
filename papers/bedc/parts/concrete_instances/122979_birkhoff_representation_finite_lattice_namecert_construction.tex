@@ -1,0 +1,59 @@
+\chapter{A Concrete Naming Certificate for $\BirkhoffRepresentationFiniteLatticeUp$}
+\label{ch:concrete-instances-birkhoff-representation-finite-lattice-namecert}
+\origin{human}
+
+Following Birkhoff and Davey--Priestley, the $\BirkhoffRepresentationFiniteLatticeUp$ packet records the finite representation of a distributive lattice by the downsets of its join-irreducible poset as displayed BEDC NameCert data. It sits after the meet--join rows of \autoref{ch:concrete-instances-lattice-namecert}, the ordered comparison surface of \autoref{ch:concrete-instances-poset-namecert}, the Boolean operation boundary of \autoref{ch:concrete-instances-booleanalgebra-namecert}, and the topological duality packets of \autoref{ch:concrete-instances-stoneduality-namecert} and \autoref{ch:concrete-instances-priestley-duality-namecert}. The packet names the finite lattice representation route; it does not import host powersets, ultrafilter selection, quotient lattice equality, or arbitrary Stone or Priestley representation.
+
+\begin{definition}[Birkhoff representation finite-lattice carrier]
+\label{def:birkhoff-representation-finite-lattice-carrier}
+A $\BirkhoffRepresentationFiniteLatticeUp$ carrier is a finite $\BHist$ packet
+$$
+B=(L,J,D,E,O,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $L$ is the finite distributive-lattice row, exposing the accepted $\LatticeUp$ meet, join, bottom, top, order, and distributivity observations.
+\item $J$ is the join-irreducible $\PosetUp$ row extracted from $L$, with only finite order comparisons and join-irreducibility witnesses visible.
+\item $D$ is the downset-lattice row over $J$, recording finitely listed downsets, inclusion comparisons, finite intersection as meet, and finite union as join.
+\item $E$ is the evaluation and reconstruction ledger sending each displayed $x$ in $L$ to the downset of join-irreducible rows below $x$, and reading each displayed downset back as the finite join of its listed members.
+\item $O$ is the operation-preservation ledger for zero, one, finite meet, finite join, order comparison, and distributivity through the $L \leftrightarrow D$ reconstruction route.
+\item $H$ records componentwise $\hsame$ transport for the lattice row, join-irreducible poset row, downset row, evaluation ledger, operation ledger, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay of every finite representation read through
+$$
+L,J,D,E,O \longmapsto N .
+$$
+\item $P$ is the $\Pkg$ provenance over $\BirkhoffRepresentationFiniteLatticeUp$, $\LatticeUp$, $\PosetUp$, $\BooleanAlgebraUp$, $\StoneDualityUp$, $\PriestleyDualityUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\BirkhoffRepresentationFiniteLatticeUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $L,J,D,E,O,H,C,P,N$. It has no coordinate for host powersets, ultrafilter selection, quotient lattice equality, arbitrary Stone representation, arbitrary Priestley representation, choice, or an ambient complete lattice.
+\end{definition}
+
+\begin{theorem}[Birkhoff representation finite-lattice NameCert obligations]
+\label{thm:birkhoff-representation-finite-lattice-namecert-obligations}
+For every accepted $\BirkhoffRepresentationFiniteLatticeUp$ carrier
+$$
+B=(L,J,D,E,O,H,C,P,N),
+$$
+the local $\NameCert_{\BirkhoffRepresentationFiniteLatticeUp}$ surface consists exactly of carrier admission for the displayed finite distributive-lattice, join-irreducible poset, downset lattice, evaluation ledger, operation ledger, transport, replay, provenance, and local naming rows; join-irreducible extraction from $L$ into $J$; downset reconstruction from $J$ into $D$ through $E$; finite meet and join preservation through $O$; and nonescape from host powersets, ultrafilter selection, quotient lattice equality, arbitrary Stone representation, and arbitrary Priestley representation.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier. The rows $L,J,D,E,O,H,C,P,N$ display the finite lattice, finite join-irreducible order, finite downset lattice, reconstruction ledger, operation ledger, transport, replay, provenance, and local NameCert surface.
+
+The extraction row $J$ is read only from the finite lattice row $L$. Its comparisons and irreducibility witnesses are $\PosetUp$ observations, so no host powerset of prime filters or selected ultrafilter family is available.
+
+The reconstruction row $E$ then sends each displayed lattice element to the listed downset of join-irreducibles below it, and sends each displayed downset to its finite join in $L$. The operation ledger $O$ records the finite meet and join checks for those two reads.
+
+Finally $H,C,P,N$ transport, replay, source, and name only the displayed rows. Since the packet contains no host powerset, ultrafilter selector, quotient lattice equality, arbitrary Stone representation, arbitrary Priestley representation, choice row, or ambient complete lattice, the listed rows exhaust the NameCert obligations.
+\end{proof}
+
+\closureat{BirkhoffRepresentationFiniteLatticeUp}{seedStr}
+
+\begin{closurestatus}{\BirkhoffRepresentationFiniteLatticeUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:birkhoff-representation-finite-lattice-carrier} and \autoref{thm:birkhoff-representation-finite-lattice-namecert-obligations} display the finite distributive-lattice, join-irreducible poset, downset reconstruction, operation-preservation, transport, replay, provenance, and local naming rows for the Birkhoff representation packet.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close host powersets, ultrafilter selection, quotient lattice equality, arbitrary Stone representation, arbitrary Priestley representation, choice, Lean verification, or a standard bridge.}
+  \upgradepath{Obligation closure requires checked carrier admission, join-irreducible extraction, downset reconstruction, finite meet and join preservation, and nonescape proofs for BEDC.Derived.BirkhoffRepresentationFiniteLatticeUp.}
+  \constructivestory{A $\BirkhoffRepresentationFiniteLatticeUp$ packet is generated from a finite distributive-lattice row, a join-irreducible poset row, a downset-lattice row, evaluation and reconstruction data, operation preservation data, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+\end{closurestatus}

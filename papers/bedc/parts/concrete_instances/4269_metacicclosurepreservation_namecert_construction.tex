@@ -45,6 +45,7 @@ Read the dependency rows next. The substitution row $A$ forces every shift or su
 
 Finally read $R,H,Q,P,N$. These rows identify the downstream subject-reduction consumer boundary, transport the displayed packet, replay its finite routes, record provenance, and name the local certificate. Since the carrier lists no further coordinate, the local NameCert obligations are exhausted by the displayed packet.
 \end{proof}
+\leanchecked{BEDC.Derived.MetaCICClosurePreservationUp.MetaCICClosurePreservationCarrier\_namecert\_obligations}
 
 \begin{theorem}[Shift and substitution classifier handoff]
 \label{thm:metacic-closure-preservation-shift-substitution-classifier}
@@ -70,6 +71,7 @@ The beta redex side may cite the sibling $\BetaSubstitutionPreservationUp$ packe
 
 Confluence, normalization, typed preservation, and consistency would each require a separate row not present in $M$. Therefore the beta-chain surface preserves closedness without escaping into those stronger claims.
 \end{proof}
+\leanchecked{BEDC.Derived.MetaCICClosurePreservationUp.MetaCICClosurePreservationCarrier\_beta\_chain\_nonescape}
 
 \begin{theorem}[ClosurePreservation ledger exactness]
 \label{thm:metacic-closure-preservation-ledger-exactness}
@@ -86,16 +88,193 @@ The beta-chain theorem fixes the one-step and finite-chain rows as closedness-pr
 
 Any downstream use that needs typing, conversion, confluence, normalization, or bridge data must cite a separate packet for that data. The $\MetaCICClosurePreservationUp$ ledger contributes the closedness-preservation side and no additional coordinate.
 \end{proof}
+\leanchecked{BEDC.Derived.MetaCICClosurePreservationUp.MetaCICClosurePreservationCarrier\_ledger\_exactness}
 
-\closureat{MetaCICClosurePreservationUp}{seedStr}
+\begin{theorem}[MetaCIC ClosurePreservation generator-substitution induction]
+\label{thm:metacic-closure-preservation-generator-substitution-induction}
+Every accepted $\MetaCICClosurePreservationUp$ carrier read by a beta-chain preservation consumer must first expose the substitution audit row $A$, closed-substitution seal $C$, generator-closure row $G$, beta-substitution preservation row $B$, and subject-reduction boundary row $R$. Induction over the displayed finite beta-chain preserves closedness only through those rows and exports no typing preservation, conversion soundness, confluence, normalization, or kernel consistency.
+\end{theorem}
+\leanchecked{BEDC.Derived.MetaCICClosurePreservationUp.MetaCICClosurePreservationCarrier\_generator\_substitution\_induction}
+\begin{proof}
+Project the carrier of \autoref{def:metacic-closure-preservation-carrier}. The rows $A,C,G,B,R$ are displayed coordinates of the same finite packet, so a consumer cannot read a beta-chain preservation claim before those rows are exposed.
+
+For the base chain, use $A$ to read the substitution audit, $C$ to keep the closed substitution boundary visible, and $G$ to restrict the generator moves to the authorized closure surface.
+
+For a successor chain, append one beta step by reusing the previous finite read and composing it with the beta-substitution row $B$. The carrier records this as closedness preservation under \texttt{ClosedAt}; it does not add a typing or conversion row.
+
+The final consumer boundary is then constrained by \autoref{thm:metacic-closure-preservation-beta-chain-nonescape} and \autoref{thm:metacic-closure-preservation-ledger-exactness}. These theorems keep the exported surface at closedness preservation and force any typing, confluence, normalization, or consistency claim to come from a separate packet.
+\end{proof}
+
+\begin{theorem}[Substitution and beta-chain exposure]
+\label{thm:metacic-closure-preservation-substitution-beta-chain-exposure}
+Every beta-chain preservation consumer of an accepted $\MetaCICClosurePreservationUp$ carrier
+$$
+M=(S,V,U,B,F,A,C,G,R,H,Q,P,N)
+$$
+must expose the shift row $S$, variable-substitution row $V$, and full-substitution row $U$ through the substitution audit row $A$ and generator-classifier row $G$ before it reads the one-step beta row $B$ or finite beta-chain row $F$. The resulting route exports preservation of \texttt{ClosedAt} only, with no typing preservation, conversion soundness, confluence, normalization, or kernel-consistency row.
+\end{theorem}
+\leanchecked{BEDC.Derived.MetaCICClosurePreservationUp.MetaCICClosurePreservationCarrier\_substitution\_beta\_chain\_exposure}
+\begin{proof}
+Begin with the shift and substitution classifier handoff,
+\autoref{thm:metacic-closure-preservation-shift-substitution-classifier}. It
+places $S,V,U$ behind the audit row $A$ and the generator-classifier row $G$,
+so no beta-chain consumer can treat the substitution rows as an unrestricted
+calculus.
+
+Next apply beta-chain non-escape,
+\autoref{thm:metacic-closure-preservation-beta-chain-nonescape}. It identifies
+$B$ and $F$ as closedness-preservation rows under \texttt{ClosedAt} and excludes
+typing preservation, confluence, normalization, and consistency from the
+exported beta-chain surface.
+
+Finally use generator-substitution induction,
+\autoref{thm:metacic-closure-preservation-generator-substitution-induction}.
+The induction reads the displayed rows $A,C,G,B,R$ before the finite chain is
+consumed, and it composes only the same closedness-preservation route. Hence
+the combined exposure order is $S,V,U$ through $A,G$ before $B,F$, and the
+public output remains ClosedAt preservation only.
+\end{proof}
+
+\begin{theorem}[MetaCIC ClosurePreservation subject-reduction boundary]
+\label{thm:metacic-closure-preservation-subject-reduction-boundary}
+Every $\SubjectReductionUp$ consumer of an accepted $\MetaCICClosurePreservationUp$ carrier
+$$
+M=(S,V,U,B,F,A,C,G,R,H,Q,P,N)
+$$
+may consume the rows $S,V,U,B,F,A,C,G,R,H,Q,P,N$ only as preservation of \texttt{ClosedAt}. Before a typing-preservation conclusion is public, the consumer must expose a separate $\SubjectReductionUp$ typing row. It cannot treat closure preservation as conversion soundness, confluence, normalization, kernel consistency, or a discharged subject-reduction theorem.
+\end{theorem}
+\leanchecked{BEDC.Derived.MetaCICClosurePreservationUp.MetaCICClosurePreservationCarrier\_subject\_reduction\_boundary}
+\begin{proof}
+Project the carrier of \autoref{def:metacic-closure-preservation-carrier}. The row $R$ is the downstream consumer boundary, while $S,V,U,B,F,A,C,G,H,Q,P,N$ record closedness-preservation, audit, seal, classifier, transport, replay, provenance, and local naming rows.
+
+Apply ledger exactness, beta-chain non-escape, and substitution-beta-chain exposure:
+\autoref{thm:metacic-closure-preservation-ledger-exactness},
+\autoref{thm:metacic-closure-preservation-beta-chain-nonescape}, and
+\autoref{thm:metacic-closure-preservation-substitution-beta-chain-exposure}.
+These theorems identify the exported surface as \texttt{ClosedAt} preservation through the displayed ledger and exclude typing preservation, conversion soundness, confluence, normalization, and kernel consistency from the carrier.
+
+Therefore $R$ can only hand the ledger to a subject-reduction consumer as a boundary. A public typing-preservation conclusion requires a separate $\SubjectReductionUp$ typing row, and cannot be obtained by rereading the closure-preservation rows as a discharged typing theorem.
+\end{proof}
+
+\begin{theorem}[MetaCIC ClosurePreservation substitution-window factorization]
+\label{thm:metacic-closure-preservation-substitution-window}
+Every substitution-window read of an accepted $\MetaCICClosurePreservationUp$ carrier
+$$
+M=(S,V,U,B,F,A,C,G,R,H,Q,P,N)
+$$
+factors through the $\ClosedSubstitutionSealUp$ row $C$ and the $\SubstitutionAuditMapUp$ row $A$ before the beta-step row $B$ or finite beta-chain row $F$ can be exposed. The window therefore exports only the displayed \texttt{ClosedAt} preservation route and no unrestricted substitution calculus.
+\end{theorem}
+\leanchecked{BEDC.Derived.MetaCICClosurePreservationUp.MetaCICClosurePreservationCarrier\_substitution\_window}
+\begin{proof}
+Project the carrier of \autoref{def:metacic-closure-preservation-carrier}. The audit coordinate $A$ is the only displayed substitution-audit row, and the seal coordinate $C$ is the only displayed closed-substitution boundary row.
+
+Use \autoref{thm:metacic-closure-preservation-shift-substitution-classifier} to place $S,V,U$ behind $A$ and $G$. Then use \autoref{thm:metacic-closure-preservation-substitution-beta-chain-exposure} to require this audited substitution surface before $B$ or $F$ is read.
+
+The closed-substitution seal $C$ travels in the same carrier and transport rows $H,Q,P,N$. Since the carrier has no row for an unrestricted substitution calculus, the factorized window remains the displayed closedness route.
+\end{proof}
+
+\begin{theorem}[MetaCIC ClosurePreservation generator route]
+\label{thm:metacic-closure-preservation-generator-route}
+Every generator-closure preservation route in an accepted $\MetaCICClosurePreservationUp$ carrier reads through the $\GeneratorClosureUp$ row $G$ and the $\BetaSubstitutionPreservationUp$ provenance named by $P$ before reaching the subject-reduction boundary row $R$. The route cannot present $R$ as an independent typing-preservation discharge.
+\end{theorem}
+\leanchecked{BEDC.Derived.MetaCICClosurePreservationUp.MetaCICClosurePreservationCarrier\_generator\_route}
+\begin{proof}
+Read $G$ from the carrier as the generator classifier for the authorized shift, substitution, beta-step, and beta-chain moves. The provenance row $P$ is the only coordinate that names the $\BetaSubstitutionPreservationUp$ dependency.
+
+Apply \autoref{thm:metacic-closure-preservation-generator-substitution-induction}. It forces a beta-chain preservation consumer to expose $A,C,G,B,R$ before the finite chain is consumed, and it keeps the induction on \texttt{ClosedAt}.
+
+Finally apply \autoref{thm:metacic-closure-preservation-subject-reduction-boundary}. That theorem treats $R$ as a consumer boundary only, so the generator route reaches subject reduction without exporting a discharged typing theorem.
+\end{proof}
+
+\begin{theorem}[MetaCIC ClosurePreservation candidate-mediated scope]
+\label{thm:metacic-closure-preservation-candidate-mediated-scope}
+Any candidate-mediated consumer of an accepted $\MetaCICClosurePreservationUp$ carrier remains on the displayed MetaCIC residual, substitution, beta-chain, audit, seal, generator, consumer, transport, replay, provenance, and naming rows
+$$
+S,V,U,B,F,A,C,G,R,H,Q,P,N.
+$$
+It exports no unrestricted confluence, quotient term equality, evaluator equality, kernel consistency, or scope beyond the displayed residual/candidate consumer boundary.
+\end{theorem}
+\leanchecked{BEDC.Derived.MetaCICClosurePreservationUp.MetaCICClosurePreservationCarrier\_candidate\_mediated\_scope}
+\begin{proof}
+Begin with \autoref{thm:metacic-closure-preservation-ledger-exactness}. It identifies the public ledger of the packet with exactly the displayed rows $S,V,U,B,F,A,C,G,R,H,Q,P,N$.
+
+Next use \autoref{thm:metacic-closure-preservation-beta-chain-nonescape} and \autoref{thm:metacic-closure-preservation-subject-reduction-boundary}. These keep beta-chain and subject-reduction consumers on closedness preservation rather than typed conversion, confluence, normalization, or consistency.
+
+A candidate-mediated route therefore has no coordinate from which to export unrestricted confluence, quotient term equality, evaluator equality, or kernel consistency. Its scope is the same displayed residual and candidate-facing consumer boundary carried by the finite packet.
+\end{proof}
+
+\begin{theorem}[MetaCIC ClosurePreservation obligation scope]
+\label{thm:metacic-closure-preservation-obligation-scope}
+Any accepted $\MetaCICClosurePreservationUp$ consumer that uses closedness preservation must expose the rows
+$$
+A,C,G,B,F,R,H,Q,P,N
+$$
+through $\SubstitutionAuditMapUp$, $\ClosedSubstitutionSealUp$, $\GeneratorClosureUp$, $\BetaSubstitutionPreservationUp$, and $\SubjectReductionUp$ before the closedness-preservation claim is visible. The obligation scope refuses typing preservation, conversion soundness, unrestricted confluence, normalization, and kernel consistency.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:metacic-closure-preservation-carrier}. The rows $A,C,G,B,F,R,H,Q,P,N$ are the substitution audit, closed-substitution seal, generator closure, beta-step, finite beta-chain, subject-reduction boundary, transport, replay, provenance, and local naming coordinates.
+
+Use \autoref{thm:metacic-closure-preservation-substitution-window} to force every substitution-window read through $A$ and $C$ before the beta rows can be exposed. Then use \autoref{thm:metacic-closure-preservation-generator-route} to carry the route through $G$, the $\BetaSubstitutionPreservationUp$ provenance named by $P$, and the subject-reduction boundary row $R$.
+
+Finally apply \autoref{thm:metacic-closure-preservation-subject-reduction-boundary} and \autoref{thm:metacic-closure-preservation-candidate-mediated-scope}. These keep the consumer on closedness preservation and the displayed residual boundary, so the packet has no coordinate from which to export typing preservation, conversion soundness, unrestricted confluence, normalization, or kernel consistency.
+\end{proof}
+
+\begin{theorem}[MetaCIC ClosurePreservation obligation closure]
+\label{thm:metacic-closure-preservation-obligation-closure}
+For every accepted $\MetaCICClosurePreservationUp$ carrier
+$$
+M=(S,V,U,B,F,A,C,G,R,H,Q,P,N),
+$$
+the displayed rows $S,V,U,B,F,A,C,G,R,H,Q,P,N$ form the complete obligation-closure surface for the packet. Any public read of closure preservation, substitution audit, closed-substitution sealing, generator closure, beta-chain exposure, subject-reduction consumption, transport, continuation, provenance, or local naming factors through one of these rows, and no additional row is available for typing preservation, conversion soundness, confluence, normalization, closed consistency, or bridge checking.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:metacic-closure-preservation-carrier}. Its row inventory is exactly $S,V,U,B,F,A,C,G,R,H,Q,P,N$, so every local obligation must be read from that finite packet.
+
+Use \autoref{thm:metacic-closure-preservation-namecert-obligations} and \autoref{thm:metacic-closure-preservation-ledger-exactness}. These identify the NameCert surface and the public ledger with the same displayed rows.
+
+The non-escape boundary follows from \autoref{thm:metacic-closure-preservation-beta-chain-nonescape}, \autoref{thm:metacic-closure-preservation-substitution-beta-chain-exposure}, and \autoref{thm:metacic-closure-preservation-subject-reduction-boundary}. Those theorems keep the exported content at \texttt{ClosedAt} preservation and require any stronger typing or conversion claim to be supplied by a separate packet.
+\end{proof}
+\leanchecked{BEDC.Derived.MetaCICClosurePreservationUp.MetaCICClosurePreservationCarrier\_obligation\_closure}
+
+\begin{theorem}[MetaCIC ClosurePreservation dependency scope rows]
+\label{thm:metacic-closure-preservation-scope-rows}
+The exact dependency scope of an accepted $\MetaCICClosurePreservationUp$ carrier runs through $\SubstitutionAuditMapUp$, $\ClosedSubstitutionSealUp$, $\BetaSubstitutionPreservationUp$, $\GeneratorClosureUp$, and $\SubjectReductionUp$. The substitution rows $S,V,U$ pass through the audit row $A$ and seal row $C$, the beta rows $B,F$ pass through the beta-substitution provenance named by $P$, the authorized movement classifier is $G$, and the consumer boundary is $R$.
+\end{theorem}
+\begin{proof}
+Read $A,C,G,R,P$ from the carrier. The audit and seal rows expose the substitution boundary, the generator row records the authorized movement classifier, the provenance row names the beta-substitution dependency, and the subject-reduction row marks the downstream consumer boundary.
+
+Apply \autoref{thm:metacic-closure-preservation-substitution-window} to factor substitution-window reads through $A$ and $C$. Apply \autoref{thm:metacic-closure-preservation-generator-route} to carry generator reads through $G$, the $\BetaSubstitutionPreservationUp$ provenance in $P$, and the boundary row $R$.
+
+Finally use \autoref{thm:metacic-closure-preservation-obligation-closure}. Since the carrier has no other dependency coordinate, these rows are the exact scope through $\SubstitutionAuditMapUp$, $\ClosedSubstitutionSealUp$, $\BetaSubstitutionPreservationUp$, $\GeneratorClosureUp$, and $\SubjectReductionUp$.
+\end{proof}
+\leanchecked{BEDC.Derived.MetaCICClosurePreservationUp.MetaCICClosurePreservationCarrier\_scope\_rows}
+
+\begin{theorem}[MetaCIC ClosurePreservation scoped kernel route]
+\label{thm:metacic-closure-preservation-scoped-kernel-route}
+Every accepted $\MetaCICClosurePreservationUp$ carrier whose displayed rows pass through $\SubstitutionAuditMapUp$, $\ClosedSubstitutionSealUp$, $\BetaSubstitutionPreservationUp$, $\GeneratorClosureUp$, and $\SubjectReductionUp$ has its closure-preservation read confined to the rows
+$$
+S,V,U,B,F,A,C,G,R,H,Q,P,N.
+$$
+The exported route is only the scoped closure-preservation surface named by those rows. It exports no typing preservation, conversion soundness, confluence, normalization, or kernel consistency.
+\end{theorem}
+\begin{proof}
+Start with the obligation-scope theorem \autoref{thm:metacic-closure-preservation-namecert-obligations}. It exposes the shift row $S$, variable-substitution row $V$, full-substitution row $U$, beta-step row $B$, beta-chain row $F$, audit row $A$, seal row $C$, generator row $G$, subject-reduction row $R$, transport row $H$, continuation row $Q$, provenance row $P$, and local naming row $N$ as the whole accepted carrier.
+
+Use \autoref{thm:metacic-closure-preservation-obligation-closure} to bind the closure-preservation read to that finite obligation surface. The candidate-mediated scope theorem \autoref{thm:metacic-closure-preservation-candidate-mediated-scope} then routes the candidate read through the same substitution, beta, generator, and subject-reduction coordinates.
+
+Finally apply \autoref{thm:metacic-closure-preservation-scope-rows}. It identifies the exact dependencies through $\SubstitutionAuditMapUp$, $\ClosedSubstitutionSealUp$, $\BetaSubstitutionPreservationUp$, $\GeneratorClosureUp$, and $\SubjectReductionUp$. Since no remaining row carries typing preservation, conversion soundness, confluence, normalization, or kernel consistency, none of those surfaces is exported by the scoped kernel route.
+\end{proof}
+
+\closureat{MetaCICClosurePreservationUp}{scopedStr}[BEDC.Derived.MetaCICClosurePreservationUp.MetaCICClosurePreservationCarrier\_scope\_rows]
 
 \begin{closurestatus}{\MetaCICClosurePreservationUp}
   \constructivestory{A $\MetaCICClosurePreservationUp$ packet is generated from shift, variable-substitution, full-substitution, beta-step, and beta-chain closedness rows, a substitution audit row, a closed-substitution seal, a generator-closure classifier, a subject-reduction consumer row, componentwise $\hsame$ transports, displayed $\Cont$ routes, $\Pkg$ provenance, and a local $\NameCert$ row.}
-  \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:metacic-closure-preservation-carrier}, \autoref{thm:metacic-closure-preservation-namecert-obligations}, \autoref{thm:metacic-closure-preservation-shift-substitution-classifier}, \autoref{thm:metacic-closure-preservation-beta-chain-nonescape}, and \autoref{thm:metacic-closure-preservation-ledger-exactness} bind the finite ClosurePreservation packet and its non-escape boundary.}
-  \formalstatus{\unformalizedV}
+  \theoryclosure{\scopedClosure}
+  \scopeclosed{\autoref{thm:metacic-closure-preservation-scope-rows} and \autoref{thm:metacic-closure-preservation-scoped-kernel-route} bind the finite ClosurePreservation packet to its substitution-audit, closed-seal, beta-substitution, generator, and subject-reduction scope rows.}
+  \formalstatus{\theoremCheckedV}
+  \leantarget{BEDC.Derived.MetaCICClosurePreservationUp.MetaCICClosurePreservationCarrier\_scope\_rows}
   \bridgestatus{none}
   \origin{ai}
-  \notclaimed{This chapter does not close type preservation, conversion soundness, confluence, normalization, closed consistency, Lean verification, or bridge checking.}
-  \upgradepath{Obligation closure requires checked carrier admission, shift and substitution classifier handoff, beta-chain non-escape, ledger exactness, provenance, transport, continuation, and local naming for the same finite packet.}
+  \notclaimed{This chapter does not close type preservation, conversion soundness, confluence, normalization, closed consistency, or bridge checking.}
+  \upgradepath{Public closure requires a public export theorem over the same scoped ClosurePreservation rows.}
 \end{closurestatus}

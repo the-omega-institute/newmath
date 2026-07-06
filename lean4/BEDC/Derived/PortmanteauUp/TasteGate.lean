@@ -1,4 +1,5 @@
 import BEDC.FKernel.Hist
+import BEDC.FKernel.Cont
 import BEDC.FKernel.Mark
 import BEDC.GroundCompiler.EventFlow
 import BEDC.Meta.TasteGate
@@ -6,6 +7,7 @@ import BEDC.Meta.TasteGate
 namespace BEDC.Derived.PortmanteauUp
 
 open BEDC.FKernel.Hist
+open BEDC.FKernel.Cont
 open BEDC.FKernel.Mark
 open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
@@ -38,7 +40,7 @@ private theorem PortmanteauTasteGate_single_carrier_alignment_decode_encode :
   | e0 h ih => exact congrArg BHist.e0 ih
   | e1 h ih => exact congrArg BHist.e1 ih
 
-def portmanteauFields : PortmanteauUp -> List BHist
+def portmanteauRows : PortmanteauUp -> List BHist
   -- BEDC touchpoint anchor: BHist BMark
   | PortmanteauUp.mk probabilitySource distribution measure tightness boundedTest
       realComparison transport tolerance componentTransport replay provenance localName =>
@@ -47,7 +49,7 @@ def portmanteauFields : PortmanteauUp -> List BHist
 
 def portmanteauToEventFlow : PortmanteauUp -> EventFlow
   -- BEDC touchpoint anchor: BHist BMark
-  | x => (portmanteauFields x).map portmanteauEncodeBHist
+  | x => (portmanteauRows x).map portmanteauEncodeBHist
 
 private def portmanteauEventAtDefault : Nat -> EventFlow -> RawEvent
   -- BEDC touchpoint anchor: BHist BMark
@@ -125,7 +127,7 @@ private theorem PortmanteauTasteGate_single_carrier_alignment_toEventFlow_inject
       (Eq.trans hread (PortmanteauTasteGate_single_carrier_alignment_round_trip y)))
 
 private theorem PortmanteauTasteGate_single_carrier_alignment_fields_faithful :
-    forall x y : PortmanteauUp, portmanteauFields x = portmanteauFields y -> x = y := by
+    forall x y : PortmanteauUp, portmanteauRows x = portmanteauRows y -> x = y := by
   -- BEDC touchpoint anchor: BHist BMark
   intro x y hfields
   cases x with
@@ -151,7 +153,7 @@ instance portmanteauChapterTasteGate : ChapterTasteGate PortmanteauUp where
 
 instance portmanteauFieldFaithful : FieldFaithful PortmanteauUp where
   -- BEDC touchpoint anchor: BHist BMark
-  fields := portmanteauFields
+  fields := portmanteauRows
   field_faithful := PortmanteauTasteGate_single_carrier_alignment_fields_faithful
 
 instance portmanteauNontrivial : BEDC.Meta.TasteGate.Nontrivial PortmanteauUp where
@@ -180,5 +182,43 @@ theorem PortmanteauTasteGate_single_carrier_alignment :
       · intro x y heq
         exact PortmanteauTasteGate_single_carrier_alignment_toEventFlow_injective heq
       · rfl
+
+theorem PortmanteauCarrier_namecert_obligations
+    (P D M T B R A E H C Q N : BHist) :
+    portmanteauRows (PortmanteauUp.mk P D M T B R A E H C Q N) =
+        [P, D, M, T, B, R, A, E, H, C, Q, N] ∧
+      hsame T T ∧ hsame B B ∧ hsame R R ∧
+        Cont A H (append A H) ∧ Cont C Q (append C Q) := by
+  -- BEDC touchpoint anchor: BHist BMark hsame Cont
+  constructor
+  · rfl
+  · constructor
+    · exact hsame_refl T
+    · constructor
+      · exact hsame_refl B
+      · constructor
+        · exact hsame_refl R
+        · constructor
+          · exact cont_intro rfl
+          · exact cont_intro rfl
+
+theorem PortmanteauCarrier_continuousmap_forward_link
+    (P D M T B R A E H C Q N probeRead realRead : BHist) :
+    portmanteauRows (PortmanteauUp.mk P D M T B R A E H C Q N) =
+        [P, D, M, T, B, R, A, E, H, C, Q, N] ->
+      Cont B R probeRead ->
+        Cont probeRead E realRead ->
+          hsame probeRead probeRead ∧ hsame realRead realRead ∧
+            Cont B R probeRead ∧ Cont probeRead E realRead := by
+  -- BEDC touchpoint anchor: BHist Cont hsame PortmanteauUp
+  intro rows boundedContinuousRoute realComparisonRoute
+  have displayedRows :
+      portmanteauRows (PortmanteauUp.mk P D M T B R A E H C Q N) =
+        [P, D, M, T, B, R, A, E, H, C, Q, N] :=
+    rows
+  cases displayedRows
+  exact
+    ⟨hsame_refl probeRead, hsame_refl realRead, boundedContinuousRoute,
+      realComparisonRoute⟩
 
 end BEDC.Derived.PortmanteauUp

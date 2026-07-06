@@ -523,4 +523,63 @@ theorem RandomVarProbSpaceDistribution_sibling_route [AskSetup] [PackageSetup]
   }
   exact ⟨cert, namedUnary⟩
 
+theorem RandomVarUp_StdBridge [AskSetup] [PackageSetup]
+    {targetTotal sourceTotal chosenPreimage : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    UnaryHistory sourceTotal ->
+      RandomVarTotalReadbackCertificate targetTotal sourceTotal chosenPreimage ->
+        PkgSig bundle chosenPreimage pkg ->
+          SemanticNameCert
+              (fun row : BHist => hsame row chosenPreimage ∧ UnaryHistory row)
+              (fun row : BHist =>
+                hsame row targetTotal ∨ hsame row sourceTotal ∨ hsame row chosenPreimage)
+              (fun row : BHist =>
+                UnaryHistory row ∧ PkgSig bundle chosenPreimage pkg ∧
+                  Cont targetTotal BHist.Empty sourceTotal)
+              hsame ∧
+            hsame chosenPreimage sourceTotal := by
+  -- BEDC touchpoint anchor: BHist Cont ProbeBundle PkgSig SemanticNameCert hsame UnaryHistory
+  intro sourceUnary cert chosenPkg
+  have chosenSource : hsame chosenPreimage sourceTotal :=
+    cont_deterministic cert.chosen_readback cert.carried_total_bridge
+  have chosenUnary : UnaryHistory chosenPreimage :=
+    unary_transport sourceUnary (hsame_symm chosenSource)
+  have sourceChosen :
+      (fun row : BHist => hsame row chosenPreimage ∧ UnaryHistory row) chosenPreimage := by
+    exact ⟨hsame_refl chosenPreimage, chosenUnary⟩
+  have semanticCert :
+      SemanticNameCert
+          (fun row : BHist => hsame row chosenPreimage ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row targetTotal ∨ hsame row sourceTotal ∨ hsame row chosenPreimage)
+          (fun row : BHist =>
+            UnaryHistory row ∧ PkgSig bundle chosenPreimage pkg ∧
+              Cont targetTotal BHist.Empty sourceTotal)
+          hsame := {
+    core := {
+      carrier_inhabited := Exists.intro chosenPreimage sourceChosen
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        exact
+          ⟨hsame_trans (hsame_symm sameRows) source.left,
+            unary_transport source.right sameRows⟩
+    }
+    pattern_sound := by
+      intro _row source
+      exact Or.inr (Or.inr source.left)
+    ledger_sound := by
+      intro _row source
+      exact ⟨source.right, chosenPkg, cert.carried_total_bridge⟩
+  }
+  exact ⟨semanticCert, chosenSource⟩
+
 end BEDC.Derived.RandomVarUp

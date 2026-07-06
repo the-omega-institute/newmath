@@ -1,0 +1,79 @@
+\chapter{A Concrete Naming Certificate for $\BanachContractionFixedPointUp$}
+\label{ch:concrete-instances-banach-contraction-fixed-point-namecert}
+\origin{human}
+
+Following Banach and Bishop--Bridges, the $\BanachContractionFixedPointUp$ packet records the fixed-point certificate obtained when a displayed Banach contraction, a finite Cauchy orbit seal, a complete-metric admission row, regular rational readback, and a terminal Real seal are all present in one NameCert carrier. It consumes the contraction certificate of \autoref{ch:concrete-instances-banach-contraction-namecert}, the orbit endpoint handoff of \autoref{ch:concrete-instances-cauchy-fixed-point-orbit-seal-namecert}, the complete-metric source of \autoref{ch:concrete-instances-completemetric-namecert}, the regular rational spine of \autoref{ch:concrete-instances-regseqrat-namecert}, and the Real endpoint surface of \autoref{ch:concrete-instances-real-namecert}. The packet names the finite route by which a contraction fixed-point read becomes available; it does not select an ambient host point, quotient Cauchy streams, use countable choice, or assert completeness outside the displayed $\CompleteMetricUp$ row.
+
+\begin{definition}[Banach contraction fixed-point carrier]
+\label{def:banach-contraction-fixed-point-carrier}
+A $\BanachContractionFixedPointUp$ carrier is a finite $\BHist$ packet
+$$
+F=(B,O,M,R,E,U,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $B$ is the $\BanachContractionUp$ row, exposing the contraction map, the rational shrink ledger, and the fixed-point-facing contraction obligation surface.
+\item $O$ is the $\CauchyFixedPointOrbitSealUp$ row, exposing the Picard orbit, Cauchy modulus, endpoint admission, and finite orbit-to-endpoint seal.
+\item $M$ is the $\CompleteMetricUp$ row consumed by the contraction and orbit rows as the displayed completion service.
+\item $R$ is the $\RegSeqRatUp$ readback row carrying regular rational endpoint approximants produced by the orbit seal.
+\item $E$ is the terminal $\RealUp$ seal row for the named fixed-point endpoint after $R$ has been displayed.
+\item $U$ is the uniqueness boundary row, recording that two displayed endpoint routes with the same contraction row, complete-metric row, orbit seal, and regular readback have the same classifier-visible endpoint seal.
+\item $H$ records componentwise $\hsame$ transport for $B,O,M,R,E,U$ and the local certificate rows.
+\item $C$ records displayed $\Cont$ replay from contraction data through orbit sealing, complete-metric admission, regular rational readback, Real sealing, and uniqueness-boundary comparison.
+\item $P$ is the $\Pkg$ provenance over $\BanachContractionFixedPointUp$, $\BanachContractionUp$, $\CauchyFixedPointOrbitSealUp$, $\CompleteMetricUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\BanachContractionFixedPointUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $B,O,M,R,E,U,H,C,P,N$. It has no coordinate for an externally selected fixed point, quotient equality of Cauchy streams, countable choice, host function extensionality, or ambient completeness beyond $M$.
+\end{definition}
+
+\begin{theorem}[Banach contraction fixed-point NameCert obligations]
+\label{thm:banach-contraction-fixed-point-namecert-obligations}
+For every accepted $\BanachContractionFixedPointUp$ carrier
+$$
+F=(B,O,M,R,E,U,H,C,P,N),
+$$
+the local $\NameCert_{\BanachContractionFixedPointUp}$ surface consists exactly of Banach-contraction exposure through $B$, Cauchy fixed-point orbit sealing through $O$, complete-metric admission through $M$, regular rational endpoint readback through $R$, Real endpoint sealing through $E$, classifier-visible uniqueness through $U$, componentwise transport through $H$, displayed replay through $C$, package provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier. The analytic rows are $B,O,M,R,E,U$, and the structural rows are $H,C,P,N$.
+
+The contraction row $B$ supplies the displayed shrink ledger, while the orbit row $O$ supplies the finite Picard/Cauchy handoff. Both rows must read the same complete-metric service $M$ before any endpoint-facing claim is available.
+
+The endpoint route then passes through $R$ and $E$. The regular rational row records approximants produced by the orbit seal, and the Real row seals only that displayed readback.
+
+Finally read $U,H,C,P,N$. The uniqueness boundary is classifier-visible only for endpoints routed through the same displayed contraction and readback data, and the structural rows transport, replay, source, and name the same finite packet. Since no excluded host object is a carrier coordinate, the listed rows exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[Banach contraction fixed-point handoff]
+\label{thm:banach-contraction-fixed-point-handoff}
+Every fixed-point consumer of an accepted $\BanachContractionFixedPointUp$ packet must read the finite route
+$$
+\BanachContractionUp,\ \CauchyFixedPointOrbitSealUp,\ \CompleteMetricUp,\ \RegSeqRatUp,\ \RealUp .
+$$
+The consumer receives a displayed contraction ledger, a Cauchy orbit seal, complete-metric admission, regular rational endpoint readback, a Real seal, and classifier-visible uniqueness data. It receives no selected host fixed point, no quotient Cauchy equality, no countable-choice schedule, and no ambient completeness oracle.
+\end{theorem}
+\begin{proof}
+Start with the obligation surface of \autoref{thm:banach-contraction-fixed-point-namecert-obligations}. It forces a fixed-point consumer to read $B,O,M$ before $R,E,U$.
+
+The row $O$ is the only endpoint-producing row. It receives contraction data from $B$ and completion service from $M$, then exposes endpoint approximants through the regular rational row $R$.
+
+The terminal Real seal $E$ is downstream of that readback. The uniqueness boundary $U$ compares only endpoint routes with the same displayed contraction, orbit, completion, and readback rows.
+
+Transport, replay, provenance, and local naming preserve this route as finite BEDC data. Thus the packet exports a fixed-point certificate surface rather than an ambient selected fixed point.
+\end{proof}
+
+\falsifiablePrediction{An accepted $\BanachContractionFixedPointUp$ fixed-point read is refuted if it reaches a Real endpoint seal without displaying the Banach contraction row, Cauchy fixed-point orbit seal, complete-metric admission, regular rational readback, uniqueness boundary, componentwise transport, displayed replay, provenance, and local NameCert rows.}
+
+\independenceWitness{banach-contraction, cauchy-fixed-point-orbit-seal, completemetric, regseqrat, real: $\BanachContractionFixedPointUp$ is not bijective to any listed sibling because it jointly binds contraction data, orbit sealing, complete-metric admission, regular rational readback, Real endpoint sealing, uniqueness-boundary comparison, transport, replay, provenance, and local naming in one fixed-point certificate.}
+
+\closureat{BanachContractionFixedPointUp}{seedStr}
+
+\begin{closurestatus}{\BanachContractionFixedPointUp}
+  \constructivestory{A $\BanachContractionFixedPointUp$ packet is generated from a BanachContraction row, a CauchyFixedPointOrbitSeal row, a CompleteMetric admission row, a RegSeqRat readback row, a Real endpoint seal row, a uniqueness-boundary row, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:banach-contraction-fixed-point-carrier}, \autoref{thm:banach-contraction-fixed-point-namecert-obligations}, and \autoref{thm:banach-contraction-fixed-point-handoff} seed the finite contraction fixed-point certificate surface through BanachContractionUp, CauchyFixedPointOrbitSealUp, CompleteMetricUp, RegSeqRatUp, RealUp, and local NameCert rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close selected host fixed points, quotient Cauchy stream equality, countable choice, host function extensionality, ambient completeness beyond the carried $\CompleteMetricUp$ row, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, contraction exposure, orbit-seal compatibility, complete-metric admission, regular rational readback, Real sealing, uniqueness-boundary determinacy, transport, replay, provenance, and local naming for BEDC.Derived.BanachContractionFixedPointUp.}
+\end{closurestatus}

@@ -1,0 +1,79 @@
+\chapter{A Concrete Naming Certificate for $\ChainHomotopyUp$}
+\label{ch:concrete-instances-chain-homotopy-namecert}
+\origin{human}
+
+Following Eilenberg and Mac Lane, the $\ChainHomotopyUp$ packet records the finite chain-level witness by which two displayed chain-map endpoint rows induce the same homology readback. It sits after the homology carrier of \autoref{ch:concrete-instances-homology-namecert}, the singular-chain ledger of \autoref{ch:concrete-instances-singular-homology-namecert}, and the exact-couple precursor of \autoref{ch:concrete-instances-exact-couple-namecert}. The packet names only chain rows, endpoint maps, a degree-shift homotopy row, boundary compatibility, transport, replay, provenance, and local naming; it does not select chain representatives, identify quotient classes by host equality, assert a global homotopy equivalence, or import ambient homological algebra.
+
+\begin{definition}[Chain-homotopy carrier]
+\label{def:chain-homotopy-carrier}
+A $\ChainHomotopyUp$ carrier is a finite $\BHist$ packet
+$$
+X=(C,D,f,g,s,B,H,R,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $C$ is the source chain row, including the inspected degree window and its displayed boundary route.
+\item $D$ is the target chain row, including the matching degree window and target boundary route.
+\item $f$ and $g$ are the two chain-map endpoint rows from $C$ to $D$.
+\item $s$ is the degree-shift homotopy row, read one degree above the inspected boundary comparison.
+\item $B$ is the boundary-compatibility row recording the local identity that the endpoint difference is consumed through the displayed boundary and degree-shift rows.
+\item $H$ records componentwise $\hsame$ transport for $C,D,f,g,s,B,R,P,N$.
+\item $R$ records displayed $\Cont$ replay from the source chain row through the endpoint maps, homotopy row, boundary compatibility row, and homology readback.
+\item $P$ is the $\Pkg$ provenance over $\ChainHomotopyUp$, $\HomologyUp$, $\SingularHomologyUp$, $\ExactCoupleUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\ChainHomotopyUp}$ row.
+\end{enumerate}
+The carrier contains no coordinate for selected cycle representatives, quotient homology equality, a host chain-homotopy equivalence, unrestricted naturality, or an ambient derived-category object.
+\end{definition}
+
+\begin{theorem}[Chain-homotopy NameCert obligations]
+\label{thm:chain-homotopy-namecert-obligations}
+For every accepted $\ChainHomotopyUp$ carrier $X=(C,D,f,g,s,B,H,R,P,N)$, the local $\NameCert_{\ChainHomotopyUp}$ surface is exhausted by source-chain admission for $C$, target-chain admission for $D$, endpoint chain-map admission for $f,g$, degree-shift homotopy admission for $s$, boundary compatibility through $B$, componentwise $\hsame$ transport through $H$, displayed $\Cont$ replay through $R$, $\Pkg$ provenance through $P$, and local naming through $N$. Every homology-facing read must pass through these rows before it reaches the $\HomologyUp$ consumer.
+\end{theorem}
+\begin{proof}
+Project the carrier row by row. The source and target chain data are $C,D$, the two endpoint maps are $f,g$, and the only displayed homotopy data is the degree-shift row $s$.
+
+Read the boundary-compatibility row $B$. It is the unique row that relates the endpoint comparison to the displayed boundaries of $C$ and $D$, so no homology-facing consumer can bypass it.
+
+Finally read $H,R,P,N$. Transport, replay, provenance, and local naming preserve the same finite route from chain data to homology readback. Since the carrier has no coordinate for selected representatives, quotient equality, host equivalence, unrestricted naturality, or ambient homological algebra, the listed rows exhaust the local certificate surface.
+\end{proof}
+
+\begin{theorem}[Chain-homotopy boundary compatibility]
+\label{thm:chain-homotopy-boundary-compatibility}
+For every accepted $\ChainHomotopyUp$ carrier $X=(C,D,f,g,s,B,H,R,P,N)$, the endpoint comparison between $f$ and $g$ is readable only through the finite route
+$$
+C,D,f,g,s,B,H,R,P,N.
+$$
+The row $B$ binds the boundary route of $C$, the boundary route of $D$, and the degree-shift row $s$ before any homology-facing consumer may inspect the endpoint difference.
+\end{theorem}
+\begin{proof}
+Start with carrier admission from \autoref{def:chain-homotopy-carrier}. The endpoint rows $f,g$ are displayed together with the same source and target chain rows $C,D$.
+
+Next read $s$ and $B$. The degree-shift row supplies the only homotopy data, and the compatibility row $B$ attaches it to the displayed boundary routes of $C$ and $D$.
+
+The structural rows $H,R,P,N$ then transport and replay exactly that route. Thus the endpoint comparison is a boundary-compatible finite ledger entry, not an ambient equality of chain maps or a hidden quotient computation.
+\end{proof}
+
+\begin{theorem}[Chain-homotopy homology invariance]
+\label{thm:chain-homotopy-homology-invariance}
+Every accepted $\ChainHomotopyUp$ packet routes a homology-facing consumer from the two endpoint chain-map rows $f,g$ through the same boundary-compatible witness $s,B,H,R,P,N$. Consequently the $\HomologyUp$ readback sees the same displayed cycle-boundary classifier route for the two endpoints, without exporting quotient equality of homology classes, selected representatives, or a host homotopy-invariance theorem.
+\end{theorem}
+\begin{proof}
+Use the NameCert obligations of \autoref{thm:chain-homotopy-namecert-obligations}. They force any homology-facing read to consume $C,D,f,g,s,B,H,R,P,N$ before it reaches the homology carrier.
+
+Apply boundary compatibility from \autoref{thm:chain-homotopy-boundary-compatibility}. The endpoint difference is visible only after the degree-shift row and displayed boundary routes have been read, so the cycle-boundary classifier route is common to the two endpoint maps.
+
+The homology carrier of \autoref{ch:concrete-instances-homology-namecert} consumes that common route as finite BEDC data. Since the $\ChainHomotopyUp$ packet has no selected representative coordinate and no quotient-equality coordinate, the invariance claim is exactly the displayed readback agreement and not an ambient homological-algebra theorem.
+\end{proof}
+
+\closureat{ChainHomotopyUp}{seedStr}
+
+\begin{closurestatus}{\ChainHomotopyUp}
+  \constructivestory{A $\ChainHomotopyUp$ packet is generated from source and target chain rows, two chain-map endpoint rows, a degree-shift homotopy row, boundary compatibility, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:chain-homotopy-carrier}, \autoref{thm:chain-homotopy-namecert-obligations}, \autoref{thm:chain-homotopy-boundary-compatibility}, and \autoref{thm:chain-homotopy-homology-invariance} seed the finite route by which homotopic chain-map endpoint rows give the same homology readback.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{human}
+  \notclaimed{This chapter does not close quotient homology equality, selected chain representatives, global chain-homotopy equivalence, unrestricted naturality, ambient homological algebra, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, endpoint chain-map admission, degree-shift homotopy admission, boundary compatibility, homology readback compatibility, transport, replay, provenance, and local naming for BEDC.Derived.ChainHomotopyUp.}
+\end{closurestatus}

@@ -39,7 +39,7 @@ For the carrier of \autoref{def:audit-map-frontier-index-carrier}, the local $\N
 \item synthesis-consumer handoff saying that $S$ receives only the displayed frontier row, neighbouring-map links, transports, continuations, provenance, and local name through $H,C,K,N$.
 \end{enumerate}
 \end{theorem}
-\leanchecked{BEDC.Derived.AuditMapFrontierIndexUp.AuditMapFrontierIndexTasteGate\_single\_carrier\_alignment}
+\leanchecked{BEDC.Derived.AuditMapFrontierIndexUp.AuditMapFrontierIndexCarrier\_namecert\_obligations}
 \begin{proof}
 Project the carrier $I$. The rows $T,A,E$ identify the local audit map and its neighbouring-map surface, while $P,R,O,F$ separate positive entries, conditional routes, obstruction entries, and frontier entries.
 
@@ -48,6 +48,41 @@ The frontier exactness obligation is then finite row inspection. The only fronti
 For non-escape, inspect the obstruction and consumer rows. Since $O$ is a separate carrier coordinate and $F$ is only a frontier coordinate, a consumer cannot turn the frontier row into a proof of the obstruction or bypass the named conditional route $R$.
 
 Finally read $S,H,C,K,N$. These rows hand the indexed frontier to synthesis consumers, preserve the same component rows under $\hsame$, replay the displayed $\Cont$ routes, record package provenance, and bind the local name. No remaining coordinate can supply an unlisted neighbouring map, hidden discharge, global subject-reduction theorem, full closed consistency, ambient confluence, or host semantic equality.
+\end{proof}
+
+\begin{theorem}[Audit-map frontier-index carrier obligation]
+\label{thm:auditmapfrontierindex-carrier-obligation}
+Every accepted $\AuditMapFrontierIndexUp$ read exposes the finite carrier
+$$
+I=(T,A,E,P,R,O,F,S,H,C,K,N)
+$$
+before any frontier row, obstruction row, neighbouring-map route, or synthesis consumer is available.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:audit-map-frontier-index-carrier}. The map tag, local audit row, neighbouring-map row, positive row, conditional route row, obstruction row, frontier row, synthesis-consumer row, transport row, continuation row, provenance row, and local name are the only displayed coordinates.
+
+Apply the carrier-admission clause of \autoref{thm:audit-map-frontier-index-namecert-obligations}. Since every later read is routed through one of $T,A,E,P,R,O,F,S,H,C,K,N$, no frontier or synthesis consumer can be inspected before the tuple has been admitted as finite $\BHist$ data.
+\end{proof}
+
+\begin{theorem}[Audit-map frontier-index frontier-row obligation]
+\label{thm:auditmapfrontierindex-frontier-row-obligation}
+For every accepted carrier $I=(T,A,E,P,R,O,F,S,H,C,K,N)$, the row $F$ is read only as the displayed frontier associated to $A,E,P,R,O$. It is not a proof of the obstruction row $O$, not an unlisted neighbouring map, and not a closed synthesis theorem.
+\end{theorem}
+\begin{proof}
+Inspect the row order in \autoref{def:audit-map-frontier-index-carrier}. The frontier row $F$ occurs after the local audit row $A$, neighbouring-map row $E$, positive row $P$, conditional route row $R$, and obstruction row $O$.
+
+Use the frontier-row exactness and obstruction non-escape clauses of \autoref{thm:audit-map-frontier-index-namecert-obligations}. They force every read of $F$ to keep $A,E,P,R,O$ visible and prevent a consumer from turning $F$ into a discharge of $O$ or into a hidden neighbouring-map source.
+\end{proof}
+
+\begin{theorem}[Audit-map frontier-index synthesis-handoff obligation]
+\label{thm:auditmapfrontierindex-synthesis-handoff-obligation}
+Every synthesis consumer named by $S$ receives only the displayed frontier row $F$, neighbouring-map links $E$, transports $H$, continuations $C$, provenance $K$, and local name $N$ from the same carrier $I=(T,A,E,P,R,O,F,S,H,C,K,N)$.
+\end{theorem}
+\leanchecked{BEDC.Derived.AuditMapFrontierIndexUp.AuditMapFrontierIndex\_synthesis\_handoff\_obligation}
+\begin{proof}
+Project the synthesis row $S$ and the structural rows $H,C,K,N$. These rows are downstream of the local map, neighbouring-map, route, obstruction, and frontier rows, and they add no coordinate outside the displayed carrier.
+
+Apply the synthesis-consumer handoff clause of \autoref{thm:audit-map-frontier-index-namecert-obligations}. The handoff route is exhausted by $F,E,H,C,K,N$ together with the upstream rows that make $F$ a visible frontier. Thus a synthesis consumer cannot read an unlisted map, a hidden obstruction discharge, a global subject-reduction theorem, full closed consistency, ambient confluence, or host semantic equality from $S$.
 \end{proof}
 
 \closureat{AuditMapFrontierIndexUp}{seedStr}
@@ -104,3 +139,23 @@ For synthesis-consumer handoff, the consumer row is exactly $S|_{E_0}$, and its 
 
 Finally let $e$ be a neighbouring map not displayed in $E_0$. A frontier entry of $I|_{E_0}$ must occur in the sole frontier coordinate $F|_{E_0}$, and every such coordinate was retained only when its neighbouring-map coordinate lay in $E_0$. Likewise every synthesis read in $I|_{E_0}$ factors through $S|_{E_0}$ and $C|_{E_0}$, whose entries were retained only over $E_0$. Therefore $e$ has no coordinate in the restricted frontier row and no displayed continuation into a restricted synthesis consumer, so it cannot supply a frontier entry of $I|_{E_0}$.
 \end{proof}
+\leanchecked{BEDC.Derived.AuditMapFrontierIndexUp.AuditMapFrontierIndex\_neighbour\_restriction}
+
+\begin{theorem}[Audit-map frontier-index obstruction route]
+\label{thm:audit-map-frontier-index-obstruction-route}
+Let
+$$
+I=(T,A,E,P,R,O,F,S,H,C,K,N)
+$$
+be an accepted $\AuditMapFrontierIndexUp$ carrier. Every accepted route from the local audit row $A$ to a synthesis consumer named by $S$ must retain the obstruction row $O$ and the conditional route row $R$ as visible inputs to the frontier row $F$. Deleting a neighbouring map may delete exactly the frontier entries indexed by that neighbour, but it may not turn $O$ into a discharged theorem or replace $R$ by an unrecorded route.
+\end{theorem}
+\begin{proof}
+Project the carrier $I$. The only coordinates available to the route are the map tag, local audit row, neighbouring-map row, positive row, conditional route row, obstruction row, frontier row, synthesis-consumer row, transport row, continuation row, provenance row, and local name.
+
+Use \autoref{thm:audit-map-frontier-index-neighbour-restriction} for any displayed neighbouring subfamily. It permits deletion of the rows indexed by deleted neighbours, but the retained packet still has obstruction and conditional-route coordinates $O|_{E_0}$ and $R|_{E_0}$ attached to the retained frontier row $F|_{E_0}$.
+
+Now inspect the continuation row $C$ and the synthesis row $S$. The displayed routes in $C$ run from the local map to neighbouring maps, from conditional rows to named routes, from obstruction rows to frontier rows, and from frontier rows to synthesis consumers. Thus a synthesis read named by $S$ can consume $F$ only through a route that still displays the obstruction and conditional-route rows assigned to that frontier entry.
+
+Finite row exhaustion gives the conclusion. No remaining coordinate carries a proof that discharges $O$, and no coordinate carries a hidden route replacing $R$. Therefore neighbour deletion can remove the affected frontier entries, but every retained accepted route keeps $O$ and $R$ visible as inputs to $F$.
+\end{proof}
+\leanchecked{BEDC.Derived.AuditMapFrontierIndexUp.AuditMapFrontierIndex\_obstruction\_route}

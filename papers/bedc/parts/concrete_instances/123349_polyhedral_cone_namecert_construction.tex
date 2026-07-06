@@ -1,0 +1,66 @@
+\chapter{A Concrete Naming Certificate for $\PolyhedralConeUp$}
+\label{ch:concrete-instances-polyhedral-cone-namecert}
+\origin{human}
+
+Following Rockafellar and finite-dimensional convex analysis, the $\PolyhedralConeUp$ packet records a cone presented by finite generator rows and finite linear inequalities before any ambient separation theorem is read. It sits between the convex-set carrier of \autoref{ch:concrete-instances-convexset-namecert}, the nonnegative scalar row of \autoref{ch:concrete-instances-positive-cone-namecert}, the linear functional surface of \autoref{ch:concrete-instances-linearmap-namecert}, the scalar comparison seal of \autoref{ch:concrete-instances-real-namecert}, the finite alternative of \autoref{ch:concrete-instances-farkas-lemma-namecert}, and the polar-support route of \autoref{ch:concrete-instances-dual-cone-namecert}. The chapter names only finite cone data; it does not assert Hahn--Banach extension, strong separation, selected optimizers, quotient dual spaces, or choice.
+
+\begin{definition}[Polyhedral-cone carrier]
+\label{def:polyhedral-cone-carrier}
+A $\PolyhedralConeUp$ carrier is a finite $\BHist$ packet
+$$
+K=(V,G,A,\lambda,R,T,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $V$ is the finite vector-space and ambient convex-set row, read through $\ConvexSetUp$ and the source operations used by $\LinearMapUp$.
+\item $G$ is the finite generator-row ledger, listing displayed vectors whose nonnegative finite combinations are admitted cone elements.
+\item $A$ is the finite linear-inequality row, listing displayed $\LinearMapUp$ functionals and right-hand scalar comparisons over $\RealUp$.
+\item $\lambda$ is the nonnegative scalar row, read through $\PositiveConeUp$, for finite conic combinations of the generator rows.
+\item $R$ is the $\RealUp$ comparison row used by generator coefficients, inequality bounds, and support inequalities.
+\item $T$ records componentwise $\hsame$ transport for $V,G,A,\lambda,R$, continuation replay, package provenance, and local naming.
+\item $C$ records displayed $\Cont$ replay from generator reads and half-space reads to cone-membership consumers.
+\item $P$ is the $\Pkg$ provenance over $\PolyhedralConeUp$, $\ConvexSetUp$, $\PositiveConeUp$, $\LinearMapUp$, $\RealUp$, $\FarkasLemmaUp$, $\DualConeUp$, $\LPDualityUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\PolyhedralConeUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $V,G,A,\lambda,R,T,C,P,N$. It has no coordinate for Hahn--Banach extension, strong separation, selected optimizers, quotient dual spaces, topological closure, ambient bidual identification, or choice.
+\end{definition}
+
+\begin{theorem}[Polyhedral-cone NameCert obligations]
+\label{thm:polyhedral-cone-namecert-obligations}
+For every accepted $\PolyhedralConeUp$ carrier
+$$
+K=(V,G,A,\lambda,R,T,C,P,N),
+$$
+the local $\NameCert_{\PolyhedralConeUp}$ surface consists exactly of the following five finite obligation rows:
+\begin{enumerate}
+\item carrier admission for the finite vector-space row, generator ledger, inequality ledger, nonnegative scalar row, Real comparison row, transport, replay, provenance, and local naming row;
+\item finite half-space visibility, requiring every inequality read to expose its $\LinearMapUp$ functional and $\RealUp$ comparison row before it is used as a cone constraint;
+\item cone-operation stability, requiring finite addition and nonnegative scalar multiplication to be replayed through $G,\lambda,R,T,C$ and the $\PositiveConeUp$ comparison surface;
+\item Farkas and dual-cone handoff, requiring infeasibility, polar-support, or weak-duality consumers to pass through \autoref{ch:concrete-instances-farkas-lemma-namecert}, \autoref{ch:concrete-instances-dual-cone-namecert}, or \autoref{ch:concrete-instances-lpduality-namecert} rather than reading an unstored theorem from the carrier;
+\item non-escape from Hahn--Banach, strong separation, selected optimizers, quotient dual spaces, topological closure, ambient bidual identification, and choice.
+\end{enumerate}
+No local NameCert obligation is stored outside these five rows.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:polyhedral-cone-carrier}. Carrier admission is exactly the displayed packet $V,G,A,\lambda,R,T,C,P,N$.
+
+The finite half-space row is visible because every inequality in $A$ is stored with its $\LinearMapUp$ functional and $\RealUp$ comparison endpoint. A consumer cannot read an inequality as a constraint without first reading those displayed coordinates.
+
+Cone-operation stability is finite. Generator combinations use $G$, nonnegative scalar witnesses use $\lambda$ through $\PositiveConeUp$, scalar comparisons use $R$, and the structural replay is carried by $T$ and $C$.
+
+For alternatives, polar support, and weak duality, provenance $P$ names the adjacent $\FarkasLemmaUp$, $\DualConeUp$, and $\LPDualityUp$ rows. Since these are handoff rows rather than hidden fields, the present carrier exports only the finite cone packet.
+
+Finally inspect the refused coordinates. No row contains Hahn--Banach extension, strong separation, selected optimizers, quotient dual spaces, topological closure, ambient bidual identification, or choice, so the local NameCert cannot project any such object.
+\end{proof}
+
+\closureat{PolyhedralConeUp}{seedStr}
+
+\begin{closurestatus}{\PolyhedralConeUp}
+  \constructivestory{A $\PolyhedralConeUp$ packet is generated from finite vector-space and convex-set data, generator rows, linear inequality rows, nonnegative scalar rows, Real comparison rows, componentwise transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:polyhedral-cone-carrier} and \autoref{thm:polyhedral-cone-namecert-obligations} seed the finite polyhedral-cone surface between convex sets, finite alternatives, dual cones, and finite duality packets.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close Hahn--Banach, strong separation, selected optimizers, quotient dual spaces, topological closure, ambient bidual identification, choice, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, finite half-space visibility, cone-operation stability, Farkas and dual-cone handoff, and non-escape for BEDC.Derived.PolyhedralConeUp.}
+\end{closurestatus}

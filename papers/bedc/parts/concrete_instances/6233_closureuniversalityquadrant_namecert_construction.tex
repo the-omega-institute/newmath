@@ -43,6 +43,7 @@ The sibling ledger $A$ and substrate witness $S$ connect the abstract quadrant e
 
 Finally $P$ and $N$ package the same finite route as the public naming surface. Since no detached quadrant tag or ambient axis oracle is carried, the listed rows exhaust the local NameCert obligations.
 \end{proof}
+\leanchecked{BEDC.Derived.ClosureUniversalityQuadrantUp.ClosureUniversalityQuadrantCarrier\_namecert\_obligations}
 
 \begin{theorem}[Closure-universality axis independence boundary]
 \label{thm:closure-universality-axis-independence-boundary}
@@ -54,6 +55,64 @@ Inspect the carrier of \autoref{def:closure-universality-carrier}. The universal
 The tag row $G$ is a classifier read from the displayed pair $(U,D)$. Therefore a tag comparison may use the componentwise transports in $H$ and the route replay in $C$, but it must keep both axis rows visible.
 
 The sibling rows in $A$ witness non-bijection rather than collapse. $\CellularAutomatonUp$ supplies rule and orbit rows, $\CellularSubstrateUp$ supplies carrier rows, $\HaltingObstructionUp$ supplies finite obstruction rows, and $\BoundedUniversalTraceUp$ supplies bounded trace rows. None supplies both axis rows and the quadrant tag as one finite packet.
+\end{proof}
+\leanchecked{BEDC.Derived.ClosureUniversalityQuadrantUp.ClosureUniversalityQuadrantCarrier\_axis\_independence\_boundary}
+
+\begin{theorem}[Closure-universality quadrant axis accountability]
+\label{thm:closure-universality-quadrant-axis-accountability}
+Every accepted $\ClosureUniversalityQuadrantUp$ consumer route must expose the universality row $U$ and the closure row $D$ before reading the quadrant tag $G$. Sibling anchors in $A$ may replay cellular-rule, substrate, obstruction, and bounded-trace evidence, but they cannot substitute for either axis row or make $G$ readable from one axis alone.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier
+$$
+Q=(U,D,G,S,A,H,C,P,N).
+$$
+The rows $U$ and $D$ are separate coordinates, while $G$ is the classifier row determined by the displayed pair.
+
+Apply \autoref{thm:closure-universality-quadrant-namecert-obligations}. The local NameCert surface lists universality-axis accountability through $U$ and closure-axis accountability through $D$ before any quadrant outcome can be read.
+
+Apply \autoref{thm:closure-universality-axis-independence-boundary}. It keeps the two axis rows independent and prevents a consumer from deriving either axis from the other, from the tag alone, or from a sibling certificate.
+
+The sibling-anchor ledger $A$ can therefore replay only the named supporting surfaces. Dropping $U$ or $D$ leaves the determining pair incomplete, so the quadrant tag $G$ is unreadable as a public $\ClosureUniversalityQuadrantUp$ row.
+\end{proof}
+\leanchecked{BEDC.Derived.ClosureUniversalityQuadrantUp.ClosureUniversalityQuadrantCarrier\_axis\_accountability}
+
+\begin{theorem}[Closure-universality quadrant obligation separation]
+\label{thm:closure-universality-quadrant-obligation-separation}
+Every accepted $\ClosureUniversalityQuadrantUp$ packet separates carrier admission, universality-axis accountability, closure-axis accountability, quadrant-tag determinacy, sibling-anchor replay, and NameCert naming into distinct rows of the carrier
+$$
+Q=(U,D,G,S,A,H,C,P,N).
+$$
+Any consumer that drops one of those rows cannot claim the local $\NameCert_{\ClosureUniversalityQuadrantUp}$ surface. In particular, the TasteGate single-carrier marker licenses only the displayed packet; it does not supply a hidden universality oracle, closure oracle, substrate evaluator, or detached quadrant classifier.
+\end{theorem}
+\leanchecked{BEDC.Derived.ClosureUniversalityQuadrantUp.ClosureUniversalityQuadrantCarrier\_obligation\_separation}
+\begin{proof}
+Project the carrier of \autoref{def:closure-universality-carrier}. Carrier admission reads the tuple itself, universality-axis accountability reads $U$, closure-axis accountability reads $D$, quadrant-tag determinacy reads $G$, sibling-anchor replay reads $A$ through the substrate row $S$, and local naming reads $N$ together with the structural rows $H,C,P$.
+
+Apply the NameCert obligations theorem \autoref{thm:closure-universality-quadrant-namecert-obligations}. It lists those rows as the local certificate surface and states that a consumer cannot read any quadrant outcome unless both axis rows and their determined tag are present.
+
+Apply the axis-independence boundary \autoref{thm:closure-universality-axis-independence-boundary}. It keeps $U$, $D$, and $G$ as separate displayed coordinates, so no dropped axis row can be recovered from the other axis, from the tag alone, or from a sibling certificate.
+
+Finally read the TasteGate single-carrier marker attached to \autoref{def:closure-universality-carrier}. The marker identifies the displayed carrier as the accepted local packet. It therefore licenses only $Q=(U,D,G,S,A,H,C,P,N)$ and supplies no hidden universality proof, closure oracle, substrate evaluator, detached classifier, or replacement NameCert row.
+\end{proof}
+
+\begin{theorem}[Closure-universality quadrant obligation basis]
+\label{thm:closure-universality-quadrant-obligation-basis}
+Every accepted $\ClosureUniversalityQuadrantUp$ consumer must read the carrier row $Q$, the quadrant tag $G$, the substrate row $S$, the cellular sibling anchors in $A$, the bounded trace witness carried by $A$, the axis-independence boundary, and the obligation-separation row before treating a quadrant entry as public evidence. The accepted basis is therefore the displayed finite route through
+$$
+Q,U,D,G,S,A,H,C,P,N,
+$$
+with no shortcut through an ambient universality oracle, closure oracle, detached substrate evaluator, or host classifier for quadrant membership.
+\end{theorem}
+\leanchecked{BEDC.Derived.ClosureUniversalityQuadrantUp.ClosureUniversalityQuadrantCarrier\_obligation\_basis}
+\begin{proof}
+Start with the carrier definition \autoref{def:closure-universality-carrier}. It exposes $Q=(U,D,G,S,A,H,C,P,N)$, so the consumer can read a quadrant entry only by projecting the displayed carrier row and its named coordinates.
+
+Apply the NameCert obligations theorem \autoref{thm:closure-universality-quadrant-namecert-obligations}. It makes the two axis rows, quadrant tag, substrate witness, sibling-anchor ledger, transports, continuations, provenance, and local name the certificate surface for the packet.
+
+Use the axis-independence boundary \autoref{thm:closure-universality-axis-independence-boundary} and the obligation-separation theorem \autoref{thm:closure-universality-quadrant-obligation-separation}. The first keeps $U,D,G$ from collapsing into one another, and the second keeps carrier admission, axis accountability, sibling replay, and NameCert naming as separate rows.
+
+The bounded trace witness is read only as part of the sibling-anchor ledger $A$, together with the cellular rule and substrate anchors. Thus the listed rows form the obligation basis for public evidence. The existing TasteGate Lean carrier is the intended future formalization target for this row discipline, but this theorem claims only the paper-side basis.
 \end{proof}
 
 The later Lean TasteGate namespace $\mathsf{BEDC.Derived.ClosureUniversalityQuadrantUp}$ will provide $\mathsf{Nontrivial}\ \ClosureUniversalityQuadrantUp$ and $\mathsf{FieldFaithful}\ \ClosureUniversalityQuadrantUp$ instances for the displayed carrier.

@@ -1,0 +1,61 @@
+\chapter{A Concrete Naming Certificate for $\RealMonotoneSequenceUp$}
+\label{ch:concrete-instances-real-monotone-sequence-namecert}
+\origin{human}
+
+Following Bishop and Bridges on monotone real sequences, the $\RealMonotoneSequenceUp$ packet records the finite order-facing surface by which a displayed real sequence exposes monotone comparisons before any Real or Completion consumer may ask for a limit. It sits beside the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the finite observation windows of \autoref{ch:concrete-instances-streamname-namecert}, the total-order comparison discipline of \autoref{ch:concrete-instances-totalorder-namecert}, and the bounded monotone source of \autoref{ch:concrete-instances-monotone-bounded-sequence-namecert}. The packet is a finite monotone-sequence certificate; it does not assert completeness, select a limit, quotient stream names, decide trichotomy, or import an ambient $\RealUp$ convergence theorem.
+
+\begin{definition}[RealMonotoneSequence carrier]
+\label{def:real-monotone-sequence-carrier}
+A $\RealMonotoneSequenceUp$ carrier is a finite $\BHist$ packet
+$$
+R=(S,M,W,Q,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the real-sequence window row, naming the inspected index schedule and the displayed $\RealUp$ source rows for the visible sequence values.
+\item $M$ is the monotone comparison ledger, listing the finite $\TotalOrderUp$ comparisons that certify the inspected sequence values move in one order direction along the displayed schedule.
+\item $W$ is the $\StreamNameUp$ finite-window row, recording which finite observations of each sequence value are available to the comparison ledger.
+\item $Q$ is the $\RegSeqRatUp$ readback row that supplies rational windows and tolerances for the inspected real-name comparisons.
+\item $E$ is the $\RealUp$ seal row for the displayed sequence values, read only after $W$ and $Q$ have exposed the finite observations.
+\item $H$ records componentwise $\hsame$ transport for the sequence window, comparison ledger, StreamName windows, RegSeqRat readback, Real seal, replay, provenance, and naming rows.
+\item $C$ records displayed $\Cont$ replay from a monotone-sequence request through $S,M,W,Q,E,H,P,N$.
+\item $P$ is the $\Pkg$ provenance over $\RealMonotoneSequenceUp$, $\RealUp$, $\RegSeqRatUp$, $\StreamNameUp$, $\TotalOrderUp$, $\MonotoneBoundedSequenceUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\RealMonotoneSequenceUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through
+$$
+S,M,W,Q,E,H,C,P,N.
+$$
+It has no coordinate for a selected limit, a quotient stream, trichotomy, ambient completeness, or a host monotone-convergence theorem.
+\end{definition}
+\leanchecked{BEDC.Derived.RealMonotoneSequenceUp.TasteGate.RealMonotoneSequenceTasteGate\_single\_carrier\_alignment}
+
+\begin{theorem}[RealMonotoneSequence NameCert obligations]
+\label{thm:real-monotone-sequence-namecert-obligations}
+For every accepted $\RealMonotoneSequenceUp$ carrier $R=(S,M,W,Q,E,H,C,P,N)$, the local $\NameCert_{\RealMonotoneSequenceUp}$ surface consists exactly of carrier admission for the real-sequence window $S$, monotone comparison ledger $M$, StreamName finite windows $W$, RegSeqRat readback $Q$, RealUp seal $E$, componentwise $\hsame$ transport $H$, displayed $\Cont$ replay $C$, $\Pkg$ provenance $P$, and local naming row $N$. Every completion-facing or bounded-monotone consumer must read the same finite route before it can use the $\MonotoneBoundedSequenceUp$ sibling surface.
+\end{theorem}
+\begin{proof}
+Project the carrier rows of \autoref{def:real-monotone-sequence-carrier}. The sequence values are available only through the displayed window $S$, the finite StreamName observations $W$, the RegSeqRat readback $Q$, and the terminal Real seal $E$.
+
+The order-facing row is $M$. It consumes those same displayed observations and records only the finite TotalOrder comparisons between inspected sequence values; it cannot compare a second hidden sequence or import a trichotomy oracle.
+
+The structural rows preserve the route. Componentwise transport $H$ moves the displayed rows together, continuation replay $C$ repeats the same reading order, provenance $P$ names the Real, RegSeqRat, StreamName, TotalOrder, and MonotoneBoundedSequence sibling sources, and $N$ names the local certificate.
+
+Since no coordinate stores a selected limit, quotient stream, ambient completeness theorem, or host monotone-convergence result, none can appear among the local NameCert obligations or downstream bounded-monotone reads.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\RealMonotoneSequenceUp$ read exposes a real-sequence window, monotone comparison ledger, StreamName finite windows, RegSeqRat readback, RealUp seal, hsame transport, Cont replay, Pkg provenance, and local NameCert row before any bounded-monotone or completion-facing consumer can inspect it.}
+
+\independenceWitness{real, regseqrat, streamname, totalorder, monotone-bounded-sequence: $\RealMonotoneSequenceUp$ is not bijective to any listed sibling because it jointly carries a real-sequence window and a monotone comparison ledger before a bounded-monotone consumer may read the source.}
+
+\closureat{RealMonotoneSequenceUp}{seedStr}
+
+\begin{closurestatus}{\RealMonotoneSequenceUp}
+  \constructivestory{A $\RealMonotoneSequenceUp$ packet is generated from a real-sequence window, monotone comparison ledger, StreamName finite windows, RegSeqRat readback, RealUp seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:real-monotone-sequence-carrier} and \autoref{thm:real-monotone-sequence-namecert-obligations} seed the finite monotone real-sequence carrier and its local NameCert obligation surface.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close completeness, selected limits, quotient stream equality, trichotomy, Lean verification, bridge checking, or ambient $\RealUp$ monotone convergence.}
+  \upgradepath{Formal verification can encode carrier admission, monotone comparison ledger admission, StreamName and RegSeqRat readback, Real seal routing, transport replay, provenance, and local naming for BEDC.Derived.RealMonotoneSequenceUp.}
+\end{closurestatus}

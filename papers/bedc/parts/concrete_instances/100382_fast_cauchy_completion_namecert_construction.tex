@@ -85,18 +85,38 @@ For the successor threshold, replay the previous route through the $\Cont$ row $
 The terminal step is the modulus Real-seal route of \autoref{thm:fast-cauchy-completion-modulus-real-seal}. It reaches $E$ through $Q$, then preserves the route through $H,C,P,N$. Since the excluded principles have no carrier coordinate and no replay edge, the displayed induction exhausts the accepted precision-tail reads.
 \end{proof}
 
+\begin{theorem}[Fast Cauchy completion obligation-closure surface]
+\label{thm:fast-cauchy-completion-obligation-closure-surface}
+The carrier, NameCert obligations, modulus Real seal, and finite induction assemble the $\obligationClosure$ surface for $\FastCauchyCompletionUp$ over $\CauchyModulusUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$. The assembled surface is exactly the displayed route
+$$
+M_0,S,D,Q,E,H,C,P,N
+$$
+and refuses quotient streams, selected limits, countable choice, host equality, and ambient $\RealUp$ completeness.
+\end{theorem}
+\leanchecked{BEDC.Derived.FastCauchyCompletionUp.FastCauchyCompletionObligationClosureSurface}
+\begin{proof}
+Project the carrier of \autoref{def:fast-cauchy-completion-carrier}. Its rows name the Cauchy-modulus threshold, finite stream window, dyadic tolerance ledger, regular rational readback, Real seal, componentwise transport, continuation replay, provenance, and local naming surface.
+
+Apply the NameCert obligations of \autoref{thm:fast-cauchy-completion-namecert-obligations}. These obligations force carrier admission, modulus discipline, stream and dyadic readback, Real-seal handoff, transport and replay stability, and ledger non-escape over the same rows.
+
+Use the modulus Real seal \autoref{thm:fast-cauchy-completion-modulus-real-seal} and the finite induction theorem \autoref{thm:fast-cauchy-completion-induction}. The Real-facing read reaches $E$ only after $M_0,S,D,Q$, and each precision-tail step is replayed finitely through the displayed threshold, stream, dyadic, readback, and seal route.
+
+Since the carrier and the three theorem blocks have no coordinate for quotient streams, selected limits, countable choice, host equality, or ambient $\RealUp$ completeness, the obligation-closure surface cannot export any of those objects.
+\end{proof}
+
 \falsifiablePrediction{Every $\FastCauchyCompletionUp$ Real-facing read factors through a CauchyModulus threshold, StreamName finite windows, DyadicRatCore tolerance arithmetic, RegSeqRat readback, a RealUp seal, transport, replay, provenance, and local naming.}
 
 \independenceWitness{real-cauchy-modulus, cauchy-modulus, streamname, dyadicratcore, regseqrat, cauchy-rate-comparison, real: $\FastCauchyCompletionUp$ is not bijective to any listed sibling because it jointly carries the modulus threshold, stream window, dyadic tolerance ledger, regular readback, terminal Real seal, transport, replay, provenance, and local naming in one packet.}
 
 \closureat{FastCauchyCompletionUp}{seedStr}
+\closureat{FastCauchyCompletionUp}{obligationStr}
 
 \begin{closurestatus}{\FastCauchyCompletionUp}
   \constructivestory{A $\FastCauchyCompletionUp$ packet is generated from a CauchyModulus threshold row, StreamName finite windows, a DyadicRatCore tolerance ledger, RegSeqRat readback, a RealUp seal handoff, componentwise hsame transport, Cont replay, Pkg provenance, and a local NameCert row.}
-  \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:fast-cauchy-completion-carrier}, \autoref{thm:fast-cauchy-completion-namecert-obligations}, and \autoref{thm:fast-cauchy-completion-modulus-real-seal} seed the finite modulus-controlled completion route from CauchyModulus thresholds to terminal $\RealUp$ reads.}
+  \theoryclosure{\obligationClosure}
+  \scopeclosed{\autoref{thm:fast-cauchy-completion-obligation-closure-surface} assembles the carrier, NameCert obligations, modulus Real seal, and finite induction into the finite modulus-controlled completion obligation surface.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{This chapter does not close quotient stream equality, selected limits, trichotomy, countable choice, host equality, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
-  \upgradepath{Obligation closure requires checked carrier admission, modulus discipline, stream and dyadic readback, Real-seal handoff, transport and replay stability, ledger non-escape, and TasteGate field faithfulness for BEDC.Derived.FastCauchyCompletionUp.}
+  \upgradepath{Scoped closure requires making the CauchyModulus, StreamName, DyadicRatCore, RegSeqRat, RealUp, BHist, hsame, Cont, Pkg, and NameCert dependencies explicit as one kernel route.}
 \end{closurestatus}

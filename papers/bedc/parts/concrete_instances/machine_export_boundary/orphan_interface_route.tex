@@ -1,6 +1,6 @@
 \begin{theorem}[Machine export boundary orphan interface route]
 \label{thm:machine-export-boundary-orphan-interface-route}
-Every $\MachineExportBoundaryUp$ packet is read as a downstream specialization of \autoref{ch:concrete-instances-machine-interface-boundary-namecert} only after registry status, audit readback, refusal preservation, componentwise transport, displayed replay, package provenance, and local $\NameCert$ rows remain visible. Concretely, an accepted export packet $E=(R,T,A,F,H,C,P,N)$ reaches the machine-interface boundary through the registry route of \autoref{thm:machine-export-boundary-registry-route}, the registry export dependency of \autoref{thm:machine-export-boundary-registry-export-dependency}, and the interface dependency of \autoref{thm:machine-export-boundary-machine-interface-dependency}; it cannot be consumed as a bare machine target row. The bounded-diamond and $\Omega$-generation boundary consumers may read the export packet only after $\RegistryExportSurfaceUp$ and $\MachineReadableAuditInterfaceUp$ have displayed the export rows.
+Every $\MachineExportBoundaryUp$ packet is read as a downstream specialization of \autoref{ch:concrete-instances-machine-interface-boundary-namecert} only after registry status, audit readback, refusal preservation, componentwise transport, displayed replay, package provenance, and local $\NameCert$ rows remain visible. Concretely, an accepted export packet $E=(R,T,A,F,H,C,P,N)$ reaches the machine-interface boundary through the registry route of \autoref{thm:machine-export-boundary-registry-route}, the registry export dependency of \autoref{thm:machine-export-boundary-registry-export-dependency}, and the interface dependency of \autoref{thm:machine-export-boundary-machine-interface-dependency}; it cannot be consumed as a bare machine target row. The bounded-diamond and standard-bridge machine consumers may read the export packet only after the machine interface of \autoref{ch:concrete-instances-machine-interface-boundary-namecert}, $\RegistryExportSurfaceUp$, and $\MachineReadableAuditInterfaceUp$ have displayed the same export rows.
 \end{theorem}
 \begin{proof}
 Project the carrier of \autoref{def:machine-export-boundary-carrier}. The displayed rows $R,T,A,F,H,C,P,N$ are the only rows available to a machine export consumer.
@@ -10,4 +10,28 @@ Read the registry and audit surfaces first. The registry route and registry expo
 Now apply the machine-interface dependency and the forward interface route, \autoref{thm:machine-export-boundary-machine-interface-dependency} and \autoref{thm:machine-export-boundary-machine-interface-export-forward-link}. They route the target row through $\MachineInterfaceBoundaryUp$ only after $\RegistryExportSurfaceUp$, $\MachineReadableAuditInterfaceUp$, $\CannotClaimExportGateUp$, and $\NameCertMorphismUp$ provenance are displayed.
 
 Finally use $H,C,P,N$. Transport and replay keep the same registry-audit-refusal route visible, provenance records the certificate-preserving handoff, and the local name closes the packet. Hence the orphan edge is a child route through $\MachineInterfaceBoundaryUp$ with all export-boundary rows still present.
+\end{proof}
+
+\begin{theorem}[Machine export boundary kernel-acceptance handoff]
+\label{thm:machine-export-boundary-kernel-acceptance-handoff}
+Every $\MachineExportBoundaryUp$ packet exporting a machine-readable theorem row must pass through \autoref{ch:concrete-instances-kernel-acceptance-boundary-namecert} before the machine target is public. The accepted-declaration row and axiom-query refusal row of $\KernelAcceptanceBoundaryUp$ are the kernel-side boundary for export, so an export packet $E=(R,T,A,F,H,C,P,N)$ cannot present $T$ as public machine content before the accepted declaration, registry status, audit readback, refusal preservation, componentwise transport, displayed replay, provenance, and local naming rows have all been exposed.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:machine-export-boundary-carrier}. The rows $R,T,A,F,H,C,P,N$ are the complete export surface: $R$ records registry status, $T$ records the target theorem row, $A$ records machine-readable audit readback, and $F$ records refusal preservation.
+
+Read the existing registry, audit, and refusal route. The registry route of \autoref{thm:machine-export-boundary-registry-route}, the registry export dependency of \autoref{thm:machine-export-boundary-registry-export-dependency}, and the orphan interface route of \autoref{thm:machine-export-boundary-orphan-interface-route} keep $R,A,F,H,C,P,N$ visible before a machine-interface consumer reads $T$.
+
+Now route the theorem row through \autoref{ch:concrete-instances-kernel-acceptance-boundary-namecert}. That boundary consumes $\KernelAcceptanceWitnessUp$ for accepted declarations and $\AxiomQueryLedgerUp$ for forbidden-ancestry refusal, so the machine export row cannot become public as a bare target theorem. It is public only after the accepted-declaration and axiom-query-refusal boundary has been displayed.
+\end{proof}
+
+\begin{theorem}[Machine export boundary registry link]
+\label{thm:machine-export-boundary-registry-link}
+Every $\MachineExportBoundaryUp$ export row reaches local export naming only after the sibling lattice has displayed $\RegistryExportSurfaceUp$, $\MachineReadableAuditInterfaceUp$, $\CannotClaimExportGateUp$, $\KernelAcceptanceBoundaryUp$, and $\MachineInterfaceBoundaryUp$. Thus an export packet $E=(R,T,A,F,H,C,P,N)$ cannot name $T$ locally until registry status, machine-readable audit readback, cannot-claim refusal preservation, kernel acceptance, machine-interface exposure, componentwise transport, displayed replay, provenance, and the local $\NameCert$ row are all visible.
+\end{theorem}
+\begin{proof}
+Start with the registry route and registry export dependency, \autoref{thm:machine-export-boundary-registry-route} and \autoref{thm:machine-export-boundary-registry-export-dependency}. They force the export packet to read $\RegistryExportSurfaceUp$ before the theorem row is consumed.
+
+Use the orphan interface route, \autoref{thm:machine-export-boundary-orphan-interface-route}. It keeps $\MachineReadableAuditInterfaceUp$, $\CannotClaimExportGateUp$, and $\MachineInterfaceBoundaryUp$ visible as the export packet moves toward machine-facing naming.
+
+Finally apply the kernel-acceptance handoff, \autoref{thm:machine-export-boundary-kernel-acceptance-handoff}. The accepted-declaration boundary must be displayed before $T$ is public, so the local export name is a registry-linked sibling-lattice read rather than a bare kernel-only float.
 \end{proof}

@@ -105,6 +105,8 @@ BRIDGE_ROUND_INTERVAL_SECONDS = int(os.environ.get("BRIDGE_ROUND_INTERVAL", "360
 BRIDGE_ROUND_MAX_LOAD = float(os.environ.get("BEDC_BRIDGE_ROUND_MAX_LOAD", "18"))
 BRIDGE_CODEX_TIMEOUT_SECONDS = int(os.environ.get("BEDC_BRIDGE_CODEX_TIMEOUT", "3600"))
 BRIDGE_HEAVY_CHECK_TIMEOUT_SECONDS = int(os.environ.get("BEDC_BRIDGE_HEAVY_CHECK_TIMEOUT", "10800"))
+BRIDGE_MAX_REPAIR_ATTEMPTS = int(os.environ.get("BEDC_BRIDGE_REPAIR_ATTEMPTS", "3"))
+BRIDGE_LAST_DEFERRED = False
 
 
 def _resolve_git_common_file(filename: str, fallback: Path) -> Path:
@@ -2300,6 +2302,50 @@ def _bridge_prompt(candidate: dict[str, object], candidates: list[dict[str, obje
     )
 
 
+def _bridge_log_excerpt(log_text: str, limit: int = 12000) -> str:
+    if len(log_text) <= limit:
+        return log_text
+    return log_text[-limit:]
+
+
+def _bridge_repair_prompt(
+    candidate: dict[str, object],
+    changed_paths: list[str],
+    log_text: str,
+    attempt: int,
+) -> str:
+    return f"""\
+You are repairing the BEDC mathlib bridge row you just wrote.
+Working language: Chinese for notes, English for Lean names and code.
+
+Candidate:
+```json
+{json.dumps(candidate, indent=2, sort_keys=True)}
+```
+
+Changed files:
+```text
+{chr(10).join(changed_paths)}
+```
+
+The load-gated heavy check failed. Repair only files under
+papers/bedc_mathlib_bridge. Do not touch lean4/BEDC, tools, CI, the main paper,
+or this orchestrator. Do not use sorry, axiom, unsafe, or a classical shortcut.
+If the attempted row is conceptually wrong, remove the bridge changes and leave
+the worktree clean.
+
+Repair attempt: {attempt}
+
+Heavy-check excerpt:
+```text
+{_bridge_log_excerpt(log_text)}
+```
+
+Do not run lake build, make check, bridge_heavy_check.sh, or any mathlib build.
+The orchestrator will run the load-gated check again after you return.
+"""
+
+
 def _run_bridge_heavy_check(wt_path: Path) -> tuple[int, Path, str]:
     bridge_dir = wt_path / BRIDGE_PROJECT_REL
     LOG_DIR.mkdir(parents=True, exist_ok=True)
@@ -2411,6 +2457,8 @@ def _push_bridge_worktree(wt_path: Path, candidate: dict[str, object]) -> bool:
 
 
 def run_bridge_round() -> bool:
+    global BRIDGE_LAST_DEFERRED
+    BRIDGE_LAST_DEFERRED = False
     candidates = _bridge_candidate_filter()
     if not candidates:
         logger.info("[bridge] no eligible bridge candidate")
@@ -2433,14 +2481,35 @@ def run_bridge_round() -> bool:
         if not _bridge_paths_are_firewalled(paths):
             logger.error(f"[bridge] bridge codex touched forbidden paths: {paths}")
             return False
-        rc, log_path, log_text = _run_bridge_heavy_check(wt_path)
-        logger.info(f"[bridge] heavy check rc={rc} log={log_path}")
-        if rc == 75:
-            logger.info("[bridge] heavy check deferred by load gate")
-            return False
-        if not _bridge_heavy_check_passed(rc, log_text):
-            logger.error(f"[bridge] heavy check failed; see {log_path}")
-            return False
+        for attempt in range(BRIDGE_MAX_REPAIR_ATTEMPTS + 1):
+            rc, log_path, log_text = _run_bridge_heavy_check(wt_path)
+            logger.info(f"[bridge] heavy check rc={rc} log={log_path} attempt={attempt}")
+            if rc == 75:
+                logger.info("[bridge] heavy check deferred by load gate")
+                BRIDGE_LAST_DEFERRED = True
+                return False
+            if _bridge_heavy_check_passed(rc, log_text):
+                break
+            if attempt >= BRIDGE_MAX_REPAIR_ATTEMPTS:
+                logger.error(f"[bridge] heavy check failed after repair budget; see {log_path}")
+                return False
+            logger.warning(
+                f"[bridge] heavy check failed; dispatching repair "
+                f"{attempt + 1}/{BRIDGE_MAX_REPAIR_ATTEMPTS}"
+            )
+            codex_exec(
+                _bridge_repair_prompt(candidate, paths, log_text, attempt + 1),
+                work_dir=wt_path,
+                timeout_seconds=BRIDGE_CODEX_TIMEOUT_SECONDS,
+                log_tag=f"bridge_round_repair_{attempt + 1}",
+            )
+            paths = _bridge_changed_paths(wt_path)
+            if not paths:
+                logger.info("[bridge] repair left no bridge changes")
+                return False
+            if not _bridge_paths_are_firewalled(paths):
+                logger.error(f"[bridge] bridge repair touched forbidden paths: {paths}")
+                return False
         return _push_bridge_worktree(wt_path, candidate)
     except subprocess.TimeoutExpired as exc:
         logger.warning(f"[bridge] heavy check timeout: {exc}")

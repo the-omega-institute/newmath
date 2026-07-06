@@ -2,6 +2,8 @@ import BEDC.FKernel.Hist
 import BEDC.FKernel.Cont
 import BEDC.FKernel.Mark
 import BEDC.FKernel.NameCert
+import BEDC.FKernel.Package.Core
+import BEDC.FKernel.Unary.History
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.FreeWillInscriptionCommitmentUp
@@ -10,6 +12,10 @@ open BEDC.FKernel.Hist
 open BEDC.FKernel.Cont
 open BEDC.FKernel.Mark
 open BEDC.FKernel.NameCert
+open BEDC.FKernel.Ask
+open BEDC.FKernel.Bundle
+open BEDC.FKernel.Package
+open BEDC.FKernel.Unary
 open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
@@ -441,5 +447,111 @@ theorem FreeWillInscriptionCommitment_nonescape :
         intro _row source
         exact ⟨ih, eventRoute, source⟩
     }
+
+def FreeWillInscriptionCommitmentCarrier [AskSetup] [PackageSetup]
+    (B I G T R H C P N : BHist) (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
+  -- BEDC touchpoint anchor: BHist Cont ProbeBundle Pkg PkgSig UnaryHistory
+  UnaryHistory N ∧ Cont B I G ∧ Cont T R H ∧ Cont H C N ∧ PkgSig bundle P pkg
+
+theorem FreeWillInscriptionCommitment_obligation_closure [AskSetup] [PackageSetup]
+    {B I G T R H C P N : BHist} {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    FreeWillInscriptionCommitmentCarrier B I G T R H C P N bundle pkg →
+      SemanticNameCert (fun row : BHist => hsame row N ∧ UnaryHistory row)
+        (fun row : BHist =>
+          hsame row B ∨ hsame row I ∨ hsame row G ∨ hsame row T ∨ hsame row R ∨
+            hsame row H ∨ hsame row C ∨ hsame row P ∨ hsame row N)
+        (fun row : BHist => UnaryHistory row ∧ PkgSig bundle P pkg) hsame ∧
+        Cont B I G ∧ Cont T R H ∧ Cont H C N := by
+  -- BEDC touchpoint anchor: BHist Cont ProbeBundle Pkg PkgSig hsame SemanticNameCert UnaryHistory
+  intro carrier
+  obtain ⟨nUnary, routeBIG, routeTRH, routeHCN, pPkg⟩ := carrier
+  have cert :
+      SemanticNameCert (fun row : BHist => hsame row N ∧ UnaryHistory row)
+        (fun row : BHist =>
+          hsame row B ∨ hsame row I ∨ hsame row G ∨ hsame row T ∨ hsame row R ∨
+            hsame row H ∨ hsame row C ∨ hsame row P ∨ hsame row N)
+        (fun row : BHist => UnaryHistory row ∧ PkgSig bundle P pkg) hsame := {
+    core := {
+      carrier_inhabited := Exists.intro N ⟨hsame_refl N, nUnary⟩
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        exact
+          ⟨hsame_trans (hsame_symm sameRows) source.left,
+            unary_transport source.right sameRows⟩
+    }
+    pattern_sound := by
+      intro _row source
+      repeat (first | exact source.left | apply Or.inr)
+    ledger_sound := by
+      intro _row source
+      exact ⟨source.right, pPkg⟩
+  }
+  exact ⟨cert, routeBIG, routeTRH, routeHCN⟩
+
+theorem FreeWillInscriptionCommitment_obligation_closure_nonescape_consumer
+    [AskSetup] [PackageSetup]
+    {B I G T R H C P N eventRead routeRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg}
+    (W : FreeWillInscriptionCommitmentUp) :
+    FreeWillInscriptionCommitmentCarrier B I G T R H C P N bundle pkg →
+      Cont I H eventRead →
+        Cont eventRead C routeRead →
+          (∀ extra : BHist,
+            freeWillInscriptionCommitmentFromEventFlow
+              (List.append (freeWillInscriptionCommitmentToEventFlow W)
+                [freeWillInscriptionCommitmentEncodeBHist extra]) = none) ∧
+            SemanticNameCert
+              (fun row : BHist => hsame row routeRead)
+              (fun row : BHist =>
+                hsame row B ∨ hsame row I ∨ hsame row G ∨ hsame row T ∨
+                  hsame row R ∨ hsame row H ∨ hsame row C ∨ hsame row P ∨
+                    hsame row N ∨ hsame row eventRead ∨ hsame row routeRead)
+              (fun row : BHist =>
+                Cont I H eventRead ∧ Cont eventRead C routeRead ∧ hsame row routeRead)
+              hsame ∧
+              SemanticNameCert (fun row : BHist => hsame row N ∧ UnaryHistory row)
+                (fun row : BHist =>
+                  hsame row B ∨ hsame row I ∨ hsame row G ∨ hsame row T ∨
+                    hsame row R ∨ hsame row H ∨ hsame row C ∨ hsame row P ∨
+                      hsame row N)
+                (fun row : BHist => UnaryHistory row ∧ PkgSig bundle P pkg) hsame ∧
+                Cont B I G ∧ Cont T R H ∧ Cont H C N := by
+  -- BEDC touchpoint anchor: BHist Cont ProbeBundle Pkg PkgSig SemanticNameCert UnaryHistory
+  intro carrier eventRoute routeContinuation
+  have nonescape := FreeWillInscriptionCommitment_nonescape
+  have appendBlocked :
+      ∀ extra : BHist,
+        freeWillInscriptionCommitmentFromEventFlow
+          (List.append (freeWillInscriptionCommitmentToEventFlow W)
+            [freeWillInscriptionCommitmentEncodeBHist extra]) = none :=
+    nonescape.left W
+  have routeCert :
+      SemanticNameCert
+        (fun row : BHist => hsame row routeRead)
+        (fun row : BHist =>
+          hsame row B ∨ hsame row I ∨ hsame row G ∨ hsame row T ∨
+            hsame row R ∨ hsame row H ∨ hsame row C ∨ hsame row P ∨
+              hsame row N ∨ hsame row eventRead ∨ hsame row routeRead)
+        (fun row : BHist =>
+          Cont I H eventRead ∧ Cont eventRead C routeRead ∧ hsame row routeRead)
+        hsame :=
+    nonescape.right (B := B) (I := I) (G := G) (T := T) (R := R) (H := H)
+      (C := C) (P := P) (N := N) eventRoute routeContinuation
+  have closure :=
+    FreeWillInscriptionCommitment_obligation_closure
+      (B := B) (I := I) (G := G) (T := T) (R := R) (H := H) (C := C)
+      (P := P) (N := N) (bundle := bundle) (pkg := pkg) carrier
+  exact
+    ⟨appendBlocked, routeCert, closure.left, closure.right.left, closure.right.right.left,
+      closure.right.right.right⟩
 
 end BEDC.Derived.FreeWillInscriptionCommitmentUp

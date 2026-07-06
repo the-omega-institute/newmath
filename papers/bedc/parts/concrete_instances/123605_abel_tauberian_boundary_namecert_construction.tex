@@ -1,0 +1,81 @@
+\chapter{A Concrete Naming Certificate for $\AbelTauberianBoundaryUp$}
+\label{ch:concrete-instances-abel-tauberian-boundary-namecert}
+\origin{human}
+
+Following Hardy on divergent series and classical Tauberian theory, the $\AbelTauberianBoundaryUp$ packet records the finite boundary where an Abel-limit row and a Tauberian remainder row allow a Real-facing endpoint read without quotient streams, selected sums, host equality, countable choice, or ambient Real completeness. It sits over the Abel-limit theorem surface of \autoref{ch:concrete-instances-abel-limit-theorem-namecert}, the source-series row of \autoref{ch:concrete-instances-realseries-namecert}, the Tauberian control row of \autoref{ch:concrete-instances-tauberian-remainder-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, and the terminal Real seal of \autoref{ch:concrete-instances-real-namecert}. The packet names only the displayed finite boundary route; it is not a host theorem about arbitrary summation methods, not an equality of quotient streams, and not a selected completed sum.
+
+\begin{definition}[Abel-Tauberian boundary carrier]
+\label{def:abel-tauberian-boundary-carrier}
+An $\AbelTauberianBoundaryUp$ carrier is a finite $\BHist$ packet
+$$
+A=(S,L,T,R,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the $\RealSeriesUp$ or $\StreamNameUp$ source row that exposes the inspected coefficient or partial-sum schedule.
+\item $L$ is the $\AbelLimitTheoremUp$ boundary row, recording the Abel-limit route available at the endpoint.
+\item $T$ is the $\TauberianRemainderUp$ control row, recording the finite remainder budget that licenses the endpoint read.
+\item $R$ is the $\RegSeqRatUp$ readback row, presenting the regular rational windows consumed by the Real-facing boundary.
+\item $E$ is the terminal $\RealUp$ seal row.
+\item $H$ records componentwise $\hsame$ transport for the source, Abel-limit, Tauberian-remainder, readback, Real-seal, replay, provenance, and naming rows.
+\item $C$ records displayed $\Cont$ replay from the source and control rows through $L,T,R,E$ to the endpoint read.
+\item $P$ records $\Pkg$ provenance over \autoref{ch:concrete-instances-realseries-namecert}, \autoref{ch:concrete-instances-abel-limit-theorem-namecert}, \autoref{ch:concrete-instances-tauberian-remainder-namecert}, \autoref{ch:concrete-instances-regseqrat-namecert}, \autoref{ch:concrete-instances-real-namecert}, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\AbelTauberianBoundaryUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for quotient-stream equality, a selected infinite sum, host equality of real names, countable choice, ambient Real completeness, or a summation method outside the displayed Abel-Tauberian route.
+\end{definition}
+\leandef{BEDC.Derived.AbelTauberianBoundaryUp}
+
+\begin{theorem}[Abel-Tauberian boundary NameCert obligations]
+\label{thm:abel-tauberian-boundary-namecert-obligations}
+For every accepted $\AbelTauberianBoundaryUp$ carrier
+$$
+A=(S,L,T,R,E,H,C,P,N),
+$$
+the local $\NameCert_{\AbelTauberianBoundaryUp}$ surface consists exactly of:
+\begin{enumerate}
+\item carrier admission for $A=(S,L,T,R,E,H,C,P,N)$;
+\item source and Abel-limit exposure through $S$ and $L$;
+\item Tauberian remainder exposure through $T$;
+\item $\RegSeqRatUp$ readback and $\RealUp$ seal nonescape through $R$ and $E$;
+\item componentwise transport, replay, provenance, and local naming through $H,C,P,N$.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:abel-tauberian-boundary-carrier}. The rows $S,L,T,R,E,H,C,P,N$ are the complete finite packet.
+
+The analytic rows are read in order. The source row supplies the inspected series or stream schedule, the Abel-limit row exposes the endpoint route, and the Tauberian remainder row supplies the finite control that prevents the endpoint read from becoming a selected sum or a quotient-stream assertion.
+
+The readback and seal rows then carry the endpoint to the Real-facing boundary. Since $R$ and $E$ are displayed coordinates, the packet can export only a regular rational readback sealed by $\RealUp$.
+
+Finally $H,C,P,N$ transport, replay, source, and name the same rows. No carrier coordinate names host equality, countable choice, ambient completeness, or an off-packet summation method, so the listed rows exhaust the NameCert obligations.
+\end{proof}
+
+\begin{theorem}[Abel-Tauberian boundary Real route]
+\label{thm:abel-tauberian-boundary-real-route}
+Every accepted $\AbelTauberianBoundaryUp$ endpoint read factors through the source row $S$, the Abel-limit row $L$, the Tauberian remainder row $T$, the $\RegSeqRatUp$ readback row $R$, and the terminal $\RealUp$ seal row $E$ before the structural rows $H,C,P,N$ export the local name. The route never replaces this factorization by quotient streams, selected sums, host equality, countable choice, or ambient Real completeness.
+\end{theorem}
+\begin{proof}
+Use the NameCert obligations of \autoref{thm:abel-tauberian-boundary-namecert-obligations}. An endpoint consumer cannot reach the local name before the source, Abel-limit, Tauberian-control, readback, and Real-seal rows have been displayed.
+
+The rows $S,L,T,R,E$ have distinct roles. The source row fixes the inspected series or stream data, the Abel-limit row exposes the boundary candidate, the Tauberian row records the finite remainder control, and the readback and seal rows present the endpoint to Real-facing consumers.
+
+The structural rows only preserve this route. Therefore every accepted endpoint read factors through $S,L,T,R,E$ and cannot be replaced by any off-packet summation, equality, choice, or completeness principle.
+\end{proof}
+
+\falsifiablePrediction{A claimed $\AbelTauberianBoundaryUp$ packet is rejected if it displays an Abel-limit row and a source row but omits the Tauberian remainder row, the $\RegSeqRatUp$ readback row, or the terminal $\RealUp$ seal row.}
+
+\independenceWitness{abel-limit-theorem, realseries, tauberian-remainder, regseqrat, real: $\AbelTauberianBoundaryUp$ is not bijective with any one sibling because it binds source, Abel-limit, Tauberian-control, regular-readback, Real-seal, transport, replay, provenance, and local naming rows in one endpoint boundary packet.}
+
+\closureat{AbelTauberianBoundaryUp}{seedStr}
+
+\begin{closurestatus}{\AbelTauberianBoundaryUp}
+  \constructivestory{An $\AbelTauberianBoundaryUp$ packet is generated from a RealSeries or StreamName source row, an AbelLimitTheorem boundary row, a TauberianRemainder control row, a RegSeqRat readback row, a Real seal row, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:abel-tauberian-boundary-carrier}, \autoref{thm:abel-tauberian-boundary-namecert-obligations}, and \autoref{thm:abel-tauberian-boundary-real-route} seed the Abel-Tauberian endpoint boundary packet.}
+  \formalstatus{\unformalizedV}
+  \leantarget{BEDC.Derived.AbelTauberianBoundaryUp}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close arbitrary Tauberian theorems, quotient-stream equality, selected summation, host real equality, countable choice, ambient Real completeness, or bridge checking.}
+  \upgradepath{Obligation closure requires checked source exposure, Abel-limit exposure, Tauberian remainder exposure, RegSeqRat readback, Real seal nonescape, transport, replay, provenance, and local naming for BEDC.Derived.AbelTauberianBoundaryUp.}
+\end{closurestatus}

@@ -1,0 +1,11 @@
+\begin{theorem}[Kernel acceptance witness dependency]
+\label{thm:kernel-acceptance-boundary-kernel-acceptance-witness-dependency}
+Every visible acceptance route consumed by an accepted $\KernelAcceptanceBoundaryUp$ carrier factors through the accepted-declaration witness row of $\KernelAcceptanceWitnessUp$ or the audit replay witness row of $\KernelAcceptanceAuditWitnessUp$. In particular, a boundary consumer may read the accepted declaration row $A$, environment ledger $E$, replay ledger $L$, classifier stamp $K$, axiom-query refusal row $F$, transport row $H$, continuation row $C$, provenance row $P$, and local name $N$ only after the witness route of \autoref{ch:concrete-instances-kernelacceptancewitness-namecert} or \autoref{ch:concrete-instances-kernelacceptanceauditwitness-namecert} is displayed.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:kernel-acceptance-boundary-carrier}. The rows $A,E,L,K,F,H,C,P,N$ are named as acceptance-boundary data, while the generated candidate row remains visible as the source of the decision.
+
+Use the accepted-declaration exposure theorem of \autoref{thm:kernel-acceptance-boundary-accepted-declaration-exposure}. It already forces $A$ to stay paired with the generated candidate, classifier stamp, environment ledger, replay ledger, axiom-query refusal row, transport, continuation, provenance, and local naming data.
+
+The only sibling routes that supply that visible accepted-declaration witness are the kernel acceptance witness packet and its audit replay packet. Therefore a consumer that skips both witness rows has no coordinate from which to read $A$ as accepted content, and a consumer that keeps either witness route must keep the displayed acceptance-boundary rows attached to it.
+\end{proof}

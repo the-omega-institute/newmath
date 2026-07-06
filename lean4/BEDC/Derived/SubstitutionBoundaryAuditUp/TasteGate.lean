@@ -269,4 +269,58 @@ theorem SubstitutionBoundaryAuditCarrier_falsifiable_route
     ⟨hsame_refl Csrc, hsame_refl Cval, hsame_refl L, hsame_refl Q, hsame_refl R,
       hshift, hsub⟩
 
+theorem SubstitutionBoundaryAuditNameCertObligations
+    {T V d Csrc Cval Q R L E H C P N T' V' d' Csrc' Cval' Q' R' L' E' H' C' P'
+      N' : BHist}
+    (heq :
+      substitutionBoundaryAuditToEventFlow
+          (SubstitutionBoundaryAuditUp.mk T V d Csrc Cval Q R L E H C P N) =
+        substitutionBoundaryAuditToEventFlow
+          (SubstitutionBoundaryAuditUp.mk T' V' d' Csrc' Cval' Q' R' L' E' H' C'
+            P' N'))
+    (hclosedShift : Cont Csrc L Q) (hclosedSub : Cont Cval L R)
+    (hexposureShift : Cont E Q N) (hexposureSub : Cont E R N) :
+    hsame T T' ∧ hsame V V' ∧ hsame d d' ∧ hsame Csrc Csrc' ∧
+      hsame Cval Cval' ∧ hsame Q Q' ∧ hsame R R' ∧ hsame L L' ∧ hsame E E' ∧
+        hsame H H' ∧ hsame C C' ∧ hsame P P' ∧ hsame N N' ∧
+          Cont Csrc' L' Q' ∧ Cont Cval' L' R' ∧ Cont E' Q' N' ∧
+            Cont E' R' N' := by
+  -- BEDC touchpoint anchor: BHist BMark Cont hsame
+  have hmk :=
+    substitutionBoundaryAuditToEventFlow_injective
+      (x := SubstitutionBoundaryAuditUp.mk T V d Csrc Cval Q R L E H C P N)
+      (y := SubstitutionBoundaryAuditUp.mk T' V' d' Csrc' Cval' Q' R' L' E' H' C'
+        P' N')
+      heq
+  cases hmk
+  exact
+    ⟨hsame_refl T, hsame_refl V, hsame_refl d, hsame_refl Csrc, hsame_refl Cval,
+      hsame_refl Q, hsame_refl R, hsame_refl L, hsame_refl E, hsame_refl H,
+      hsame_refl C, hsame_refl P, hsame_refl N, hclosedShift, hclosedSub,
+      hexposureShift, hexposureSub⟩
+
+theorem SubstitutionBoundaryAuditCarrier_independence_witness
+    {T V d Csrc Cval Q R L E H C P N T' V' d' Csrc' Cval' Q' R' L' E' H' C'
+      P' N' : BHist}
+    (heq :
+      substitutionBoundaryAuditToEventFlow
+          (SubstitutionBoundaryAuditUp.mk T V d Csrc Cval Q R L E H C P N) =
+        substitutionBoundaryAuditToEventFlow
+          (SubstitutionBoundaryAuditUp.mk T' V' d' Csrc' Cval' Q' R' L' E' H' C'
+            P' N'))
+    (hexposureShift : Cont E Q N) (hexposureSub : Cont E R N) :
+    hsame E E' ∧ hsame Q Q' ∧ hsame R R' ∧ hsame N N' ∧ Cont E' Q' N' ∧
+      Cont E' R' N' := by
+  -- BEDC touchpoint anchor: BHist BMark Cont hsame
+  have hmk :=
+    substitutionBoundaryAuditToEventFlow_injective
+      (x := SubstitutionBoundaryAuditUp.mk T V d Csrc Cval Q R L E H C P N)
+      (y := SubstitutionBoundaryAuditUp.mk T' V' d' Csrc' Cval' Q' R' L' E' H' C'
+        P' N')
+      heq
+  cases hmk
+  exact
+    ⟨hsame_refl E, hsame_refl Q, hsame_refl R, hsame_refl N, hexposureShift,
+      hexposureSub⟩
+
 end BEDC.Derived.SubstitutionBoundaryAuditUp

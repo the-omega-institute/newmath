@@ -1,0 +1,70 @@
+\chapter{A Concrete Naming Certificate for $\MetaCICResidualJoinWindowUp$}
+\label{ch:concrete-instances-metacic-residual-join-window-namecert}
+\origin{ai}
+
+The $\MetaCICResidualJoinWindowUp$ packet realizes the residual-window branch of \autoref{ch:metacic-confluence-audit-map} as finite NameCert data. It sits beside the parallel-diamond frontier of \autoref{ch:concrete-instances-metacic-parallel-diamond-frontier-namecert}, the critical-pair residual stream of \autoref{ch:concrete-instances-critical-pair-residual-stream-namecert}, the residual critical-pair sieve of \autoref{ch:concrete-instances-metacic-residual-critical-pair-sieve-namecert}, the residual commutation witness of \autoref{ch:concrete-instances-metacic-residual-commutation-witness-namecert}, and the normal-form consistency seal of \autoref{ch:concrete-instances-normal-form-consistency-seal-namecert}. Those siblings expose frontier, stream, sieve, commutation, and seal rows; this packet binds the finite residual window and the candidate local diamond handoff they leave visible.
+
+\begin{definition}[MetaCIC residual join-window carrier]
+\label{def:metacic-residual-join-window-carrier}
+A $\MetaCICResidualJoinWindowUp$ carrier is a finite $\BHist$ packet
+$$
+W=(R,J,D,M,O,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $R$ is the residual-window row, naming the finite source, branch, and residual positions under inspection.
+\item $J$ is the candidate-join row, recording the proposed common reduct or the displayed reason no local join is admitted.
+\item $D$ is the local-diamond row, recording the bounded diamond handoff available to the confluence audit route.
+\item $M$ is the retained-premise row, naming the substitution-compatibility or closed-diamond premise still required outside this finite window.
+\item $O$ is the obstruction row, recording blocked beta-residual, substitution, or closedness edges without promoting them to solved premises.
+\item $H$ records componentwise $\hsame$ transport for residual windows, candidate joins, local diamonds, retained premises, obstructions, replay, provenance, and local naming.
+\item $C$ records displayed $\Cont$ replay from residual-window rows through candidate-join and local-diamond rows to the retained-premise boundary.
+\item $P$ is the $\Pkg$ provenance over MetaCIC residual frontiers, critical pairs, local joins, normal-form seals, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\MetaCICResidualJoinWindowUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for an unconditional Church--Rosser theorem, global substitution compatibility, erased obstruction, hidden premise, or candidate join not displayed in the finite packet $W=(R,J,D,M,O,H,C,P,N)$.
+\end{definition}
+
+\begin{theorem}[MetaCIC residual join-window NameCert obligations]
+\label{thm:metacic-residual-join-window-namecert-obligations}
+For the carrier of \autoref{def:metacic-residual-join-window-carrier}, the local $\NameCert_{\MetaCICResidualJoinWindowUp}$ surface consists exactly of carrier admission for $W=(R,J,D,M,O,H,C,P,N)$; residual-window exposure through $R$; candidate-join exposure through $J$; local-diamond handoff through $D$; retained-premise visibility through $M$; obstruction retention through $O$; and transport, replay, provenance, and naming stability through $H,C,P,N$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:metacic-residual-join-window-carrier}. The finite rows $R,J,D,M,O,H,C,P,N$ are the complete local inventory.
+
+The confluence-facing rows are $R,J,D$. They name the residual window, the candidate join, and the local diamond handoff without claiming a global diamond.
+
+The boundary rows are $M$ and $O$. They retain the premise and obstruction data that the confluence audit map keeps conditional.
+
+Rows $H,C,P,N$ make the inventory stable under transport, replay, provenance, and local naming. No remaining coordinate can turn a retained premise into an unconditional theorem.
+\end{proof}
+
+\begin{theorem}[Residual join-window diamond handoff]
+\label{thm:metacic-residual-join-window-diamond-handoff}
+Every accepted $\MetaCICResidualJoinWindowUp$ diamond handoff factors through the residual-window row $R$, candidate-join row $J$, local-diamond row $D$, retained-premise row $M$, obstruction row $O$, componentwise transport row $H$, replay row $C$, provenance row $P$, and local naming row $N$. Therefore a candidate-normalization or strong-normalization consumer may read the finite handoff, but it may not erase the retained premise or cite the handoff as a global MetaCIC confluence theorem.
+\end{theorem}
+\begin{proof}
+Start with the accepted carrier $W=(R,J,D,M,O,H,C,P,N)$. The residual window and candidate join are displayed before the local diamond row is read.
+
+The retained-premise and obstruction rows remain visible at the same level as the handoff. They prevent the packet from being read as a closed proof of full parallel diamond or arbitrary closed Church--Rosser.
+
+Transport through $H$ and replay through $C$ preserve this row order, while $P$ and $N$ record provenance and local naming. Thus downstream consumers can consume the finite handoff only with the retained boundary still attached.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\MetaCICResidualJoinWindowUp$ diamond handoff must expose residual-window, candidate-join, retained-premise, obstruction, transport, replay, provenance, and local NameCert rows.}
+
+\independenceWitness{metacic-parallel-diamond-frontier, critical-pair-residual-stream, metacic-residual-critical-pair-sieve, metacic-residual-commutation-witness, normal-form-consistency-seal: none is bijective to MetaCICResidualJoinWindowUp by row inventory. The frontier packet records the broad premise boundary; the residual stream records ordered critical-pair flow; the sieve records filtering; the commutation witness records substitution-sensitive comparisons; and the consistency seal records normal-form readback. Only the residual join-window packet carries $R,J,D,M,O,H,C,P,N$ as one finite handoff surface.}
+
+The Lean follow-up must provide explicit $\Nontrivial\ \MetaCICResidualJoinWindowUp$ and $\FieldFaithful\ \MetaCICResidualJoinWindowUp$ instances in \texttt{lean4/BEDC/Derived/MetaCICResidualJoinWindowUp/TasteGate.lean}. Those instances must preserve $R,J,D,M,O,H,C,P,N$ as separate displayed fields before the packet can be cited by a checked paper marker.
+
+\closureat{MetaCICResidualJoinWindowUp}{seedStr}
+
+\begin{closurestatus}{\MetaCICResidualJoinWindowUp}
+  \constructivestory{A $\MetaCICResidualJoinWindowUp$ packet is generated from residual-window, candidate-join, local-diamond, retained-premise, obstruction, componentwise hsame transport, Cont replay, Pkg provenance, and local NameCert rows.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:metacic-residual-join-window-carrier}, \autoref{thm:metacic-residual-join-window-namecert-obligations}, and \autoref{thm:metacic-residual-join-window-diamond-handoff} bind finite residual join-window handoff data without closing the global confluence boundary.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close Lean verification, bridge checking, global substitution compatibility, arbitrary closed Church--Rosser, full parallel diamond, or strong normalization.}
+  \upgradepath{Lean closure requires Nontrivial and FieldFaithful instances plus a checked carrier theorem for the residual-window handoff.}
+\end{closurestatus}

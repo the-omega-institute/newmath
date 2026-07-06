@@ -243,17 +243,55 @@ For real-name consumers, apply the readback boundary of \autoref{thm:binary-expa
 The remaining scoped obligations are provenance and certificate obligations. They are exactly the shared $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ routes $H$, $C$, $P$, and $N$. Since the carrier has no coordinate for the excluded host-level objects, the factorization cannot read them.
 \end{proof}
 
+\begin{theorem}[BinaryExpansion bridge interface]
+\label{thm:binary-expansion-bridge-interface}
+Let $B=(D,W,A,R,E,H,C,P,N)$ be an accepted $\BinaryExpansionUp$ carrier. The finite prefix packet of $B$ is a bridge interface from $\StreamNameUp$ prefix windows, $\DyadicApproximationUp$ tail-radius ledgers, the $\RegSeqRatUp$ regular handoff, and the $\RealUp$ seal rows into one consumer-facing binary-expansion surface.
+
+The interface exposes only the displayed rows $D,W,A,R,E,H,C,P,N$. It does not export a host infinite stream, a quotient representative, an endpoint convention resolver, or an ambient completeness witness.
+\end{theorem}
+\leanchecked{BEDC.Derived.BinaryExpansionUp.BinaryExpansionPacket\_bridge\_interface}
+\begin{proof}
+Start with the scoped dependency factorization of \autoref{thm:binary-expansion-scoped-dependency-factorization}. It identifies every scoped obligation with one of the displayed digit, prefix-window, dyadic approximation, regular handoff, real seal, transport, continuation, provenance, or local naming rows.
+
+For the stream-facing side, the window prefix stability theorem \autoref{thm:binary-expansion-window-prefix-stability} keeps every finite prefix read on $D,W,H,C$. For the dyadic side, \autoref{thm:binary-expansion-dyadic-ledger-exhaustion} accounts for the partial-sum and tail-radius rows in $A$.
+
+The regular handoff theorem \autoref{thm:binary-expansion-regular-handoff-factorization} and the real seal coherence theorem \autoref{thm:binary-expansion-real-seal-prefix-coherence} then route the same finite ledger through $R$ and $E$. Since the carrier has no coordinate outside $D,W,A,R,E,H,C,P,N$, the resulting interface has no host stream, quotient representative, endpoint resolver, or ambient completeness witness to export.
+\end{proof}
+
+\begin{theorem}[BinaryExpansion mature treatment]
+\label{thm:binary-expansion-mature-treatment}
+Let $B=(D,W,A,R,E,H,C,P,N)$ be an accepted $\BinaryExpansionUp$ carrier. The NameCert obligations, prefix-window stability, $\RealUp$ readback boundary, dyadic ledger exhaustion, endpoint ambiguity boundary, Cauchy modulus handoff, scoped surface, public readiness, and paper bridge form one finite dyadic-window interface over
+$$
+D,W,A,R,E,H,C,P,N .
+$$
+Thus every mature paper-side read of $\BinaryExpansionUp$ is a read of the same displayed prefix window, dyadic partial-sum and tail-radius ledger, regular handoff, Real seal, transport, continuation, provenance, and local naming route.
+
+The mature interface exports no binary-expansion uniqueness theorem, base-two endpoint convention, quotient equality of streams, selected representative, host real equality, ambient $\RealUp$ completeness, or checked Lean bridge.
+\end{theorem}
+\begin{proof}
+Start with the NameCert obligations of \autoref{thm:binary-expansion-namecert-obligations} and the prefix-window stability theorem \autoref{thm:binary-expansion-window-prefix-stability}. They make $D,W,H,C,P,N$ the finite entrance route for every prefix observation.
+
+Apply the $\RealUp$ readback boundary, dyadic-ledger exhaustion, regular handoff, and Real seal coherence theorems, \autoref{thm:binary-expansion-real-readback-boundary}, \autoref{thm:binary-expansion-dyadic-ledger-exhaustion}, \autoref{thm:binary-expansion-regular-handoff-factorization}, and \autoref{thm:binary-expansion-real-seal-prefix-coherence}. These identify the downstream read with the same partial-sum, tail-radius, regular handoff, and seal rows $A,R,E$.
+
+Next use the endpoint ambiguity boundary \autoref{thm:binary-expansion-endpoint-ambiguity-ledger-boundary} and the Cauchy modulus handoff \autoref{thm:binary-expansion-cauchy-modulus-handoff}. Endpoint conventions and precision reads can only appear through external rows or through the displayed prefix ledger; neither creates a new carrier coordinate.
+
+Finally apply the scoped dependency factorization, dyadic-window public readiness, and bridge interface theorems, \autoref{thm:binary-expansion-scoped-dependency-factorization}, \autoref{thm:binary-expansion-dyadic-window-public-readiness}, and \autoref{thm:binary-expansion-bridge-interface}. They identify the scoped, public, and paper-bridge surfaces with the same finite route, so the paper-side mature treatment is exactly the finite dyadic-window interface stated above.
+\end{proof}
+\leanchecked{BEDC.Derived.BinaryExpansionUp.BinaryExpansionPacket\_mature\_treatment}
+
 \closureat{BinaryExpansionUp}{seedStr}
 \closureat{BinaryExpansionUp}{obligationStr}
 \closureat{BinaryExpansionUp}{scopedStr}
 \closureat{BinaryExpansionUp}{publicStr}
+\closureat{BinaryExpansionUp}{bridgedStr}
+\closureat{BinaryExpansionUp}{matureStr}
 
 \begin{closurestatus}{\BinaryExpansionUp}
   \constructivestory{A $\BinaryExpansionUp$ packet is generated from finite binary digit rows, $\StreamNameUp$ prefix windows, $\DyadicApproximationUp$ partial-sum and tail-radius rows, a $\RegSeqRatUp$ regular handoff, a $\RealUp$ seal boundary, displayed $\hsame$ and $\Cont$ routes, $\Pkg$ provenance, and a local $\NameCert$ row.}
-  \theoryclosure{\publicClosure}
-  \scopeclosed{The public exported surface is the dyadic-window readiness route together with the $\RealUp$ seal prefix-coherence route for finite dyadic-prefix packets over $\DyadicRatCoreUp$, $\DyadicApproximationUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$.}
+  \theoryclosure{\matureClosure}
+  \scopeclosed{\autoref{thm:binary-expansion-mature-treatment} binds the NameCert obligations, prefix-window stability, $\RealUp$ readback boundary, dyadic ledger exhaustion, endpoint ambiguity boundary, Cauchy modulus handoff, scoped surface, public readiness, and paper bridge into one finite dyadic-window interface.}
   \formalstatus{\unformalizedV}
-  \bridgestatus{none}
+  \bridgestatus{paperBridge}
   \origin{human}
   \notclaimed{This chapter does not claim binary-expansion uniqueness, base-two endpoint convention resolution, quotient equality of streams, selected representatives, host real equality, ambient real completeness, or bridge checking.}
   \upgradepath{Formal verification requires a checked Lean target for the public dyadic-window readiness route, $\RealUp$ seal prefix-coherence route, and their displayed carrier support over the same packet.}

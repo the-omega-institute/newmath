@@ -66,6 +66,7 @@ through the rows $P,C,R,M,T,Q,S,K,N$; it has no coordinate for open-cover
 compactness, sequential compactness, choice-selected centers, trichotomy, or
 host real equality.
 \end{definition}
+\leanchecked{BEDC.Derived.HeineCantorModulusUp.HeineCantorModulusTasteGate\_single\_carrier\_alignment}
 
 \begin{theorem}[Heine-Cantor modulus NameCert obligations]
 \label{thm:heine-cantor-modulus-namecert-obligations}
@@ -106,6 +107,7 @@ coverage row is a compact-metric distance ledger at the precision scale read
 from $\varepsilon$. The extraction is by finite-row projection and induction
 over the displayed net spine.
 \end{theorem}
+\leanchecked{BEDC.Derived.HeineCantorModulusUp.HeineCantorModulusCarrier\_finite\_net\_extraction}
 \begin{proof}
 Read $P$ from the carrier. It is already a finite $\mathsf{ProbeBundle}$ row
 from the compact-metric certificate, so the only available centers are the
@@ -132,6 +134,7 @@ validity for the target tolerance $\varepsilon$ is witnessed by finite-net
 coverage, two pointwise target estimates at the selected center, and the
 target metric triangle ledger.
 \end{theorem}
+\leanchecked{BEDC.Derived.HeineCantorModulusUp.HeineCantorModulusCarrier\_triangle\_handoff}
 \begin{proof}
 Begin with the finite-net extraction theorem. It gives the selected center
 route and compact-metric source coverage rows from the displayed net packet.
@@ -158,6 +161,7 @@ The extraction has no coordinate for open-cover compactness, a host minimum
 operator, a selector for centers, trichotomy on host reals, or host equality of
 real points.
 \end{theorem}
+\leanchecked{BEDC.Derived.HeineCantorModulusUp.HeineCantorModulusCarrier\_radius\_fold}
 \begin{proof}
 Project $C$, $R$, and $M$ from the carrier. The finite-net extraction theorem
 identifies the center spine, so each source radius available to the fold is
@@ -173,6 +177,20 @@ Componentwise $\hsame$ transport in $Q$ carries the center row, radius row, and
 fold accumulator through the source-metric and rational classifiers. Thus the
 exported $M$ is a finite-row object of $C$ and $R$ alone, with no appeal to
 open-cover data or host-side order case splits.
+\end{proof}
+
+\begin{theorem}[Heine-Cantor pointwise radius fold obligation]
+\label{thm:heine-cantor-modulus-pointwise-radius-fold}
+For an accepted $\HeineCantorModulusUp$ carrier, the rows $C,R,M,Q,S,K,N$ form the complete finite obligation turning pointwise continuity radii at compact-net centers into the $\UniformModulusUp$ source precision. The route reads compact-net centers, pointwise radius rows, the folded precision, componentwise transport, displayed replay, provenance, and local naming; it has no coordinate for open-cover compactness, choice-selected centers, a host minimum, trichotomy on host reals, or host equality of source points.
+\end{theorem}
+\begin{proof}
+Project the carrier rows $C,R,M,Q,S,K,N$. The center rows $C$ and pointwise radius rows $R$ are the only analytic inputs to the source-precision fold, while $Q,S,K,N$ carry transport, replay, provenance, and local naming.
+
+Apply \autoref{thm:heine-cantor-modulus-finite-net-extraction}. It displays the compact-net center spine and coverage rows before any pointwise radius can be consumed by a uniform consumer.
+
+Apply \autoref{thm:heine-cantor-modulus-radius-fold}. The folded precision $M$ is determined by the finite center spine and the pointwise radius rows, with the rational lower-bound fold kept inside the displayed packet.
+
+Finally replay the result through componentwise $\hsame$ transport and $\Cont$ continuation. The $\UniformModulusUp$ source precision therefore comes from the finite rows $C,R,M,Q,S,K,N$ alone, and the excluded open-cover, choice, host-minimum, trichotomy, and host-equality routes remain absent.
 \end{proof}
 
 \begin{theorem}[Heine-Cantor UniformModulus export]
@@ -201,15 +219,166 @@ that no further compactness, selector, or host comparison input is part of the
 accepted route.
 \end{proof}
 
-\closureat{HeineCantorModulusUp}{seedStr}
+\begin{theorem}[Heine-Cantor modulus obligation closure]
+\label{thm:heine-cantor-modulus-obligation-closure}
+For an accepted $\HeineCantorModulusUp$ carrier $H$, the NameCert obligations
+of the chapter are exhausted by the carrier exposure of
+\autoref{def:heine-cantor-modulus-carrier}, finite-net extraction
+\autoref{thm:heine-cantor-modulus-finite-net-extraction}, positive radius
+fold \autoref{thm:heine-cantor-modulus-radius-fold}, metric triangle handoff
+\autoref{thm:heine-cantor-modulus-triangle-handoff}, and the
+$\UniformModulusUp$ consumer route of
+\autoref{thm:heine-cantor-modulus-uniformmodulus-export}. Thus every consumer
+read is componentwise over the displayed $\hsame$ row $Q$, replays the same
+$\Cont$ route $S$, keeps $\Pkg$ provenance in $K$, and remains under the local
+$\NameCert_{\HeineCantorModulusUp}$ row $N$. The package has no coordinate for
+open-cover compactness, choice-selected centers, trichotomy, host real
+comparison, or a non-displayed compactness principle.
+\end{theorem}
+\begin{proof}
+First project the carrier row by row. The source, target, continuous-map,
+precision, finite net, center list, radius list, folded precision, triangle
+handoff, transport, continuation, provenance, and local naming rows are exactly
+the rows listed in \autoref{def:heine-cantor-modulus-carrier}.
+
+Next read the four constructive routes. Finite-net extraction supplies $P,C$,
+the radius fold supplies $M$ from $C,R$, the triangle handoff supplies $T$, and
+the UniformModulus export packages $P,C,R,M,T,Q,S,K,N$ for the consumer.
+
+Finally keep the structural rows visible. Componentwise transport is the row
+$Q$, replay is the row $S$, provenance is the row $K$, and local naming is the
+row $N$. Since all four routes are row projections from the same carrier, no
+open-cover, selector, trichotomy, host comparison, or hidden compactness
+principle can enter the obligation surface.
+\end{proof}
+
+\begin{theorem}[Heine-Cantor net-ledger totality]
+\label{thm:heine-cantor-modulus-net-ledger-totality}
+Every accepted $\HeineCantorModulusUp$ carrier exposing the compact-metric
+source row $X$, finite-net extraction rows $P,C$, continuous-map row $F$,
+dyadic radius-fold rows $R,M$, triangle handoff row $T$, and
+$\UniformModulusUp$ export rows $Q,S,K,N$ has a complete finite ledger for the
+modulus readback. The ledger is exactly the route from compact metric source
+data to finite centers, from centers to folded source precision, from folded
+precision to triangle handoff, and from the handoff to the
+$\UniformModulusUp$ consumer.
+\end{theorem}
+\begin{proof}
+First apply finite-net extraction. The rows $P,C$ expose the complete compact
+metric center spine and coverage ledgers, so the readback has a displayed
+finite source for every center consumed by the modulus route.
+
+Next apply the radius fold. The rows $R,M$ fold the pointwise continuity
+radii attached to that finite center spine into one positive source precision,
+using only the displayed dyadic and rational lower-bound data.
+
+Now apply the triangle handoff. The row $T$ combines finite-net coverage with
+the pointwise estimates from $F$ and returns the target tolerance estimate for
+the folded precision.
+
+Finally use the $\UniformModulusUp$ export rows $Q,S,K,N$. They transport,
+replay, record provenance, and locally name the same finite package, so the
+modulus readback ledger is complete without invoking open-cover compactness,
+sequential compactness, choice-selected centers, or host real comparison.
+\end{proof}
+
+\begin{theorem}[Heine-Cantor folded radius positivity]
+\label{thm:heine-cantor-modulus-folded-radius-positive}
+For an accepted $\HeineCantorModulusUp$ carrier $H$, the finite list of
+pointwise radii in row $R$ folds to one positive source precision $M$. The
+fold reads the center list $C$, the $\RatUp$ lower-bound rows in $R$, the
+finite $\mathsf{ProbeBundle}$ spine supplied by $P$, and the componentwise
+transport row $Q$; it does not read an open-cover refinement, a host minimum,
+a trichotomy split, or a choice-selected center.
+\end{theorem}
+\begin{proof}
+First project the displayed center spine. By
+\autoref{thm:heine-cantor-modulus-finite-net-extraction}, the rows $P,C$
+present a finite $\mathsf{ProbeBundle}$ list of centers together with their
+membership and coverage ledgers.
+
+Induct over that finite spine. The empty boundary reads the positive base
+precision stored in the radius-fold row. At a successor row, project the next
+center, its pointwise radius, and its $\RatUp$ lower-bound certificate from
+$R$, then fold that positive rational lower bound into the accumulator.
+
+Finally transport the accumulator through $Q$. Since each induction step reads
+only the displayed radius and rational rows, the resulting $M$ is positive as a
+source precision and no hidden compactness or host-order case split is
+introduced.
+\end{proof}
+
+\begin{theorem}[Heine-Cantor uniform-consumer projection]
+\label{thm:heine-cantor-modulus-uniform-consumer-projection}
+Every $\UniformModulusUp$ consumer of an accepted $\HeineCantorModulusUp$
+packet must read the rows $X,Y,F,\varepsilon,P,C,R,M,T,Q,S,K,N$ before the
+exported modulus is public. The consumer receives the compact source, target
+metric, continuous-map data, target precision, finite net, pointwise radii,
+folded precision, triangle handoff, componentwise $\hsame$ transport,
+displayed $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ rows as one
+finite packet.
+\end{theorem}
+\begin{proof}
+Begin with carrier projection. The carrier definition lists exactly the rows
+$X,Y,F,\varepsilon,P,C,R,M,T,Q,S,K,N$, and the local $\NameCert$ row names this
+complete packet rather than a detached modulus value.
+
+Next apply the finite constructive routes. Finite-net extraction displays
+$P,C$, folded radius positivity displays $R,M$, and the triangle handoff
+displays $T$ over the source and target metric rows.
+
+Now apply the export theorem. The $\UniformModulusUp$ consumer can see the
+modulus only through the replay row $S$, with $Q,K,N$ preserving transport,
+provenance, and local naming for the same packet. Thus no consumer-visible
+modulus is public before all listed rows have been read.
+\end{proof}
+
+\begin{theorem}[Heine-Cantor triangle-fold nonescape]
+\label{thm:heine-cantor-modulus-triangle-fold-nonescape}
+For an accepted $\HeineCantorModulusUp$ carrier, the triangle handoff row $T$
+consumes only compact-net source estimates, the folded precision $M$, and the
+pointwise target estimates supplied through $F$ and $R$. It cannot import
+open-cover compactness, sequential compactness, choice-selected centers,
+trichotomy, host real equality, or any non-displayed compactness principle.
+\end{theorem}
+\begin{proof}
+First read the compact-net side. The rows $P,C$ supply the finite source
+coverage estimates, and
+\autoref{thm:heine-cantor-modulus-folded-radius-positive} supplies the folded
+positive precision $M$ from the displayed radii.
+
+Next read the target side. The continuous-map row $F$ supplies the two
+pointwise target estimates at the selected displayed center, and the target
+metric row $Y$ supplies the triangle ledger used by $T$.
+
+Finally compare the available coordinates with the excluded routes. The
+carrier has no row for open-cover compactness, sequential compactness, choice,
+trichotomy, host real equality, or a hidden compactness principle. Therefore
+$T$ remains a finite handoff from compact-net estimates and pointwise target
+estimates to the $\UniformModulusUp$ route.
+\end{proof}
+
+\begin{theorem}[Heine-Cantor scoped route]
+\label{thm:heine-cantor-modulus-scoped-route}
+For an accepted $\HeineCantorModulusUp$ carrier, the folded-radius projection, the $\UniformModulusUp$ consumer projection, and the triangle-handoff projection are scoped exactly to $\CompactMetricUp$ finite nets, $\CompactUniformContinuityUp$ pointwise rows, $\ContinuousMapUp$ graph rows, $\UniformModulusUp$ consumer rows, $\MetricTriangleUniformEstimateUp$, $\RatUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$. The route exports no open-cover compactness, sequential compactness, choice-selected centers, host real equality, trichotomy, or non-displayed compactness principle.
+\end{theorem}
+\begin{proof}
+Project the folded-radius theorem. Its construction reads only the compact-net centers, pointwise-radius data, rational lower-bound fold, and displayed transport rows, so its scope is bounded by the $\CompactMetricUp$, $\CompactUniformContinuityUp$, $\ContinuousMapUp$, $\RatUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ coordinates.
+
+Next project the uniform-consumer theorem. The consumer receives the exported modulus only after the compact source, target metric, continuous-map data, folded precision, replay, provenance, and local naming rows have been read, so the public consumer scope is the displayed $\UniformModulusUp$ row over the same packet.
+
+Finally project the triangle-fold nonescape theorem. The triangle handoff reads the metric triangle estimate and the same displayed finite rows; because the carrier has no coordinates for open-cover compactness, sequential compactness, choice-selected centers, host equality, trichotomy, or hidden compactness, the scoped route is exactly the listed BEDC surface.
+\end{proof}
+
+\closureat{HeineCantorModulusUp}{scopedStr}[thm:heine-cantor-modulus-scoped-route; BEDC.Derived.HeineCantorModulusUp.HeineCantorModulusTasteGate\_single\_carrier\_alignment]
 
 \begin{closurestatus}{\HeineCantorModulusUp}
   \constructivestory{A $\HeineCantorModulusUp$ packet is generated from a compact metric finite-net row, pointwise continuous-map modulus rows at the displayed centers, a positive target dyadic precision, a finite rational lower-bound fold, metric triangle handoff data, componentwise $\hsame$ transport, displayed $\Cont$ routes, $\Pkg$ provenance, and a local $\NameCert$ row.}
-  \theoryclosure{\seedClosure}
-  \scopeclosed{The seed scope records the finite-net carrier, displayed pointwise-radius fold, and triangle handoff route from compact metric and continuous-map data to a $\UniformModulusUp$ consumer.}
-  \formalstatus{\axiomCleanV}
-  \leantarget{BEDC.Derived.MetricTriangleUniformEstimateUp.MetricTriangleUniformEstimateCarrier\_heine\_cantor\_last\_step}
+  \theoryclosure{\scopedClosure}
+  \scopeclosed{The scoped route records the finite-net carrier, displayed pointwise-radius fold, uniform consumer projection, and triangle handoff over exactly the listed BEDC rows.}
+  \formalstatus{\theoremCheckedV}
+  \leantarget{BEDC.Derived.HeineCantorModulusUp.HeineCantorModulusTasteGate\_single\_carrier\_alignment}
   \bridgestatus{none}
-  \notclaimed{This chapter does not close open-cover compactness, sequential compactness, choice, trichotomy, host real equality, or a standalone Lean theorem for $\HeineCantorModulusUp$.}
-  \upgradepath{A stronger closure grade requires a dedicated Lean carrier for $\HeineCantorModulusUp$ and checked projections from the compact-net fold to the uniform-modulus consumer.}
+  \notclaimed{This chapter does not close open-cover compactness, sequential compactness, choice, trichotomy, host real equality, or a non-displayed compactness principle.}
+  \upgradepath{Public closure requires a public consumer surface beyond the scoped finite-net and triangle-handoff packet.}
 \end{closurestatus}

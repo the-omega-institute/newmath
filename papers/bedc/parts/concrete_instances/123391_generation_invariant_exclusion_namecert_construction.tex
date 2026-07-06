@@ -1,0 +1,77 @@
+\chapter{A Concrete Naming Certificate for $\GenerationInvariantExclusionUp$}
+\label{ch:concrete-instances-generation-invariant-exclusion-namecert}
+\origin{ai}
+
+The $\GenerationInvariantExclusionUp$ packet realizes the invariant-exclusion route of \autoref{sec:unified-reality-generation-invariant-exclusion-route} as finite NameCert data. It packages a generated-carrier row, fixed-half invariant readback, source-coverage row, rule-preservation ledger, off-half witness row, transport, replay, provenance, and local naming; it does not prove the zeta bridge rows, select zeros, assert RH, or turn the invariant route into an analytic completion theorem. The generated-carrier and fixed-half readback rows consume the common-carrier completion boundary of \autoref{ch:concrete-instances-common-carrier-completion-boundary-namecert} before the invariant-exclusion packet can export its off-half witness.
+
+\begin{definition}[Generation invariant exclusion packet]
+\label{def:generation-invariant-exclusion-packet}
+A $\GenerationInvariantExclusionUp$ carrier is a finite $\BHist$ packet
+$$
+G=(S,W,A,R,T,I,F,C,E,H,D,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the signature row for the invariant generation system.
+\item $W$ is the ambient legal-packet carrier row.
+\item $A$ is the source-family row whose packets start inside the fixed-half subcarrier.
+\item $R$ is the finite rule-family row for legal generation steps.
+\item $T$ is the generated-carrier row obtained by replaying the displayed rules from the displayed sources.
+\item $I$ is the invariant readback row, including the fixed-half readout used by \autoref{def:unified-reality-fixed-half-invariant-rhroute-packets}.
+\item $F$ is the fixed-half closure row, recording that every displayed legal rule preserves the invariant subcarrier.
+\item $C$ is the generated-zero coverage row, read from the source vision as the finite coverage obligation rather than as an analytic theorem.
+\item $E$ is the exclusion witness row, separating off-half packets from the generated carrier whenever their invariant value is not attained by the source family.
+\item $H$ records componentwise $\hsame$ transport for the signature, carrier, source, rule, generated-carrier, invariant, fixed-half closure, coverage, exclusion, provenance, and local-name rows.
+\item $D$ records displayed $\Cont$ replay from source packets through legal rules to generated packets and from invariant readback to exclusion.
+\item $P$ records $\Pkg$ provenance over $\GenerationInvariantExclusionUp$, $\BHist$, $\hsame$, $\Cont$, invariant readback, generated-carrier closure, fixed-half closure, coverage rows, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\GenerationInvariantExclusionUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for an analytic zeta proof, selected zero, host equality of generated packets, hidden fixed-half assumption, or ambient completeness principle.
+\end{definition}
+
+\begin{theorem}[Generation invariant exclusion NameCert obligations]
+\label{thm:generation-invariant-exclusion-namecert-obligations}
+For every accepted $\GenerationInvariantExclusionUp$ carrier $G=(S,W,A,R,T,I,F,C,E,H,D,P,N)$, the local $\NameCert_{\GenerationInvariantExclusionUp}$ surface consists exactly of carrier admission for the displayed invariant-generation packet, source-family admission, rule-family replay, generated-carrier closure, invariant readback, fixed-half closure, generated-zero coverage obligation, off-half exclusion, componentwise transport, displayed continuation replay, package provenance, and local naming.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:generation-invariant-exclusion-packet}. Its visible rows are the invariant generation system, the generated carrier, invariant readback, fixed-half closure, coverage obligation, exclusion witness, transport, replay, provenance, and local name.
+
+The rule-family and generated-carrier rows provide only finite replay from the displayed sources. The fixed-half row says that legal rules preserve the invariant subcarrier; it does not insert the desired critical-line conclusion as an input.
+
+The exclusion row consumes the invariant readback. If a target packet has invariant value outside the source family, it cannot be produced by the finite rule replay. The structural rows $H,D,P,N$ keep this as a NameCert packet rather than an external analytic proof.
+\end{proof}
+
+\begin{theorem}[Generation invariant exclusion fixed-half nonescape]
+\label{thm:generation-invariant-exclusion-fixed-half-nonescape}
+Every accepted $\GenerationInvariantExclusionUp$ packet that reads fixed-half closure must preserve the route
+$$
+A,R,T,I,F,E,H,D,P,N
+$$
+before any off-half exclusion is exported. Thus an off-half packet can be excluded only through displayed source admission, rule replay, generated-carrier membership, invariant readback, fixed-half preservation, exclusion witness, transport, replay, provenance, and local naming. A read that supplies $\mathsf{OnCritLine}$, a selected zero, or $\delta=0$ as a hidden premise leaves the packet.
+\end{theorem}
+\begin{proof}
+Start with the NameCert obligations of \autoref{thm:generation-invariant-exclusion-namecert-obligations}. They force every accepted packet to expose the source row, legal rules, generated-carrier row, invariant readback, fixed-half closure, and exclusion witness as separate carrier coordinates.
+
+Apply the invariant route of \autoref{sec:unified-reality-generation-invariant-exclusion-route}. The paper route excludes off-half packets only because invariant-preserving generation cannot reach a packet whose invariant value differs from the source values.
+
+Finally inspect the carrier. There is no coordinate for a hidden $\mathsf{OnCritLine}$ premise, selected zero, or direct $\delta=0$ assertion. Therefore any fixed-half conclusion exported by the packet must pass through the displayed finite route, and any read that bypasses it is outside the local NameCert surface.
+\end{proof}
+
+The Lean TasteGate file \texttt{lean4/BEDC/Derived/GenerationInvariantExclusionUp/TasteGate.lean} must provide explicit $\mathsf{Nontrivial}\ \GenerationInvariantExclusionUp$ and $\mathsf{FieldFaithful}\ \GenerationInvariantExclusionUp$ instances. The nontrivial instance separates an accepted invariant-generation packet from a packet missing source, rule, invariant, or exclusion rows; the field-faithful instance preserves $S,W,A,R,T,I,F,C,E,H,D,P,N$ as distinct displayed rows before any checked carrier-alignment theorem can serve as a TasteGate witness.
+
+\falsifiablePrediction{Every accepted GenerationInvariantExclusionUp exclusion read must display source-family admission, legal-rule replay, generated-carrier membership, invariant readback, fixed-half closure, generated-zero coverage obligation, off-half exclusion, hsame transport, Cont replay, Pkg provenance, and local NameCert naming before excluding an off-half packet.}
+
+\independenceWitness{Nearest source route: unified-reality generation invariant exclusion. The concrete packet is not bijective to the vision statement because it adds finite BHist carrier rows, rule replay, coverage-obligation rows, transport, continuation, provenance, local naming, and TasteGate-facing Nontrivial and FieldFaithful obligations.}
+
+\closureat{GenerationInvariantExclusionUp}{seedStr}
+
+\begin{closurestatus}{\GenerationInvariantExclusionUp}
+  \constructivestory{A $\GenerationInvariantExclusionUp$ packet is generated from a signature row, ambient legal-packet carrier, source-family row, rule-family row, generated-carrier row, invariant readback row, fixed-half closure row, generated-zero coverage obligation, off-half exclusion witness, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:generation-invariant-exclusion-packet}, \autoref{thm:generation-invariant-exclusion-namecert-obligations}, and \autoref{thm:generation-invariant-exclusion-fixed-half-nonescape} seed the finite NameCert packet for invariant-generation exclusion without closing the analytic zeta bridge rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{ai}
+  \notclaimed{This chapter does not close RH, active capture, boundary stability, selected zero construction, analytic continuation, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, source-family admission, rule replay, generated-carrier closure, invariant readback, fixed-half nonescape, coverage-obligation routing, off-half exclusion, Nontrivial and FieldFaithful instances for BEDC.Derived.GenerationInvariantExclusionUp, transport, replay, provenance, and local naming.}
+\end{closurestatus}

@@ -240,36 +240,6 @@ instance hostDelegationSocketChapterTasteGate : ChapterTasteGate HostDelegationS
     intro x y hxy heq
     exact hxy (hostDelegationSocketToEventFlow_injective heq)
 
-theorem HostDelegationSocketTasteGate_single_carrier_alignment :
-    (∀ h : BHist, hostDelegationSocketDecodeBHist (hostDelegationSocketEncodeBHist h) = h) ∧
-      (∀ x : HostDelegationSocketUp,
-        hostDelegationSocketFromEventFlow (hostDelegationSocketToEventFlow x) = some x) ∧
-        (∀ x y : HostDelegationSocketUp,
-          hostDelegationSocketToEventFlow x = hostDelegationSocketToEventFlow y → x = y) ∧
-          hostDelegationSocketEncodeBHist BHist.Empty = ([] : List BMark) := by
-  -- BEDC touchpoint anchor: BHist BMark
-  constructor
-  · exact hostDelegationSocket_decode_encode_bhist
-  · constructor
-    · exact hostDelegationSocket_round_trip
-    · constructor
-      · intro x y heq
-        exact hostDelegationSocketToEventFlow_injective heq
-      · rfl
-
-theorem HostDelegationSocket_audit_kernel_rows
-    {marker marker' audit audit' kernel kernel' target target' transport transport'
-      continuation continuation' provenance provenance' ledger ledger' name name' : BHist} :
-    HostDelegationSocketUp.mk marker audit kernel target transport continuation provenance ledger
-        name =
-      HostDelegationSocketUp.mk marker' audit' kernel' target' transport' continuation'
-        provenance' ledger' name' →
-      audit = audit' ∧ kernel = kernel' := by
-  -- BEDC touchpoint anchor: BHist BMark
-  intro socketEq
-  cases socketEq
-  exact ⟨rfl, rfl⟩
-
 theorem HostDelegationSocket_marker_boundary
     {marker audit kernel target transport continuation provenance ledger name marker' audit'
       kernel' target' transport' continuation' provenance' ledger' name' : BHist} :
@@ -400,6 +370,50 @@ theorem HostDelegationSocketPrimitiveScopeBinding [AskSetup] [PackageSetup]
       hsame_refl provenance, hsame_refl ledger, markerRoute, auditRoute, kernelRoute,
       targetRoute, provenanceRoute, ledgerRoute, provenancePkg⟩
 
+theorem HostDelegationSocket_marker_audit_consumer [AskSetup] [PackageSetup]
+    {marker audit kernel target transport continuation provenance ledger name marker' audit'
+      kernel' target' transport' continuation' provenance' ledger' name' auditRead kernelRead :
+      BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    hostDelegationSocketToEventFlow
+        (HostDelegationSocketUp.mk marker audit kernel target transport continuation provenance
+          ledger name) =
+      hostDelegationSocketToEventFlow
+        (HostDelegationSocketUp.mk marker' audit' kernel' target' transport' continuation'
+          provenance' ledger' name') →
+      Cont marker target ledger →
+        Cont audit transport auditRead →
+          Cont kernel target kernelRead →
+            PkgSig bundle provenance pkg →
+              hsame marker marker' ∧ hsame target target' ∧ hsame kernel kernel' ∧
+                hsame ledger ledger' ∧ Cont marker' target' ledger' ∧
+                  Cont audit' transport' auditRead ∧ Cont kernel' target' kernelRead ∧
+                    PkgSig bundle provenance' pkg := by
+  -- BEDC touchpoint anchor: HostDelegationSocket_marker_boundary BHist Cont hsame PkgSig
+  intro encodedSame markerRoute auditRoute kernelRoute provenancePkg
+  have markerBoundary :=
+    HostDelegationSocket_marker_boundary
+      (marker := marker) (audit := audit) (kernel := kernel) (target := target)
+      (transport := transport) (continuation := continuation) (provenance := provenance)
+      (ledger := ledger) (name := name) (marker' := marker') (audit' := audit')
+      (kernel' := kernel') (target' := target') (transport' := transport')
+      (continuation' := continuation') (provenance' := provenance') (ledger' := ledger')
+      (name' := name') encodedSame markerRoute
+  have auditKernel :=
+    HostDelegationSocket_audit_face_separation
+      (marker := marker) (audit := audit) (kernel := kernel) (target := target)
+      (transport := transport) (continuation := continuation) (provenance := provenance)
+      (ledger := ledger) (name := name) (marker' := marker') (audit' := audit')
+      (kernel' := kernel') (target' := target') (transport' := transport')
+      (continuation' := continuation') (provenance' := provenance') (ledger' := ledger')
+      (name' := name') (auditEvidence := auditRead) (kernelEvidence := kernelRead)
+      encodedSame auditRoute kernelRoute provenancePkg
+  exact
+    ⟨markerBoundary.left, markerBoundary.right.left, markerBoundary.right.right.left,
+      markerBoundary.right.right.right.left, markerBoundary.right.right.right.right,
+      auditKernel.right.right.left, auditKernel.right.right.right.left,
+      auditKernel.right.right.right.right⟩
+
 def HostDelegationSocketCarrier [AskSetup] [PackageSetup]
     (marker audit kernel target transport continuation provenance ledger name : BHist)
     (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
@@ -460,31 +474,91 @@ theorem HostDelegationSocketCarrier_semantic_name_certificate
       exact ⟨namePkg, sourceRow.right⟩
   }
 
-theorem HostDelegationSocket_primitive_scope_binding [AskSetup] [PackageSetup]
-    {marker audit kernel target transport continuation provenance ledger name consumer
-      auditEvidence kernelEvidence : BHist}
+theorem HostDelegationSocket_public_interface [AskSetup] [PackageSetup]
+    {marker audit kernel target transport continuation provenance ledger name marker' audit'
+      kernel' target' transport' continuation' provenance' ledger' name' markerRead auditRead
+      kernelRead targetRead provenanceRead ledgerRead : BHist}
     {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
-    HostDelegationSocketCarrier marker audit kernel target transport continuation provenance ledger
-        name bundle pkg →
-      Cont audit transport auditEvidence →
-        Cont kernel target kernelEvidence →
-          Cont ledger name consumer →
-            PkgSig bundle provenance pkg →
-              UnaryHistory marker ∧ UnaryHistory audit ∧ UnaryHistory kernel ∧
-                UnaryHistory target ∧ UnaryHistory transport ∧ UnaryHistory continuation ∧
-                  UnaryHistory provenance ∧ UnaryHistory ledger ∧ UnaryHistory name ∧
-                    Cont marker target ledger ∧ Cont ledger name continuation ∧
-                      Cont audit transport auditEvidence ∧
-                        Cont kernel target kernelEvidence ∧ Cont ledger name consumer ∧
-                          PkgSig bundle name pkg ∧ PkgSig bundle provenance pkg := by
-  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont PkgSig UnaryHistory
-  intro carrier auditRoute kernelRoute consumerRoute provenancePkg
-  obtain ⟨markerUnary, auditUnary, kernelUnary, targetUnary, transportUnary,
-    continuationUnary, provenanceUnary, ledgerUnary, nameUnary, markerTargetLedger,
-    ledgerNameContinuation, namePkg⟩ := carrier
+    hostDelegationSocketToEventFlow
+        (HostDelegationSocketUp.mk marker audit kernel target transport continuation provenance
+          ledger name) =
+      hostDelegationSocketToEventFlow
+        (HostDelegationSocketUp.mk marker' audit' kernel' target' transport' continuation'
+          provenance' ledger' name') →
+      Cont marker target markerRead →
+        Cont audit transport auditRead →
+          Cont kernel target kernelRead →
+            Cont target continuation targetRead →
+              Cont provenance name provenanceRead →
+                Cont ledger name ledgerRead →
+                  PkgSig bundle provenance pkg →
+                    hsame marker marker' ∧ hsame audit audit' ∧ hsame kernel kernel' ∧
+                      hsame target target' ∧ hsame transport transport' ∧
+                        hsame continuation continuation' ∧ hsame provenance provenance' ∧
+                          hsame ledger ledger' ∧ hsame name name' ∧
+                            Cont marker' target' markerRead ∧
+                              Cont audit' transport' auditRead ∧
+                                Cont kernel' target' kernelRead ∧
+                                  Cont target' continuation' targetRead ∧
+                                    Cont provenance' name' provenanceRead ∧
+                                      Cont ledger' name' ledgerRead ∧
+                                        PkgSig bundle provenance' pkg := by
+  -- BEDC touchpoint anchor: BHist BMark Cont hsame ProbeBundle Pkg PkgSig
+  intro encodedSame markerRoute auditRoute kernelRoute targetRoute provenanceRoute ledgerRoute
+    provenancePkg
+  have carrierSame :
+      HostDelegationSocketUp.mk marker audit kernel target transport continuation provenance
+          ledger name =
+        HostDelegationSocketUp.mk marker' audit' kernel' target' transport' continuation'
+          provenance' ledger' name' :=
+    hostDelegationSocketToEventFlow_injective encodedSame
+  cases carrierSame
   exact
-    ⟨markerUnary, auditUnary, kernelUnary, targetUnary, transportUnary, continuationUnary,
-      provenanceUnary, ledgerUnary, nameUnary, markerTargetLedger, ledgerNameContinuation,
-        auditRoute, kernelRoute, consumerRoute, namePkg, provenancePkg⟩
+    ⟨hsame_refl marker, hsame_refl audit, hsame_refl kernel, hsame_refl target,
+      hsame_refl transport, hsame_refl continuation, hsame_refl provenance,
+      hsame_refl ledger, hsame_refl name, markerRoute, auditRoute, kernelRoute,
+      targetRoute, provenanceRoute, ledgerRoute, provenancePkg⟩
+
+theorem HostDelegationSocket_bridge_interface [AskSetup] [PackageSetup]
+    {marker audit kernel target transport continuation provenance ledger name marker' audit'
+      kernel' target' transport' continuation' provenance' ledger' name' markerRead auditRead
+      kernelRead targetRead ledgerRead localRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    hostDelegationSocketToEventFlow
+        (HostDelegationSocketUp.mk marker audit kernel target transport continuation provenance
+          ledger name) =
+      hostDelegationSocketToEventFlow
+        (HostDelegationSocketUp.mk marker' audit' kernel' target' transport' continuation'
+          provenance' ledger' name') →
+      Cont marker target markerRead →
+        Cont audit transport auditRead →
+          Cont kernel target kernelRead →
+            Cont target continuation targetRead →
+              Cont ledger name ledgerRead →
+                Cont ledgerRead name localRead →
+                  PkgSig bundle provenance pkg →
+                    hsame marker marker' ∧ hsame audit audit' ∧ hsame kernel kernel' ∧
+                      hsame target target' ∧ hsame ledger ledger' ∧ hsame name name' ∧
+                        Cont marker' target' markerRead ∧
+                          Cont audit' transport' auditRead ∧
+                            Cont kernel' target' kernelRead ∧
+                              Cont target' continuation' targetRead ∧
+                                Cont ledger' name' ledgerRead ∧
+                                  Cont ledgerRead name' localRead ∧
+                                    PkgSig bundle provenance' pkg := by
+  -- BEDC touchpoint anchor: BHist BMark Cont hsame ProbeBundle Pkg PkgSig
+  intro encodedSame markerRoute auditRoute kernelRoute targetRoute ledgerRoute localRoute
+    provenancePkg
+  have carrierSame :
+      HostDelegationSocketUp.mk marker audit kernel target transport continuation provenance
+          ledger name =
+        HostDelegationSocketUp.mk marker' audit' kernel' target' transport' continuation'
+          provenance' ledger' name' :=
+    hostDelegationSocketToEventFlow_injective encodedSame
+  cases carrierSame
+  exact
+    ⟨hsame_refl marker, hsame_refl audit, hsame_refl kernel, hsame_refl target,
+      hsame_refl ledger, hsame_refl name, markerRoute, auditRoute, kernelRoute,
+      targetRoute, ledgerRoute, localRoute, provenancePkg⟩
 
 end BEDC.Derived.HostDelegationSocketUp

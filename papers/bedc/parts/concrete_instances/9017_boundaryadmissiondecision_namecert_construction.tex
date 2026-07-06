@@ -46,11 +46,13 @@ Use the audit/refusal row $A$. If the requested shape cannot be exported through
 
 Finally inspect $H,C,P,N$. These rows only transport, replay, package, and name the same finite decision packet. Therefore the NameCert obligations are exhausted by the five displayed obligation rows.
 \end{proof}
+\leanchecked{BEDC.Derived.BoundaryAdmissionDecisionUp.BoundaryAdmissionDecisionCarrier\_namecert\_obligations}
 
 \begin{theorem}[BoundaryAdmissionDecision router exhaustion]
 \label{thm:boundary-admission-decision-router-exhaustion}
 Every accepted $\BoundaryAdmissionDecisionUp$ packet forces a consumer route through $F$ before the requested-shape row $R$ can be read. If $F$ is absent, the route cannot distinguish a closed inductive form, computed definition, setup field, NameCert row, GAP ledger, bridge slot, or apophatic socket, and the admission decision is not auditable.
 \end{theorem}
+\leanchecked{BEDC.Derived.BoundaryAdmissionDecisionUp.BoundaryAdmissionDecision\_router\_exhaustion}
 \begin{proof}
 Start with carrier admission for $D=(X,F,R,A,H,C,P,N)$. The requested-shape row $R$ is part of the same finite packet as the chosen-form row $F$.
 
@@ -58,6 +60,21 @@ Apply the NameCert obligations of \autoref{thm:boundary-admission-decision-namec
 
 The support rows $H,C,P,N$ preserve and name only the displayed packet. They cannot reconstruct an omitted chosen-form row or replace it by host convention. Hence router exhaustion fails when $F$ is absent.
 \end{proof}
+
+\begin{theorem}[BoundaryAdmissionDecision obligation-axis sync]
+\label{thm:boundary-admission-decision-obligation-axis-sync}
+Every admitted requested-shape read in a $\BoundaryAdmissionDecisionUp$ packet must pass through the strongest permitted non-axiom form row $F$ and the audit/refusal row $A$ before the requested-shape row $R$ can be exported as an admission decision. Therefore the certificate cannot promote a requested external shape into an internal theorem without the displayed decision route through $D=(X,F,R,A,H,C,P,N)$.
+\end{theorem}
+\begin{proof}
+Project the carrier $D=(X,F,R,A,H,C,P,N)$. The row $X$ names the proposed dependency, $F$ records the strongest permitted non-axiom form, $R$ records the requested shape, and $A$ records the audit or refusal attached to that request.
+
+Use the NameCert obligations of \autoref{thm:boundary-admission-decision-namecert-obligations}. They require carrier admission, proposed-dependency exposure, permitted-form exactness, requested-shape exactness, and audit/refusal exactness for the same finite packet.
+
+Apply router exhaustion, \autoref{thm:boundary-admission-decision-router-exhaustion}. It forces every consumer route through $F$ before $R$ can be read as a decision result.
+
+The audit/refusal row $A$ is therefore not optional. If the requested shape is not exported through the permitted form, $A$ records refusal instead of converting the external request into an internal theorem, hidden selector, anonymous axiom, or quotient collapse. The support rows $H,C,P,N$ only transport, replay, source, and name this route.
+\end{proof}
+\leanchecked{BEDC.Derived.BoundaryAdmissionDecisionUp.BoundaryAdmissionDecision\_obligation\_axis\_sync}
 
 \falsifiablePrediction{A packet omitting F cannot satisfy router exhaustion because a consumer can reach R without a displayed non-axiom form.}
 

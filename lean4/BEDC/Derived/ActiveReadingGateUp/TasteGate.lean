@@ -1,11 +1,23 @@
+import BEDC.FKernel.Ask
+import BEDC.FKernel.Bundle
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
+import BEDC.FKernel.Cont
+import BEDC.FKernel.NameCert
+import BEDC.FKernel.Package
+import BEDC.FKernel.Unary
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.ActiveReadingGateUp
 
+open BEDC.FKernel.Ask
+open BEDC.FKernel.Bundle
+open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
+open BEDC.FKernel.NameCert
+open BEDC.FKernel.Package
+open BEDC.FKernel.Unary
 open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
@@ -198,5 +210,364 @@ theorem ActiveReadingGateTasteGate_single_carrier_alignment :
       · intro x y heq
         exact activeReadingGateToEventFlow_injective heq
       · rfl
+
+theorem ActiveReadingGateCarrier_export_uniqueness
+    {target active retired blocking exportRow transport replay provenance nameCert
+      exportRead : BHist} :
+    UnaryHistory target ->
+      UnaryHistory active ->
+        UnaryHistory blocking ->
+          UnaryHistory exportRow ->
+            Cont target active blocking ->
+              Cont blocking exportRow exportRead ->
+                hsame exportRead nameCert ->
+                  activeReadingGateFields
+                      (ActiveReadingGateUp.mk target active retired blocking exportRow
+                        transport replay provenance nameCert) =
+                    [target, active, retired, blocking, exportRow, transport, replay,
+                      provenance, nameCert] ∧
+                    SemanticNameCert
+                        (fun row : BHist => hsame row exportRead ∧ UnaryHistory row)
+                        (fun row : BHist =>
+                          hsame row target ∨ hsame row active ∨ hsame row blocking ∨
+                            hsame row exportRow ∨ hsame row exportRead)
+                        (fun row : BHist =>
+                          hsame row exportRead ∧ Cont target active blocking ∧
+                            Cont blocking exportRow exportRead)
+                        hsame ∧
+                      UnaryHistory exportRead ∧ UnaryHistory nameCert := by
+  -- BEDC touchpoint anchor: BHist Cont hsame SemanticNameCert UnaryHistory
+  intro unaryTarget unaryActive unaryBlocking unaryExport targetActive blockingExport
+    exportName
+  have unaryExportRead : UnaryHistory exportRead :=
+    unary_cont_closed unaryBlocking unaryExport blockingExport
+  have unaryNameCert : UnaryHistory nameCert :=
+    unary_transport unaryExportRead exportName
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => hsame row exportRead ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row target ∨ hsame row active ∨ hsame row blocking ∨
+              hsame row exportRow ∨ hsame row exportRead)
+          (fun row : BHist =>
+            hsame row exportRead ∧ Cont target active blocking ∧
+              Cont blocking exportRow exportRead)
+          hsame := {
+    core := {
+      carrier_inhabited := Exists.intro exportRead ⟨hsame_refl exportRead, unaryExportRead⟩
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        exact
+          ⟨hsame_trans (hsame_symm sameRows) source.left,
+            unary_transport source.right sameRows⟩
+    }
+    pattern_sound := by
+      intro _row source
+      exact Or.inr (Or.inr (Or.inr (Or.inr source.left)))
+    ledger_sound := by
+      intro _row source
+      exact ⟨source.left, targetActive, blockingExport⟩
+  }
+  exact ⟨rfl, cert, unaryExportRead, unaryNameCert⟩
+
+theorem ActiveReadingGateCarrier_obligation_surface [AskSetup] [PackageSetup]
+    {target active retired blocking exportRow replay provenance nameCert targetActive
+      activeBlocking blockingExport : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    UnaryHistory target ->
+        UnaryHistory active ->
+          UnaryHistory retired ->
+            UnaryHistory blocking ->
+              UnaryHistory exportRow ->
+                Cont target active targetActive ->
+                  Cont active blocking activeBlocking ->
+                    Cont blocking exportRow blockingExport ->
+                      PkgSig bundle exportRow pkg ->
+                    SemanticNameCert
+                      (fun row : BHist =>
+                        hsame row target ∨ hsame row active ∨ hsame row retired ∨
+                          hsame row blocking ∨ hsame row exportRow)
+                      (fun row : BHist =>
+                        hsame row target ∨ hsame row active ∨ hsame row retired ∨
+                          hsame row blocking ∨ hsame row exportRow ∨ hsame row replay ∨
+                            hsame row provenance ∨ hsame row nameCert)
+                      (fun row : BHist =>
+                        UnaryHistory row ∧ Cont target active targetActive ∧
+                          Cont active blocking activeBlocking ∧
+                            Cont blocking exportRow blockingExport ∧
+                              PkgSig bundle exportRow pkg)
+                      hsame := by
+  -- BEDC touchpoint anchor: BHist Cont ProbeBundle Pkg SemanticNameCert hsame UnaryHistory
+  intro targetUnary activeUnary retiredUnary blockingUnary exportUnary targetActiveRoute
+    activeBlockingRoute blockingExportRoute exportPkg
+  exact {
+    core := {
+      carrier_inhabited := Exists.intro target (Or.inl (hsame_refl target))
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        cases source with
+        | inl rowTarget =>
+            exact Or.inl (hsame_trans (hsame_symm sameRows) rowTarget)
+        | inr rest =>
+            cases rest with
+            | inl rowActive =>
+                exact Or.inr (Or.inl (hsame_trans (hsame_symm sameRows) rowActive))
+            | inr rest =>
+                cases rest with
+                | inl rowRetired =>
+                    exact
+                      Or.inr (Or.inr (Or.inl (hsame_trans (hsame_symm sameRows) rowRetired)))
+                | inr rest =>
+                    cases rest with
+                    | inl rowBlocking =>
+                        exact
+                          Or.inr
+                            (Or.inr
+                              (Or.inr (Or.inl
+                                (hsame_trans (hsame_symm sameRows) rowBlocking))))
+                    | inr rowExport =>
+                        exact
+                          Or.inr
+                            (Or.inr
+                              (Or.inr
+                                (Or.inr (hsame_trans (hsame_symm sameRows) rowExport))))
+    }
+    pattern_sound := by
+      intro _row source
+      cases source with
+      | inl rowTarget =>
+          exact Or.inl rowTarget
+      | inr rest =>
+          cases rest with
+          | inl rowActive =>
+              exact Or.inr (Or.inl rowActive)
+          | inr rest =>
+              cases rest with
+              | inl rowRetired =>
+                  exact Or.inr (Or.inr (Or.inl rowRetired))
+              | inr rest =>
+                  cases rest with
+                  | inl rowBlocking =>
+                      exact Or.inr (Or.inr (Or.inr (Or.inl rowBlocking)))
+                  | inr rowExport =>
+                      exact Or.inr (Or.inr (Or.inr (Or.inr (Or.inl rowExport))))
+    ledger_sound := by
+      intro _row source
+      cases source with
+      | inl rowTarget =>
+          exact
+            ⟨unary_transport targetUnary (hsame_symm rowTarget), targetActiveRoute,
+              activeBlockingRoute, blockingExportRoute, exportPkg⟩
+      | inr rest =>
+          cases rest with
+          | inl rowActive =>
+              exact
+                ⟨unary_transport activeUnary (hsame_symm rowActive), targetActiveRoute,
+                  activeBlockingRoute, blockingExportRoute, exportPkg⟩
+          | inr rest =>
+              cases rest with
+              | inl rowRetired =>
+                  exact
+                    ⟨unary_transport retiredUnary (hsame_symm rowRetired), targetActiveRoute,
+                      activeBlockingRoute, blockingExportRoute, exportPkg⟩
+              | inr rest =>
+                  cases rest with
+                  | inl rowBlocking =>
+                      exact
+                        ⟨unary_transport blockingUnary (hsame_symm rowBlocking),
+                          targetActiveRoute, activeBlockingRoute, blockingExportRoute, exportPkg⟩
+                  | inr rowExport =>
+                      exact
+                        ⟨unary_transport exportUnary (hsame_symm rowExport), targetActiveRoute,
+                          activeBlockingRoute, blockingExportRoute, exportPkg⟩
+  }
+
+theorem ActiveReadingGateCarrier_ledger_closure
+    {target active retired blocking exportRow _transport _replay provenance nameCert ledgerRead
+      publicRead : BHist} :
+    UnaryHistory target ->
+      UnaryHistory active ->
+        UnaryHistory retired ->
+          UnaryHistory blocking ->
+            UnaryHistory exportRow ->
+              UnaryHistory provenance ->
+                UnaryHistory nameCert ->
+                  Cont target active blocking ->
+                    Cont blocking exportRow ledgerRead ->
+                      Cont ledgerRead provenance publicRead ->
+                        hsame publicRead nameCert ->
+                          SemanticNameCert
+                              (fun row : BHist => hsame row publicRead ∧ UnaryHistory row)
+                              (fun row : BHist =>
+                                hsame row target ∨ hsame row active ∨ hsame row retired ∨
+                                  hsame row blocking ∨ hsame row exportRow ∨
+                                    hsame row ledgerRead ∨ hsame row publicRead)
+                              (fun row : BHist =>
+                                hsame row publicRead ∧ Cont target active blocking ∧
+                                  Cont blocking exportRow ledgerRead ∧
+                                    Cont ledgerRead provenance publicRead)
+                              hsame ∧
+                            UnaryHistory ledgerRead ∧ UnaryHistory publicRead ∧
+                              UnaryHistory nameCert := by
+  -- BEDC touchpoint anchor: BHist Cont hsame SemanticNameCert UnaryHistory
+  intro unaryTarget unaryActive _unaryRetired unaryBlocking unaryExport unaryProvenance
+    _unaryNameCert targetActive blockingExport ledgerProvenance publicName
+  have unaryLedgerRead : UnaryHistory ledgerRead :=
+    unary_cont_closed unaryBlocking unaryExport blockingExport
+  have unaryPublicRead : UnaryHistory publicRead :=
+    unary_cont_closed unaryLedgerRead unaryProvenance ledgerProvenance
+  have unaryNameCert : UnaryHistory nameCert :=
+    unary_transport unaryPublicRead publicName
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => hsame row publicRead ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row target ∨ hsame row active ∨ hsame row retired ∨ hsame row blocking ∨
+              hsame row exportRow ∨ hsame row ledgerRead ∨ hsame row publicRead)
+          (fun row : BHist =>
+            hsame row publicRead ∧ Cont target active blocking ∧
+              Cont blocking exportRow ledgerRead ∧ Cont ledgerRead provenance publicRead)
+          hsame := {
+    core := {
+      carrier_inhabited := Exists.intro publicRead ⟨hsame_refl publicRead, unaryPublicRead⟩
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        exact
+          ⟨hsame_trans (hsame_symm sameRows) source.left,
+            unary_transport source.right sameRows⟩
+    }
+    pattern_sound := by
+      intro _row source
+      exact Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr source.left)))))
+    ledger_sound := by
+      intro _row source
+      exact ⟨source.left, targetActive, blockingExport, ledgerProvenance⟩
+  }
+  exact ⟨cert, unaryLedgerRead, unaryPublicRead, unaryNameCert⟩
+
+theorem ActiveReadingGateCarrier_scope_handoff [AskSetup] [PackageSetup]
+    {target active retired blocking exportRow transport replay provenance nameCert handoffRead
+      publicRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    UnaryHistory target →
+      UnaryHistory active →
+        UnaryHistory retired →
+          UnaryHistory blocking →
+            UnaryHistory exportRow →
+              UnaryHistory transport →
+                UnaryHistory replay →
+                  Cont target active blocking →
+                    Cont blocking exportRow handoffRead →
+                      Cont handoffRead replay provenance →
+                        PkgSig bundle provenance pkg →
+                          hsame provenance publicRead →
+                            hsame publicRead nameCert →
+                              activeReadingGateFields
+                                  (ActiveReadingGateUp.mk target active retired blocking
+                                    exportRow transport replay provenance nameCert) =
+                                [target, active, retired, blocking, exportRow, transport,
+                                  replay, provenance, nameCert] ∧
+                                SemanticNameCert
+                                    (fun row : BHist => hsame row publicRead ∧ UnaryHistory row)
+                                    (fun row : BHist =>
+                                      hsame row target ∨ hsame row active ∨
+                                        hsame row retired ∨ hsame row blocking ∨
+                                          hsame row exportRow ∨ hsame row handoffRead ∨
+                                            hsame row provenance ∨ hsame row nameCert)
+                                    (fun row : BHist =>
+                                      UnaryHistory row ∧ Cont target active blocking ∧
+                                        Cont blocking exportRow handoffRead ∧
+                                          Cont handoffRead replay provenance ∧
+                                            PkgSig bundle provenance pkg)
+                                    hsame ∧
+                                  UnaryHistory handoffRead ∧ UnaryHistory publicRead ∧
+                                    UnaryHistory nameCert := by
+  -- BEDC touchpoint anchor: BHist Cont PkgSig hsame SemanticNameCert UnaryHistory
+  intro unaryTarget unaryActive _unaryRetired unaryBlocking unaryExport _unaryTransport
+    unaryReplay targetActive blockingExport handoffReplay provenancePkg provenancePublic
+    publicName
+  have unaryHandoffRead : UnaryHistory handoffRead :=
+    unary_cont_closed unaryBlocking unaryExport blockingExport
+  have unaryProvenance : UnaryHistory provenance :=
+    unary_cont_closed unaryHandoffRead unaryReplay handoffReplay
+  have unaryPublicRead : UnaryHistory publicRead :=
+    unary_transport unaryProvenance provenancePublic
+  have unaryNameCert : UnaryHistory nameCert :=
+    unary_transport unaryPublicRead publicName
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => hsame row publicRead ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row target ∨ hsame row active ∨ hsame row retired ∨
+              hsame row blocking ∨ hsame row exportRow ∨ hsame row handoffRead ∨
+                hsame row provenance ∨ hsame row nameCert)
+          (fun row : BHist =>
+            UnaryHistory row ∧ Cont target active blocking ∧
+              Cont blocking exportRow handoffRead ∧ Cont handoffRead replay provenance ∧
+                PkgSig bundle provenance pkg)
+          hsame := {
+    core := {
+      carrier_inhabited :=
+        Exists.intro publicRead ⟨hsame_refl publicRead, unaryPublicRead⟩
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        exact
+          ⟨hsame_trans (hsame_symm sameRows) source.left,
+            unary_transport source.right sameRows⟩
+    }
+    pattern_sound := by
+      intro row source
+      have rowProvenance : hsame row provenance :=
+        hsame_trans source.left (hsame_symm provenancePublic)
+      exact
+        Or.inr
+          (Or.inr
+            (Or.inr
+              (Or.inr
+                (Or.inr
+                  (Or.inr
+                    (Or.inl rowProvenance))))))
+    ledger_sound := by
+      intro _row source
+      exact
+        ⟨source.right, targetActive, blockingExport, handoffReplay, provenancePkg⟩
+  }
+  exact ⟨rfl, cert, unaryHandoffRead, unaryPublicRead, unaryNameCert⟩
 
 end BEDC.Derived.ActiveReadingGateUp

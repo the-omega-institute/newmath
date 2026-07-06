@@ -1,0 +1,74 @@
+\chapter{A Concrete Naming Certificate for $\KreinMilmanFinitePolytopeUp$}
+\label{ch:concrete-instances-krein-milman-finite-polytope-namecert}
+\origin{human}
+
+Following Krein and Milman on compact convexity and the finite polytope formulation, the $\KreinMilmanFinitePolytopeUp$ packet records the displayed finite convex hull route by which a polytope read can expose extreme-point data without invoking the full classical compact-convex theorem. It sits over the convex-set interface of \autoref{ch:concrete-instances-convexset-namecert}, the finite face ledger of \autoref{ch:concrete-instances-polytope-namecert}, the scalar seal of \autoref{ch:concrete-instances-real-namecert}, the vector-space carrier of \autoref{ch:concrete-instances-vecspace-namecert}, and the finite extreme-point witness surface of \autoref{ch:concrete-instances-krein-milman-finite-extreme-namecert}. The chapter names only the finite polytope route; it does not assert compact-convex hull equality, an unrestricted separation theorem, a selected list of all extreme points, quotient convex-body equality, or ambient real completeness.
+
+\begin{definition}[Krein--Milman finite-polytope carrier]
+\label{def:krein-milman-finite-polytope-carrier}
+A $\KreinMilmanFinitePolytopeUp$ carrier is a finite $\BHist$ packet
+$$
+F=(V,X,P,E,R,H,C,G,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $V$ is the $\VecSpaceUp$ row exposing the finite vector operations and affine-combination windows used by the packet.
+\item $X$ is the $\ConvexSetUp$ row for the displayed convex subset.
+\item $P$ is the $\PolytopeUp$ row containing the finite half-space, vertex, edge, and face ledgers.
+\item $E$ is the $\KreinMilmanFiniteExtremeUp$ sibling row for finite exposed-face and candidate-extreme readback.
+\item $R$ is the $\RealUp$ scalar-comparison row used by the finite hull, face, and separation-budget reads.
+\item $H$ records componentwise $\hsame$ transport for the vector-space, convex-set, polytope, finite-extreme, real-scalar, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from polytope face reads through finite extreme-point rows to convex-hull consumer reads.
+\item $G$ is the $\Pkg$ provenance over $\KreinMilmanFinitePolytopeUp$, $\VecSpaceUp$, $\ConvexSetUp$, $\PolytopeUp$, $\KreinMilmanFiniteExtremeUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\KreinMilmanFinitePolytopeUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $V,X,P,E,R,H,C,G,N$. It has no coordinate for compact-convex hull equality, unrestricted supporting-functional choice, an external face lattice, quotient convex-body equality, countable choice, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[Krein--Milman finite-polytope NameCert obligations]
+\label{thm:krein-milman-finite-polytope-namecert-obligations}
+For every accepted $\KreinMilmanFinitePolytopeUp$ carrier
+$$
+F=(V,X,P,E,R,H,C,G,N),
+$$
+the local $\NameCert_{\KreinMilmanFinitePolytopeUp}$ surface consists exactly of vector-space admission for $V$, convex-set admission for $X$, finite polytope face-ledger admission for $P$, finite extreme-point readback for $E$, real scalar sealing for $R$, componentwise transport through $H$, displayed replay through $C$, package provenance through $G$, and local naming through $N$. A finite polytope consumer may read hull or face data only through the displayed route
+$$
+V,X,P \longmapsto E,R \longmapsto H,C,G,N.
+$$
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:krein-milman-finite-polytope-carrier}. The vector-space row $V$ supplies affine operations, the convex-set row $X$ supplies convex-membership reads, and the polytope row $P$ supplies finite half-space, vertex, edge, and face ledgers.
+
+Read the finite extreme-point sibling through $E$ and the scalar comparisons through $R$. By \autoref{ch:concrete-instances-krein-milman-finite-extreme-namecert}, the extreme route is a finite exposed-face and candidate-extreme witness, while \autoref{ch:concrete-instances-real-namecert} seals the scalar comparisons used by the finite face ledger.
+
+Finally $H,C,G,N$ transport, replay, source, and name the same finite route. Since the carrier has no row for compact-convex hull equality, unrestricted supporting-functional choice, an external face lattice, quotient convex-body equality, countable choice, or ambient real completeness, the listed rows exhaust the NameCert obligations.
+\end{proof}
+
+\begin{theorem}[Krein--Milman finite-polytope extreme route]
+\label{thm:krein-milman-finite-polytope-extreme-route}
+Every accepted $\KreinMilmanFinitePolytopeUp$ packet routes finite polytope hull reads through the $\PolytopeUp$ face ledger and the $\KreinMilmanFiniteExtremeUp$ witness row before any convex-analysis consumer may treat the packet as a Krein--Milman finite-polytope name. The exported route is
+$$
+\PolytopeUp,\ \KreinMilmanFiniteExtremeUp,\ \ConvexSetUp,\ \VecSpaceUp,\ \RealUp
+\longmapsto H,C,G,N,
+$$
+and it is not a compact-convex theorem, a selected list of all extreme points, a completed dual-space theorem, or a host closed-convex-hull equality.
+\end{theorem}
+\begin{proof}
+Start with the obligations theorem \autoref{thm:krein-milman-finite-polytope-namecert-obligations}. It requires the vector-space, convex-set, polytope, finite-extreme, and real-scalar rows before the local name can be exported.
+
+The polytope row contributes only finite half-space, vertex, edge, and face ledgers, while the finite-extreme row contributes only the exposed-face and candidate-extreme witness surface. These two rows determine the finite extreme route available to a consumer.
+
+The structural rows $H,C,G,N$ preserve that route under transport, replay, provenance, and local naming. They do not add compactness, global separation, a chosen enumeration of all extreme points, quotient convex-body equality, or ambient real completeness.
+\end{proof}
+
+\closureat{KreinMilmanFinitePolytopeUp}{seedStr}
+
+\begin{closurestatus}{\KreinMilmanFinitePolytopeUp}
+  \constructivestory{A $\KreinMilmanFinitePolytopeUp$ packet is generated from VecSpaceUp, ConvexSetUp, PolytopeUp, KreinMilmanFiniteExtremeUp, RealUp, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:krein-milman-finite-polytope-carrier}, \autoref{thm:krein-milman-finite-polytope-namecert-obligations}, and \autoref{thm:krein-milman-finite-polytope-extreme-route} seed the finite polytope route from displayed face ledgers to finite extreme-point witnesses.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close the full Krein--Milman theorem, compact-convex hull equality, unrestricted separation, selected extreme-point enumeration, quotient convex bodies, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, finite polytope face-ledger readback, finite extreme-point routing, scalar sealing, transport, replay, provenance, and local naming for BEDC.Derived.KreinMilmanFinitePolytopeUp.}
+\end{closurestatus}

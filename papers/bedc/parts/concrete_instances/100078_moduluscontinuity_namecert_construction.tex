@@ -71,6 +71,25 @@ The remaining rows do not add mathematical primitives. The $\BHist$, $\hsame$, $
 \end{proof}
 \leanchecked{BEDC.Derived.ModulusContinuityUp.ModulusContinuityRealCompletion\_handoff}
 
+\begin{theorem}[Modulus-continuity RealEquality handoff]
+\label{thm:modulus-continuity-real-equality-handoff}
+Every equality comparison between target seals reached by accepted $\ModulusContinuityUp$ packets must factor through the $\RealEqualityUp$ public boundary after the displayed carrier route
+$$
+D \to K \to S \to G \to Q \to R .
+$$
+The comparison may use only the dyadic tolerance ledger, modulus row, source window, graph row, regular readback, terminal Real seal, componentwise transport, displayed replay, provenance, and local naming rows supplied by the accepted packets. It exports no host real equality, quotient stream equality, selected limit, detached continuity oracle, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Begin with the accepted $\ModulusContinuityUp$ carrier $M=(G,S,K,D,Q,R,H,C,P,N)$. The carrier rows and the NameCert obligations force every target-seal read to pass through $D,K,S,G,Q,R$ before the terminal Real seal can be consumed.
+
+Apply \autoref{thm:modulus-continuity-real-completion-handoff}. A Real or Completion consumer receives only the function-specific tolerance-to-window route displayed by the packet, so the target seal is not accompanied by host equality, quotient-stream equality, a selected limit, a detached continuity oracle, or ambient Real completeness.
+
+Now use the source route and public boundary of $\RealEqualityUp$, especially \autoref{thm:real-equality-regular-cauchy-source-route} and \autoref{thm:real-equality-public-boundary}. An equality comparison of the terminal seals can become public only after the finite $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, and structural rows required by $\RealEqualityUp$ have been displayed.
+
+The structural rows $H,C,P,N$ preserve that same finite route. Therefore a target-seal comparison reached through $\ModulusContinuityUp$ factors through $\RealEqualityUp$ as the public equality boundary, and no excluded equality or completeness coordinate is exported.
+\end{proof}
+\leanchecked{BEDC.Derived.ModulusContinuityUp.ModulusContinuityRealEqualityHandoff}
+
 \begin{theorem}[Modulus-continuity Cauchy route]
 \label{thm:modulus-continuity-cauchy-route}
 For every accepted $\ModulusContinuityUp$ carrier
@@ -93,6 +112,29 @@ The structural coordinates cannot create an additional analytic source. Componen
 
 Finally apply \autoref{thm:modulus-continuity-real-completion-handoff}. Any Cauchy, Real, or Completion consumer reads the function-specific modulus only through the displayed rows, so the excluded compactness, selected-limit, quotient-stream, host-equality, detached-oracle, and ambient-completeness objects have no coordinate through which to enter the route.
 \end{proof}
+
+\begin{theorem}[Modulus-continuity window monotonicity]
+\label{thm:modulus-continuity-window-monotonicity}
+Let
+$$
+M=(G,S,K,D,Q,R,H,C,P,N)
+$$
+be an accepted $\ModulusContinuityUp$ carrier. If two target dyadic tolerances are displayed in the same ledger row $D$ and the second tolerance is no larger than the first, then the source-window budget selected by $K$ for the second tolerance refines the earlier source window. Every Cauchy, Real, Completion, or regular-rational consumer of the refined request still factors through the same finite route
+$$
+D \to K \to S \to G \to Q \to R .
+$$
+The refinement exports no open-cover compactness, selected limit, quotient stream equality, host real equality, detached continuity oracle, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier through \autoref{def:modulus-continuity-carrier}. The two target tolerances are visible only in the dyadic ledger $D$, and the only row that may convert either tolerance into a source-window budget is the displayed modulus row $K$.
+
+Use modulus-row stability from \autoref{thm:modulus-continuity-namecert-obligations}. Since the second tolerance is read as no larger than the first inside the same ledger, $K$ must answer it by a source-window budget that is at least as restrictive as the earlier budget; otherwise the carrier would replace the displayed modulus row by an external continuity oracle.
+
+The refined budget is then consumed by the same source-window row $S$. The graph row $G$ and the regular readback row $Q$ can inspect only the windows selected through $K$, so the refined request remains a refinement of the earlier carrier route rather than a new analytic coordinate.
+
+Finally apply the Cauchy route theorem, \autoref{thm:modulus-continuity-cauchy-route}. It fixes the order $D \to K \to S \to G \to Q \to R$ for every Cauchy, Real, or Completion tolerance request; the same route is preserved for regular-rational consumers by the public consumer surface. The structural rows $H,C,P,N$ only transport, replay, source, and name that refined path.
+\end{proof}
+\leanchecked{BEDC.Derived.ModulusContinuityUp.ModulusContinuityWindowMonotonicity}
 
 \begin{theorem}[Uniform Cauchy handoff for modulus continuity]
 \label{thm:modulus-continuity-uniform-cauchy-handoff}

@@ -19,3 +19,19 @@ Read the scoped frontier status theorem. It already fixes the route through the 
 
 The status register does not add a new carrier coordinate. It records that this displayed route is the one later readers may cite, and it preserves the same refusals for subject reduction, unrestricted confluence, evaluator equality, quotient term equality, global normalization, and kernel consistency.
 \end{proof}
+
+\begin{theorem}[MetaCIC parallel-diamond scoped route handoff]
+\label{thm:metacic-parallel-diamond-frontier-scoped-route-handoff}
+Every scoped public handoff from $\MetaCICParallelDiamondFrontierUp$ to MetaCIC critical-path or confluence-audit consumers must retain the finite rows
+$$
+P,K,J,R,S,C,B,O,H,T,G,N
+$$
+with the residual-substitution premise row $P$ visible before any candidate-join row $J$ or bounded-check row $B$ is consumed. The handoff may expose the frontier to public confluence consumers only as retained premise, critical-pair, candidate-join, residual-frontier, checker, bounded-check, obstruction, transport, replay, provenance, and local naming data. It does not discharge residual substitution, prove subject reduction, assert unrestricted confluence, identify evaluator equality, quotient term equality, global normalization, or certify kernel consistency.
+\end{theorem}
+\begin{proof}
+Start with the scoped frontier status and scoped status register. They identify the frontier status with the same displayed rows and keep the residual-substitution premise as visible data rather than as a discharged theorem.
+
+Read the public export route in the spine through \autoref{thm:metacic-parallel-diamond-frontier-public-certificate} and \autoref{thm:metacic-parallel-diamond-frontier-public-closure}. Those theorems make the frontier public only over the retained $P,K,J,R,S,C,B,O,H,T,G,N$ packet, so a critical-path or confluence-audit consumer cannot inspect $J$ or $B$ before $P$ has been displayed.
+
+Finally apply the obstruction clauses already recorded by the two scoped status theorems. Since the public handoff keeps $P$ and $O$ as rows of the carrier route, it cannot become residual-substitution discharge, subject reduction, unrestricted confluence, evaluator equality, quotient term equality, global normalization, or kernel consistency.
+\end{proof}

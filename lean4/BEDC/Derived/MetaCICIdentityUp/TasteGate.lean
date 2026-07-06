@@ -1,5 +1,6 @@
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
+import BEDC.FKernel.NameCert
 import BEDC.FKernel.Unary.History
 import BEDC.Meta.TasteGate
 
@@ -7,6 +8,7 @@ namespace BEDC.Derived.MetaCICIdentityUp
 
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
+open BEDC.FKernel.NameCert
 open BEDC.FKernel.Cont
 open BEDC.FKernel.Unary
 open BEDC.GroundCompiler.EventFlow
@@ -251,5 +253,184 @@ theorem MetaCICIdentity_namecert_obligations
           metaCICIdentity_round_trip
             (MetaCICIdentityUp.mk generators equality recursors purity boundary transport routes
               provenance nameCert)
+
+theorem MetaCICIdentity_boundary_nonescape
+    {generators equality recursors purity boundary transport routes provenance nameCert consumer :
+      BHist}
+    (unaryBoundary : UnaryHistory boundary) (unaryConsumer : UnaryHistory consumer) :
+    ∃ readback : BHist,
+      Cont boundary consumer readback ∧
+        UnaryHistory readback ∧
+          metaCICIdentityFromEventFlow
+              (metaCICIdentityToEventFlow
+                (MetaCICIdentityUp.mk generators equality recursors purity boundary transport
+                  routes provenance nameCert)) =
+            some
+              (MetaCICIdentityUp.mk generators equality recursors purity boundary transport routes
+                provenance nameCert) ∧
+            SemanticNameCert
+              (fun row : BHist => hsame row readback ∧ UnaryHistory row)
+              (fun row : BHist => hsame row boundary ∨ hsame row readback)
+              (fun row : BHist => UnaryHistory row ∧ Cont boundary consumer readback)
+              hsame := by
+  -- BEDC touchpoint anchor: BHist Cont hsame UnaryHistory SemanticNameCert
+  let readback : BHist := append boundary consumer
+  have boundaryRead : Cont boundary consumer readback := rfl
+  have unaryReadback : UnaryHistory readback :=
+    unary_cont_closed unaryBoundary unaryConsumer boundaryRead
+  have sourceReadback :
+      (fun row : BHist => hsame row readback ∧ UnaryHistory row) readback :=
+    ⟨hsame_refl readback, unaryReadback⟩
+  have cert :
+      SemanticNameCert
+        (fun row : BHist => hsame row readback ∧ UnaryHistory row)
+        (fun row : BHist => hsame row boundary ∨ hsame row readback)
+        (fun row : BHist => UnaryHistory row ∧ Cont boundary consumer readback)
+        hsame := {
+    core := {
+      carrier_inhabited := Exists.intro readback sourceReadback
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        exact
+          ⟨hsame_trans (hsame_symm sameRows) source.left,
+            unary_transport source.right sameRows⟩
+    }
+    pattern_sound := by
+      intro _row source
+      exact Or.inr source.left
+    ledger_sound := by
+      intro _row source
+      exact ⟨source.right, boundaryRead⟩
+  }
+  exact
+    ⟨readback, boundaryRead, unaryReadback,
+      metaCICIdentity_round_trip
+        (MetaCICIdentityUp.mk generators equality recursors purity boundary transport routes
+          provenance nameCert),
+      cert⟩
+
+theorem MetaCICIdentity_generator_recursor_coverage
+    {G E R A B H C P N recursorRead namedRead : BHist} :
+    UnaryHistory G -> UnaryHistory R -> UnaryHistory H -> UnaryHistory C ->
+      Cont G R recursorRead -> Cont H C namedRead ->
+        metaCICIdentityFields (MetaCICIdentityUp.mk G E R A B H C P N) =
+            [G, E, R, A, B, H, C, P, N] ∧
+          UnaryHistory recursorRead ∧ UnaryHistory namedRead ∧
+            hsame recursorRead (append G R) ∧ hsame namedRead (append H C) ∧
+              metaCICIdentityFromEventFlow
+                  (metaCICIdentityToEventFlow (MetaCICIdentityUp.mk G E R A B H C P N)) =
+                some (MetaCICIdentityUp.mk G E R A B H C P N) := by
+  -- BEDC touchpoint anchor: BHist BMark Cont hsame UnaryHistory MetaCICIdentityUp
+  intro generatorUnary recursorUnary transportUnary routeUnary recursorRoute namedRoute
+  have recursorReadUnary : UnaryHistory recursorRead :=
+    unary_cont_closed generatorUnary recursorUnary recursorRoute
+  have namedReadUnary : UnaryHistory namedRead :=
+    unary_cont_closed transportUnary routeUnary namedRoute
+  have sameRecursorRead : hsame recursorRead (append G R) := recursorRoute
+  have sameNamedRead : hsame namedRead (append H C) := namedRoute
+  exact
+    ⟨rfl, recursorReadUnary, namedReadUnary, sameRecursorRead, sameNamedRead,
+      metaCICIdentity_round_trip (MetaCICIdentityUp.mk G E R A B H C P N)⟩
+
+theorem MetaCICIdentity_comparison_secondary
+    {G E R A B H C P N comparisonRead diagnosticRead : BHist} :
+    UnaryHistory G -> UnaryHistory B -> UnaryHistory P -> UnaryHistory N ->
+      Cont G B comparisonRead -> Cont P N diagnosticRead ->
+        metaCICIdentityFields (MetaCICIdentityUp.mk G E R A B H C P N) =
+            [G, E, R, A, B, H, C, P, N] ∧
+          UnaryHistory comparisonRead ∧ UnaryHistory diagnosticRead ∧
+            hsame comparisonRead (append G B) ∧ hsame diagnosticRead (append P N) ∧
+              metaCICIdentityFromEventFlow
+                  (metaCICIdentityToEventFlow (MetaCICIdentityUp.mk G E R A B H C P N)) =
+                some (MetaCICIdentityUp.mk G E R A B H C P N) := by
+  -- BEDC touchpoint anchor: BHist BMark Cont hsame UnaryHistory MetaCICIdentityUp
+  intro generatorUnary boundaryUnary provenanceUnary nameUnary comparisonRoute diagnosticRoute
+  have comparisonUnary : UnaryHistory comparisonRead :=
+    unary_cont_closed generatorUnary boundaryUnary comparisonRoute
+  have diagnosticUnary : UnaryHistory diagnosticRead :=
+    unary_cont_closed provenanceUnary nameUnary diagnosticRoute
+  exact
+    ⟨rfl, comparisonUnary, diagnosticUnary, comparisonRoute, diagnosticRoute,
+      metaCICIdentity_round_trip (MetaCICIdentityUp.mk G E R A B H C P N)⟩
+
+theorem MetaCICIdentity_obligation_boundary
+    {G E R A B H C P N recursorRead comparisonRead diagnosticRead namedRead : BHist} :
+    UnaryHistory G -> UnaryHistory R -> UnaryHistory B -> UnaryHistory H ->
+      UnaryHistory C -> UnaryHistory P -> UnaryHistory N ->
+        Cont G R recursorRead -> Cont G B comparisonRead ->
+          Cont P N diagnosticRead -> Cont H C namedRead ->
+            metaCICIdentityFields (MetaCICIdentityUp.mk G E R A B H C P N) =
+                [G, E, R, A, B, H, C, P, N] ∧
+              UnaryHistory recursorRead ∧
+                UnaryHistory comparisonRead ∧
+                  UnaryHistory diagnosticRead ∧
+                    UnaryHistory namedRead ∧
+                      hsame recursorRead (append G R) ∧
+                        hsame comparisonRead (append G B) ∧
+                          hsame diagnosticRead (append P N) ∧
+                            hsame namedRead (append H C) ∧
+                              metaCICIdentityFromEventFlow
+                                  (metaCICIdentityToEventFlow
+                                    (MetaCICIdentityUp.mk G E R A B H C P N)) =
+                                some (MetaCICIdentityUp.mk G E R A B H C P N) := by
+  -- BEDC touchpoint anchor: BHist BMark Cont hsame UnaryHistory MetaCICIdentityUp
+  intro generatorUnary recursorUnary boundaryUnary transportUnary routeUnary provenanceUnary
+    nameUnary recursorRoute comparisonRoute diagnosticRoute namedRoute
+  have recursorReadUnary : UnaryHistory recursorRead :=
+    unary_cont_closed generatorUnary recursorUnary recursorRoute
+  have comparisonReadUnary : UnaryHistory comparisonRead :=
+    unary_cont_closed generatorUnary boundaryUnary comparisonRoute
+  have diagnosticReadUnary : UnaryHistory diagnosticRead :=
+    unary_cont_closed provenanceUnary nameUnary diagnosticRoute
+  have namedReadUnary : UnaryHistory namedRead :=
+    unary_cont_closed transportUnary routeUnary namedRoute
+  exact
+    ⟨rfl, recursorReadUnary, comparisonReadUnary, diagnosticReadUnary, namedReadUnary,
+      recursorRoute, comparisonRoute, diagnosticRoute, namedRoute,
+      metaCICIdentity_round_trip (MetaCICIdentityUp.mk G E R A B H C P N)⟩
+
+theorem MetaCICIdentity_audit_map_route
+    {G E R A B H C P N auditRead compilerRead identityRead localRead : BHist} :
+    UnaryHistory P -> UnaryHistory G -> UnaryHistory E -> UnaryHistory B ->
+      UnaryHistory N -> Cont P G auditRead -> Cont auditRead E compilerRead ->
+        Cont compilerRead B identityRead -> Cont P N localRead ->
+          metaCICIdentityFields (MetaCICIdentityUp.mk G E R A B H C P N) =
+              [G, E, R, A, B, H, C, P, N] ∧
+            UnaryHistory auditRead ∧
+              UnaryHistory compilerRead ∧
+                UnaryHistory identityRead ∧
+                  UnaryHistory localRead ∧
+                    hsame auditRead (append P G) ∧
+                      hsame compilerRead (append auditRead E) ∧
+                        hsame identityRead (append compilerRead B) ∧
+                          hsame localRead (append P N) ∧
+                            metaCICIdentityFromEventFlow
+                                (metaCICIdentityToEventFlow
+                                  (MetaCICIdentityUp.mk G E R A B H C P N)) =
+                              some (MetaCICIdentityUp.mk G E R A B H C P N) := by
+  -- BEDC touchpoint anchor: BHist BMark Cont hsame UnaryHistory MetaCICIdentityUp
+  intro provenanceUnary generatorUnary equalityUnary boundaryUnary nameUnary auditRoute
+    compilerRoute identityRoute localRoute
+  have auditReadUnary : UnaryHistory auditRead :=
+    unary_cont_closed provenanceUnary generatorUnary auditRoute
+  have compilerReadUnary : UnaryHistory compilerRead :=
+    unary_cont_closed auditReadUnary equalityUnary compilerRoute
+  have identityReadUnary : UnaryHistory identityRead :=
+    unary_cont_closed compilerReadUnary boundaryUnary identityRoute
+  have localReadUnary : UnaryHistory localRead :=
+    unary_cont_closed provenanceUnary nameUnary localRoute
+  exact
+    ⟨rfl, auditReadUnary, compilerReadUnary, identityReadUnary, localReadUnary, auditRoute,
+      compilerRoute, identityRoute, localRoute,
+      metaCICIdentity_round_trip (MetaCICIdentityUp.mk G E R A B H C P N)⟩
 
 end BEDC.Derived.MetaCICIdentityUp

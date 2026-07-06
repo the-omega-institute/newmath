@@ -74,6 +74,22 @@ Finally apply non-escape. The handoff is therefore a NameCert route compiler for
 \end{proof}
 \leanchecked{BEDC.Derived.AuditMapRouteCompilerUp.AuditMapRouteCompilerCarrier\_groundcompiler\_handoff}
 
+\begin{theorem}[AuditMapRouteCompiler scoped closure]
+\label{thm:audit-map-route-compiler-scoped-closure}
+The scoped $\AuditMapRouteCompilerUp$ route is exhausted by the displayed finite carrier rows and the four checked rows for carrier admission, TasteGate single-carrier alignment, nonescape, and GroundCompiler handoff. In particular, every accepted route-compiler consumer reads only
+$$
+E,S,G,A,T,C,M,F,L,H,K,P,N
+$$
+and then uses the local $\NameCert_{\AuditMapRouteCompilerUp}$ obligation row, the single-carrier TasteGate alignment row, the nonescape row, and the GroundCompiler handoff row already displayed in this chapter.
+\end{theorem}
+\begin{proof}
+The carrier and NameCert obligation theorem expose all route rows. The TasteGate alignment theorem fixes the same carrier as the single accepted route surface.
+
+Nonescape removes hidden compiler inputs, proof extraction, chapter closure, metric evidence, motif evidence, and unrecorded routes. The GroundCompiler handoff theorem then identifies the only downstream route from the audit map to concrete-instance consumers.
+
+Thus the scoped route has no remaining local coordinate beyond the four checked rows and the finite carrier inventory.
+\end{proof}
+
 \closureat{AuditMapRouteCompilerUp}{seedStr}
 \closureat{AuditMapRouteCompilerUp}{obligationStr}
 \closureat{AuditMapRouteCompilerUp}{scopedStr}
@@ -81,10 +97,11 @@ Finally apply non-escape. The handoff is therefore a NameCert route compiler for
 \begin{closurestatus}{\AuditMapRouteCompilerUp}
   \constructivestory{An $\AuditMapRouteCompilerUp$ packet is generated from GroundCompiler event-flow, source-channel, generated-recognizer, certificate-gate, theorem-code, chapter-code, metric, motif, cannot-claim, route-ledger, transport, continuation, provenance, and local naming rows.}
   \theoryclosure{\scopedClosure}
-  \scopeclosed{\autoref{def:audit-map-route-compiler-carrier}, \autoref{thm:audit-map-route-compiler-namecert-obligations}, \autoref{thm:audit-map-route-compiler-nonescape}, and \autoref{thm:audit-map-route-compiler-groundcompiler-handoff} bind the carrier, NameCert obligations, nonescape boundary, and GroundCompiler handoff as the scoped finite route-compiler surface.}
-  \formalstatus{\unformalizedV}
+  \scopeclosed{\autoref{def:audit-map-route-compiler-carrier}, \autoref{thm:audit-map-route-compiler-namecert-obligations}, \autoref{thm:audit-map-route-compiler-nonescape}, \autoref{thm:audit-map-route-compiler-groundcompiler-handoff}, and \autoref{thm:audit-map-route-compiler-scoped-closure} bind the checked carrier admission, TasteGate single-carrier alignment, nonescape boundary, and GroundCompiler handoff rows as the scoped finite route-compiler surface.}
+  \formalstatus{\theoremCheckedV}
+  \leantarget{BEDC.Derived.AuditMapRouteCompilerUp.AuditMapRouteCompilerNameCertObligations}
   \bridgestatus{none}
   \origin{ai}
   \notclaimed{This chapter does not close GroundCompiler correctness, hidden-input absence beyond the displayed route rows, theorem-code proof extraction, chapter-code closure, metric evidence, motif evidence, or bridge checking.}
-  \upgradepath{Lean encoding remains to bind carrier admission, route-ledger exactness, non-escape, and GroundCompiler handoff for the same finite route-compiler packet.}
+  \upgradepath{Bridge checking requires a standard bridge for the same finite route-compiler packet without changing the scoped theory closure.}
 \end{closurestatus}

@@ -1,0 +1,96 @@
+\chapter{A Concrete Naming Certificate for $\BeattySequenceUp$}
+\label{ch:concrete-instances-beatty-sequence-namecert}
+\origin{human}
+
+Following Beatty and Rayleigh, the $\BeattySequenceUp$ packet records finite rotation-window prefixes of the sequence $\lfloor n\alpha+\beta\rfloor$ as Real-facing BEDC NameCert data. It sits beside the rotation-window surface of \autoref{ch:concrete-instances-three-distance-theorem-namecert}, the dyadic tolerance core of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the finite stream schedule of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. The packet names only a finite prefix and its displayed comparison rows; it does not assert quotient Real equality, irrationality of the slope, global complementary Beatty partitions, selected binary expansions, or ambient completeness.
+
+\begin{definition}[Beatty sequence carrier]
+\label{def:beatty-sequence-carrier}
+A $\BeattySequenceUp$ carrier is a finite $\BHist$ packet
+$$
+B=(A,B_0,W,F,D,S,Q,R,T,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $A$ is the slope row, carrying the admitted $\RealUp$ name for the displayed slope window.
+\item $B_0$ is the intercept row, carrying the admitted $\RealUp$ name for the displayed intercept window.
+\item $W$ is the finite prefix-window row, naming the inspected natural-number indices and the endpoint depth of the prefix.
+\item $F$ is the floor-comparison row. It records, for each displayed index, the integer candidate and dyadic comparison data certifying the floor boundary inside the finite window.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance row used by the floor comparisons and by the rotation-window gap reads.
+\item $S$ is the $\StreamNameUp$ schedule row, recording the finite request order for slope, intercept, and prefix observations.
+\item $Q$ is the $\RegSeqRatUp$ readback row attached to the slope, intercept, and comparison windows.
+\item $R$ is the $\RealUp$ seal row reached only after the StreamName and RegSeqRat rows have been displayed.
+\item $T$ is the $\ThreeDistanceTheoremUp$ handoff row, carrying the finite rotation-window balance and adjacent-gap route used by prefix consumers.
+\item $H$ records componentwise $\hsame$ transport for slope, intercept, prefix, floor-comparison, dyadic tolerance, stream schedule, regular readback, Real seal, three-distance handoff, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay through slope and intercept readback, prefix inspection, floor comparison, dyadic tolerance, StreamName scheduling, RegSeqRat readback, Real sealing, three-distance handoff, provenance, and local naming.
+\item $P$ records $\Pkg$ provenance over $\BeattySequenceUp$, $\ThreeDistanceTheoremUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\BeattySequenceUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $A,B_0,W,F,D,S,Q,R,T,H,C,P,N$. It has no coordinate for quotient Real equality, a selected binary expansion of the slope, irrationality, global complementary Beatty partitions, infinite rotation orbits, or ambient Real completeness.
+\end{definition}
+
+\begin{theorem}[Beatty sequence NameCert obligations]
+\label{thm:beatty-sequence-namecert-obligations}
+For every accepted $\BeattySequenceUp$ carrier
+$$
+B=(A,B_0,W,F,D,S,Q,R,T,H,C,P,N),
+$$
+the local $\NameCert_{\BeattySequenceUp}$ surface consists exactly of carrier admission for slope, intercept, finite prefix window, floor-comparison row, dyadic tolerance row, StreamName schedule, RegSeqRat readback, Real seal, three-distance handoff, componentwise transport, displayed replay, provenance, and local naming. A consumer may cite a Beatty prefix only after those rows have been displayed in the same finite packet.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:beatty-sequence-carrier}. The displayed tuple lists the only slope, intercept, prefix, comparison, tolerance, scheduling, readback, sealing, handoff, transport, replay, provenance, and local naming rows.
+
+The floor-comparison obligations are carried by $F$ and $D$. Each inspected index reads an integer candidate and a dyadic comparison before the floor boundary can be consumed.
+
+The Real-facing obligations are carried by $S,Q,R$. A slope or intercept read reaches the terminal seal only after the finite StreamName schedule and RegSeqRat readback rows have been displayed.
+
+The rotation-window obligations are carried by $T$. They provide only the finite three-distance handoff for the displayed prefix window. Since the carrier has no coordinate for quotient Real equality, selected binary expansion, irrationality, global complementary partitions, infinite orbits, or ambient completeness, none of those claims belongs to the local certificate.
+\end{proof}
+
+\begin{theorem}[Beatty sequence finite-prefix balance]
+\label{thm:beatty-sequence-finite-prefix-balance}
+Let
+$$
+B=(A,B_0,W,F,D,S,Q,R,T,H,C,P,N)
+$$
+be an accepted $\BeattySequenceUp$ packet. Every finite-prefix balance read factors through
+$$
+A,B_0,W,F,D,S,Q,R,T,H,C,P,N .
+$$
+The balance route compares only the displayed prefix window against the dyadic floor-comparison and three-distance handoff rows; it does not assert a global density theorem, complementary Beatty partition, quotient rotation equality, or ambient Real completeness.
+\end{theorem}
+\begin{proof}
+Read the prefix window $W$ together with the slope and intercept rows $A,B_0$. These rows determine the finite list of inspected expressions, but they do not provide an infinite orbit or a quotient Real representative.
+
+Use the floor-comparison row $F$ and dyadic tolerance row $D$. They expose the integer candidates and comparison margins needed by the finite prefix before any balance read can be exported.
+
+Now pass through the StreamName, RegSeqRat, and Real rows $S,Q,R$. These rows keep the slope, intercept, and comparison data on a finite readback route.
+
+Finally use the three-distance handoff $T$ and the structural rows $H,C,P,N$. The handoff supplies finite rotation-window balance data only for the displayed window, and the structural rows preserve and name that same route.
+\end{proof}
+
+\begin{theorem}[Beatty sequence ThreeDistance handoff]
+\label{thm:beatty-sequence-three-distance-handoff}
+Every accepted $\BeattySequenceUp$ packet hands a rotation-window consumer to $\ThreeDistanceTheoremUp$ only through the displayed row $T$ after the slope row $A$, intercept row $B_0$, finite prefix window $W$, floor-comparison row $F$, dyadic tolerance row $D$, StreamName schedule $S$, RegSeqRat readback $Q$, and Real seal $R$ have been exposed. The handoff exports finite adjacent-gap and balance rows, not a global orbit theorem or quotient Real equality.
+\end{theorem}
+\begin{proof}
+Project the accepted packet through \autoref{def:beatty-sequence-carrier}. The row $T$ is the only coordinate naming a $\ThreeDistanceTheoremUp$ handoff, so a rotation-window consumer cannot bypass the prior Beatty rows.
+
+Apply the NameCert obligations of \autoref{thm:beatty-sequence-namecert-obligations}. They place slope, intercept, prefix, floor-comparison, dyadic tolerance, StreamName, RegSeqRat, and Real-seal rows before the handoff can be consumed.
+
+Use finite-prefix balance from \autoref{thm:beatty-sequence-finite-prefix-balance}. It identifies the public Beatty read as the finite route through $A,B_0,W,F,D,S,Q,R,T,H,C,P,N$.
+
+Thus the ThreeDistance handoff is a displayed finite-window bridge inside the packet. It does not introduce quotient Real equality, selected binary expansions, irrationality, complementary partitions, infinite orbit classification, or ambient completeness.
+\end{proof}
+
+\closureat{BeattySequenceUp}{seedStr}
+
+\begin{closurestatus}{\BeattySequenceUp}
+  \constructivestory{A $\BeattySequenceUp$ packet is generated from slope and intercept RealUp rows, a finite prefix window, floor-comparison rows, dyadic tolerance rows, StreamName schedules, RegSeqRat readback, a RealUp seal, a ThreeDistanceTheorem handoff, componentwise hsame transport, displayed Cont replay, Pkg provenance, and local naming.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:beatty-sequence-carrier}, \autoref{thm:beatty-sequence-namecert-obligations}, \autoref{thm:beatty-sequence-finite-prefix-balance}, and \autoref{thm:beatty-sequence-three-distance-handoff} seed the finite Beatty prefix route through Real windows, dyadic floor comparisons, StreamName scheduling, RegSeqRat readback, Real sealing, and ThreeDistance handoff rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient Real equality, selected binary expansions, irrationality, global complementary Beatty partitions, infinite orbit classification, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, finite prefix exposure, floor-comparison exactness, dyadic tolerance readback, StreamName scheduling, RegSeqRat readback, Real sealing, ThreeDistance handoff, transport, replay, provenance, and local naming.}
+\end{closurestatus}

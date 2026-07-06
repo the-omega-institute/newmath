@@ -1,0 +1,80 @@
+\chapter{A Concrete Naming Certificate for $\BinarySequenceWindowUp$}
+\label{ch:concrete-instances-binary-sequence-window-namecert}
+\origin{human}
+
+Following Bishop--Bridges on constructive real-name windows and Troelstra--van Dalen on choice sequences, the $\BinarySequenceWindowUp$ packet records the finite Bool-valued prefix surface used before a stream or Cantor-space consumer reads a displayed branch. It sits between the endpoint classifier of \autoref{ch:concrete-instances-bool-namecert}, the finite observation schedule of \autoref{ch:concrete-instances-streamname-namecert}, and the Cantor compactness boundary of \autoref{ch:concrete-instances-cantor-space-compactness-namecert}. The packet names finite prefix windows only; it does not identify quotient streams, choose infinite tails, assert countable choice, import host stream equality, or prove Cantor compactness.
+
+\begin{definition}[Binary sequence window carrier]
+\label{def:binary-sequence-window-carrier}
+A $\BinarySequenceWindowUp$ carrier is a finite $\BHist$ packet
+$$
+Q=(B,W,L,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $B$ is the list of $\BoolUp$ endpoint rows, one for each inspected binary prefix position, with each endpoint read grounded in the Bool certificate of \autoref{ch:concrete-instances-bool-namecert}.
+\item $W$ is the finite $\StreamNameUp$ window row selecting exactly the inspected prefix positions and no tail beyond the displayed unary length.
+\item $L$ is the unary length row naming the prefix depth consumed by $W$.
+\item $H$ records componentwise $\hsame$ transport for the Bool endpoint rows, the StreamName finite-window row, the length row, replay, provenance, and local naming.
+\item $C$ records displayed $\Cont$ replay from a binary-prefix request through $B,W,L,H,P,N$.
+\item $P$ is the $\Pkg$ provenance over $\BinarySequenceWindowUp$, $\BoolUp$, $\StreamNameUp$, $\CantorSpaceUp$, $\CantorSpaceCompactnessUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\BinarySequenceWindowUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through these rows. It has no coordinate for host stream equality, quotient tails, selected infinite branches, countable choice, or open-cover compactness.
+\end{definition}
+
+\begin{theorem}[BinarySequenceWindow NameCert obligations]
+\label{thm:binary-sequence-window-namecert-obligations}
+For every accepted $\BinarySequenceWindowUp$ carrier
+$$
+Q=(B,W,L,H,C,P,N),
+$$
+the local $\NameCert_{\BinarySequenceWindowUp}$ surface consists exactly of carrier admission, Bool endpoint visibility, finite StreamName window binding, unary length exactness, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, local naming, and non-escape from host stream equality, quotient tails, selected infinite branches, countable choice, and Cantor compactness.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:binary-sequence-window-carrier}. The accepted tuple displays the Bool endpoint list, StreamName window, unary length, transport, replay, provenance, and local naming rows.
+
+Bool endpoint visibility reads $B$ through \autoref{ch:concrete-instances-bool-namecert}. The window binding then reads $W$ through \autoref{ch:concrete-instances-streamname-namecert}, and $L$ fixes the finite depth at which the displayed prefix stops.
+
+The structural rows $H,C,P,N$ transport, replay, source, and name the same finite packet. Since the carrier has no row for host stream equality, quotient tails, selected infinite branches, countable choice, or open-cover compactness, the listed obligations exhaust the local certificate surface.
+\end{proof}
+
+\begin{theorem}[BinarySequenceWindow prefix stability]
+\label{thm:binary-sequence-window-prefix-stability}
+Every transported read of an accepted $\BinarySequenceWindowUp$ carrier preserves the displayed Bool endpoint prefix and its unary length before any downstream StreamName or Cantor-space consumer receives the packet. Refining a request may shorten or extend only by another displayed finite window row; it cannot replace the prefix by a host stream, a quotient tail, a countable-choice selector, or a compactness witness.
+\end{theorem}
+\begin{proof}
+Project the carrier and read $B,W,L$. The Bool endpoint rows are tied to the finite StreamName window, and the unary length row records the boundary of the inspected prefix.
+
+Transport through $H$ is componentwise, so it preserves the endpoint rows, the window row, and the length row as named coordinates. Replay through $C$ repeats the same finite request before provenance and local naming are consumed.
+
+Thus any downstream read still sees a finite Bool prefix at the displayed length. A host stream, quotient tail, countable-choice selector, or compactness witness would require a coordinate absent from the accepted carrier.
+\end{proof}
+
+\begin{theorem}[BinarySequenceWindow StreamName route]
+\label{thm:binary-sequence-window-streamname-route}
+Every $\StreamNameUp$ or $\CantorSpaceUp$ consumer of an accepted $\BinarySequenceWindowUp$ packet first reads the Bool endpoint rows from \autoref{ch:concrete-instances-bool-namecert}, then the finite window row from \autoref{ch:concrete-instances-streamname-namecert}, and only then may hand the displayed prefix toward the Cantor-space compactness boundary of \autoref{ch:concrete-instances-cantor-space-compactness-namecert}. The route exports finite prefix data, not full Cantor compactness, host stream equality, countable choice, or quotient tails.
+\end{theorem}
+\begin{proof}
+Start with a StreamName-facing request. The carrier exposes the window only as $W$, and $W$ is indexed by the unary length $L$ and the endpoint rows $B$.
+
+Apply \autoref{thm:binary-sequence-window-namecert-obligations}. It forces the request to pass through Bool endpoint visibility and finite-window binding before any consumer can read the packet.
+
+Finally apply prefix stability from \autoref{thm:binary-sequence-window-prefix-stability}. The route handed toward Cantor-space consumers is still the same finite prefix surface, so it cannot supply full compactness, host stream equality, countable choice, or quotient-tail data.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\BinarySequenceWindowUp$ read exposes Bool endpoint rows, a finite StreamName window, unary length, componentwise $\hsame$, displayed $\Cont$, $\Pkg$ provenance, and local $\NameCert$ rows before any StreamName or Cantor-space consumer can inspect a binary prefix.}
+
+\independenceWitness{bool, streamname, cantor-space-compactness: $\BinarySequenceWindowUp$ is not bijective to any listed sibling because it binds Bool endpoint rows to one finite StreamName prefix length while refusing infinite stream equality, quotient tails, countable choice, and compactness exports.}
+
+\closureat{BinarySequenceWindowUp}{seedStr}
+
+\begin{closurestatus}{\BinarySequenceWindowUp}
+  \constructivestory{A $\BinarySequenceWindowUp$ packet is generated from Bool endpoint rows, a finite StreamName window, a unary prefix length, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:binary-sequence-window-carrier}, \autoref{thm:binary-sequence-window-namecert-obligations}, \autoref{thm:binary-sequence-window-prefix-stability}, and \autoref{thm:binary-sequence-window-streamname-route} seed the finite Bool-valued prefix-window certificate between Bool, StreamName, and Cantor-space compactness rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim full Cantor compactness, host stream equality, countable choice, quotient tails, selected infinite branches, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, Bool endpoint visibility, finite StreamName window binding, unary length exactness, prefix stability, transport, replay, provenance, and local naming for BEDC.Derived.BinarySequenceWindowUp.}
+\end{closurestatus}

@@ -1,0 +1,68 @@
+\chapter{A Concrete Naming Certificate for $\DarbouxPartitionLedgerUp$}
+\label{ch:concrete-instances-darboux-partition-ledger-namecert}
+\origin{human}
+
+Following Darboux and Bishop--Bridges constructive integration, the $\DarbouxPartitionLedgerUp$ packet records the finite partition ledger that must be visible before lower sums, upper sums, Darboux sums, Riemann sums, or Real-facing integral estimates compare values over a common subdivision. It sits beside the finite Darboux-sum surface of \autoref{ch:concrete-instances-darboux-sum-namecert}, the upper and lower sum sides of \autoref{ch:concrete-instances-upper-darboux-sum-namecert} and \autoref{ch:concrete-instances-lower-darboux-sum-namecert}, the tagged finite-sum route of \autoref{ch:concrete-instances-riemannsum-namecert}, and the terminal real-name boundary of \autoref{ch:concrete-instances-real-namecert}. The packet names only finite cells, endpoint order, refinement links, width rows, sum-consumer exposure, transport, replay, provenance, and local naming; it does not import host partitions, selected mesh limits, quotient equality of functions, open-cover compactness, or ambient $\RealUp$ completeness.
+
+\begin{definition}[Darboux partition ledger carrier]
+\label{def:darboux-partition-ledger-carrier}
+A $\DarbouxPartitionLedgerUp$ carrier is a finite $\BHist$ packet
+$$
+L=(I,C,E,R,W,S,H,K,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $I$ is the $\RealUp$ interval-source row, naming the displayed endpoints and endpoint-order comparison.
+\item $C$ is the finite cell ledger, recording the ordered cells, endpoint adjacency, and membership boundary for each carried cell.
+\item $E$ is the endpoint-coverage row, stating that the displayed cells cover exactly the interval source named by $I$.
+\item $R$ is the refinement ledger, recording the finite parent-child relation between the carried cell ledger and any displayed refinement read by a consumer.
+\item $W$ is the width ledger, recording the cell-width rows used by lower, upper, Darboux, and Riemann finite sums.
+\item $S$ is the sum-consumer exposure row for $\DarbouxSumUp$, $\UpperDarbouxSumUp$, $\LowerDarbouxSumUp$, and $\RiemannSumUp$.
+\item $H$ records componentwise $\hsame$ transport for the interval, cells, endpoint coverage, refinement ledger, width ledger, sum-consumer exposure, replay, provenance, and local naming rows.
+\item $K$ records displayed $\Cont$ replay from interval reads to cells, from cells to endpoint coverage and widths, from refinements to child cells, and from those rows to the sum-consumer exposure.
+\item $P$ is the $\Pkg$ provenance over $\DarbouxPartitionLedgerUp$, $\DarbouxSumUp$, $\UpperDarbouxSumUp$, $\LowerDarbouxSumUp$, $\RiemannSumUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\DarbouxPartitionLedgerUp}$ row.
+\end{enumerate}
+The classifier compares accepted carriers only through $I,C,E,R,W,S,H,K,P,N$. It has no coordinate for host partitions, selected mesh limits, quotient equality of functions, open-cover compactness, measure completion, or ambient $\RealUp$ completeness.
+\end{definition}
+\leanchecked{BEDC.Derived.DarbouxPartitionLedgerUp.DarbouxPartitionLedgerTasteGate\_single\_carrier\_alignment}
+
+\begin{theorem}[Darboux partition ledger NameCert obligations]
+\label{thm:darboux-partition-ledger-namecert-obligations}
+For every accepted $\DarbouxPartitionLedgerUp$ carrier $L=(I,C,E,R,W,S,H,K,P,N)$, the local $\NameCert_{\DarbouxPartitionLedgerUp}$ surface consists exactly of carrier admission for the interval source, finite cell ledger, endpoint coverage, refinement ledger, width ledger, sum-consumer exposure, componentwise transport, displayed replay, provenance, and local naming rows. Every $\DarbouxSumUp$, $\UpperDarbouxSumUp$, $\LowerDarbouxSumUp$, $\RiemannSumUp$, or $\RealUp$ consumer of the partition ledger must read through those displayed rows.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:darboux-partition-ledger-carrier}. The analytic rows are the interval source $I$, cells $C$, endpoint coverage $E$, refinement ledger $R$, width ledger $W$, and sum-consumer exposure $S$.
+
+The Darboux and Riemann consumers are tied to the same partition surface. The rows for $\DarbouxSumUp$, $\UpperDarbouxSumUp$, $\LowerDarbouxSumUp$, and $\RiemannSumUp$ can read widths and refinements only through $C,R,W,S$ after the endpoint coverage row $E$ has displayed the interval boundary.
+
+Finally the structural rows $H,K,P,N$ transport, replay, source, and name the same finite ledger. Since no host partition, selected mesh limit, quotient function equality, open-cover compactness, measure completion, or ambient completeness coordinate is present, the listed rows exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[Darboux partition ledger refinement handoff]
+\label{thm:darboux-partition-ledger-refinement-handoff}
+Let $L=(I,C,E,R,W,S,H,K,P,N)$ be an accepted $\DarbouxPartitionLedgerUp$ carrier. Any refinement read handed to a $\DarbouxSumUp$, $\UpperDarbouxSumUp$, $\LowerDarbouxSumUp$, or $\RiemannSumUp$ consumer factors through the finite route
+$$
+I \to C \to E \to R \to W \to S
+$$
+with provenance $H,K,P,N$. The handoff preserves the common interval source and cell-width ledger before any lower sum, upper sum, Darboux comparison, Riemann tagged sum, or $\RealUp$ estimate can be read.
+\end{theorem}
+\begin{proof}
+Start with the interval and cell rows. The row $I$ names the displayed $\RealUp$ interval source, while $C$ lists the finite cells and $E$ records endpoint coverage for exactly that source.
+
+Next read the refinement and width ledgers. The row $R$ records which displayed child cells refine which parent cells, and $W$ attaches the width rows used by lower, upper, Darboux, and Riemann finite sums to those same cells.
+
+Finally expose the sum-consumer row $S$. It hands the ledger to $\DarbouxSumUp$, $\UpperDarbouxSumUp$, $\LowerDarbouxSumUp$, and $\RiemannSumUp$ only after $I,C,E,R,W$ are visible, while $H,K,P,N$ preserve the same finite route. Thus the handoff supplies a reusable partition ledger rather than a host partition object or selected limiting mesh.
+\end{proof}
+
+\closureat{DarbouxPartitionLedgerUp}{seedStr}
+
+\begin{closurestatus}{\DarbouxPartitionLedgerUp}
+  \constructivestory{A $\DarbouxPartitionLedgerUp$ packet is generated from a RealUp interval source row, finite ordered cell ledger, endpoint coverage row, refinement ledger, cell-width ledger, Darboux and Riemann sum-consumer exposure, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:darboux-partition-ledger-carrier}, \autoref{thm:darboux-partition-ledger-namecert-obligations}, and \autoref{thm:darboux-partition-ledger-refinement-handoff} seed the finite partition-ledger route for Darboux and Riemann sum consumers.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim host partitions, selected mesh limits, quotient equality of functions, open-cover compactness, measure completion, ambient Real completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, endpoint coverage exactness, refinement-ledger stability, width-ledger exactness, sum-consumer exposure, transport, replay, provenance, and local naming for BEDC.Derived.DarbouxPartitionLedgerUp.}
+\end{closurestatus}

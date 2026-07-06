@@ -1,0 +1,74 @@
+\chapter{A Concrete Naming Certificate for $\FrechetDistanceUp$}
+\label{ch:concrete-instances-frechet-distance-namecert}
+\origin{human}
+
+Following Alt and Godau on curve matching, the $\FrechetDistanceUp$ packet records the finite metric-curve comparison surface used when two compactly parameterized curves are compared through a monotone traversal. It sits over the metric carrier of \autoref{ch:concrete-instances-metric-namecert}, the continuous-map surface of \autoref{ch:concrete-instances-continuousmap-namecert}, the Real scalar readback of \autoref{ch:concrete-instances-real-namecert}, and the neighbouring Hausdorff and Gromov--Hausdorff metric packets. The chapter names only the BEDC rows needed for a finite NameCert of curve matching; it does not import analytic existence of optimal reparameterizations, host compactness theorems, or a completed metric-space quotient.
+
+\begin{definition}[Frechet distance carrier]
+\label{def:frechet-distance-carrier}
+A $\FrechetDistanceUp$ carrier is a finite $\BHist$ packet
+$$
+F=(M,X,Y,A,B,T,D,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $M$ is the $\MetricUp$ row for the ambient target distance inspected by the curve comparison.
+\item $X$ and $Y$ are $\CompactMetricUp$ domain rows for the two parameter intervals or compact curve domains.
+\item $A$ and $B$ are $\ContinuousMapUp$ curve rows from $X$ and $Y$ into the metric target named by $M$.
+\item $T$ is the monotone traversal row, recording the finite correspondence windows opened before distances are compared.
+\item $D$ is the $\RealUp$ distance-bound row, recording the displayed upper-bound and lower-bound comparisons for the traversal windows.
+\item $H$ records componentwise $\hsame$ transport for metric, compact-domain, curve, traversal, distance-bound, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from a curve-matching request through $M,X,Y,A,B,T,D,H$.
+\item $P$ is the $\Pkg$ provenance over $\FrechetDistanceUp$, $\MetricUp$, $\CompactMetricUp$, $\ContinuousMapUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\FrechetDistanceUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $M,X,Y,A,B,T,D,H,C,P,N$. It has no coordinate for a selected optimal traversal, host quotient of parameterizations, global compactness proof, analytic infimum attainment theorem, or ambient completion.
+\end{definition}
+
+\begin{theorem}[Frechet distance NameCert obligations]
+\label{thm:frechet-distance-namecert-obligations}
+For every accepted $\FrechetDistanceUp$ carrier
+$$
+F=(M,X,Y,A,B,T,D,H,C,P,N),
+$$
+the local $\NameCert_{\FrechetDistanceUp}$ surface consists exactly of ambient metric admission through $M$, compact-domain exposure through $X,Y$, curve exposure through $A,B$, monotone traversal exposure through $T$, Real distance-bound exposure through $D$, componentwise transport through $H$, replay through $C$, provenance through $P$, and local naming through $N$. Any accepted Frechet read must display these rows before using the packet as curve-matching distance data.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:frechet-distance-carrier}. The rows $M,X,Y,A,B,T,D$ are the only metric and curve-facing rows available to the packet.
+
+The structural rows preserve the same finite surface. Transport through $H$ aligns corresponding metric, compact-domain, curve, traversal, distance-bound, replay, provenance, and naming rows; replay through $C$ records the displayed route from curve data to traversal-window distance comparisons; provenance through $P$ names the sibling certificates consumed by the packet.
+
+Since no carrier coordinate stores an optimal traversal, quotient of parameterizations, global compactness theorem, analytic infimum-attainment proof, or ambient completion, the listed rows exhaust the local NameCert obligations.
+\end{proof}
+
+\begin{theorem}[Frechet distance metric-curve handoff]
+\label{thm:frechet-distance-metric-curve-handoff}
+Every metric-curve consumer of an accepted $\FrechetDistanceUp$ packet factors through the displayed route
+$$
+\MetricUp,\ \CompactMetricUp,\ \ContinuousMapUp,\ \RealUp
+$$
+inside $M,X,Y,A,B,D$ before the traversal row $T$ can be used as Frechet distance evidence. The handoff may compare finite curve windows and Real distance bounds, but it does not select an optimal traversal, identify parameterizations by quotient equality, prove compactness of all traversal spaces, or construct an ambient completed metric space.
+\end{theorem}
+\begin{proof}
+Begin with the obligation surface of \autoref{thm:frechet-distance-namecert-obligations}. It requires the ambient metric row, both compact-domain rows, both continuous-map curve rows, and the Real distance-bound row to be visible in the same packet.
+
+The traversal row $T$ is downstream of those rows. It records only the finite windows through which the two curve rows are jointly inspected, so the consumer can read a curve-matching distance bound only after the metric and curve data have been displayed.
+
+Rows $H,C,P,N$ transport, replay, source, and name the same finite route. Because the carrier has no coordinate for an optimal traversal, parameter-quotient equality, global compactness proof, or ambient completion, the metric-curve handoff stops at the displayed NameCert surface.
+\end{proof}
+
+\falsifiablePrediction{An accepted $\FrechetDistanceUp$ consumer is refuted if it extracts Frechet distance evidence without first displaying the ambient $\MetricUp$ row, both $\CompactMetricUp$ domain rows, both $\ContinuousMapUp$ curve rows, the traversal row, the $\RealUp$ distance-bound row, transport, replay, provenance, and local naming rows.}
+
+\independenceWitness{metric, continuousmap, compact-metric, real, hausdorff-metric, gromov-hausdorff: no listed sibling supplies the whole packet $F=(M,X,Y,A,B,T,D,H,C,P,N)$, because ambient metric reads, compact curve domains, continuous curve rows, monotone traversal windows, Real distance bounds, transport, replay, provenance, and local naming are bound together only by $\FrechetDistanceUp$.}
+
+\closureat{FrechetDistanceUp}{seedStr}
+
+\begin{closurestatus}{\FrechetDistanceUp}
+  \constructivestory{A $\FrechetDistanceUp$ packet is generated from MetricUp ambient distance rows, CompactMetricUp curve-domain rows, ContinuousMapUp curve rows, monotone traversal windows, RealUp distance-bound rows, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:frechet-distance-carrier}, \autoref{thm:frechet-distance-namecert-obligations}, and \autoref{thm:frechet-distance-metric-curve-handoff} seed the finite Frechet curve-matching surface over metric, compact-domain, continuous-map, traversal, Real-bound, transport, replay, provenance, and local naming rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim optimal traversal existence, host traversal compactness, quotient equality of parameterizations, analytic infimum attainment, ambient completion, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked metric admission, compact-domain admission, curve-row admission, traversal exposure, Real distance-bound exposure, transport, replay, provenance, and local naming for BEDC.Derived.FrechetDistanceUp.}
+\end{closurestatus}

@@ -1,0 +1,73 @@
+\chapter{A Concrete Naming Certificate for $\RegularCauchyArchimedeanUp$}
+\label{ch:concrete-instances-regular-cauchy-archimedean-namecert}
+\origin{human}
+
+Following Bishop and Bridges on constructive real numbers and Archimedean bounds, the $\RegularCauchyArchimedeanUp$ packet records the finite bracketing surface by which a regular Cauchy rational name presents a bounded Real-facing window. It sits over the dyadic tolerance core of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the finite observation route of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the terminal real-name surface of \autoref{ch:concrete-instances-real-namecert}, and the inspected Archimedean window of \autoref{ch:concrete-instances-real-archimedean-window-namecert}. The packet is a finite L10 NameCert object for Real and Completion consumers; it does not assert ambient $\RealUp$ completeness, selected limits, quotient equality of names, trichotomy, or countable choice.
+
+\begin{definition}[Regular Cauchy Archimedean carrier]
+\label{def:regular-cauchy-archimedean-carrier}
+A $\RegularCauchyArchimedeanUp$ carrier is a finite $\BHist$ packet
+$$
+A=(D,S,R,W,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $D$ is the $\DyadicRatCoreUp$ tolerance ledger, carrying the dyadic radius, lower bracket, upper bracket, and endpoint comparison data used by the packet.
+\item $S$ is the finite $\StreamNameUp$ observation row whose displayed windows expose the regular Cauchy name only at inspected indices.
+\item $R$ is the $\RegSeqRatUp$ readback row attached to those windows and dyadic tolerances.
+\item $W$ is the $\RealArchimedeanWindowUp$ bracketing row that packages the lower and upper dyadic bounds as one Real-facing finite window.
+\item $E$ is the terminal $\RealUp$ seal available only after $D,S,R,W$ have been displayed.
+\item $H$ records componentwise $\hsame$ transport for the dyadic ledger, stream windows, regular readback, Archimedean window, Real seal, continuation, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay of the finite route
+$$
+\DyadicRatCoreUp,\ \StreamNameUp,\ \RegSeqRatUp,\ \RealArchimedeanWindowUp \longmapsto \RealUp .
+$$
+\item $P$ is the $\Pkg$ provenance over $\RegularCauchyArchimedeanUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealArchimedeanWindowUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\RegularCauchyArchimedeanUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $D,S,R,W,E,H,C,P,N$. It has no coordinate for quotient stream equality, host real equality, trichotomy, a selected completed limit, countable choice, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[Regular Cauchy Archimedean NameCert obligations]
+\label{thm:regular-cauchy-archimedean-namecert-obligations}
+For every accepted $\RegularCauchyArchimedeanUp$ carrier $A=(D,S,R,W,E,H,C,P,N)$, the local $\NameCert_{\RegularCauchyArchimedeanUp}$ surface consists exactly of carrier admission for the nine displayed rows; dyadic tolerance admission through $D$; finite observation admission through $S$; regular rational readback through $R$; Archimedean bracketing through $W$; terminal Real sealing through $E$; componentwise transport through $H$; displayed replay through $C$; provenance through $P$; and local naming through $N$. Every public read of the packet factors through those rows and receives no quotient equality of names, trichotomy, selected limit, countable-choice schedule, or ambient completeness coordinate.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:regular-cauchy-archimedean-carrier}. The analytic rows are precisely the dyadic tolerance ledger $D$, finite stream observations $S$, regular rational readback $R$, Archimedean bracketing window $W$, and terminal Real seal $E$.
+
+The dependency route is ordered. The dyadic ledger and finite windows are read first; the regular rational readback is available only from those displayed rows; the Archimedean window packages the resulting lower and upper bounds; and the Real seal remains terminal.
+
+The structural rows $H,C,P,N$ transport, replay, source, and name the same route. Since none of the excluded objects is a carrier coordinate, the listed rows exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[Regular Cauchy Archimedean Real-bound handoff]
+\label{thm:regular-cauchy-archimedean-real-bound-handoff}
+Every $\RegSeqRatUp$ or $\RealUp$ consumer of an accepted $\RegularCauchyArchimedeanUp$ packet must read the finite route
+$$
+\DyadicRatCoreUp,\ \StreamNameUp,\ \RegSeqRatUp,\ \RealArchimedeanWindowUp \longmapsto \RealUp
+$$
+through the rows $D,S,R,W,E,H,C,P,N$. The handoff presents a bounded Real-facing window for the regular Cauchy name while exporting no ambient $\RealUp$ completeness, selected limit, quotient equality of names, trichotomy, or countable-choice schedule.
+\end{theorem}
+\begin{proof}
+Start with the NameCert obligations of \autoref{thm:regular-cauchy-archimedean-namecert-obligations}. They place the dyadic tolerance ledger $D$ and the finite observation row $S$ before any regular rational readback is public.
+
+Next read $R$ and $W$. The $\RegSeqRatUp$ row is the only regular-name readback admitted by the packet, and the $\RealArchimedeanWindowUp$ row packages the dyadic lower and upper bounds as the sole Real-facing bracketing surface.
+
+Finally inspect the terminal seal $E$ and the structural rows $H,C,P,N$. These rows preserve the same finite route under transport and replay, so a downstream regular-rational or Real-facing consumer receives the stated bound handoff and no excluded host or completeness object.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\RegularCauchyArchimedeanUp$ RegSeqRat or Real-facing read factors through a DyadicRatCore tolerance ledger, finite StreamName windows, RegSeqRat readback, a RealArchimedeanWindow bracketing row, a terminal Real seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+
+\independenceWitness{dyadicratcore, streamname, regseqrat, real-archimedean-window, real: $\RegularCauchyArchimedeanUp$ is not bijective to any listed sibling because it jointly carries dyadic tolerance data, finite observation windows, regular rational readback, Archimedean bracketing, terminal Real sealing, transport, replay, provenance, and local naming while refusing quotient equality, trichotomy, selected limits, countable choice, and Real completeness.}
+
+\closureat{RegularCauchyArchimedeanUp}{seedStr}
+
+\begin{closurestatus}{\RegularCauchyArchimedeanUp}
+  \constructivestory{A $\RegularCauchyArchimedeanUp$ packet is generated from a DyadicRatCore tolerance ledger, finite StreamName windows, RegSeqRat readback, a RealArchimedeanWindow bracketing row, a terminal RealUp seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:regular-cauchy-archimedean-carrier}, \autoref{thm:regular-cauchy-archimedean-namecert-obligations}, and \autoref{thm:regular-cauchy-archimedean-real-bound-handoff} seed the finite Archimedean bracketing packet from regular Cauchy windows to Real-facing bounds.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close ambient $\RealUp$ completeness, selected limits, quotient equality of names, trichotomy, countable choice, Lean verification, or bridge checking for $\RegularCauchyArchimedeanUp$.}
+  \upgradepath{Obligation closure requires checked carrier admission, dyadic tolerance exactness, finite-window coverage, regular readback, Archimedean bracket nonescape, Real seal nonescape, transport, replay, provenance, and local naming for BEDC.Derived.RegularCauchyArchimedeanUp.}
+\end{closurestatus}

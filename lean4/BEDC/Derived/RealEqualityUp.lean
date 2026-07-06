@@ -115,4 +115,52 @@ theorem RealEqualityCarrier_public_boundary [AskSetup] [PackageSetup]
       classifierReadUnary, boundaryReadUnary, sharedTolerance, classifierUniformity,
       provenancePkg, boundaryPkg⟩
 
+theorem RealEqualityCarrier_regseqrat_dependency_route [AskSetup] [PackageSetup]
+    {leftSeal rightSeal leftWindow rightWindow leftRead rightRead sharedWindow tolerance
+      uniformity classifier transport replay provenance localName streamRoute regseqRoute
+      sourceRoute toleranceRoute comparisonRead equalityBoundary : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RealEqualityCarrier leftSeal rightSeal leftWindow rightWindow leftRead rightRead
+        sharedWindow tolerance uniformity classifier transport replay provenance localName
+        bundle pkg →
+      Cont leftWindow rightWindow streamRoute →
+        Cont leftRead rightRead regseqRoute →
+          Cont streamRoute regseqRoute sourceRoute →
+            Cont sharedWindow tolerance toleranceRoute →
+              Cont sourceRoute toleranceRoute comparisonRead →
+                Cont comparisonRead uniformity equalityBoundary →
+                  PkgSig bundle equalityBoundary pkg →
+                    UnaryHistory leftWindow ∧ UnaryHistory rightWindow ∧
+                      UnaryHistory leftRead ∧ UnaryHistory rightRead ∧
+                        UnaryHistory sharedWindow ∧ UnaryHistory tolerance ∧
+                          UnaryHistory uniformity ∧ UnaryHistory streamRoute ∧
+                            UnaryHistory regseqRoute ∧ UnaryHistory sourceRoute ∧
+                              UnaryHistory toleranceRoute ∧ UnaryHistory comparisonRead ∧
+                                UnaryHistory equalityBoundary ∧ PkgSig bundle provenance pkg ∧
+                                  PkgSig bundle equalityBoundary pkg := by
+  -- BEDC touchpoint anchor: RealEqualityCarrier BHist ProbeBundle Pkg Cont PkgSig UnaryHistory
+  intro carrier streamStep regseqStep sourceStep toleranceStep comparisonStep equalityStep
+    equalityPkg
+  obtain ⟨_leftSealUnary, _rightSealUnary, leftWindowUnary, rightWindowUnary,
+    leftReadUnary, rightReadUnary, sharedWindowUnary, toleranceUnary, uniformityUnary,
+    _classifierUnary, _transportUnary, _replayUnary, _provenanceUnary, _localNameUnary,
+    provenancePkg, _localNamePkg⟩ := carrier
+  have streamRouteUnary : UnaryHistory streamRoute :=
+    unary_cont_closed leftWindowUnary rightWindowUnary streamStep
+  have regseqRouteUnary : UnaryHistory regseqRoute :=
+    unary_cont_closed leftReadUnary rightReadUnary regseqStep
+  have sourceRouteUnary : UnaryHistory sourceRoute :=
+    unary_cont_closed streamRouteUnary regseqRouteUnary sourceStep
+  have toleranceRouteUnary : UnaryHistory toleranceRoute :=
+    unary_cont_closed sharedWindowUnary toleranceUnary toleranceStep
+  have comparisonReadUnary : UnaryHistory comparisonRead :=
+    unary_cont_closed sourceRouteUnary toleranceRouteUnary comparisonStep
+  have equalityBoundaryUnary : UnaryHistory equalityBoundary :=
+    unary_cont_closed comparisonReadUnary uniformityUnary equalityStep
+  exact
+    ⟨leftWindowUnary, rightWindowUnary, leftReadUnary, rightReadUnary, sharedWindowUnary,
+      toleranceUnary, uniformityUnary, streamRouteUnary, regseqRouteUnary, sourceRouteUnary,
+      toleranceRouteUnary, comparisonReadUnary, equalityBoundaryUnary, provenancePkg,
+      equalityPkg⟩
+
 end BEDC.Derived.RealEqualityUp

@@ -298,6 +298,46 @@ instance cofinalModulusNormalizationSealNontrivial :
     intro h
     cases h
 
+def cofinalModulusNormalizationSealClassifier
+    (x y : CofinalModulusNormalizationSealUp) : Prop :=
+  -- BEDC touchpoint anchor: BHist hsame
+  match x, y with
+  | CofinalModulusNormalizationSealUp.mk A B M W D R E _H _C _P L _N,
+      CofinalModulusNormalizationSealUp.mk A' B' M' W' D' R' E' _H' _C' _P' L' _N' =>
+      hsame
+        (append (append (append (append (append (append A B) M) W) D) R)
+          (append E L))
+        (append (append (append (append (append (append A' B') M') W') D') R')
+          (append E' L'))
+
+theorem cofinalModulusNormalizationSealClassifier_route
+    {x y : CofinalModulusNormalizationSealUp} {support publicRead : BHist} :
+    cofinalModulusNormalizationSealClassifier x y →
+      match x, y with
+      | CofinalModulusNormalizationSealUp.mk A B M W D R E _H _C _P L _N,
+          CofinalModulusNormalizationSealUp.mk A' B' M' W' D' R' E' _H' _C' _P' L' _N' =>
+          Cont
+            (append (append (append (append (append (append A B) M) W) D) R)
+              (append E L))
+            support publicRead →
+              Cont
+                (append (append (append (append (append (append A' B') M') W') D') R')
+                  (append E' L'))
+                support publicRead := by
+  -- BEDC touchpoint anchor: BHist Cont hsame
+  intro classifier
+  cases x with
+  | mk A B M W D R E H C P L N =>
+      cases y with
+      | mk A' B' M' W' D' R' E' H' C' P' L' N' =>
+          intro route
+          change publicRead =
+            append
+              (append (append (append (append (append (append A' B') M') W') D') R')
+                (append E' L'))
+              support
+          exact route.trans (congrArg (fun row => append row support) classifier)
+
 theorem CofinalModulusNormalizationSealTasteGate_single_carrier_alignment :
     Nonempty (ChapterTasteGate CofinalModulusNormalizationSealUp) ∧
       Nonempty (FieldFaithful CofinalModulusNormalizationSealUp) ∧
@@ -373,5 +413,45 @@ theorem CofinalModulusNormalizationSeal_namecert_obligations [AskSetup] [Package
       intro _row source
       exact ⟨source.left, pkgSig⟩
   }
+
+theorem CofinalModulusNormalizationSeal_classifier_stability
+    {A B M W D R E H C P L N A' B' M' W' D' R' E' H' C' P' L' N' sharedRead
+      sharedRead' dyadicRead dyadicRead' regularRead regularRead' sealRead sealRead'
+      terminalRead terminalRead' : BHist} :
+    cofinalModulusNormalizationSealFields
+        (CofinalModulusNormalizationSealUp.mk A B M W D R E H C P L N) =
+      [A, B, M, W, D, R, E, H, C, P, L, N] ->
+      cofinalModulusNormalizationSealFields
+          (CofinalModulusNormalizationSealUp.mk A' B' M' W' D' R' E' H' C' P' L' N') =
+        [A', B', M', W', D', R', E', H', C', P', L', N'] ->
+        hsame A A' -> hsame B B' -> hsame M M' -> hsame W W' -> hsame D D' ->
+          hsame R R' -> hsame E E' -> hsame L L' -> Cont A B M -> Cont A' B' M' ->
+            Cont M W sharedRead -> Cont M' W' sharedRead' ->
+              Cont sharedRead D dyadicRead -> Cont sharedRead' D' dyadicRead' ->
+                Cont dyadicRead R regularRead -> Cont dyadicRead' R' regularRead' ->
+                  Cont regularRead E sealRead -> Cont regularRead' E' sealRead' ->
+                    Cont sealRead L terminalRead -> Cont sealRead' L' terminalRead' ->
+                      hsame sharedRead sharedRead' ∧ hsame dyadicRead dyadicRead' ∧
+                        hsame regularRead regularRead' ∧ hsame sealRead sealRead' ∧
+                          hsame terminalRead terminalRead' := by
+  -- BEDC touchpoint anchor: BHist hsame Cont CofinalModulusNormalizationSealUp
+  intro _fieldsExact _fieldsExact' sameA sameB sameM sameW sameD sameR sameE sameL
+    routeAB routeAB' routeShared routeShared' routeDyadic routeDyadic' routeRegular
+    routeRegular' routeSeal routeSeal' routeTerminal routeTerminal'
+  have sameMFromSchedules : hsame M M' :=
+    cont_respects_hsame sameA sameB routeAB routeAB'
+  have sameMStable : hsame M M' :=
+    hsame_trans sameMFromSchedules (hsame_trans (hsame_symm sameM) sameM)
+  have sameShared : hsame sharedRead sharedRead' :=
+    cont_respects_hsame sameMStable sameW routeShared routeShared'
+  have sameDyadic : hsame dyadicRead dyadicRead' :=
+    cont_respects_hsame sameShared sameD routeDyadic routeDyadic'
+  have sameRegular : hsame regularRead regularRead' :=
+    cont_respects_hsame sameDyadic sameR routeRegular routeRegular'
+  have sameSeal : hsame sealRead sealRead' :=
+    cont_respects_hsame sameRegular sameE routeSeal routeSeal'
+  have sameTerminal : hsame terminalRead terminalRead' :=
+    cont_respects_hsame sameSeal sameL routeTerminal routeTerminal'
+  exact ⟨sameShared, sameDyadic, sameRegular, sameSeal, sameTerminal⟩
 
 end BEDC.Derived.CofinalModulusNormalizationSealUp

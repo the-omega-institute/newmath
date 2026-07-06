@@ -87,16 +87,131 @@ Apply the modulus boundary theorem \autoref{thm:regular-cauchy-separation-modulu
 The conclusion is therefore a finite route statement. The carrier has no quotient-real coordinate, no trichotomy coordinate, no selected-limit coordinate, and no ambient-completeness coordinate, while $H,C,P,N$ preserve only the displayed rows.
 \end{proof}
 
+\begin{theorem}[Regular Cauchy separation obligation scope]
+\label{thm:regular-cauchy-separation-obligation-scope}
+For every accepted $\RegularCauchySeparationUp$ packet $K=(L,R,W,D,M,E,H,C,P,N)$, the carrier row, NameCert obligations, modulus boundary, and zero-distance reflection exhaust the obligation rows over $\RegSeqRatUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\CauchyModulusUp$, and $\RealUp$. Every equality or separation read must be routed through the finite windows $W$, dyadic tolerance ledger $D$, and separation-modulus row $M$ before the $\RealUp$ boundary row $E$ can be consumed. The obligation surface contains no quotient equality, trichotomy, selected limits, countable choice, or ambient completeness principle.
+\end{theorem}
+\leanchecked{BEDC.Derived.RegularCauchySeparationUp.RegularCauchySeparationCarrier\_obligation\_scope}
+\begin{proof}
+Project the carrier rows $L,R,W,D,M,E,H,C,P,N$. The rows $L$ and $R$ provide the two regular rational names, while $W,D,M$ expose the finite observations, dyadic tolerances, and modulus evidence that any equality or separation read must inspect.
+
+Use the NameCert obligations of \autoref{thm:regular-cauchy-separation-namecert-obligations}. Carrier admission, classifier exposure, finite-window stability, dyadic tolerance exactness, modulus boundary, Real seal non-escape, package provenance, and local naming are all listed there as rows of the same packet.
+
+Apply the modulus boundary theorem before reading the Real-facing row. It routes every request through
+$$
+(L,R)\longmapsto W\longmapsto D\longmapsto M
+$$
+and only then permits the boundary row $E$ to be consumed.
+
+Finally use zero-distance reflection for the equality-facing edge case. Even when the tolerance ledger collapses to the zero-distance boundary, the read remains a finite route through $W,D,M,E$. Since the carrier has no coordinate for quotient equality, trichotomy, selected limits, countable choice, or ambient completeness, no further obligation row is available.
+\end{proof}
+
+\begin{theorem}[Regular Cauchy separation Real seal scope]
+\label{thm:regular-cauchy-separation-real-seal-scope}
+Let $K=(L,R,W,D,M,E,H,C,P,N)$ be an accepted $\RegularCauchySeparationUp$ packet. Every accepted $\RealUp$-facing equality or separation consumer of $K$ must pass through the regular-name rows $L,R$, the finite-window row $W$, the dyadic tolerance row $D$, and the separation-modulus row $M$ before the $\RealUp$ seal boundary $E$ is consumed. The support rows $H,C,P,N$ preserve that same finite route through transport, replay, provenance, and local naming. No quotient equality, selected limit, countable choice, trichotomy, or ambient completeness coordinate is exported.
+\end{theorem}
+\leanchecked{BEDC.Derived.RegularCauchySeparationUp.RegularCauchySeparationCarrier\_real\_seal\_scope}
+\begin{proof}
+Project the carrier rows of \autoref{def:regular-cauchy-separation-carrier}. The only analytic rows available to a Real-facing consumer are $L,R,W,D,M,E$, with $H,C,P,N$ serving as support rows for the same finite packet.
+
+Use the NameCert obligations of \autoref{thm:regular-cauchy-separation-namecert-obligations}. They place carrier admission, classifier exposure, finite-window stability, dyadic tolerance exactness, and Real seal non-escape on the displayed rows before any consumer may read $E$.
+
+Apply the modulus boundary theorem \autoref{thm:regular-cauchy-separation-modulus-boundary}. It forces every equality or separation request through $W,D,M$ before the Real seal boundary is available.
+
+Use zero-distance reflection from \autoref{thm:regular-cauchy-separation-zero-distance-reflection} for equality edge cases. Even when the dyadic ledger collapses to the zero-distance boundary, the collapse still passes through the same finite route before $E$.
+
+Finally read $H,C,P,N$ as preservation rows. They transport, replay, source, and name the displayed route, while the carrier has no coordinate for quotient equality, selected limits, countable choice, trichotomy, or ambient completeness.
+\end{proof}
+
 \falsifiablePrediction{An accepted $\RegularCauchySeparationUp$ consumer that reaches an equality or separation read without the displayed $\StreamNameUp$ windows, $\DyadicRatCoreUp$ tolerance ledger, and $\CauchyModulusUp$ separation-modulus row refutes the carrier surface.}
 
 \independenceWitness{regseqrat, streamname, dyadicratcore, cauchymodulus, real: no listed sibling supplies the whole ten-row packet $K=(L,R,W,D,M,E,H,C,P,N)$, because each sibling contributes only regular-name rows, finite windows, dyadic tolerances, modulus evidence, or a Real seal boundary while this chapter binds the separation route with transport, replay, provenance, and local naming.}
 
+\begin{theorem}[Regular Cauchy separation scoped package]
+\label{thm:regular-cauchy-separation-scoped-package}
+The obligation-scope theorem \autoref{thm:regular-cauchy-separation-obligation-scope} and the Real-seal-scope theorem \autoref{thm:regular-cauchy-separation-real-seal-scope} give the complete scoped L10 route for $\RegularCauchySeparationUp$. Every equality or separation read of an accepted packet is confined to the displayed rows over $\RegSeqRatUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\CauchyModulusUp$, and $\RealUp$, with transport, replay, provenance, and local naming preserved by $H,C,P,N$; no quotient equality, trichotomy, selected limit, countable choice, or ambient completeness row remains outside that scope.
+\end{theorem}
+\leanchecked{BEDC.Derived.RegularCauchySeparationUp.RegularCauchySeparationCarrier\_scoped\_package}
+\begin{proof}
+The obligation-scope theorem lists the complete carrier and NameCert obligation boundary for the regular-name, stream-window, dyadic-tolerance, modulus, and Real-seal rows. It also states that every equality or separation read passes through the finite route before the Real boundary can be consumed.
+
+The Real-seal-scope theorem then records the consumer-facing boundary of the same route. It requires every Real-facing equality or separation consumer to pass through $L,R,W,D,M$ before $E$, with $H,C,P,N$ preserving the packet.
+
+Together these two scope theorems exhaust the L10 route. The carrier has no remaining coordinate for quotient equality, host equality, trichotomy, selected limits, countable choice, or ambient completeness.
+\end{proof}
+
+\begin{theorem}[Regular Cauchy separation public interface]
+\label{thm:regular-cauchy-separation-public-interface}
+Every public consumer of the $\RegularCauchySeparationUp$ separation interface must factor through the ten displayed rows
+$$
+K=(L,R,W,D,M,E,H,C,P,N)
+$$
+of \autoref{def:regular-cauchy-separation-carrier}. Consequently a public read may export only equality or separation evidence grounded in the $\RegSeqRatUp$ rows $L,R$, the $\StreamNameUp$ finite-window row $W$, the $\DyadicRatCoreUp$ tolerance ledger $D$, the $\CauchyModulusUp$ separation-modulus row $M$, and the $\RealUp$ seal boundary $E$, with $H,C,P,N$ preserving that same finite route. It exports no quotient real equality, host real equality, trichotomy, selected limit, countable-choice row, or ambient completeness principle.
+\end{theorem}
+\leanchecked{BEDC.Derived.RegularCauchySeparationUp.RegularCauchySeparationCarrier\_public\_interface}
+\begin{proof}
+Begin with the carrier of \autoref{def:regular-cauchy-separation-carrier}. It gives the public interface the rows $L,R,W,D,M,E,H,C,P,N$ and no additional equality coordinate.
+
+Apply the NameCert obligations of \autoref{thm:regular-cauchy-separation-namecert-obligations}. They force every equality or separation read to expose the regular-name rows, finite-window ledger, dyadic tolerance ledger, separation-modulus row, Real seal boundary, transport, replay, provenance, and local naming rows of the same packet.
+
+Use the modulus-boundary theorem \autoref{thm:regular-cauchy-separation-modulus-boundary} and zero-distance reflection \autoref{thm:regular-cauchy-separation-zero-distance-reflection}. These place both separation reads and equality-edge reads behind the finite route through $W,D,M$ before the Real seal boundary $E$ can be consumed.
+
+Finally apply the obligation-scope theorem \autoref{thm:regular-cauchy-separation-obligation-scope}, the Real-seal-scope theorem \autoref{thm:regular-cauchy-separation-real-seal-scope}, and the scoped package theorem \autoref{thm:regular-cauchy-separation-scoped-package}. Together they exhaust the L10 route and exclude quotient equality, host equality, trichotomy, selected limits, countable choice, and ambient completeness from the public interface.
+\end{proof}
+
+\begin{theorem}[Regular Cauchy separation public route closure]
+\label{thm:regular-cauchy-separation-public-route-closure}
+Every $\RealUp$ and $\CompletionUp$ public consumer of an accepted $\RegularCauchySeparationUp$ packet receives exactly the route through $\RegSeqRatUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\CauchyModulusUp$, and $\RealUp$ displayed by \autoref{thm:regular-cauchy-separation-public-interface}. Therefore a public consumer cannot use quotient real equality, trichotomy, selected limits, countable choice, or ambient Real completeness as an alternate public route.
+\end{theorem}
+\begin{proof}
+Start with the carrier of \autoref{def:regular-cauchy-separation-carrier}. It exposes only the two regular rational rows $L,R$, the window row $W$, the dyadic tolerance row $D$, the modulus row $M$, the Real seal $E$, and the structural rows $H,C,P,N$.
+
+Apply the NameCert obligations of \autoref{thm:regular-cauchy-separation-namecert-obligations}. These obligations place carrier admission, classifier exposure, finite-window stability, dyadic tolerance exactness, Real seal non-escape, provenance, and local naming on those same rows.
+
+Use the modulus boundary theorem \autoref{thm:regular-cauchy-separation-modulus-boundary} and zero-distance reflection \autoref{thm:regular-cauchy-separation-zero-distance-reflection}. They force separation reads and equality-edge reads through $W,D,M$ before $E$ is consumed.
+
+Read the obligation scope, Real seal scope, scoped package, and public interface in order. The theorems \autoref{thm:regular-cauchy-separation-obligation-scope}, \autoref{thm:regular-cauchy-separation-real-seal-scope}, \autoref{thm:regular-cauchy-separation-scoped-package}, and \autoref{thm:regular-cauchy-separation-public-interface} present the same route to every public consumer.
+
+No extra carrier coordinate remains after $L,R,W,D,M,E,H,C,P,N$. Hence there is no alternate public route through quotient equality, trichotomy, selected limits, countable choice, or ambient Real completeness.
+\end{proof}
+
+\begin{theorem}[Regular Cauchy separation bridge route]
+\label{thm:regular-cauchy-separation-bridge-route}
+The public interface of \autoref{thm:regular-cauchy-separation-public-interface} and the public route closure of \autoref{thm:regular-cauchy-separation-public-route-closure} form the bridge route from $\RegularCauchySeparationUp$ to the $\RealUp$ and $\CompletionUp$ consumer boundary. Every bridge-facing read preserves the displayed carrier rows
+$$
+K=(L,R,W,D,M,E,H,C,P,N)
+$$
+and reaches the consumer boundary only through $\RegSeqRatUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\CauchyModulusUp$, and $\RealUp$. The route exports no quotient equality, trichotomy, selected limit, countable choice, or ambient completeness coordinate.
+\end{theorem}
+\begin{proof}
+Start from the public interface. It exposes exactly the ten carrier rows and requires every public equality or separation read to pass through the regular-name, stream-window, dyadic-tolerance, modulus, and Real-seal rows.
+
+Apply public route closure. It states that $\RealUp$ and $\CompletionUp$ consumers receive the same route and no alternate public route through quotient equality, trichotomy, selected limits, countable choice, or ambient Real completeness.
+
+The bridge-facing statement is therefore only a repacking of the displayed public route. Transport, replay, provenance, and local naming preserve $K=(L,R,W,D,M,E,H,C,P,N)$, while the consumer boundary reads the same finite route through $\RegSeqRatUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\CauchyModulusUp$, and $\RealUp$.
+\end{proof}
+
+\begin{theorem}[Regular Cauchy separation mature package]
+\label{thm:regular-cauchy-separation-mature-package}
+The carrier, NameCert obligations, modulus boundary, zero-distance reflection, scoped package, public interface, public route closure, and bridge route form the complete mature L10 paper package for $\RegularCauchySeparationUp$. Every equality or separation read is routed through $\RegSeqRatUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\CauchyModulusUp$, and $\RealUp$, with the displayed carrier rows $K=(L,R,W,D,M,E,H,C,P,N)$ preserved throughout. The package exports no quotient real equality, host equality, trichotomy, selected limits, countable choice, ambient completeness, Lean verification, or standard bridge.
+\end{theorem}
+\begin{proof}
+Start with the carrier and NameCert obligations. \autoref{def:regular-cauchy-separation-carrier} and \autoref{thm:regular-cauchy-separation-namecert-obligations} expose the two regular rational names, stream windows, dyadic tolerance ledger, separation modulus, Real seal boundary, transport, replay, provenance, and local naming.
+
+Use the analytic boundary theorems next. The modulus-boundary theorem \autoref{thm:regular-cauchy-separation-modulus-boundary} and zero-distance reflection theorem \autoref{thm:regular-cauchy-separation-zero-distance-reflection} keep separation reads and equality-edge reads on the finite route through $W,D,M,E$.
+
+Apply the scoped and public route theorems. \autoref{thm:regular-cauchy-separation-scoped-package}, \autoref{thm:regular-cauchy-separation-public-interface}, and \autoref{thm:regular-cauchy-separation-public-route-closure} present the same finite carrier to public $\RealUp$ and $\CompletionUp$ consumers.
+
+Finally read the bridge route of \autoref{thm:regular-cauchy-separation-bridge-route}. It completes the paper-side route while still refusing quotient equality, host equality, trichotomy, selected limits, countable choice, ambient completeness, Lean verification, and a standard bridge theorem.
+\end{proof}
+
 \begin{closurestatus}{\RegularCauchySeparationUp}
   \constructivestory{A $\RegularCauchySeparationUp$ packet is generated from left and right $\RegSeqRatUp$ rows, a $\StreamNameUp$ finite-window ledger, a $\DyadicRatCoreUp$ tolerance ledger, a $\CauchyModulusUp$ separation-modulus row, a $\RealUp$ seal boundary, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and a local $\NameCert$ row.}
-  \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:regular-cauchy-separation-carrier}, \autoref{thm:regular-cauchy-separation-namecert-obligations}, and \autoref{thm:regular-cauchy-separation-modulus-boundary} seed the certified separation boundary for regular Cauchy names over $\RegSeqRatUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\CauchyModulusUp$, and $\RealUp$.}
-  \formalstatus{\unformalizedV}
+  \theoryclosure{\matureClosure}
+  \scopeclosed{\autoref{thm:regular-cauchy-separation-mature-package} binds the carrier, obligations, modulus boundary, zero-distance reflection, scoped package, public interface, public route closure, and bridge route as the mature L10 paper package.}
+  \formalstatus{\theoremCheckedV}
+  \leantarget{BEDC.Derived.RegularCauchySeparationUp.RegularCauchySeparationCarrier\_semantic\_name\_certificate}
   \bridgestatus{none}
   \notclaimed{This chapter does not claim quotient real equality, host real equality, trichotomy, selected limits, countable choice, ambient Real completeness, Lean verification, or a standard bridge.}
-  \upgradepath{Obligation closure requires checked carrier admission, classifier exposure, finite-window stability, dyadic tolerance exactness, modulus boundary, Real seal non-escape, package provenance, and local naming for the displayed separation packet.}
+  \upgradepath{The next formal step is audit and axiom-purity checking plus bridge checking for the mature route of \autoref{thm:regular-cauchy-separation-mature-package}.}
 \end{closurestatus}

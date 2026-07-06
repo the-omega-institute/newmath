@@ -32,6 +32,7 @@ The classifier compares accepted packets only through $X,Y,G,K,R,V,O,H,C,P,N$. I
 \label{thm:upperhemicontinuity-namecert-obligations}
 For every accepted $\UpperHemicontinuityUp$ packet $U=(X,Y,G,K,R,V,O,H,C,P,N)$, the local $\NameCert_{\UpperHemicontinuityUp}$ surface consists exactly of carrier admission, compact-metric source exposure through $X$, real codomain sealing through $Y$, graph-window inspection through $G$, compact-value certification through $K$, closed-graph readback through $R$, convex/polytope dependency exposure through $V$, finite optimization-window handoff through $O$, componentwise $\hsame$ transport through $H$, displayed $\Cont$ replay through $C$, package provenance through $P$, and local naming through $N$.
 \end{theorem}
+\leanchecked{BEDC.Derived.UpperHemicontinuityUp.UpperHemicontinuityCarrier\_namecert\_obligations}
 \begin{proof}
 Carrier admission is projection from \autoref{def:upperhemicontinuity-carrier}. The projected rows are exactly the domain, codomain, graph-window, compact-value, closed-graph, convex/polytope, optimization, transport, replay, provenance, and local naming rows.
 
@@ -50,6 +51,7 @@ X \longmapsto Y \longmapsto G \longmapsto K \longmapsto R \longmapsto V \longmap
 $$
 In particular, a $\ModelPredictiveControlUp$ consumer receives the compact metric source, real codomain seal, graph-window ledger, compact-value witness, closed-graph readback, convex or polytope dependency rows, transport, replay, provenance, and local naming before it can use a compact-valued correspondence packet.
 \end{theorem}
+\leanchecked{BEDC.Derived.UpperHemicontinuityUp.UpperHemicontinuityCarrier\_compact\_valued\_correspondence\_handoff}
 \begin{proof}
 Start with an accepted carrier $U=(X,Y,G,K,R,V,O,H,C,P,N)$. The carrier places every consumer-facing row after the graph-window and compact-value rows, so no consumer can inspect $V$ or $O$ before reading $X,Y,G,K,R$.
 
@@ -57,6 +59,19 @@ The compact-valued part is supplied by $K$, while the upper-hemicontinuity readb
 
 The structural rows keep the same route under componentwise sameness and replay. Since $\ModelPredictiveControlUp$ reads only the displayed optimization window $O$ together with its provenance and local naming rows, it receives no selected optimizer, no ambient correspondence, and no open-cover compactness principle from the packet.
 \end{proof}
+
+\begin{theorem}[Graph-window compact-value stability]
+\label{thm:upperhemicontinuity-graph-window-compact-value-stability}
+Let $U=(X,Y,G,K,R,V,O,H,C,P,N)$ be an accepted $\UpperHemicontinuityUp$ packet. Transporting a graph-window row through $H$ and replaying it through $C$ preserves the compact-value row $K$ and the closed-graph readback row $R$ before any convex, polytope, optimization, or control consumer may use $V$ or $O$.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier of \autoref{def:upperhemicontinuity-carrier}. The graph-window row $G$, compact-value row $K$, and closed-graph readback row $R$ are displayed before the convex/polytope dependency row $V$ and optimization window $O$.
+
+Apply the obligation theorem \autoref{thm:upperhemicontinuity-namecert-obligations}. It makes compact-value certification through $K$ and closed-graph readback through $R$ part of the same local $\NameCert_{\UpperHemicontinuityUp}$ surface as the transported graph-window row.
+
+Now use the handoff theorem \autoref{thm:upperhemicontinuity-compact-valued-correspondence-handoff}. That route forces every consumer read to pass through $G,K,R$ before $V$ or $O$ is available. Componentwise $\hsame$ transport through $H$ and displayed $\Cont$ replay through $C$ therefore carry the compact-value and readback rows together with the graph-window data.
+\end{proof}
+\leanchecked{BEDC.Derived.UpperHemicontinuityUp.UpperHemicontinuityCarrier\_graph\_window\_compact\_value\_stability}
 
 \falsifiablePrediction{Every $\UpperHemicontinuityUp$ consumer read factors through a CompactMetricUp source row, RealUp codomain seal, finite graph-window ledger, compact-value witness, closed-graph readback, convex or polytope dependency row, optimization window, transport, replay, provenance, and local naming row.}
 

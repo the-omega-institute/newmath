@@ -1,0 +1,80 @@
+\chapter{A Concrete Naming Certificate for $\FiniteProductCompactnessUp$}
+\label{ch:concrete-instances-finite-product-compactness-namecert}
+\origin{human}
+
+Following Bishop--Bridges constructive compactness and Kelley product-space compactness, the $\FiniteProductCompactnessUp$ packet records finite products of compact metric NameCert data through explicit product finite-net witnesses. It consumes compact components from \autoref{ch:concrete-instances-compactmetric-namecert}, the product topology carrier of \autoref{ch:concrete-instances-product-topology-namecert}, the metric source of \autoref{ch:concrete-instances-metric-namecert}, the terminal real-distance seal of \autoref{ch:concrete-instances-real-namecert}, and the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}. Its role is finite: the product net is displayed as data before any compact-metric product consumer reads compactness.
+
+\begin{definition}[FiniteProductCompactness packet]
+\label{def:finite-product-compactness-packet}
+A $\FiniteProductCompactnessUp$ packet is a finite $\BHist$ carrier
+$$
+F=(I,C,P,N,D,R,H,K,L)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $I$ is the finite index spine listing the component coordinates and their product order.
+\item $C$ is the finite family of component $\CompactMetricUp$ packets, one for each row of $I$.
+\item $P$ is the $\ProductTopologyUp$ packet that reads exactly the component topology rows named by $I$ and $C$.
+\item $N$ is the finite product-net witness: for each dyadic radius request, it lists component net choices and the induced finite product mesh.
+\item $D$ is the dyadic radius ledger controlling the component radii and the product-radius comparison.
+\item $R$ is the $\RealUp$ and $\RegSeqRatUp$ readback surface for component distances, product distances, and radius bounds.
+\item $H$ records componentwise $\hsame$ transport for index, compact component, product topology, product-net, dyadic, readback, replay, provenance, and naming rows.
+\item $K$ records displayed $\Cont$ replay from a product compactness request through $I,C,P,N,D,R,H,L$.
+\item $L$ is the $\Pkg$ provenance and local $\NameCert_{\FiniteProductCompactnessUp}$ row over $\CompactMetricUp$, $\ProductTopologyUp$, $\MetricSpaceUp$, $\RealUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$.
+\end{enumerate}
+The classifier of accepted packets compares only these displayed rows. It has no coordinate for countable choice, open-cover compactness, host product spaces, or ambient $\RealUp$ completeness.
+\end{definition}
+\leanstmt{BEDC.Derived.FiniteProductCompactnessUp}
+
+\begin{theorem}[FiniteProductCompactness NameCert obligations]
+\label{thm:finite-product-compactness-namecert-obligations}
+For every accepted $\FiniteProductCompactnessUp$ packet $F=(I,C,P,N,D,R,H,K,L)$, the local $\NameCert_{\FiniteProductCompactnessUp}$ surface consists exactly of the following obligation rows:
+\begin{enumerate}
+\item carrier admission for the finite index spine, compact component packets, product topology packet, product finite-net witness, dyadic radius ledger, readback surface, transport row, replay row, provenance row, and local name;
+\item component compactness, requiring each coordinate named by $I$ to expose its $\CompactMetricUp$ packet before the product mesh is assembled;
+\item finite product-net construction, requiring $N$ to be built from the component finite nets and the displayed finite index spine;
+\item projection stability, requiring product-net membership and radius comparison to project back to the component packets named by $C$;
+\item metric readback, requiring all product-radius and distance comparisons to pass through $D$ and $R$ before a $\RealUp$ seal is read;
+\item transport and replay stability, requiring $H$ and $K$ to preserve the same finite product-net route under componentwise $\hsame$ transport and displayed $\Cont$ replay;
+\item provenance exactness, requiring $L$ to name exactly the displayed dependencies and the local certificate row;
+\item non-escape, excluding countable choice, open-cover compactness, host product spaces, and ambient $\RealUp$ completeness.
+\end{enumerate}
+No finite-product compactness obligation is stored outside these rows.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:finite-product-compactness-packet}. The tuple displays the index spine, component compact packets, product topology packet, finite product-net witness, dyadic ledger, readback surface, transport, replay, provenance, and local name.
+
+Component compactness and product-net construction follow the order $I,C,P,N$. Each component compact packet is read before the product topology and before the finite product mesh is assembled, so the net witness is finite data over the displayed index spine.
+
+Projection stability is part of the same construction. A product mesh element records one component net entry per coordinate in $I$, and every radius comparison returns to the component packet named by $C$.
+
+Metric readback is forced through $D$ and $R$. The dyadic radius ledger supplies the requested tolerances, while the $\RegSeqRatUp$ and $\RealUp$ rows record the distance readback and final seal.
+
+The rows $H,K,L$ preserve, replay, source, and name this route. Since the carrier has no coordinate for the excluded choice, open-cover, host-product, or ambient-completeness objects, no accepted consumer can recover one from the packet.
+\end{proof}
+
+\begin{theorem}[FiniteProductCompactness projection-net handoff]
+\label{thm:finite-product-compactness-projection-net-handoff}
+Every product compactness consumer of an accepted $\FiniteProductCompactnessUp$ packet first reads each component compact packet in $C$ and the finite product-net ledger $N$ before any product compact-metric handoff. The handoff therefore exposes the finite index spine $I$, the product topology row $P$, the dyadic radius ledger $D$, the $\RealUp$ and $\RegSeqRatUp$ readback row $R$, and the structural rows $H,K,L$ before it can be consumed as product compactness.
+\end{theorem}
+\begin{proof}
+Start from the displayed carrier $F=(I,C,P,N,D,R,H,K,L)$. The component packets $C$ are indexed by $I$, and the product topology row $P$ reads those component topology rows before any product compactness request is answered.
+
+The finite product-net ledger $N$ is the next required row. It records the finite mesh assembled from the component nets and the product-radius request, so a compact-metric product handoff cannot bypass the component compact packets.
+
+The dyadic and metric readback rows then control the handoff. The ledger $D$ supplies the radius comparisons, and $R$ records the $\RegSeqRatUp$ and $\RealUp$ readback used by the consumer.
+
+Finally, $H,K,L$ transport, replay, source, and name the same displayed route. Since no row stores countable choice, an open-cover compactness principle, a host product space, or ambient $\RealUp$ completeness, the handoff is exactly the finite product-net route.
+\end{proof}
+
+\closureat{FiniteProductCompactnessUp}{seedStr}
+
+\begin{closurestatus}{\FiniteProductCompactnessUp}
+  \constructivestory{A $\FiniteProductCompactnessUp$ packet is generated from a finite index spine, compact component packets, a product topology packet, a finite product-net witness, a dyadic radius ledger, $\RealUp$ and $\RegSeqRatUp$ readback, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:finite-product-compactness-packet} records the finite product-net carrier and \autoref{thm:finite-product-compactness-projection-net-handoff} records the consumer order from component compact packets to product compactness handoff.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close countable choice, open-cover compactness, host product spaces, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Scoped closure requires a kernel-scoped consumer route showing that every product compactness reader exhausts the finite index spine, component compact packets, product topology row, product-net ledger, dyadic radius ledger, readback row, transport, replay, provenance, and local NameCert rows.}
+\end{closurestatus}

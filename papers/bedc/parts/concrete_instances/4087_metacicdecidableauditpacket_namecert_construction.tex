@@ -26,6 +26,7 @@ with the following visible rows:
 \end{enumerate}
 The packet exposes checked syntax equality, checked typing inference, gallery acceptance, and bounded normal comparison with its stated boundary. It contains no global beta-conversion oracle, no hidden normalization endpoint, and no host-level decision procedure for arbitrary closed terms.
 \end{definition}
+\leanchecked{BEDC.Derived.MetacicDecidableAuditPacketUp.MetacicDecidableAuditPacket\_checker\_boundary\_semantic\_certificate}
 
 \begin{theorem}[MetaCIC decidable audit packet NameCert obligations]
 \label{thm:metacic-decidable-audit-packet-namecert-obligations}
@@ -78,6 +79,7 @@ The obstruction rows remain in the same finite packet. The boundary row $E$ requ
 
 Therefore the packet cannot export a route that is not already present in $C,M,T,G,B,E,O,H,R,P,N$. In particular, unrestricted beta-conversion decidability and hidden normalization endpoints have no carrier coordinate.
 \end{proof}
+\leanchecked{BEDC.Derived.MetacicDecidableAuditPacketUp.MetacicDecidableAuditPacket\_nonescape}
 
 \begin{theorem}[Typed conversion window obligation surface]
 \label{thm:typed-conversion-window-obligation-surface}
@@ -90,16 +92,107 @@ Route conversion-facing reads through a different window. The bounded comparison
 
 Finally use the obstruction row $O$. It excludes unrestricted closed beta-conversion decidability and standalone closedness decision, so a consumer cannot collapse the typing window $C,M,T$ into a global conversion oracle. The structural rows $H,R,P,N$ transport, replay, package, and name the same separated route.
 \end{proof}
+\leanchecked{BEDC.Derived.MetacicDecidableAuditPacketUp.MetacicDecidableAuditPacket\_typed\_conversion\_window\_obligation\_surface}
 
-\closureat{MetacicDecidableAuditPacketUp}{seedStr}
+\begin{theorem}[MetaCIC decidable audit packet obligation closure surface]
+\label{thm:metacic-decidable-audit-packet-obligation-closure-surface}
+Every accepted $\MetacicDecidableAuditPacketUp$ carrier
+$$
+A=(C,M,T,G,B,E,O,H,R,P,N)
+$$
+exposes the complete obligation surface for its finite audit packet: carrier admission for $A$, checker admission through $C$, same-term admission through $M$, typing soundness and completeness routing through $T$, gallery exposure through $G$, bounded-normal comparison through $B$, finished-normal boundary through $E$, obstruction recording through $O$, componentwise transport through $H$, route replay through $R$, package provenance through $P$, and local naming through $N$. No obligation row outside this displayed packet is available to a decidability consumer.
+\end{theorem}
+\begin{proof}
+Start from \autoref{def:metacic-decidable-audit-packet}. The carrier lists exactly the eleven public rows $C,M,T,G,B,E,O,H,R,P,N$, so carrier admission and local naming are projections from the same finite packet.
+
+Read the positive audit rows next. The checker row $C$, same-term row $M$, typing row $T$, gallery row $G$, and bounded-normal row $B$ are separate coordinates, and \autoref{thm:metacic-decidable-audit-packet-namecert-obligations} identifies them as the public NameCert surface.
+
+Read the boundary rows separately. The row $E$ requires finished closed-normal data before a normal-form equality reading is allowed, and $O$ records the excluded unrestricted conclusions.
+
+Finally use \autoref{thm:metacic-decidable-audit-packet-nonescape} and \autoref{thm:typed-conversion-window-obligation-surface}. Together they force every consumer to stay inside the displayed packet and keep typing, bounded-normal comparison, boundary, obstruction, transport, replay, provenance, and naming rows visible.
+\end{proof}
+\leanchecked{BEDC.Derived.MetacicDecidableAuditPacketUp.MetacicDecidableAuditPacket\_obligation\_closure\_surface}
+
+\begin{theorem}[MetaCIC decidable audit checker exactness route]
+\label{thm:metacic-decidable-audit-packet-checker-exactness-route}
+Every checked inference read and every same-term read exported by an accepted $\MetacicDecidableAuditPacketUp$ carrier factors through the four visible audit rows
+$$
+C,M,T,G.
+$$
+The checker row $C$ and same-term row $M$ provide the syntactic checks, the typing row $T$ records the represented typing soundness and completeness boundary, and the gallery row $G$ supplies the finite witness surface against which the read is accepted. A consumer cannot read checked inference or same-term equality directly from $B,E,O,H,R,P,N$.
+\end{theorem}
+\begin{proof}
+Project the carrier rows. The only checker coordinate is $C$, and the only same-term coordinate is $M$.
+
+Route the check through typing and gallery data. The row $T$ is the displayed typing boundary for the represented \texttt{HasType} relation, while $G$ records the finite closed examples and candidate witnesses used by the audit surface.
+
+The bounded-normal and obstruction rows play a different role. Rows $B,E,O$ control conversion-facing comparison and its boundary, not checked inference or same-term exactness.
+
+Thus a consumer preserving the packet can read checker and same-term exactness only along $C,M,T,G$, with $H,R,P,N$ merely transporting, replaying, sourcing, and naming that same route.
+\end{proof}
+\leanchecked{BEDC.Derived.MetacicDecidableAuditPacketUp.MetacicDecidableAuditPacket\_checker\_exactness\_route}
+
+\begin{theorem}[MetaCIC decidable audit bounded-normal boundary]
+\label{thm:metacic-decidable-audit-packet-bounded-normal-boundary}
+Every bounded conversion read exported by an accepted $\MetacicDecidableAuditPacketUp$ carrier must expose the bounded-normal row $B$, the finished-normal boundary row $E$, and the obstruction row $O$ before any normal-form equality statement is public. The packet permits bounded comparison only as the displayed $B,E,O$ boundary route; it does not collapse that route into unrestricted closed beta-conversion decidability, global normalization, standalone closedness decision, or quotient equality of terms.
+\end{theorem}
+\leanchecked{BEDC.Derived.MetacicDecidableAuditPacketUp.MetacicDecidableAuditPacket\_bounded\_normal\_boundary}
+\begin{proof}
+Start with the typed conversion window of \autoref{thm:typed-conversion-window-obligation-surface}. It separates the typing rows $C,M,T$ from the bounded-normal rows $B,E,O$.
+
+Read the bounded comparison coordinate. The row $B$ names the bounded normal comparison surface, so any conversion-facing read must expose $B$ before it can state a comparison.
+
+Then read the boundary and obstruction rows. The row $E$ keeps finished closed-normal data explicit, and $O$ records that unrestricted beta-conversion decidability, global normalization, standalone closedness decision, and quotient equality of terms are not exported.
+
+The structural rows $H,R,P,N$ preserve this displayed route but do not add a new conversion oracle. Hence bounded conversion reads are public only through $B,E,O$.
+\end{proof}
+
+\begin{theorem}[MetaCIC decidable audit scoped-kernel route]
+\label{thm:metacic-decidable-audit-scoped-kernel-route}
+Every accepted $\MetacicDecidableAuditPacketUp$ carrier
+$$
+A=(C,M,T,G,B,E,O,H,R,P,N)
+$$
+routes typed inference through the checker, same-term, typing, and gallery rows $C,M,T,G$, routes bounded comparison through $B,E,O$, and routes structural preservation through $H,R,P,N$ over the same $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ surface. The route refuses unrestricted beta-conversion, a standalone closedness decision, quotient equality of terms, and hidden normalization endpoints.
+\end{theorem}
+\leanchecked{BEDC.Derived.MetacicDecidableAuditPacketUp.MetacicDecidableAuditPacket\_scoped\_kernel\_route}
+\begin{proof}
+Start with the carrier definition and NameCert obligations. They identify $C,M,T,G,B,E,O,H,R,P,N$ as the whole accepted packet, so any public read must project one of these rows.
+
+Use the typed conversion window obligation surface together with the checker exactness route. The former separates typed conversion from bounded comparison, while the latter forces checked inference and same-term reads through $C,M,T,G$.
+
+Now apply the bounded-normal boundary. It keeps conversion-facing comparison inside $B,E,O$ and keeps finished closed-normal data explicit before a normal-form equality reading is public.
+
+Finally read the structural rows $H,R,P,N$. They transport, replay, source, and name the same finite route; they do not add unrestricted beta-conversion, standalone closedness decision, quotient equality, or hidden normalization endpoints.
+\end{proof}
+
+\begin{theorem}[MetaCIC decidable audit retained normal window]
+\label{thm:metacic-decidable-audit-retained-normal-window}
+Every retained bounded-normal comparison read exported by an accepted $\MetacicDecidableAuditPacketUp$ carrier
+$$
+A=(C,M,T,G,B,E,O,H,R,P,N)
+$$
+must expose, in order, the checker row $C$, the same-term row $M$, the typing row $T$, the gallery row $G$, the bounded-normal row $B$, the finished-normal boundary row $E$, and the obstruction row $O$ before any consumer reads a conversion-facing verdict. The retained window keeps the checker rows $C,M,T,G$ and the bounded-normal rows $B,E,O$ jointly visible, and it refuses global normalization, unrestricted beta-conversion, quotient equality of terms, and standalone closedness decision.
+\end{theorem}
+\leanchecked{BEDC.Derived.MetacicDecidableAuditPacketUp.MetacicDecidableAuditPacket\_retained\_normal\_window}
+\begin{proof}
+Start with \autoref{thm:typed-conversion-window-obligation-surface}. It separates typed-conversion reads into the checker side $C,M,T$ and the bounded-normal side $B,E,O$, so a retained comparison cannot begin from a conversion verdict alone.
+
+Next apply \autoref{thm:metacic-decidable-audit-packet-checker-exactness-route}. It forces checked inference and same-term reads through $C,M,T,G$, placing the gallery row after the checker, same-term, and typing rows before the comparison row is consumed.
+
+Finally apply \autoref{thm:metacic-decidable-audit-packet-bounded-normal-boundary}. It requires $B,E,O$ before a normal-form equality reading is public, with $E$ retaining finished-normal boundary data and $O$ retaining the excluded conclusions.
+
+The concatenated route is therefore $C,M,T,G,B,E,O$. The remaining rows $H,R,P,N$ transport, replay, source, and name this same finite window; they do not introduce global normalization, unrestricted beta-conversion, quotient equality of terms, or standalone closedness decision.
+\end{proof}
+
+\closureat{MetacicDecidableAuditPacketUp}{scopedStr}
 
 \begin{closurestatus}{\MetacicDecidableAuditPacketUp}
   \constructivestory{A $\MetacicDecidableAuditPacketUp$ packet is generated from checker, same-term, typing, gallery, bounded-normal comparison, boundary, obstruction, componentwise $\hsame$, displayed $\Cont$, $\Pkg$, and local $\NameCert$ rows.}
-  \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:metacic-decidable-audit-packet}, \autoref{thm:metacic-decidable-audit-packet-namecert-obligations}, \autoref{thm:metacic-decidable-audit-packet-nonescape}, and \autoref{thm:typed-conversion-window-obligation-surface} bind the finite audit packet for checked MetaCIC typing inference and bounded normal comparison.}
+  \theoryclosure{\scopedClosure}
+  \scopeclosed{\autoref{def:metacic-decidable-audit-packet}, \autoref{thm:metacic-decidable-audit-packet-namecert-obligations}, \autoref{thm:metacic-decidable-audit-packet-nonescape}, \autoref{thm:typed-conversion-window-obligation-surface}, \autoref{thm:metacic-decidable-audit-packet-obligation-closure-surface}, \autoref{thm:metacic-decidable-audit-packet-checker-exactness-route}, \autoref{thm:metacic-decidable-audit-packet-bounded-normal-boundary}, \autoref{thm:metacic-decidable-audit-scoped-kernel-route}, and \autoref{thm:metacic-decidable-audit-retained-normal-window} bind the finite audit packet for checked MetaCIC typing inference and bounded normal comparison.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
-  \origin{ai}
   \notclaimed{This chapter does not close unrestricted beta-conversion decidability, standalone closedness decidability, global normalization, quotient equality of terms, or bridge checking.}
-  \upgradepath{Obligation closure requires checked carrier admission, checker exactness, same-term exactness, typing soundness and completeness routing, bounded-normal boundary routing, transport, route replay, provenance, and non-escape for the same finite packet.}
+  \upgradepath{Formal closure requires checked carrier admission, checker exactness, same-term exactness, typing soundness and completeness routing, bounded-normal boundary routing, transport, route replay, provenance, and non-escape for the same finite packet.}
 \end{closurestatus}

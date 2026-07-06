@@ -1,0 +1,77 @@
+\chapter{A Concrete Naming Certificate for $\DyadicIntervalDomainUp$}
+\label{ch:concrete-instances-dyadic-interval-domain-namecert}
+\origin{human}
+
+Following Scott--Edalat-style interval-domain approximation and Bishop-style dyadic enclosure, the $\DyadicIntervalDomainUp$ packet records the finite carrier by which a lower dyadic endpoint, an upper dyadic endpoint, rounded refinement data, and a regular-rational handoff become visible before a Real or Completion consumer inspects an interval approximation. It sits after the dyadic endpoint core of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the finite stream-name surface of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}, and the rounded interval-domain route of \autoref{ch:concrete-instances-rounded-interval-domain-namecert}. The packet names a finite interval-domain carrier only; it does not assert $\RealUp$ completeness, quotient real equality, selected limits, trichotomy, or open-cover compactness.
+
+\begin{definition}[Dyadic interval-domain carrier]
+\label{def:dyadic-interval-domain-carrier}
+A $\DyadicIntervalDomainUp$ carrier is a finite $\BHist$ packet
+$$
+D=(L,U,R,\Delta,W,Q,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $L$ is the lower endpoint row accepted by $\DyadicRatCoreUp$.
+\item $U$ is the upper endpoint row accepted by $\DyadicRatCoreUp$.
+\item $R$ is the roundedness and refinement row, recording endpoint order, directed refinement, and the outward-rounding witnesses used when a later interval narrows the present one.
+\item $\Delta$ is the diameter and tolerance row, recording the dyadic width comparison and the requested enclosure tolerance.
+\item $W$ is the $\StreamNameUp$ window row through which downstream consumers inspect the endpoint observations.
+\item $Q$ is the $\RegSeqRatUp$ handoff row obtained from the same finite endpoint windows and dyadic tolerance ledger.
+\item $E$ is the $\RealUp$ approximation boundary row, available only after $L,U,R,\Delta,W,Q$ have been displayed.
+\item $H$ records componentwise $\hsame$ transport for endpoints, refinement, diameter, windows, readback, approximation boundary, replay, provenance, and local naming.
+\item $C$ records displayed $\Cont$ replay from the endpoint rows through rounded refinement, tolerance, window, readback, and Real-facing boundary rows.
+\item $P$ is the $\Pkg$ provenance over $\DyadicIntervalDomainUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\RoundedIntervalDomainUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\DyadicIntervalDomainUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for quotient real equality, a selected completed limit, trichotomy, open-cover compactness, or ambient completeness of $\RealUp$.
+\end{definition}
+\leanchecked{BEDC.Derived.DyadicIntervalDomainUp.DyadicIntervalDomainTasteGate\_single\_carrier\_alignment}
+
+\begin{theorem}[Dyadic interval-domain NameCert obligations]
+\label{thm:dyadic-interval-domain-namecert-obligations}
+For every accepted $\DyadicIntervalDomainUp$ carrier $D=(L,U,R,\Delta,W,Q,E,H,C,P,N)$, the local $\NameCert_{\DyadicIntervalDomainUp}$ surface consists exactly of carrier admission, lower and upper dyadic endpoint exposure, roundedness and refinement exposure, diameter and tolerance exposure, finite $\StreamNameUp$ window exposure, $\RegSeqRatUp$ handoff exposure, $\RealUp$ approximation-boundary exposure, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming. Every obligation is read through the sibling routes of \autoref{ch:concrete-instances-dyadicratcore-namecert}, \autoref{ch:concrete-instances-streamname-namecert}, \autoref{ch:concrete-instances-regseqrat-namecert}, \autoref{ch:concrete-instances-real-namecert}, and \autoref{ch:concrete-instances-rounded-interval-domain-namecert}; no obligation is stored in a host interval, quotient real, selected limit, trichotomy service, open-cover principle, or completeness theorem.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:dyadic-interval-domain-carrier}. The projection exposes exactly the lower endpoint row $L$, upper endpoint row $U$, rounded refinement row $R$, diameter and tolerance row $\Delta$, finite window row $W$, regular-rational handoff row $Q$, approximation boundary row $E$, and structural rows $H,C,P,N$.
+
+Read the endpoint and refinement rows first. The endpoint rows are $\DyadicRatCoreUp$ data, while $R$ records only displayed endpoint order, outward rounding, and directed refinement. Thus the interval-domain relation is a finite endpoint-refinement packet, not an ambient real order.
+
+Next read $\Delta,W,Q,E$. The diameter row fixes the dyadic tolerance comparison, the window row opens only the inspected $\StreamNameUp$ observations, the handoff row exposes the corresponding $\RegSeqRatUp$ readback, and the approximation boundary row reaches $\RealUp$ only after those rows are visible.
+
+Finally apply $H,C,P,N$. Componentwise transport and displayed replay preserve the same endpoint, refinement, tolerance, window, readback, and boundary rows, while provenance and local naming keep the sibling dependencies explicit. Since no carrier coordinate supplies quotient equality, selected limits, trichotomy, open-cover compactness, or $\RealUp$ completeness, the listed rows exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[Dyadic interval-domain regular-sequence handoff]
+\label{thm:dyadic-interval-domain-regular-sequence-handoff}
+Every $\RegSeqRatUp$ or $\RealUp$ consumer of an accepted $\DyadicIntervalDomainUp$ carrier factors through the finite route
+$$
+L,U,R,\Delta \longmapsto W,Q \longmapsto E \longmapsto H,C,P,N .
+$$
+Consequently the consumer receives only a displayed dyadic enclosure, finite stream-window observations, a regular-rational readback, and a Real-facing approximation boundary; it does not receive $\RealUp$ completeness, quotient equality, a selected limit, trichotomy, open-cover compactness, or hidden host interval data.
+\end{theorem}
+\begin{proof}
+Start with the NameCert obligations of \autoref{thm:dyadic-interval-domain-namecert-obligations}. They force the endpoint rows $L,U$, rounded refinement row $R$, and diameter row $\Delta$ to be displayed before any window or readback consumer can inspect the packet.
+
+The handoff then passes through $W$ and $Q$. The window row is the only source of inspected stream observations, and the regular-rational handoff row is the only route from those windows to a $\RegSeqRatUp$ consumer.
+
+The Real-facing row $E$ is downstream of that readback. The structural rows $H,C,P,N$ transport, replay, source, and name the same finite route, so a $\RealUp$ consumer sees the dyadic interval-domain packet only through the displayed regular-sequence handoff.
+
+The carrier inventory contains no separate coordinate for completed-real selection, quotient equality, trichotomy, open-cover compactness, hidden host intervals, or ambient completeness. The route above is therefore the whole regular-sequence handoff.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\DyadicIntervalDomainUp$ Real or Completion consumer factors through displayed lower and upper $\DyadicRatCoreUp$ endpoint rows, rounded refinement data, a dyadic diameter tolerance row, one finite $\StreamNameUp$ window, one $\RegSeqRatUp$ handoff, one $\RealUp$ approximation boundary, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ before it may use the interval-domain approximation.}
+
+\independenceWitness{dyadicratcore, streamname, regseqrat, real, rounded-interval-domain: $\DyadicIntervalDomainUp$ is not bijective to any listed sibling because the siblings separately supply dyadic endpoints, finite windows, regular-rational readback, Real sealing, and rounded interval-domain refinement, while this packet binds them as one endpoint-refinement carrier.}
+
+\closureat{DyadicIntervalDomainUp}{seedStr}
+
+\begin{closurestatus}{\DyadicIntervalDomainUp}
+  \constructivestory{A $\DyadicIntervalDomainUp$ packet is generated from lower and upper DyadicRatCore endpoint rows, a roundedness and refinement row, a diameter and tolerance row, a StreamName finite-window row, a RegSeqRat handoff row, a RealUp approximation boundary, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:dyadic-interval-domain-carrier}, \autoref{thm:dyadic-interval-domain-namecert-obligations}, and \autoref{thm:dyadic-interval-domain-regular-sequence-handoff} seed the finite dyadic interval-domain carrier over DyadicRatCore, StreamName, RegSeqRat, Real, and RoundedIntervalDomain rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim Real completeness, quotient real equality, selected limits, trichotomy, open-cover compactness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, endpoint exposure, rounded refinement, diameter tolerance, finite-window handoff, regular-rational readback, Real approximation boundary, structural transport, and non-escape for BEDC.Derived.DyadicIntervalDomainUp.}
+\end{closurestatus}

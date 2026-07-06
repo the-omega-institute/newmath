@@ -170,6 +170,20 @@ Now bind the Real-facing side. Apply \autoref{thm:cauchy-witness-gluing-real-sea
 Finally apply the obligation ledger and scoped primitive binding of \autoref{thm:cauchy-witness-gluing-obligation-ledger} and \autoref{thm:cauchy-witness-gluing-scoped-primitive-binding}. The structural rows $H,C,P,N$ transport, replay, source, and name exactly the displayed route, so the excluded ledger, quotient, choice, equality, and completeness data remain outside the scoped handoff.
 \end{proof}
 
+\begin{theorem}[CauchyWitnessGluing public witness export]
+\label{thm:cauchy-witness-gluing-public-witness-export}
+Every public Real-completion witness read that consumes an accepted $\CauchyWitnessGluingUp$ packet must consume it through the displayed witness ledger $L$, tail envelope $T$, seal synchronizer $S$, completion-seal classifier $K$, finite $\StreamNameUp$ window row $U$, $\DyadicRatCoreUp$ tolerance ledger $D$, $\RegSeqRatUp$ handoff $V$, terminal $\RealUp$ seal $R$, witness edge $E$, componentwise $\hsame$ transports $H$, displayed $\Cont$ replay $C$, $\Pkg$ provenance $P$, and local $\NameCert_{\CauchyWitnessGluingUp}$ row $N$. The export supplies a public witness surface for Real-completion consumers only through those rows, not through a detached ledger, hidden tail envelope, alternate seal synchronizer, quotient stream equality, selected external limit, countable-choice row, host real equality, or ambient completeness principle.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier. The route-obligation surface of \autoref{thm:cauchy-witness-gluing-route-obligation-surface} lists exactly $L,T,S,K,U,V,D,R,E,H,C,P,N$ as the local NameCert surface, so a public witness read cannot start from an unlisted primitive.
+
+The witness side is synchronized before export. By \autoref{thm:cauchy-witness-gluing-witness-ledger-exactness} and \autoref{thm:cauchy-witness-gluing-scoped-route-tightening}, the ledger $L$, tail envelope $T$, seal synchronizer $S$, completion-seal classifier $K$, and witness edge $E$ are read as one route.
+
+The Real-facing side is finite. Apply \autoref{thm:cauchy-witness-gluing-tail-envelope-handoff} and \autoref{thm:cauchy-witness-gluing-real-seal-nonescape}: every Real-facing read passes through $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, and the terminal $\RealUp$ seal before the completion consumer can inspect it.
+
+Finally the structural rows $H,C,P,N$ transport, replay, source, and name the same route. The scoped primitive binding of \autoref{thm:cauchy-witness-gluing-scoped-primitive-binding} excludes detached ledgers, quotient streams, selected limits, countable-choice schedules, host real equality, and ambient completeness from the public export.
+\end{proof}
+
 \falsifiablePrediction{If the gluing packet is accepted, a Real-completion consumer that preserves the witness ledger and tail envelope but changes the seal-synchronizer row is rejected by the classifier.}
 
 \independenceWitness{cauchywitnessledger, cauchytailwitnessenvelope, cauchysealbudgetsynchronizer, realcompletionsealclassifier, regularcauchydiagonalmeet: none is bijective because each sibling omits at least one of the paired witness, tail, synchronizer, completion-seal, and RealUp rows required by this gluing packet.}
@@ -177,14 +191,15 @@ Finally apply the obligation ledger and scoped primitive binding of \autoref{thm
 \closureat{CauchyWitnessGluingUp}{seedStr}
 \closureat{CauchyWitnessGluingUp}{obligationStr}
 \closureat{CauchyWitnessGluingUp}{scopedStr}[BEDC.Derived.CauchyWitnessGluingUp.CauchyWitnessGluingCarrier\_scoped\_primitive\_binding]
+\closureat{CauchyWitnessGluingUp}{publicStr}
 
 \begin{closurestatus}{\CauchyWitnessGluingUp}
   \constructivestory{A $\CauchyWitnessGluingUp$ packet is generated from a witness ledger, tail-envelope row, seal-synchronizer row, completion-seal classifier, StreamName, RegSeqRat, DyadicRatCore, RealUp, witness-edge, $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert$ rows.}
-  \theoryclosure{\scopedClosure}
-  \scopeclosed{\autoref{def:cauchy-witness-gluing-carrier}, \autoref{thm:cauchy-witness-gluing-budget-compatibility}, \autoref{thm:cauchy-witness-gluing-route-obligation-surface}, \autoref{thm:cauchy-witness-gluing-witness-ledger-exactness}, \autoref{thm:cauchy-witness-gluing-tail-envelope-handoff}, \autoref{thm:cauchy-witness-gluing-completion-seal-scope}, \autoref{thm:cauchy-witness-gluing-real-seal-nonescape}, \autoref{thm:cauchy-witness-gluing-obligation-ledger}, \autoref{thm:cauchy-witness-gluing-scoped-primitive-binding}, \autoref{thm:cauchy-witness-gluing-scoped-route-tightening}, the falsifiable prediction, and the independence witness bind the displayed witness-ledger, tail-envelope, seal-synchronizer, completion-seal classifier, StreamName, RegSeqRat, DyadicRatCore, RealUp, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows into one scoped Real-completion witness packet.}
+  \theoryclosure{\publicClosure}
+  \scopeclosed{\autoref{def:cauchy-witness-gluing-carrier}, \autoref{thm:cauchy-witness-gluing-budget-compatibility}, \autoref{thm:cauchy-witness-gluing-route-obligation-surface}, \autoref{thm:cauchy-witness-gluing-witness-ledger-exactness}, \autoref{thm:cauchy-witness-gluing-tail-envelope-handoff}, \autoref{thm:cauchy-witness-gluing-completion-seal-scope}, \autoref{thm:cauchy-witness-gluing-real-seal-nonescape}, \autoref{thm:cauchy-witness-gluing-obligation-ledger}, \autoref{thm:cauchy-witness-gluing-scoped-primitive-binding}, \autoref{thm:cauchy-witness-gluing-scoped-route-tightening}, \autoref{thm:cauchy-witness-gluing-public-witness-export}, the falsifiable prediction, and the independence witness bind the displayed witness-ledger, tail-envelope, seal-synchronizer, completion-seal classifier, StreamName, RegSeqRat, DyadicRatCore, RealUp, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows into one public Real-completion witness packet.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{ai}
   \notclaimed{This chapter does not close quotient stream equality, selected limits, countable choice, ambient completeness, host real equality, Lean verification, or bridge checking for $\CauchyWitnessGluingUp$.}
-  \upgradepath{The next paper step is a public Real-completion witness export, while Lean audit-token synchronization for the witness ledger, tail envelope, seal synchronizer, completion-seal classifier, and Real-facing handoff remains separate.}
+  \upgradepath{Bridge-facing closure requires a standard public bridge over the same witness ledger, tail envelope, seal synchronizer, completion-seal classifier, and Real-facing handoff rows.}
 \end{closurestatus}

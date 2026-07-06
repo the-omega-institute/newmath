@@ -54,42 +54,8 @@ private theorem ratSub_mul_left_local (c a b : Rat) :
     (ratAdd_respects (RatEq_refl (ratMul c a))
       (ratMul_neg_right_local c b))
 
-private def ratRing : BEDC.Algebra.Rel.RelCommRing Rat RatEq where
-  zero := ratZero
-  one := ratOne
-  add := ratAdd
-  mul := ratMul
-  neg := ratNeg
-  refl := RatEq_refl
-  symm := by
-    intro _ _
-    exact RatEq_symm
-  trans := by
-    intro _ _ _
-    exact RatEq_trans _ _ _
-  add_congr := by
-    intro _ _ _ _ hleft hright
-    exact ratAdd_respects hleft hright
-  mul_congr := by
-    intro _ _ _ _ hleft hright
-    exact ratMul_respects hleft hright
-  neg_congr := by
-    intro _ _ h
-    exact ratNeg_respects h
-  add_assoc := BEDC.Derived.LocatedReal.ratAdd_assoc_local
-  add_comm := ratAdd_comm
-  add_zero := ratAdd_zero_right
-  zero_add := ratZero_add_left
-  add_neg := BEDC.Derived.LocatedReal.ratAdd_neg_local
-  neg_add := BEDC.Derived.LocatedReal.ratNeg_add_local
-  mul_assoc := ratMul_assoc
-  mul_one := ratMul_one_right
-  one_mul := ratOne_mul_left
-  mul_zero := ratMul_zero_right_local
-  zero_mul := ratMul_zero_left_local
-  left_distrib := BEDC.Real.RatNumKernel.ratMul_add_left
-  right_distrib := BEDC.Real.RatNumKernel.ratMul_add_right
-  mul_comm := ratMul_comm
+private abbrev ratRing : BEDC.Algebra.Rel.RelCommRing Rat RatEq :=
+  BEDC.Derived.RHRoute.IntervalMatrixPSD.ratRelCommRing
 
 private theorem ratNeg_pos_of_neg {x : Rat} :
     ratLt x ratZero -> ratLt ratZero (ratNeg x) := by

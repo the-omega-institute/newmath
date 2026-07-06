@@ -1,0 +1,17 @@
+\begin{theorem}[Cauchy-modulus arithmetic bridged route]
+\label{thm:cauchy-modulus-arithmetic-bridged-route}
+Every bridge-facing $\CauchyModulusArithmeticUp$ consumer reads the $\CauchyModulusUp$ source schedules and the $\CauchyModulusMeetUp$ shared-threshold row before it can hand arithmetic data to $\RegularCauchySumUp$ or $\RegularCauchyProductUp$. The route preserves the shared thresholds through the $\DyadicRatCoreUp$ ledger, finite $\StreamNameUp$ windows, $\RegSeqRatUp$ readbacks, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and the local $\NameCert_{\CauchyModulusArithmeticUp}$ row before the $\RealUp$ seal is read. It exports no quotient stream equality, selected limits, host natural-number search, host real equality, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Project the carrier
+$$
+A=(S_0,S_1,\mu_0,\mu_1,\mu_{\wedge},\sigma,\pi,D,W,R,E,H,C,P,N)
+$$
+from \autoref{def:cauchy-modulus-arithmetic-carrier}. The source schedules are $\mu_0,\mu_1$, and the shared-threshold row is $\mu_{\wedge}$.
+
+Apply the scoped route of \autoref{thm:cauchy-modulus-arithmetic-scoped-route}. It already forces every sum, product, or Real-seal consumer through $D,W,R,H,C,P,N$ before an arithmetic handoff is exported.
+
+Now read the two arithmetic consumer rows. The sum row $\sigma$ and product row $\pi$ are downstream of the same $\mu_{\wedge}$ row, so a bridge-facing consumer cannot split the two arithmetic routes into unrelated thresholds.
+
+Finally the Real seal $E$ is read only after the shared-threshold, dyadic-ledger, window, readback, transport, replay, provenance, and local naming rows have been displayed. Since none of the excluded endpoints is a carrier coordinate, the bridged route preserves only the finite arithmetic surface.
+\end{proof}

@@ -187,12 +187,27 @@ The remaining required names are structural rows of that packet. The $\ZNormalUp
 Downstream residual-normalization and candidate-mediated SN consumers, including the parallel-diamond frontier of \autoref{ch:concrete-instances-metacic-parallel-diamond-frontier-namecert}, may read the fuel boundary only after the bounded trace, typed endpoint, timeout refusal, and audit rows are displayed. Thus any scoped consumer must read the listed rows before the fuel boundary can be consumed.
 \end{proof}
 
-\closureat{ReductionFuelBoundaryUp}{scopedStr}
+\begin{theorem}[Reduction fuel boundary public certificate]
+\label{thm:reduction-fuel-boundary-public-certificate}
+The bounded trace row, typed endpoint row, timeout-refusal row, endpoint-separation audit, substrate route, scoped timeout route, and local $\NameCert_{\ReductionFuelBoundaryUp}$ rows form the public certificate exported by $\ReductionFuelBoundaryUp$. Every public consumer of the boundary must read the carrier, obligation package, substrate route, timeout route, and scoped route before using the fuel boundary as a certificate; the export is not an unbounded halting predicate, a global convergence theorem, a quotient endpoint, or a host-substrate equality.
+\end{theorem}
+\leanchecked{BEDC.Derived.ReductionFuelBoundaryUp.ReductionFuelBoundaryPublicCertificate}
+\begin{proof}
+Start with the carrier and obligation package, \autoref{def:reduction-fuel-boundary-carrier} and \autoref{thm:reduction-fuel-boundary-obligation-closure-package}. They expose the total-host row, finite fuel row, bounded trace row, typed endpoint row, timeout-refusal row, endpoint-separation audit, transport, replay, provenance, and local naming rows as one finite packet.
+
+Read the substrate route next. By \autoref{thm:reduction-fuel-boundary-scoped-substrate-route}, every boundary consumer stays inside the displayed carrier fields and the same field-faithful substrate evidence; no independent host-substrate equality is exported.
+
+Then read the timeout route and scoped route, \autoref{thm:reduction-fuel-boundary-scoped-timeout-route} and \autoref{thm:reduction-fuel-boundary-scoped-route}. They force endpoint and timeout consumers through the same bounded trace and audit surface before the boundary row is public.
+
+Thus the public certificate is exactly the finite route through bounded trace, typed endpoint, timeout refusal, endpoint separation, substrate, scoped timeout, and local NameCert rows. The refused endpoints have no carrier coordinate and cannot be reconstructed from the certificate.
+\end{proof}
+
+\closureat{ReductionFuelBoundaryUp}{publicStr}
 
 \begin{closurestatus}{\ReductionFuelBoundaryUp}
   \constructivestory{A $\ReductionFuelBoundaryUp$ packet is generated from a total-host reduction row, finite fuel row, bounded trace row, typed endpoint row, timeout-refusal row, audit row, componentwise hsame transports, displayed Cont routes, package provenance, and a local NameCert row.}
-  \theoryclosure{\scopedClosure}
-  \scopeclosed{\autoref{def:reduction-fuel-boundary-carrier}, \autoref{thm:reduction-fuel-boundary-obligation-closure-package}, \autoref{thm:reduction-fuel-boundary-scoped-substrate-route}, \autoref{thm:reduction-fuel-boundary-scoped-timeout-route}, and \autoref{thm:reduction-fuel-boundary-scoped-route} bind the finite fuel, bounded trace, typed endpoint, timeout refusal, audit, transport, replay, provenance, and local naming rows as the complete scoped route for the boundary packet.}
+  \theoryclosure{\publicClosure}
+  \scopeclosed{\autoref{def:reduction-fuel-boundary-carrier}, \autoref{thm:reduction-fuel-boundary-obligation-closure-package}, \autoref{thm:reduction-fuel-boundary-scoped-substrate-route}, \autoref{thm:reduction-fuel-boundary-scoped-timeout-route}, \autoref{thm:reduction-fuel-boundary-scoped-route}, and \autoref{thm:reduction-fuel-boundary-public-certificate} bind the finite fuel, bounded trace, typed endpoint, timeout refusal, audit, transport, replay, provenance, local naming, and public certificate rows for the boundary packet.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{ai}

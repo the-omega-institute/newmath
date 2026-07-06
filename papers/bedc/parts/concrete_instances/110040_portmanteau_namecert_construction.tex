@@ -2,7 +2,7 @@
 \label{ch:concrete-instances-portmanteau-namecert}
 \origin{human}
 
-Following Billingsley and Prokhorov, the $\PortmanteauUp$ packet records the weak-convergence test surface that becomes visible only after tight probability data have already been exposed. It sits after the probability source of \autoref{ch:concrete-instances-probspace-namecert}, the pushforward distribution row of \autoref{ch:concrete-instances-distribution-namecert}, the event-surface measure row of \autoref{ch:concrete-instances-measure-namecert}, the real comparison boundary of \autoref{ch:concrete-instances-real-namecert}, the tight probability handoff of \autoref{ch:concrete-instances-prokhorov-tight-probability-namecert}, and the compact metric test surface of \autoref{ch:concrete-instances-compactmetric-namecert}. The chapter names a finite BEDC test packet for bounded-continuous probes; it does not assert weak compactness, choose subsequences, use countable choice, export host measures, quotient events, or ambient $\RealUp$ completeness.
+Following Billingsley and Prokhorov, the $\PortmanteauUp$ packet records the weak-convergence test surface that becomes visible only after tight probability data have already been exposed. It sits after the probability source of \autoref{ch:concrete-instances-probspace-namecert}, the pushforward distribution row of \autoref{ch:concrete-instances-distribution-namecert}, the event-surface measure row of \autoref{ch:concrete-instances-measure-namecert}, the real comparison boundary of \autoref{ch:concrete-instances-real-namecert}, the tight probability handoff of \autoref{ch:concrete-instances-prokhorov-tight-probability-namecert}, and the compact metric test surface of \autoref{ch:concrete-instances-compactmetric-namecert}, with probe admission routed through the continuous-map surface of \autoref{ch:concrete-instances-continuousmap-namecert}. The chapter names a finite BEDC test packet for bounded-continuous probes; it does not assert weak compactness, choose subsequences, use countable choice, export host measures, quotient events, or ambient $\RealUp$ completeness.
 
 \begin{definition}[Portmanteau carrier]
 \label{def:portmanteau-carrier}
@@ -22,7 +22,7 @@ with the following displayed rows:
 \item $E$ is the finite endpoint or tolerance ledger that records which bounded-continuous probe and real comparison window are being inspected.
 \item $H$ records componentwise $\hsame$ transport for every displayed row.
 \item $C$ records displayed $\Cont$ replay of source admission, pushforward readback, measure inspection, tightness exposure, bounded-continuous test evaluation, real comparison, and tolerance readback.
-\item $Q$ is the $\Pkg$ provenance over $\PortmanteauUp$, $\ProbSpaceUp$, $\DistributionUp$, $\MeasureUp$, $\ProkhorovTightProbabilityUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $Q$ is the $\Pkg$ provenance over $\PortmanteauUp$, $\ProbSpaceUp$, $\DistributionUp$, $\MeasureUp$, $\ProkhorovTightProbabilityUp$, $\ContinuousMapUp$, $\CompactMetricUp$, $\MetricUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
 \item $N$ is the local $\NameCert_{\PortmanteauUp}$ row.
 \end{enumerate}
 The carrier has no coordinate for weak compactness, selected subsequences, countable choice, host measures, quotient events, or ambient $\RealUp$ completeness.
@@ -51,6 +51,78 @@ The comparison side is real-name data. The row $R$ and tolerance ledger $E$ prov
 
 Since no carrier coordinate stores weak compactness, selected subsequences, countable choice, host measures, quotient events, or ambient $\RealUp$ completeness, the six displayed groups exhaust the local NameCert obligations.
 \end{proof}
+\leanchecked{BEDC.Derived.PortmanteauUp.PortmanteauCarrier\_namecert\_obligations}
+
+\begin{theorem}[ContinuousMap Portmanteau forward link]
+\label{thm:continuousmap-portmanteau-forward-link}
+Every bounded-continuous test row $B$ admitted by an accepted
+$\PortmanteauUp$ carrier $W=(P,D,M,T,B,R,A,E,H,C,Q,N)$ factors through a
+$\ContinuousMapUp$ probe row together with the displayed $\CompactMetricUp$ or
+$\MetricUp$ source surface and the $\RealUp$ comparison rows before any
+weak-convergence test is read. Thus Portmanteau-facing probe admission is a
+finite route through continuous-map, compact-or-metric, and real-comparison
+rows, not a read from a host function space.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:portmanteau-carrier}. The bounded
+continuous probe is stored only as the row $B$, and the provenance row $Q$
+names the continuous-map, compact-or-metric, and real-comparison dependencies
+used to read it.
+
+Apply the bounded-continuous test admission group in
+\autoref{thm:portmanteau-namecert-obligations}. It requires the probe row to be
+read through the displayed compact or metric test surface before the
+Portmanteau test can consume it.
+
+The real comparison group then routes the evaluated probe through $R$ and the
+tolerance ledger $E$. Transport and replay through $A,H,C$ preserve the same
+finite rows.
+
+Therefore the forward link cannot introduce a host function space, quotient
+event surface, selected subsequence, weak compactness theorem, or ambient
+$\RealUp$ completeness coordinate.
+\end{proof}
+\leanchecked{BEDC.Derived.PortmanteauUp.PortmanteauCarrier\_continuousmap\_forward\_link}
+
+\begin{theorem}[Portmanteau tightness-before-testing scope]
+\label{thm:portmanteau-tight-test-scope}
+Every accepted $\PortmanteauUp$ carrier $W=(P,D,M,T,B,R,A,E,H,C,Q,N)$ exposes the tightness handoff row $T$ before the bounded-continuous test row $B$ and the $\RealUp$ comparison row $R$ can be consumed by weak-convergence tests. The accepted test read is therefore a finite route through probability, distribution, measure, tightness, bounded-continuous probe, and real-comparison rows, not a route through weak compactness, selected subsequences, host measures, quotient events, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:portmanteau-carrier}. The tightness coordinate is the row $T$, and the test-facing coordinates $B$ and $R$ occur downstream from it in the displayed packet.
+
+Apply \autoref{thm:portmanteau-namecert-obligations}. Its tightness-before-testing group requires each weak-convergence test read to display $T$ before the bounded-continuous probe is consumed.
+
+Apply \autoref{thm:continuousmap-portmanteau-forward-link} to the probe row. It routes $B$ through the continuous-map, compact-or-metric, and real-comparison surfaces before the Portmanteau test consumes it.
+
+Thus a weak-convergence consumer can read $B$ and $R$ only after tightness has already been exposed. Since no carrier coordinate stores weak compactness, selected subsequences, host measures, quotient events, or ambient Real completeness, the accepted scope is exactly the displayed finite test route.
+\end{proof}
+
+\begin{theorem}[Portmanteau tightness transport]
+\label{thm:portmanteau-tightness-transport}
+Let $W=(P,D,M,T,B,R,A,E,H,C,Q,N)$ be an accepted $\PortmanteauUp$ carrier. Any accepted Portmanteau consumer that preserves the weak-convergence bounded-continuous test read preserves the same $\ProkhorovTightProbabilityUp$ row $T$ through the $\DistributionUp$, $\MeasureUp$, $\ContinuousMapUp$, $\CompactMetricUp$ or $\MetricUp$, and $\RealUp$ comparison rows named by $D,M,B,R,A,E,H,C,Q$. Thus tightness transport across the Portmanteau surface is a route through the displayed finite rows, not a replacement by weak compactness, selected subsequences, quotient events, host measures, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:portmanteau-carrier}. The tightness row is the displayed coordinate $T$, while $D,M,B,R,A,E,H,C,Q$ are the only rows through which distribution, measure, bounded-continuous probe, compact-or-metric source, real comparison, transport, replay, and provenance can be read.
+
+Apply \autoref{thm:portmanteau-namecert-obligations}. Its tightness-before-testing, distribution-and-measure compatibility, and real-comparison groups keep $T$ tied to the same pushforward, event-surface, and real comparison windows.
+
+Apply \autoref{thm:continuousmap-portmanteau-forward-link} and \autoref{thm:portmanteau-tight-test-scope}. The forward link routes $B$ through $\ContinuousMapUp$ with $\CompactMetricUp$ or $\MetricUp$ and $\RealUp$ rows, and the scope theorem requires that this probe route be downstream from $T$. Since no additional carrier coordinate stores weak compactness, selected subsequences, quotient events, host measures, or ambient $\RealUp$ completeness, the same tightness row is transported through the displayed finite surface.
+\end{proof}
+
+\begin{theorem}[Portmanteau RegSeqRat test-window scope]
+\label{thm:portmanteau-regseqrat-test-window-scope}
+Every accepted $\PortmanteauUp$ bounded-continuous test read that compares real-valued test outputs exposes the $\StreamNameUp$ finite observation windows and $\RegSeqRatUp$ readback rows serving the $\RealUp$ comparison row $R$ before the weak-convergence test consumes the bounded-continuous probe $B$. For a carrier $W=(P,D,M,T,B,R,A,E,H,C,Q,N)$, the accepted comparison route is therefore a finite display of tightness, continuous-map probing, StreamName windows, RegSeqRat readbacks, Real comparison, transport, replay, and provenance; it has no coordinate for a host function space, quotient event, selected subsequence, host measure, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:portmanteau-carrier}. The real-valued comparison used by the test is stored only in $R$, with the tolerance ledger $E$ and transport rows $A,H,C,Q$ naming how it is read.
+
+Apply \autoref{thm:portmanteau-namecert-obligations}. Its tightness-before-testing clause forces $T$ to be displayed before $B$, and its real comparison exactness clause forces the comparison to pass through $R$ and $E$ rather than through ambient real completeness.
+
+Apply \autoref{thm:continuousmap-portmanteau-forward-link} and \autoref{thm:portmanteau-tightness-transport}. The probe row reaches the comparison only through the continuous-map route and the preserved tightness row, so the $\StreamNameUp$ windows and $\RegSeqRatUp$ readbacks serving the $\RealUp$ comparison must already be visible before the weak-convergence consumer reads $B$.
+
+Since the carrier has no row for host function spaces, quotient events, selected subsequences, host measures, or ambient $\RealUp$ completeness, the displayed StreamName and RegSeqRat windows exhaust the real-valued test comparison scope.
+\end{proof}
 
 \falsifiablePrediction{Every accepted $\PortmanteauUp$ test read exposes $\ProkhorovTightProbabilityUp$, a bounded-continuous probe row, and a $\RealUp$ comparison row before any weak-convergence consumer can inspect it.}
 
@@ -60,10 +132,10 @@ Since no carrier coordinate stores weak compactness, selected subsequences, coun
 
 \begin{closurestatus}{\PortmanteauUp}
   \constructivestory{A $\PortmanteauUp$ packet is generated from ProbSpaceUp source rows, DistributionUp pushforward rows, MeasureUp event-surface rows, ProkhorovTightProbabilityUp handoff rows, bounded-continuous test rows, RealUp comparison rows, transport, hsame, Cont replay, Pkg provenance, and a local NameCert row.}
-  \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:portmanteau-carrier} and \autoref{thm:portmanteau-namecert-obligations} seed the weak-convergence bounded-continuous test surface after tight probability data have been displayed.}
+  \theoryclosure{\obligationClosure}
+  \scopeclosed{\autoref{def:portmanteau-carrier}, \autoref{thm:portmanteau-namecert-obligations}, \autoref{thm:continuousmap-portmanteau-forward-link}, \autoref{thm:portmanteau-tight-test-scope}, and \autoref{thm:portmanteau-tightness-transport} display the weak-convergence bounded-continuous test obligation surface after tight probability data have been exposed.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{This chapter does not close weak compactness, selected subsequences, countable choice, host measures, quotient events, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
-  \upgradepath{Obligation closure requires checked carrier admission, tightness-before-testing exposure, bounded-continuous test admission, real comparison exactness, distribution and measure compatibility, non-escape, transport, replay, provenance, and local naming for BEDC.Derived.PortmanteauUp.}
+  \upgradepath{Scoped closure requires primitive-scope binding of the displayed obligations to $\BHist$, $\hsame$, $\Cont$, $\Pkg$, $\NameCert$, $\ProbSpaceUp$, $\DistributionUp$, $\MeasureUp$, $\ProkhorovTightProbabilityUp$, $\ContinuousMapUp$, $\CompactMetricUp$ or $\MetricUp$, and $\RealUp$.}
 \end{closurestatus}

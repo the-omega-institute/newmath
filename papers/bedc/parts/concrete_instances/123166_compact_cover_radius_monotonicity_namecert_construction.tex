@@ -1,0 +1,75 @@
+\chapter{A Concrete Naming Certificate for $\CompactCoverRadiusMonotonicityUp$}
+\label{ch:concrete-instances-compact-cover-radius-monotonicity-namecert}
+\origin{human}
+
+Following Bishop and Bridges on constructive compactness, the $\CompactCoverRadiusMonotonicityUp$ packet realizes the finite-cover radius route of \autoref{ch:visions-compact-uniform-continuity} as NameCert data. It sits between compact finite-cover rows, metric distance rows, rational radius comparisons, uniform-modulus consumers, stream windows, and regular rational readback. The packet records monotone cover-refinement data for displayed finite covers; it does not assert open-cover compactness, selected Lebesgue-number choice, quotient equality of covers, countable choice, or ambient compactness.
+
+The radius-refinement packet consumes the compact finite-cover row of \autoref{ch:concrete-instances-compactmetric-namecert}, the metric-distance row of \autoref{ch:concrete-instances-metric-namecert}, the rational-radius row of \autoref{ch:concrete-instances-rat-namecert}, and the finite-window readback route of \autoref{ch:concrete-instances-streamname-namecert} and \autoref{ch:concrete-instances-regseqrat-namecert} before any $\UniformModulusUp$ consumer reads the monotonicity row.
+
+\begin{definition}[Compact cover radius monotonicity carrier]
+\label{def:compact-cover-radius-monotonicity-carrier}
+A $\CompactCoverRadiusMonotonicityUp$ carrier is a finite $\BHist$ packet
+$$
+K=(C,M,Q,U,W,G,H,T,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $C$ is the $\CompactUp$ finite-cover row, recording the displayed cover, bundled centers, and finite refinement witness.
+\item $M$ is the $\MetricSpaceUp$ distance row used to compare cover radii and refinement windows.
+\item $Q$ is the $\RatUp$ positive-radius row, recording the source radius and the proposed smaller radius as rational NameCert data.
+\item $U$ is the $\UniformModulusUp$ consumer handoff row that may read the refined radius only after $C,M,Q$ have been displayed.
+\item $W$ is the $\StreamNameUp$ window row for finite cover and consumer-read replay.
+\item $G$ is the $\RegSeqRatUp$ readback row for regular rational comparisons of the displayed radii.
+\item $H$ records componentwise $\hsame$ transport for the compact-cover, metric, radius, uniform-modulus, stream, readback, replay, provenance, and naming rows.
+\item $T$ records displayed $\Cont$ replay from a refinement request through $C,M,Q,U,W,G,H,P,N$.
+\item $P$ is the $\Pkg$ provenance over $\CompactCoverRadiusMonotonicityUp$, $\CompactUp$, $\MetricSpaceUp$, $\RatUp$, $\UniformModulusUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\CompactCoverRadiusMonotonicityUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $C,M,Q,U,W,G,H,T,P,N$. It has no coordinate for arbitrary open-cover compactness, selected Lebesgue numbers, quotient cover equality, countable choice, or ambient compactness.
+\end{definition}
+
+\begin{theorem}[Compact cover radius monotonicity obligations]
+\label{thm:compact-cover-radius-monotonicity-obligations}
+For every accepted $\CompactCoverRadiusMonotonicityUp$ carrier
+$$
+K=(C,M,Q,U,W,G,H,T,P,N),
+$$
+the local $\NameCert_{\CompactCoverRadiusMonotonicityUp}$ surface consists exactly of compact finite-cover admission, metric-distance exposure, rational radius comparison, uniform-modulus handoff discipline, StreamName window replay, RegSeqRat readback, componentwise transport, displayed continuation, provenance, and local naming. A radius shrinkage or refinement read is monotone only through the displayed finite cover rows $C$, metric rows $M$, rational radius rows $Q$, and readback rows $W,G$ before $U,H,T,P,N$ may export it.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:compact-cover-radius-monotonicity-carrier}. The compact finite-cover row $C$, metric row $M$, rational-radius row $Q$, stream window $W$, and regular readback row $G$ are the only source rows for a refinement comparison.
+
+The uniform-modulus consumer row $U$ is downstream of those rows. It may read the smaller radius only after the finite cover and rational comparison have been displayed.
+
+Componentwise transport $H$, continuation replay $T$, provenance $P$, and local naming $N$ preserve the same finite route under classifier-stable comparison.
+
+Because arbitrary open-cover compactness, selected Lebesgue numbers, quotient cover equality, countable choice, and ambient compactness have no carrier coordinates, the stated rows exhaust the monotonicity obligations.
+\end{proof}
+
+\begin{theorem}[Compact cover radius monotonicity consumer handoff]
+\label{thm:compact-cover-radius-monotonicity-consumer-handoff}
+Every $\UniformModulusUp$ consumer of an accepted $\CompactCoverRadiusMonotonicityUp$ packet receives radius shrinkage and cover refinement only through
+$$
+C,M,Q,W,G,U,H,T,P,N.
+$$
+The handoff is a finite NameCert route through compact cover, metric distance, RatUp radius, StreamName window, RegSeqRat readback, transport, replay, provenance, and local naming rows. It cannot be read as open-cover compactness, selected Lebesgue-number choice, quotient equality of covers, countable choice, or ambient compactness.
+\end{theorem}
+\begin{proof}
+Start with \autoref{thm:compact-cover-radius-monotonicity-obligations}. It places every accepted monotonicity read on the finite route $C,M,Q,W,G,U,H,T,P,N$.
+
+The source side is finite. The compact row $C$ supplies the displayed cover and refinement witness, the metric row $M$ supplies the distance comparison, and the rational rows $Q,W,G$ supply the radius readback.
+
+The consumer side is forced through $U$ and the support rows $H,T,P,N$. These rows can transport, replay, package, and name the displayed refinement, but they cannot introduce an open-cover oracle or a chosen Lebesgue number.
+
+Thus a $\UniformModulusUp$ consumer receives exactly the finite radius-monotonicity packet and none of the excluded host compactness or choice data.
+\end{proof}
+
+\begin{closurestatus}{\CompactCoverRadiusMonotonicityUp}
+  \constructivestory{A $\CompactCoverRadiusMonotonicityUp$ packet is generated from Compact finite-cover rows, MetricSpace distance rows, RatUp radius comparisons, UniformModulus handoff rows, StreamName windows, RegSeqRat readbacks, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:compact-cover-radius-monotonicity-carrier}, \autoref{thm:compact-cover-radius-monotonicity-obligations}, and \autoref{thm:compact-cover-radius-monotonicity-consumer-handoff} seed the finite cover-radius monotonicity packet for compact-uniform-modulus consumers.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim arbitrary open-cover compactness, selected Lebesgue-number choice, quotient cover equality, countable choice, ambient compactness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, compact-cover exposure, metric-distance exposure, rational radius comparison, uniform-modulus handoff, transport, replay, provenance, and nonescape for BEDC.Derived.CompactCoverRadiusMonotonicityUp.}
+\end{closurestatus}

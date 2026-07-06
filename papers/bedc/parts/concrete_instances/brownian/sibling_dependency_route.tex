@@ -1,1 +1,15 @@
 The Brownian process packet consumes \autoref{ch:concrete-instances-martingale-namecert}, \autoref{ch:concrete-instances-probspace-namecert}, and \autoref{ch:concrete-instances-continuousmap-namecert} before its finite time row, Gaussian-step row, path-continuity row, provenance row, and transport rows are readable. The finite-prefix consumer \autoref{thm:brownian-finite-prefix-carrier-restriction}, the finite-suffix consumer \autoref{thm:brownian-finite-suffix-carrier-restriction}, and the combined boundary \autoref{thm:brownian-finite-prefix-suffix-bridge-boundary} name the exposed restriction surface for martingale, probspace, and continuousmap siblings; the route refuses a host probability space, chosen sample paths, and ambient path equality.
+
+\begin{theorem}[Brownian finite prefix and suffix dependency ledger]
+\label{thm:brownian-finite-prefix-suffix-dependency-ledger}
+Every accepted $\BrownianUp$ finite-prefix or finite-suffix restriction must first read the $\MartingaleUp$, $\ProbSpaceUp$, and $\ContinuousMapUp$ sibling surfaces, and only then read the finite time row, Gaussian-step row, path-continuity row, provenance row, and transport rows. Induction over the displayed finite prefix or finite suffix preserves exactly those dependency rows and refuses host probability spaces, selected sample paths, and ambient path equality.
+\end{theorem}
+\begin{proof}
+Start with the sibling route in this file. It identifies the $\MartingaleUp$, $\ProbSpaceUp$, and $\ContinuousMapUp$ surfaces as the required dependency rows before any Brownian restriction row is public.
+
+Apply \autoref{thm:brownian-finite-prefix-carrier-restriction} to a finite prefix. Its induction reads the finite time row, Gaussian-step row, path-continuity row, provenance row, and transport rows over the displayed prefix, while preserving the same three sibling surfaces.
+
+Apply \autoref{thm:brownian-finite-suffix-carrier-restriction} to a finite suffix. The suffix induction has the same dependency ledger and does not add a host probability space, a selected sample path, or ambient path equality.
+
+Finally use \autoref{thm:brownian-finite-prefix-suffix-bridge-boundary}. It compares the two finite windows only through their displayed restriction surfaces, so the combined ledger is exactly the sibling surfaces followed by the finite Brownian rows.
+\end{proof}

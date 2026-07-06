@@ -70,13 +70,79 @@ Apply the seal-boundary theorem \autoref{thm:rational-embedding-real-seal-bounda
 
 Therefore the finite readback seen by $D$ is exactly the stationary row $R$ generated from $S$ and $q$. No quotient stream, selected limit, host real equality, or ambient completeness coordinate can alter that readback before the seal is reached.
 \end{proof}
+\leanchecked{BEDC.Derived.RationalEmbeddingUp.RationalEmbeddingStationaryReadbackExactness}
+
+\begin{theorem}[RationalEmbedding NameCert obligations]
+\label{thm:rational-embedding-namecert-obligations}
+For every accepted $\RationalEmbeddingUp$ carrier
+$$
+K=(q,S,R,D,E,H,C,P,N),
+$$
+the local $\NameCert_{\RationalEmbeddingUp}$ obligations are exactly carrier admission, $\RatUp$ source exposure, constant $\StreamNameUp$ scheduling, stationary $\RegSeqRatUp$ readback, $\DyadicRatCoreUp$ observation, terminal $\RealUp$ seal factorization, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and the local naming row $N$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:rational-embedding-carrier-surface}. Its displayed rows are precisely $q,S,R,D,E,H,C,P,N$, so every local obligation must be read from that finite packet.
+
+Use \autoref{thm:rational-embedding-constant-sequence-route} to identify the constant schedule and stationary readback obligations, then use \autoref{thm:rational-embedding-real-seal-boundary} to place the dyadic observation row and real seal behind the same route.
+
+The rows $H,C,P,N$ supply transport, replay, provenance, and naming for no additional mathematical object. Hence the listed obligations exhaust the local NameCert surface.
+\end{proof}
+\leanchecked{BEDC.Derived.RationalEmbeddingUp.RationalEmbeddingNameCertObligations}
+
+\begin{theorem}[RationalEmbedding StreamName scope]
+\label{thm:rational-embedding-streamname-scope}
+Every $\StreamNameUp$ read inside an accepted $\RationalEmbeddingUp$ carrier is the constant finite-window schedule sourced by the displayed $\RatUp$ row $q$. It cannot be consumed as a free stream, quotient stream, selected Cauchy representative, or independently varying regular-rational sequence.
+\end{theorem}
+\begin{proof}
+Read the schedule coordinate $S$ in \autoref{def:rational-embedding-carrier-surface}. The carrier describes $S$ as the constant $\StreamNameUp$ schedule whose admitted windows all read $q$.
+
+Apply \autoref{thm:rational-embedding-stationary-readback-exactness}. It forces the $\RegSeqRatUp$ row $R$ to be the stationary readback of $S$, with the dyadic row $D$ allowed to inspect only that stationary row before the real seal is exposed.
+
+Since no carrier coordinate stores a free stream, quotient stream, selected representative, or independent regular sequence, every StreamName read remains inside the displayed constant schedule scope.
+\end{proof}
+\leanchecked{BEDC.Derived.RationalEmbeddingUp.RationalEmbeddingStreamNameScope}
+
+\begin{theorem}[RationalEmbedding nonescape]
+\label{thm:rational-embedding-nonescape}
+Every accepted $\RationalEmbeddingUp$ consumer that reaches the $\RealUp$ seal remains on the finite route
+$$
+q,S,R,D,E,H,C,P,N.
+$$
+It exports no quotient stream equality, selected host limit, trichotomy, host rational equality oracle, arbitrary Cauchy-name completeness, or ambient $\RealUp$ equality principle.
+\end{theorem}
+\begin{proof}
+Begin with \autoref{thm:rational-embedding-real-seal-boundary}. It factors the seal through the rational source, constant schedule, stationary readback, dyadic observation row, transport, continuation, provenance, and local naming rows.
+
+Next use \autoref{thm:rational-embedding-streamname-scope}. This prevents the stream coordinate from becoming a free Cauchy name or detached representative before the seal is read.
+
+The carrier definition contains no row for quotient equality, selected limits, trichotomy, host rational equality as an oracle, completeness for arbitrary names, or ambient real equality. Therefore the real-facing consumer cannot escape the finite rational-constant route.
+\end{proof}
+\leanchecked{BEDC.Derived.RationalEmbeddingUp.RationalEmbeddingNonescape}
+
+\begin{theorem}[RationalEmbedding scoped dependency spine]
+\label{thm:rational-embedding-scoped-dependency-spine}
+Every accepted $\RationalEmbeddingUp$ read that reaches the rational-constant real seal factors through exactly the scoped dependency spine
+$$
+\RatUp \longrightarrow \StreamNameUp \longrightarrow \RegSeqRatUp \longrightarrow \DyadicRatCoreUp \longrightarrow \RealUp
+$$
+together with the structural rows $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and the local $\NameCert_{\RationalEmbeddingUp}$ rows. The read may inspect the carrier coordinates $q,S,R,D,E,H,C,P,N$ only along this order. It has no alternate path through quotient streams, selected host limits, trichotomy, arbitrary real completeness, host rational equality as an oracle, or ambient $\RealUp$ equality.
+\end{theorem}
+\begin{proof}
+Project the carrier surface of \autoref{def:rational-embedding-carrier-surface}. The displayed rows already order the rational source, constant schedule, stationary readback, dyadic observation, real seal, transport, replay, provenance, and local naming coordinates.
+
+Apply the constant-sequence route of \autoref{thm:rational-embedding-constant-sequence-route}. It forces the $\RatUp$ row $q$ to be read before the $\StreamNameUp$ schedule $S$, and it forces $S$ to be read before the stationary $\RegSeqRatUp$ row $R$.
+
+Next use stationary readback exactness and the RealUp seal boundary, \autoref{thm:rational-embedding-stationary-readback-exactness} and \autoref{thm:rational-embedding-real-seal-boundary}. These place the $\DyadicRatCoreUp$ row $D$ after the stationary readback and place the $\RealUp$ seal $E$ after the dyadic observation row.
+
+Finally use the StreamName scope and nonescape theorems, \autoref{thm:rational-embedding-streamname-scope} and \autoref{thm:rational-embedding-nonescape}. They keep the stream coordinate constant and keep every real-facing consumer on $q,S,R,D,E,H,C,P,N$, so the only remaining rows are the structural $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert$ coordinates of the same finite packet.
+\end{proof}
 
 \begin{closurestatus}{\RationalEmbeddingUp}
   \constructivestory{A $\RationalEmbeddingUp$ packet is generated from a RatUp source row, constant StreamName schedule, stationary RegSeqRat readback, DyadicRatCore tolerance and observation row, RealUp seal, componentwise transports, continuation routes, package provenance, and local naming.}
-  \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:rational-embedding-carrier-surface}, \autoref{thm:rational-embedding-constant-sequence-route}, and \autoref{thm:rational-embedding-real-seal-boundary} seed the finite rational-constant embedding route from $\RatUp$ to $\RealUp$.}
+  \theoryclosure{\obligationClosure}
+  \scopeclosed{\autoref{def:rational-embedding-carrier-surface}, \autoref{thm:rational-embedding-constant-sequence-route}, \autoref{thm:rational-embedding-real-seal-boundary}, \autoref{thm:rational-embedding-stationary-readback-exactness}, \autoref{thm:rational-embedding-namecert-obligations}, \autoref{thm:rational-embedding-streamname-scope}, \autoref{thm:rational-embedding-nonescape}, and \autoref{thm:rational-embedding-scoped-dependency-spine} bind the finite rational-constant embedding route from $\RatUp$ through $\StreamNameUp$, $\RegSeqRatUp$, and $\DyadicRatCoreUp$ to $\RealUp$.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
-  \notclaimed{This chapter does not close Real completeness, quotient-stream equality, selected host limits, host rational equality as an oracle, trichotomy, or a checked Lean certificate.}
-  \upgradepath{Obligation closure requires checked carrier admission, constant StreamName routing, stationary RegSeqRat readback, DyadicRatCore observation exactness, RealUp seal factorization, and non-escape.}
+  \notclaimed{This chapter does not close Real completeness, quotient-stream equality, selected host limits, host rational equality as an oracle, trichotomy, scoped closure, public closure, or a checked Lean certificate.}
+  \upgradepath{Scoped closure requires checked dependency rows for constant StreamName routing, stationary RegSeqRat readback, DyadicRatCore observation exactness, RealUp seal factorization, and non-escape.}
 \end{closurestatus}

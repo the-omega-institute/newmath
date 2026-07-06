@@ -1,0 +1,77 @@
+\chapter{A Concrete Naming Certificate for $\ConstructiveIVPUp$}
+\label{ch:concrete-instances-constructive-ivp-namecert}
+\origin{human}
+
+Following Bishop and Bridges on constructive analysis and standard initial-value problem schemes, the $\ConstructiveIVPUp$ packet records the finite route by which an initial-value problem is read through explicit mesh data, rational moduli, residual bounds, and a regular-Cauchy seal. It sits over the initial-data surface of \autoref{ch:concrete-instances-initial-value-problem-namecert}, the metric source of \autoref{ch:concrete-instances-metric-space-namecert}, the explicit finite-step route of \autoref{ch:concrete-instances-euler-method-finite-step-namecert}, the bisection-to-Cauchy handoff of \autoref{ch:concrete-instances-bisection-cauchy-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. The packet names only displayed finite means; it does not assert classical Peano existence, arbitrary solution choice, quotient equality of paths, global uniqueness, or ambient completeness outside the shown rows.
+
+\begin{definition}[Constructive IVP carrier]
+\label{def:constructive-ivp-carrier}
+A $\ConstructiveIVPUp$ carrier is a finite $\BHist$ packet
+$$
+I=(A,M,E,B,R,S,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $A$ is the $\InitialValueProblemUp$ row containing the displayed initial state, interval window, vector-field source, and local reading boundary.
+\item $M$ is the finite mesh row: it names the inspected time nodes, step sizes, endpoint cells, and the explicit unary depth at which the approximation is read.
+\item $E$ is the $\EulerMethodFiniteStepUp$ row supplying the finite forward-step ledger over the mesh.
+\item $B$ is the $\BisectionCauchyUp$ row supplying the interval-retention and diameter-control route used to turn residual signs and mesh refinements into a regular Cauchy read.
+\item $R$ is the residual-bound row: it displays rational upper bounds for one-step error, vector-field variation on each mesh cell, and the remaining tolerance budget.
+\item $S$ is the $\RegSeqRatUp$ seal row that records the resulting regular Cauchy rational name before any $\RealUp$ consumer reads it.
+\item $H$ records componentwise $\hsame$ transport for the initial-data, mesh, Euler-step, bisection-Cauchy, residual, regular-Cauchy, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay through initial data, mesh refinement, Euler stepping, bisection retention, residual checking, regular-Cauchy readback, provenance, and local naming.
+\item $P$ records $\Pkg$ provenance over $\ConstructiveIVPUp$, $\InitialValueProblemUp$, $\MetricSpaceUp$, $\EulerMethodFiniteStepUp$, $\BisectionCauchyUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\ConstructiveIVPUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $A,M,E,B,R,S,H,C,P,N$. It has no coordinate for a Peano existence theorem, arbitrary choice of a solution curve, global uniqueness, a quotient path equality, or an ambient complete-function-space object.
+\end{definition}
+\leanchecked{BEDC.Derived.ConstructiveIVPUp.ConstructiveIVPTasteGate\_single\_carrier\_alignment}
+
+\begin{theorem}[Constructive IVP NameCert obligations]
+\label{thm:constructive-ivp-namecert-obligations}
+For every accepted $\ConstructiveIVPUp$ carrier
+$$
+I=(A,M,E,B,R,S,H,C,P,N),
+$$
+the local $\NameCert_{\ConstructiveIVPUp}$ surface consists exactly of carrier admission for the initial-value row, finite mesh row, Euler finite-step ledger, bisection-Cauchy handoff, residual-bound row, regular-Cauchy seal, componentwise transport, displayed replay, package provenance, and local naming. A consumer may cite the constructive IVP route only after those rows have been displayed in the same finite packet.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:constructive-ivp-carrier}. Its analytic rows are precisely $A,M,E,B,R,S$, followed by the structural rows $H,C,P,N$.
+
+The initial-value row $A$ names the local problem before any approximation is read. The mesh row $M$ fixes the finite inspection window, and the Euler row $E$ records the forward-step ledger on that same window.
+
+The bisection-Cauchy row $B$ and residual row $R$ then supply the interval retention, diameter control, one-step error bounds, and remaining tolerance budget. The regular-Cauchy row $S$ is reached only after those finite rows have been displayed.
+
+Since the carrier has no coordinate for classical Peano existence, arbitrary choice, quotient path equality, global uniqueness, or ambient completeness, none of those claims belongs to the local certificate.
+\end{proof}
+
+\begin{theorem}[Constructive IVP bisection regular-Cauchy route]
+\label{thm:constructive-ivp-bisection-regular-cauchy-route}
+Every Real-facing read of an accepted $\ConstructiveIVPUp$ packet factors through the displayed route
+$$
+\InitialValueProblemUp \longmapsto \EulerMethodFiniteStepUp \longmapsto \BisectionCauchyUp \longmapsto \RegSeqRatUp \longmapsto \RealUp .
+$$
+The route may use the finite mesh, explicit modulus, residual bounds, interval retention, and regular-Cauchy seal, but it exports no classical Peano existence theorem, arbitrary solution selector, quotient equality of curves, global uniqueness theorem, or ambient completeness principle.
+\end{theorem}
+\begin{proof}
+Start with the NameCert obligations of \autoref{thm:constructive-ivp-namecert-obligations}. They force the initial-value row, mesh row, Euler-step row, bisection-Cauchy row, residual row, and regular-Cauchy row to appear in one packet before a Real-facing consumer can read the result.
+
+The Euler row supplies only finite forward-step data on the displayed mesh. It is therefore insufficient by itself to name a completed solution curve.
+
+The bisection-Cauchy and residual rows provide the constructive seal: interval retention, diameter control, and rational residual budgets produce the regular-Cauchy readback row $S$.
+
+Finally the Real-facing consumer reads through $S,H,C,P,N$. These rows transport, replay, source, and name the same finite route; none adds a hidden solution selector or a classical existence theorem.
+\end{proof}
+\leanchecked{BEDC.Derived.ConstructiveIVPUp.ConstructiveIVPCarrier\_bisection\_regular\_cauchy\_route}
+
+\closureat{ConstructiveIVPUp}{seedStr}
+
+\begin{closurestatus}{\ConstructiveIVPUp}
+  \constructivestory{A $\ConstructiveIVPUp$ packet is generated from an InitialValueProblem row, a finite mesh, an Euler finite-step ledger, a bisection-Cauchy handoff, residual-bound rows, a RegSeqRat seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:constructive-ivp-carrier}, \autoref{thm:constructive-ivp-namecert-obligations}, and \autoref{thm:constructive-ivp-bisection-regular-cauchy-route} seed the finite constructive IVP route through mesh, Euler-step, bisection-Cauchy, residual-bound, regular-Cauchy, and Real-seal rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close classical Peano existence, arbitrary solution choice, global uniqueness, quotient equality of curves, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, finite mesh exposure, Euler-step compatibility, bisection-Cauchy retention, residual-bound exactness, regular-Cauchy sealing, transport, replay, provenance, and local naming.}
+\end{closurestatus}

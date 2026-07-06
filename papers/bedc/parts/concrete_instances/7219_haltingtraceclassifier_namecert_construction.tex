@@ -36,11 +36,13 @@ The continuation routes in $C$ replay that trace from the initial history row to
 
 The package and local naming rows $P,N$ expose no second trace source. Hence every accepted positive halting classification factors through the finite $\Cont$ trace $F$ rather than through an ambient decision procedure.
 \end{proof}
+\leanchecked{BEDC.Derived.HaltingTraceClassifierUp.HaltingTraceClassifier\_positive\_trace\_soundness}
 
 \begin{theorem}[Halting trace-classifier diagonal refusal]
 \label{thm:halting-trace-classifier-diagonal-refusal}
 The diagonal row $D$ of an accepted $\HaltingTraceClassifierUp$ packet refuses any request to turn the positive trace classifier into a total halting classifier. In particular, an absent displayed trace cannot be read as divergence, non-termination, or a negative halting verdict.
 \end{theorem}
+\leanchecked{BEDC.Derived.HaltingTraceClassifierUp.HaltingTraceClassifier\_diagonal\_refusal}
 \begin{proof}
 Read the refusal coordinate $D$ from the carrier. It is paired with the positive classifier row $R$ to state exactly where the packet stops: $R$ accepts displayed finite traces, while $D$ rejects requests that ask for a verdict outside those traces.
 
@@ -60,6 +62,7 @@ Apply positive trace soundness to any accepted positive read. The read must use 
 
 The provenance and local naming rows $P,N$ only account for these displayed rows. They do not add unbounded search, divergence, or totality data, so no consumer can escape from the finite positive-trace and refusal surface.
 \end{proof}
+\leanchecked{BEDC.Derived.HaltingTraceClassifierUp.HaltingTraceClassifier\_non\_escape}
 
 \begin{theorem}[Halting trace-classifier NameCert obligations]
 \label{thm:halting-trace-classifier-namecert-obligations}
@@ -84,6 +87,23 @@ Transport stability follows from the componentwise role of $H$. Replay and ledge
 
 Nontriviality rules out identifying a positive trace row with the diagonal refusal row. Field faithfulness requires the TasteGate implementation to preserve $M,h,F,R,D,H,C,P,N$, so a future gate cannot discharge the packet by forgetting either the finite trace evidence or the refusal boundary.
 \end{proof}
+
+\begin{theorem}[Halting trace-classifier obligation closure]
+\label{thm:halting-trace-classifier-obligation-closure}
+The five obligations of \autoref{thm:halting-trace-classifier-namecert-obligations} form an obligation-closure surface for $\HaltingTraceClassifierUp$: carrier exposure, finite positive trace soundness, diagonal refusal, componentwise $\hsame$ transport, and replay, provenance, and local naming exactness are jointly sufficient to expose the finite trace/refusal packet as a local NameCert object. The surface does not add total halting, divergence classification, unbounded search, or any verdict outside the displayed trace row $F$.
+\end{theorem}
+\begin{proof}
+Carrier exposure is the projection of \autoref{def:halting-trace-classifier-carrier}. It displays $M,h,F,R,D,H,C,P,N$ as the whole packet, so every later obligation has a named coordinate.
+
+Finite positive trace soundness is supplied by \autoref{thm:halting-trace-classifier-positive-trace-soundness}, and diagonal refusal is supplied by \autoref{thm:halting-trace-classifier-diagonal-refusal}. Together they separate the accepted finite $\Cont$ trace from every request for a total or negative classifier.
+
+Componentwise transport is the role of $H$ in the carrier and in the NameCert obligation list. It keeps the machine row, initial history, trace, classifier, refusal, provenance, and local name attached to one packet under $\hsame$ movement.
+
+Replay, provenance, and local naming exactness are the rows $C,P,N$. They replay the displayed trace route, source it to the listed sibling packets, and expose only the local $\NameCert_{\HaltingTraceClassifierUp}$ row.
+
+Since the carrier has no coordinate for total halting, divergence, unbounded search, or a verdict outside $F$, composing these five obligations closes exactly the finite trace/refusal surface and nothing stronger.
+\end{proof}
+\leanchecked{BEDC.Derived.HaltingTraceClassifierUp.HaltingTraceClassifier\_obligation\_closure}
 
 \falsifiablePrediction{Every accepted HaltingTraceClassifierUp positive read factors through a displayed finite Cont trace and cannot decide divergence outside that trace.}
 

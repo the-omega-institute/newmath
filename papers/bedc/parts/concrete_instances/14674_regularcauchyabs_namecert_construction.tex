@@ -109,10 +109,42 @@ Therefore a public consumer can reuse the packet only through $X,W,D,V,R,E,H,C,P
 \end{proof}
 \leanchecked{BEDC.Derived.RegularCauchyAbsUp.RegularCauchyAbsCarrier\_public\_export\_surface}
 
+\begin{theorem}[RegularCauchyAbs bridge boundary reader]
+\label{thm:regular-cauchy-abs-bridge-boundary-reader}
+Any bridge-facing consumer of the public $\RegularCauchyAbsUp$ route must read the displayed packet through
+$$
+X,W,D,V,R,E,H,C,P,N
+$$
+and through the public export surface of \autoref{thm:regular-cauchy-abs-public-export-surface}. The consumer receives the RegSeqRat source row, scheduled StreamName windows, DyadicRatCore endpoint observations, DyadicAbsoluteValue tolerance rows, RegSeqRat handoff, Real seal, transport, replay, provenance, and local NameCert, but receives no host absolute value, trichotomy, quotient stream, selected limit, or ambient completeness principle.
+\end{theorem}
+\begin{proof}
+Project the carrier and then apply the public export surface. The only bridge-facing rows exposed by that surface are $X,W,D,V,R,E,H,C,P,N$, so every reader passes through the same finite absolute-value route.
+
+The non-escape boundary of \autoref{thm:regular-cauchy-abs-non-escape} rules out each unlisted analytic object. Since host absolute value, trichotomy, quotient streams, selected limits, and ambient completeness have no carrier coordinate and no public export row, a bridge-facing consumer cannot recover them from the packet.
+\end{proof}
+\leanchecked{BEDC.Derived.RegularCauchyAbsUp.RegularCauchyAbsCarrier\_bridge\_boundary\_reader}
+
+\begin{theorem}[RegularCauchyAbs mature treatment]
+\label{thm:regular-cauchy-abs-mature-treatment}
+Every accepted $\RegularCauchyAbsUp$ packet that consumes the $\DyadicAbsoluteValueUp$ endpoint-and-tolerance route, $\StreamNameUp$ windows, $\RegSeqRatUp$ handoff, $\RealUp$ seal boundary, public export rows, and nonescape rows yields a mature consumer surface for absolute-value reads on regular Cauchy names. The mature surface exports exactly the rows
+$$
+X,W,D,V,R,E,H,C,P,N
+$$
+and still refuses real trichotomy, quotient-stream equality, selected limits, ambient completeness, and host real absolute value.
+\end{theorem}
+\begin{proof}
+Begin with the carrier of \autoref{def:regular-cauchy-abs-carrier}. Its source row $X$ is inspected only through $\StreamNameUp$ windows $W$, and the displayed endpoint rows $D$ are the only inputs passed to the $\DyadicAbsoluteValueUp$ tolerance rows $V$.
+
+Use \autoref{thm:regular-cauchy-abs-regseqrat-handoff} to assemble the $\RegSeqRatUp$ readback row $R$, then use \autoref{thm:regular-cauchy-abs-real-seal-boundary} to expose the $\RealUp$ seal row $E$ only after that finite handoff. The public export surface of \autoref{thm:regular-cauchy-abs-public-export-surface} and the bridge-boundary reader of \autoref{thm:regular-cauchy-abs-bridge-boundary-reader} make the same route available to consumers.
+
+Finally apply \autoref{thm:regular-cauchy-abs-non-escape}. Since the sibling rows $\DyadicAbsoluteValueUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$ are consumed only through the displayed carrier route, the mature surface has no coordinate for trichotomy, quotient-stream equality, selected limits, ambient completeness, or host real absolute value.
+\end{proof}
+\leanchecked{BEDC.Derived.RegularCauchyAbsUp.RegularCauchyAbsCarrier\_mature\_treatment}
+
 \begin{closurestatus}{\RegularCauchyAbsUp}
   \constructivestory{A $\RegularCauchyAbsUp$ packet is generated from one RegSeqRat source row, scheduled StreamName windows, DyadicRatCore endpoint observations, DyadicAbsoluteValue endpoint-and-tolerance rows, a RegSeqRat readback row, a RealUp seal row, componentwise transport, continuation replay, package provenance, and local naming.}
-  \theoryclosure{\publicClosure}
-  \scopeclosed{\autoref{def:regular-cauchy-abs-carrier}, \autoref{thm:regular-cauchy-abs-namecert-obligations}, \autoref{thm:regular-cauchy-abs-regseqrat-handoff}, \autoref{thm:regular-cauchy-abs-real-seal-boundary}, \autoref{thm:regular-cauchy-abs-non-escape}, \autoref{thm:regularcauchyabs-obligation-closure}, and \autoref{thm:regular-cauchy-abs-public-export-surface} close the public finite absolute-value route through carrier admission, NameCert obligations, RegSeqRat handoff, Real seal boundary, nonescape, obligation closure, and the public export surface.}
+  \theoryclosure{\matureClosure}
+  \scopeclosed{\autoref{def:regular-cauchy-abs-carrier}, \autoref{thm:regular-cauchy-abs-namecert-obligations}, \autoref{thm:regular-cauchy-abs-regseqrat-handoff}, \autoref{thm:regular-cauchy-abs-real-seal-boundary}, \autoref{thm:regular-cauchy-abs-non-escape}, \autoref{thm:regularcauchyabs-obligation-closure}, \autoref{thm:regular-cauchy-abs-public-export-surface}, \autoref{thm:regular-cauchy-abs-bridge-boundary-reader}, and \autoref{thm:regular-cauchy-abs-mature-treatment} close the mature finite absolute-value route through carrier admission, NameCert obligations, RegSeqRat handoff, Real seal boundary, nonescape, obligation closure, public export, bridge-boundary reading, and mature consumer treatment.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{This chapter does not close Lean verification, trichotomy, quotient-stream equality, host real absolute value, selected limits, ambient completeness, or a public standard bridge.}

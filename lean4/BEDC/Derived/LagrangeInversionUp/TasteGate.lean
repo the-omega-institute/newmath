@@ -1,11 +1,21 @@
+import BEDC.FKernel.Cont
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
+import BEDC.FKernel.NameCert
+import BEDC.FKernel.Package
+import BEDC.FKernel.Unary
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.LagrangeInversionUp
 
+open BEDC.FKernel.Ask
+open BEDC.FKernel.Bundle
+open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
+open BEDC.FKernel.NameCert
+open BEDC.FKernel.Package
+open BEDC.FKernel.Unary
 open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
@@ -142,5 +152,97 @@ theorem LagrangeInversionTasteGate_single_carrier_alignment :
       LagrangeInversionTasteGate_single_carrier_alignment_round_trip,
       (fun _ _ heq => lagrangeInversionToEventFlow_injective heq),
       rfl⟩
+
+theorem LagrangeInversionNameCertObligations [AskSetup] [PackageSetup]
+    {c J a1 R B Q E H C P N coeffRead outputRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    UnaryHistory c ->
+      UnaryHistory J ->
+        UnaryHistory a1 ->
+          UnaryHistory R ->
+            UnaryHistory B ->
+              UnaryHistory Q ->
+                UnaryHistory E ->
+                  Cont c J coeffRead ->
+                    Cont coeffRead a1 R ->
+                      Cont R B Q ->
+                        Cont Q E outputRead ->
+                          PkgSig bundle P pkg ->
+                            PkgSig bundle outputRead pkg ->
+                              SemanticNameCert
+                                  (fun row : BHist => hsame row outputRead ∧ UnaryHistory row)
+                                  (fun row : BHist =>
+                                    hsame row c ∨ hsame row J ∨ hsame row a1 ∨
+                                      hsame row R ∨ hsame row B ∨ hsame row Q ∨
+                                        hsame row E ∨ hsame row H ∨ hsame row C ∨
+                                          hsame row P ∨ hsame row N ∨ hsame row coeffRead ∨
+                                            hsame row outputRead)
+                                  (fun row : BHist =>
+                                    UnaryHistory row ∧ Cont c J coeffRead ∧
+                                      Cont coeffRead a1 R ∧ Cont R B Q ∧
+                                        Cont Q E outputRead ∧ PkgSig bundle outputRead pkg)
+                                  hsame ∧
+                                UnaryHistory coeffRead ∧ UnaryHistory outputRead := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont PkgSig hsame SemanticNameCert
+  intro unaryC unaryJ unaryA1 _unaryR unaryB _unaryQ unaryE routeCoeff routeR routeQ
+    routeOutput pPkg outputPkg
+  have coeffUnary : UnaryHistory coeffRead :=
+    unary_cont_closed unaryC unaryJ routeCoeff
+  have unaryRFromRoute : UnaryHistory R :=
+    unary_cont_closed coeffUnary unaryA1 routeR
+  have unaryQFromRoute : UnaryHistory Q :=
+    unary_cont_closed unaryRFromRoute unaryB routeQ
+  have outputUnary : UnaryHistory outputRead :=
+    unary_cont_closed unaryQFromRoute unaryE routeOutput
+  have sourceAtOutput : hsame outputRead outputRead ∧ UnaryHistory outputRead :=
+    ⟨hsame_refl outputRead, outputUnary⟩
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => hsame row outputRead ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row c ∨ hsame row J ∨ hsame row a1 ∨ hsame row R ∨ hsame row B ∨
+              hsame row Q ∨ hsame row E ∨ hsame row H ∨ hsame row C ∨ hsame row P ∨
+                hsame row N ∨ hsame row coeffRead ∨ hsame row outputRead)
+          (fun row : BHist =>
+            UnaryHistory row ∧ Cont c J coeffRead ∧ Cont coeffRead a1 R ∧ Cont R B Q ∧
+              Cont Q E outputRead ∧ PkgSig bundle outputRead pkg)
+          hsame := {
+    core := {
+      carrier_inhabited := Exists.intro outputRead sourceAtOutput
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        exact
+          ⟨hsame_trans (hsame_symm sameRows) source.left,
+            unary_transport source.right sameRows⟩
+    }
+    pattern_sound := by
+      intro _row source
+      exact
+        Or.inr
+          (Or.inr
+            (Or.inr
+              (Or.inr
+                (Or.inr
+                  (Or.inr
+                    (Or.inr
+                      (Or.inr
+                        (Or.inr
+                          (Or.inr
+                            (Or.inr
+                              (Or.inr source.left)))))))))))
+    ledger_sound := by
+      intro _row source
+      exact ⟨source.right, routeCoeff, routeR, routeQ, routeOutput, outputPkg⟩
+  }
+  exact ⟨cert, coeffUnary, outputUnary⟩
 
 end BEDC.Derived.LagrangeInversionUp

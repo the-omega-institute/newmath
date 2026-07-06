@@ -1,0 +1,84 @@
+\chapter{A Concrete Naming Certificate for $\HallSubgroupUp$}
+\label{ch:concrete-instances-hall-subgroup-namecert}
+\origin{human}
+
+Following Hall finite-group theory, the $\HallSubgroupUp$ packet records the finite NameCert surface for a subgroup whose order uses a displayed set of prime rows and whose index uses the complementary prime rows. It consumes the finite group and subgroup sources of \autoref{ch:concrete-instances-group-namecert} and \autoref{ch:concrete-instances-subgroup-namecert}, the arithmetic rows of \autoref{ch:concrete-instances-nat-namecert} and \autoref{ch:concrete-instances-prime-namecert}, and the counting route supplied by \autoref{ch:concrete-instances-sylow-namecert}, \autoref{ch:concrete-instances-orbit-stabilizer-namecert}, and \autoref{ch:concrete-instances-class-equation-namecert}. The packet names a coprime-index Hall boundary; it is not a subgroup-lattice classifier, a selected Hall subgroup, a solvability theorem, or a conjugacy theorem.
+
+\begin{definition}[Hall subgroup carrier]
+\label{def:hall-subgroup-carrier}
+A $\HallSubgroupUp$ carrier is a finite $\BHist$ packet
+$$
+H=(G,S,\Pi,C,I,Y,A,O,T,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $G$ is the finite $\GroupUp$ source row, including multiplication, unit, inverse, equality, and finite support data.
+\item $S$ is the $\SubgroupUp$ row naming the subgroup inclusion inside the same group source.
+\item $\Pi$ is the finite prime-family row, read through $\PrimeUp$ and $\NatUp$, that marks the primes admitted in the subgroup order.
+\item $C$ is the coprime-order ledger comparing the displayed order of $S$ with the displayed index of $S$ in $G$.
+\item $I$ is the index row, read as a natural-number packet, recording that every prime divisor of the displayed index lies outside $\Pi$.
+\item $Y$ is the consumed $\SylowUp$ boundary row used to inspect prime-power subgroup witnesses at the boundary between $\Pi$ and its complement.
+\item $A$ is the finite conjugation-action row used to compare subgroup and Sylow witnesses inside the same group source.
+\item $O$ is the $\OrbitStabilizerUp$ counting row for the displayed conjugation orbit and stabilizer data.
+\item $T$ is the $\ClassEquationUp$ remainder row that keeps the finite action count visible before any Hall read is exported.
+\item $P$ is the $\Pkg$ provenance over $\HallSubgroupUp$, $\GroupUp$, $\SubgroupUp$, $\NatUp$, $\PrimeUp$, $\SylowUp$, $\OrbitStabilizerUp$, $\ClassEquationUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\HallSubgroupUp}$ row.
+\end{enumerate}
+The carrier compares accepted packets only through $G,S,\Pi,C,I,Y,A,O,T,P,N$. It has no coordinate for a subgroup-lattice classifier, a selected Hall subgroup, conjugacy of all Hall subgroups, solvability of the group, a normal-complement theorem, or a host enumeration of subgroups.
+\end{definition}
+
+\begin{theorem}[Hall subgroup NameCert obligations]
+\label{thm:hall-subgroup-namecert-obligations}
+For every accepted $\HallSubgroupUp$ carrier $H=(G,S,\Pi,C,I,Y,A,O,T,P,N)$, the local $\NameCert_{\HallSubgroupUp}$ surface consists exactly of finite group admission through $G$, subgroup inclusion through $S$, prime-family and natural-number exposure through $\Pi$, coprime order-index comparison through $C,I$, Sylow boundary consumption through $Y$, conjugation-action and counting exposure through $A,O,T$, package provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:hall-subgroup-carrier}. The rows $G,S,\Pi,C,I$ expose the group, subgroup, prime family, order comparison, and index comparison data.
+
+The rows $Y,A,O,T$ supply the finite group-theoretic counting route. Sylow witnesses are read only through $Y$, the conjugation action through $A$, orbit-stabilizer accounting through $O$, and class-equation remainder data through $T$.
+
+Finally $P$ and $N$ source and name the packet. Since no other coordinate is present, the listed rows exhaust the local naming-certificate surface.
+\end{proof}
+
+\begin{theorem}[Hall subgroup coprime-index route]
+\label{thm:hall-subgroup-coprime-index-route}
+Every accepted $\HallSubgroupUp$ read of a Hall subgroup first displays the route
+$$
+\GroupUp,\SubgroupUp,\NatUp,\PrimeUp \longmapsto C,I \longmapsto \SylowUp,\OrbitStabilizerUp,\ClassEquationUp \longmapsto \HallSubgroupUp .
+$$
+The route may expose that the subgroup order and index are coprime along the displayed prime-family ledger, but it cannot select a Hall subgroup, classify all Hall subgroups, prove their conjugacy, or infer solvability of the ambient finite group.
+\end{theorem}
+\begin{proof}
+Begin with an accepted carrier $H=(G,S,\Pi,C,I,Y,A,O,T,P,N)$. The coprime-index information is stored only in $C$ and $I$, and those rows are read after the group, subgroup, natural-number, and prime-family rows.
+
+The counting part is downstream of that ledger. The Sylow row $Y$, action row $A$, orbit-stabilizer row $O$, and class-equation row $T$ keep the prime-power and orbit-counting evidence visible before the Hall name is exported.
+
+Package provenance and local naming through $P,N$ seal only this finite route. None of the refused endpoints appears as a carrier coordinate, so the Hall read remains a coprime-index certificate rather than a subgroup-selection or solvability theorem.
+\end{proof}
+
+\begin{theorem}[Hall subgroup Sylow-boundary handoff]
+\label{thm:hall-subgroup-sylow-boundary-handoff}
+Any $\SylowUp$ consumer that hands prime-power evidence to an accepted $\HallSubgroupUp$ packet must preserve the displayed subgroup row $S$, prime-family row $\Pi$, coprime-index rows $C,I$, action-counting rows $A,O,T$, provenance row $P$, and local naming row $N$. The handoff keeps Sylow boundary data visible and does not collapse the Hall packet into a Sylow packet or into a subgroup-lattice classifier.
+\end{theorem}
+\begin{proof}
+Project the accepted Hall carrier and read the Sylow row $Y$ together with $S,\Pi,C,I$. These rows determine where prime-power evidence is admitted and where complementary index primes are refused.
+
+Apply the coprime-index route of \autoref{thm:hall-subgroup-coprime-index-route}. It forces the Sylow boundary to pass through the displayed action and counting rows $A,O,T$ before the Hall name is exported.
+
+The provenance and naming rows $P,N$ then keep the whole route attached to $\HallSubgroupUp$. Since the carrier retains $S,\Pi,C,I,A,O,T$ separately from $Y$, the handoff cannot identify the Hall packet with a Sylow witness or with a complete subgroup-lattice classifier.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\HallSubgroupUp$ read exposes finite GroupUp, SubgroupUp, NatUp, PrimeUp, SylowUp, OrbitStabilizerUp, ClassEquationUp, coprime-index, action-counting, provenance, and local NameCert rows before any Hall-subgroup judgment is exported.}
+
+\independenceWitness{group, subgroup, nat, prime, sylow, orbit-stabilizer, and class-equation: no listed sibling is bijective with $\HallSubgroupUp$ because this packet jointly binds subgroup inclusion, prime-family order data, complementary index data, Sylow boundary evidence, orbit-counting rows, class-equation remainder data, provenance, and local naming as one finite carrier.}
+
+\closureat{HallSubgroupUp}{seedStr}
+
+\begin{closurestatus}{\HallSubgroupUp}
+  \constructivestory{A $\HallSubgroupUp$ packet is generated from finite group, subgroup, natural-number, prime-family, coprime-index, Sylow boundary, orbit-stabilizer, class-equation, provenance, and local NameCert rows.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:hall-subgroup-carrier}, \autoref{thm:hall-subgroup-namecert-obligations}, \autoref{thm:hall-subgroup-coprime-index-route}, and \autoref{thm:hall-subgroup-sylow-boundary-handoff} seed the finite coprime-index Hall subgroup surface over displayed finite group-theory rows.}
+  \formalstatus{\formalTargetV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close Lean verification, bridge checking, subgroup-lattice classification, selected Hall subgroups, conjugacy of Hall subgroups, solvability, normal complements, or host subgroup enumeration.}
+  \upgradepath{Lean closure requires checked carrier admission, coprime-index routing, Sylow-boundary handoff, action-counting preservation, provenance, and local NameCert obligations for BEDC.Derived.HallSubgroupUp.}
+\end{closurestatus}

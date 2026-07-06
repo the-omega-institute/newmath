@@ -23,11 +23,27 @@ with the following displayed rows:
 \end{enumerate}
 The carrier contains no coordinate for an unregistered export, unchecked theorem evidence, refused-claim erasure, hidden transport, replay outside the displayed continuation row, provenance outside $P$, or a local name not carried by $N$.
 \end{definition}
+\leandef{BEDC.Derived.MachineExportBoundaryUp.MachineExportBoundaryCarrier}
+
+\begin{theorem}[Machine export boundary certified-use route]
+\label{thm:machine-export-boundary-certified-use-route}
+Any accepted $\MachineExportBoundaryUp$ packet exporting a machine-facing boundary must route certified-use reads through \autoref{ch:concrete-instances-certifieduseprocess-namecert}, through the registry/export boundary rows of \autoref{ch:concrete-instances-registry-export-surface-namecert}, and through the replayable audit-transcript rows of \autoref{ch:concrete-instances-audit-transcript-envelope-namecert} before the boundary can be consumed as an export interface. Concretely, for $E=(R,T,A,F,H,C,P,N)$, the rows $R,A,C,P,N$ identify registry status, audit transcript readback, replay, provenance, and local naming, while $T$ and $F$ keep the machine target and refusal rows visible.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:machine-export-boundary-carrier}. The registry row $R$ is the visible $\RegistryExportSurfaceUp$ input, the target row $T$ is the machine-facing export input, the audit row $A$ is the machine-readable audit route, and the refusal row $F$ is the cannot-claim boundary.
+
+The certified-use read is therefore not available from $T$ alone. It must pass through $\CertifiedUseProcessUp$ so that public use is read as a process row, then through $\RegistryExportSurfaceUp$ so that exported, blocked, horizon-facing, or formal-target status remains visible.
+
+The audit-transcript row is supplied by the replay path through $A$ and $C$, with provenance recorded in $P$. Local naming through $N$ may be consumed only after those certified-use, registry, audit-transcript, and export-interface rows have been displayed.
+
+Thus the export boundary cannot be consumed as a bare machine target or audit-only row. It is consumed only through the certified-use route, registry/export boundary, audit-transcript replay, structural transport, provenance, and local NameCert rows already present in the carrier.
+\end{proof}
 
 \begin{theorem}[Machine export boundary NameCert obligations]
 \label{thm:machine-export-boundary-namecert-obligations}
 For an accepted packet $E=(R,T,A,F,H,C,P,N)$, the local $\NameCert_{\MachineExportBoundaryUp}$ obligations are exhausted by registry export admission through $R$, target exposure through $T$, audit readback through $A$, refusal preservation through $F$, componentwise transport through $H$, displayed replay through $C$, package provenance through $P$, and local naming through $N$.
 \end{theorem}
+\leanchecked{BEDC.Derived.MachineExportBoundaryUp.MachineExportBoundary\_namecert\_obligations}
 \begin{proof}
 Project the carrier of \autoref{def:machine-export-boundary-carrier}. The registry export row $R$, target row $T$, audit row $A$, and refusal row $F$ are displayed before a machine consumer reaches local naming.
 

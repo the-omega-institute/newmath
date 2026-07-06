@@ -1,0 +1,71 @@
+\chapter{A Concrete Naming Certificate for $\RecursiveOrthogonalAxisNormalFormUp$}
+\label{ch:concrete-instances-recursive-orthogonal-axis-normal-form-namecert}
+\origin{ai}
+
+The $\RecursiveOrthogonalAxisNormalFormUp$ packet realizes the axis-layer reading of \autoref{sec:recursive-orthogonal-axis-normal-forms} as finite NameCert data. It turns recursive coordinate generation into a displayed carrier with source rows, finite axis rows, readback rows, normal-form rows, residual-gap rows, transport, replay, provenance, and local naming. The packet sits beside \autoref{ch:concrete-instances-metacic-parallel-diamond-frontier-namecert}, \autoref{ch:concrete-instances-dyadicmesh-namecert}, \autoref{ch:concrete-instances-continuedfraction-namecert}, and \autoref{ch:concrete-instances-brouwer-spread-namecert}, but it is not bijective to any of their residual-join, mesh, continued-fraction, or spread-prefix carriers.
+
+\begin{definition}[Recursive orthogonal-axis normal-form carrier]
+\label{def:recursive-orthogonal-axis-normal-form-carrier}
+A $\RecursiveOrthogonalAxisNormalFormUp$ carrier is a finite $\BHist$ packet
+$$
+A=(X,L,R,O,G,T,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $X$ is the source object row whose public readback is being normalized.
+\item $L$ is the finite axis-layer row, recording the currently available orthogonal axes and their recursive parent relation.
+\item $R$ is the readback row, sending finite axis coordinates back to the source classifier resolution.
+\item $O$ is the orthogonality row, recording pairwise axis separation inside the layer.
+\item $G$ is the residual-gap row, recording what remains outside the current axis layer.
+\item $T$ is the normal-form row, recording the finite coordinate expression accepted for public export.
+\item $H$ is the componentwise $\hsame$ transport row for source, axis, readback, orthogonality, residual-gap, and normal-form data.
+\item $C$ is the displayed $\Cont$ replay row from source inspection through axis readback to normal-form export.
+\item $P$ is the $\Pkg$ provenance over $\RecursiveOrthogonalAxisNormalFormUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\RecursiveOrthogonalAxisNormalFormUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for a normal-form conclusion before the finite axis row, no hidden global basis, no quotient readback equality, no residual-gap erasure, and no public export outside $A$.
+\end{definition}
+
+\begin{theorem}[Recursive orthogonal-axis normal-form NameCert obligations]
+\label{thm:recursive-orthogonal-axis-normal-form-namecert-obligations}
+For the carrier of \autoref{def:recursive-orthogonal-axis-normal-form-carrier}, the local $\NameCert_{\RecursiveOrthogonalAxisNormalFormUp}$ surface consists exactly of source admission through $X$, axis-layer exposure through $L$, readback exposure through $R$, orthogonality exposure through $O$, residual-gap visibility through $G$, normal-form export through $T$, transport through $H$, replay through $C$, provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the carrier. Its rows explicitly display the source, finite axis layer, readback, orthogonality, residual-gap, normal-form, transport, replay, provenance, and local-name data.
+
+The axis rows precede normal-form export. A public conclusion can reach $T$ only after $L,R,O,G$ have been displayed, so the normal form is tied to a finite axis layer and to the residual gap left by that layer.
+
+Rows $H,C,P,N$ preserve the same route. They may transport, replay, source, and name the packet, but they cannot add a hidden basis, erase the residual gap, or publish a normal-form conclusion before the finite axis row has been read.
+\end{proof}
+
+\begin{theorem}[Recursive orthogonal-axis readback]
+\label{thm:recursive-orthogonal-axis-normal-form-axis-readback}
+Every public readback of an accepted $\RecursiveOrthogonalAxisNormalFormUp$ packet factors through
+$$
+X,L,R,O,G,T,H,C,P,N
+$$
+before any normal-form conclusion is exported. In particular, the finite axis row $L$ and readback row $R$ are public prerequisites for the normal-form row $T$.
+\end{theorem}
+\begin{proof}
+Begin with the obligation surface of \autoref{thm:recursive-orthogonal-axis-normal-form-namecert-obligations}. It lists the finite axis-layer row and the readback row before the normal-form export row.
+
+The orthogonality and residual-gap rows make the factorization non-vacuous. Row $O$ records the separation of the displayed axes, while $G$ records what the current layer does not resolve.
+
+Finally read the structural rows. Componentwise transport and displayed replay preserve the route from $X$ through $L,R,O,G$ to $T$, and provenance and local naming record the same finite packet. Thus every public readback factors through the finite axis row before a normal-form conclusion is available.
+\end{proof}
+
+\falsifiablePrediction{If $\RecursiveOrthogonalAxisNormalFormUp$ is accepted, every public readback factors through a finite axis row before any normal-form conclusion is exported.}
+
+\independenceWitness{metacic\_parallel\_diamond\_frontier, dyadicmesh, continuedfraction, brouwer\_spread: the axis-normal-form carrier has finite axis/readback/residual-gap rows not bijective to these siblings' residual-join, mesh, continued-fraction, or spread-prefix carriers.}
+
+The Lean follow-up must create \texttt{lean4/BEDC/Derived/RecursiveOrthogonalAxisNormalFormUp/TasteGate.lean} with $\Nontrivial\ \RecursiveOrthogonalAxisNormalFormUp$ and $\FieldFaithful\ \RecursiveOrthogonalAxisNormalFormUp$ instances before any checked marker can be cited.
+
+\begin{closurestatus}{\RecursiveOrthogonalAxisNormalFormUp}
+  \constructivestory{A $\RecursiveOrthogonalAxisNormalFormUp$ packet is generated from source, finite axis-layer, readback, orthogonality, residual-gap, normal-form, transport, replay, provenance, and local NameCert rows.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:recursive-orthogonal-axis-normal-form-carrier}, \autoref{thm:recursive-orthogonal-axis-normal-form-namecert-obligations}, and \autoref{thm:recursive-orthogonal-axis-normal-form-axis-readback} bind the finite axis/readback packet.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not prove global normalization, basis uniqueness, quotient readback equality, residual-gap elimination, or Lean TasteGate acceptance.}
+  \upgradepath{Lean closure requires Nontrivial and FieldFaithful instances in \texttt{lean4/BEDC/Derived/RecursiveOrthogonalAxisNormalFormUp/TasteGate.lean}.}
+\end{closurestatus}

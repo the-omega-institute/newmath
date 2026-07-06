@@ -72,14 +72,57 @@ Apply the graph-distance control theorem. The route to $S$ uses the finite compa
 Finally read the structural rows $H,C,P,N$. They record transport, continuation replay, provenance, and local naming for the same displayed packet. Since quotient completion classes, selected representatives, ambient completion theorems, and isometric preservation are absent from the carrier, separated-completion consumers receive only the finite handoff route above.
 \end{proof}
 
+\begin{theorem}[MetricEmbedding kernel scope]
+\label{thm:metric-embedding-kernel-scope}
+Every accepted $\MetricEmbeddingUp$ packet scopes carrier admission, graph-distance control, and separated-completion handoff through the displayed rows
+$$
+X,Y,F,D,R,S,H,C,P,N .
+$$
+The source and target metric reads are $\MetricSpaceUp$ rows, the graph route is a $\ContinuousMapUp$ row, the separated handoff is a $\SeparatedMetricUp$ row, the distance and tolerance seal is a $\RealUp$ row, and the structural boundary consists of $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows. The packet exports no host function equality, no quotient completion coordinate, and no isometric distance-equality coordinate.
+\end{theorem}
+\leanchecked{BEDC.Derived.MetricEmbeddingUp.MetricEmbeddingCarrier\_kernel\_scope}
+\begin{proof}
+Project the carrier in \autoref{def:metric-embedding-carrier}. Its public inventory is exactly $X,Y,F,D,R,S,H,C,P,N$, so any accepted read of the packet begins inside the finite kernel surface rather than at a host embedding object.
+
+Apply graph-distance control and separated-completion handoff, \autoref{thm:metric-embedding-graph-distance-control} and \autoref{thm:metric-embedding-separated-completion-handoff}. The distance request reads $X,F,Y,D,R$ in order, and a separated consumer then reads $S$ only through that displayed route.
+
+Finally read $H,C,P,N$. These rows provide transport, replay, provenance, and local naming for the same packet. Since the carrier has no coordinate for host function equality, quotient completion data, or the stricter $\IsometricEmbeddingUp$ equality surface, the scoped kernel boundary is exactly the one stated.
+\end{proof}
+
+\begin{theorem}[MetricEmbedding public graph-control surface]
+\label{thm:metric-embedding-public-graph-control-surface}
+Every consumer of an accepted $\MetricEmbeddingUp$ packet reads graph-distance control through the displayed packet rows. The source and target observations are $\MetricSpaceUp$ rows, the graph is a $\ContinuousMapUp$ row, the distance and tolerance comparison is sealed by $\RealUp$, and the separated handoff is read through $\SeparatedMetricUp$. The consumer receives this row package through $X,Y,F,D,R,S,H,C,P,N$, not through host function equality, isometric equality, quotient completion classes, or selected completion representatives.
+\end{theorem}
+\leanchecked{BEDC.Derived.MetricEmbeddingUp.MetricEmbeddingCarrier\_public\_graph\_control\_surface}
+\begin{proof}
+Begin with graph-distance control from \autoref{thm:metric-embedding-graph-distance-control}. It orders the read as source metric row, graph row, target metric row, comparison row, and $\RealUp$ seal.
+
+Next apply the separated-completion handoff of \autoref{thm:metric-embedding-separated-completion-handoff}. This places the $\SeparatedMetricUp$ consumer after the graph-distance route rather than before it.
+
+Finally use the kernel-scope theorem \autoref{thm:metric-embedding-kernel-scope}. Since the packet inventory is exactly $X,Y,F,D,R,S,H,C,P,N$, the public graph-control surface is a displayed BEDC row package and not a host-level equality or completion representative interface.
+\end{proof}
+
+\begin{theorem}[MetricEmbedding public object surface]
+\label{thm:metric-embedding-public-object-surface}
+Every accepted $\MetricEmbeddingUp$ packet exports a consumer-facing object surface consisting of the source metric row $X$, target metric row $Y$, graph route $F$, graph-distance control $D$, $\RealUp$ tolerance seal $R$, separated handoff $S$, componentwise transport $H$, displayed replay $C$, provenance $P$, and local $\NameCert_{\MetricEmbeddingUp}$ row $N$. A consumer may cite this surface without reopening the carrier coordinates, but the citation still does not provide host function equality, quotient completion classes, selected representatives, ambient completion existence, isometric distance equality, or preservation of all source and target distances.
+\end{theorem}
+\leanchecked{BEDC.Derived.MetricEmbeddingUp.MetricEmbeddingCarrier\_public\_object\_surface}
+\begin{proof}
+Begin with the carrier and classifier obligations of \autoref{thm:metric-embedding-carrier-classifier-obligations}. They identify the accepted packet with exactly the ten displayed rows $X,Y,F,D,R,S,H,C,P,N$ and keep classifier transport componentwise.
+
+Next apply graph-distance control and separated-completion handoff, \autoref{thm:metric-embedding-graph-distance-control} and \autoref{thm:metric-embedding-separated-completion-handoff}. These results make the graph route, distance-control row, $\RealUp$ seal, and separated handoff available to downstream readers in the stated order.
+
+Finally use the kernel-scope theorem \autoref{thm:metric-embedding-kernel-scope}. It prevents the public surface from being enlarged into host function equality, quotient completion data, selected representatives, ambient completion existence, or isometric distance equality. Thus the consumer-facing object surface is precisely the named row package.
+\end{proof}
+
 \closureat{MetricEmbeddingUp}{seedStr}
 
 \begin{closurestatus}{\MetricEmbeddingUp}
   \constructivestory{A $\MetricEmbeddingUp$ packet is generated from displayed source and target metric rows, a graph row, a graph-distance control row, a RealUp seal, a separated-metric handoff row, componentwise transport, displayed replay, package provenance, and local NameCert data.}
-  \theoryclosure{\obligationClosure}
+  \theoryclosure{\scopedClosure}
   \scopeclosed{The obligation scope enumerates carrier admission, classifier transport, graph-distance control, separated-completion handoff, and nonescape obligations for metric embeddings weaker than isometric embeddings.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{This chapter does not close host function equality, quotient completion classes, selected representatives, ambient completion existence, isometric distance preservation, Lean verification, or bridge checking.}
-  \upgradepath{Scoped closure requires checking the MetricSpace, SeparatedMetric, BHist, hsame, Cont, Pkg, and NameCert rows against the same finite packet.}
+  \upgradepath{Public closure requires a consumer-facing object surface for MetricEmbeddingUp rather than only kernel-scoped packet rows.}
 \end{closurestatus}

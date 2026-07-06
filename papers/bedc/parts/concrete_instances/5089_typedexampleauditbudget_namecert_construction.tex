@@ -58,21 +58,67 @@ Use the transport and continuation rows $H$ and $K$ for downstream checker-audit
 The sibling packets do not identify these two readings. The MetaCIC and typed-example galleries name accepted rows, the seal names worked-example closure of the gallery surface, and the beta-step boundary names reduction-boundary rows; none of them carries the regression-budget coordinate $R$ together with its spend boundary. Thus removing $R$ erases precisely the coverage distinction claimed by the packet.
 \end{proof}
 
+\begin{theorem}[TypedExampleAuditBudget public consumer contract]
+\label{thm:typed-example-audit-budget-public-consumer-contract}
+Every checker-audit public consumer of an accepted $\TypedExampleAuditBudgetUp$ packet must read
+$$
+A=(G,C,B,Z,R,H,K,P,N)
+$$
+as one finite contract. The consumer may export the downstream publicClosure package only after the gallery inventory $G$, checker rows $C$, beta rows $B$, closedness rows $Z$, regression-budget row $R$, transports $H$, continuation routes $K$, provenance $P$, and local name $N$ are all displayed together. The contract cannot export checker completeness, subject reduction, normalization, global beta closure, arbitrary gallery soundness, or unbudgeted spend.
+\end{theorem}
+\begin{proof}
+Begin with the NameCert obligations of \autoref{thm:typed-example-audit-budget-namecert-obligations}. They force the public consumer to expose the gallery, checker, beta, closedness, regression-budget, transport, replay, provenance, and local naming rows before any local certificate is read.
+
+Next apply regression non-escape from \autoref{thm:typed-example-audit-budget-regression-nonescape}. The row $R$ is the only coordinate that separates accepted gallery rows from rows counted as regression coverage, so a public checker-audit consumer cannot drop $R$ or replace it with a sibling gallery, seal, or beta-boundary packet.
+
+The downstream publicClosure package is therefore exactly the displayed tuple $G,C,B,Z,R,H,K,P,N$ together with the local NameCert route. Since the carrier has no coordinate for checker completeness, subject reduction, normalization, global beta closure, arbitrary gallery soundness, or unbudgeted spend, those claims cannot be exported by the public consumer contract.
+\end{proof}
+
+\begin{theorem}[TypedExampleAuditBudget public interface]
+\label{thm:typed-example-audit-budget-public-interface}
+The public audit-budget interface of an accepted $\TypedExampleAuditBudgetUp$ packet is exactly the finite row package
+$$
+G,C,B,Z,R,H,K,P,N .
+$$
+The rows $G,C,B,Z,R$ expose gallery inventory, checker reads, beta rows, closedness rows, and regression-budget spend boundaries; the rows $H,K,P,N$ expose componentwise transport, continuation replay, provenance, and local naming. This interface is the package forced by the carrier of \autoref{def:typed-example-audit-budget-carrier}, the NameCert obligations of \autoref{thm:typed-example-audit-budget-namecert-obligations}, regression non-escape of \autoref{thm:typed-example-audit-budget-regression-nonescape}, and the public consumer contract of \autoref{thm:typed-example-audit-budget-public-consumer-contract}. It does not export checker completeness, subject reduction, normalization, global beta closure, arbitrary gallery soundness, unbudgeted spend, or any stronger closurestatus.
+\end{theorem}
+\begin{proof}
+Project the carrier. Its displayed coordinates are the rows $G,C,B,Z,R,H,K,P,N$, and no additional public row is present.
+
+Use the NameCert obligations to identify which rows a consumer may inspect. The gallery, checker, beta, closedness, and regression-budget rows must be read together with transport, continuation, provenance, and local naming.
+
+Regression non-escape prevents replacing $R$ with a gallery, seal, or beta-boundary sibling, while the public consumer contract prevents dropping any displayed coordinate from the public package. The resulting interface is therefore exactly the named row package and carries none of the refused endpoints.
+\end{proof}
+
+\begin{theorem}[TypedExampleAuditBudget public coverage monotonicity]
+\label{thm:typed-example-audit-budget-public-coverage-monotonicity}
+Let $A=(G,C,B,Z,R,H,K,P,N)$ and $A'=(G,C,B,Z,R',H,K,P,N)$ be accepted $\TypedExampleAuditBudgetUp$ packets with the same gallery, checker, beta, closedness, transport, continuation, provenance, and local naming rows. If every row counted by $R$ is also counted by $R'$ with the same or tighter consumer-spend boundary, then every public checker-audit consumer admitted by $A$ is admitted by $A'$. The monotone replacement exports no checker completeness, subject reduction, normalization, global beta closure, arbitrary gallery soundness, or unbudgeted spend.
+\end{theorem}
+\begin{proof}
+Project both accepted carriers. The only displayed coordinate that changes is the regression-budget row, from $R$ to $R'$; the rows $G,C,B,Z,H,K,P,N$ remain componentwise identical.
+
+Use the NameCert obligations of \autoref{thm:typed-example-audit-budget-namecert-obligations} to keep every public consumer on the finite package $G,C,B,Z,R,H,K,P,N$. The obligations expose no alternate checker-completeness or normalization coordinate.
+
+Apply regression non-escape from \autoref{thm:typed-example-audit-budget-regression-nonescape}. It identifies $R$ as the only coordinate controlling whether an accepted gallery row is counted as regression coverage together with its consumer-spend boundary.
+
+The inclusion premise replaces each admitted $R$ row by the corresponding $R'$ row while preserving the same or tighter spend boundary. Therefore the public consumer contract of \autoref{thm:typed-example-audit-budget-public-consumer-contract} admits the same checker-audit consumer through $A'$, and the refused endpoints remain absent because no new carrier coordinate has been introduced.
+\end{proof}
+
 \falsifiablePrediction{If the regression-budget row is removed from an accepted TypedExampleAuditBudget packet, a downstream checker-audit consumer can no longer distinguish gallery acceptance from regression coverage.}
 
 \independenceWitness{Nearest siblings: metacictypedexamplesgallery, typedexamplegallery, metacic-typedexamples-seal, betastepboundary. The budget packet is not bijective with any sibling because it carries a regression-budget row and a consumer-spend boundary that gallery and seal packets do not expose, while BetaStepBoundary carries reduction-boundary rows rather than typed-example gallery spend rows.}
 
 The proposed Lean follow-up for namespace $\mathsf{BEDC.Derived.TypedExampleAuditBudgetUp}$ places the taste-gate surface in $\mathsf{BEDC.Derived.TypedExampleAuditBudgetUp.TasteGate}$. Its file $\mathsf{lean4/BEDC/Derived/TypedExampleAuditBudgetUp/TasteGate.lean}$ includes both $\mathsf{Nontrivial}\ \TypedExampleAuditBudgetUp$ with an explicit witness pair and $\mathsf{FieldFaithful}\ \TypedExampleAuditBudgetUp$ with mk-field projections and an injection proof.
 
-\closureat{TypedExampleAuditBudgetUp}{seedStr}
+\closureat{TypedExampleAuditBudgetUp}{scopedStr}
 
 \begin{closurestatus}{\TypedExampleAuditBudgetUp}
   \constructivestory{A $\TypedExampleAuditBudgetUp$ packet is generated from finite gallery rows, checker rows, beta rows, closedness rows, regression-budget rows, componentwise transports, continuation routes, package provenance, and a local NameCert row.}
-  \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:typed-example-audit-budget-carrier}, \autoref{thm:typed-example-audit-budget-namecert-obligations}, and \autoref{thm:typed-example-audit-budget-regression-nonescape} bind the finite gallery, checker, beta, closedness, regression-budget, consumer-spend, transport, provenance, and local naming surface.}
+  \theoryclosure{\scopedClosure}
+  \scopeclosed{\autoref{def:typed-example-audit-budget-carrier}, \autoref{thm:typed-example-audit-budget-namecert-obligations}, and \autoref{thm:typed-example-audit-budget-regression-nonescape} bind the displayed carrier, gallery-row exactness, checker, beta, and closedness exposure, regression-budget non-escape, consumer-spend boundary, componentwise transport, displayed replay, provenance, and local naming rows as the obligation surface.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{ai}
   \notclaimed{This chapter does not close checker completeness, subject reduction, normalization, global beta closure, arbitrary gallery soundness, Lean verification, or bridge checking.}
-  \upgradepath{Obligation closure requires checked carrier admission, gallery-row exactness, checker exposure, beta exposure, closedness exposure, regression-budget non-escape, consumer-spend boundary visibility, componentwise transport, displayed continuation, provenance, and local naming rows.}
+  \upgradepath{The next paper-axis target is publicClosure export of the displayed public consumer contract, still without claiming checker completeness, subject reduction, normalization, or Lean verification.}
 \end{closurestatus}

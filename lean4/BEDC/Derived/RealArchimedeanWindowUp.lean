@@ -20,8 +20,8 @@ def RealArchimedeanWindowCarrier [AskSetup] [PackageSetup]
     (R S Q D L U H C P N : BHist) (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
   UnaryHistory R ∧ UnaryHistory S ∧ UnaryHistory Q ∧ UnaryHistory D ∧
     UnaryHistory L ∧ UnaryHistory U ∧ UnaryHistory H ∧ UnaryHistory C ∧
-      UnaryHistory P ∧ UnaryHistory N ∧ Cont H C P ∧ PkgSig bundle P pkg ∧
-        PkgSig bundle N pkg
+      UnaryHistory P ∧ UnaryHistory N ∧ Cont S Q D ∧ Cont H C P ∧
+        PkgSig bundle P pkg ∧ PkgSig bundle N pkg
 
 theorem RealArchimedeanWindowNameCertObligations [AskSetup] [PackageSetup]
     {R S Q D L U H C P N : BHist} {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
@@ -42,11 +42,11 @@ theorem RealArchimedeanWindowNameCertObligations [AskSetup] [PackageSetup]
   -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame SemanticNameCert UnaryHistory
   intro carrier provenancePkg namePkg
   obtain ⟨rUnary, sUnary, qUnary, dUnary, lUnary, uUnary, hUnary, cUnary, pUnary,
-    nUnary, replay, _carrierPkg, _carrierName⟩ := carrier
+    nUnary, readbackRoute, replay, _carrierPkg, _carrierName⟩ := carrier
   have carrierForSource :
       RealArchimedeanWindowCarrier R S Q D L U H C P N bundle pkg :=
     ⟨rUnary, sUnary, qUnary, dUnary, lUnary, uUnary, hUnary, cUnary, pUnary, nUnary,
-      replay, provenancePkg, namePkg⟩
+      readbackRoute, replay, provenancePkg, namePkg⟩
   constructor
   · exact {
       core := {
@@ -83,48 +83,44 @@ theorem RealArchimedeanWindowNameCertObligations [AskSetup] [PackageSetup]
     }
   · exact ⟨lUnary, uUnary, replay⟩
 
-theorem RealArchimedeanWindowCarrier_dyadic_bracket_handoff [AskSetup] [PackageSetup]
-    {R S Q D L U H C P N lowerRead upperRead bracketRead : BHist}
+theorem RealArchimedeanWindowCarrier_bound_consumer_exactness [AskSetup] [PackageSetup]
+    {R S Q D L U H C P N radiusRead boundRead : BHist}
     {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
     RealArchimedeanWindowCarrier R S Q D L U H C P N bundle pkg ->
-      Cont D L lowerRead ->
-        Cont D U upperRead ->
-          Cont lowerRead upperRead bracketRead ->
-            PkgSig bundle bracketRead pkg ->
-              SemanticNameCert
-                  (fun row : BHist => hsame row bracketRead ∧ UnaryHistory row)
-                  (fun row : BHist =>
-                    hsame row D ∨ hsame row L ∨ hsame row U ∨ hsame row lowerRead ∨
-                      hsame row upperRead ∨ hsame row bracketRead)
-                  (fun row : BHist =>
-                    UnaryHistory row ∧ Cont D L lowerRead ∧ Cont D U upperRead ∧
-                      Cont lowerRead upperRead bracketRead ∧ PkgSig bundle bracketRead pkg)
-                  hsame ∧
-                UnaryHistory lowerRead ∧ UnaryHistory upperRead ∧
-                  UnaryHistory bracketRead ∧ PkgSig bundle P pkg ∧ PkgSig bundle N pkg := by
+      Cont D L radiusRead ->
+        Cont radiusRead U boundRead ->
+          PkgSig bundle boundRead pkg ->
+            SemanticNameCert
+                (fun row : BHist => hsame row boundRead ∧ UnaryHistory row)
+                (fun row : BHist =>
+                  hsame row R ∨ hsame row S ∨ hsame row Q ∨ hsame row D ∨
+                    hsame row L ∨ hsame row U ∨ hsame row radiusRead ∨ hsame row boundRead)
+                (fun row : BHist =>
+                  UnaryHistory row ∧ Cont S Q D ∧ Cont D L radiusRead ∧
+                    Cont radiusRead U boundRead ∧ PkgSig bundle P pkg ∧
+                      PkgSig bundle boundRead pkg)
+                hsame ∧ UnaryHistory boundRead := by
   -- BEDC touchpoint anchor: RealArchimedeanWindowCarrier BHist ProbeBundle Pkg Cont PkgSig hsame SemanticNameCert UnaryHistory
-  intro carrier lowerRoute upperRoute bracketRoute bracketPkg
+  intro carrier radiusRoute boundRoute boundPkg
   obtain ⟨_rUnary, _sUnary, _qUnary, dUnary, lUnary, uUnary, _hUnary, _cUnary,
-    _pUnary, _nUnary, _replay, provenancePkg, namePkg⟩ := carrier
-  have lowerReadUnary : UnaryHistory lowerRead :=
-    unary_cont_closed dUnary lUnary lowerRoute
-  have upperReadUnary : UnaryHistory upperRead :=
-    unary_cont_closed dUnary uUnary upperRoute
-  have bracketReadUnary : UnaryHistory bracketRead :=
-    unary_cont_closed lowerReadUnary upperReadUnary bracketRoute
+    _pUnary, _nUnary, readbackRoute, _replay, provenancePkg, _namePkg⟩ := carrier
+  have radiusUnary : UnaryHistory radiusRead :=
+    unary_cont_closed dUnary lUnary radiusRoute
+  have boundUnary : UnaryHistory boundRead :=
+    unary_cont_closed radiusUnary uUnary boundRoute
   have cert :
       SemanticNameCert
-          (fun row : BHist => hsame row bracketRead ∧ UnaryHistory row)
+          (fun row : BHist => hsame row boundRead ∧ UnaryHistory row)
           (fun row : BHist =>
-            hsame row D ∨ hsame row L ∨ hsame row U ∨ hsame row lowerRead ∨
-              hsame row upperRead ∨ hsame row bracketRead)
+            hsame row R ∨ hsame row S ∨ hsame row Q ∨ hsame row D ∨ hsame row L ∨
+              hsame row U ∨ hsame row radiusRead ∨ hsame row boundRead)
           (fun row : BHist =>
-            UnaryHistory row ∧ Cont D L lowerRead ∧ Cont D U upperRead ∧
-              Cont lowerRead upperRead bracketRead ∧ PkgSig bundle bracketRead pkg)
+            UnaryHistory row ∧ Cont S Q D ∧ Cont D L radiusRead ∧
+              Cont radiusRead U boundRead ∧ PkgSig bundle P pkg ∧ PkgSig bundle boundRead pkg)
           hsame := {
     core := {
       carrier_inhabited :=
-        Exists.intro bracketRead ⟨hsame_refl bracketRead, bracketReadUnary⟩
+        Exists.intro boundRead ⟨hsame_refl boundRead, boundUnary⟩
       equiv_refl := by
         intro row _source
         exact hsame_refl row
@@ -142,11 +138,11 @@ theorem RealArchimedeanWindowCarrier_dyadic_bracket_handoff [AskSetup] [PackageS
     }
     pattern_sound := by
       intro _row source
-      exact Or.inr (Or.inr (Or.inr (Or.inr (Or.inr source.left))))
+      exact Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr source.left))))))
     ledger_sound := by
       intro _row source
-      exact ⟨source.right, lowerRoute, upperRoute, bracketRoute, bracketPkg⟩
+      exact ⟨source.right, readbackRoute, radiusRoute, boundRoute, provenancePkg, boundPkg⟩
   }
-  exact ⟨cert, lowerReadUnary, upperReadUnary, bracketReadUnary, provenancePkg, namePkg⟩
+  exact ⟨cert, boundUnary⟩
 
 end BEDC.Derived.RealArchimedeanWindowUp

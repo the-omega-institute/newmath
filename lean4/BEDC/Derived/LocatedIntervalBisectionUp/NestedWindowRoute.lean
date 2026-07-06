@@ -88,4 +88,48 @@ theorem LocatedIntervalBisectionNestedWindowRoute [AskSetup] [PackageSetup]
   }
   exact ⟨cert, nestedUnary, routeUnary⟩
 
+theorem LocatedIntervalBisectionNestedWindowRoute_carrier_readback [AskSetup] [PackageSetup]
+    {left right midpoint sign window nestedRead routeRead _provenance : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    UnaryHistory left ->
+      UnaryHistory right ->
+        UnaryHistory midpoint ->
+          UnaryHistory sign ->
+            UnaryHistory window ->
+              Cont left right midpoint ->
+                Cont midpoint sign nestedRead ->
+                  Cont nestedRead window routeRead ->
+                    PkgSig bundle routeRead pkg ->
+                      SemanticNameCert
+                          (fun row : BHist => hsame row routeRead ∧ UnaryHistory row)
+                          (fun row : BHist =>
+                            hsame row left ∨ hsame row right ∨ hsame row midpoint ∨
+                              hsame row sign ∨ hsame row window ∨ hsame row nestedRead ∨
+                                hsame row routeRead)
+                          (fun row : BHist =>
+                            UnaryHistory row ∧ Cont left right midpoint ∧
+                              Cont midpoint sign nestedRead ∧
+                                Cont nestedRead window routeRead ∧
+                                  PkgSig bundle routeRead pkg)
+                          hsame ∧
+                        locatedIntervalBisectionFromEventFlow
+                            (locatedIntervalBisectionToEventFlow
+                              (LocatedIntervalBisectionUp.mk left right midpoint sign window
+                                nestedRead routeRead _provenance routeRead routeRead)) =
+                          some
+                            (LocatedIntervalBisectionUp.mk left right midpoint sign window
+                              nestedRead routeRead _provenance routeRead routeRead) := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont ChapterTasteGate SemanticNameCert
+  intro leftUnary rightUnary midpointUnary signUnary windowUnary
+    leftRightMidpoint midpointSignNested nestedWindowRoute routePkg
+  have routeCert :=
+    LocatedIntervalBisectionNestedWindowRoute
+      (left := left) (right := right) (midpoint := midpoint) (sign := sign)
+      (window := window) (nestedRead := nestedRead) (routeRead := routeRead)
+      (_provenance := _provenance) (bundle := bundle) (pkg := pkg)
+      leftUnary rightUnary midpointUnary signUnary windowUnary
+      leftRightMidpoint midpointSignNested nestedWindowRoute routePkg
+  have alignment := LocatedIntervalBisectionTasteGate_single_carrier_alignment
+  exact ⟨routeCert.left, alignment.right.left _⟩
+
 end BEDC.Derived.LocatedIntervalBisectionUp

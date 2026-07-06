@@ -107,6 +107,38 @@ Finally use the public report interface, \autoref{thm:programmestrengthledger-pu
 \end{proof}
 \leanchecked{BEDC.Derived.ProgrammeStrengthLedgerUp.ProgrammeStrengthLedgerBridgeBlockerReadback}
 
+\begin{theorem}[ProgrammeStrengthLedger mature treatment]
+\label{thm:programme-strength-ledger-mature-treatment}
+Every public treatment of an accepted $\ProgrammeStrengthLedgerUp$ carrier
+$L=(Q,S,D,V,B,R,H,C,P,N)$ is mature precisely when it exports $Q$ only through
+the displayed strength row $S$, dependency row $D$, theory/formal status pair
+$V$, bridge row $B$, refusal row $R$, componentwise transport $H$, replay row
+$C$, provenance row $P$, and local naming row $N$. Such a treatment may cite
+bridge blockers, verification blockers, and next-obligation rows, but it may
+not turn any of them into a stronger claim about $Q$ unless the corresponding
+displayed row already carries that strength.
+\end{theorem}
+\leanchecked{BEDC.Derived.ProgrammeStrengthLedgerUp.ProgrammeStrengthLedgerMatureTreatment}
+\begin{proof}
+Start with the public report interface,
+\autoref{thm:programmestrengthledger-public-report-interface}. It fixes the
+only exported report surface as the full row family $Q,S,D,V,B,R,H,C,P,N$.
+
+Apply bridge-blocker readback,
+\autoref{thm:programme-strength-ledger-bridge-blocker-readback}. It keeps every
+displayed bridge or dependency blocker visible when the public report is read,
+so the mature treatment cannot erase a blocker by citing provenance or another
+status row.
+
+Finally use no strength inflation and axis separation,
+\autoref{thm:programme-strength-ledger-no-strength-inflation} and
+\autoref{thm:programme-strength-ledger-axis-separation}. These rows prevent
+promotion beyond $S$ and prevent the theory, formal, bridge, dependency,
+refusal, and naming coordinates from being derived from one another. Hence the
+public treatment is mature exactly as a bounded ledger read, not as a stronger
+claim about the inspected site.
+\end{proof}
+
 \begin{theorem}[Finite blocker readback factors through programme strength ledger]
 \label{thm:programme-strength-ledger-blocker-readback-factorization}
 Let $L=(Q,S,D,V,B,R,H,C,P,N)$ be an accepted $\ProgrammeStrengthLedgerUp$
@@ -162,10 +194,10 @@ The Lean-side boundary is expected to provide explicit $\Nontrivial\ \ProgrammeS
 
 \begin{closurestatus}{\ProgrammeStrengthLedgerUp}
   \constructivestory{A $\ProgrammeStrengthLedgerUp$ packet is generated from a claim site, reported strength, dependency row, theory/formal status pair, bridge-status row, refusal row, componentwise transport, displayed replay, package provenance, and local NameCert row.}
-  \theoryclosure{\publicClosure}
+  \theoryclosure{\matureClosure}
   \scopeclosed{\autoref{def:programme-strength-ledger-carrier}, \autoref{thm:programme-strength-ledger-namecert-obligations}, \autoref{thm:programme-strength-ledger-no-strength-inflation}, \autoref{thm:programme-strength-ledger-axis-separation}, \autoref{thm:programmestrengthledger-public-report-interface}, and \autoref{thm:programme-strength-ledger-bridge-blocker-readback} scope the displayed carrier, NameCert obligations, no-strength-inflation row, axis-separation row, exported public strength report surface, and bridge-blocker readback through finite audit rows, $\hsame$, $\Pkg$, and $\NameCert$.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{This chapter does not close Lean verification, bridge checking, correctness of every package row, discharge of every dependency blocker, or promotion of any named claim beyond its displayed strength row.}
-  \upgradepath{Public closure requires a public strength-report consumer surface without claiming Lean verification, bridge checking, or promotion beyond the displayed strength row.}
+  \upgradepath{The next obligation is Lean-side formalization of the displayed bridge-blocker readback for BEDC.Derived.ProgrammeStrengthLedgerUp.ProgrammeStrengthLedgerBridgeBlockerReadback.}
 \end{closurestatus}

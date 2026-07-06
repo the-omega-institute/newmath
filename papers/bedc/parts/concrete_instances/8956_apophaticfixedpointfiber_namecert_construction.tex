@@ -108,17 +108,52 @@ Use the non-escape theorem \autoref{thm:apophatic-fixed-point-fiber-nonescape} a
 
 Finally apply the scoped-route theorem \autoref{thm:apophatic-fixed-point-fiber-scoped-route}. It forces the GAP-first public read order, so the theorem exports a public object surface only and does not certify an acceptance bridge.
 \end{proof}
+\leanchecked{BEDC.Derived.ApophaticFixedPointFiberUp.ApophaticFixedPointFiber\_public\_export\_surface}
+
+\begin{theorem}[Apophatic fixed-point fiber bridge readback]
+\label{thm:apophatic-fixed-point-fiber-bridge-readback}
+The public export surface of \autoref{thm:apophatic-fixed-point-fiber-public-export-surface} is bridge-facing exactly when the same GAP-first packet
+$$
+D,S,G,T,I,H,C,P,N
+$$
+is read through displayed standard readback rows for the digest/socket entrance, the external-supply socket, the GAP fiber, the apophatic far-end boundary, the local inscription, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and the local $\NameCert$ row. The $\ApophaticFixedPointFiberUp$ TasteGate row remains a carrier-admission and classifier-stability witness; it is not itself a bridge credential and cannot replace the displayed readback rows.
+\end{theorem}
+\begin{proof}
+Start with the public export surface. By \autoref{thm:apophatic-fixed-point-fiber-public-export-surface}, an accepted packet exposes exactly $D,S,G,T,I,H,C,P,N$ with GAP-first order, and no direct digest-to-far-end route is present.
+
+Read the standard rows over the same packet. The digest/socket entrance, external-supply socket, GAP fiber, far-end boundary, inscription, transport, replay, provenance, and local certificate rows are the only bridge-facing data; they preserve the order already forced by \autoref{thm:apophatic-fixed-point-fiber-nonescape} and \autoref{thm:apophatic-fixed-point-fiber-scoped-route}.
+
+The TasteGate marker is used only to admit the carrier and stabilize its classifier. Since a bridge readback must display the standard rows themselves, replacing those rows by the TasteGate witness would erase the GAP-first readback surface and would leave no bridge-facing packet to inspect.
+\end{proof}
+\leanchecked{BEDC.Derived.ApophaticFixedPointFiberUp.ApophaticFixedPointFiber\_bridge\_readback}
+
+\begin{theorem}[Apophatic fixed-point fiber mature boundary]
+\label{thm:apophatic-fixed-point-fiber-mature-boundary}
+The mature $\ApophaticFixedPointFiberUp$ package surface is exactly the GAP-first public export of \autoref{thm:apophatic-fixed-point-fiber-public-export-surface} together with the bridge readback rows of \autoref{thm:apophatic-fixed-point-fiber-bridge-readback}. It exposes
+$$
+D,S,G,T,I,H,C,P,N
+$$
+as the finite public and bridge-facing packet, with $G$ read before $T$, and it still refuses an object-level value for $\mathsf{T}$, hidden external supply, and any observer-substance theorem.
+\end{theorem}
+\begin{proof}
+Read the public side from \autoref{thm:apophatic-fixed-point-fiber-public-export-surface}. The accepted packet exports precisely the GAP-first rows $D,S,G,T,I,H,C,P,N$, with no direct digest-to-far-end route.
+
+Read the bridge-facing side from \autoref{thm:apophatic-fixed-point-fiber-bridge-readback}. The same rows are displayed as standard readback data, while the TasteGate evidence remains separate from bridge credentials.
+
+The refused objects are exactly the coordinates absent from the carrier and from both theorem surfaces. There is no row for an object-level value of $\mathsf{T}$, hidden external supply, or observer-substance assertion, so mature closure preserves those refusals rather than exporting them.
+\end{proof}
+\leanchecked{BEDC.Derived.ApophaticFixedPointFiberUp.ApophaticFixedPointFiber\_mature\_boundary}
 
 \closureat{ApophaticFixedPointFiberUp}{obligationStr}[BEDC.Derived.ApophaticFixedPointFiberUp.ApophaticFixedPointFiberTasteGate\_single\_carrier\_alignment]
 \closureat{ApophaticFixedPointFiberUp}{publicStr}[thm:apophatic-fixed-point-fiber-public-export-surface]
 
 \begin{closurestatus}{\ApophaticFixedPointFiberUp}
   \constructivestory{An $\ApophaticFixedPointFiberUp$ packet is generated from a digest/socket row, external-supply socket row, GAP fiber/provenance row, apophatic far-end boundary-name row, local inscription row, componentwise $\hsame$ transport, displayed $\Cont$ routes, $\Pkg$ provenance, and a local $\NameCert$ row.}
-  \theoryclosure{\publicClosure}
+  \theoryclosure{\matureClosure}
   \scopeclosed{\autoref{def:apophatic-fixed-point-fiber-carrier}, \autoref{thm:apophatic-fixed-point-fiber-namecert-obligations}, \autoref{thm:apophatic-fixed-point-fiber-nonescape}, \autoref{thm:apophatic-fixed-point-fiber-independence}, and \autoref{thm:apophatic-fixed-point-fiber-scoped-route} bind the finite carrier, GAP-first read order, direct digest-to-far-end refusal, nearest-sibling independence surface, and scoped public-read route.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{ai}
-  \notclaimed{This chapter does not close a public bridge, an object-level value for $\mathsf{T}$, a hidden external supply, or a global observer-substance theorem.}
-  \upgradepath{Bridge-facing readback requires a displayed standard bridge over the same finite packet, without turning the TasteGate row into a bridge credential.}
+  \notclaimed{This chapter does not close a checked standard bridge, an object-level value for $\mathsf{T}$, a hidden external supply, or a global observer-substance theorem.}
+  \upgradepath{The paper-side package is at mature closure; machine bridge verification remains outside the paper axis while TasteGate evidence stays separate from bridge credentials.}
 \end{closurestatus}

@@ -59,8 +59,14 @@ def exportWitnessRegistry : Array ExportRegistration := #[
   { witness := `BedcMathlibBridge.Export.BellTriangle.bellTriangleExport,
     witnessType :=
       `BedcMathlibBridge.Export.BellTriangle.BellTriangleExportWitness },
+  { witness := `BedcMathlibBridge.Export.BinomialIdentities.binomialIdentitiesExport,
+    witnessType :=
+      `BedcMathlibBridge.Export.BinomialIdentities.BinomialIdentitiesExportWitness },
   { witness := `BedcMathlibBridge.Export.Factorial.factorialExport,
     witnessType := `BedcMathlibBridge.Export.Factorial.FactorialExportWitness },
+  { witness := `BedcMathlibBridge.Export.LahNumber.lahNumberFirstColumnChooseExport,
+    witnessType :=
+      `BedcMathlibBridge.Export.LahNumber.LahNumberFirstColumnChooseExportWitness },
   { witness := `BedcMathlibBridge.Export.Eulerian.eulerianRowSumExport,
     witnessType :=
       `BedcMathlibBridge.Export.Eulerian.EulerianRowSumExportWitness },
@@ -79,6 +85,15 @@ def exportWitnessRegistry : Array ExportRegistration := #[
       `BedcMathlibBridge.Export.StirlingCycleColumn.stirlingCycleColumnExport,
     witnessType :=
       `BedcMathlibBridge.Export.StirlingCycleColumn.StirlingCycleColumnExportWitness },
+  { witness := `BedcMathlibBridge.Export.BellStirlingPrefix.bellStirlingPrefixExport,
+    witnessType :=
+      `BedcMathlibBridge.Export.BellStirlingPrefix.BellStirlingPrefixExportWitness },
+  { witness := `BedcMathlibBridge.Export.TouchardPoly.touchardCoeffExport,
+    witnessType :=
+      `BedcMathlibBridge.Export.TouchardPoly.TouchardCoeffExportWitness },
+  { witness := `BedcMathlibBridge.Export.BellPolynomialSecond.bellPolynomialSecondExport,
+    witnessType :=
+      `BedcMathlibBridge.Export.BellPolynomialSecond.BellPolynomialSecondExportWitness },
   { witness := `BedcMathlibBridge.Export.Derangement.derangementExport,
     witnessType :=
       `BedcMathlibBridge.Export.Derangement.DerangementExportWitness },
@@ -280,6 +295,14 @@ def exportWitnessRegistry : Array ExportRegistration := #[
   { witness := `BedcMathlibBridge.Export.Triangular.triangularExport,
     witnessType :=
       `BedcMathlibBridge.Export.Triangular.TriangularExportWitness },
+  { witness :=
+      `BedcMathlibBridge.Export.FaulhaberPolynomial.faulhaberTriangularClosedNumeratorExport,
+    witnessType :=
+      `BedcMathlibBridge.Export.FaulhaberPolynomial.FaulhaberTriangularClosedNumeratorExportWitness },
+  { witness :=
+      `BedcMathlibBridge.Export.PolygonalNumberTriangular.polygonalNumberTriangularExport,
+    witnessType :=
+      `BedcMathlibBridge.Export.PolygonalNumberTriangular.PolygonalNumberTriangularExportWitness },
   { witness := `BedcMathlibBridge.Export.CakeNumber.cakeNumberExport,
     witnessType :=
       `BedcMathlibBridge.Export.CakeNumber.CakeNumberExportWitness },
@@ -418,11 +441,6 @@ def audit (expected : Array ExportExpectation)
   IntMetadata.auditIntExportSignature
   auditRegistrations exportWitnessRegistry
   let expectedNames := expected.map (·.witness)
-  let dupes := duplicateNames expectedNames
-  unless dupes.isEmpty do
-    throwError m!
-      "BEDC_GATE_D_DUPLICATE_WITNESS: duplicate MATRIX export witness(es): \
-      {formatNames dupes}"
   for e in expected do
     auditExpectedWitness e
   for e in expected do

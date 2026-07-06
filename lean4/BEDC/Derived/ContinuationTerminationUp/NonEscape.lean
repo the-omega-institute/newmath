@@ -1,3 +1,4 @@
+import BEDC.Derived.ContinuationTerminationUp.NameCertObligations
 import BEDC.FKernel.NameCert
 import BEDC.FKernel.Package
 import BEDC.FKernel.Unary.History
@@ -82,5 +83,52 @@ theorem ContinuationTerminationCarrier_nonescape [AskSetup] [PackageSetup]
             ⟨source.right, terminalRoute, behaviorRoute, publicRoute, pPkg, nPkg⟩
       }
   · exact ⟨terminalUnary, behaviorUnary, publicUnary⟩
+
+theorem ContinuationTerminationCarrier_nonescape_namecert_surface [AskSetup] [PackageSetup]
+    {s t tau u b h p n terminalRead behaviorRead publicRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    UnaryHistory s → UnaryHistory t → UnaryHistory tau → UnaryHistory u →
+      UnaryHistory b → UnaryHistory h → UnaryHistory p → UnaryHistory n →
+        Cont t tau terminalRead → Cont u b behaviorRead →
+          Cont terminalRead behaviorRead publicRead →
+            PkgSig bundle p pkg → PkgSig bundle n pkg →
+              SemanticNameCert
+                  (ContinuationTerminationObligationRowSpec s t tau u b h p n)
+                  (ContinuationTerminationObligationRowSpec s t tau u b h p n)
+                  (ContinuationTerminationObligationRowSpec s t tau u b h p n)
+                  hsame ∧
+                ContinuationTerminationObligationRowSpec s t tau u b h p n s ∧
+                  ContinuationTerminationObligationRowSpec s t tau u b h p n t ∧
+                    ContinuationTerminationObligationRowSpec s t tau u b h p n tau ∧
+                      SemanticNameCert
+                        (fun row : BHist => hsame row publicRead ∧ UnaryHistory row)
+                        (fun row : BHist =>
+                          hsame row s ∨ hsame row t ∨ hsame row tau ∨ hsame row u ∨
+                            hsame row b ∨ hsame row h ∨ hsame row p ∨ hsame row n ∨
+                              hsame row terminalRead ∨ hsame row behaviorRead ∨
+                                hsame row publicRead)
+                        (fun row : BHist =>
+                          UnaryHistory row ∧ Cont t tau terminalRead ∧
+                            Cont u b behaviorRead ∧
+                              Cont terminalRead behaviorRead publicRead ∧
+                                PkgSig bundle p pkg ∧ PkgSig bundle n pkg)
+                        hsame ∧
+                        UnaryHistory terminalRead ∧ UnaryHistory behaviorRead ∧
+                          UnaryHistory publicRead := by
+  -- BEDC touchpoint anchor: BHist Cont ProbeBundle Pkg PkgSig hsame SemanticNameCert
+  intro sUnary tUnary tauUnary uUnary bUnary hUnary pUnary nUnary terminalRoute
+    behaviorRoute publicRoute pPkg nPkg
+  obtain ⟨obligationCert, sRow, tRow, tauRow⟩ :=
+    ContinuationTerminationCarrier_namecert_obligations s t tau u b h p n
+  obtain ⟨nonescapeCert, terminalUnary, behaviorUnary, publicUnary⟩ :=
+    ContinuationTerminationCarrier_nonescape
+      (s := s) (t := t) (tau := tau) (u := u) (b := b) (h := h) (p := p)
+      (n := n) (terminalRead := terminalRead) (behaviorRead := behaviorRead)
+      (publicRead := publicRead) (bundle := bundle) (pkg := pkg)
+      sUnary tUnary tauUnary uUnary bUnary hUnary pUnary nUnary terminalRoute
+      behaviorRoute publicRoute pPkg nPkg
+  exact
+    ⟨obligationCert, sRow, tRow, tauRow, nonescapeCert, terminalUnary, behaviorUnary,
+      publicUnary⟩
 
 end BEDC.Derived.ContinuationTerminationUp
