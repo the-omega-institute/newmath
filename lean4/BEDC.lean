@@ -3971,6 +3971,7 @@ import BEDC.Derived.ConstructiveHeineBorelIntervalUp.TasteGate
 import BEDC.Derived.ConstructiveHeineBorelUp.TasteGate
 import BEDC.Derived.ConstructiveIVPUp.TasteGate
 import BEDC.Derived.ConstructiveImplicitFunctionUp.TasteGate
+import BEDC.Derived.ConstructiveIntermediateValueUp.BisectionRoute
 import BEDC.Derived.ConstructiveLipschitzFlowUp.TasteGate
 import BEDC.Derived.ConstructiveLocatedRealUp
 import BEDC.Derived.ConstructiveMeanValueUp.TasteGate
@@ -6701,6 +6702,7 @@ import BEDC.Derived.FiniteTraceInductionGapUp.TasteGate
 import BEDC.Derived.FiniteTriggerFlipGraphUp.TasteGate
 import BEDC.Derived.FiniteUniformDiscrepancyUp
 import BEDC.Derived.FiniteVariationLedgerUp.TasteGate
+import BEDC.Derived.FiniteVariationPartitionUp.TasteGate
 import BEDC.Derived.FiniteVectorUp
 import BEDC.Derived.FiniteVitaliCoverUp.TasteGate
 import BEDC.Derived.FiniteVolumeUp.TasteGate
@@ -14002,6 +14004,7 @@ import BEDC.Derived.WeierstrassMTestUp.MajorantDominationPackage
 import BEDC.Derived.WeierstrassMTestUp.PublicConvergenceExport
 import BEDC.Derived.WeierstrassMTestUp.TasteGate
 import BEDC.Derived.WeirdNumberUp
+import BEDC.Derived.WeylCriterionUp.NameCertObligations
 import BEDC.Derived.WeylEquidistributionUp.TasteGate
 import BEDC.Derived.WeylGroupUp
 import BEDC.Derived.WeylGroupUp.PublicBoundary
