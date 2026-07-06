@@ -134,4 +134,28 @@ theorem BareObjectRefusalCarrier_obligation_classifier
     cont_deterministic classifierRoute witnessRoute
   exact ⟨missingUnary, refusalUnary, classifierUnary, sameClassifierWitness, witnessRoute⟩
 
+theorem BareObjectRefusalCarrier_obligation_ledger
+    {objectName missingFields refusal witnessAudit ledger transport routes provenance
+      localName ledgerRead auditRead : BHist} :
+    BareObjectRefusalCarrier objectName missingFields refusal witnessAudit ledger transport
+        routes provenance localName ->
+      Cont witnessAudit ledger auditRead ->
+        Cont auditRead refusal ledgerRead ->
+          UnaryHistory witnessAudit ∧ UnaryHistory ledger ∧ UnaryHistory auditRead ∧
+            UnaryHistory ledgerRead ∧
+              hsame ledgerRead (append (append witnessAudit ledger) refusal) := by
+  -- BEDC touchpoint anchor: BHist Cont UnaryHistory hsame append
+  intro carrier auditRoute ledgerRoute
+  obtain ⟨_objectUnary, _missingUnary, refusalUnary, witnessUnary, ledgerUnary,
+    _transportUnary, _routesUnary, _provenanceUnary, _localUnary, _witnessRoute,
+    _localRoute⟩ := carrier
+  have auditUnary : UnaryHistory auditRead :=
+    unary_cont_closed witnessUnary ledgerUnary auditRoute
+  have ledgerReadUnary : UnaryHistory ledgerRead :=
+    unary_cont_closed auditUnary refusalUnary ledgerRoute
+  have ledgerExact : hsame ledgerRead (append (append witnessAudit ledger) refusal) := by
+    rw [ledgerRoute, auditRoute]
+    exact hsame_refl (append (append witnessAudit ledger) refusal)
+  exact ⟨witnessUnary, ledgerUnary, auditUnary, ledgerReadUnary, ledgerExact⟩
+
 end BEDC.Derived.BareObjectRefusalUp
