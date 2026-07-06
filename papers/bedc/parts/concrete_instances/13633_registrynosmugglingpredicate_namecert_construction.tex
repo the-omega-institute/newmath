@@ -56,6 +56,20 @@ When $U$ records a no-smuggling refusal, the displayed route is refusal rather t
 The transport, replay, provenance, and naming rows preserve the refused route. Therefore the same packet cannot export theorem evidence; a theorem-evidence export requires a separately displayed packet with its own accepted classifier row.
 \end{proof}
 
+\begin{theorem}[Registry no-smuggling predicate boundary replay]
+\label{thm:registry-no-smuggling-predicate-boundary-replay}
+Every accepted $\RegistryNoSmugglingPredicateUp$ predicate read that refuses theorem-evidence export replays the target row $T$, export row $E$, consistency-gate row $G$, classifier row $U$, machine-boundary replay row $C$, transport row $H$, provenance row $P$, and local naming row $N$ before the refusal is public. Thus the refusal covers the five obligation rows: carrier admission, target/export exposure, gate/classifier routing, boundary replay with transport and provenance, and local naming.
+\end{theorem}
+\begin{proof}
+Project the carrier $R=(T,E,G,U,H,C,P,N)$. Carrier admission fixes the target, export, gate, classifier, transport, replay, provenance, and local naming rows as one predicate packet.
+
+Target/export exposure is read through $T$ and $E$. The same target is checked against the same registry export surface before any theorem-evidence consumer can inspect the route.
+
+Gate/classifier routing is read through $G$ and $U$. The consistency gate exposes the status and audit route, and the classifier records the no-smuggling refusal mode for that same candidate export.
+
+Finally $C,H,P,N$ replay the machine boundary, transport the displayed rows, record provenance, and name the predicate locally. Hence a theorem-evidence refusal is public only after all five obligation rows have been replayed.
+\end{proof}
+
 \falsifiablePrediction{A registry export marked by a RegistryNoSmugglingPredicateUp no-smuggling refusal row cannot be exported as theorem evidence by the same machine-facing registry route.}
 
 \independenceWitness{machineinterfaceformalizationtarget, registryexportsurface, registryexportconsistencygate, smugglingpatternclassifier, machineinterfaceboundary: none carries the joint target, export, consistency-gate, five-form no-smuggling refusal, boundary replay, transport, provenance, and local NameCert packet of $\RegistryNoSmugglingPredicateUp$.}
@@ -66,8 +80,8 @@ The Lean follow-up must provide $\Nontrivial\ \RegistryNoSmugglingPredicateUp$ a
 
 \begin{closurestatus}{\RegistryNoSmugglingPredicateUp}
   \constructivestory{A $\RegistryNoSmugglingPredicateUp$ packet is generated from machine target, registry export, consistency gate, no-smuggling classifier, transport, replay, provenance, and local NameCert rows.}
-  \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:registry-no-smuggling-predicate-carrier}, \autoref{thm:registry-no-smuggling-predicate-namecert-obligations}, and \autoref{thm:registry-no-smuggling-predicate-refusal-blocks-export} bind the finite predicate packet and its export refusal consequence.}
+  \theoryclosure{\obligationClosure}
+  \scopeclosed{\autoref{def:registry-no-smuggling-predicate-carrier}, \autoref{thm:registry-no-smuggling-predicate-namecert-obligations}, \autoref{thm:registry-no-smuggling-predicate-refusal-blocks-export}, and \autoref{thm:registry-no-smuggling-predicate-boundary-replay} bind the finite predicate packet, its export refusal consequence, and the five-row boundary replay obligation.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{This chapter does not supply theorem evidence, bridge checking, host primitive admission, mathematical-tradition import, philosophical truth, roadmap closure, or automatic registry proof generation for $\RegistryNoSmugglingPredicateUp$.}
