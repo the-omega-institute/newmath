@@ -1067,6 +1067,7 @@ import BEDC.Derived.BishopCauchyCriterionCompletionUp.TasteGate
 import BEDC.Derived.BishopCauchyCriterionUp.TasteGate
 import BEDC.Derived.BishopCauchyDisplayCertificateUp
 import BEDC.Derived.BishopCauchyDisplayCertificateUp.TasteGate
+import BEDC.Derived.BishopCauchyInterleavingModulusUp.TasteGate
 import BEDC.Derived.BishopCauchyLimitCriterionUp.TasteGate
 import BEDC.Derived.BishopCauchyMeanUp.TasteGate
 import BEDC.Derived.BishopCauchyModulusEquivalenceUp.TasteGate
@@ -3682,6 +3683,7 @@ import BEDC.Derived.CompactOscillationBarModulusUp.TasteGate
 import BEDC.Derived.CompactOscillationDecayLadderUp
 import BEDC.Derived.CompactOscillationEnvelopeUp.TasteGate
 import BEDC.Derived.CompactPolishSpaceUp.TasteGate
+import BEDC.Derived.CompactRadiusChainUp.TasteGate
 import BEDC.Derived.CompactRealIntervalMinimumUp.TasteGate
 import BEDC.Derived.CompactRealIntervalSearchBasisUp.TasteGate
 import BEDC.Derived.CompactRealSubsequenceModulusUp.TasteGate
@@ -8100,6 +8102,7 @@ import BEDC.Derived.LocatedCutUp.RealSealBridgeExactness
 import BEDC.Derived.LocatedCutUp.RegularCauchyBridgeSource
 import BEDC.Derived.LocatedCutUp.TasteGate
 import BEDC.Derived.LocatedDecimalStreamNormalUp.TasteGate
+import BEDC.Derived.LocatedDistanceFunctionUp.TasteGate
 import BEDC.Derived.LocatedDyadicApproximationUp
 import BEDC.Derived.LocatedDyadicCompletionUp
 import BEDC.Derived.LocatedDyadicCompletionUp.TasteGate
@@ -14050,6 +14053,7 @@ import BEDC.Derived.WeierstrassMTestUp.PublicConvergenceExport
 import BEDC.Derived.WeierstrassMTestUp.TasteGate
 import BEDC.Derived.WeirdNumberUp
 import BEDC.Derived.WeylCriterionUp.NameCertObligations
+import BEDC.Derived.WeylCriterionUp.TasteGate
 import BEDC.Derived.WeylEquidistributionUp.TasteGate
 import BEDC.Derived.WeylGroupUp
 import BEDC.Derived.WeylGroupUp.PublicBoundary
