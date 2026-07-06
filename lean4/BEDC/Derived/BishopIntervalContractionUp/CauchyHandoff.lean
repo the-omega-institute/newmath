@@ -77,4 +77,24 @@ theorem BishopIntervalContractionCauchyHandoff [AskSetup] [PackageSetup]
   }
   exact ⟨rfl, cert⟩
 
+theorem BishopIntervalContraction_shrinkage_composition
+    (x : BishopIntervalContractionUp) :
+    ∃ I F L D W R E H C P N shrinkRoute windowRoute terminalRoute : BHist,
+      x = BishopIntervalContractionUp.mk I F L D W R E H C P N ∧
+        bishopIntervalContractionFields x = [I, F, L, D, W, R, E, H, C, P, N] ∧
+          Cont (append I F) (append L D) shrinkRoute ∧
+            Cont shrinkRoute (append W R) windowRoute ∧
+              Cont windowRoute E terminalRoute ∧
+                hsame H H ∧ hsame C C ∧ hsame P P ∧ hsame N N := by
+  -- BEDC touchpoint anchor: BHist Cont hsame
+  cases x with
+  | mk I F L D W R E H C P N =>
+      exact
+        ⟨I, F, L, D, W, R, E, H, C, P, N,
+          append (append I F) (append L D),
+          append (append (append I F) (append L D)) (append W R),
+          append (append (append (append I F) (append L D)) (append W R)) E,
+          rfl, rfl, rfl, rfl, rfl, hsame_refl H, hsame_refl C, hsame_refl P,
+          hsame_refl N⟩
+
 end BEDC.Derived.BishopIntervalContractionUp

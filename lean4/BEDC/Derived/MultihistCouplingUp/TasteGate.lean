@@ -164,7 +164,7 @@ private theorem multihistCouplingToEventFlow_injective {x y : MultihistCouplingU
     (Eq.trans (multihistCoupling_round_trip x).symm
       (Eq.trans hread (multihistCoupling_round_trip y)))
 
-private def multihistCouplingFields :
+def multihistCouplingFields :
     MultihistCouplingUp → List BHist
   -- BEDC touchpoint anchor: BHist BMark
   | MultihistCouplingUp.mk H0 H1 J S T C P N => [H0, H1, J, S, T, C, P, N]
@@ -252,3 +252,26 @@ theorem MultihistCoupling_invariant_handoff (x : MultihistCouplingUp) :
       exact multihistCoupling_round_trip (MultihistCouplingUp.mk H0 H1 J S T C P N)
 
 end BEDC.Derived.MultihistCouplingUp.TasteGate
+
+namespace BEDC.Derived.MultihistCouplingUp
+
+open BEDC.FKernel.Hist
+
+theorem MultihistCoupling_pair_symmetry_obligation
+    (x : TasteGate.MultihistCouplingUp) :
+    ∃ H0 H1 J S T C P N : BHist,
+      x = TasteGate.MultihistCouplingUp.mk H0 H1 J S T C P N ∧
+        TasteGate.multihistCouplingFields x = [H0, H1, J, S, T, C, P, N] ∧
+          TasteGate.multihistCouplingFields
+              (TasteGate.MultihistCouplingUp.mk H1 H0 J S T C P N) =
+            [H1, H0, J, S, T, C, P, N] ∧
+            hsame J J ∧ hsame S S ∧ hsame T T ∧ hsame C C ∧
+              hsame P P ∧ hsame N N := by
+  -- BEDC touchpoint anchor: BHist hsame
+  cases x with
+  | mk H0 H1 J S T C P N =>
+      exact
+        ⟨H0, H1, J, S, T, C, P, N, rfl, rfl, rfl, hsame_refl J,
+          hsame_refl S, hsame_refl T, hsame_refl C, hsame_refl P, hsame_refl N⟩
+
+end BEDC.Derived.MultihistCouplingUp
