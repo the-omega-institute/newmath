@@ -358,4 +358,37 @@ theorem CauchyPairingCarrier_public_export_certificate [AskSetup] [PackageSetup]
   exact ⟨cert, paired.right.right.right.right.right.left, shared.right.right.right.left,
     paired.right.right.right.right.right.right.right.right.right.right.left⟩
 
+theorem CauchyPairingCarrier_real_handoff_non_escape [AskSetup] [PackageSetup]
+    {a b wA wB lA lB muA muB mu eA eB e transport route provenance localCert
+      sealConsumer sharedBound realHandoff : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CauchyPairingCarrier a b wA wB lA lB muA muB mu eA eB e transport route
+        provenance localCert bundle pkg ->
+      Cont e provenance sealConsumer ->
+        Cont muA muB sharedBound ->
+          Cont sharedBound sealConsumer realHandoff ->
+            PkgSig bundle sealConsumer pkg ->
+              PkgSig bundle sharedBound pkg ->
+                PkgSig bundle realHandoff pkg ->
+                  UnaryHistory sharedBound ∧ UnaryHistory sealConsumer ∧
+                    UnaryHistory realHandoff ∧ Cont muA muB sharedBound ∧
+                      Cont e provenance sealConsumer ∧
+                        Cont sharedBound sealConsumer realHandoff ∧ PkgSig bundle e pkg ∧
+                          PkgSig bundle realHandoff pkg := by
+  -- BEDC touchpoint anchor: BHist Cont PkgSig UnaryHistory
+  intro carrier sealCont sharedBoundCont realHandoffCont _sealPkg _sharedBoundPkg realPkg
+  obtain ⟨_aUnary, _bUnary, _wAUnary, _wBUnary, _lAUnary, _lBUnary, muAUnary,
+    muBUnary, _muUnary, _eAUnary, _eBUnary, eUnary, _transportUnary, _routeUnary,
+    provenanceUnary, _localCertUnary, _muWARow, _muWBRow, _lAlBRow,
+    _eProvenanceTransport, _transportLocalRoute, ePkg⟩ := carrier
+  have sharedBoundUnary : UnaryHistory sharedBound :=
+    unary_cont_closed muAUnary muBUnary sharedBoundCont
+  have sealUnary : UnaryHistory sealConsumer :=
+    unary_cont_closed eUnary provenanceUnary sealCont
+  have realUnary : UnaryHistory realHandoff :=
+    unary_cont_closed sharedBoundUnary sealUnary realHandoffCont
+  exact
+    ⟨sharedBoundUnary, sealUnary, realUnary, sharedBoundCont, sealCont,
+      realHandoffCont, ePkg, realPkg⟩
+
 end BEDC.Derived.CauchyPairingUp
