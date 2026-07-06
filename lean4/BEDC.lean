@@ -5479,6 +5479,7 @@ import BEDC.Derived.DyadicCompletionEmbeddingUp
 import BEDC.Derived.DyadicCompletionEmbeddingUp.NameCertObligations
 import BEDC.Derived.DyadicCompletionEmbeddingUp.RealSealHandoff
 import BEDC.Derived.DyadicCompletionFunctorUp.TasteGate
+import BEDC.Derived.DyadicCompletionUnitUp
 import BEDC.Derived.DyadicCompletionUp
 import BEDC.Derived.DyadicCompletionUp.TasteGate
 import BEDC.Derived.DyadicCoverRefinementUp
@@ -6360,6 +6361,7 @@ import BEDC.Derived.FiniteClosedIntervalNestedIntersectionUp.TasteGate
 import BEDC.Derived.FiniteContractionOrbitErrorUp
 import BEDC.Derived.FiniteCoverLebesgueNumberUp.TasteGate
 import BEDC.Derived.FiniteCoverMeshUp
+import BEDC.Derived.FiniteCoverModulusFunctionalUp.TasteGate
 import BEDC.Derived.FiniteCoverModulusSelectorUp.TasteGate
 import BEDC.Derived.FiniteCoverNerveUp.CompactUniformHandoff
 import BEDC.Derived.FiniteCoverNerveUp.NameCertObligations
@@ -11507,6 +11509,7 @@ import BEDC.Derived.RegSeqObservationBudgetUp.TasteGate
 import BEDC.Derived.RegSeqRatIntervalIntersectionUp
 import BEDC.Derived.RegSeqRatLocatedModulusUp.TasteGate
 import BEDC.Derived.RegSeqRatUp
+import BEDC.Derived.RegSeqRatUp.AuditThresholdFactorization
 import BEDC.Derived.RegSeqRatUp.AuditThresholdFiniteCoverGluing
 import BEDC.Derived.RegSeqRatUp.CommonRefinement
 import BEDC.Derived.RegSeqRatUp.CommonTailRealBoundaryEquivalence
