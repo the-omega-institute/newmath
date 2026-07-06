@@ -395,6 +395,7 @@ import BEDC.Derived.AssouadSnowflakeEmbeddingUp
 import BEDC.Derived.AssouadSnowflakeEmbeddingUp.TasteGate
 import BEDC.Derived.AsymptoticEquicontinuityUp.TasteGate
 import BEDC.Derived.AsymptoticEquivalenceUp.TasteGate
+import BEDC.Derived.AsymptoticRegularityUp.TasteGate
 import BEDC.Derived.AsymptoticSequenceUp.TasteGate
 import BEDC.Derived.AtiyahSingerUp
 import BEDC.Derived.AtiyahSingerUp.TasteGate
@@ -3165,6 +3166,7 @@ import BEDC.Derived.ChoiceSequenceRealUp
 import BEDC.Derived.ChoiceSequenceRealUp.TasteGate
 import BEDC.Derived.ChoiceSequenceRealizabilityUp.TasteGate
 import BEDC.Derived.ChoiceWindowSequenceUp.TasteGate
+import BEDC.Derived.ChoquetBoundaryRepresentationUp
 import BEDC.Derived.ChoquetCompleteSpaceUp.TasteGate
 import BEDC.Derived.ChoquetGameUp.TasteGate
 import BEDC.Derived.ChoquetSimplexUp.TasteGate
