@@ -1,14 +1,12 @@
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
 import BEDC.GroundCompiler.EventFlow
-import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.WeylCriterionUp
 
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
 open BEDC.GroundCompiler.EventFlow
-open BEDC.Meta.TasteGate
 
 inductive WeylCriterionUp : Type where
   | mk (I F Z U S R D E H C P N : BHist) : WeylCriterionUp
@@ -24,6 +22,12 @@ def weylCriterionDecodeBHist : RawEvent → BHist
   | [] => BHist.Empty
   | BMark.b0 :: tail => BHist.e0 (weylCriterionDecodeBHist tail)
   | BMark.b1 :: tail => BHist.e1 (weylCriterionDecodeBHist tail)
+
+def weylCriterionRawAt : EventFlow → Nat → RawEvent
+  -- BEDC touchpoint anchor: BHist BMark
+  | [], _ => []
+  | head :: _, 0 => head
+  | _ :: tail, Nat.succ n => weylCriterionRawAt tail n
 
 private theorem weylCriterionDecode_encode_bhist :
     ∀ h : BHist, weylCriterionDecodeBHist (weylCriterionEncodeBHist h) = h := by
@@ -78,22 +82,21 @@ def weylCriterionToEventFlow : WeylCriterionUp → EventFlow
 
 def weylCriterionFromEventFlow : EventFlow → Option WeylCriterionUp
   -- BEDC touchpoint anchor: BHist BMark
-  | [I, F, Z, U, S, R, D, E, H, C, P, N] =>
+  | flow =>
       some
         (WeylCriterionUp.mk
-          (weylCriterionDecodeBHist I)
-          (weylCriterionDecodeBHist F)
-          (weylCriterionDecodeBHist Z)
-          (weylCriterionDecodeBHist U)
-          (weylCriterionDecodeBHist S)
-          (weylCriterionDecodeBHist R)
-          (weylCriterionDecodeBHist D)
-          (weylCriterionDecodeBHist E)
-          (weylCriterionDecodeBHist H)
-          (weylCriterionDecodeBHist C)
-          (weylCriterionDecodeBHist P)
-          (weylCriterionDecodeBHist N))
-  | _ => none
+          (weylCriterionDecodeBHist (weylCriterionRawAt flow 0))
+          (weylCriterionDecodeBHist (weylCriterionRawAt flow 1))
+          (weylCriterionDecodeBHist (weylCriterionRawAt flow 2))
+          (weylCriterionDecodeBHist (weylCriterionRawAt flow 3))
+          (weylCriterionDecodeBHist (weylCriterionRawAt flow 4))
+          (weylCriterionDecodeBHist (weylCriterionRawAt flow 5))
+          (weylCriterionDecodeBHist (weylCriterionRawAt flow 6))
+          (weylCriterionDecodeBHist (weylCriterionRawAt flow 7))
+          (weylCriterionDecodeBHist (weylCriterionRawAt flow 8))
+          (weylCriterionDecodeBHist (weylCriterionRawAt flow 9))
+          (weylCriterionDecodeBHist (weylCriterionRawAt flow 10))
+          (weylCriterionDecodeBHist (weylCriterionRawAt flow 11)))
 
 private theorem WeylCriterionTasteGate_single_carrier_alignment_round_trip
     (x : WeylCriterionUp) :
@@ -137,29 +140,18 @@ private theorem WeylCriterionTasteGate_single_carrier_alignment_toEventFlow_inje
     (Eq.trans (WeylCriterionTasteGate_single_carrier_alignment_round_trip x).symm
       (Eq.trans hread (WeylCriterionTasteGate_single_carrier_alignment_round_trip y)))
 
-instance weylCriterionBHistCarrier : BHistCarrier WeylCriterionUp where
-  -- BEDC touchpoint anchor: BHist BMark
-  toEventFlow := weylCriterionToEventFlow
-  fromEventFlow := weylCriterionFromEventFlow
-
-instance weylCriterionChapterTasteGate : ChapterTasteGate WeylCriterionUp where
-  -- BEDC touchpoint anchor: BHist BMark
-  round_trip := by
-    intro x
-    change weylCriterionFromEventFlow (weylCriterionToEventFlow x) = some x
-    exact WeylCriterionTasteGate_single_carrier_alignment_round_trip x
-  layer_separation := by
-    intro x y hxy heq
-    exact hxy (WeylCriterionTasteGate_single_carrier_alignment_toEventFlow_injective heq)
-
 theorem WeylCriterionTasteGate_single_carrier_alignment :
     (∀ h : BHist, weylCriterionDecodeBHist (weylCriterionEncodeBHist h) = h) ∧
-      Nonempty (BHistCarrier WeylCriterionUp) ∧
-      Nonempty (ChapterTasteGate WeylCriterionUp) ∧
-      weylCriterionEncodeBHist BHist.Empty = ([] : List BMark) := by
+      (∀ x : WeylCriterionUp,
+        weylCriterionFromEventFlow (weylCriterionToEventFlow x) = some x) ∧
+        (∀ x y : WeylCriterionUp,
+          weylCriterionToEventFlow x = weylCriterionToEventFlow y → x = y) ∧
+          weylCriterionEncodeBHist BHist.Empty = ([] : List BMark) := by
   -- BEDC touchpoint anchor: BHist BMark
   exact
-    ⟨weylCriterionDecode_encode_bhist, Nonempty.intro weylCriterionBHistCarrier,
-      Nonempty.intro weylCriterionChapterTasteGate, rfl⟩
+    ⟨weylCriterionDecode_encode_bhist,
+      WeylCriterionTasteGate_single_carrier_alignment_round_trip,
+      (fun _ _ heq => WeylCriterionTasteGate_single_carrier_alignment_toEventFlow_injective heq),
+      rfl⟩
 
 end BEDC.Derived.WeylCriterionUp
