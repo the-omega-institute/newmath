@@ -15,6 +15,7 @@ import UnifiedTheory.Golden.Carry
 import UnifiedTheory.Golden.FiniteWords
 import UnifiedTheory.Golden.MinusWindow
 import UnifiedTheory.Golden.BeattyDeficit
+import UnifiedTheory.Golden.DeficitSharp
 import UnifiedTheory.Golden.NaryDeficit
 import UnifiedTheory.Golden.TraceMap
 import UnifiedTheory.Kernel.LedgerStatus
