@@ -1,5 +1,6 @@
-import Mathlib.Data.Nat.Fib.Basic
 import Mathlib.Data.Multiset.Basic
+import Mathlib.Data.Multiset.Sort
+import Mathlib.Data.Nat.Fib.Zeckendorf
 
 namespace UnifiedTheory
 
@@ -176,5 +177,71 @@ theorem normal_isZeckMS {M : Multiset ℕ} (h : Normal M) : IsZeckMS M := by
     | 1 => exact absurd hi (normal_no_one h)
     | _ + 2 => omega
   · exact normal_no_adjacent h
+
+/-- The descending list associated to a multiset of Zeckendorf indices. -/
+def zList (M : Multiset ℕ) : List ℕ := M.sort (fun a b : ℕ => b ≤ a)
+
+private lemma zList_nodup {M : Multiset ℕ} (hM : M.Nodup) : (zList M).Nodup := by
+  rw [← Multiset.coe_nodup, zList, Multiset.sort_eq]
+  exact hM
+
+private lemma zList_mem {M : Multiset ℕ} {i : ℕ} : i ∈ zList M ↔ i ∈ M := by
+  rw [zList, Multiset.mem_sort]
+
+private lemma zList_pairwise_gap {M : Multiset ℕ} (hM : IsZeckMS M) :
+    (zList M).Pairwise (fun a b : ℕ => b + 2 ≤ a) := by
+  have hsort : (zList M).Pairwise (fun a b : ℕ => b ≤ a) := by
+    unfold zList
+    exact Multiset.pairwise_sort M (fun a b : ℕ => b ≤ a)
+  have hnodup : (zList M).Nodup := zList_nodup hM.1
+  have hstrict : (zList M).Pairwise (fun a b : ℕ => b < a) := by
+    have hge : (zList M).SortedGE := by
+      simpa [List.sortedGE_iff_pairwise] using hsort
+    have hgt : (zList M).SortedGT := hge.sortedGT_of_nodup hnodup
+    simpa [List.sortedGT_iff_pairwise] using hgt
+  exact hstrict.imp_of_mem (l := zList M) (fun {a b} ha hb hlt => by
+    have haM : a ∈ M := zList_mem.mp ha
+    have hbM : b ∈ M := zList_mem.mp hb
+    have hnot : b + 1 ≠ a := by
+      intro h
+      exact hM.2.2 b hbM (h ▸ haM)
+    omega)
+
+/-- The descending list of a normal multiset is a Zeckendorf representation. -/
+theorem normal_zList_isZeckendorfRep {M : Multiset ℕ} (hM : Normal M) :
+    (zList M).IsZeckendorfRep := by
+  have hz := normal_isZeckMS hM
+  unfold List.IsZeckendorfRep
+  rw [List.isChain_append]
+  refine ⟨(zList_pairwise_gap hz).isChain, List.isChain_singleton 0, ?_⟩
+  intro x hx y hy
+  simp only [List.head?_cons, Option.mem_some_iff] at hy
+  subst y
+  have hxM : x ∈ M := zList_mem.mp (List.mem_of_mem_getLast? hx)
+  exact hz.2.1 x hxM
+
+private lemma zList_sum_fib_eq_fibVal (M : Multiset ℕ) :
+    ((zList M).map Nat.fib).sum = fibVal M := by
+  have hsort : (↑(zList M) : Multiset ℕ) = M := by
+    unfold zList
+    exact Multiset.sort_eq M (fun a b : ℕ => b ≤ a)
+  rw [fibVal, ← Multiset.sum_coe, ← Multiset.map_coe, hsort]
+
+/-- Normal Zeckendorf multisets with the same Fibonacci value have the same descending list. -/
+theorem normal_unique_of_same_value {M N : Multiset ℕ}
+    (hM : Normal M) (hN : Normal N) (hv : fibVal M = fibVal N) :
+    zList M = zList N := by
+  have hMz := normal_zList_isZeckendorfRep hM
+  have hNz := normal_zList_isZeckendorfRep hN
+  have hsM : ((zList M).map Nat.fib).sum = fibVal M := zList_sum_fib_eq_fibVal M
+  have hsN : ((zList N).map Nat.fib).sum = fibVal N := zList_sum_fib_eq_fibVal N
+  have hsum : ((zList M).map Nat.fib).sum = ((zList N).map Nat.fib).sum := by
+    rw [hsM, hsN, hv]
+  calc
+    zList M = (((zList M).map Nat.fib).sum).zeckendorf := by
+      exact (Nat.zeckendorf_sum_fib hMz).symm
+    _ = (((zList N).map Nat.fib).sum).zeckendorf := by
+      rw [hsum]
+    _ = zList N := Nat.zeckendorf_sum_fib hNz
 
 end UnifiedTheory
