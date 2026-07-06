@@ -1052,6 +1052,7 @@ import BEDC.Derived.BisectionRootIsolationUp.RegSeqRatWindowHandoff
 import BEDC.Derived.BisectionRootIsolationUp.RetainedWindowRefinement
 import BEDC.Derived.BisectionRootIsolationUp.TasteGate
 import BEDC.Derived.BishopApartnessFieldEnvelopeUp
+import BEDC.Derived.BishopApartnessSubspaceUp.TasteGate
 import BEDC.Derived.BishopApproximationSequenceUp.TasteGate
 import BEDC.Derived.BishopCauchyApproximationUp.TasteGate
 import BEDC.Derived.BishopCauchyChoiceSequenceUp
@@ -5851,6 +5852,7 @@ import BEDC.Derived.EquicontinuousCauchyFamilyUp.CompletionHandoff
 import BEDC.Derived.EquicontinuousCauchyFamilyUp.TasteGate
 import BEDC.Derived.EquicontinuousCompletionUp.TasteGate
 import BEDC.Derived.EquicontinuousFamilyUp.TasteGate
+import BEDC.Derived.EquicontinuousPointwiseLimitUp.TasteGate
 import BEDC.Derived.EquicontinuousUniformCauchyModulusUp
 import BEDC.Derived.EquivCatUp
 import BEDC.Derived.ErdosSzekeresMonotoneSubsequenceUp
@@ -13014,6 +13016,7 @@ import BEDC.Derived.StationaryRationalDiagonalUp
 import BEDC.Derived.StationaryRationalDiagonalUp.TasteGate
 import BEDC.Derived.StationaryWindowLatticeUp.TasteGate
 import BEDC.Derived.StationaryWindowNaturalityUp.TasteGate
+import BEDC.Derived.StationaryWindowSealExhaustionUp
 import BEDC.Derived.StationaryWindowSealExhaustionUp.TasteGate
 import BEDC.Derived.StatusDowngradeUp.TasteGate
 import BEDC.Derived.StepFunctionUp.TasteGate
