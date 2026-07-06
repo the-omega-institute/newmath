@@ -1,0 +1,93 @@
+\chapter{A Concrete Naming Certificate for $\DyadicCompletionUnitUp$}
+\label{ch:concrete-instances-dyadic-completion-unit-namecert}
+\origin{human}
+
+Following Bishop and Bridges and the standard unit law for Cauchy completion, the $\DyadicCompletionUnitUp$ packet records the finite route by which a displayed dyadic datum enters the StreamName--RegSeqRat--Real seal path. It sits after the dyadic arithmetic core of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the finite observation surface of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the terminal real seal of \autoref{ch:concrete-instances-real-namecert}, and the completion-unit route of \autoref{ch:concrete-instances-real-completion-unit-namecert}. The packet names only the displayed dyadic source, stream window, regular readback, real seal, unit witness, transport, replay, provenance, and local NameCert rows; it does not import quotient real equality, selected representatives, ambient completeness, countable choice, or a host-level universal property.
+
+\begin{definition}[Dyadic completion unit carrier]
+\label{def:dyadic-completion-unit-carrier}
+A $\DyadicCompletionUnitUp$ carrier is a finite $\BHist$ packet
+$$
+U=(D,S,R,E,W,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $D$ is the $\DyadicRatCoreUp$ source row, carrying the dyadic numerator, denominator exponent, sign, and tolerance data being embedded;
+\item $S$ is the $\StreamNameUp$ finite-window row generated from $D$ by repeating the dyadic value through inspected windows;
+\item $R$ is the $\RegSeqRatUp$ readback row obtained from the same stream windows and dyadic tolerance ledger;
+\item $E$ is the terminal $\RealUp$ seal row attached to the regular rational readback;
+\item $W$ is the completion-unit witness row, recording that the dyadic source reaches the completion surface through the displayed $D,S,R,E$ route;
+\item $H$ records componentwise $\hsame$ transport for dyadic source, stream window, regular readback, real seal, unit witness, replay, provenance, and local naming rows;
+\item $C$ records displayed $\Cont$ replay from the dyadic source through stream windows, regular readback, real sealing, and unit witnessing;
+\item $P$ is the $\Pkg$ provenance over $\DyadicCompletionUnitUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\RealCompletionUnitUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$;
+\item $N$ is the local $\NameCert_{\DyadicCompletionUnitUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $D,S,R,E,W,H,C,P,N$. It has no coordinate for a quotient completion class, a selected real representative, an ambient completeness theorem, countable choice, trichotomy, or a detached universal-property proof.
+\end{definition}
+
+\begin{theorem}[Dyadic completion unit NameCert obligations]
+\label{thm:dyadic-completion-unit-namecert-obligations}
+For the carrier of \autoref{def:dyadic-completion-unit-carrier}, the local $\NameCert_{\DyadicCompletionUnitUp}$ surface consists exactly of five obligation rows:
+\begin{enumerate}
+\item carrier admission for $U=(D,S,R,E,W,H,C,P,N)$;
+\item source exactness, requiring the dyadic row $D$ to be displayed before any stream, regular, real, or completion-unit read is consumed;
+\item finite-window exactness, requiring $S$ and $R$ to expose the same inspected dyadic windows and tolerance ledger;
+\item real-seal handoff, requiring $E$ and $W$ to keep the completion-unit witness downstream of the $\RegSeqRatUp$ readback;
+\item non-escape, excluding quotient completion classes, selected representatives, ambient completeness, countable choice, trichotomy, and detached universal-property proofs outside $D,S,R,E,W,H,C,P,N$.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:dyadic-completion-unit-carrier}. The tuple lists the dyadic source, stream window, regular readback, real seal, completion-unit witness, transport, replay, provenance, and local naming rows.
+
+Source exactness is immediate from the order of the displayed rows. The row $D$ is the only dyadic source coordinate, so a consumer cannot replace it by an unstated rational representative or by a host embedding.
+
+The finite-window rows $S$ and $R$ then preserve the same inspected dyadic datum. The stream row exposes finite windows, and the regular rational row reads those windows through the dyadic tolerance ledger rather than through quotient stream equality.
+
+Finally $E,W,H,C,P,N$ seal, witness, transport, replay, source, and name that route. Since the carrier has no other coordinate, the listed non-escape clauses exhaust every public read.
+\end{proof}
+
+\begin{theorem}[Dyadic completion unit RegSeqRat handoff]
+\label{thm:dyadic-completion-unit-regseqrat-handoff}
+Every accepted $\DyadicCompletionUnitUp$ consumer that reaches a $\RegSeqRatUp$ readback must first display the finite route
+$$
+\DyadicRatCoreUp,\quad \StreamNameUp,\quad \RegSeqRatUp .
+$$
+In carrier notation this is the route through $D,S,R$ before any $\RealUp$ seal or completion-unit witness is available. The handoff exports no quotient stream equality, selected representative, countable-choice schedule, trichotomy, or ambient completion principle.
+\end{theorem}
+\begin{proof}
+Start with a consumer read of the regular rational row. By \autoref{def:dyadic-completion-unit-carrier}, the only route to that row is through the dyadic source $D$ and stream window $S$.
+
+Apply the NameCert obligations of \autoref{thm:dyadic-completion-unit-namecert-obligations}. They force $D$ to be displayed first and require $S$ and $R$ to name the same inspected finite windows.
+
+The rows $E$ and $W$ occur only after $R$, while $H,C,P,N$ preserve the already displayed route. Hence the regular readback is a finite dyadic-stream handoff, not a quotient or choice-based completion read.
+\end{proof}
+
+\begin{theorem}[Dyadic completion unit Real-seal non-escape]
+\label{thm:dyadic-completion-unit-real-seal-nonescape}
+Every $\RealUp$ or $\RealCompletionUnitUp$ read from an accepted $\DyadicCompletionUnitUp$ carrier is downstream of the same $D,S,R$ route. The terminal rows $E$ and $W$ seal and witness the dyadic completion unit only for the displayed packet, and they export no ambient real completeness, selected representative, quotient equality, countable choice, trichotomy, or detached universal property.
+\end{theorem}
+\begin{proof}
+Read the carrier rows in order. The real seal $E$ and the unit witness $W$ both occur after the dyadic source $D$, stream window $S$, and regular rational readback $R$.
+
+Use \autoref{thm:dyadic-completion-unit-regseqrat-handoff} to identify the only available regular readback route. The downstream rows $E$ and $W$ cannot bypass it, because neither row contains a separate dyadic source or a separate stream name.
+
+Transport, replay, provenance, and local naming preserve the same packet through $H,C,P,N$. Thus the public seal remains a completion-unit certificate for the displayed dyadic datum rather than an ambient completion theorem.
+\end{proof}
+
+\leanstmt{BEDC.Derived.DyadicCompletionUnitUp}
+
+\falsifiablePrediction{Every accepted $\DyadicCompletionUnitUp$ Real or Completion read factors through displayed DyadicRatCore, StreamName, RegSeqRat, Real seal, completion-unit witness, transport, replay, provenance, and local NameCert rows.}
+
+\independenceWitness{dyadicratcore, streamname, regseqrat, real, real-completion-unit: no listed sibling is bijective to $\DyadicCompletionUnitUp$, because the dyadic core lacks the StreamName--RegSeqRat--Real seal route, StreamName lacks the dyadic source and unit witness, RegSeqRat lacks the dyadic source row, Real supplies only the terminal seal, and RealCompletionUnit does not isolate the dyadic source route.}
+
+\closureat{DyadicCompletionUnitUp}{seedStr}
+
+\begin{closurestatus}{\DyadicCompletionUnitUp}
+  \constructivestory{A $\DyadicCompletionUnitUp$ packet is generated from a displayed DyadicRatCore source row, StreamName finite windows, RegSeqRat readback, a Real seal, a completion-unit witness, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:dyadic-completion-unit-carrier}, \autoref{thm:dyadic-completion-unit-namecert-obligations}, \autoref{thm:dyadic-completion-unit-regseqrat-handoff}, and \autoref{thm:dyadic-completion-unit-real-seal-nonescape} seed the finite dyadic completion-unit route over the displayed StreamName, RegSeqRat, and Real seal rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient completion classes, selected real representatives, ambient completeness, countable choice, trichotomy, Lean verification, or bridge checking for $\DyadicCompletionUnitUp$.}
+  \upgradepath{Lean closure requires checked carrier admission, finite-window exactness, RegSeqRat handoff, Real-seal non-escape, transport, replay, provenance, and local naming for BEDC.Derived.DyadicCompletionUnitUp.}
+\end{closurestatus}
