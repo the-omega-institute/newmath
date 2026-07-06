@@ -51,22 +51,39 @@ def DyadicCauchyCriterionTasteGate_single_carrier_alignment_toEventFlow :
       (DyadicCauchyCriterionTasteGate_single_carrier_alignment_fields x).map
         DyadicCauchyCriterionTasteGate_single_carrier_alignment_encodeBHist
 
-def DyadicCauchyCriterionTasteGate_single_carrier_alignment_fromEventFlow :
-    EventFlow → Option DyadicCauchyCriterionUp
+private def DyadicCauchyCriterionTasteGate_single_carrier_alignment_eventAtDefault :
+    Nat → EventFlow → RawEvent
   -- BEDC touchpoint anchor: BHist BMark
-  | D :: W :: T :: R :: E :: H :: C :: P :: N :: [] =>
-      some
-        (DyadicCauchyCriterionUp.mk
-          (DyadicCauchyCriterionTasteGate_single_carrier_alignment_decodeBHist D)
-          (DyadicCauchyCriterionTasteGate_single_carrier_alignment_decodeBHist W)
-          (DyadicCauchyCriterionTasteGate_single_carrier_alignment_decodeBHist T)
-          (DyadicCauchyCriterionTasteGate_single_carrier_alignment_decodeBHist R)
-          (DyadicCauchyCriterionTasteGate_single_carrier_alignment_decodeBHist E)
-          (DyadicCauchyCriterionTasteGate_single_carrier_alignment_decodeBHist H)
-          (DyadicCauchyCriterionTasteGate_single_carrier_alignment_decodeBHist C)
-          (DyadicCauchyCriterionTasteGate_single_carrier_alignment_decodeBHist P)
-          (DyadicCauchyCriterionTasteGate_single_carrier_alignment_decodeBHist N))
-  | _ => none
+  | Nat.zero, [] => []
+  | Nat.zero, event :: _rest => event
+  | Nat.succ _index, [] => []
+  | Nat.succ index, _event :: rest =>
+      DyadicCauchyCriterionTasteGate_single_carrier_alignment_eventAtDefault index rest
+
+def DyadicCauchyCriterionTasteGate_single_carrier_alignment_fromEventFlow :
+    EventFlow → Option DyadicCauchyCriterionUp :=
+  -- BEDC touchpoint anchor: BHist BMark
+  fun ef =>
+    some
+      (DyadicCauchyCriterionUp.mk
+        (DyadicCauchyCriterionTasteGate_single_carrier_alignment_decodeBHist
+          (DyadicCauchyCriterionTasteGate_single_carrier_alignment_eventAtDefault 0 ef))
+        (DyadicCauchyCriterionTasteGate_single_carrier_alignment_decodeBHist
+          (DyadicCauchyCriterionTasteGate_single_carrier_alignment_eventAtDefault 1 ef))
+        (DyadicCauchyCriterionTasteGate_single_carrier_alignment_decodeBHist
+          (DyadicCauchyCriterionTasteGate_single_carrier_alignment_eventAtDefault 2 ef))
+        (DyadicCauchyCriterionTasteGate_single_carrier_alignment_decodeBHist
+          (DyadicCauchyCriterionTasteGate_single_carrier_alignment_eventAtDefault 3 ef))
+        (DyadicCauchyCriterionTasteGate_single_carrier_alignment_decodeBHist
+          (DyadicCauchyCriterionTasteGate_single_carrier_alignment_eventAtDefault 4 ef))
+        (DyadicCauchyCriterionTasteGate_single_carrier_alignment_decodeBHist
+          (DyadicCauchyCriterionTasteGate_single_carrier_alignment_eventAtDefault 5 ef))
+        (DyadicCauchyCriterionTasteGate_single_carrier_alignment_decodeBHist
+          (DyadicCauchyCriterionTasteGate_single_carrier_alignment_eventAtDefault 6 ef))
+        (DyadicCauchyCriterionTasteGate_single_carrier_alignment_decodeBHist
+          (DyadicCauchyCriterionTasteGate_single_carrier_alignment_eventAtDefault 7 ef))
+        (DyadicCauchyCriterionTasteGate_single_carrier_alignment_decodeBHist
+          (DyadicCauchyCriterionTasteGate_single_carrier_alignment_eventAtDefault 8 ef)))
 
 private theorem DyadicCauchyCriterionTasteGate_single_carrier_alignment_round_trip :
     ∀ x : DyadicCauchyCriterionUp,
