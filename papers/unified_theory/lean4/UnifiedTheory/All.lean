@@ -6,6 +6,7 @@ import UnifiedTheory.Arithmetic.PrimeAxes
 import UnifiedTheory.Arithmetic.Zeckendorf
 import UnifiedTheory.Arithmetic.EuclidEscape
 import UnifiedTheory.Arithmetic.PrimeLogIndep
+import UnifiedTheory.Arithmetic.FibTwoSquare
 import UnifiedTheory.PZG.Carrier
 import UnifiedTheory.PZG.Decode
 import UnifiedTheory.PZG.Normalize
