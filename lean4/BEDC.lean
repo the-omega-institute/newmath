@@ -1093,6 +1093,7 @@ import BEDC.Derived.BishopCompletionComparisonUp.RegularLocatedRoute
 import BEDC.Derived.BishopCompletionComparisonUp.RegularSeal
 import BEDC.Derived.BishopCompletionComparisonUp.TasteGate
 import BEDC.Derived.BishopCompletionCriterionUp.TasteGate
+import BEDC.Derived.BishopCompletionFunctorialityUp.TasteGate
 import BEDC.Derived.BishopCompletionInductionUp.TasteGate
 import BEDC.Derived.BishopCompletionModulusSelectionUp.NameCertObligations
 import BEDC.Derived.BishopCompletionModulusSelectionUp.TasteGate
@@ -3165,6 +3166,7 @@ import BEDC.Derived.ChoiceSequenceRealUp
 import BEDC.Derived.ChoiceSequenceRealUp.TasteGate
 import BEDC.Derived.ChoiceSequenceRealizabilityUp.TasteGate
 import BEDC.Derived.ChoiceWindowSequenceUp.TasteGate
+import BEDC.Derived.ChoquetBoundaryRepresentationUp
 import BEDC.Derived.ChoquetCompleteSpaceUp.TasteGate
 import BEDC.Derived.ChoquetGameUp.TasteGate
 import BEDC.Derived.ChoquetSimplexUp.TasteGate
