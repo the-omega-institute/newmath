@@ -1,6 +1,7 @@
 import Mathlib.Data.Multiset.Basic
 import Mathlib.Data.Multiset.Sort
 import Mathlib.Data.Nat.Fib.Zeckendorf
+import Mathlib.Logic.Relation
 
 namespace UnifiedTheory
 
@@ -243,5 +244,51 @@ theorem normal_unique_of_same_value {M N : Multiset ℕ}
     _ = (((zList N).map Nat.fib).sum).zeckendorf := by
       rw [hsum]
     _ = zList N := Nat.zeckendorf_sum_fib hNz
+
+/-- Reflexive-transitive complete carry reduction. -/
+def Reduces : Multiset ℕ → Multiset ℕ → Prop := Relation.ReflTransGen CarryFull
+
+/-- Complete carry reduction preserves Fibonacci value. -/
+theorem fibVal_reduces {M N : Multiset ℕ} (h : Reduces M N) : fibVal M = fibVal N := by
+  induction h with
+  | refl => rfl
+  | tail hrt hstep ih =>
+      exact ih.trans (CarryFull.fibVal_preserving hstep)
+
+/-- Every multiset has a complete carry-normal form. -/
+theorem exists_normal (M : Multiset ℕ) : ∃ N, Reduces M N ∧ Normal N :=
+  (CarryFull.terminates).induction (C := fun M => ∃ N, Reduces M N ∧ Normal N) M (fun M ih => by
+    by_cases hM : Normal M
+    · exact ⟨M, Relation.ReflTransGen.refl, hM⟩
+    · rw [Normal] at hM
+      push_neg at hM
+      obtain ⟨N, hMN⟩ := hM
+      obtain ⟨N', hN'red, hN'norm⟩ := ih N hMN
+      exact ⟨N', Relation.ReflTransGen.head hMN hN'red, hN'norm⟩)
+
+/--
+Complete carry rewriting is strongly normalizing: every multiset reduces to a
+unique normal form, value is preserved along reduction, and confluence follows
+from Zeckendorf uniqueness rather than a critical-pair analysis.
+-/
+theorem normal_form_unique {M N₁ N₂ : Multiset ℕ}
+    (h₁ : Reduces M N₁) (hn₁ : Normal N₁)
+    (h₂ : Reduces M N₂) (hn₂ : Normal N₂) : N₁ = N₂ := by
+  have hv : fibVal N₁ = fibVal N₂ := by
+    rw [← fibVal_reduces h₁, ← fibVal_reduces h₂]
+  have hz : zList N₁ = zList N₂ := normal_unique_of_same_value hn₁ hn₂ hv
+  have e₁ : (↑(zList N₁) : Multiset ℕ) = N₁ := by
+    unfold zList
+    exact Multiset.sort_eq N₁ (fun a b : ℕ => b ≤ a)
+  have e₂ : (↑(zList N₂) : Multiset ℕ) = N₂ := by
+    unfold zList
+    exact Multiset.sort_eq N₂ (fun a b : ℕ => b ≤ a)
+  rw [← e₁, ← e₂, hz]
+
+/-- A complete carry-normal form is the Zeckendorf representative of `fibVal M`. -/
+theorem normal_form_is_zeckendorf (M : Multiset ℕ) :
+    ∃ N, Reduces M N ∧ Normal N ∧ fibVal N = fibVal M := by
+  obtain ⟨N, hred, hnorm⟩ := exists_normal M
+  exact ⟨N, hred, hnorm, (fibVal_reduces hred).symm⟩
 
 end UnifiedTheory
