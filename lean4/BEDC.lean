@@ -8030,6 +8030,7 @@ import BEDC.Derived.LocatedApartnessUp.TasteGate
 import BEDC.Derived.LocatedArchimedeanUp.TasteGate
 import BEDC.Derived.LocatedBoundedRealSequenceUp.TasteGate
 import BEDC.Derived.LocatedBoundedRealSetUp
+import BEDC.Derived.LocatedCantorBendixsonUp.TasteGate
 import BEDC.Derived.LocatedCauchyBracketUp.TasteGate
 import BEDC.Derived.LocatedCauchyCompletionFunctorUp.TasteGate
 import BEDC.Derived.LocatedCauchyExtractionUp.TasteGate
@@ -9612,6 +9613,7 @@ import BEDC.Derived.NestedRadicalConvergenceUp.TasteGate
 import BEDC.Derived.NestedShrinkingIntervalUp.TasteGate
 import BEDC.Derived.NetClusterPointUp.NeighbourhoodHitRoute
 import BEDC.Derived.NetClusterPointUp.TasteGate
+import BEDC.Derived.NetConvergenceCriterionUp.TasteGate
 import BEDC.Derived.NetConvergenceUp
 import BEDC.Derived.NetConvergenceUp.RealSealNonescape
 import BEDC.Derived.NetConvergenceUp.TasteGate
