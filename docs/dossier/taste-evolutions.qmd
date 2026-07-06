@@ -20,18 +20,18 @@ date-modified: today
 
 ## 当前观察 (auto-refresh)
 
-> 最后刷新: 2026-07-06T11:37:04Z
+> 最后刷新: 2026-07-06T13:01:43Z
 
-**Daemon 状态**: monitor (monitor cycle 323, adjust_since_research 2, round_counter 38977, last_adjust rule_evolution_completed)
+**Daemon 状态**: monitor (monitor cycle 324, adjust_since_research 2, round_counter 39007, last_adjust rule_evolution_completed)
 
-**待处理 queue** (1417 条 finding):
-- isolated_theorem: 1042 条; 代表样本 `derived`, `derived`, `derived`
+**待处理 queue** (1420 条 finding):
+- isolated_theorem: 1045 条; 代表样本 `derived`, `derived`, `derived`
 - unauthorized_capstone: 306 条; 代表样本 `cauchy`, `helly_theorem`, `metacic_candidate_strong_normalization`
 - low_entropy_template: 69 条; 代表样本 `variation_norm`, `kernelinductiveacceptance`, `polishspace`
 
 **最近 alert 概览** (24h 内):
-- TASTE ALERT category=isolated_theorem: 100 次
-- TASTE ALERT category=low_entropy_template: 6 次
+- TASTE ALERT category=isolated_theorem: 94 次
+- TASTE ALERT category=low_entropy_template: 4 次
 - TASTE ALERT category=cycle_exception: 3 次
 - TASTE ALERT category=resolution_json_parse_failed: 1 次
 
@@ -648,6 +648,8 @@ error: build failed, audit=skipped, phase_d_lint=skipped.
 - 2026-07-06T10:06:06Z: `resolved` `leave_with_rationale` for `BEDC.Derived.GapFailureBridgeAuditUp.GapFailureBridgeAuditPacket_axis_separation` (flag `isolated_theorem`, finding `isolated_theorem:gapfailurebridgeaudit:BEDC.Derived.GapFailureBridgeAuditUp.GapFailureBridgeAuditPacket_axis_separation:29cfe6b6`). Rationale: The theorem is not a disposable wrapper: the paper chapter marks it as the Lean site for the GapFailureBridgeAudit axis-separation theorem, and the theorem packages the NameCert surface with the explicit encoded X-row membership and the Cont B X bridge-axis route. The natural downstream sibling is ScienceBridgeUp, which already imports GapFailureBridgeAuditUp and consumes GapFailureBridgeAuditPacket_nonescape; I attempted to add a ScienceBridge handoff theorem consuming this target, but lake build failed in that added theorem with Unknown identifier FieldFaithful.fields. Per the task contract, I reverted the attempted change and leave the theorem as staging-only with a concrete downstream path through ScienceBridgeUp once the consumer statement is adjusted to the available namespace/import surface. Gate results: lake_build=error: BEDC/Derived/ScienceBridgeUp/MatureFailureSurfaceExport.lean:232:36: Unknown identifier `FieldFaithful.fields`; error: build failed, audit=skipped, phase_d_lint=skipped.
 
 - 2026-07-06T11:36:07Z: `resolved` `add_downstream_user` for `BEDC.Derived.EgorovUp.EgorovCarrier_namecert_obligations` (flag `isolated_theorem`, finding `isolated_theorem:derived:BEDC.Derived.EgorovUp.EgorovCarrier_namecert_obligations:88980f14`). Rationale: The target is not staging-only and not a removable wrapper: it constructs the Egorov local SemanticNameCert obligation surface for the carrier, but grep showed no downstream Lean consumer before this change. I added a sibling consumer theorem, BEDC.Derived.EgorovUp.Egorov_measure_ledger_obligation_consumer_handoff, in the measure-ledger sibling file; it calls EgorovCarrier_namecert_obligations to obtain the local Egorov obligation certificate and row obligations, then uses those obligations to build the downstream ledger consumer certificate. Gate results: lake_build=ok, audit=ok, phase_d_lint=ok, axiom_purity=ok.
+
+- 2026-07-06T13:01:12Z: `resolved` `add_downstream_user` for `BEDC.Derived.EgorovUp.Egorov_measure_ledger_nonescape` (flag `isolated_theorem`, finding `isolated_theorem:egorov:BEDC.Derived.EgorovUp.Egorov_measure_ledger_nonescape:0c865fc4`). Rationale: The target is not staging-only or disposable: the Egorov paper chapter marks it as the checked measure-ledger nonescape claim and later paper arguments use that boundary. Lean-side it lacked a downstream consumer, so I added `Egorov_tolerance_measure_ledger_consumer_boundary` in the RegSeqRat dyadic tolerance sibling; it directly invokes `Egorov_measure_ledger_nonescape` and combines its consumer certificate with the existing tolerance nonescape certificate. Gate results: lake_build=ok, audit=ok, phase_d_lint=ok, axiom_purity=ok.
 
 ## 注解
 

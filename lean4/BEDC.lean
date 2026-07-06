@@ -14050,6 +14050,7 @@ import BEDC.Derived.WeierstrassMTestUp.PublicConvergenceExport
 import BEDC.Derived.WeierstrassMTestUp.TasteGate
 import BEDC.Derived.WeirdNumberUp
 import BEDC.Derived.WeylCriterionUp.NameCertObligations
+import BEDC.Derived.WeylCriterionUp.TasteGate
 import BEDC.Derived.WeylEquidistributionUp.TasteGate
 import BEDC.Derived.WeylGroupUp
 import BEDC.Derived.WeylGroupUp.PublicBoundary
