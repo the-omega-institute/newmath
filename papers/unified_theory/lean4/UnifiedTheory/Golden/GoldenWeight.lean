@@ -79,4 +79,38 @@ theorem goldWeight_mul_of_coprime {m n : ℕ} (hm : m ≠ 0) (hn : n ≠ 0)
     rw [h1, h2]; ring
   rw [hκ]; ring
 
+/-- 位移读数 `S` 单调:`a ≤ b ⟹ S a ≤ S b`(`(a+1)φ` 随 `a` 增,floor 保序)。 -/
+theorem S_mono : Monotone S := by
+  intro a b hab
+  have hφ : (0 : ℝ) < Real.goldenRatio := by linarith [Real.one_lt_goldenRatio]
+  have hab' : (a : ℝ) ≤ b := by exact_mod_cast hab
+  have hmul : ((a : ℝ) + 1) * Real.goldenRatio ≤ ((b : ℝ) + 1) * Real.goldenRatio :=
+    mul_le_mul_of_nonneg_right (by linarith) hφ.le
+  have hfl := Int.floor_le_floor hmul
+  unfold S
+  omega
+
+/-- `S` 非负(`S 0 = 0` 且单调)。 -/
+theorem S_nonneg (v : ℕ) : 0 ≤ S v := by
+  have := S_mono (Nat.zero_le v)
+  rwa [S_at0] at this
+
+/-- 金权重非负。 -/
+theorem goldWeight_nonneg (n : ℕ) : 0 ≤ goldWeight n :=
+  Finset.sum_nonneg (fun _ _ => S_nonneg _)
+
+/-- **金权重是整除格上的单调秩**:`m ∣ n`(`n ≠ 0`)时 `Ωφ m ≤ Ωφ n`。
+与 `Gvec_dvd_iff`(整除 ↔ 逐坐标 ≤)对齐——金权重保序整除格到 `(ℤ, ≤)`。 -/
+theorem goldWeight_mono_of_dvd {m n : ℕ} (hn : n ≠ 0) (hdvd : m ∣ n) :
+    goldWeight m ≤ goldWeight n := by
+  have hm : m ≠ 0 := fun h => hn (by rw [h] at hdvd; exact Nat.eq_zero_of_zero_dvd hdvd)
+  have hle : m.factorization ≤ n.factorization :=
+    (Nat.factorization_le_iff_dvd hm hn).mpr hdvd
+  have hsub : m.factorization.support ⊆ n.factorization.support := by
+    simp only [Nat.support_factorization]
+    exact Nat.primeFactors_mono hdvd hn
+  rw [goldWeight_eq_sum_of_subset (n := m) (s := n.factorization.support) hsub]
+  unfold goldWeight
+  exact Finset.sum_le_sum (fun p _ => S_mono (Finsupp.le_def.mp hle p))
+
 end UnifiedTheory
