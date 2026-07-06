@@ -5470,6 +5470,7 @@ import BEDC.Derived.DyadicBallUp.WindowRefinement
 import BEDC.Derived.DyadicBarycentricRefinementUp
 import BEDC.Derived.DyadicBinarySearchUp.TasteGate
 import BEDC.Derived.DyadicBisectionScheduleUp.TasteGate
+import BEDC.Derived.DyadicBisectionTreeUp.TasteGate
 import BEDC.Derived.DyadicBisectionUp
 import BEDC.Derived.DyadicBisectionUp.TasteGate
 import BEDC.Derived.DyadicBracketApproximationUp.TasteGate
@@ -5929,6 +5930,7 @@ import BEDC.Derived.ExtremeValueUp.TasteGate
 import BEDC.Derived.FSigmaSetUp
 import BEDC.Derived.FaaDiBrunoUp
 import BEDC.Derived.FaberSchauderSystemUp
+import BEDC.Derived.FaberSchauderSystemUp.SupportRoute
 import BEDC.Derived.FableBranchWitnessUp
 import BEDC.Derived.FableBranchWitnessUp.EmptyBoundarySelectorDependency
 import BEDC.Derived.FableBranchWitnessUp.TasteGate
@@ -14048,7 +14050,6 @@ import BEDC.Derived.WeierstrassMTestUp.PublicConvergenceExport
 import BEDC.Derived.WeierstrassMTestUp.TasteGate
 import BEDC.Derived.WeirdNumberUp
 import BEDC.Derived.WeylCriterionUp.NameCertObligations
-import BEDC.Derived.WeylCriterionUp.TasteGate
 import BEDC.Derived.WeylEquidistributionUp.TasteGate
 import BEDC.Derived.WeylGroupUp
 import BEDC.Derived.WeylGroupUp.PublicBoundary
