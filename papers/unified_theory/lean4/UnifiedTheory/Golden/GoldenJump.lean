@@ -41,4 +41,29 @@ theorem goldJump_window_exact (m N : ℕ) :
   rw [Finset.sum_congr rfl (fun i _ => key i), Finset.sum_range_sub f N, hf]
   simp
 
+/-- 黄金跳跃是二值 Beatty/Sturmian 词:`S` 每步增加 `1` 或 `2`。 -/
+theorem goldJump_mem (n : ℕ) : goldJump n = 0 ∨ goldJump n = 1 := by
+  let τ : ℝ := Real.goldenRatio - 1
+  let z : ℝ := ((n : ℝ) + 1) * τ
+  have hτpos : 0 < τ := by
+    dsimp [τ]
+    linarith [Real.one_lt_goldenRatio]
+  have hτlt : τ < 1 := by
+    dsimp [τ]
+    linarith [Real.goldenRatio_lt_two]
+  have hbase : ((n : ℝ) + 1) * (Real.goldenRatio - 1) = z := by
+    dsimp [z, τ]
+  have hnext : ((n : ℝ) + 2) * (Real.goldenRatio - 1) = z + τ := by
+    dsimp [z, τ]
+    ring
+  have hlow : (⌊z⌋ : ℤ) ≤ ⌊z + τ⌋ := by
+    exact Int.floor_le_floor (by linarith)
+  have hfloor_one : (⌊z + (1 : ℝ)⌋ : ℤ) = ⌊z⌋ + 1 := Int.floor_add_one z
+  have hhigh0 : (⌊z + τ⌋ : ℤ) ≤ ⌊z + (1 : ℝ)⌋ := by
+    exact Int.floor_le_floor (by linarith)
+  have hhigh : (⌊z + τ⌋ : ℤ) ≤ ⌊z⌋ + 1 := by
+    simpa [hfloor_one] using hhigh0
+  rw [goldJump_eq_floor_diff n, hnext, hbase]
+  omega
+
 end UnifiedTheory
