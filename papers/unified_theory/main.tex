@@ -26,7 +26,7 @@
 \maketitle
 
 \begin{abstract}
-We report the portion of the PZG--BEDC dynamic ontology kernel formalized in Lean 4 with mathlib.  PZG denotes prime-axis Zeckendorf coding: each prime axis carries a finite Zeckendorf word, and decoding first turns those words into prime exponents and then reconstructs a positive natural number.  The checked development covers 40 content modules plus the aggregation module: the finite generation layer, Newman normal forms, prime-axis factorization and Euclid escape, Zeckendorf and PZG bijections, finite golden-ratio algebra, deficit and golden-jump ledgers, Cassini--Fricke trace conservation, finite readings and two-square classifiers, Kleene/Cantor/Gödel barriers for self-coding, cost and hidden-fiber rigidity, critical-line reflection algebra, Euler products, no-zero-line zeta facts, completed zeta functional equations, and the RH ledger equivalence.  The generated-results section records eighteen machine-checked additions, including seven oracle-suggested conjectures certified locally after proposal.  Every mathematical assertion labeled as machine checked below names an actual Lean declaration under \lean{papers/unified_theory/lean4/UnifiedTheory}.  The RH result is an equivalence with mathlib's \lean{RiemannHypothesis}, not a proof of RH; quasicrystal zeta, explicit-formula analysis, positivity bridges, and open leaves such as O-5 and O-6 remain outside the checked-result column.  The Lean project is mathlib-based and isolated from the mathlib-free BEDC core; the stated reproducibility surface is the branch \lean{feat/unified-theory-mathlib}, with the full project check given by \lean{lake build}.
+We report the portion of the PZG--BEDC dynamic ontology kernel formalized in Lean 4 with mathlib.  PZG denotes prime-axis Zeckendorf coding: each prime axis carries a finite Zeckendorf word, and decoding first turns those words into prime exponents and then reconstructs a positive natural number.  The checked development covers 40 content modules plus the aggregation module: the finite generation layer, Newman normal forms, prime-axis factorization and Euclid escape, Zeckendorf and PZG bijections, finite golden-ratio algebra, deficit and golden-jump ledgers, Cassini--Fricke trace conservation, finite readings and two-square classifiers, Kleene/Cantor/Gödel barriers for self-coding, cost and hidden-fiber rigidity, critical-line reflection algebra, Euler products, no-zero-line zeta facts, completed zeta functional equations, and the RH ledger equivalence.  The generated-results section records nineteen machine-checked additions, including the unconditional shifted Zeckendorf--Beatty bridge and seven oracle-suggested conjectures certified locally after proposal.  Every mathematical assertion labeled as machine checked below names an actual Lean declaration under \lean{papers/unified_theory/lean4/UnifiedTheory}.  The RH result is an equivalence with mathlib's \lean{RiemannHypothesis}, not a proof of RH; quasicrystal zeta, explicit-formula analysis, positivity bridges, and open leaves such as O-5 and O-6 remain outside the checked-result column.  The Lean project is mathlib-based and isolated from the mathlib-free BEDC core; the stated reproducibility surface is the branch \lean{feat/unified-theory-mathlib}, with the full project check given by \lean{lake build}.
 \end{abstract}
 
 \section{Introduction}
@@ -382,15 +382,34 @@ states
 $$
   c(a,b)+c(a+b,c)=c(a,b+c)+c(b,c),
 $$
-which is the formal carry-conservation law 6.62, or $\delta^2=0$, for the Beatty deficit ledger.  The bridge from this Beatty reading to shifted Zeckendorf sums is still conditional:
+which is the formal carry-conservation law 6.62, or $\delta^2=0$, for the Beatty deficit ledger.  The bridge from this Beatty reading to shifted Zeckendorf sums is now closed:
 $$
-  \lean{UnifiedTheory.S_eq_shifted_zeck_of}
+  \lean{UnifiedTheory.S_eq_shifted_zeck}
 $$
-requires
+is now an unconditional theorem.  The asymmetric shrinking-window bound
 $$
-  \lean{UnifiedTheory.ShiftedZeckendorfBeattyBridge}.
+  \lean{UnifiedTheory.minusWindow_holds}
 $$
-Thus theorem 6.44 is represented as a conditional bridge, not as an unconditional theorem.
+is proved without hypotheses by splitting the signed Zeckendorf chain into its parity components and applying the strict geometric estimate
+$$
+  \lean{UnifiedTheory.geomBoundStrict}
+$$
+together with the signed window theorem
+$$
+  \lean{UnifiedTheory.signedGeom_window}.
+$$
+The algebraic bridge
+$$
+  \lean{UnifiedTheory.betaMinus_encode_eq}
+$$
+identifies the Beatty deficit with the shifted Zeckendorf sum, and
+$$
+  \lean{UnifiedTheory.shiftedZeckendorf_of_minusWindow}
+$$
+turns the window bound into the bridge.  Thus theorem 6.44 is checked as the unconditional identity
+$$
+  S(v)=\sum_{i\in\mathrm{encode}\,v}\mathrm{fib}(i+1).
+$$
 
 \paragraph{$n$-ary deficit.}
 The list-valued Beatty deficit is
@@ -729,6 +748,15 @@ The formalization cycle did more than ingest source-document theorems.  It now h
   prove $m\mid n\Rightarrow\Omega_\phi(m)\le\Omega_\phi(n)$ and, for a proper divisor $m\mid n$ with $m\ne n$ (and $n\ne0$), the strict $\Omega_\phi(m)<\Omega_\phi(n)$.  Since $S$ is nonnegative and strictly monotone, golden weight is an order-embedding of the divisibility lattice $(\mathbb{N}^+,\mid)$ into $(\mathbb{Z},\le)$, strictly into $(\mathbb{Z},<)$, matching the lattice reading of the fixed-length self-code below.
   \item \textbf{Golden weight is a quasimorphism.}  With the cross-layer obstruction $\kappa_\phi$, $\lean{UnifiedTheory.goldWeight_defect_bound}$ proves $|\Omega_\phi(mn)-\Omega_\phi(m)-\Omega_\phi(n)|\le|\mathrm{supp}(m)\cap\mathrm{supp}(n)|$: the additivity defect is bounded by the number of shared prime axes, via the deficit trichotomy $cDef\in\{-1,0,1\}$.  Coprime arguments give defect $0$.
   \item \textbf{Golden-jump sequence is binary.}  $\lean{UnifiedTheory.goldJump_mem}$ proves $goldJump(n)\in\{0,1\}$: since $\tau=\phiG-1\in(0,1)$, the floor difference $\lfloor(n+2)\tau\rfloor-\lfloor(n+1)\tau\rfloor$ is $0$ or $1$, so $S$ grows by exactly $1$ or $2$ at each step---the golden Sturmian $0$--$1$ word, companion to the window telescope (O2).
+  \item \textbf{Shifted Zeckendorf--Beatty bridge is unconditional.}  The declarations
+  $$
+    \begin{gathered}
+    \lean{UnifiedTheory.minusWindow_holds}\\
+    \lean{UnifiedTheory.shiftedZeckendorf_of_minusWindow}\\
+    \lean{UnifiedTheory.S_eq_shifted_zeck}
+    \end{gathered}
+  $$
+  discharge the former front-line bridge hypothesis: the asymmetric window is proved directly, then converted into the identity $S(v)=\sum_{i\in\mathrm{encode}\,v}\mathrm{fib}(i+1)$.  This closes the roadmap P0 item without changing the analytic frontier.
 \end{enumerate}
 
 \subsection*{Oracle-suggested results}
@@ -769,12 +797,13 @@ $$
 $$
 They are independent mechanisms; the bridge
 $$
-  \lean{UnifiedTheory.S_eq_shifted_zeck_of}
+  \lean{UnifiedTheory.S_eq_shifted_zeck}
 $$
-is conditional on
+is no longer a checked theorem under a separate bridge hypothesis.  The assumption
 $$
   \lean{UnifiedTheory.ShiftedZeckendorfBeattyBridge}.
 $$
+has been discharged by \lean{UnifiedTheory.minusWindow_holds}, so the Zeckendorf shrinking-window and Beatty-floor routes now meet in one unconditional theorem.  At the project-ledger level, the front-line conditional count is now zero; this does not promote any analytic outlook item into the checked column.
 The $n$-ary theorem \lean{UnifiedTheory.Cn_abs_le} is the symmetric estimate $|C_n|\le m-1$; sharper asymmetric endpoint counts are not claimed.  The normalization theorem
 $$
   \lean{UnifiedTheory.PZGTable.decode_normAdd}
