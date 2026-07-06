@@ -48,6 +48,7 @@ import UnifiedTheory.SelfCode.Godel
 import UnifiedTheory.SelfCode.GodelVec
 import UnifiedTheory.SelfCode.GvecWeight
 import UnifiedTheory.Dynamics.CostArrow
+import UnifiedTheory.Dynamics.TraceStepReversible
 import UnifiedTheory.Dynamics.Length
 import UnifiedTheory.Dynamics.Phase
 import UnifiedTheory.Dynamics.HiddenRigidity
