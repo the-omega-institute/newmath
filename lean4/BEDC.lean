@@ -1116,6 +1116,7 @@ import BEDC.Derived.BishopCompletionUp
 import BEDC.Derived.BishopCompletionUp.ObligationClosure
 import BEDC.Derived.BishopCompletionUp.TasteGate
 import BEDC.Derived.BishopCompletionUp.UniversalFilterReadback
+import BEDC.Derived.BishopContractionEndpointSealUp.TasteGate
 import BEDC.Derived.BishopCutUp
 import BEDC.Derived.BishopDiagonalCauchySequenceUp.TasteGate
 import BEDC.Derived.BishopDiagonalRegularizationUp
@@ -4875,6 +4876,7 @@ import BEDC.Derived.DarbouxPartitionLedgerUp.TasteGate
 import BEDC.Derived.DarbouxPropertyUp.TasteGate
 import BEDC.Derived.DarbouxSumRefinementUp
 import BEDC.Derived.DarbouxSumUp.TasteGate
+import BEDC.Derived.DarbouxSumsUp.TasteGate
 import BEDC.Derived.DarbouxTheoremUp.TasteGate
 import BEDC.Derived.DavenportConstantUp.TasteGate
 import BEDC.Derived.DcpoUp
@@ -5877,6 +5879,7 @@ import BEDC.Derived.EudoxusRealUp.TasteGate
 import BEDC.Derived.EulerBooleSummation
 import BEDC.Derived.EulerCriterionUp
 import BEDC.Derived.EulerLagrangeUp
+import BEDC.Derived.EulerMaclaurinFiniteSumUp.TasteGate
 import BEDC.Derived.EulerMaclaurinUp.TasteGate
 import BEDC.Derived.EulerMethodConvergenceUp
 import BEDC.Derived.EulerMethodFiniteStepUp.TasteGate
@@ -7215,6 +7218,7 @@ import BEDC.Derived.HemicompactSpaceUp.TasteGate
 import BEDC.Derived.HenselLemmaUp.NewtonWitnessNonescape
 import BEDC.Derived.HenselLemmaUp.TasteGate
 import BEDC.Derived.HenstockGaugePartitionUp
+import BEDC.Derived.HenstockGaugeVariationUp
 import BEDC.Derived.HenstockKurzweilUp.TasteGate
 import BEDC.Derived.HermiteHadamardUp
 import BEDC.Derived.HermiteHadamardUp.TasteGate
@@ -9418,6 +9422,7 @@ import BEDC.Derived.ModuleUp
 import BEDC.Derived.ModuleUp.ActionBoundary
 import BEDC.Derived.ModuleUp.FiberExhaustion
 import BEDC.Derived.ModuleUp.ForgetfulCertificates
+import BEDC.Derived.ModuleUp.ForgetfulProjection
 import BEDC.Derived.ModuleUp.KernelExactness
 import BEDC.Derived.ModuleUp.KernelSubmoduleClosure
 import BEDC.Derived.ModuleUp.StdBridge
@@ -13358,6 +13363,7 @@ import BEDC.Derived.TheoremGapRegistryUp.TasteGate
 import BEDC.Derived.TheorySelfClassifierUp.CarrierObligation
 import BEDC.Derived.TheorySelfClassifierUp.ClassifierObligation
 import BEDC.Derived.TheorySelfClassifierUp.FiveRowDeterminacy
+import BEDC.Derived.TheorySelfClassifierUp.LedgerObligation
 import BEDC.Derived.TheorySelfClassifierUp.LedgerRowInversion
 import BEDC.Derived.TheorySelfClassifierUp.Nonescape
 import BEDC.Derived.TheorySelfClassifierUp.ObligationTriple
