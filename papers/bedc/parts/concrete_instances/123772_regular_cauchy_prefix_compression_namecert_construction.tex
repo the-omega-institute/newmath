@@ -1,0 +1,94 @@
+\chapter{A Concrete Naming Certificate for $\RegularCauchyPrefixCompressionUp$}
+\label{ch:concrete-instances-regular-cauchy-prefix-compression-namecert}
+\origin{human}
+
+Following Bishop and Bridges on regular Cauchy sequences, the $\RegularCauchyPrefixCompressionUp$ packet records the finite operation that replaces a displayed initial segment by a shorter prefix ledger while preserving the Real-facing tail read. It sits over the finite windows of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the dyadic tolerance ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. The packet names prefix compression as visible NameCert data for Real and Completion consumers; it is not quotient stream equality, a selected limit, countable choice, host real equality, or ambient $\RealUp$ completeness.
+
+\begin{definition}[Regular Cauchy prefix-compression carrier]
+\label{def:regular-cauchy-prefix-compression-carrier}
+A $\RegularCauchyPrefixCompressionUp$ carrier is a finite $\BHist$ packet
+$$
+K=(S,R,D,F,L,Z,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the $\StreamNameUp$ finite-window family for the source regular Cauchy name, including the displayed observations before and after compression.
+\item $R$ is the $\RegSeqRatUp$ readback row tying the visible windows to one regular rational sequence.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance ledger recording the requested precision, retained slack, and prefix-compression error budget.
+\item $F$ is the finite prefix selector row, naming the last retained prefix stage and the finite list of discarded source observations.
+\item $L$ is the compression ledger, recording that every Real-facing tail request after $F$ reads the same $R$ and $D$ rows through the compressed window family.
+\item $Z$ is the terminal $\RealUp$ seal row, exposed only after $S,R,D,F,L$ have been displayed.
+\item $H$ records componentwise $\hsame$ transport for the StreamName windows, RegSeqRat readback, DyadicRatCore tolerance ledger, prefix selector, compression ledger, Real seal, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from a prefix-compression request through
+$$
+S\longrightarrow R\longrightarrow D\longrightarrow F\longrightarrow L\longrightarrow Z .
+$$
+\item $P$ is the $\Pkg$ provenance over $\RegularCauchyPrefixCompressionUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\RegularCauchyPrefixCompressionUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $S,R,D,F,L,Z,H,C,P,N$. It has no coordinate for quotient streams, selected representatives, selected limits, countable choice, host real equality, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[Regular Cauchy prefix-compression NameCert obligations]
+\label{thm:regular-cauchy-prefix-compression-namecert-obligations}
+For every accepted $\RegularCauchyPrefixCompressionUp$ carrier
+$$
+K=(S,R,D,F,L,Z,H,C,P,N),
+$$
+the local $\NameCert_{\RegularCauchyPrefixCompressionUp}$ surface consists exactly of $\StreamNameUp$ finite-window admission, $\RegSeqRatUp$ readback, $\DyadicRatCoreUp$ tolerance exposure, finite prefix selector admission, compression-ledger exactness, terminal $\RealUp$ seal handoff, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:regular-cauchy-prefix-compression-carrier}. The mathematical rows before transport and naming are $S,R,D,F,L,Z$.
+
+The prefix selector $F$ is finite: it names a last retained stage and a finite discarded prefix. The source windows $S$, regular readback $R$, and dyadic ledger $D$ show that the later tail request still uses the same regular rational route and tolerance budget.
+
+The compression ledger $L$ records that every Real-facing request after the retained stage is replayed through the compressed window family. Only then can the terminal seal $Z$ be read.
+
+The rows $H,C,P,N$ transport, replay, source, and name that same finite route. Since no other carrier coordinate exists, the local NameCert surface cannot introduce quotient stream equality, selected representatives, selected limits, countable choice, host real equality, or ambient $\RealUp$ completeness.
+\end{proof}
+
+\begin{theorem}[Regular Cauchy prefix-compression window extraction]
+\label{thm:regular-cauchy-prefix-compression-window-extraction}
+Every accepted $\RegularCauchyPrefixCompressionUp$ read exposes a finite $\StreamNameUp$ window family $S$, a $\RegSeqRatUp$ readback row $R$, a $\DyadicRatCoreUp$ tolerance ledger $D$, and a finite prefix selector $F$ before the compression ledger $L$ can be consumed. Thus the compressed prefix is extracted from displayed windows and tolerances, not from a quotient stream, unrecorded tail, selected subsequence, or host limit.
+\end{theorem}
+\begin{proof}
+Begin with an accepted carrier $K=(S,R,D,F,L,Z,H,C,P,N)$. The definition lists $L$ only after the window, regular readback, dyadic tolerance, and prefix selector rows.
+
+Apply \autoref{thm:regular-cauchy-prefix-compression-namecert-obligations}. The finite-window admission, readback, tolerance exposure, and prefix-selector clauses must all be discharged before compression-ledger exactness is available.
+
+Therefore a consumer cannot obtain $L$ without displaying $S,R,D,F$. The structural rows preserve this dependency order, so no quotient stream, hidden tail, selected subsequence, or host limit is available to the extraction.
+\end{proof}
+
+\begin{theorem}[Regular Cauchy prefix-compression Real handoff]
+\label{thm:regular-cauchy-prefix-compression-real-handoff}
+Every Real or Completion consumer of an accepted $\RegularCauchyPrefixCompressionUp$ packet reaches the terminal seal through
+$$
+\StreamNameUp\longrightarrow \RegSeqRatUp\longrightarrow \DyadicRatCoreUp\longrightarrow \RealUp .
+$$
+The finite prefix selector and compression ledger must be displayed before the $\RealUp$ seal $Z$ can be read as a completion-facing handoff.
+\end{theorem}
+\begin{proof}
+Start from $K=(S,R,D,F,L,Z,H,C,P,N)$. The source windows, regular readback, and dyadic ledger are the only rows that can answer a precision request before the terminal seal.
+
+Apply \autoref{thm:regular-cauchy-prefix-compression-window-extraction}. It forces the finite prefix selector and compression ledger to remain downstream of $S,R,D$.
+
+Apply \autoref{thm:regular-cauchy-prefix-compression-namecert-obligations}. The terminal seal handoff is one of the listed local obligations and is available only after the prefix-compression ledger has been displayed.
+
+Thus every Real or Completion consumer receives a finite StreamName, RegSeqRat, DyadicRatCore, and Real route, with transport, replay, provenance, and local naming attached. It receives no quotient stream equality, selected representative, selected limit, countable choice, host real equality, or ambient $\RealUp$ completeness coordinate.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\RegularCauchyPrefixCompressionUp$ Real or Completion read displays StreamName windows, RegSeqRat readback, DyadicRatCore tolerance data, a finite prefix selector, compression ledger, RealUp seal, componentwise hsame transport, Cont replay, Pkg provenance, and local NameCert rows before exporting the compressed tail handoff.}
+
+\independenceWitness{streamname, regseqrat, dyadicratcore, real: $\RegularCauchyPrefixCompressionUp$ is not bijective to any listed sibling because the siblings separately provide finite windows, regular rational readback, dyadic tolerances, and terminal Real sealing, while this packet binds them to a finite prefix selector and compression ledger for downstream Real and Completion consumers.}
+
+\closureat{RegularCauchyPrefixCompressionUp}{seedStr}
+
+\begin{closurestatus}{\RegularCauchyPrefixCompressionUp}
+  \constructivestory{A $\RegularCauchyPrefixCompressionUp$ packet is generated from StreamName finite windows, RegSeqRat readback, DyadicRatCore tolerance data, a finite prefix selector, a compression ledger, a RealUp seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:regular-cauchy-prefix-compression-carrier}, \autoref{thm:regular-cauchy-prefix-compression-namecert-obligations}, \autoref{thm:regular-cauchy-prefix-compression-window-extraction}, and \autoref{thm:regular-cauchy-prefix-compression-real-handoff} seed the finite prefix-compression route from displayed regular Cauchy windows to a Real-facing seal.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient stream equality, selected representatives, selected limits, countable choice, host real equality, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, finite-window readback, regular rational handoff, dyadic tolerance exposure, prefix-selector admission, compression-ledger exactness, Real seal handoff, transport, replay, provenance, and local naming for BEDC.Derived.RegularCauchyPrefixCompressionUp.}
+\end{closurestatus}
