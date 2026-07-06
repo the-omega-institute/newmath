@@ -52,4 +52,17 @@ theorem cassini_fricke (x y : ℝ) (K : ℕ) :
       rw [hphi0, hpsi0, hcross, hpq]
       ring
 
+/-- **生成式推论(迹映射非退化)**:Cassini–Fricke 不变量非零 ⟺ `x ≠ 0 ∧ y ≠ 0`。
+即迹映射轨道停留在退化轨迹 `xy=0` 之外当且仅当两坐标都非零——对应 Fibonacci 哈密顿量的
+有界轨道/谱在非平凡参数上不塌缩。源文档未列此非退化判据。 -/
+theorem cassini_fricke_ne_zero (x y : ℝ) (K : ℕ) :
+    qForm (uCoord x y (K + 1)) (uCoord x y K) ≠ 0 ↔ x ≠ 0 ∧ y ≠ 0 := by
+  rw [cassini_fricke]
+  have hpow : ((-1 : ℝ)) ^ (K + 1) ≠ 0 := pow_ne_zero _ (by norm_num)
+  constructor
+  · intro h
+    exact ⟨fun hx => h (by rw [hx]; ring), fun hy => h (by rw [hy]; ring)⟩
+  · rintro ⟨hx, hy⟩
+    exact mul_ne_zero (mul_ne_zero (mul_ne_zero (by norm_num) hx) hy) hpow
+
 end UnifiedTheory
