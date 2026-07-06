@@ -1,0 +1,72 @@
+\chapter{A Concrete Naming Certificate for $\VanDerWaerdenProgressionUp$}
+\label{ch:concrete-instances-van-der-waerden-progression-namecert}
+\origin{human}
+
+Following van der Waerden's finite arithmetic progression theorem, the $\VanDerWaerdenProgressionUp$ packet records the finite monochromatic progression route as BEDC NameCert data. It sits after the natural-number carrier of \autoref{ch:concrete-instances-nat-namecert}, the finite list surface of \autoref{ch:concrete-instances-list-namecert}, the finite Ramsey-style coloring rows available through \autoref{ch:concrete-instances-ramsey-namecert}, and the arithmetic-progression analogue of \autoref{ch:concrete-instances-real-arithmetic-progression-namecert}. The packet names only the interval bound, color ledger, progression length, witness row, monochromatic row, transport, replay, provenance, and local certificate; it is not an infinite Ramsey theorem, a host coloring oracle, a selected global progression function, or a completed real-sequence statement.
+
+\begin{definition}[Van der Waerden progression carrier]
+\label{def:van-der-waerden-progression-carrier}
+A $\VanDerWaerdenProgressionUp$ carrier is a finite $\BHist$ packet
+$$
+V=(N,C,K,P,A,H,R,Q,S)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $N$ is the $\NatUp$ interval-length row naming the finite prefix $\{0,\ldots,N-1\}$ on which the coloring is read.
+\item $C$ is the finite color ledger, presented as a $\ListUp$ row of color observations rather than as a host function into an ambient set of colors.
+\item $K$ is the $\NatUp$ progression-length row required by the local van der Waerden request.
+\item $P$ is the progression-witness row, storing the finite start and step data whose displayed terms remain inside the interval named by $N$.
+\item $A$ is the monochromatic arithmetic-progression row, binding the entries selected by $P$ to one visible color row in $C$.
+\item $H$ records componentwise $\hsame$ transport for the interval, coloring ledger, length, witness, monochromatic row, replay, provenance, and local naming rows.
+\item $R$ records displayed $\Cont$ replay from a finite coloring request through interval admission, witness readback, monochromatic-row inspection, transport, provenance, and local naming.
+\item $Q$ is the $\Pkg$ provenance over $\VanDerWaerdenProgressionUp$, $\NatUp$, $\ListUp$, $\RamseyUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $S$ is the local $\NameCert_{\VanDerWaerdenProgressionUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for an infinite coloring, a host choice principle, a classical least-bound search, a quotient equality of colorings, or a real-valued arithmetic progression outside the finite interval.
+\end{definition}
+\leanstmt{BEDC.Derived.VanDerWaerdenProgressionUp}
+
+\begin{theorem}[Van der Waerden progression NameCert obligations]
+\label{thm:van-der-waerden-progression-namecert-obligations}
+The local $\NameCert_{\VanDerWaerdenProgressionUp}$ surface for \autoref{def:van-der-waerden-progression-carrier} consists exactly of interval-length exposure through $N$, finite coloring-ledger exposure through $C$, requested progression-length exposure through $K$, progression-witness admission through $P$, monochromatic-row verification through $A$, componentwise transport through $H$, displayed replay through $R$, package provenance through $Q$, and local naming through $S$. These obligations bind a finite arithmetic-progression certificate without adding an infinite Ramsey theorem, a host coloring oracle, a selected bound function, quotient equality of colorings, or a real-sequence completion principle.
+\end{theorem}
+\begin{proof}
+Carrier exposure is projection from the displayed tuple $V=(N,C,K,P,A,H,R,Q,S)$. The finite interval and requested progression length are the two $\NatUp$ rows, and the coloring data are read only through the finite $\ListUp$ ledger $C$.
+
+The witness row $P$ supplies the displayed start and step data, while $A$ records that the entries selected by that witness read one color row from the same ledger. Thus the progression is consumed as a finite monochromatic row, not as a host function or an infinite coloring.
+
+The structural rows preserve this finite route. Componentwise $\hsame$ transport keeps the interval, ledger, length, witness, and monochromatic row together; $\Cont$ replay returns to the same displayed request; $\Pkg$ provenance and the local $\NameCert$ row name the packet. Since no excluded endpoint appears as a carrier coordinate, the listed rows exhaust the local obligation surface.
+\end{proof}
+
+\begin{theorem}[Van der Waerden progression coloring handoff]
+\label{thm:van-der-waerden-progression-coloring-handoff}
+Every accepted $\VanDerWaerdenProgressionUp$ carrier hands a finite coloring request to the progression witness through the route
+$$
+N,\quad C,\quad K,\quad P,\quad A .
+$$
+The row $A$ may be read as the monochromatic progression row only after the interval-length row, color ledger, requested length, and witness row have been displayed. The handoff may use the finite Ramsey-style coloring discipline of \autoref{ch:concrete-instances-ramsey-namecert} and the arithmetic-progression shape familiar from \autoref{ch:concrete-instances-real-arithmetic-progression-namecert}, but it exports no host coloring oracle, no infinite Ramsey conclusion, and no real-valued progression.
+\end{theorem}
+\begin{proof}
+Project the carrier. The only coloring row is $C$, the only interval row is $N$, and the only requested length row is $K$.
+
+The witness row $P$ is therefore read against the displayed finite interval and color ledger. The monochromatic row $A$ is downstream of that witness, so a consumer cannot inspect $A$ before $N,C,K,P$ have been exposed.
+
+Finally apply the obligation surface. Transport, replay, provenance, and local naming preserve the same finite route, while the absence of infinite-coloring, host-oracle, and real-progression coordinates prevents any larger theorem from being exported by the handoff.
+\end{proof}
+
+\falsifiablePrediction{An accepted $\VanDerWaerdenProgressionUp$ consumer that reads a monochromatic progression without first exposing the finite interval, color ledger, requested length, and witness rows refutes the carrier surface.}
+
+\independenceWitness{nat, list, ramsey, real-arithmetic-progression: no listed sibling supplies the whole packet $V=(N,C,K,P,A,H,R,Q,S)$, because Nat supplies interval and length rows, List supplies finite color-ledger rows, Ramsey supplies finite coloring discipline, and RealArithmeticProgression supplies only an arithmetic-progression analogue outside the finite coloring certificate.}
+
+\closureat{VanDerWaerdenProgressionUp}{seedStr}
+
+\begin{closurestatus}{\VanDerWaerdenProgressionUp}
+  \constructivestory{A $\VanDerWaerdenProgressionUp$ packet is generated from a finite Nat interval-length row, a finite List color ledger, a Nat progression-length row, a progression-witness row, a monochromatic color row, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:van-der-waerden-progression-carrier}, \autoref{thm:van-der-waerden-progression-namecert-obligations}, and \autoref{thm:van-der-waerden-progression-coloring-handoff} seed the finite monochromatic arithmetic-progression packet over Nat, List, Ramsey, BHist, hsame, Cont, Pkg, and NameCert rows.}
+  \formalstatus{\unformalizedV}
+  \leantarget{BEDC.Derived.VanDerWaerdenProgressionUp}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim an infinite Ramsey theorem, a host coloring oracle, a selected global bound function, quotient equality of colorings, real-valued arithmetic progressions, Lean theorem checking, or bridge checking.}
+  \upgradepath{Obligation closure requires checked interval admission, finite color-ledger admission, progression-witness admission, monochromatic-row handoff, transport stability, replay stability, and non-escape for the same finite packet.}
+\end{closurestatus}

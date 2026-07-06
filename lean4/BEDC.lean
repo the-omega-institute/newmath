@@ -7199,6 +7199,7 @@ import BEDC.Derived.HeineCantorModulusUp.TasteGate
 import BEDC.Derived.HeineCantorUp.TasteGate
 import BEDC.Derived.HellingerDistanceUp
 import BEDC.Derived.HellySelectionUp.NameCertObligations
+import BEDC.Derived.HellySelectionUp.ReplayLedgerPolicyWitness
 import BEDC.Derived.HellySelectionUp.TasteGate
 import BEDC.Derived.HellyTheoremUp.TasteGate
 import BEDC.Derived.HelmholtzDecompositionUp.TasteGate
@@ -13966,6 +13967,7 @@ import BEDC.Derived.ValidatedNumericsUp.RefinementCompositionContainment
 import BEDC.Derived.ValidatedNumericsUp.TasteGate
 import BEDC.Derived.ValuationDomainUp
 import BEDC.Derived.VanDerCorputDifferenceEstimateUp.TasteGate
+import BEDC.Derived.VanDerWaerdenProgressionUp
 import BEDC.Derived.VandermondeChuUp
 import BEDC.Derived.VandermondeDeterminantUp
 import BEDC.Derived.VariationDiminishingUp.TasteGate
