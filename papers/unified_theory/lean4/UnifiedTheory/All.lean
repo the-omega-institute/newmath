@@ -30,5 +30,6 @@ import UnifiedTheory.Dynamics.CostArrow
 import UnifiedTheory.Dynamics.Length
 import UnifiedTheory.Dynamics.Phase
 import UnifiedTheory.Dynamics.HiddenRigidity
+import UnifiedTheory.Dynamics.HiddenFiber
 import UnifiedTheory.Zeta.RHBridge
 import UnifiedTheory.Zeta.Completed
