@@ -5472,6 +5472,7 @@ import BEDC.Derived.DyadicCantorWindowUp.TasteGate
 import BEDC.Derived.DyadicCauchyApproximationUp.TasteGate
 import BEDC.Derived.DyadicCauchyCompletionUp
 import BEDC.Derived.DyadicCauchyCriterionUp
+import BEDC.Derived.DyadicCauchyCriterionUp.TasteGate
 import BEDC.Derived.DyadicCauchyDiagonalUp
 import BEDC.Derived.DyadicCauchyModulusLatticeUp.TasteGate
 import BEDC.Derived.DyadicCauchyStaircaseUp.TasteGate
@@ -7198,6 +7199,7 @@ import BEDC.Derived.HeineCantorModulusUp.TasteGate
 import BEDC.Derived.HeineCantorUp.TasteGate
 import BEDC.Derived.HellingerDistanceUp
 import BEDC.Derived.HellySelectionUp.NameCertObligations
+import BEDC.Derived.HellySelectionUp.ReplayLedgerPolicyWitness
 import BEDC.Derived.HellySelectionUp.TasteGate
 import BEDC.Derived.HellyTheoremUp.TasteGate
 import BEDC.Derived.HelmholtzDecompositionUp.TasteGate
