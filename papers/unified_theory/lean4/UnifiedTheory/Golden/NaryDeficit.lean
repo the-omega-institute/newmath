@@ -76,4 +76,12 @@ theorem Cn_abs_le (vs : List ℕ) :
                   add_le_add (cDef_abs_le_one v (w :: ws).sum) htail
           simpa [Nat.succ_eq_add_one, add_comm, add_left_comm, add_assoc] using hbound
 
+/-- **生成式定理(亏空拼接合成律)**:列表拼接下 n 元亏空的合成结构——
+`Cn (as ++ bs) = Cn as + Cn bs + cDef as.sum bs.sum`。即把两段并起来,总亏空 = 各段亏空 +
+两段和之间的一次二元亏空。这是 `cDef = δS`(coboundary)在列表拼接上的合成律,源文档未列。 -/
+theorem Cn_append (as bs : List ℕ) :
+    Cn (as ++ bs) = Cn as + Cn bs + cDef as.sum bs.sum := by
+  simp only [Cn, cDef, List.map_append, List.sum_append]
+  ring
+
 end UnifiedTheory
