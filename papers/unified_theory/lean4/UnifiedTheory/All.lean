@@ -13,6 +13,7 @@ import UnifiedTheory.Golden.Lambda
 import UnifiedTheory.Golden.Deficit
 import UnifiedTheory.Golden.Carry
 import UnifiedTheory.Golden.FiniteWords
+import UnifiedTheory.Golden.MinusWindow
 import UnifiedTheory.Kernel.LedgerStatus
 import UnifiedTheory.Kernel.Components
 import UnifiedTheory.Reading.Fibers
