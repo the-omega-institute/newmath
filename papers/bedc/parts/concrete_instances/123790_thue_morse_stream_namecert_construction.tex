@@ -1,0 +1,88 @@
+\chapter{A Concrete Naming Certificate for $\ThueMorseStreamUp$}
+\label{ch:concrete-instances-thue-morse-stream-namecert}
+\origin{human}
+
+Following Thue and Morse, the $\ThueMorseStreamUp$ packet records the parity-of-binary-weight stream as finite automatic-sequence data rather than as a host infinite sequence. It sits after the unary and binary counting discipline of \autoref{ch:concrete-instances-nat-namecert}, finite list windows of \autoref{ch:concrete-instances-list-namecert}, stream observation packets of \autoref{ch:concrete-instances-streamname-namecert}, regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, dyadic ledger rows of \autoref{ch:concrete-instances-dyadicratcore-namecert}, and the terminal real-name surface of \autoref{ch:concrete-instances-real-namecert}. The carrier is a finite test object for StreamName-facing L10 routes: it names windows, parity ledgers, replay data, and handoff rows, but it does not assert equality with a host infinite sequence, quotient-stream equality, selected limits, or completeness of $\RealUp$.
+
+\begin{definition}[Thue--Morse stream carrier]\label{def:thue-morse-carrier}
+A $\ThueMorseStreamUp$ carrier is a finite $\BHist$ packet
+$$
+T=(N,L,S,A,R,D,E,W,H,C,P,Q)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $N$ is the $\NatUp$ finite index row, including the binary expansion windows whose weights are inspected.
+\item $L$ is the $\ListUp$ row storing the finite bit words and prefix windows used by the automatic-sequence classifier.
+\item $S$ is the $\StreamNameUp$ observation row reached by reading the same finite prefix windows as stream data.
+\item $A$ is the parity-automaton row. It records the two states, the bit-by-bit toggle rule, the initial even state, and the displayed acceptance bit for each window.
+\item $R$ is the $\RegSeqRatUp$ readback row that turns parity bits into regular rational names through the displayed tolerances.
+\item $D$ is the $\DyadicRatCoreUp$ ledger that records the dyadic tolerance windows used by the readback.
+\item $E$ is the $\RealUp$ finite seal row, visible only after $S,R,D$ have been read.
+\item $W$ is the finite parity-prefix transport row connecting the $N,L,A$ windows to the StreamName-facing row $S$.
+\item $H$ records componentwise $\hsame$ transport for the index, list, stream, automaton, readback, dyadic, real-seal, prefix-transport, replay, provenance, and local-name rows.
+\item $C$ records displayed $\Cont$ replay of the finite route
+$$
+N,L,A \longmapsto S \longmapsto R,D \longmapsto E \longmapsto W,H,P,Q .
+$$
+\item $P$ is the $\Pkg$ provenance over $\ThueMorseStreamUp$, $\NatUp$, $\ListUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $Q$ is the local $\NameCert_{\ThueMorseStreamUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through the displayed finite rows $N,L,S,A,R,D,E,W,H,C,P,Q$. It has no coordinate for a host infinite binary stream, quotient-stream equality, selected real limits, or an ambient completeness theorem.
+\end{definition}
+
+\begin{theorem}[Thue--Morse NameCert obligations]\label{thm:thue-morse-namecert-obligations}
+For every accepted $\ThueMorseStreamUp$ carrier
+$$
+T=(N,L,S,A,R,D,E,W,H,C,P,Q),
+$$
+the local $\NameCert_{\ThueMorseStreamUp}$ surface consists exactly of carrier admission for the finite index row, finite list-window row, StreamName observation row, parity automaton, RegSeqRat readback, DyadicRatCore tolerance ledger, Real finite seal, parity-prefix transport, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming. Every public parity read must pass through $A$ and $W$ before it can be exported through $S,R,D,E$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:thue-morse-carrier}. The rows $N,L,A$ are the only rows that compute parity from finite binary-weight windows, and $W$ is the only row that transports those prefix verdicts to a stream-facing observation.
+
+The rows $S,R,D,E$ provide the StreamName, regular-rational, dyadic, and Real-facing consumption route. The structural rows $H,C,P,Q$ transport, replay, source, and name the same finite route without adding any new observation coordinate.
+
+Since the carrier contains no host infinite stream, quotient-stream equality, selected limit, or ambient completeness row, the listed rows exhaust the local $\NameCert$ obligations.
+\end{proof}
+
+\begin{theorem}[Thue--Morse parity-prefix transport]\label{thm:thue-morse-parity-prefix-transport}
+Let $T=(N,L,S,A,R,D,E,W,H,C,P,Q)$ be an accepted $\ThueMorseStreamUp$ carrier. Any finite prefix read of the StreamName row $S$ is determined by the $\NatUp$ index windows in $N$, the $\ListUp$ binary words in $L$, the parity-automaton row $A$, and the transport row $W$. Refining the displayed prefix window while preserving those four rows preserves the public parity verdict on the common finite prefix.
+\end{theorem}
+\begin{proof}
+Read the prefix through $N$ and $L$. These rows list the only indices and binary words available to the parity classifier.
+
+Apply the automaton row $A$. The toggle rule computes a parity bit for each displayed word, and no later row may recompute it by a different classifier.
+
+Use the transport row $W$ to hand the parity verdicts to $S$. A refinement that preserves $N,L,A,W$ has the same displayed data on the common prefix, so the public StreamName verdict is unchanged there.
+\end{proof}
+
+\begin{theorem}[Thue--Morse parity stream handoff]\label{thm:thue-morse-parity-stream-handoff}
+Every accepted consumer that reads $\ThueMorseStreamUp$ as a StreamName-facing object receives the finite route
+$$
+N,L,A,W,S,R,D,E,H,C,P,Q .
+$$
+The route exposes binary-weight parity windows first, then the StreamName handoff, then regular-rational readback, dyadic tolerance ledger, Real finite seal, componentwise transport, replay, provenance, and local naming. It exports no host infinite sequence equality, quotient stream, selected limit, or $\RealUp$ completeness principle.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier. Its displayed rows include the parity data $N,L,A,W$ and the consumer-facing rows $S,R,D,E,H,C,P,Q$, with no additional public coordinates.
+
+Use \autoref{thm:thue-morse-namecert-obligations}. The obligations force every public read to pass through the finite parity rows before the StreamName, RegSeqRat, DyadicRatCore, and Real rows are available.
+
+Apply \autoref{thm:thue-morse-parity-prefix-transport}. The StreamName handoff preserves the finite parity verdicts on displayed prefixes, so downstream consumers receive the named finite route rather than a host infinite sequence or completion principle.
+\end{proof}
+
+\falsifiablePrediction{A consumer that reads $\ThueMorseStreamUp$ through $\StreamNameUp$ without the finite binary-weight parity row and parity-prefix transport row refutes this packet.}
+
+\independenceWitness{thuemorseword, thueprefixparity, streamname, regseqrat, dyadicratcore, and realfinitewindow: none is bijective to $\ThueMorseStreamUp$ because this packet alone stores the parity automaton, prefix transport, StreamName handoff, readback, dyadic ledger, Real finite seal, replay, provenance, and local naming in one L10 surface.}
+
+\closureat{ThueMorseStreamUp}{seedStr}
+
+\begin{closurestatus}{\ThueMorseStreamUp}
+  \constructivestory{A $\ThueMorseStreamUp$ packet is generated from Nat finite index windows, List binary words, a two-state parity automaton, StreamName prefix observations, RegSeqRat readback, DyadicRatCore tolerance ledgers, a RealUp finite seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and local NameCert evidence.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:thue-morse-carrier}, \autoref{thm:thue-morse-namecert-obligations}, \autoref{thm:thue-morse-parity-prefix-transport}, and \autoref{thm:thue-morse-parity-stream-handoff} seed the finite parity-window StreamName packet over $\NatUp$, $\ListUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim host infinite sequence equality, quotient-stream equality, selected limits, ambient Real completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, parity-prefix transport, StreamName handoff, readback nonescape, tolerance-ledger nonescape, Real finite-seal nonescape, provenance, and local naming for BEDC.Derived.ThueMorseStreamUp.}
+\end{closurestatus}
