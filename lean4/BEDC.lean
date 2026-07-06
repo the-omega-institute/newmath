@@ -431,6 +431,7 @@ import BEDC.Derived.AuditMapFamilyLedgerUp.TasteGate
 import BEDC.Derived.AuditMapFamilyObligationLedgerUp.TasteGate
 import BEDC.Derived.AuditMapFamilyUp.StrictLocalObstruction
 import BEDC.Derived.AuditMapFamilyUp.TasteGate
+import BEDC.Derived.AuditMapFrontierIndexUp.FrontierRowObligation
 import BEDC.Derived.AuditMapFrontierIndexUp.TasteGate
 import BEDC.Derived.AuditMapFrontierPacketUp
 import BEDC.Derived.AuditMapFrontierPacketUp.TasteGate
@@ -5857,6 +5858,7 @@ import BEDC.Derived.EquicontinuousCauchyFamilyUp.CompletionHandoff
 import BEDC.Derived.EquicontinuousCauchyFamilyUp.TasteGate
 import BEDC.Derived.EquicontinuousCompletionUp.TasteGate
 import BEDC.Derived.EquicontinuousFamilyUp.TasteGate
+import BEDC.Derived.EquicontinuousPointwiseLimitUp.TasteGate
 import BEDC.Derived.EquicontinuousUniformCauchyModulusUp
 import BEDC.Derived.EquivCatUp
 import BEDC.Derived.ErdosSzekeresMonotoneSubsequenceUp
