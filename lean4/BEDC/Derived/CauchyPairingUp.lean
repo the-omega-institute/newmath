@@ -391,4 +391,28 @@ theorem CauchyPairingCarrier_real_handoff_non_escape [AskSetup] [PackageSetup]
     ⟨sharedBoundUnary, sealUnary, realUnary, sharedBoundCont, sealCont,
       realHandoffCont, ePkg, realPkg⟩
 
+theorem CauchyPairingCarrier_bilinear_error_ledger [AskSetup] [PackageSetup]
+    {a b wA wB lA lB muA muB mu eA eB e transport route provenance localCert
+      errorRead ledgerRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CauchyPairingCarrier a b wA wB lA lB muA muB mu eA eB e transport route
+        provenance localCert bundle pkg ->
+      Cont eA eB errorRead ->
+        Cont errorRead e ledgerRead ->
+          PkgSig bundle ledgerRead pkg ->
+            UnaryHistory errorRead ∧ UnaryHistory ledgerRead ∧
+              Cont errorRead e ledgerRead ∧ PkgSig bundle ledgerRead pkg ∧
+                PkgSig bundle e pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont UnaryHistory PkgSig
+  intro carrier errorRoute ledgerRoute ledgerPkg
+  obtain ⟨_aUnary, _bUnary, _wAUnary, _wBUnary, _lAUnary, _lBUnary, _muAUnary,
+    _muBUnary, _muUnary, eAUnary, eBUnary, eUnary, _transportUnary, _routeUnary,
+    _provenanceUnary, _localCertUnary, _muWARow, _muWBRow, _lAlBRow,
+    _eProvenanceTransport, _transportLocalRoute, ePkg⟩ := carrier
+  have errorUnary : UnaryHistory errorRead :=
+    unary_cont_closed eAUnary eBUnary errorRoute
+  have ledgerUnary : UnaryHistory ledgerRead :=
+    unary_cont_closed errorUnary eUnary ledgerRoute
+  exact ⟨errorUnary, ledgerUnary, ledgerRoute, ledgerPkg, ePkg⟩
+
 end BEDC.Derived.CauchyPairingUp
