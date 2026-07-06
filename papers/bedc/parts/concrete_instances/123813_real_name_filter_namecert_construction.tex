@@ -1,0 +1,94 @@
+\chapter{A Concrete Naming Certificate for $\RealNameFilterUp$}
+\label{ch:concrete-instances-real-name-filter-namecert}
+\origin{human}
+
+Following Bishop--Bridges constructive analysis and Kelley-style filter language, the $\RealNameFilterUp$ packet records the finite filter-facing real-name surface before any quotient filter or selected limit is available. It is grounded in the finite stream windows of \autoref{ch:concrete-instances-streamname-namecert}, the regular-rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the dyadic tolerance ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the Cauchy-filter carrier of \autoref{ch:concrete-instances-cauchyfilter-namecert}, the regular Cauchy filter-basis handoff of \autoref{ch:concrete-instances-regular-cauchy-filter-basis-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. The packet names the Real-facing filter route as finite BEDC data; it does not import quotient filters, selected limits, countable choice, host real equality, or ambient $\RealUp$ completeness.
+
+\begin{definition}[RealNameFilter carrier]
+\label{def:real-name-filter-carrier}
+A $\RealNameFilterUp$ carrier is a finite $\BHist$ packet
+$$
+Q=(B,W,R,F,G,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $B$ is the displayed filter-basis row: a finite table of basic observations, dyadic tolerance requests, and refinement slots that every Real-facing read must inspect before it can speak about a filter name.
+\item $W$ is the finite $\StreamNameUp$ window row attached to $B$, listing the inspected stream positions and precision requests.
+\item $R$ is the $\RegSeqRatUp$ readback row obtained from the windows in $W$ and the tolerance data visible in $B$.
+\item $F$ is the $\CauchyFilterUp$ compatibility row, asserting that each displayed basis observation is read as a Cauchy-filter observation through the same finite windows and regular-rational readback.
+\item $G$ is the $\RegularCauchyFilterBasisUp$ compatibility row, recording the regular Cauchy handoff from $B,W,R,F$ to a basis route suitable for Real-facing consumers.
+\item $E$ is the terminal $\RealUp$ seal row, visible only after the basis, window, readback, Cauchy-filter, and regular-basis rows have been displayed.
+\item $H$ records componentwise $\hsame$ transport for the basis, windows, readback, Cauchy-filter compatibility, regular-basis compatibility, terminal seal, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay of the route
+$$
+B,W,R \longmapsto F,G \longmapsto E .
+$$
+\item $P$ records $\Pkg$ provenance over $\RealNameFilterUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\CauchyFilterUp$, $\RegularCauchyFilterBasisUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\RealNameFilterUp}$ row.
+\end{enumerate}
+The classifier accepts packets only through the displayed rows $B,W,R,F,G,E,H,C,P,N$. No coordinate stores a quotient filter, a hidden cofinal family, a selected completion point, host real equality, countable choice, or ambient completeness.
+\end{definition}
+
+\begin{theorem}[RealNameFilter NameCert obligations]
+\label{thm:real-name-filter-namecert-obligations}
+For every accepted $\RealNameFilterUp$ carrier
+$$
+Q=(B,W,R,F,G,E,H,C,P,N),
+$$
+the local $\NameCert_{\RealNameFilterUp}$ surface consists exactly of carrier admission for the displayed filter-basis row, finite StreamName windows, RegSeqRat readback, CauchyFilter compatibility, RegularCauchyFilterBasis compatibility, terminal Real seal, componentwise transport, displayed replay, package provenance, and local naming. Every Real-facing or completion-facing consumer must first read $B,W,R$, then $F,G$, and only then $E,H,C,P,N$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:real-name-filter-carrier}. The analytic source rows are the displayed basis $B$, the finite window row $W$, and the regular rational readback $R$.
+
+The filter rows are downstream of that source. The row $F$ reads the displayed basis as a Cauchy-filter observation, while $G$ records the regular Cauchy basis handoff needed by Real-facing consumers.
+
+Finally the terminal and structural rows are read. The seal $E$ is available only after $B,W,R,F,G$, and $H,C,P,N$ transport, replay, source, and name that same finite route. Since none of the excluded quotient, selector, equality, choice, or completeness coordinates is present, the listed rows exhaust the local NameCert obligations.
+\end{proof}
+
+\begin{theorem}[RealNameFilter regular Cauchy handoff]
+\label{thm:real-name-filter-regular-cauchy-handoff}
+Every accepted $\RealNameFilterUp$ packet factors its Real-facing filter read through
+$$
+\StreamNameUp,\RegSeqRatUp,\DyadicRatCoreUp \longmapsto \CauchyFilterUp \longmapsto \RegularCauchyFilterBasisUp \longmapsto \RealUp .
+$$
+The route exposes finite windows, regular rational readback, dyadic tolerance data, Cauchy-filter compatibility, regular Cauchy basis compatibility, and a terminal Real seal before the packet may be consumed as real-name filter evidence.
+\end{theorem}
+\begin{proof}
+Read $B,W,R$ from the carrier. The basis row displays the requested observations and tolerance slots, while the window and readback rows make the finite regular-rational data explicit.
+
+Next open $F$ and $G$. The Cauchy-filter compatibility row ties the basis observations to the filter route, and the regular Cauchy basis row records the finite handoff required before a Real-facing reader can inspect the seal.
+
+The seal row $E$ is therefore downstream from the same route. Componentwise transport and displayed replay preserve that ordering, so a consumer cannot bypass the finite windows, readback, Cauchy-filter compatibility, or regular-basis compatibility.
+\end{proof}
+
+\begin{theorem}[RealNameFilter Real seal nonescape]
+\label{thm:real-name-filter-real-seal-nonescape}
+Let $Q=(B,W,R,F,G,E,H,C,P,N)$ be an accepted $\RealNameFilterUp$ carrier. Any use of its terminal $\RealUp$ seal $E$ remains inside the displayed packet route
+$$
+B,W,R,F,G \longmapsto E,H,C,P,N .
+$$
+It cannot be reread as quotient filter equality, a selected limit, countable choice, host real equality, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+The carrier gives no direct Real-facing coordinate except $E$. By the definition of the packet, $E$ is read only after the basis, window, readback, Cauchy-filter, and regular-basis rows have been displayed.
+
+The remaining rows do not add an analytic principle. They supply componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming for the same finite route.
+
+Thus any consumer of $E$ remains tied to $B,W,R,F,G,H,C,P,N$. The excluded quotient, selector, choice, host-equality, and ambient-completeness readings have no carrier coordinate from which to arise.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\RealNameFilterUp$ consumer that reaches a $\RealUp$ seal while bypassing the displayed basis row, finite StreamName windows, RegSeqRat readback, CauchyFilter compatibility, or RegularCauchyFilterBasis compatibility refutes the carrier of \autoref{def:real-name-filter-carrier}.}
+
+\independenceWitness{streamname, regseqrat, dyadicratcore, cauchyfilter, regular-cauchy-filter-basis, real: $\RealNameFilterUp$ is not bijective to any listed sibling because it jointly stores a displayed filter-basis row, finite windows, regular rational readback, Cauchy-filter compatibility, regular Cauchy basis compatibility, terminal Real sealing, transport, replay, provenance, and local naming in one finite packet.}
+
+\closureat{RealNameFilterUp}{seedStr}
+
+\begin{closurestatus}{\RealNameFilterUp}
+  \constructivestory{A $\RealNameFilterUp$ packet is generated from a displayed filter-basis row, finite StreamName windows, RegSeqRat readback, CauchyFilter compatibility, RegularCauchyFilterBasis compatibility, a RealUp seal, componentwise hsame transport, Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:real-name-filter-carrier}, \autoref{thm:real-name-filter-namecert-obligations}, \autoref{thm:real-name-filter-regular-cauchy-handoff}, and \autoref{thm:real-name-filter-real-seal-nonescape} seed the finite filter-facing real-name route through displayed basis data, finite windows, regular readback, Cauchy-filter compatibility, regular Cauchy basis handoff, Real sealing, transport, replay, provenance, and local naming.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim quotient filters, selected limits, hidden cofinal families, countable choice, host real equality, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, displayed basis exactness, window-readback coverage, CauchyFilter compatibility, RegularCauchyFilterBasis handoff, Real seal nonescape, transport, replay, provenance, and local naming for BEDC.Derived.RealNameFilterUp.}
+\end{closurestatus}
