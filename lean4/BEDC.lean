@@ -1806,6 +1806,7 @@ import BEDC.Derived.CantorSpaceUp.StreamNameBoolScope
 import BEDC.Derived.CantorStieltjesMeasureUp.TasteGate
 import BEDC.Derived.CantorTernarySetUp.TasteGate
 import BEDC.Derived.CaratheodoryConvexHullUp.TasteGate
+import BEDC.Derived.CaratheodoryKernelConvergenceUp.NormalFamilyHandoff
 import BEDC.Derived.CaratheodoryKernelConvergenceUp.TasteGate
 import BEDC.Derived.CaratheodoryMeasureExtensionUp.TasteGate
 import BEDC.Derived.CaratheodoryOdeUp
@@ -4868,6 +4869,7 @@ import BEDC.Derived.DcpoUp.DcpoLocalNameCertSurface
 import BEDC.Derived.DcpoUp.DirectedSupremumScope
 import BEDC.Derived.DcpoUp.NameCertObligations
 import BEDC.Derived.DcpoUp.TasteGate
+import BEDC.Derived.DeGiorgiIterationUp.EnergyDecayHandoff
 import BEDC.Derived.DeGiorgiIterationUp.NameCertObligations
 import BEDC.Derived.DeGiorgiIterationUp.TasteGate
 import BEDC.Derived.DeLaValleePoussinCriterionUp
@@ -5477,7 +5479,6 @@ import BEDC.Derived.DyadicCompletionEmbeddingUp
 import BEDC.Derived.DyadicCompletionEmbeddingUp.NameCertObligations
 import BEDC.Derived.DyadicCompletionEmbeddingUp.RealSealHandoff
 import BEDC.Derived.DyadicCompletionFunctorUp.TasteGate
-import BEDC.Derived.DyadicCompletionUnitUp
 import BEDC.Derived.DyadicCompletionUp
 import BEDC.Derived.DyadicCompletionUp.TasteGate
 import BEDC.Derived.DyadicCoverRefinementUp
@@ -6359,6 +6360,7 @@ import BEDC.Derived.FiniteClosedIntervalNestedIntersectionUp.TasteGate
 import BEDC.Derived.FiniteContractionOrbitErrorUp
 import BEDC.Derived.FiniteCoverLebesgueNumberUp.TasteGate
 import BEDC.Derived.FiniteCoverMeshUp
+import BEDC.Derived.FiniteCoverModulusFunctionalUp.TasteGate
 import BEDC.Derived.FiniteCoverModulusSelectorUp.TasteGate
 import BEDC.Derived.FiniteCoverNerveUp.CompactUniformHandoff
 import BEDC.Derived.FiniteCoverNerveUp.NameCertObligations
@@ -9600,6 +9602,7 @@ import BEDC.Derived.NewtonKantorovichUp.TasteGate
 import BEDC.Derived.NewtonPolygonUp.TasteGate
 import BEDC.Derived.NiemytzkiPlaneUp.TasteGate
 import BEDC.Derived.NikodymBoundednessUp.MeasureFamilyRoute
+import BEDC.Derived.NikodymBoundednessUp.NameCertObligations
 import BEDC.Derived.NikodymBoundednessUp.TasteGate
 import BEDC.Derived.NoAbsoluteBridgeAuditUp.TasteGate
 import BEDC.Derived.NoGlobalSyncBoundaryUp.TasteGate
@@ -11505,6 +11508,7 @@ import BEDC.Derived.RegSeqObservationBudgetUp.TasteGate
 import BEDC.Derived.RegSeqRatIntervalIntersectionUp
 import BEDC.Derived.RegSeqRatLocatedModulusUp.TasteGate
 import BEDC.Derived.RegSeqRatUp
+import BEDC.Derived.RegSeqRatUp.AuditThresholdFactorization
 import BEDC.Derived.RegSeqRatUp.AuditThresholdFiniteCoverGluing
 import BEDC.Derived.RegSeqRatUp.CommonRefinement
 import BEDC.Derived.RegSeqRatUp.CommonTailRealBoundaryEquivalence
