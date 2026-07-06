@@ -84,4 +84,33 @@ theorem WeylCriterionNameCertObligations [AskSetup] [PackageSetup]
     }
   exact ⟨cert, sealUnary⟩
 
+theorem WeylCriterionCarrier_equidistribution_route [AskSetup] [PackageSetup]
+    {I F Z U S R D E H C P N phaseRead averageRead sealRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    WeylCriterionCarrier I F Z U S R D E H C P N bundle pkg ->
+      Cont I F phaseRead ->
+        Cont U S averageRead ->
+          Cont phaseRead averageRead Z ->
+            Cont Z R D ->
+              Cont D E sealRead ->
+                PkgSig bundle sealRead pkg ->
+                  UnaryHistory phaseRead ∧ UnaryHistory averageRead ∧
+                    UnaryHistory sealRead ∧ Cont I F phaseRead ∧
+                      Cont U S averageRead ∧ Cont phaseRead averageRead Z ∧
+                        Cont Z R D ∧ Cont D E sealRead ∧
+                          PkgSig bundle sealRead pkg := by
+  -- BEDC touchpoint anchor: BHist Cont PkgSig UnaryHistory
+  intro carrier phaseCont averageCont phaseAverageCont zeroReadCont sealCont sealPkg
+  obtain ⟨iUnary, fUnary, _zUnary, uUnary, sUnary, _rUnary, dUnary, eUnary,
+    _hUnary, _cUnary, _pUnary, _nUnary, _provenancePkg⟩ := carrier
+  have phaseUnary : UnaryHistory phaseRead :=
+    unary_cont_closed iUnary fUnary phaseCont
+  have averageUnary : UnaryHistory averageRead :=
+    unary_cont_closed uUnary sUnary averageCont
+  have sealUnary : UnaryHistory sealRead :=
+    unary_cont_closed dUnary eUnary sealCont
+  exact
+    ⟨phaseUnary, averageUnary, sealUnary, phaseCont, averageCont, phaseAverageCont,
+      zeroReadCont, sealCont, sealPkg⟩
+
 end BEDC.Derived.WeylCriterionUp

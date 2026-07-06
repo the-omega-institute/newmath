@@ -5,8 +5,10 @@ import BEDC.FKernel.Unary.History
 
 namespace BEDC.Derived
 
-def DyadicCauchyCriterionUp : Type :=
-  Unit
+open BEDC.FKernel.Hist
+
+inductive DyadicCauchyCriterionUp : Type where
+  | mk (D W T R E H C P N : BHist) : DyadicCauchyCriterionUp
 
 namespace DyadicCauchyCriterionUp
 
