@@ -322,9 +322,24 @@ end BEDC.Derived.StationaryWindowSealExhaustionUp.TasteGate
 
 namespace BEDC.Derived.StationaryWindowSealExhaustionUp
 
+open BEDC.FKernel.Hist
+
 def taste_gate :
     BEDC.Meta.TasteGate.ChapterTasteGate TasteGate.StationaryWindowSealExhaustionUp :=
   -- BEDC touchpoint anchor: BHist BMark
   TasteGate.taste_gate
+
+theorem StationaryWindowSealExhaustion_transport_stability
+    {Q S R D W E H C P N Q' S' R' D' W' E' H' C' P' N' : BHist} :
+    hsame Q Q' -> hsame S S' -> hsame R R' -> hsame D D' -> hsame W W' ->
+      hsame E E' -> hsame H H' -> hsame C C' -> hsame P P' -> hsame N N' ->
+        hsame (BHist.e0 Q) (BHist.e0 Q') ∧ hsame (BHist.e1 S) (BHist.e1 S') ∧
+          hsame R R' ∧ hsame D D' ∧ hsame W W' ∧ hsame E E' ∧ hsame H H' ∧
+            hsame C C' ∧ hsame P P' ∧ hsame N N' := by
+  -- BEDC touchpoint anchor: BHist hsame
+  intro sameQ sameS sameR sameD sameW sameE sameH sameC sameP sameN
+  exact
+    ⟨hsame_e0_congr sameQ, hsame_e1_congr sameS, sameR, sameD, sameW, sameE,
+      sameH, sameC, sameP, sameN⟩
 
 end BEDC.Derived.StationaryWindowSealExhaustionUp
