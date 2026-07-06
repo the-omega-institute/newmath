@@ -308,4 +308,54 @@ theorem CauchyPairingCarrier_meet_source [AskSetup] [PackageSetup]
     ⟨muAUnary, muBUnary, muUnary, meetUnary, meetCont, muWARow, muWBRow, lAUnary,
       lBUnary, ePkg⟩
 
+theorem CauchyPairingCarrier_public_export_certificate [AskSetup] [PackageSetup]
+    {a b wA wB lA lB muA muB mu eA eB e transport route provenance localCert
+      sealConsumer sharedBound : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CauchyPairingCarrier a b wA wB lA lB muA muB mu eA eB e transport route
+        provenance localCert bundle pkg ->
+      Cont e provenance sealConsumer ->
+        PkgSig bundle sealConsumer pkg ->
+          Cont muA muB sharedBound ->
+            PkgSig bundle sharedBound pkg ->
+              SemanticNameCert
+                (fun row : BHist =>
+                  CauchyPairingCarrier a b wA wB lA lB muA muB mu eA eB e
+                      transport route provenance localCert bundle pkg ∧
+                    hsame row provenance)
+                (fun row : BHist =>
+                  CauchyPairingCarrier a b wA wB lA lB muA muB mu eA eB e
+                      transport route provenance localCert bundle pkg ∧
+                    hsame row provenance)
+                (fun row : BHist =>
+                  CauchyPairingCarrier a b wA wB lA lB muA muB mu eA eB e
+                      transport route provenance localCert bundle pkg ∧
+                    hsame row provenance)
+                hsame ∧
+                UnaryHistory sealConsumer ∧ UnaryHistory sharedBound ∧ PkgSig bundle e pkg := by
+  -- BEDC touchpoint anchor: BHist Cont PkgSig SemanticNameCert hsame UnaryHistory
+  intro carrier sealCont sealPkg sharedBoundCont sharedBoundPkg
+  have cert :=
+    CauchyPairingCarrier_namecert_obligations
+      (a := a) (b := b) (wA := wA) (wB := wB) (lA := lA) (lB := lB)
+      (muA := muA) (muB := muB) (mu := mu) (eA := eA) (eB := eB) (e := e)
+      (transport := transport) (route := route) (provenance := provenance)
+      (localCert := localCert) (bundle := bundle) (pkg := pkg) carrier
+  have paired :=
+    CauchyPairingCarrier_paired_seal_non_escape
+      (a := a) (b := b) (wA := wA) (wB := wB) (lA := lA) (lB := lB)
+      (muA := muA) (muB := muB) (mu := mu) (eA := eA) (eB := eB) (e := e)
+      (transport := transport) (route := route) (provenance := provenance)
+      (localCert := localCert) (sealConsumer := sealConsumer) (bundle := bundle)
+      (pkg := pkg) carrier sealCont sealPkg
+  have shared :=
+    CauchyPairingCarrier_shared_bound_consumer
+      (a := a) (b := b) (wA := wA) (wB := wB) (lA := lA) (lB := lB)
+      (muA := muA) (muB := muB) (mu := mu) (eA := eA) (eB := eB) (e := e)
+      (transport := transport) (route := route) (provenance := provenance)
+      (localCert := localCert) (sharedBound := sharedBound) (bundle := bundle)
+      (pkg := pkg) carrier sharedBoundCont sharedBoundPkg
+  exact ⟨cert, paired.right.right.right.right.right.left, shared.right.right.right.left,
+    paired.right.right.right.right.right.right.right.right.right.right.left⟩
+
 end BEDC.Derived.CauchyPairingUp
