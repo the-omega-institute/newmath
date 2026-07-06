@@ -79,30 +79,45 @@ def finiteCoverModulusFunctionalToEventFlow : FiniteCoverModulusFunctionalUp →
           BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b1, BMark.b0],
         finiteCoverModulusFunctionalEncodeBHist name]
 
-def finiteCoverModulusFunctionalFromEventFlow :
-    EventFlow → Option FiniteCoverModulusFunctionalUp
+private def finiteCoverModulusFunctionalEventAtDefault : Nat → EventFlow → RawEvent
   -- BEDC touchpoint anchor: BHist BMark
-  | [] => none
-  | _tag0 :: compactSource :: _tag1 :: graph :: _tag2 :: coverCells :: _tag3 ::
-      lowerFold :: _tag4 :: dyadicLedger :: _tag5 :: uniformHandoff :: _tag6 ::
-      windowRows :: _tag7 :: regseqRead :: _tag8 :: realSeal :: _tag9 :: transport ::
-      _tag10 :: replay :: _tag11 :: provenance :: _tag12 :: name :: [] =>
-      some
-        (FiniteCoverModulusFunctionalUp.mk
-          (finiteCoverModulusFunctionalDecodeBHist compactSource)
-          (finiteCoverModulusFunctionalDecodeBHist graph)
-          (finiteCoverModulusFunctionalDecodeBHist coverCells)
-          (finiteCoverModulusFunctionalDecodeBHist lowerFold)
-          (finiteCoverModulusFunctionalDecodeBHist dyadicLedger)
-          (finiteCoverModulusFunctionalDecodeBHist uniformHandoff)
-          (finiteCoverModulusFunctionalDecodeBHist windowRows)
-          (finiteCoverModulusFunctionalDecodeBHist regseqRead)
-          (finiteCoverModulusFunctionalDecodeBHist realSeal)
-          (finiteCoverModulusFunctionalDecodeBHist transport)
-          (finiteCoverModulusFunctionalDecodeBHist replay)
-          (finiteCoverModulusFunctionalDecodeBHist provenance)
-          (finiteCoverModulusFunctionalDecodeBHist name))
-  | _ => none
+  | Nat.zero, [] => []
+  | Nat.zero, event :: _rest => event
+  | Nat.succ _index, [] => []
+  | Nat.succ index, _event :: rest =>
+      finiteCoverModulusFunctionalEventAtDefault index rest
+
+def finiteCoverModulusFunctionalFromEventFlow
+    (ef : EventFlow) : Option FiniteCoverModulusFunctionalUp :=
+  -- BEDC touchpoint anchor: BHist BMark
+  some
+    (FiniteCoverModulusFunctionalUp.mk
+      (finiteCoverModulusFunctionalDecodeBHist
+        (finiteCoverModulusFunctionalEventAtDefault 1 ef))
+      (finiteCoverModulusFunctionalDecodeBHist
+        (finiteCoverModulusFunctionalEventAtDefault 3 ef))
+      (finiteCoverModulusFunctionalDecodeBHist
+        (finiteCoverModulusFunctionalEventAtDefault 5 ef))
+      (finiteCoverModulusFunctionalDecodeBHist
+        (finiteCoverModulusFunctionalEventAtDefault 7 ef))
+      (finiteCoverModulusFunctionalDecodeBHist
+        (finiteCoverModulusFunctionalEventAtDefault 9 ef))
+      (finiteCoverModulusFunctionalDecodeBHist
+        (finiteCoverModulusFunctionalEventAtDefault 11 ef))
+      (finiteCoverModulusFunctionalDecodeBHist
+        (finiteCoverModulusFunctionalEventAtDefault 13 ef))
+      (finiteCoverModulusFunctionalDecodeBHist
+        (finiteCoverModulusFunctionalEventAtDefault 15 ef))
+      (finiteCoverModulusFunctionalDecodeBHist
+        (finiteCoverModulusFunctionalEventAtDefault 17 ef))
+      (finiteCoverModulusFunctionalDecodeBHist
+        (finiteCoverModulusFunctionalEventAtDefault 19 ef))
+      (finiteCoverModulusFunctionalDecodeBHist
+        (finiteCoverModulusFunctionalEventAtDefault 21 ef))
+      (finiteCoverModulusFunctionalDecodeBHist
+        (finiteCoverModulusFunctionalEventAtDefault 23 ef))
+      (finiteCoverModulusFunctionalDecodeBHist
+        (finiteCoverModulusFunctionalEventAtDefault 25 ef)))
 
 private theorem finiteCoverModulusFunctional_round_trip :
     ∀ x : FiniteCoverModulusFunctionalUp,

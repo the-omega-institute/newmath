@@ -1806,6 +1806,7 @@ import BEDC.Derived.CantorSpaceUp.StreamNameBoolScope
 import BEDC.Derived.CantorStieltjesMeasureUp.TasteGate
 import BEDC.Derived.CantorTernarySetUp.TasteGate
 import BEDC.Derived.CaratheodoryConvexHullUp.TasteGate
+import BEDC.Derived.CaratheodoryKernelConvergenceUp.NormalFamilyHandoff
 import BEDC.Derived.CaratheodoryKernelConvergenceUp.TasteGate
 import BEDC.Derived.CaratheodoryMeasureExtensionUp.TasteGate
 import BEDC.Derived.CaratheodoryOdeUp
@@ -4868,6 +4869,7 @@ import BEDC.Derived.DcpoUp.DcpoLocalNameCertSurface
 import BEDC.Derived.DcpoUp.DirectedSupremumScope
 import BEDC.Derived.DcpoUp.NameCertObligations
 import BEDC.Derived.DcpoUp.TasteGate
+import BEDC.Derived.DeGiorgiIterationUp.EnergyDecayHandoff
 import BEDC.Derived.DeGiorgiIterationUp.NameCertObligations
 import BEDC.Derived.DeGiorgiIterationUp.TasteGate
 import BEDC.Derived.DeLaValleePoussinCriterionUp
@@ -9600,6 +9602,7 @@ import BEDC.Derived.NewtonKantorovichUp.TasteGate
 import BEDC.Derived.NewtonPolygonUp.TasteGate
 import BEDC.Derived.NiemytzkiPlaneUp.TasteGate
 import BEDC.Derived.NikodymBoundednessUp.MeasureFamilyRoute
+import BEDC.Derived.NikodymBoundednessUp.NameCertObligations
 import BEDC.Derived.NikodymBoundednessUp.TasteGate
 import BEDC.Derived.NoAbsoluteBridgeAuditUp.TasteGate
 import BEDC.Derived.NoGlobalSyncBoundaryUp.TasteGate
