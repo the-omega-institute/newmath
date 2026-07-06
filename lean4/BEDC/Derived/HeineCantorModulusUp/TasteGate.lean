@@ -1,11 +1,21 @@
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
+import BEDC.FKernel.Ask
+import BEDC.FKernel.Bundle
+import BEDC.FKernel.Cont
+import BEDC.FKernel.Package
+import BEDC.FKernel.Unary
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.HeineCantorModulusUp
 
+open BEDC.FKernel.Ask
+open BEDC.FKernel.Bundle
+open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
+open BEDC.FKernel.Package
+open BEDC.FKernel.Unary
 open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
@@ -272,5 +282,33 @@ theorem HeineCantorModulusTasteGate_single_carrier_alignment :
       · intro x y heq
         exact heineCantorModulusToEventFlow_injective heq
       · rfl
+
+def HeineCantorModulusCarrier [AskSetup] [PackageSetup]
+    (source target continuous precision net centers radii folded triangle transport replay
+      provenance localName : BHist)
+    (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
+  -- BEDC touchpoint anchor: BHist Cont ProbeBundle Pkg UnaryHistory PkgSig
+  UnaryHistory source ∧ UnaryHistory target ∧ UnaryHistory continuous ∧
+    UnaryHistory precision ∧ UnaryHistory net ∧ UnaryHistory centers ∧
+      UnaryHistory radii ∧ UnaryHistory folded ∧ UnaryHistory triangle ∧
+        UnaryHistory transport ∧ UnaryHistory replay ∧ UnaryHistory provenance ∧
+          UnaryHistory localName ∧ Cont centers radii folded ∧
+            PkgSig bundle provenance pkg ∧ PkgSig bundle localName pkg
+
+theorem HeineCantorModulusCarrier_radius_fold [AskSetup] [PackageSetup]
+    {source target continuous precision net centers radii folded triangle transport replay
+      provenance localName : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    HeineCantorModulusCarrier source target continuous precision net centers radii folded
+        triangle transport replay provenance localName bundle pkg ->
+      UnaryHistory centers ∧ UnaryHistory radii ∧ UnaryHistory folded ∧
+        Cont centers radii folded ∧ PkgSig bundle provenance pkg ∧
+          PkgSig bundle localName pkg := by
+  -- BEDC touchpoint anchor: BHist Cont ProbeBundle Pkg UnaryHistory PkgSig
+  intro carrier
+  obtain ⟨_sourceUnary, _targetUnary, _continuousUnary, _precisionUnary, _netUnary,
+    centersUnary, radiiUnary, foldedUnary, _triangleUnary, _transportUnary, _replayUnary,
+    _provenanceUnary, _localNameUnary, radiusFold, provenancePkg, localNamePkg⟩ := carrier
+  exact ⟨centersUnary, radiiUnary, foldedUnary, radiusFold, provenancePkg, localNamePkg⟩
 
 end BEDC.Derived.HeineCantorModulusUp
