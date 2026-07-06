@@ -147,4 +147,61 @@ theorem LocatedModulusCompletionCarrier_regular_seal [AskSetup] [PackageSetup]
               (And.intro limitRealEndpoint
                 (And.intro limitLocatedEndpoint pkgSig))))))
 
+theorem LocatedModulusCompletionCarrier_classifier_stability [AskSetup] [PackageSetup]
+    {source realSeal modulus limitSeal locatedEvidence transport route provenance localCert endpoint
+      source' realSeal' modulus' limitSeal' locatedEvidence' transport' route' provenance'
+      localCert' endpoint' : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    LocatedModulusCompletionCarrier source realSeal modulus limitSeal locatedEvidence transport
+        route provenance localCert endpoint bundle pkg ->
+      hsame source source' ->
+        hsame realSeal realSeal' ->
+          hsame modulus modulus' ->
+            hsame limitSeal limitSeal' ->
+              hsame locatedEvidence locatedEvidence' ->
+                hsame transport transport' ->
+                  hsame route route' ->
+                    hsame provenance provenance' ->
+                      Cont source' modulus' limitSeal' ->
+                        Cont limitSeal' realSeal' endpoint' ->
+                          Cont limitSeal' locatedEvidence' endpoint' ->
+                            Cont endpoint' transport' route' ->
+                              Cont route' provenance' localCert' ->
+                                PkgSig bundle provenance' pkg ->
+                                  LocatedModulusCompletionCarrier source' realSeal' modulus'
+                                      limitSeal' locatedEvidence' transport' route' provenance'
+                                      localCert' endpoint' bundle pkg ∧
+                                    hsame endpoint endpoint' ∧ hsame localCert localCert' ∧
+                                      UnaryHistory endpoint' := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont UnaryHistory hsame PkgSig
+  intro carrier sameSource sameRealSeal sameModulus sameLimitSeal sameLocatedEvidence
+    sameTransport sameRoute sameProvenance sourceModulusLimit' limitRealEndpoint'
+    limitLocatedEndpoint' endpointTransportRoute' routeProvenanceLocalCert' provenancePkg'
+  obtain ⟨sourceUnary, realSealUnary, modulusUnary, limitSealUnary, locatedEvidenceUnary,
+    provenanceUnary, sourceModulusLimit, limitRealEndpoint, limitLocatedEndpoint,
+    endpointTransportRoute, routeProvenanceLocalCert, _provenancePkg⟩ := carrier
+  have sourceUnary' : UnaryHistory source' := unary_transport sourceUnary sameSource
+  have realSealUnary' : UnaryHistory realSeal' := unary_transport realSealUnary sameRealSeal
+  have modulusUnary' : UnaryHistory modulus' := unary_transport modulusUnary sameModulus
+  have limitSealUnary' : UnaryHistory limitSeal' :=
+    unary_transport limitSealUnary sameLimitSeal
+  have locatedEvidenceUnary' : UnaryHistory locatedEvidence' :=
+    unary_transport locatedEvidenceUnary sameLocatedEvidence
+  have provenanceUnary' : UnaryHistory provenance' :=
+    unary_transport provenanceUnary sameProvenance
+  have endpointSame : hsame endpoint endpoint' :=
+    cont_respects_hsame sameLimitSeal sameRealSeal limitRealEndpoint limitRealEndpoint'
+  have localCertSame : hsame localCert localCert' :=
+    cont_respects_hsame sameRoute sameProvenance routeProvenanceLocalCert
+      routeProvenanceLocalCert'
+  have endpointUnary' : UnaryHistory endpoint' :=
+    unary_cont_closed limitSealUnary' realSealUnary' limitRealEndpoint'
+  have transportedCarrier :
+      LocatedModulusCompletionCarrier source' realSeal' modulus' limitSeal'
+        locatedEvidence' transport' route' provenance' localCert' endpoint' bundle pkg :=
+    ⟨sourceUnary', realSealUnary', modulusUnary', limitSealUnary', locatedEvidenceUnary',
+      provenanceUnary', sourceModulusLimit', limitRealEndpoint', limitLocatedEndpoint',
+      endpointTransportRoute', routeProvenanceLocalCert', provenancePkg'⟩
+  exact ⟨transportedCarrier, endpointSame, localCertSame, endpointUnary'⟩
+
 end BEDC.Derived.LocatedModulusCompletionUp
