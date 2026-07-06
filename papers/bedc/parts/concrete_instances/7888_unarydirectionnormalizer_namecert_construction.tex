@@ -51,6 +51,22 @@ Apply \autoref{thm:unary-direction-normalizer-namecert-obligations}. It forces c
 The stated non-escape boundary is therefore immediate: a consumer may inspect the finite bridge packet, but it cannot replace the packet by an external integer-axis normalizer or by a kernel identification of the unary and zero-spine carriers.
 \end{proof}
 
+\begin{theorem}[UnaryDirectionNormalizer direction-row stability]
+\label{thm:unary-direction-normalizer-direction-row-stability}
+Let
+$$
+U=(A,Z,K,D,H,C,P,N)
+$$
+be an accepted $\UnaryDirectionNormalizerUp$ carrier. If componentwise $\hsame$ transport preserves the axis-unary-spine row $A$, the zero-spine standard row $Z$, the Zeckendorf carry-normalization row $K$, and the displayed direction row $D$, then the transported packet is again the same unary-direction normalized packet over $A,Z,K,D,H,C,P,N$. No host integer-axis normalizer, ambient standard-model map, or quotient identification between unary and zero-spine histories is introduced by this transport.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:unary-direction-normalizer-carrier}. Its analytic rows are exactly $A,Z,K,D$, followed by transport, replay, provenance, and local naming rows.
+
+Apply the NameCert obligations of \autoref{thm:unary-direction-normalizer-namecert-obligations}. They require direction-decision stability as a row of the local certificate, so preserving $A,Z,K,D$ componentwise keeps the carrier inside the same finite unary-direction packet.
+
+Finally apply the bridge realization of \autoref{thm:unary-direction-normalizer-bridge-realization}. The public read remains anchored in the displayed unary-direction bridge and in the two concrete sibling surfaces. Since the carrier has no host integer-axis coordinate or quotient-normalizer coordinate, the transported packet cannot export one.
+\end{proof}
+
 \falsifiablePrediction{Any accepted UnaryDirectionNormalizerUp consumer that bypasses the axis-unary-spine row or zero-spine standard row cannot export a direction-normalized unary packet.}
 
 \independenceWitness{axisunaryspinenormalizer, unaryzerospinestandardiso, zeckendorfcarrynormalization, nat, add: none is bijective to UnaryDirectionNormalizerUp because the new carrier contains the combined direction row D and the local NameCert row N tying axis, zero-spine, and carry-normalization routes together.}
