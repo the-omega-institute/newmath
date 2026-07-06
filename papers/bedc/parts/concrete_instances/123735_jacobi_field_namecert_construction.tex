@@ -1,0 +1,55 @@
+\chapter{A Concrete Naming Certificate for $\JacobiFieldUp$}
+\label{ch:concrete-instances-jacobi-field-namecert}
+\origin{human}
+
+Following do Carmo and Kobayashi--Nomizu, the $\JacobiFieldUp$ packet records the finite NameCert surface for a variational vector field along a displayed geodesic. It sits over the Riemannian metric row of \autoref{ch:concrete-instances-riemannianmetric-namecert}, the connection row of \autoref{ch:concrete-instances-connection-namecert}, the curvature row of \autoref{ch:concrete-instances-curvature-namecert}, the geodesic metric surface of \autoref{ch:concrete-instances-geodesic-metric-namecert}, and the vector-bundle bookkeeping of \autoref{ch:concrete-instances-vectorbundle-namecert}. The packet names only the displayed finite variation ledger; it does not assert a host geodesic-deviation theorem, selected variation family, quotient equality of vector fields, conjugate-point theorem, or ambient smooth solution space.
+
+\begin{definition}[Jacobi field carrier]
+\label{def:jacobi-field-carrier}
+A $\JacobiFieldUp$ carrier is a finite $\BHist$ packet
+$$
+J=(G,V,\nabla,R,E,H,C,P,N,A)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $G$ is the geodesic row, read through $\GeodesicMetricUp$, exposing the base path, endpoint window, tangent-speed readback, and finite subdivision ledger.
+\item $V$ is the vector-field row along $G$, read through $\VectorBundleUp$, exposing the fibre row, section row, and fibrewise transport ledger over the same endpoint window.
+\item $\nabla$ is the $\ConnectionUp$ row carrying the two covariant-derivative readbacks of $V$ along the geodesic row.
+\item $R$ is the $\CurvatureUp$ row exposing the curvature action on the tangent row of $G$ and the vector-field row $V$.
+\item $E$ is the endpoint and variation row, recording the displayed endpoint values, variation-family boundary data, and the finite ledger that relates the second covariant derivative row to the curvature row.
+\item $H$ records componentwise $\hsame$ transport for $G,V,\nabla,R,E$ and their dependency rows.
+\item $C$ records the displayed $\Cont$ replay from geodesic and vector-bundle data through connection readback, curvature readback, endpoint variation, and Jacobi-equation inspection.
+\item $P$ is the $\Pkg$ provenance over $\JacobiFieldUp$, $\GeodesicMetricUp$, $\VectorBundleUp$, $\ConnectionUp$, $\CurvatureUp$, $\RiemannianMetricUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\JacobiFieldUp}$ row.
+\item $A$ is the audit row stating that every accepted Jacobi read remains inside the displayed geodesic, vector-field, connection, curvature, endpoint, transport, replay, provenance, and local-name packet.
+\end{enumerate}
+The carrier has no coordinate for a selected smooth variation, a global solution operator, quotient equality of vector fields, a conjugate-point theorem, or a host-level geodesic-deviation identity outside the displayed finite ledger.
+\end{definition}
+
+\begin{theorem}[JacobiField NameCert obligations]
+\label{thm:jacobi-field-namecert-obligations}
+For an accepted $\JacobiFieldUp$ carrier $J=(G,V,\nabla,R,E,H,C,P,N,A)$, the local $\NameCert_{\JacobiFieldUp}$ surface consists exactly of carrier admission for the displayed geodesic row $G$, vector-field row $V$, connection row $\nabla$, curvature row $R$, endpoint and variation row $E$, componentwise $\hsame$ transport $H$, displayed $\Cont$ replay $C$, $\Pkg$ provenance $P$, local naming $N$, and audit row $A$. Every downstream conjugate-point or geodesic-deviation consumer must expose these rows before reading the packet as a Jacobi-field certificate.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:jacobi-field-carrier}. The geodesic, vector-field, connection, curvature, endpoint, transport, replay, provenance, local naming, and audit rows are the whole displayed packet.
+
+Read the dependency surfaces in order. The geodesic row is supplied by the geodesic metric certificate, the vector-field row by the vector-bundle certificate, the derivative rows by the connection certificate, and the curvature action by the curvature certificate over the same displayed Riemannian metric source.
+
+Finally replay the endpoint and variation ledger through $H,C,P,N,A$. Since the carrier has no coordinate for selected smooth variations, quotient vector-field equality, global solution operators, conjugate-point theorems, or host geodesic-deviation identities, the listed rows exhaust the local NameCert obligations.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\JacobiFieldUp$ packet exposes geodesic, vector-field, connection, curvature, endpoint-variation, transport, replay, provenance, and local NameCert rows before any geodesic-deviation consumer can read it.}
+
+\independenceWitness{riemannianmetric, connection, curvature, geodesic-metric, vectorbundle: $\JacobiFieldUp$ is not bijective to any listed sibling because it jointly carries a geodesic row, a vector field along it, two connection readbacks, curvature action, endpoint and variation data, transport, replay, provenance, and local naming in one packet.}
+
+\closureat{JacobiFieldUp}{seedStr}
+
+\begin{closurestatus}{\JacobiFieldUp}
+  \constructivestory{A $\JacobiFieldUp$ packet is generated from a displayed geodesic row, vector-field row along the geodesic, connection derivative rows, curvature action row, endpoint and variation boundary row, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, a local $\NameCert$ row, and an audit row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:jacobi-field-carrier} and \autoref{thm:jacobi-field-namecert-obligations} seed the finite Jacobi-field NameCert surface over $\RiemannianMetricUp$, $\ConnectionUp$, $\CurvatureUp$, $\GeodesicMetricUp$, $\VectorBundleUp$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close selected smooth variations, global Jacobi solution operators, quotient equality of vector fields, conjugate-point theorems, host geodesic-deviation identities, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, geodesic row exposure, vector-field row exposure, connection derivative readback, curvature-action readback, endpoint variation, transport, replay, provenance, local naming, and audit non-escape for BEDC.Derived.JacobiFieldUp.}
+\end{closurestatus}
