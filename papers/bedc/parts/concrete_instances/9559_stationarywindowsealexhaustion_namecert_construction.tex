@@ -99,6 +99,36 @@ Apply the NameCert obligations, L10 handoff, and exhaustion-row obligations of \
 Use transport stability to repack the surface through $H,C,P,N$. Since componentwise transport, displayed replay, provenance, and local naming add no coordinate for unbounded windows, selected limits, quotient streams, host real equality, or ambient completeness, the listed rows are the complete obligation surface.
 \end{proof}
 
+\begin{theorem}[Stationary window seal exhaustion finite-window route]
+\label{thm:stationary-window-seal-exhaustion-finite-window-route}
+Every finite observation window read from an accepted $\StationaryWindowSealExhaustionUp$ packet factors through the displayed rows
+$$
+Q\longrightarrow S\longrightarrow R\longrightarrow D\longrightarrow W\longrightarrow E\longrightarrow H\longrightarrow C\longrightarrow P\longrightarrow N .
+$$
+The route exposes the rational seed, stationary StreamName window, regular rational readback, dyadic ledger, Real seal row, transported exhaustion row, componentwise transport, replay, provenance, and local naming in that order, and no accepted finite-window read bypasses one of those rows.
+\end{theorem}
+\begin{proof}
+Project the carrier $L=(Q,S,R,D,W,E,H,C,P,N)$ of \autoref{def:stationary-window-seal-exhaustion-carrier}. Its displayed order is the only public carrier order available to a downstream finite-window consumer.
+
+Use the NameCert obligations of \autoref{thm:stationary-window-seal-exhaustion-namecert-obligations}. They attach the RatUp seed, StreamName window, RegSeqRat readback, DyadicRatCore ledger, Real seal, transported exhaustion, transport, replay, provenance, and naming rows to the same local packet.
+
+Apply the L10 handoff of \autoref{thm:stationary-window-seal-exhaustion-l10-handoff}. The handoff forces every downstream read of the transported stationary seal to consume the same finite route, so no finite observation window can skip a displayed row or introduce an unbounded window family.
+\end{proof}
+
+\begin{theorem}[Stationary window seal exhaustion Real seal nonescape]
+\label{thm:stationary-window-seal-exhaustion-real-seal-nonescape}
+For an accepted $\StationaryWindowSealExhaustionUp$ carrier $L=(Q,S,R,D,W,E,H,C,P,N)$, the $\RealUp$ seal row $W$ is unavailable until the $\RatUp$ seed row $Q$, the $\StreamNameUp$ window row $S$, the $\RegSeqRatUp$ readback row $R$, the $\DyadicRatCoreUp$ ledger row $D$, and the transported exhaustion row $E$ have been displayed through the same packet. The seal row cannot escape as host real equality, quotient stream equality, a selected limit, or an ambient completeness principle.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier. The rows $Q,S,R,D,W,E$ are all coordinates of the same finite packet, and the structural rows $H,C,P,N$ are the only routes by which the packet is transported, replayed, sourced, and named.
+
+Use the exhaustion-row obligations of \autoref{thm:stationary-window-seal-exhaustion-exhaustion-row-obligations}. They require $Q,S,R,D,W$ to be displayed before the transported exhaustion row can be exposed.
+
+Combine this with the finite-window route of \autoref{thm:stationary-window-seal-exhaustion-finite-window-route}. The Real seal row is read as part of the single finite route through $Q,S,R,D,W,E,H,C,P,N$.
+
+Since the carrier has no coordinate for host real equality, quotient stream equality, selected limits, or ambient completeness, the seal row remains inside the displayed packet and cannot escape to any of those stronger readings.
+\end{proof}
+
 \falsifiablePrediction{Any accepted consumer that reads the transported stationary seal without the RatUp seed, StreamName window, RegSeqRat readback, DyadicRatCore ledger, and RealUp seal rows refutes the $\StationaryWindowSealExhaustionUp$ packet.}
 
 \independenceWitness{transportedstationarydiagonal, stationarywindowlattice, diagonalcofinaltail, realtailagreementseal, and realcompletionselectorseal: none is bijective to $\StationaryWindowSealExhaustionUp$ because this carrier alone stores the five public readings together with the exhaustion row, transport rows, continuation replay, provenance, and local naming as one L10 handoff.}
