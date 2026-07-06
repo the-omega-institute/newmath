@@ -13969,6 +13969,7 @@ import BEDC.Derived.ValidatedNumericsUp.RefinementCompositionContainment
 import BEDC.Derived.ValidatedNumericsUp.TasteGate
 import BEDC.Derived.ValuationDomainUp
 import BEDC.Derived.VanDerCorputDifferenceEstimateUp.TasteGate
+import BEDC.Derived.VanDerWaerdenProgressionUp
 import BEDC.Derived.VandermondeChuUp
 import BEDC.Derived.VandermondeDeterminantUp
 import BEDC.Derived.VariationDiminishingUp.TasteGate
