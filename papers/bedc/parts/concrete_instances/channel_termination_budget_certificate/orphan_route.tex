@@ -1,0 +1,11 @@
+\begin{theorem}[Channel termination budget-certificate sibling dependency route]
+\label{thm:channel-termination-budget-certificate-orphan-route}
+Every accepted $\ChannelTerminationBudgetCertificateUp$ read factors through the channel termination boundary of \autoref{ch:concrete-instances-channel-termination-boundary-namecert} and the channel termination halting boundary of \autoref{ch:concrete-instances-channel-termination-halting-boundary-namecert} before it exposes either the local delimiter-budget row or the global-halting refusal row. In the carrier notation of this chapter, a consumer must display the active alphabet row $A$, legal-event row $L$, streaming budget row $Z$, sibling route row $R$, local finish row $F$, global refusal row $G$, transport row $H$, replay row $C$, provenance row $P$, and local naming row $N$ as one dependency route.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier of \autoref{def:channel-termination-budget-certificate-carrier}. The local delimiter budget and global refusal data are not standalone rows; they sit inside the displayed packet $A,L,Z,F,G,R,H,C,P,N$.
+
+Read the sibling boundaries first. The channel termination boundary supplies the event and delimiter surface, while the channel termination halting boundary separates local termination from global halting refusal before rows $F$ and $G$ are public.
+
+The structural rows then keep the read inside the same certificate. Componentwise transport, displayed replay, provenance, and local naming route the rows through $H,C,P,N$, so the packet cannot expose a detached local finish row, a detached global-halting refusal row, or a total halting classifier.
+\end{proof}
