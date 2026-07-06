@@ -1,0 +1,83 @@
+\chapter{A Concrete Naming Certificate for $\DyadicPrecisionScheduleUp$}
+\label{ch:concrete-instances-dyadic-precision-schedule-namecert}
+\origin{human}
+
+Bishop and Bridges use explicit moduli to turn a requested precision into a tail bound for regular Cauchy names. The $\DyadicPrecisionScheduleUp$ packet records that precision-to-tail schedule as finite NameCert data for the L10 Real and Completion route. It sits over the dyadic arithmetic core of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the finite observation surface of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the terminal real seal of \autoref{ch:concrete-instances-real-namecert}, and the existing tail schedule of \autoref{ch:concrete-instances-regularcauchytailschedule-namecert}. The packet names only displayed dyadic precision rows, inspected windows, regular readback, tail bounds, transport, replay, provenance, and local NameCert rows; it does not import quotient streams, selected limits, ambient real completeness, countable choice, or a hidden host modulus.
+
+\begin{definition}[Dyadic modulus schedule carrier]
+\label{def:dyadic-modulus-schedule-carrier}
+A $\DyadicPrecisionScheduleUp$ carrier is a finite $\BHist$ packet
+$$
+S=(Q,W,R,D,K,T,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $Q$ is the requested dyadic precision row, read through $\DyadicRatCoreUp$ as a finite positive tolerance and slack ledger.
+\item $W$ is the $\StreamNameUp$ finite-window row inspected at the precision request.
+\item $R$ is the $\RegSeqRatUp$ regular rational readback row for the same windows and dyadic tolerance ledger.
+\item $D$ is the dyadic comparison row, recording the finite inequality checks that relate $Q$ to the readback widths.
+\item $K$ is the cofinal tail-index row chosen by the displayed schedule.
+\item $T$ is the $\RegularCauchyTailScheduleUp$ tail witness row, asserting that all inspected indices beyond $K$ meet the requested precision through $Q,W,R,D$.
+\item $H$ records componentwise $\hsame$ transport for precision, windows, readback, comparison, tail index, tail witness, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from the requested precision through the finite window, regular readback, dyadic comparison, and tail witness.
+\item $P$ is the $\Pkg$ provenance over $\DyadicPrecisionScheduleUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\RegularCauchyTailScheduleUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\DyadicPrecisionScheduleUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $Q,W,R,D,K,T,H,C,P,N$. It has no coordinate for quotient stream equality, a selected completed limit, ambient $\RealUp$ completeness, countable choice, unbounded search, or a host-level modulus outside the displayed packet.
+\end{definition}
+
+\begin{theorem}[Dyadic modulus schedule NameCert obligations]
+\label{thm:dyadic-modulus-schedule-namecert-obligations}
+For the carrier of \autoref{def:dyadic-modulus-schedule-carrier}, the local $\NameCert_{\DyadicPrecisionScheduleUp}$ surface consists exactly of carrier admission for $S=(Q,W,R,D,K,T,H,C,P,N)$, dyadic precision exposure through $Q$, finite-window exposure through $W$, regular readback through $R$, dyadic comparison through $D$, tail-index and tail-witness exposure through $K,T$, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier. The tuple lists the dyadic precision, finite windows, regular readback, comparison row, tail index, tail witness, transport, replay, provenance, and local naming rows.
+
+Read the analytic entrance rows in order. The requested precision $Q$ fixes the dyadic tolerance, $W$ opens only finite stream windows, $R$ reads those windows as regular rational data, and $D$ records the comparison checks used by the schedule.
+
+The rows $K$ and $T$ then expose the cofinal tail bound and its $\RegularCauchyTailScheduleUp$ witness. The structural rows $H,C,P,N$ transport, replay, source, and name the same packet, leaving no coordinate for quotient streams, selected limits, choice, unbounded search, ambient completeness, or an external modulus.
+\end{proof}
+
+\begin{theorem}[Dyadic modulus schedule tail-window adequacy]
+\label{thm:dyadic-modulus-schedule-tail-window}
+For every accepted $\DyadicPrecisionScheduleUp$ carrier $S=(Q,W,R,D,K,T,H,C,P,N)$, any Real or Completion consumer that asks for the requested dyadic precision must read the tail window through
+$$
+\DyadicRatCoreUp(Q),\quad \StreamNameUp(W),\quad \RegSeqRatUp(R),\quad \RegularCauchyTailScheduleUp(T)
+$$
+before the terminal $\RealUp$ route is available. The witness $T$ is adequate only for the displayed finite windows and comparison row $D$.
+\end{theorem}
+\begin{proof}
+Begin with the precision request. The row $Q$ is the only displayed source of the dyadic tolerance, and the rows $W$ and $R$ are the only displayed window and readback coordinates attached to that request.
+
+Apply the NameCert obligations of \autoref{thm:dyadic-modulus-schedule-namecert-obligations}. They force the comparison row $D$ to be read before the tail index $K$ and the tail witness $T$ can be consumed.
+
+The tail witness is therefore tied to the same finite windows and regular readback. A Real or Completion consumer can reach the terminal seal only through that schedule route and the structural rows $H,C,P,N$.
+\end{proof}
+
+\begin{theorem}[Dyadic modulus schedule nonescape]
+\label{thm:dyadic-modulus-schedule-nonescape}
+Every public read of an accepted $\DyadicPrecisionScheduleUp$ packet factors through $Q,W,R,D,K,T,H,C,P,N$. It cannot export quotient stream equality, a selected completed limit, ambient $\RealUp$ completeness, countable choice, unbounded search, host real equality, or a modulus detached from the displayed dyadic precision and tail-window rows.
+\end{theorem}
+\begin{proof}
+Read the carrier rows. The only precision-to-tail data are $Q,W,R,D,K,T$, followed by transport, replay, provenance, and local naming.
+
+Use \autoref{thm:dyadic-modulus-schedule-tail-window}. It shows that any Real or Completion consumer must pass through the displayed dyadic precision, finite window, regular readback, comparison, and tail witness rows before using the schedule.
+
+The excluded endpoints are absent from the carrier. Since no row stores quotient streams, selected limits, countable-choice schedules, unbounded searches, host real equality, ambient completeness, or a detached modulus, no public read can export them.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\DyadicPrecisionScheduleUp$ Real or Completion read displays the dyadic precision, StreamName window, RegSeqRat readback, dyadic comparison, tail index, RegularCauchyTailSchedule witness, hsame transport, Cont replay, Pkg provenance, and local NameCert row before exporting a precision-to-tail schedule.}
+
+\independenceWitness{dyadicratcore, streamname, regseqrat, real, regular-cauchy-tail-schedule: $\DyadicPrecisionScheduleUp$ is not bijective to any listed sibling because it binds a requested dyadic precision to finite windows, regular readback, comparison checks, a cofinal tail index, a tail witness, transport, replay, provenance, and local naming in one packet.}
+
+\closureat{DyadicPrecisionScheduleUp}{seedStr}
+
+\begin{closurestatus}{\DyadicPrecisionScheduleUp}
+  \constructivestory{A $\DyadicPrecisionScheduleUp$ packet is generated from a DyadicRatCore precision request, StreamName finite windows, RegSeqRat readback, dyadic comparison rows, a cofinal tail index, a RegularCauchyTailSchedule witness, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:dyadic-modulus-schedule-carrier}, \autoref{thm:dyadic-modulus-schedule-namecert-obligations}, \autoref{thm:dyadic-modulus-schedule-tail-window}, and \autoref{thm:dyadic-modulus-schedule-nonescape} seed the finite precision-to-tail route for L10 Real and Completion consumers.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient stream equality, selected limits, ambient $\RealUp$ completeness, countable choice, unbounded search, Lean verification, or bridge checking for $\DyadicPrecisionScheduleUp$.}
+  \upgradepath{Obligation closure requires checked carrier admission, dyadic precision exposure, finite-window exactness, regular readback, tail-window adequacy, non-escape, transport, replay, provenance, and local naming for BEDC.Derived.DyadicPrecisionScheduleUp.}
+\end{closurestatus}
