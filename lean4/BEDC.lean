@@ -1123,6 +1123,7 @@ import BEDC.Derived.BishopFanModulusUp
 import BEDC.Derived.BishopFanModulusUp.Nonescape
 import BEDC.Derived.BishopFanModulusUp.RealWindowHandoff
 import BEDC.Derived.BishopFanModulusUp.TasteGate
+import BEDC.Derived.BishopFiniteIntervalChainUp.TasteGate
 import BEDC.Derived.BishopFixedPointIntervalUp.TasteGate
 import BEDC.Derived.BishopIntervalApartnessModulusUp.TasteGate
 import BEDC.Derived.BishopIntervalCompactUp.TasteGate
@@ -3162,6 +3163,7 @@ import BEDC.Derived.ChoiceSequenceRealUp
 import BEDC.Derived.ChoiceSequenceRealUp.TasteGate
 import BEDC.Derived.ChoiceSequenceRealizabilityUp.TasteGate
 import BEDC.Derived.ChoiceWindowSequenceUp.TasteGate
+import BEDC.Derived.ChoquetBoundaryRepresentationUp
 import BEDC.Derived.ChoquetCompleteSpaceUp.TasteGate
 import BEDC.Derived.ChoquetGameUp.TasteGate
 import BEDC.Derived.ChoquetSimplexUp.TasteGate
@@ -7037,6 +7039,7 @@ import BEDC.Derived.GrzegorczykRealUp.TasteGate
 import BEDC.Derived.HInfinityControlUp.TasteGate
 import BEDC.Derived.HaarWaveletUp.TasteGate
 import BEDC.Derived.HadamardFinitePartUp.TasteGate
+import BEDC.Derived.HadamardGapSeriesUp.TasteGate
 import BEDC.Derived.HadamardProductSeriesUp.TasteGate
 import BEDC.Derived.HadamardThreeCircleUp.TasteGate
 import BEDC.Derived.HadamardThreeLinesUp.TasteGate
@@ -8100,6 +8103,7 @@ import BEDC.Derived.LocatedInfimumUp.SupremumDualRoute
 import BEDC.Derived.LocatedInfimumUp.TasteGate
 import BEDC.Derived.LocatedInfimumUp.WindowInduction
 import BEDC.Derived.LocatedIntermediateValueUp.TasteGate
+import BEDC.Derived.LocatedIntervalArithmeticUp.TasteGate
 import BEDC.Derived.LocatedIntervalBisectionUp.NestedWindowRoute
 import BEDC.Derived.LocatedIntervalBisectionUp.TasteGate
 import BEDC.Derived.LocatedIntervalBolzanoUp.TasteGate
