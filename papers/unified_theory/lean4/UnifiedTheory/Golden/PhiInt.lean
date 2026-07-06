@@ -101,6 +101,33 @@ theorem toRealPlus_mul (x y : PhiInt) :
   | zero => simp [phiPow, toRealPlus]
   | succ k ih => rw [phiPow, toRealPlus_mul, ih, toRealPlus_phi, pow_succ]
 
+@[simp] theorem toRealMinus_add (x y : PhiInt) :
+    toRealMinus (x + y) = toRealMinus x + toRealMinus y := by
+  simp only [toRealMinus, add_a, add_b]; push_cast; ring
+
+theorem toRealMinus_sub (x y : PhiInt) :
+    toRealMinus (x - y) = toRealMinus x - toRealMinus y := by
+  simp only [toRealMinus]
+  have ha : (x - y).a = x.a - y.a := rfl
+  have hb : (x - y).b = x.b - y.b := rfl
+  rw [ha, hb]; push_cast; ring
+
+@[simp] theorem toRealMinus_phi : toRealMinus phi = Real.goldenConj := by
+  simp [toRealMinus]
+
+/-- 收缩面是环同态(乘法):用 ψ²=ψ+1。 -/
+theorem toRealMinus_mul (x y : PhiInt) :
+    toRealMinus (x * y) = toRealMinus x * toRealMinus y := by
+  simp only [toRealMinus, mul_a, mul_b]
+  push_cast
+  linear_combination (-(x.b : ℝ) * (y.b : ℝ)) * Real.goldenConj_sq
+
+@[simp] theorem toRealMinus_phiPow (n : ℕ) :
+    toRealMinus (phiPow n) = Real.goldenConj ^ n := by
+  induction n with
+  | zero => simp [phiPow, toRealMinus]
+  | succ k ih => rw [phiPow, toRealMinus_mul, ih, toRealMinus_phi, pow_succ]
+
 end PhiInt
 
 end UnifiedTheory

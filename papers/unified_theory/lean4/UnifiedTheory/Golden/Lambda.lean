@@ -65,6 +65,15 @@ theorem betaPhi_gap (w : AxisWord) :
   simp only [betaPlusReal, betaMinusReal]
   rw [PhiInt.gapReal_eq, betaPhi_b]; push_cast; ring
 
+/-- 收缩面读数展开为各指标处 ψ 幂之和:`β₋(w) = Σ_{i∈w} ψ^i`(窗口界的起点)。 -/
+theorem betaMinusReal_eq_sum (w : AxisWord) :
+    betaMinusReal w = (w.1.map fun i => Real.goldenConj ^ i).sum := by
+  simp only [betaMinusReal, betaPhi]
+  generalize w.1 = l
+  induction l with
+  | nil => simp [PhiInt.toRealMinus]
+  | cons i l ih => simp [ih]
+
 end AxisWord
 
 namespace PZGTable

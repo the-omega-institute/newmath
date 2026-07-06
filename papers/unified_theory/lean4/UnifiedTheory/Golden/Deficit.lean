@@ -17,16 +17,6 @@ namespace UnifiedTheory
 namespace PhiInt
 @[simp] theorem sub_a (x y : PhiInt) : (x - y).a = x.a - y.a := rfl
 @[simp] theorem sub_b (x y : PhiInt) : (x - y).b = x.b - y.b := rfl
-
-/-- 收缩面对加法线性。 -/
-theorem toRealMinus_add (x y : PhiInt) :
-    toRealMinus (x + y) = toRealMinus x + toRealMinus y := by
-  simp only [toRealMinus, add_a, add_b]; push_cast; ring
-
-/-- 收缩面对减法线性。 -/
-theorem toRealMinus_sub (x y : PhiInt) :
-    toRealMinus (x - y) = toRealMinus x - toRealMinus y := by
-  simp only [toRealMinus, sub_a, sub_b]; push_cast; ring
 end PhiInt
 
 /-- 归一化亏空(PhiInt 值):`β(v)+β(w)−β(v+w)`。 -/
