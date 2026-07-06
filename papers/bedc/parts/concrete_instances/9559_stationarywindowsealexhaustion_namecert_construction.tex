@@ -115,6 +115,7 @@ Use the NameCert obligations of \autoref{thm:stationary-window-seal-exhaustion-n
 
 Apply the L10 handoff of \autoref{thm:stationary-window-seal-exhaustion-l10-handoff}. The handoff forces every downstream read of the transported stationary seal to consume the same finite route, so no finite observation window can skip a displayed row or introduce an unbounded window family.
 \end{proof}
+\leanchecked{BEDC.Derived.StationaryWindowSealExhaustionUp.StationaryWindowSealExhaustion\_finite\_window\_route}
 
 \begin{theorem}[Stationary window seal exhaustion Real seal nonescape]
 \label{thm:stationary-window-seal-exhaustion-real-seal-nonescape}
@@ -130,6 +131,18 @@ Combine this with the finite-window route of \autoref{thm:stationary-window-seal
 Since the carrier has no coordinate for host real equality, quotient stream equality, selected limits, or ambient completeness, the seal row remains inside the displayed packet and cannot escape to any of those stronger readings.
 \end{proof}
 
+\begin{theorem}[Stationary window seal exhaustion obligation-closure assembly]
+\label{thm:stationary-window-seal-exhaustion-obligation-closure-assembly}
+For an accepted $\StationaryWindowSealExhaustionUp$ carrier $L=(Q,S,R,D,W,E,H,C,P,N)$, the complete obligation surface is the assembly of the five public readings $Q,S,R,D,W$, the transported exhaustion row $E$, the transport row $H$, replay row $C$, provenance row $P$, and local naming row $N$. The NameCert obligations, L10 handoff, transport stability, exhaustion-row obligations, obligation surface, finite-window route, and Real seal nonescape theorems are jointly sufficient for obligation closure of this finite stationary-window seal packet.
+\end{theorem}
+\begin{proof}
+Project the carrier. The public readings are exactly the rational seed row $Q$, the constant StreamName row $S$, the RegSeqRat readback row $R$, the DyadicRatCore ledger row $D$, and the Real seal row $W$.
+
+Use \autoref{thm:stationary-window-seal-exhaustion-exhaustion-row-obligations}, \autoref{thm:stationary-window-seal-exhaustion-transport-stability}, and \autoref{thm:stationary-window-seal-exhaustion-l10-handoff}. They force the transported exhaustion row $E$, componentwise transport $H$, and the downstream handoff to remain attached to the same finite route.
+
+Apply \autoref{thm:stationary-window-seal-exhaustion-obligation-surface}, \autoref{thm:stationary-window-seal-exhaustion-finite-window-route}, and \autoref{thm:stationary-window-seal-exhaustion-real-seal-nonescape}. These theorems expose the replay, provenance, and local naming rows while excluding unbounded windows, selected limits, quotient streams, host real equality, and ambient completeness. Hence the displayed assembly is the complete obligation surface.
+\end{proof}
+
 \falsifiablePrediction{Any accepted consumer that reads the transported stationary seal without the RatUp seed, StreamName window, RegSeqRat readback, DyadicRatCore ledger, and RealUp seal rows refutes the $\StationaryWindowSealExhaustionUp$ packet.}
 
 \independenceWitness{transportedstationarydiagonal, stationarywindowlattice, diagonalcofinaltail, realtailagreementseal, and realcompletionselectorseal: none is bijective to $\StationaryWindowSealExhaustionUp$ because this carrier alone stores the five public readings together with the exhaustion row, transport rows, continuation replay, provenance, and local naming as one L10 handoff.}
@@ -138,12 +151,12 @@ The Lean realization must provide Nontrivial and FieldFaithful instances in \tex
 
 \begin{closurestatus}{\StationaryWindowSealExhaustionUp}
   \constructivestory{A $\StationaryWindowSealExhaustionUp$ packet is generated from a paired rational seed row, constant StreamName finite-window row, RegSeqRat seal-consumption row, DyadicRatCore ledger, RealUp finite-window classifier, transported stationary exhaustion row, componentwise $\hsame$ transports, displayed $\Cont$ routes, provenance, and local naming. The carrier reads five public faces of the same stationary window and binds them through the exhaustion row. The same finite route is preserved when the packet is handed to downstream RealUp seal consumers. The classifier hands them one finite L10 route: rational seed, stream window, regular readback, dyadic ledger, Real seal, transport, replay, provenance, and name.}
-  \theoryclosure{\seedClosure}
-  \scopeclosed{This chapter binds the stationary window seal exhaustion carrier, NameCert obligations, L10 handoff theorem, prediction, and independence witness.}
+  \theoryclosure{\obligationClosure}
+  \scopeclosed{This chapter binds the stationary window seal exhaustion carrier, the five public readings, transported exhaustion row, transport, replay, provenance, local naming, and \autoref{thm:stationary-window-seal-exhaustion-obligation-closure-assembly} as the complete obligation surface.}
   \formalstatus{\axiomCleanV}
   \leantarget{BEDC.Derived.StationaryWindowSealExhaustionUp.TasteGate.StationaryWindowSealExhaustionTasteGate\_single\_carrier\_alignment}
   \bridgestatus{none}
   \origin{ai}
   \notclaimed{It does not claim unbounded window families, selected limits, quotient-stream equality, host real equality, or ambient completeness.}
-  \upgradepath{To reach obligationClosure, formalize the five-face stationary window handoff and transported exhaustion row as a checked finite carrier.}
+  \upgradepath{Public closure requires a public-object boundary that exports the assembled finite stationary-window seal surface without adding unbounded windows, selected limits, quotient streams, host real equality, or ambient completeness.}
 \end{closurestatus}

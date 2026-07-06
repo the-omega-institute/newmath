@@ -1188,6 +1188,8 @@ import BEDC.Derived.BishopLocatedRootUniquenessUp
 import BEDC.Derived.BishopLocatedRootUp.TasteGate
 import BEDC.Derived.BishopLocatedSequenceUp.TasteGate
 import BEDC.Derived.BishopLocatedUniformConvergenceUp.TasteGate
+import BEDC.Derived.BishopLocatedZeroUp
+import BEDC.Derived.BishopLocatedZeroUp.TasteGate
 import BEDC.Derived.BishopMetricCompletionUp.TasteGate
 import BEDC.Derived.BishopMetricSpaceUp.TasteGate
 import BEDC.Derived.BishopModulusConvergenceUp.TasteGate
@@ -1373,6 +1375,7 @@ import BEDC.Derived.BoundedIntervalCauchySubsequenceUp.TasteGate
 import BEDC.Derived.BoundedIntervalProjectionUp.TasteGate
 import BEDC.Derived.BoundedInverseTheoremUp.TasteGate
 import BEDC.Derived.BoundedLinearFunctionalUp.TasteGate
+import BEDC.Derived.BoundedLinearOperatorUp.CompositionClosure
 import BEDC.Derived.BoundedLinearOperatorUp.TasteGate
 import BEDC.Derived.BoundedMetricSpaceUp.TasteGate
 import BEDC.Derived.BoundedMonotoneCauchyWitnessUp
@@ -8028,6 +8031,7 @@ import BEDC.Derived.LocatedApartnessUp.TasteGate
 import BEDC.Derived.LocatedArchimedeanUp.TasteGate
 import BEDC.Derived.LocatedBoundedRealSequenceUp.TasteGate
 import BEDC.Derived.LocatedBoundedRealSetUp
+import BEDC.Derived.LocatedCantorBendixsonUp.TasteGate
 import BEDC.Derived.LocatedCauchyBracketUp.TasteGate
 import BEDC.Derived.LocatedCauchyCompletionFunctorUp.TasteGate
 import BEDC.Derived.LocatedCauchyExtractionUp.TasteGate
@@ -9610,6 +9614,7 @@ import BEDC.Derived.NestedRadicalConvergenceUp.TasteGate
 import BEDC.Derived.NestedShrinkingIntervalUp.TasteGate
 import BEDC.Derived.NetClusterPointUp.NeighbourhoodHitRoute
 import BEDC.Derived.NetClusterPointUp.TasteGate
+import BEDC.Derived.NetConvergenceCriterionUp.TasteGate
 import BEDC.Derived.NetConvergenceUp
 import BEDC.Derived.NetConvergenceUp.RealSealNonescape
 import BEDC.Derived.NetConvergenceUp.TasteGate
@@ -13348,6 +13353,8 @@ import BEDC.Derived.TheoremGapRegistryUp.GapGateCoverage
 import BEDC.Derived.TheoremGapRegistryUp.PublicExportSurface
 import BEDC.Derived.TheoremGapRegistryUp.StrengthGate
 import BEDC.Derived.TheoremGapRegistryUp.TasteGate
+import BEDC.Derived.TheorySelfClassifierUp.CarrierObligation
+import BEDC.Derived.TheorySelfClassifierUp.ClassifierObligation
 import BEDC.Derived.TheorySelfClassifierUp.FiveRowDeterminacy
 import BEDC.Derived.TheorySelfClassifierUp.LedgerRowInversion
 import BEDC.Derived.TheorySelfClassifierUp.Nonescape

@@ -1,0 +1,76 @@
+\chapter{A Concrete Naming Certificate for $\DyadicDiagonalSelectorUp$}
+\label{ch:concrete-instances-dyadic-diagonal-selector-namecert}
+\origin{human}
+
+Following Bishop and Bridges constructive analysis, the $\DyadicDiagonalSelectorUp$ packet records the finite diagonal-window selector used when a displayed family of rational observations is handed to Real and Completion consumers. It sits over the dyadic tolerance core of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the finite stream-name window of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}, and the Bishop regular Cauchy completion route of \autoref{ch:concrete-instances-bishop-regular-cauchy-completion-namecert}. The packet names only a displayed finite selector surface; it does not choose an infinite subsequence, quotient streams, import countable choice, or assert ambient $\RealUp$ completeness.
+
+\begin{definition}[Dyadic diagonal selector carrier]
+\label{def:dyadic-diagonal-selector-carrier}
+A $\DyadicDiagonalSelectorUp$ carrier is a finite $\BHist$ packet
+$$
+S=(W,D,R,T,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $W$ is the finite $\StreamNameUp$ observation window in which the diagonal request is inspected.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance row recording the requested radius, retained slack, and comparison budget for the selected window.
+\item $R$ is the $\RegSeqRatUp$ readback row for the rational observations exposed by $W$ and checked against $D$.
+\item $T$ is the selected dyadic diagonal window, naming the finite indices and observations that survive the selector request.
+\item $E$ is the terminal $\RealUp$ or Bishop-regular-completion handoff row consumed only after $W,D,R,T$ have been displayed.
+\item $H$ stores componentwise $\hsame$ transport for $W,D,R,T,E$ and the structural rows.
+\item $C$ stores displayed $\Cont$ replay from the stream observation, dyadic budget, regular rational readback, selector window, and completion-facing handoff.
+\item $P$ is the $\Pkg$ provenance over $\DyadicDiagonalSelectorUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BishopRegularCauchyCompletionUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\DyadicDiagonalSelectorUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for an infinite choice sequence, a selected tail outside the displayed window, quotient equality of stream names, host real equality, or ambient completeness.
+\end{definition}
+
+\begin{theorem}[Dyadic diagonal selector NameCert obligations]
+\label{thm:dyadic-diagonal-selector-namecert-obligations}
+For every accepted $\DyadicDiagonalSelectorUp$ carrier
+$$
+S=(W,D,R,T,E,H,C,P,N),
+$$
+the local $\NameCert_{\DyadicDiagonalSelectorUp}$ surface consists exactly of finite observation exposure through $W$, dyadic tolerance exactness through $D$, regular rational readback through $R$, selected diagonal-window admission through $T$, terminal Real or Bishop-completion handoff through $E$, componentwise transport through $H$, displayed replay through $C$, provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier to the tuple of \autoref{def:dyadic-diagonal-selector-carrier}. The observation row $W$, tolerance row $D$, readback row $R$, selected window $T$, and terminal handoff row $E$ are the only analytic rows available to a consumer.
+
+The selector is finite because $T$ is read after $W,D,R$ have already been displayed. It records the selected diagonal window and cannot create an unbounded choice sequence or quotient stream representative.
+
+The handoff row $E$ is downstream of that finite selector. It may feed a $\RealUp$ or $\BishopRegularCauchyCompletionUp$ consumer, but only through the displayed stream, dyadic, rational, and selected-window rows.
+
+Finally $H,C,P,N$ preserve the same packet under transport, replay, provenance, and local naming. Since the excluded endpoints do not occur as carrier coordinates, the listed rows exhaust the local NameCert obligations.
+\end{proof}
+
+\begin{theorem}[Dyadic diagonal selector regular-tail handoff]
+\label{thm:dyadic-diagonal-selector-regular-tail-handoff}
+Every Real or Completion-facing use of an accepted $\DyadicDiagonalSelectorUp$ carrier hands the selected window to the regular-tail route through
+$$
+\StreamNameUp\longrightarrow \DyadicRatCoreUp\longrightarrow \RegSeqRatUp\longrightarrow \RealUp .
+$$
+The completion consumer may inspect the selected diagonal window $T$ only after the finite observation row $W$, dyadic tolerance row $D$, and regular rational readback row $R$ have been displayed; the handoff exports no countable choice principle, no quotient stream equality, and no selected completed real outside the terminal row $E$.
+\end{theorem}
+\begin{proof}
+Start with the accepted packet $S=(W,D,R,T,E,H,C,P,N)$. The only stream-facing data are the finite observations in $W$, and the only tolerance data are the dyadic budget rows in $D$.
+
+Read the regular rational row next. The row $R$ exposes the rational observations checked by $D$, so the selector row $T$ is a finite diagonal window over already visible data.
+
+The terminal handoff $E$ is therefore downstream of $W,D,R,T$. Transport, replay, provenance, and local naming keep that dependency order fixed. Because the carrier has no coordinate for countable choice, quotient stream equality, or a selected completed real outside $E$, the regular-tail handoff remains finite.
+\end{proof}
+
+\falsifiablePrediction{Any accepted DyadicDiagonalSelectorUp consumer that reaches a RealUp or BishopRegularCauchyCompletionUp handoff without first exposing StreamNameUp windows, DyadicRatCoreUp tolerance rows, RegSeqRatUp readback, and the selected dyadic window refutes this certificate.}
+
+\independenceWitness{dyadicratcore, streamname, regseqrat, real, bishop-regular-cauchy-completion: no listed sibling supplies the whole packet $S=(W,D,R,T,E,H,C,P,N)$, because each sibling contributes only tolerance, observation, readback, terminal seal, or completion-facing rows while this selector binds them into one finite diagonal-window carrier.}
+
+\closureat{DyadicDiagonalSelectorUp}{seedStr}
+
+\begin{closurestatus}{\DyadicDiagonalSelectorUp}
+  \constructivestory{A $\DyadicDiagonalSelectorUp$ packet is generated from a finite StreamNameUp observation window, a DyadicRatCoreUp tolerance row, a RegSeqRatUp readback row, a selected dyadic diagonal window, a terminal RealUp or BishopRegularCauchyCompletionUp handoff, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:dyadic-diagonal-selector-carrier}, \autoref{thm:dyadic-diagonal-selector-namecert-obligations}, and \autoref{thm:dyadic-diagonal-selector-regular-tail-handoff} seed the finite diagonal selector route from stream observations through dyadic tolerance and regular rational readback into the Real and Completion handoff.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close countable choice, quotient equality of stream names, selected infinite tails, host real equality, ambient RealUp completeness, Lean checking, or bridge checking.}
+  \upgradepath{Obligation closure requires checked finite-window exposure, dyadic tolerance exactness, regular readback exactness, selector-window admission, terminal handoff nonescape, transport, replay, provenance, and local naming for BEDC.Derived.DyadicDiagonalSelectorUp.}
+\end{closurestatus}

@@ -1,0 +1,73 @@
+\chapter{A Concrete Naming Certificate for $\PrimeAdicLocalSlicingUp$}
+\label{ch:concrete-instances-prime-adic-local-slicing-namecert}
+\origin{ai}
+
+The $\PrimeAdicLocalSlicingUp$ packet realizes the valuation/unit branch of \autoref{sec:unified-reality-prime-adic-local-slicing} as finite NameCert data. It consumes the displayed prime row of \autoref{ch:concrete-instances-prime-namecert}, the $p$-adic prime-scale surface of \autoref{ch:concrete-instances-padic-namecert}, the Euler-factor and zero-facing rows of \autoref{ch:concrete-instances-zeta-basic-namecert}, and the dyadic and real readback rows used by finite-window defect packets. The carrier names local valuation depth and unit phase as displayed rows; it does not assert a theorem about $p$-adic zeta zeros, completed local fields, global RH, or an ambient analytic continuation principle.
+
+\begin{definition}[Prime-adic local slicing carrier]
+\label{def:prime-adic-local-slicing-carrier}
+A $\PrimeAdicLocalSlicingUp$ carrier is a finite $\BHist$ packet
+$$
+L=(p,V,U,E,F,D,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $p$ is the $\PrimeUp$ row naming the local prime slice.
+\item $V$ is the valuation-depth row, recording the displayed exponent direction in the $p$-adic slice.
+\item $U$ is the unit-phase row, recording the local unit coordinate after the valuation depth has been separated.
+\item $E$ is the Euler-local row for the centered factor $p^{1/2-s}$.
+\item $F$ is the finite prime-window row in which this local slice is read.
+\item $D$ is the normalized finite-window defect row, read from valuation depth and unit phase rather than from an ambient global zero predicate.
+\item $H$ stores componentwise $\hsame$ transport for $p,V,U,E,F,D$ and the structural rows.
+\item $C$ stores displayed $\Cont$ replay from prime admission through valuation depth, unit phase, Euler-local readback, finite-window defect, provenance, and local naming.
+\item $P$ is the $\Pkg$ provenance over $\PrimeAdicLocalSlicingUp$, $\PrimeUp$, $\PadicUp$, $\ZetaUp$, $\DyadicRatCoreUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\PrimeAdicLocalSlicingUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for a completed $p$-adic field, a $p$-adic zero predicate for $\ZetaUp$, a quotient local factor, an infinite prime product, or a global RH conclusion.
+\end{definition}
+
+\begin{theorem}[Prime-adic local slicing NameCert obligations]
+\label{thm:prime-adic-local-slicing-namecert-obligations}
+For every accepted $\PrimeAdicLocalSlicingUp$ carrier
+$$
+L=(p,V,U,E,F,D,H,C,P,N),
+$$
+the local $\NameCert_{\PrimeAdicLocalSlicingUp}$ surface consists exactly of prime-row admission through $p$, valuation-depth exposure through $V$, unit-coordinate exposure through $U$, Euler-local readback through $E$, finite-window admission through $F$, normalized defect readback through $D$, componentwise transport through $H$, displayed replay through $C$, provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier to the tuple of \autoref{def:prime-adic-local-slicing-carrier}. The local analytic data are the prime row $p$, valuation row $V$, unit row $U$, Euler-local row $E$, finite-window row $F$, and defect row $D$.
+
+The valuation and unit rows are separate. The row $V$ records depth in the local $p$-slice, while $U$ records the unit-phase readout after that depth is exposed. The Euler-local row $E$ may read both rows, but it cannot replace them with a global zero predicate.
+
+The finite-window defect row $D$ is downstream of $p,V,U,E,F$. Transport, replay, provenance, and local naming preserve the same dependency order. Since the carrier contains none of the excluded endpoints, the listed rows exhaust the local NameCert obligations.
+\end{proof}
+
+\begin{theorem}[Prime-adic local slicing finite-window defect route]
+\label{thm:prime-adic-local-slicing-finite-window-defect-route}
+Every normalized finite-window defect read exported by an accepted $\PrimeAdicLocalSlicingUp$ carrier must display the valuation-depth row $V$ before reading the unit-coordinate row $U$, the Euler-local row $E$, the finite prime-window row $F$, and the defect row $D$. Removing $V$ leaves no carrier coordinate from which to recover the normalized local defect of \autoref{def:unified-reality-prime-adic-finite-window-defect}.
+\end{theorem}
+\begin{proof}
+Start with the accepted carrier $L=(p,V,U,E,F,D,H,C,P,N)$. The only row that records radial local depth is $V$, and the unit row $U$ is explicitly downstream of separating that depth from the local slice.
+
+The Euler-local row $E$ and finite-window row $F$ then provide the displayed context in which the defect row $D$ is read. By the NameCert obligations of \autoref{thm:prime-adic-local-slicing-namecert-obligations}, $D$ is not an independent coordinate; it is the readback of the local valuation/unit packet inside the finite window.
+
+If $V$ is removed, the carrier still names a prime and may still display unit-phase or window rows, but it has no radial-depth data. Therefore the normalized finite-window defect cannot be recovered from the remaining rows.
+\end{proof}
+
+The later Lean taste-gate file $\mathsf{TasteGate.lean}$ must provide $\mathsf{Nontrivial}\ \PrimeAdicLocalSlicingUp$ and $\mathsf{FieldFaithful}\ \PrimeAdicLocalSlicingUp$ instances preserving the rows $p,V,U,E,F,D,H,C,P,N$.
+
+\falsifiablePrediction{Removing the valuation-depth row $V$ from an accepted $\PrimeAdicLocalSlicingUp$ carrier prevents recovery of the normalized finite-window defect row $D$.}
+
+\independenceWitness{prime, padic, zeta, dyadicratcore, real: no listed sibling is bijective to $\PrimeAdicLocalSlicingUp$ because this packet jointly carries a prime row, valuation-depth row, unit-coordinate row, Euler-local row, finite-window row, normalized defect row, transport, replay, provenance, and local naming.}
+
+\closureat{PrimeAdicLocalSlicingUp}{seedStr}
+
+\begin{closurestatus}{\PrimeAdicLocalSlicingUp}
+  \constructivestory{A $\PrimeAdicLocalSlicingUp$ packet is generated from a PrimeUp row, a valuation-depth row, a unit-coordinate row, an Euler-local row, a finite prime-window row, a normalized finite-window defect row, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:prime-adic-local-slicing-carrier}, \autoref{thm:prime-adic-local-slicing-namecert-obligations}, and \autoref{thm:prime-adic-local-slicing-finite-window-defect-route} seed the finite valuation/unit slicing route from prime admission through local finite-window defect readback.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close completed p-adic field structure, p-adic zeta zeros, global RH, infinite prime products, analytic continuation, Lean checking, or bridge checking.}
+  \upgradepath{Obligation closure requires checked prime-row admission, valuation-depth exposure, unit-coordinate exposure, Euler-local readback, finite-window admission, defect readback, transport, replay, provenance, and local naming for BEDC.Derived.PrimeAdicLocalSlicingUp.}
+\end{closurestatus}

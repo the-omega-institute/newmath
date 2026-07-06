@@ -116,4 +116,29 @@ theorem LongLineCarrier_lexicographic_order_route [AskSetup] [PackageSetup]
     ⟨unaryS, unaryI, unaryO, unaryT, compareUnary, topologyUnary, compareRoute,
       topologyRoute, provenancePkg, namePkg⟩
 
+theorem LongLineCarrier_prefix_neighbourhood_exactness [AskSetup] [PackageSetup]
+    {S I O T H C P N compareRead topologyRead nameRead neighbourhood : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    LongLineCarrier S I O T H C P N compareRead topologyRead nameRead bundle pkg ->
+      Cont topologyRead nameRead neighbourhood ->
+        PkgSig bundle neighbourhood pkg ->
+          UnaryHistory S ∧ UnaryHistory I ∧ UnaryHistory O ∧ UnaryHistory T ∧
+            UnaryHistory compareRead ∧ UnaryHistory topologyRead ∧
+              UnaryHistory neighbourhood ∧ Cont S I compareRead ∧
+                Cont compareRead O topologyRead ∧ Cont topologyRead nameRead neighbourhood ∧
+                  PkgSig bundle neighbourhood pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont UnaryHistory PkgSig
+  intro carrier neighbourhoodRoute neighbourhoodPkg
+  obtain ⟨unaryS, unaryI, unaryO, unaryT, unaryH, unaryC, _unaryP, _unaryN,
+    compareRoute, topologyRoute, nameRoute, _provenancePkg, _namePkg⟩ := carrier
+  have compareUnary : UnaryHistory compareRead := unary_cont_closed unaryS unaryI compareRoute
+  have topologyUnary : UnaryHistory topologyRead :=
+    unary_cont_closed compareUnary unaryO topologyRoute
+  have nameUnary : UnaryHistory nameRead := unary_cont_closed unaryH unaryC nameRoute
+  have neighbourhoodUnary : UnaryHistory neighbourhood :=
+    unary_cont_closed topologyUnary nameUnary neighbourhoodRoute
+  exact
+    ⟨unaryS, unaryI, unaryO, unaryT, compareUnary, topologyUnary, neighbourhoodUnary,
+      compareRoute, topologyRoute, neighbourhoodRoute, neighbourhoodPkg⟩
+
 end BEDC.Derived.LongLineUp
