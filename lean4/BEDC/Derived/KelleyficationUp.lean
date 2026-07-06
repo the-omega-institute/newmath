@@ -199,6 +199,10 @@ theorem KelleyficationCarrier_compact_generated_obligation [AskSetup] [PackageSe
   }
   exact ⟨cert, compactReadUnary, reflectedOpenUnary⟩
 
+-- staging: until CompactlyGeneratedWeakHausdorffUp or CompactOpenExponentialLawUp
+-- receives a Lean-side carrier, this theorem records the compact-window replay
+-- certificate consumed by those paper neighbours. Expected next steps: add the
+-- consumer carrier and route its Kelleyfication row through this certificate.
 theorem KelleyficationCarrier_compact_window_exhaustion [AskSetup] [PackageSetup]
     {topology coreCompact compactOpen window transport replay provenance localName compactRead
       reflectedOpen replayedOpen : BHist}
