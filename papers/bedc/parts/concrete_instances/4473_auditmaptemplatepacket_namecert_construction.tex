@@ -95,6 +95,54 @@ Inspect the remaining content rows. The use row $U$, positive row $P$, condition
 Now replay the structural rows. Componentwise $\hsame$ transport, displayed $\Cont$ routes, $\Pkg$ provenance, and local $\NameCert$ naming preserve row visibility; they do not erase obstruction content, prove frontier content, or open a route outside $A=(U,P,C,O,F,S,H,R,K,N)$.
 \end{proof}
 
+\begin{theorem}[Audit-map template row-readback obligation]
+\label{thm:audit-map-template-packet-row-readback-obligation}
+For every accepted $\AuditMapTemplatePacketUp$ carrier
+$$
+A=(U,P,C,O,F,S,H,R,K,N),
+$$
+the row-readback obligation of $\NameCert_{\AuditMapTemplatePacketUp}$ is the finite obligation that every consumer read of the packet factors through the carrier row display of \autoref{def:audit-map-template-packet-carrier}, the row frontier of \autoref{thm:audit-map-template-packet-positive-conditional-obstruction-frontier}, the sibling-use readback of \autoref{thm:audit-map-template-packet-sibling-use-readback}, the conditional-row non-discharge theorem of \autoref{thm:audit-map-template-packet-conditional-row-non-discharge}, and the obstruction-frontier nonescape theorem of \autoref{thm:audit-map-template-packet-obstruction-frontier-nonescape}.
+\end{theorem}
+\begin{proof}
+The carrier definition displays the only rows that the packet admits. Thus a read of $U,P,C,O,F,S,H,R,K,N$ starts from the same finite $\BHist$ packet.
+
+The row frontier theorem separates direct positive content, conditional content, obstruction content, frontier content, and sibling use before any consumer reads the structural rows. Sibling-use readback then forces neighbouring audit-map access through $S$ and the supporting rows.
+
+Finally, conditional-row non-discharge and obstruction-frontier nonescape keep $C$, $O$, and $F$ in their displayed roles. Hence the row-readback obligation is exactly the finite route through the cited carrier, frontier, sibling-use, conditional, and nonescape surfaces.
+\end{proof}
+
+\begin{theorem}[Audit-map template classifier-transport obligation]
+\label{thm:audit-map-template-packet-classifier-transport-obligation}
+For every accepted $\AuditMapTemplatePacketUp$ carrier
+$$
+A=(U,P,C,O,F,S,H,R,K,N),
+$$
+classifier transport through $H$, $R$, $K$, and $N$ preserves the row classifier exposed by \autoref{def:audit-map-template-packet-carrier}: positive rows remain $P$, conditional rows remain $C$, obstruction rows remain $O$, frontier rows remain $F$, and sibling-use rows remain $S$. The transport obligation is witnessed by the row frontier, sibling-use readback, conditional-row non-discharge, and obstruction-frontier nonescape theorems of this chapter.
+\end{theorem}
+\begin{proof}
+Begin with the carrier row display. The classifier accepts packets carrying the ten displayed rows and exports no hidden coordinate that can replace one row sort by another.
+
+Use \autoref{thm:audit-map-template-packet-positive-conditional-obstruction-frontier} to fix the five visible content classes. Then apply \autoref{thm:audit-map-template-packet-sibling-use-readback} to keep sibling transport inside $S$ and the structural rows $H,R,K,N$.
+
+The remaining possible classifier drift would discharge $C$, erase $O$, or prove $F$. These are blocked by \autoref{thm:audit-map-template-packet-conditional-row-non-discharge} and \autoref{thm:audit-map-template-packet-obstruction-frontier-nonescape}, so classifier transport preserves the displayed row classifier.
+\end{proof}
+
+\begin{theorem}[Audit-map template obligation nonescape]
+\label{thm:audit-map-template-packet-nonescape-obligation}
+For every accepted $\AuditMapTemplatePacketUp$ carrier
+$$
+A=(U,P,C,O,F,S,H,R,K,N),
+$$
+the combined obligation surface has no escape route outside the displayed carrier, row frontier, sibling-use readback, conditional-row non-discharge, and obstruction-frontier nonescape rows. In particular, no consumer can obtain a hidden sibling route, a discharged conditional row, an erased obstruction, a proved frontier row, or a host semantic equality coordinate from $\NameCert_{\AuditMapTemplatePacketUp}$.
+\end{theorem}
+\begin{proof}
+The carrier definition fixes the finite packet and the local $\NameCert$ row. Every public read therefore begins with the same displayed coordinates.
+
+Apply the row frontier theorem to confine content reads to $P,C,O,F,S$. Apply sibling-use readback to prevent an unlisted neighbouring audit-map route from entering the packet.
+
+It remains to rule out escape through the boundary rows. Conditional-row non-discharge keeps $C$ explicit, while obstruction-frontier nonescape confines $O$ and $F$ to inspection rather than erasure or proof. The combined obligation surface therefore has exactly the displayed finite scope.
+\end{proof}
+
 \begin{theorem}[Audit-map template obligation route]
 \label{thm:audit-map-template-packet-obligation-route}
 For every accepted $\AuditMapTemplatePacketUp$ carrier
@@ -117,12 +165,12 @@ Finally apply obstruction-frontier nonescape from \autoref{thm:audit-map-templat
 
 \begin{closurestatus}{\AuditMapTemplatePacketUp}
   \constructivestory{An $\AuditMapTemplatePacketUp$ packet is generated from an audit-map use row, positive rows, conditional rows, obstruction rows, frontier rows, sibling-use rows, componentwise $\hsame$ transports, displayed $\Cont$ routes, $\Pkg$ provenance, and a local $\NameCert$ row.}
-  \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:audit-map-template-packet-carrier}, \autoref{thm:audit-map-template-packet-namecert-obligations}, and \autoref{thm:audit-map-template-packet-positive-conditional-obstruction-frontier} bind the finite audit-map template packet and its visible row frontier.}
+  \theoryclosure{\obligationClosure}
+  \scopeclosed{\autoref{thm:audit-map-template-packet-row-readback-obligation}, \autoref{thm:audit-map-template-packet-classifier-transport-obligation}, and \autoref{thm:audit-map-template-packet-nonescape-obligation} bind row readback, classifier transport, and nonescape for the finite audit-map template packet.}
   \formalstatus{\axiomCleanV}
   \leantarget{BEDC.Derived.AuditMapTemplatePacketUp.AuditMapTemplatePacketTasteGate\_single\_carrier\_alignment}
   \bridgestatus{none}
   \origin{ai}
   \notclaimed{This chapter does not close subject reduction, full closed MetaCIC, proof of frontier rows, discharge of conditional rows, Lean verification, or bridge checking.}
-  \upgradepath{Obligation closure requires checked carrier admission, row readback, sibling-use routing, classifier transport, provenance, local naming, and non-escape for the same finite packet.}
+  \upgradepath{Scoped closure requires binding the obligation rows to a consumer scope over the same finite carrier, row frontier, sibling-use, transport, provenance, and local naming rows.}
 \end{closurestatus}
