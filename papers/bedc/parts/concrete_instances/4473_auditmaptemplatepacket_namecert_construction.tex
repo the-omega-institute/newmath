@@ -55,6 +55,42 @@ Use the NameCert obligations of \autoref{thm:audit-map-template-packet-namecert-
 It remains to check the boundary. Provenance $K$ and local naming $N$ locate the packet and its sibling references, but neither row supplies a discharge witness for $C$, an erasure operation for $O$, a proof object for $F$, or an unlisted sibling route beyond $S$.
 \end{proof}
 
+\begin{theorem}[Audit-map template sibling-use readback]
+\label{thm:audit-map-template-packet-sibling-use-readback}
+For every accepted $\AuditMapTemplatePacketUp$ carrier $A=(U,P,C,O,F,S,H,R,K,N)$, any sibling audit-map readback through the local $\NameCert_{\AuditMapTemplatePacketUp}$ must first read the use row $U$, then the sibling-use row $S$, and then the supporting rows $H,R,K,N$. The readback may cite $P$, $C$, $O$, and $F$ only as the positive, conditional, obstruction, and frontier rows displayed by the same finite $\BHist$ packet; it cannot import a sibling route outside $S$ or replace the displayed $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ coordinates by hidden data.
+\end{theorem}
+\begin{proof}
+Project the carrier rows from \autoref{def:audit-map-template-packet-carrier}. The use row $U$ fixes the audit-map cell, and the only sibling ledger available in the packet is $S$.
+
+Inspect the finite rows $P,C,O,F,S$ in the NameCert surface. Sibling-use readback can mention positive, conditional, obstruction, and frontier content only through those displayed rows of the same $\BHist$ carrier.
+
+Finally replay $H,R,K,N$. Componentwise $\hsame$ transport, displayed $\Cont$ routes, $\Pkg$ provenance, and local $\NameCert$ naming preserve the listed sibling-use route; none adds an unlisted sibling coordinate.
+\end{proof}
+
+\begin{theorem}[Audit-map template conditional-row non-discharge]
+\label{thm:audit-map-template-packet-conditional-row-non-discharge}
+For every accepted $\AuditMapTemplatePacketUp$ carrier $A=(U,P,C,O,F,S,H,R,K,N)$, a consumer read of the conditional row $C$ remains a conditional row after $\hsame$ transport, $\Cont$ replay, $\Pkg$ provenance, and $\NameCert$ naming. The packet may route $C$ beside the positive row $P$, obstruction row $O$, frontier row $F$, and sibling-use row $S$, but it supplies no carrier coordinate that turns $C$ into a discharged theorem over $U$.
+\end{theorem}
+\begin{proof}
+Read $C$ by carrier projection. The definition assigns $C$ to explicit setup fields, routes, or certificate obligations, not to theorem content already licensed by $P$.
+
+Compare $C$ with the neighbouring rows $P,O,F,S$. Finite row inspection distinguishes direct positive inventory, conditional obligations, obstructions, frontier boundaries, and sibling-use routes before any structural row is consumed.
+
+Transport and replay cannot discharge the row. The rows $H,R,K,N$ preserve and name the same finite $\BHist$ packet, so the $\NameCert$ surface records $C$ as visible conditional content rather than as a closed theorem over $U$.
+\end{proof}
+
+\begin{theorem}[Audit-map template obstruction-frontier nonescape]
+\label{thm:audit-map-template-packet-obstruction-frontier-nonescape}
+For every accepted $\AuditMapTemplatePacketUp$ carrier $A=(U,P,C,O,F,S,H,R,K,N)$, obstruction and frontier reads are confined to the displayed rows $O$ and $F$ together with $U,P,C,S,H,R,K,N$. A consumer may inspect the obstruction row $O$ and the frontier row $F$ through the local $\NameCert$, but it cannot erase $O$, prove $F$, or escape the finite $\BHist$ packet by using $\hsame$, $\Cont$, or $\Pkg$ as an additional theorem source.
+\end{theorem}
+\begin{proof}
+Project $O$ and $F$ from the carrier. The obstruction row names blocked routes or no-go facts, while the frontier row names the strongest nearby claim visible to consumers but not supplied as closed content.
+
+Inspect the remaining content rows. The use row $U$, positive row $P$, conditional row $C$, and sibling-use row $S$ place $O$ and $F$ inside the same finite audit-map template packet.
+
+Now replay the structural rows. Componentwise $\hsame$ transport, displayed $\Cont$ routes, $\Pkg$ provenance, and local $\NameCert$ naming preserve row visibility; they do not erase obstruction content, prove frontier content, or open a route outside $A=(U,P,C,O,F,S,H,R,K,N)$.
+\end{proof}
+
 \closureat{AuditMapTemplatePacketUp}{seedStr}
 
 \begin{closurestatus}{\AuditMapTemplatePacketUp}
