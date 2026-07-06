@@ -26,7 +26,7 @@
 \maketitle
 
 \begin{abstract}
-We report the portion of the PZG--BEDC dynamic ontology kernel formalized in Lean 4 with mathlib.  PZG denotes prime-axis Zeckendorf coding: each prime axis carries a finite Zeckendorf word, and decoding first turns those words into prime exponents and then reconstructs a positive natural number.  The checked development covers 40 content modules plus the aggregation module: the finite generation layer, Newman normal forms, prime-axis factorization and Euclid escape, Zeckendorf and PZG bijections, finite golden-ratio algebra, deficit and golden-jump ledgers, Cassini--Fricke trace conservation, finite readings and two-square classifiers, Kleene/Cantor/Gödel barriers for self-coding, cost and hidden-fiber rigidity, critical-line reflection algebra, Euler products, no-zero-line zeta facts, completed zeta functional equations, and the RH ledger equivalence.  The generated-results section records twenty-two machine-checked additions, including the unconditional shifted Zeckendorf--Beatty bridge and seven oracle-suggested conjectures certified locally after proposal.  Every mathematical assertion labeled as machine checked below names an actual Lean declaration under \lean{papers/unified_theory/lean4/UnifiedTheory}.  The RH result is an equivalence with mathlib's \lean{RiemannHypothesis}, not a proof of RH; quasicrystal zeta, explicit-formula analysis, positivity bridges, and open leaves such as O-5 and O-6 remain outside the checked-result column.  The Lean project is mathlib-based and isolated from the mathlib-free BEDC core; the stated reproducibility surface is the branch \lean{feat/unified-theory-mathlib}, with the full project check given by \lean{lake build}.
+We report the portion of the PZG--BEDC dynamic ontology kernel formalized in Lean 4 with mathlib.  PZG denotes prime-axis Zeckendorf coding: each prime axis carries a finite Zeckendorf word, and decoding first turns those words into prime exponents and then reconstructs a positive natural number.  The checked development covers 40 content modules plus the aggregation module: the finite generation layer, Newman normal forms, prime-axis factorization and Euclid escape, Zeckendorf and PZG bijections, finite golden-ratio algebra, deficit and golden-jump ledgers, Cassini--Fricke trace conservation, finite readings and two-square classifiers, Kleene/Cantor/Gödel barriers for self-coding, cost and hidden-fiber rigidity, critical-line reflection algebra, Euler products, no-zero-line zeta facts, completed zeta functional equations, and the RH ledger equivalence.  The generated-results section records twenty-seven machine-checked additions, including the unconditional shifted Zeckendorf--Beatty bridge and twelve oracle-suggested conjectures certified locally after proposal.  Every mathematical assertion labeled as machine checked below names an actual Lean declaration under \lean{papers/unified_theory/lean4/UnifiedTheory}.  The RH result is an equivalence with mathlib's \lean{RiemannHypothesis}, not a proof of RH; quasicrystal zeta, explicit-formula analysis, positivity bridges, and open leaves such as O-5 and O-6 remain outside the checked-result column.  The Lean project is mathlib-based and isolated from the mathlib-free BEDC core; the stated reproducibility surface is the branch \lean{feat/unified-theory-mathlib}, with the full project check given by \lean{lake build}.
 \end{abstract}
 
 \section{Introduction}
@@ -790,6 +790,56 @@ The formalization cycle did more than ingest source-document theorems.  It now h
   \item \textbf{Golden weight is a lattice valuation.}  $\lean{UnifiedTheory.goldWeight_gcd_lcm_modular}$ proves $\Omega_\phi(\gcd(m,n))+\Omega_\phi(\mathrm{lcm}(m,n))=\Omega_\phi(m)+\Omega_\phi(n)$, the exact modular law on the divisibility lattice.  Where the product carries an obstruction $\kappa_\phi$, meet and join carry none.  Proposed by the oracle and certified locally.
   \item \textbf{Golden weight of a G\"odel code is coordinate-local.}  $\lean{UnifiedTheory.SelfCode.goldWeight_Gvec}$ proves $\Omega_\phi(Gvec(P,x))=\sum_i S(x_i+1)$ for a fixed-length code over injective primes $P$: the golden rank depends only on the coordinate exponents, not on the concrete prime values.  Proposed by the oracle and certified locally.
   \item \textbf{Prime-axis edge increment is a Sturmian jump.}  $\lean{UnifiedTheory.goldWeight_mul_prime}$ proves $\Omega_\phi(pn)=\Omega_\phi(n)+1+goldJump(v_p(n))$, with $\lean{UnifiedTheory.goldWeight_mul_prime_pow}$ the $p^N$ window form $\Omega_\phi(p^Nn)-\Omega_\phi(n)=S(v_p(n)+N)-S(v_p(n))$.  Multiplying by a prime raises golden weight by exactly $1$ or $2$, governed by the golden Sturmian word---sharpening strict divisor monotonicity.  Proposed by the oracle and certified locally.
+  \item \textbf{Primitive two-square Zeckendorf atoms.}  $\lean{UnifiedTheory.fib_odd_atom}$ proves that the odd Fibonacci number $\mathrm{fib}(2k{+}3)$ is simultaneously a single-symbol Zeckendorf representation $[2k{+}3]$ and a primitive sum of two squares
+  $$
+    \mathrm{fib}(k{+}2)^2+\mathrm{fib}(k{+}1)^2
+  $$
+  with consecutive Fibonacci numbers coprime.  This gives an infinite certified family of atomic kernel objects with a quadratic witness.  Proposed by the oracle and certified locally.
+  \item \textbf{Squarefree prime-axis Zeckendorf codes.}\par
+  For an injective prime stream $p$, $\lean{UnifiedTheory.AxisCode}$ sends $A$ to
+  $$
+    \prod_{i\in A}p_i.
+  $$
+  Its prime factors are $A.\mathrm{image}\,p$; it is injective and squarefree, with
+  $$
+    \begin{gathered}
+    \lean{UnifiedTheory.axisCode_injective}\\
+    \lean{UnifiedTheory.axisCode_squarefree}\\
+    \lean{UnifiedTheory.axisCode_zeck_dvd_iff}
+    \end{gathered}
+  $$
+  proving $p_i\mid \mathrm{AxisCode}\,A\iff i\in A$.  This is an arithmetic G\"odel coding of Zeckendorf index sets as squarefree integers with no adjacent occupied prime axes.  Proposed by the oracle and certified locally.
+  \item \textbf{The Fibonacci trace map is reversible and purely periodic.}\par
+  $\lean{UnifiedTheory.TraceStepEquiv}$ makes $(a,b,c)\mapsto(b,c,bc-a)$ a bijection with inverse $(a,b,c)\mapsto(ab-c,a,b)$.  Hence
+  $$
+    \lean{UnifiedTheory.traceStep_zmod_pure_periodic}
+  $$
+  shows that modulo every $q$, each state is purely periodic: there are no preperiodic tails and no state merging.  The trace dynamics loses no information.  Proposed by the oracle and certified locally.
+  \item \textbf{Fricke trace complement.}  The theorem
+  $$
+    \lean{UnifiedTheory.trace_mul_add_trace_adjugate_mul}
+  $$
+  proves
+  $$
+    \mathrm{tr}(AB)+\mathrm{tr}(\mathrm{adj}(A)\,B)=\mathrm{tr}\,A\cdot\mathrm{tr}\,B
+  $$
+  for $2\times2$ matrices, and $\lean{UnifiedTheory.SL2_trace_inv_mul}$ gives
+  $$
+    \mathrm{tr}(A^{-1}B)=\mathrm{tr}\,A\cdot\mathrm{tr}\,B-\mathrm{tr}(AB)
+  $$
+  in $\mathrm{SL}_2$.  Thus three trace coordinates determine the fourth.  Proposed by the oracle and certified locally.
+  \item \textbf{G\"odel-code divisor count.}  The declarations
+  $$
+    \begin{gathered}
+    \lean{UnifiedTheory.SelfCode.Gvec_divisors_card}\\
+    \lean{UnifiedTheory.SelfCode.Gvec_primeFactors}
+    \end{gathered}
+  $$
+  prove that the fixed-length G\"odel code
+  $$
+    \mathrm{Gvec}\,p\,x=\prod_i p_i^{\,x_i+1}
+  $$
+  has exactly $\prod_i(x_i+2)$ divisors and pins its prime factors to $\mathrm{image}\,p$.  Divisors are exactly bounded coordinatewise exponent choices, with no off-axis divisors.  Proposed by the oracle and certified locally.
 \end{enumerate}
 
 \section{Scope and Honesty}
