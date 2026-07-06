@@ -25,3 +25,4 @@ import UnifiedTheory.Dynamics.CostArrow
 import UnifiedTheory.Dynamics.Length
 import UnifiedTheory.Dynamics.Phase
 import UnifiedTheory.Zeta.RHBridge
+import UnifiedTheory.Zeta.Completed
