@@ -31,4 +31,32 @@ theorem CommRingSingletonCarrier_continuation_split_iff {P Q R : BHist} :
     cases continuation
     exact append_eq_empty_iff.mpr carriers
 
+theorem CommRingSingletonCont_commutative_laws {x y z xy yx left right : BHist} :
+    CommRingSingletonCarrier x ->
+      CommRingSingletonCarrier y ->
+        CommRingSingletonCarrier z ->
+          Cont x y xy ->
+            Cont y x yx ->
+              Cont x z left ->
+                Cont y z right ->
+                  CommRingSingletonClassifier xy yx ∧ CommRingSingletonCarrier left ∧
+                    CommRingSingletonCarrier right := by
+  -- BEDC touchpoint anchor: BHist Cont hsame CommRingSingletonCarrier CommRingSingletonClassifier
+  intro xCarrier yCarrier zCarrier xyRoute yxRoute leftRoute rightRoute
+  have xyCarrier : CommRingSingletonCarrier xy := by
+    cases xyRoute
+    exact append_eq_empty_iff.mpr (And.intro xCarrier yCarrier)
+  have yxCarrier : CommRingSingletonCarrier yx := by
+    cases yxRoute
+    exact append_eq_empty_iff.mpr (And.intro yCarrier xCarrier)
+  have xy_yx_same : hsame xy yx :=
+    hsame_trans xyCarrier (hsame_symm yxCarrier)
+  have leftCarrier : CommRingSingletonCarrier left := by
+    cases leftRoute
+    exact append_eq_empty_iff.mpr (And.intro xCarrier zCarrier)
+  have rightCarrier : CommRingSingletonCarrier right := by
+    cases rightRoute
+    exact append_eq_empty_iff.mpr (And.intro yCarrier zCarrier)
+  exact ⟨⟨xyCarrier, yxCarrier, xy_yx_same⟩, leftCarrier, rightCarrier⟩
+
 end BEDC.Derived.CommRingUp
