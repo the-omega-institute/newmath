@@ -13371,6 +13371,7 @@ import BEDC.Derived.ThomIsomorphismUp.TasteGate
 import BEDC.Derived.ThomaeFunctionUp.NameCertObligations
 import BEDC.Derived.ThomaeFunctionUp.TasteGate
 import BEDC.Derived.ThreeManifoldUp
+import BEDC.Derived.ThueMorseStreamUp.TasteGate
 import BEDC.Derived.ThueMorseUp
 import BEDC.Derived.ThueSequenceUp
 import BEDC.Derived.TietzeExtensionUp.TasteGate
