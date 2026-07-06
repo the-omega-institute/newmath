@@ -274,4 +274,30 @@ theorem MultihistCoupling_pair_symmetry_obligation
         ⟨H0, H1, J, S, T, C, P, N, rfl, rfl, rfl, hsame_refl J,
           hsame_refl S, hsame_refl T, hsame_refl C, hsame_refl P, hsame_refl N⟩
 
+theorem MultihistCoupling_source_exactness (x : TasteGate.MultihistCouplingUp) :
+    ∃ H0 H1 J S T C P N : BHist,
+      x = TasteGate.MultihistCouplingUp.mk H0 H1 J S T C P N ∧
+        TasteGate.multihistCouplingFields x = [H0, H1, J, S, T, C, P, N] ∧
+          hsame (BHist.e0 H0) (BHist.e0 H0) ∧
+            hsame (BHist.e1 H1) (BHist.e1 H1) ∧ hsame J J ∧ hsame S S := by
+  -- BEDC touchpoint anchor: BHist hsame
+  cases x with
+  | mk H0 H1 J S T C P N =>
+      exact
+        ⟨H0, H1, J, S, T, C, P, N, rfl, rfl, hsame_refl (BHist.e0 H0),
+          hsame_refl (BHist.e1 H1), hsame_refl J, hsame_refl S⟩
+
+theorem MultihistCoupling_transport_stability
+    {H0 H1 J S T C P N H0' H1' J' S' T' C' P' N' : BHist}
+    (sameH0 : hsame H0 H0') (sameH1 : hsame H1 H1') (sameJ : hsame J J')
+    (sameS : hsame S S') (sameT : hsame T T') (sameC : hsame C C')
+    (sameP : hsame P P') (sameN : hsame N N') :
+    hsame (BHist.e0 H0) (BHist.e0 H0') ∧
+      hsame (BHist.e1 H1) (BHist.e1 H1') ∧ hsame J J' ∧ hsame S S' ∧
+        hsame T T' ∧ hsame C C' ∧ hsame P P' ∧ hsame N N' := by
+  -- BEDC touchpoint anchor: BHist hsame
+  exact
+    ⟨hsame_e0_congr sameH0, hsame_e1_congr sameH1, sameJ, sameS, sameT, sameC,
+      sameP, sameN⟩
+
 end BEDC.Derived.MultihistCouplingUp
