@@ -94,6 +94,24 @@ Inspect the remaining content rows. The use row $U$, positive row $P$, condition
 Now replay the structural rows. Componentwise $\hsame$ transport, displayed $\Cont$ routes, $\Pkg$ provenance, and local $\NameCert$ naming preserve row visibility; they do not erase obstruction content, prove frontier content, or open a route outside $A=(U,P,C,O,F,S,H,R,K,N)$.
 \end{proof}
 
+\begin{theorem}[Audit-map template obligation route]
+\label{thm:audit-map-template-packet-obligation-route}
+For every accepted $\AuditMapTemplatePacketUp$ carrier
+$$
+A=(U,P,C,O,F,S,H,R,K,N),
+$$
+carrier admission, row readback, sibling-use routing, conditional-row visibility, obstruction/frontier nonescape, transport, replay, provenance, and local naming are all projected from the same finite packet $A$. No consumer may read any one of these obligations from a separate theorem source, hidden sibling route, discharged conditional row, erased obstruction, proved frontier row, or host semantic equality coordinate.
+\end{theorem}
+\begin{proof}
+Start with the NameCert obligations of \autoref{thm:audit-map-template-packet-namecert-obligations}. They identify carrier admission and row readback with the displayed rows $U,P,C,O,F,S,H,R,K,N$ of the same finite packet.
+
+Next use the row frontier of \autoref{thm:audit-map-template-packet-positive-conditional-obstruction-frontier}. It keeps positive content, conditional content, obstruction content, frontier content, and sibling use on the rows $P,C,O,F,S$ before any consumer can inspect them.
+
+Apply sibling-use readback from \autoref{thm:audit-map-template-packet-sibling-use-readback} and conditional-row non-discharge from \autoref{thm:audit-map-template-packet-conditional-row-non-discharge}. These force sibling routing through $S$ and keep $C$ visible as a condition rather than as theorem content.
+
+Finally apply obstruction-frontier nonescape from \autoref{thm:audit-map-template-packet-obstruction-frontier-nonescape}. The rows $H,R,K,N$ then transport, replay, source, and name the same packet, so the obligation route is exactly the finite carrier route displayed above.
+\end{proof}
+
 \closureat{AuditMapTemplatePacketUp}{seedStr}
 
 \begin{closurestatus}{\AuditMapTemplatePacketUp}
