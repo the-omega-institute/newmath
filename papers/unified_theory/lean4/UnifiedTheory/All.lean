@@ -8,6 +8,7 @@ import UnifiedTheory.Arithmetic.EuclidEscape
 import UnifiedTheory.PZG.Carrier
 import UnifiedTheory.PZG.Decode
 import UnifiedTheory.PZG.Normalize
+import UnifiedTheory.PZG.Carry
 import UnifiedTheory.Golden.PhiInt
 import UnifiedTheory.Golden.Lambda
 import UnifiedTheory.Golden.Deficit
