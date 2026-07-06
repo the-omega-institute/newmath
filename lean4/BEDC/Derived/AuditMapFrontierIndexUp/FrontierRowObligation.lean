@@ -101,4 +101,35 @@ theorem AuditMapFrontierIndex_public_obstruction_frontier_separation [AskSetup] 
     ⟨obstructionUnary, frontierUnary, consumerUnary, nameUnary, frontierRoute,
       consumerRoute⟩
 
+theorem AuditMapFrontierIndexCarrier_carrier_obligation [AskSetup] [PackageSetup]
+    {T A E P R O F S H C K N familyRead frontierRead consumerRead nameRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    AuditMapFrontierIndexCarrier T A E P R O F S H C K N bundle pkg ->
+      Cont T A familyRead ->
+        Cont E F frontierRead ->
+          Cont F S consumerRead ->
+            Cont K N nameRead ->
+              UnaryHistory T ∧ UnaryHistory A ∧ UnaryHistory E ∧ UnaryHistory P ∧
+                UnaryHistory R ∧ UnaryHistory O ∧ UnaryHistory F ∧ UnaryHistory S ∧
+                  UnaryHistory H ∧ UnaryHistory C ∧ UnaryHistory K ∧ UnaryHistory N ∧
+                    UnaryHistory familyRead ∧ UnaryHistory frontierRead ∧
+                      UnaryHistory consumerRead ∧ UnaryHistory nameRead ∧
+                        PkgSig bundle K pkg ∧ PkgSig bundle N pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont UnaryHistory PkgSig
+  intro carrier familyRoute frontierRoute consumerRoute nameRoute
+  obtain ⟨unaryT, unaryA, unaryE, unaryP, unaryR, unaryO, unaryF, unaryS, unaryH,
+    unaryC, unaryK, unaryN, provenancePkg, namePkg⟩ := carrier
+  have familyUnary : UnaryHistory familyRead :=
+    unary_cont_closed unaryT unaryA familyRoute
+  have frontierUnary : UnaryHistory frontierRead :=
+    unary_cont_closed unaryE unaryF frontierRoute
+  have consumerUnary : UnaryHistory consumerRead :=
+    unary_cont_closed unaryF unaryS consumerRoute
+  have nameUnary : UnaryHistory nameRead :=
+    unary_cont_closed unaryK unaryN nameRoute
+  exact
+    ⟨unaryT, unaryA, unaryE, unaryP, unaryR, unaryO, unaryF, unaryS, unaryH, unaryC,
+      unaryK, unaryN, familyUnary, frontierUnary, consumerUnary, nameUnary, provenancePkg,
+      namePkg⟩
+
 end BEDC.Derived.AuditMapFrontierIndexUp

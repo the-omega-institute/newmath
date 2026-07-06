@@ -134,6 +134,36 @@ theorem BareObjectRefusalCarrier_obligation_classifier
     cont_deterministic classifierRoute witnessRoute
   exact ⟨missingUnary, refusalUnary, classifierUnary, sameClassifierWitness, witnessRoute⟩
 
+theorem BareObjectRefusalCarrier_obligation_carrier
+    {objectName missingFields refusal witnessAudit ledger transport routes provenance
+      localName licenseRead refusalRead nameRead : BHist} :
+    BareObjectRefusalCarrier objectName missingFields refusal witnessAudit ledger transport
+        routes provenance localName ->
+      Cont objectName missingFields licenseRead ->
+        Cont refusal ledger refusalRead ->
+          Cont routes provenance nameRead ->
+            UnaryHistory objectName ∧ UnaryHistory missingFields ∧ UnaryHistory refusal ∧
+              UnaryHistory witnessAudit ∧ UnaryHistory ledger ∧ UnaryHistory transport ∧
+                UnaryHistory routes ∧ UnaryHistory provenance ∧ UnaryHistory localName ∧
+                  UnaryHistory licenseRead ∧ UnaryHistory refusalRead ∧
+                    UnaryHistory nameRead ∧ Cont missingFields refusal witnessAudit ∧
+                      Cont routes provenance localName := by
+  -- BEDC touchpoint anchor: BHist Cont UnaryHistory
+  intro carrier licenseRoute refusalRoute nameRoute
+  obtain ⟨objectUnary, missingUnary, refusalUnary, witnessUnary, ledgerUnary,
+    transportUnary, routesUnary, provenanceUnary, localUnary, witnessRoute,
+    localRoute⟩ := carrier
+  have licenseUnary : UnaryHistory licenseRead :=
+    unary_cont_closed objectUnary missingUnary licenseRoute
+  have refusalReadUnary : UnaryHistory refusalRead :=
+    unary_cont_closed refusalUnary ledgerUnary refusalRoute
+  have nameReadUnary : UnaryHistory nameRead :=
+    unary_cont_closed routesUnary provenanceUnary nameRoute
+  exact
+    ⟨objectUnary, missingUnary, refusalUnary, witnessUnary, ledgerUnary, transportUnary,
+      routesUnary, provenanceUnary, localUnary, licenseUnary, refusalReadUnary, nameReadUnary,
+      witnessRoute, localRoute⟩
+
 theorem BareObjectRefusalCarrier_obligation_ledger
     {objectName missingFields refusal witnessAudit ledger transport routes provenance
       localName ledgerRead auditRead : BHist} :

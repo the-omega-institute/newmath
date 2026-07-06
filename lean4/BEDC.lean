@@ -5767,6 +5767,7 @@ import BEDC.Derived.EffectiveReplacementLedgerUp.TasteGate
 import BEDC.Derived.EffrosBorelSpaceUp.TasteGate
 import BEDC.Derived.EgorovUp.FiniteWindowUniformity
 import BEDC.Derived.EgorovUp.MeasureLedgerNonescape
+import BEDC.Derived.EgorovUp.RegSeqRatDyadicToleranceNonescape
 import BEDC.Derived.EgorovUp.TasteGate
 import BEDC.Derived.EigenUp
 import BEDC.Derived.EilenbergMooreCompletionAlgebraUp.TasteGate
@@ -9416,6 +9417,7 @@ import BEDC.Derived.ModularFormUp
 import BEDC.Derived.ModuleUp
 import BEDC.Derived.ModuleUp.ActionBoundary
 import BEDC.Derived.ModuleUp.FiberExhaustion
+import BEDC.Derived.ModuleUp.ForgetfulCertificates
 import BEDC.Derived.ModuleUp.KernelExactness
 import BEDC.Derived.ModuleUp.KernelSubmoduleClosure
 import BEDC.Derived.ModuleUp.StdBridge
@@ -13371,6 +13373,7 @@ import BEDC.Derived.ThomIsomorphismUp.TasteGate
 import BEDC.Derived.ThomaeFunctionUp.NameCertObligations
 import BEDC.Derived.ThomaeFunctionUp.TasteGate
 import BEDC.Derived.ThreeManifoldUp
+import BEDC.Derived.ThueMorseStreamUp.TasteGate
 import BEDC.Derived.ThueMorseUp
 import BEDC.Derived.ThueSequenceUp
 import BEDC.Derived.TietzeExtensionUp.TasteGate
