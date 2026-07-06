@@ -1,11 +1,13 @@
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
+import BEDC.FKernel.Cont
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.CauchyLimitWitnessLedgerUp
 
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
+open BEDC.FKernel.Cont
 open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
@@ -284,5 +286,23 @@ theorem CauchyLimitWitnessLedgerTasteGate_single_carrier_alignment :
       rfl,
       rfl,
       rfl⟩
+
+theorem CauchyLimitWitnessLedger_tail_synchronization
+    {D W G T S R budgetWindow windowRead readTail tailSeal fullRoute direct : BHist} :
+    Cont D W budgetWindow →
+      Cont budgetWindow G windowRead →
+        Cont windowRead T readTail →
+          Cont readTail S tailSeal →
+            Cont tailSeal R fullRoute →
+              Cont D (append W (append G (append T (append S R)))) direct →
+                hsame direct fullRoute := by
+  -- BEDC touchpoint anchor: BHist Cont hsame append
+  intro budgetStep windowStep tailStep sealStep fullStep directStep
+  rw [fullStep, sealStep, tailStep, windowStep, budgetStep, directStep]
+  rw [← append_assoc D W (append G (append T (append S R)))]
+  rw [← append_assoc (append D W) G (append T (append S R))]
+  rw [← append_assoc (append (append D W) G) T (append S R)]
+  rw [← append_assoc (append (append (append D W) G) T) S R]
+  rfl
 
 end BEDC.Derived.CauchyLimitWitnessLedgerUp
