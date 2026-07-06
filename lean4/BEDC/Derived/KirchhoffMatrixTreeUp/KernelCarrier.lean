@@ -107,4 +107,30 @@ theorem KirchhoffMatrixTreeNameCertObligations [AskSetup] [PackageSetup]
   }
   exact ⟨cert, lapUnary, detUnary, treeUnary, nameUnary⟩
 
+theorem KirchhoffMatrixTree_laplacian_minor_route [AskSetup] [PackageSetup]
+    {G E L M D S T H C P N lapRead minorRead detRead spanRead treeRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    KirchhoffMatrixTreeCarrier G E L M D S T H C P N bundle pkg ->
+      Cont G E lapRead ->
+        Cont lapRead L minorRead ->
+          Cont minorRead D detRead ->
+            Cont G S spanRead ->
+              Cont spanRead T treeRead ->
+                UnaryHistory detRead ∧ UnaryHistory treeRead ∧ hsame G G := by
+  -- BEDC touchpoint anchor: KirchhoffMatrixTreeCarrier BHist ProbeBundle Pkg Cont hsame UnaryHistory
+  intro carrier lapRoute minorRoute detRoute spanRoute treeRoute
+  obtain ⟨gUnary, eUnary, lUnary, _mUnary, dUnary, sUnary, tUnary, _hUnary,
+    _cUnary, _pUnary, _nUnary, _provenancePkg, _namePkg⟩ := carrier
+  have lapUnary : UnaryHistory lapRead :=
+    unary_cont_closed gUnary eUnary lapRoute
+  have minorUnary : UnaryHistory minorRead :=
+    unary_cont_closed lapUnary lUnary minorRoute
+  have detUnary : UnaryHistory detRead :=
+    unary_cont_closed minorUnary dUnary detRoute
+  have spanUnary : UnaryHistory spanRead :=
+    unary_cont_closed gUnary sUnary spanRoute
+  have treeUnary : UnaryHistory treeRead :=
+    unary_cont_closed spanUnary tUnary treeRoute
+  exact ⟨detUnary, treeUnary, hsame_refl G⟩
+
 end BEDC.Derived.KirchhoffMatrixTreeUp
