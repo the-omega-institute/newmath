@@ -30,4 +30,25 @@ theorem prime_sq_add_sq_iff (p : ℕ) [Fact p.Prime] :
     exact not_three_of_sq_add_sq hab
   · exact Nat.Prime.sq_add_sq
 
+/-- **定理 9.10(一般二平方分类)**:一个自然数是两平方和,当且仅当每个
+`3 mod 4` 素因子在它的分解中出现偶数次。
+
+这是值层的完整分类:素数版 `prime_sq_add_sq_iff` 是 `n = p` 的分支,
+并把第六章亏空讨论中的“二次特权”落在高斯范数 `ℚ(i)` 的可判定因子条件上,
+与 `ℚ(√5)` 的窗口型亏空相对照。 -/
+theorem sq_add_sq_iff_factorization (n : ℕ) :
+    (∃ a b : ℕ, n = a ^ 2 + b ^ 2) ↔
+      ∀ p : ℕ, p.Prime → p % 4 = 3 → Even (n.factorization p) := by
+  rw [Nat.eq_sq_add_sq_iff]
+  constructor
+  · intro h p hp hpmod
+    by_cases hmem : p ∈ n.primeFactors
+    · simpa [Nat.factorization_def n hp] using h p hmem hpmod
+    · have hzero : n.factorization p = 0 := by
+        simpa [Nat.support_factorization] using Finsupp.notMem_support_iff.mp hmem
+      simp [hzero]
+  · intro h p hpmem hpmod
+    have hp : p.Prime := Nat.prime_of_mem_primeFactors hpmem
+    simpa [Nat.factorization_def n hp] using h p hp hpmod
+
 end UnifiedTheory.Reading
