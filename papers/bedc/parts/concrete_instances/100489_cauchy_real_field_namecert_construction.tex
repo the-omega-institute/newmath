@@ -125,14 +125,60 @@ Thus the algebraic surface is exactly the displayed L10 operation route: RealUp 
 \end{proof}
 \leanchecked{BEDC.Derived.CauchyRealFieldUp.CauchyRealFieldCarrier\_scoped\_operation\_route}
 
-\closureat{CauchyRealFieldUp}{seedStr}
+\begin{theorem}[Cauchy real field operation descent obligation]
+\label{thm:cauchy-real-field-operation-descent-obligation}
+For every accepted $\CauchyRealFieldUp$ carrier
+$$
+F=(R,S,D,Z,A,M,I,O,H,C,P,N),
+$$
+every field-facing addition, product, reciprocal, and order read descends only through the displayed $\RegSeqRatUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\RealUp$, $\RegularCauchyAdditionUp$, $\RegularCauchyProductUp$, $\RegularCauchyReciprocalUp$, and $\CauchyRealOrderUp$ rows. The addition branch reads $R,S,D,A,Z$ before the structural rows; the product branch reads $R,S,D,M,Z$ before the structural rows; the reciprocal branch reads $R,S,D,O,I,Z$ before the structural rows; and the order branch reads $R,S,D,O,Z$ before the structural rows. No branch descends through host real arithmetic, quotient equality, trichotomy, selected representatives, countable choice, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Start with the displayed carrier of \autoref{def:cauchy-real-field-carrier}. Its only source, window, dyadic, seal, addition, product, reciprocal, and order coordinates are $R,S,D,Z,A,M,I,O$.
+
+Apply \autoref{thm:cauchy-real-field-namecert-obligations} and \autoref{thm:cauchy-real-field-operation-composition}. They force addition and product through the common $R,S,D$ route before the selected operation row and terminal seal, and they place the structural rows $H,C,P,N$ downstream of the displayed operation read.
+
+For reciprocal reads, apply \autoref{thm:cauchy-real-field-order-compatible-reciprocal-boundary}. The reciprocal branch must display the order row $O$ before $I$ can expose a readback.
+
+Finally apply \autoref{thm:cauchy-real-field-scoped-operation-route}. It identifies the whole field-facing route with the listed L10 rows and excludes every host-level or completeness coordinate from the descent.
+\end{proof}
+
+\begin{theorem}[Cauchy real field classifier transport obligation]
+\label{thm:cauchy-real-field-classifier-transport-obligation}
+For every accepted $\CauchyRealFieldUp$ carrier
+$$
+F=(R,S,D,Z,A,M,I,O,H,C,P,N),
+$$
+classifier transport across the field surface is exhausted by componentwise $\hsame$ transport over $R,S,D,Z,A,M,I,O,H,C,P,N$. It has no extra coordinate for host real equality, quotient representative equality, trichotomy, selected representatives, countable choice, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+The carrier definition makes $H$ the only transport row, and it records componentwise $\hsame$ for the source, window, dyadic, seal, addition, product, reciprocal, order, replay, provenance, and local naming rows.
+
+Use \autoref{thm:cauchy-real-field-namecert-obligations}. Its transport and replay clause requires $H$ and $C$ to preserve the same finite rows together with $P$ and $N$, while its ledger-exhaustion clause leaves no host equality or quotient-representative field to transport.
+
+Use \autoref{thm:cauchy-real-field-scoped-operation-route} to close the route. Since every field-facing read is already exhausted by the displayed component rows, classifier transport cannot acquire any additional equality, trichotomy, choice, or ambient-completeness coordinate.
+\end{proof}
+
+\begin{theorem}[Cauchy real field ledger provenance obligation]
+\label{thm:cauchy-real-field-ledger-provenance-obligation}
+Every $\RealUp$ or Completion consumer of an accepted $\CauchyRealFieldUp$ packet must pass through the $\Pkg$ provenance row $P$ and the local $\NameCert_{\CauchyRealFieldUp}$ row $N$ before reading the field surface. Thus a consumer may read the addition, product, reciprocal, or order branch only after the displayed source, window, dyadic, seal, operation, order, transport, replay, provenance, and local naming rows have been exposed.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:cauchy-real-field-real-completion-consumer-boundary}. It states that every Real or Completion consumer reads the unified packet $R,S,D,Z,A,M,I,O,H,C,P,N$ rather than an independent operation packet.
+
+Apply \autoref{thm:cauchy-real-field-namecert-obligations}. The provenance and local naming rows are part of the finite NameCert surface, and the projection clauses keep each operation or order read tied to the same source, window, dyadic, seal, transport, replay, provenance, and local naming rows.
+
+Finally apply \autoref{thm:cauchy-real-field-scoped-operation-route}. The scoped route prevents a consumer from bypassing $P$ or $N$ by appealing to host arithmetic, quotient equality, selected representatives, countable choice, or ambient completeness.
+\end{proof}
+
+\closureat{CauchyRealFieldUp}{obligationStr}
 \begin{closurestatus}{\CauchyRealFieldUp}
-  \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:cauchy-real-field-carrier}, \autoref{thm:cauchy-real-field-namecert-obligations}, \autoref{thm:cauchy-real-field-operation-composition}, \autoref{thm:cauchy-real-field-order-compatible-reciprocal-boundary}, and \autoref{thm:cauchy-real-field-real-completion-consumer-boundary} seed the finite field-facing route over regular rational source rows, stream windows, dyadic arithmetic, real seals, regular-Cauchy addition, regular-Cauchy product, regular-Cauchy reciprocal, constructive order, and local NameCert rows.}
+  \theoryclosure{\obligationClosure}
+  \scopeclosed{\autoref{thm:cauchy-real-field-operation-descent-obligation}, \autoref{thm:cauchy-real-field-classifier-transport-obligation}, \autoref{thm:cauchy-real-field-ledger-provenance-obligation}, and \autoref{thm:cauchy-real-field-scoped-operation-route} close the obligation surface for operation descent, classifier transport, ledger provenance, and scoped routing over regular rational source rows, stream windows, dyadic arithmetic, real seals, regular-Cauchy addition, regular-Cauchy product, regular-Cauchy reciprocal, constructive order, and local NameCert rows.}
   \formalstatus{\theoremCheckedV}
-  \leantarget{BEDC.Derived.CauchyRealFieldUp.CauchyRealFieldTasteGate\_single\_carrier\_alignment}
+  \leantarget{BEDC.Derived.CauchyRealFieldUp.CauchyRealFieldCarrier\_scoped\_operation\_route}
   \bridgestatus{none}
-  \notclaimed{This chapter does not close host real arithmetic, quotient equality, trichotomy, selected representatives, countable choice, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
-  \upgradepath{Obligation closure requires checked carrier admission, operation projections, reciprocal eligibility, order projection, shared seal discipline, transport, replay, provenance, and local naming for BEDC.Derived.CauchyRealFieldUp.}
+  \notclaimed{This chapter does not close host real arithmetic, quotient equality, trichotomy, selected representatives, countable choice, ambient $\RealUp$ completeness, axiom-purity promotion, or bridge checking.}
+  \upgradepath{Scoped closure requires a single consumer-exhaustion theorem showing that every Real and Completion field read factors through the displayed obligation surface.}
   \constructivestory{A $\CauchyRealFieldUp$ packet is generated from a $\RegSeqRatUp$ source family, synchronized $\StreamNameUp$ windows, a $\DyadicRatCoreUp$ arithmetic ledger, a $\RealUp$ seal row, $\RegularCauchyAdditionUp$, $\RegularCauchyProductUp$, $\RegularCauchyReciprocalUp$, and $\CauchyRealOrderUp$ rows, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and a local $\NameCert$ row.}
 \end{closurestatus}
