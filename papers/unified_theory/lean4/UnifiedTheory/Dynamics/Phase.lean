@@ -94,4 +94,20 @@ theorem e2_ne : e2.val ≠ 0 := Finsupp.single_ne_zero.mpr one_ne_zero
 /-- 非平凡态存在(24.8 的非空见证:中线判据不是空洞的)。 -/
 theorem exists_nontrivial_state : ∃ a : PrimeExp, a.val ≠ 0 := ⟨e2, e2_ne⟩
 
+/-- **生成式定理(缩放账符号 = 临界线侧,19.4)**:非平凡态上缩放账严格正当且仅当
+`Re s > ½`(对称地严格负 ⟺ `Re s < ½`)。缩放账的符号逐点记录 `s` 落在临界线的哪一侧。 -/
+theorem Lambda_pos_iff (s : ℂ) (a : PrimeExp) (h : a.val ≠ 0) :
+    0 < Lambda s a ↔ 1 / 2 < s.re := by
+  have hL : 0 < L a := L_pos a h
+  rw [Lambda, mul_pos_iff_of_pos_right hL]
+  constructor <;> intro <;> linarith
+
+theorem Lambda_neg_iff (s : ℂ) (a : PrimeExp) (h : a.val ≠ 0) :
+    Lambda s a < 0 ↔ s.re < 1 / 2 := by
+  have hL : 0 < L a := L_pos a h
+  rw [Lambda]
+  constructor
+  · intro hn; nlinarith [hL, hn]
+  · intro hre; nlinarith [hL, hre]
+
 end UnifiedTheory
