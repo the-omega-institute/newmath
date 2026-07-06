@@ -1,11 +1,13 @@
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
+import BEDC.FKernel.Cont
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.AuditMapFrontierIndexUp
 
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
+open BEDC.FKernel.Cont
 open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
@@ -417,5 +419,24 @@ theorem AuditMapFrontierIndexTasteGate_single_carrier_alignment :
                 by
                   intro h
                   cases h⟩
+
+theorem AuditMapFrontierIndex_obstruction_route
+    {mapTag localAudit neighbouringMap positive conditional obstruction frontier
+      synthesisConsumer transport route provenance localName guarded exposed direct : BHist} :
+    auditMapFrontierIndexFields
+        (AuditMapFrontierIndexUp.mk mapTag localAudit neighbouringMap positive conditional
+          obstruction frontier synthesisConsumer transport route provenance localName) =
+      [mapTag, localAudit, neighbouringMap, positive, conditional, obstruction, frontier,
+        synthesisConsumer, transport, route, provenance, localName] →
+      Cont localAudit conditional route →
+        Cont route obstruction guarded →
+          Cont guarded frontier exposed →
+            Cont localAudit (append conditional obstruction) direct →
+              hsame (append direct frontier) exposed := by
+  -- BEDC touchpoint anchor: BHist Cont hsame append
+  intro _fields routeStep obstructionStep frontierStep directStep
+  rw [frontierStep, obstructionStep, routeStep, directStep]
+  exact congrArg (fun row => append row frontier)
+    (append_assoc localAudit conditional obstruction).symm
 
 end BEDC.Derived.AuditMapFrontierIndexUp
