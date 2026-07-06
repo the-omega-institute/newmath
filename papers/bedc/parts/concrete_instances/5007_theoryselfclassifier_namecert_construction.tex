@@ -45,6 +45,40 @@ Since the carrier contains no further coordinate, the listed rows exhaust the lo
 \end{proof}
 \leanchecked{BEDC.Derived.TheorySelfClassifierUp.TheorySelfClassifierCarrier\_namecert\_obligations}
 
+\begin{theorem}[Theory self-classifier carrier obligation]
+\label{thm:theoryselfclassifier-carrier-obligation}
+Every accepted $\TheorySelfClassifierUp$ read exposes the finite $\BHist$ carrier
+$$
+T=(G,E,R,P,A,L,H,C,Q,N)
+$$
+before a consumer may inspect the self-theory classifier. The carrier rows are closed-generator data, literal equality data, structural recursor data, purity data, apophatic-boundary data, classifier-ledger data, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ naming.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:theory-self-classifier-carrier}. Its ten displayed rows are exactly $G,E,R,P,A,L,H,C,Q,N$, and no row outside that tuple belongs to the local packet.
+
+Apply the carrier-admission clause of \autoref{thm:theory-self-classifier-namecert-obligations}. Since the classifier row $L$, transport row $H$, replay row $C$, provenance row $Q$, and local naming row $N$ are all carrier coordinates, a consumer cannot inspect the self-theory classifier before the finite $\BHist$ packet has been exposed.
+\end{proof}
+
+\begin{theorem}[Theory self-classifier classifier obligation]
+\label{thm:theoryselfclassifier-classifier-obligation}
+The classifier row $L$ of an accepted $\TheorySelfClassifierUp$ carrier compares exactly the five commitment rows $G,E,R,P,A$. It may export a self-theory reading only after those rows have been displayed as closed-generator, literal-equality, structural-recursor, purity, and apophatic-boundary data.
+\end{theorem}
+\begin{proof}
+Read the row order in \autoref{def:theory-self-classifier-carrier}. The ledger row $L$ is not a separate theory object; it is the comparison row attached to the five commitment rows $G,E,R,P,A$.
+
+Use the classifier-ledger clause of \autoref{thm:theory-self-classifier-namecert-obligations}. It requires $L$ to compare the five commitments as one self-theory surface, so no strict subtuple and no external parent-theory row can carry the same classifier read.
+\end{proof}
+
+\begin{theorem}[Theory self-classifier ledger obligation]
+\label{thm:theoryselfclassifier-ledger-obligation}
+Every public self-theory read from $\TheorySelfClassifierUp$ keeps the ledger row $L$ visible together with componentwise $\hsame$ transport $H$, displayed $\Cont$ replay $C$, $\Pkg$ provenance $Q$, and local $\NameCert$ row $N$. The read cannot replace $L$ by a hidden semantic equality oracle, hidden recursor supply, unrecorded axiom dependency, or boundary row promoted to internal theorem content.
+\end{theorem}
+\begin{proof}
+Project the structural rows $H,C,Q,N$. They transport, replay, source, and name the classifier row; they do not introduce another classifier coordinate.
+
+Apply \autoref{thm:theory-self-classifier-namecert-obligations}. The public read must pass through carrier admission, five commitment exposures, and classifier-ledger comparison before the structural rows can hand it to a consumer. Finite row projection then leaves no coordinate for a semantic equality oracle, hidden recursor, unrecorded axiom, or promoted boundary theorem.
+\end{proof}
+
 \begin{theorem}[Theory self-classifier obligation triple]
 \label{thm:theory-self-classifier-obligation-triple}
 Every accepted $\TheorySelfClassifierUp$ carrier
