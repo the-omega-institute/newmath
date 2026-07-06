@@ -1,4 +1,4 @@
-import BEDC.Derived.EgorovUp
+import BEDC.Derived.EgorovUp.MeasureLedgerNonescape
 import BEDC.FKernel.Ask
 import BEDC.FKernel.Bundle
 import BEDC.FKernel.Cont
@@ -86,5 +86,50 @@ theorem Egorov_regseqrat_dyadic_tolerance_nonescape [AskSetup] [PackageSetup]
       exact ⟨source.right, toleranceRoute, dyadicRoute, terminalRoute, provenancePkg⟩
   }
   exact ⟨cert, toleranceUnary, dyadicUnary, terminalUnary⟩
+
+theorem Egorov_tolerance_measure_ledger_consumer_boundary [AskSetup] [PackageSetup]
+    {M Omega F X S R A W U L H C P N ledgerRead consumerRead toleranceRead dyadicRead
+      terminalRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    EgorovCarrier M Omega F X S R A W U L H C P N bundle pkg ->
+      Cont A L ledgerRead ->
+        Cont ledgerRead C consumerRead ->
+          Cont R W toleranceRead ->
+            Cont toleranceRead U dyadicRead ->
+              Cont dyadicRead L terminalRead ->
+                PkgSig bundle P pkg ->
+                  SemanticNameCert
+                      (fun row : BHist => hsame row consumerRead ∧ UnaryHistory row)
+                      (fun row : BHist =>
+                        hsame row M ∨ hsame row Omega ∨ hsame row A ∨ hsame row L ∨
+                          hsame row ledgerRead ∨ hsame row consumerRead)
+                      (fun row : BHist =>
+                        UnaryHistory row ∧ Cont A L ledgerRead ∧
+                          Cont ledgerRead C consumerRead ∧ PkgSig bundle P pkg)
+                      hsame ∧
+                    SemanticNameCert
+                        (fun row : BHist => hsame row terminalRead ∧ UnaryHistory row)
+                        (fun row : BHist =>
+                          hsame row R ∨ hsame row W ∨ hsame row U ∨ hsame row L ∨
+                            hsame row toleranceRead ∨ hsame row dyadicRead ∨
+                              hsame row terminalRead)
+                        (fun row : BHist =>
+                          UnaryHistory row ∧ Cont R W toleranceRead ∧
+                            Cont toleranceRead U dyadicRead ∧ Cont dyadicRead L terminalRead ∧
+                              PkgSig bundle P pkg)
+                        hsame ∧
+                      UnaryHistory ledgerRead ∧ UnaryHistory consumerRead ∧
+                        UnaryHistory toleranceRead ∧ UnaryHistory dyadicRead ∧
+                          UnaryHistory terminalRead := by
+  intro carrier measureLedgerRoute consumerRoute toleranceRoute dyadicRoute terminalRoute
+    provenancePkg
+  obtain ⟨measureLedgerCert, ledgerReadUnary, consumerReadUnary⟩ :=
+    Egorov_measure_ledger_nonescape carrier measureLedgerRoute consumerRoute provenancePkg
+  obtain ⟨toleranceCert, toleranceUnary, dyadicUnary, terminalUnary⟩ :=
+    Egorov_regseqrat_dyadic_tolerance_nonescape carrier toleranceRoute dyadicRoute terminalRoute
+      provenancePkg
+  exact
+    ⟨measureLedgerCert, toleranceCert, ledgerReadUnary, consumerReadUnary, toleranceUnary,
+      dyadicUnary, terminalUnary⟩
 
 end BEDC.Derived.EgorovUp
