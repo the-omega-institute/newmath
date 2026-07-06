@@ -25,6 +25,7 @@ import UnifiedTheory.Reading.Fibers
 import UnifiedTheory.Reading.TwoSquare
 import UnifiedTheory.SelfCode.Diagonal
 import UnifiedTheory.SelfCode.Kleene
+import UnifiedTheory.SelfCode.Godel
 import UnifiedTheory.Dynamics.CostArrow
 import UnifiedTheory.Dynamics.Length
 import UnifiedTheory.Dynamics.Phase
