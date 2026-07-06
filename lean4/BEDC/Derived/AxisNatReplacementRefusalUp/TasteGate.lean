@@ -1,9 +1,11 @@
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
+import BEDC.FKernel.Cont
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.AxisNatReplacementRefusalUp
 
+open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
 open BEDC.GroundCompiler.EventFlow
@@ -271,5 +273,17 @@ theorem AxisNatReplacementRefusalCarrier_namecert_obligations
       exact
         (AxisNatReplacementRefusalTasteGate_single_carrier_alignment).2.1
           (AxisNatReplacementRefusalUp.mk A N B K H C P L)
+
+theorem AxisNatReplacementRefusalCarrier_nonreplacement_boundary
+    {A N B K H C P L publicRead : BHist} :
+    axisNatReplacementRefusalFromEventFlow
+        (axisNatReplacementRefusalToEventFlow
+          (AxisNatReplacementRefusalUp.mk A N B K H C P L)) =
+      some (AxisNatReplacementRefusalUp.mk A N B K H C P L) →
+      Cont K H publicRead →
+        hsame publicRead (append K H) := by
+  -- BEDC touchpoint anchor: BHist BMark Cont hsame
+  intro accepted route
+  exact route
 
 end BEDC.Derived.AxisNatReplacementRefusalUp

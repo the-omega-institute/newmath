@@ -1,0 +1,13 @@
+\begin{theorem}[MetaCIC candidate-normalization confluence seed route]
+\label{thm:metacic-candidate-normalization-confluence-handoff-seed-route}
+Every seed read of an accepted $\MetacicCandidateNormalizationConfluenceHandoffUp$ packet passes through the finite candidate-normalization handoff route: the candidate row, the normalization row, the local confluence witness row, the residual budget row, the replay row, the provenance row, and the local $\NameCert$ row. The route is therefore a displayed MetaCIC handoff packet rather than a global confluence principle, quotient syntax equality, evaluator equality, or unrestricted conversion decision.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:metacic-candidate-normalization-confluence-handoff-carrier}. Its visible rows include candidate evidence, bounded normal endpoint data, frontier data, residual envelope data, transport, replay, provenance, and local naming.
+
+Use the boundary and obligation surface theorems. They keep candidate evidence and normalization-frontier rows visible before a local confluence read can be consumed, so the seed route cannot skip directly to an endpoint equality.
+
+Apply residual-budget factorization and route factorization. These rows place the residual budget and local confluence witness inside the same finite handoff surface as the replay and provenance rows.
+
+Finally use the scoped surface theorem. It records the finite packet surface consumed by MetaCIC frontier readers and excludes full Church--Rosser, quotient syntax equality, evaluator equality, global conversion decidability, and kernel-consistency claims.
+\end{proof}

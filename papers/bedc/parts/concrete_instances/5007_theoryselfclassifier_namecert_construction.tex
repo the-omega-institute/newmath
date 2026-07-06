@@ -45,6 +45,116 @@ Since the carrier contains no further coordinate, the listed rows exhaust the lo
 \end{proof}
 \leanchecked{BEDC.Derived.TheorySelfClassifierUp.TheorySelfClassifierCarrier\_namecert\_obligations}
 
+\begin{theorem}[Theory self-classifier carrier obligation]
+\label{thm:theoryselfclassifier-carrier-obligation}
+Every accepted $\TheorySelfClassifierUp$ read exposes the finite $\BHist$ carrier
+$$
+T=(G,E,R,P,A,L,H,C,Q,N)
+$$
+before a consumer may inspect the self-theory classifier. The carrier rows are closed-generator data, literal equality data, structural recursor data, purity data, apophatic-boundary data, classifier-ledger data, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ naming.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:theory-self-classifier-carrier}. Its ten displayed rows are exactly $G,E,R,P,A,L,H,C,Q,N$, and no row outside that tuple belongs to the local packet.
+
+Apply the carrier-admission clause of \autoref{thm:theory-self-classifier-namecert-obligations}. Since the classifier row $L$, transport row $H$, replay row $C$, provenance row $Q$, and local naming row $N$ are all carrier coordinates, a consumer cannot inspect the self-theory classifier before the finite $\BHist$ packet has been exposed.
+\end{proof}
+
+\begin{theorem}[Theory self-classifier classifier obligation]
+\label{thm:theoryselfclassifier-classifier-obligation}
+The classifier row $L$ of an accepted $\TheorySelfClassifierUp$ carrier compares exactly the five commitment rows $G,E,R,P,A$. It may export a self-theory reading only after those rows have been displayed as closed-generator, literal-equality, structural-recursor, purity, and apophatic-boundary data.
+\end{theorem}
+\begin{proof}
+Read the row order in \autoref{def:theory-self-classifier-carrier}. The ledger row $L$ is not a separate theory object; it is the comparison row attached to the five commitment rows $G,E,R,P,A$.
+
+Use the classifier-ledger clause of \autoref{thm:theory-self-classifier-namecert-obligations}. It requires $L$ to compare the five commitments as one self-theory surface, so no strict subtuple and no external parent-theory row can carry the same classifier read.
+\end{proof}
+
+\begin{theorem}[Theory self-classifier ledger obligation]
+\label{thm:theoryselfclassifier-ledger-obligation}
+Every public self-theory read from $\TheorySelfClassifierUp$ keeps the ledger row $L$ visible together with componentwise $\hsame$ transport $H$, displayed $\Cont$ replay $C$, $\Pkg$ provenance $Q$, and local $\NameCert$ row $N$. The read cannot replace $L$ by a hidden semantic equality oracle, hidden recursor supply, unrecorded axiom dependency, or boundary row promoted to internal theorem content.
+\end{theorem}
+\begin{proof}
+Project the structural rows $H,C,Q,N$. They transport, replay, source, and name the classifier row; they do not introduce another classifier coordinate.
+
+Apply \autoref{thm:theory-self-classifier-namecert-obligations}. The public read must pass through carrier admission, five commitment exposures, and classifier-ledger comparison before the structural rows can hand it to a consumer. Finite row projection then leaves no coordinate for a semantic equality oracle, hidden recursor, unrecorded axiom, or promoted boundary theorem.
+\end{proof}
+
+\begin{theorem}[Theory self-classifier obligation triple]
+\label{thm:theory-self-classifier-obligation-triple}
+Every accepted $\TheorySelfClassifierUp$ carrier
+$$
+T=(G,E,R,P,A,L,H,C,Q,N)
+$$
+exposes the boundary, identity, dependency-audit, self-theory, and row-comparison obligations as one finite $\NameCert_{\TheorySelfClassifierUp}$ surface. The obligations are read through the displayed commitment rows $G,E,R,P,A$ and the classifier ledger $L$, with $H,C,Q,N$ supplying transport, replay, provenance, and local naming. No consumer may project any single row, or any strict subtuple of the five commitment rows, as the whole self-theory classifier.
+\end{theorem}
+\leanchecked{BEDC.Derived.TheorySelfClassifierUp.TheorySelfClassifier\_obligation\_triple}
+\begin{proof}
+Project the accepted carrier. The five commitment rows are displayed in the carrier itself: $G$ names the closed-generator boundary, $E$ names literal identity comparison, $R$ names structural recursor exposure, $P$ names dependency audit and purity, and $A$ names the apophatic boundary.
+
+Read the classifier ledger row $L$. Its role is to compare those five rows as one self-theory surface, while $H,C,Q,N$ only transport, replay, source, and name that surface.
+
+If a consumer projects a single row as the classifier, then the remaining commitment rows have no place in the projected packet. If a consumer projects a strict subtuple, the omitted commitment has no alternate coordinate in $T$.
+
+Thus the accepted carrier exposes the five obligation rows and the ledger comparison as one finite NameCert surface, and no proper projection is the whole self-theory classifier.
+\end{proof}
+
+\begin{theorem}[Theory self-classifier ledger row inversion]
+\label{thm:theory-self-classifier-ledger-row-inversion}
+Any accepted public self-theory read through the ledger row $L$ of a $\TheorySelfClassifierUp$ carrier
+$$
+T=(G,E,R,P,A,L,H,C,Q,N)
+$$
+determines visible reads of the five commitment rows $G,E,R,P,A$. The same public self-theory read cannot be reproduced from any strict subtuple of those five rows, because no proper subtuple contains the ledger comparison that binds closed generators, literal equality, structural recursors, purity, and apophatic boundary as one self-theory surface.
+\end{theorem}
+\begin{proof}
+Project the carrier $T$. The only row whose role is to compare the five commitments as one public self-theory surface is $L$.
+
+Use the NameCert obligations of \autoref{thm:theory-self-classifier-namecert-obligations}. They force carrier admission for $G,E,R,P,A$ before the ledger row may export a self-theory reading, and they keep $H,C,Q,N$ as structural transport, replay, provenance, and naming rows rather than replacement commitment rows.
+
+It remains to rule out strict subtuples. If one of $G,E,R,P,A$ is absent, then the missing row has no alternate coordinate in the carrier: closed generators, literal equality, structural recursors, purity, and apophatic boundary each occur exactly once in the displayed tuple. The ledger comparison cannot be reconstructed from a tuple that omits one of the rows it compares.
+
+Therefore an accepted public read through $L$ determines all five visible commitment reads and cannot be reproduced from any strict subtuple of them.
+\end{proof}
+\leanchecked{BEDC.Derived.TheorySelfClassifierUp.TheorySelfClassifier\_ledger\_row\_inversion}
+
+\begin{theorem}[Theory self-classifier obligation row exhaustion]
+\label{thm:theory-self-classifier-obligation-row-exhaustion}
+For every accepted $\TheorySelfClassifierUp$ carrier
+$$
+T=(G,E,R,P,A,L,H,C,Q,N),
+$$
+the public obligation inventory exposes exactly the rows $G,E,R,P,A,L,H,C,Q,N$. It exposes no hidden parent-theory row, semantic equality row, external recursor row, unrecorded axiom row, or classifier coordinate outside the displayed ledger.
+\end{theorem}
+\leanchecked{BEDC.Derived.TheorySelfClassifierUp.TheorySelfClassifier\_obligation\_row\_exhaustion}
+\begin{proof}
+Project the accepted carrier of \autoref{def:theory-self-classifier-carrier}. The tuple displays ten rows: closed generators, literal equality, structural recursors, purity, apophatic boundary, classifier ledger, componentwise transport, displayed replay, provenance, and local naming.
+
+Use the NameCert obligations of \autoref{thm:theory-self-classifier-namecert-obligations}. Each obligation is attached to one of those displayed rows, and the ledger row $L$ is the only row that compares the five commitments as a self-theory surface.
+
+The excluded resources would require further coordinates. A parent theory, semantic equality oracle, external recursor supply, hidden axiom supply, or detached classifier would have to be read outside $G,E,R,P,A,L,H,C,Q,N$. Since the carrier has no such coordinate, the displayed rows exhaust the public obligation inventory.
+\end{proof}
+
+\begin{theorem}[Theory self-classifier five-row determinacy]
+\label{thm:theory-self-classifier-five-row-determinacy}
+Let
+$$
+T=(G,E,R,P,A,L,H,C,Q,N)
+$$
+and
+$$
+T'=(G',E',R',P',A',L',H',C',Q',N')
+$$
+be accepted $\TheorySelfClassifierUp$ carriers. Equality of their accepted public self-theory reads is determined by equality of the five commitment rows $G,E,R,P,A$ with $G',E',R',P',A'$ together with equality of the ledger comparisons $L$ and $L'$. No strict subtuple of the five commitment rows determines the same public read.
+\end{theorem}
+\begin{proof}
+Read the public self-theory surface through the ledger row. By \autoref{thm:theory-self-classifier-ledger-row-inversion}, any accepted read through $L$ determines visible reads of $G,E,R,P,A$, and the same holds for $L'$ and $G',E',R',P',A'$.
+
+When the five commitment rows agree and the ledger comparisons agree, the public read has the same closed-generator inventory, literal equality policy, structural recursor exposure, purity boundary, apophatic boundary, and ledger comparison. The remaining rows $H,C,Q,N$ transport, replay, source, and name that same read; they do not supply an additional commitment coordinate.
+
+Conversely, if a strict subtuple omits one of $G,E,R,P,A$, the missing commitment has no alternate source in the carrier. The ledger comparison cannot determine a public self-theory surface without the omitted row, so no strict subtuple determines equality of accepted public reads.
+\end{proof}
+\leanchecked{BEDC.Derived.TheorySelfClassifierUp.TheorySelfClassifier\_five\_row\_determinacy}
+
 \begin{theorem}[Theory self-classifier non-escape]
 \label{thm:theory-self-classifier-nonescape}
 Every public read from an accepted $\TheorySelfClassifierUp$ carrier factors through
@@ -62,11 +172,13 @@ The provenance and naming rows $Q,N$ cite the sibling surfaces and bind the loca
 
 Thus every public read remains inside $T=(G,E,R,P,A,L,H,C,Q,N)$, and the excluded objects have no route through the accepted packet.
 \end{proof}
+\leanchecked{BEDC.Derived.TheorySelfClassifierUp.TheorySelfClassifier\_nonescape}
 
 \begin{theorem}[Theory self-classifier sibling independence]
 \label{thm:theory-self-classifier-sibling-independence}
 \independenceWitness{Nearest siblings: internaltheoryboundary, metacic-theory-identity, axiomdependencyauditmap, and bedcselftheory. No one of these is bijective to the $\TheorySelfClassifierUp$ carrier because each lacks the classifier row $L$ that compares closed generators, literal equality, structural recursors, purity, and apophatic boundary rows as one self-theory surface.}
 \end{theorem}
+\leanchecked{BEDC.Derived.TheorySelfClassifierUp.TheorySelfClassifier\_sibling\_independence}
 \begin{proof}
 Compare row inventories. The internal-theory-boundary packet exposes the five commitments as a boundary, the MetaCIC theory-identity packet records identity rows, the axiom-dependency-audit-map packet records mode and supply rows, and the BEDC self-theory packet packages the commitments as a self-theory certificate.
 

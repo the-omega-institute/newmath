@@ -69,6 +69,45 @@ The haltingobstruction, haltingdiagonal, and haltingdistinctionlimit siblings ex
 
 The packaging rows $H,C,P,N$ preserve that boundary under transport and replay. Hence the oracle-open classification is public only as the finite route through the displayed oracle rows, and no closed-observational premise is exported for those rows.
 \end{proof}
+\leanchecked{BEDC.Derived.OracleAugmentedSubstrateUp.OracleAugmentedSubstrateCarrier\_oracle\_nonescape}
+
+\begin{theorem}[Oracle-augmented substrate carrier-row exposure]
+\label{thm:oracle-augmented-substrate-carrier-row-exposure}
+Every accepted $\OracleAugmentedSubstrateUp$ carrier exposes its substrate, oracle-call, transcript, boundary, evidence, transport, replay, provenance, and local naming rows as concrete $\BHist$ data before any classifier read is available. The rows $S,A,T,B,E,H,C,P,N$ are therefore read as displayed histories with $\hsame$ transport, $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ evidence, not as a host function into an oracle service.
+\end{theorem}
+\leanchecked{BEDC.Derived.OracleAugmentedSubstrateUp.OracleAugmentedSubstrateCarrier\_carrier\_row\_exposure}
+\begin{proof}
+Project the carrier row. Its coordinates are finite histories, so a consumer can inspect only the displayed $S,A,T,B,E,H,C,P,N$ entries.
+
+The transport, replay, provenance, and local naming coordinates are part of the same packet. They do not call an external oracle; they preserve the finite call and transcript rows already present in the carrier.
+\end{proof}
+\leanchecked{BEDC.Derived.OracleAugmentedSubstrateUp.OracleAugmentedSubstrateCarrier\_row\_exposure}
+
+\begin{theorem}[Oracle-augmented substrate classifier transport]
+\label{thm:oracle-augmented-substrate-classifier-transport}
+If two accepted $\OracleAugmentedSubstrateUp$ packets agree componentwise by the displayed $\hsame$ row on $S,A,T,B,E,P,N$, then the classifier that reads the universal-but-not-closed quadrant transports across that row only by replaying the displayed $\Cont$ route $C$. The transported classifier still cites the same oracle-call row $A$, transcript row $T$, open-boundary row $B$, package row $P$, and local $\NameCert$ row $N$.
+\end{theorem}
+\begin{proof}
+Begin with the componentwise $\hsame$ row. It names equality of the displayed substrate, call, transcript, boundary, evidence, provenance, and naming rows.
+
+The classifier cannot move by an unrecorded service call, because the only replay coordinate is $C$. Replaying $C$ reads $A,T,B$ again before the quadrant evidence $E$ is consumed.
+
+Thus classifier transport stays inside the finite carrier and preserves the package and local NameCert rows.
+\end{proof}
+\leanchecked{BEDC.Derived.OracleAugmentedSubstrateUp.OracleAugmentedSubstrateClassifier\_transport}
+\leanchecked{BEDC.Derived.OracleAugmentedSubstrateUp.OracleAugmentedSubstrateCarrier\_classifier\_transport}
+
+\begin{theorem}[Oracle-augmented substrate NameCert ledger nonescape]
+\label{thm:oracle-augmented-substrate-namecert-ledger-nonescape}
+The local $\NameCert_{\OracleAugmentedSubstrateUp}$ ledger cannot export oracle access beyond the displayed rows. Any public read of the oracle-augmented substrate must pass through $\BHist$ rows $S,A,T,B,E,H,C,P,N$, the $\hsame$ transport row $H$, the $\Cont$ replay row $C$, the $\Pkg$ provenance row $P$, and the local $\NameCert$ row $N$; it cannot replace these rows by a host oracle function, hidden external service, closed cellular replay, or unlogged transcript.
+\end{theorem}
+\begin{proof}
+Use the NameCert obligation surface. It lists the carrier coordinates and requires oracle-call accountability, transcript accountability, and open-boundary exactness before a quadrant read is admitted.
+
+The nonescape claim follows by checking the available rows. Hidden services, host oracle functions, closed cellular replay, and unlogged transcripts have no coordinate in $S,A,T,B,E,H,C,P,N$.
+
+Transport and continuation preserve only the displayed histories. Hence the local ledger names the oracle-augmented substrate without exporting an oracle channel outside the certificate.
+\end{proof}
 
 The later Lean \texttt{TasteGate.lean} development for $\OracleAugmentedSubstrateUp$ must provide $\mathsf{Nontrivial}\ \OracleAugmentedSubstrateUp$ and $\mathsf{FieldFaithful}\ \OracleAugmentedSubstrateUp$ instances for the displayed carrier.
 

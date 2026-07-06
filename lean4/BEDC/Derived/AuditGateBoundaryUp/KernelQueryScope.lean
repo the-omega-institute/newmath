@@ -1,7 +1,9 @@
 import BEDC.Derived.AuditGateBoundaryUp
+import BEDC.Derived.HostDelegationSocketUp
 
 namespace BEDC.Derived.AuditGateBoundaryUp
 
+open BEDC.Derived.HostDelegationSocketUp
 open BEDC.FKernel.Ask
 open BEDC.FKernel.Bundle
 open BEDC.FKernel.Cont
@@ -103,5 +105,105 @@ theorem AuditGateBoundaryCarrier_kernel_query_scope [AskSetup] [PackageSetup]
     }
   exact
     ⟨cert, sourceConsumerUnary, dependencyConsumerUnary, sourceRoute, dependencyRoute⟩
+
+theorem AuditGateBoundaryCarrier_host_delegation_audit_query_handoff [AskSetup]
+    [PackageSetup]
+    {sourceScan dependencyReport markerResolution originLedger transport route provenance gap
+      nameCert marker audit kernel target socketTransport continuation socketProvenance
+      socketLedger socketName marker' audit' kernel' target' socketTransport' continuation'
+      socketProvenance' socketLedger' socketName' auditEvidence kernelEvidence gateConsumer :
+      BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    AuditGateBoundaryCarrier sourceScan dependencyReport markerResolution originLedger transport
+        route provenance gap nameCert bundle pkg ->
+      hostDelegationSocketToEventFlow
+          (HostDelegationSocketUp.mk marker audit kernel target socketTransport continuation
+            socketProvenance socketLedger socketName) =
+        hostDelegationSocketToEventFlow
+          (HostDelegationSocketUp.mk marker' audit' kernel' target' socketTransport'
+            continuation' socketProvenance' socketLedger' socketName') ->
+        Cont audit socketTransport auditEvidence ->
+          Cont kernel target kernelEvidence ->
+            Cont markerResolution originLedger gateConsumer ->
+              PkgSig bundle socketProvenance pkg ->
+                PkgSig bundle gateConsumer pkg ->
+                  hsame audit audit' ∧ hsame kernel kernel' ∧
+                    Cont audit' socketTransport' auditEvidence ∧
+                      Cont kernel' target' kernelEvidence ∧
+                        UnaryHistory markerResolution ∧
+                          Cont markerResolution originLedger gateConsumer ∧
+                            PkgSig bundle gateConsumer pkg ∧
+                              PkgSig bundle socketProvenance' pkg := by
+  -- BEDC touchpoint anchor: HostDelegationSocket_audit_face_separation BHist Cont PkgSig
+  intro carrier encodedSame auditRoute kernelRoute gateRoute socketPkg gatePkg
+  obtain ⟨_sourceUnary, _dependencyUnary, markerUnary, _originUnary, _transportUnary,
+    _routeUnary, _provenanceUnary, _gapUnary, _nameUnary, _dependencyGap, _nameGap,
+    _sourceDependencyMarker, _markerOriginTransport, _transportRouteProvenance,
+    _provenanceGapName, _provenancePkg, _namePkg⟩ := carrier
+  have socketRows :=
+    HostDelegationSocket_audit_face_separation
+      (marker := marker) (audit := audit) (kernel := kernel) (target := target)
+      (transport := socketTransport) (continuation := continuation)
+      (provenance := socketProvenance) (ledger := socketLedger) (name := socketName)
+      (marker' := marker') (audit' := audit') (kernel' := kernel') (target' := target')
+      (transport' := socketTransport') (continuation' := continuation')
+      (provenance' := socketProvenance') (ledger' := socketLedger')
+      (name' := socketName') (auditEvidence := auditEvidence)
+      (kernelEvidence := kernelEvidence) encodedSame auditRoute kernelRoute socketPkg
+  exact
+    ⟨socketRows.left, socketRows.right.left, socketRows.right.right.left,
+      socketRows.right.right.right.left, markerUnary, gateRoute, gatePkg,
+      socketRows.right.right.right.right⟩
+
+theorem AuditGateBoundaryCarrier_host_delegation_namecert_query_handoff [AskSetup]
+    [PackageSetup]
+    {sourceScan dependencyReport markerResolution originLedger transport route provenance gap
+      nameCert marker audit kernel target socketTransport continuation socketProvenance
+      socketLedger socketName gateConsumer : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    AuditGateBoundaryCarrier sourceScan dependencyReport markerResolution originLedger transport
+        route provenance gap nameCert bundle pkg ->
+      HostDelegationSocketCarrier marker audit kernel target socketTransport continuation
+        socketProvenance socketLedger socketName bundle pkg ->
+        Cont markerResolution originLedger gateConsumer ->
+          PkgSig bundle gateConsumer pkg ->
+            SemanticNameCert
+                (fun row : BHist =>
+                  HostDelegationSocketCarrier marker audit kernel target socketTransport
+                    continuation socketProvenance socketLedger socketName bundle pkg ∧
+                    hsame row socketName)
+                (fun row : BHist =>
+                  Cont marker target socketLedger ∧
+                    Cont socketLedger socketName continuation ∧ hsame row socketName)
+                (fun row : BHist => PkgSig bundle socketName pkg ∧ hsame row socketName)
+                hsame ∧
+              Cont marker target socketLedger ∧
+                Cont socketLedger socketName continuation ∧
+                  PkgSig bundle socketName pkg ∧
+                    UnaryHistory markerResolution ∧
+                      Cont markerResolution originLedger gateConsumer ∧
+                        PkgSig bundle gateConsumer pkg := by
+  -- BEDC touchpoint anchor: HostDelegationSocketCarrier_semantic_name_certificate BHist Cont
+  intro carrier socketCarrier gateRoute gatePkg
+  obtain ⟨_sourceUnary, _dependencyUnary, markerUnary, _originUnary, _transportUnary,
+    _routeUnary, _provenanceUnary, _gapUnary, _nameUnary, _dependencyGap, _nameGap,
+    _sourceDependencyMarker, _markerOriginTransport, _transportRouteProvenance,
+    _provenanceGapName, _provenancePkg, _namePkg⟩ := carrier
+  have socketCert :=
+    HostDelegationSocketCarrier_semantic_name_certificate
+      (marker := marker) (audit := audit) (kernel := kernel) (target := target)
+      (transport := socketTransport) (continuation := continuation)
+      (provenance := socketProvenance) (ledger := socketLedger) (name := socketName)
+      (bundle := bundle) (pkg := pkg) socketCarrier
+  have socketSource :
+      HostDelegationSocketCarrier marker audit kernel target socketTransport continuation
+          socketProvenance socketLedger socketName bundle pkg ∧
+        hsame socketName socketName := by
+    exact ⟨socketCarrier, hsame_refl socketName⟩
+  have hostPattern := socketCert.pattern_sound socketSource
+  have hostLedger := socketCert.ledger_sound socketSource
+  exact
+    ⟨socketCert, hostPattern.left, hostPattern.right.left, hostLedger.left, markerUnary,
+      gateRoute, gatePkg⟩
 
 end BEDC.Derived.AuditGateBoundaryUp

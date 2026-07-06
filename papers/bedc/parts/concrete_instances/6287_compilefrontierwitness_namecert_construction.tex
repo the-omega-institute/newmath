@@ -53,6 +53,7 @@ The audit ledger $A$ records the substrate round trip, decode check, and refusal
 
 Finally, $B,P,N$ close the local ledger. Since none of these rows names an oracle, host evaluator, detached compiler step, or unrecorded decoder, the five listed rows exhaust the public NameCert surface.
 \end{proof}
+\leanchecked{BEDC.Derived.CompileFrontierWitnessUp.CompileFrontierWitnessCarrier\_namecert\_obligations}
 
 \begin{theorem}[Compile-frontier witness nonchoice boundary]
 \label{thm:compile-frontier-witness-nonchoice-boundary}
@@ -62,6 +63,7 @@ F,T,S,A,B,H,C,P,N .
 $$
 The route may certify that a displayed halted-TM target is being pursued through the Cook compile-frontier stage route and its audit rows, but it cannot export a hidden evaluator coordinate, a detached compiler oracle, an unrecorded decode step, a global halting decision, or a choice of successful run outside the finite ledger.
 \end{theorem}
+\leanchecked{BEDC.Derived.CompileFrontierWitnessUp.CompileFrontierWitness\_nonchoice\_boundary}
 \begin{proof}
 Begin with the carrier inventory. A public read has access to the present coordinate $F$, target coordinate $T$, stage route $S$, audit ledger $A$, nonchoice boundary $B$, and the structural rows $H,C,P,N$.
 
@@ -72,15 +74,79 @@ The cellular anchors are also finite. The classifier surface of \autoref{ch:conc
 Therefore the witness is a finite coordinate certificate. It can expose where the frontier route succeeds or refuses, but it cannot choose a hidden run, evaluate a program outside the ledger, or export an unrecorded compiler coordinate.
 \end{proof}
 
+\begin{theorem}[Compile-frontier witness carrier admission]
+\label{thm:compile-frontier-witness-carrier-admission}
+Every accepted $\CompileFrontierWitnessUp$ packet exposes exactly the rows
+$$
+F,T,S,A,B,H,C,P,N
+$$
+of \autoref{def:compile-frontier-witness-carrier}. The rows are respectively the frontier coordinate, halted-target coordinate, stage route, audit ledger, nonchoice boundary, componentwise $\hsame$ transport, displayed $\Cont$ route, $\Pkg$ provenance, and local $\NameCert$ row; no accepted packet has a second evaluator, detached compiler step, hidden decoder, oracle, or global halting classifier coordinate.
+\end{theorem}
+\leanchecked{BEDC.Derived.CompileFrontierWitnessUp.CompileFrontierWitnessCarrier\_admitted\_rows}
+\begin{proof}
+Project the accepted carrier. The definition lists exactly $F,T,S,A,B,H,C,P,N$, and the classifier compares accepted carriers only through those rows.
+
+The first four rows supply the public payload: frontier coordinate, halted target, stage route, and audit ledger. The row $B$ is the boundary row attached to that payload.
+
+The remaining rows $H,C,P,N$ only transport, replay, source, and locally name the same packet. Since no other coordinate is present, the listed rows are exactly the admitted carrier surface.
+\end{proof}
+
+\begin{theorem}[Compile-frontier witness boundary exactness]
+\label{thm:compile-frontier-witness-boundary-exactness}
+For every accepted $\CompileFrontierWitnessUp$ packet, the nonchoice row $B$ is read before any halted-target consumer can leave the packet through $C,P,N$. Thus a consumer of the target row $T$ receives the boundary that refuses hidden evaluators, detached compiler oracles, unrecorded decode steps, global halting decisions, and successful-run choices outside the finite ledger.
+\end{theorem}
+\leanchecked{BEDC.Derived.CompileFrontierWitnessUp.CompileFrontierWitness\_boundary\_exactness}
+\begin{proof}
+Start from \autoref{thm:compile-frontier-witness-nonchoice-boundary}. Every public read factors through $F,T,S,A,B,H,C,P,N$, so $B$ lies on the route before the structural exit rows are consumed.
+
+Use carrier admission. The halted-target row $T$ is not a public result by itself; it is paired with the stage route $S$, audit ledger $A$, and nonchoice boundary $B$ inside the same accepted packet.
+
+The structural rows $C,P,N$ replay, source, and name only the displayed route. They therefore cannot let a halted-target consumer leave the packet before the boundary row has been read.
+\end{proof}
+
+\begin{theorem}[Compile-frontier witness consumer nonescape]
+\label{thm:compile-frontier-witness-consumer-nonescape}
+Every public consumer of an accepted $\CompileFrontierWitnessUp$ packet factors through the cellular classifier, cellular automaton, halting obstruction, and compiler-endomorphism anchors named by the carrier provenance:
+$$
+\CellularSubstrateClassifierUp,\ \CellularAutomatonUp,\ \HaltingObstructionUp,\ \CompilerOptimizationEndomorphismUp.
+$$
+The factorization is read through $S,A,B,H,C,P,N$ and the chapter anchors \autoref{ch:concrete-instances-cellularsubstrateclassifier-namecert}, \autoref{ch:concrete-instances-cellularautomaton-namecert}, \autoref{ch:concrete-instances-haltingobstruction-namecert}, and \autoref{ch:concrete-instances-compiler-optimization-endomorphism-namecert}; it does not export a public consumer outside those finite rows.
+\end{theorem}
+\leanchecked{BEDC.Derived.CompileFrontierWitnessUp.CompileFrontierWitness\_consumer\_nonescape}
+\leanvariant{BEDC.Derived.CompileFrontierWitnessUp.CompileFrontierWitnessCarrier\_consumer\_nonescape}
+\begin{proof}
+Read the provenance row of the carrier. It names exactly the cellular substrate classifier, cellular automaton, halting obstruction, and compiler-optimization endomorphism as the downstream anchors for compile-frontier consumption.
+
+The stage row $S$ routes the compile stages, while the audit row $A$ records accepted substrate, decode, and refusal checks. The boundary row $B$ prevents this route from becoming a hidden evaluator or global halting classifier.
+
+Finally, $H,C,P,N$ preserve the same anchor list by transport, replay, provenance, and local naming. Any public consumer therefore factors through the displayed anchors and has no second route outside the finite packet.
+\end{proof}
+
+\begin{theorem}[Compile-frontier witness scope closure]
+\label{thm:compile-frontier-witness-scope-closure}
+The scoped surface of $\CompileFrontierWitnessUp$ is exactly the finite route through the present frontier coordinate $F$, halted target $T$, three Cook stage rows $S$, audit ledger $A$, nonchoice boundary $B$, componentwise $\hsame$ transport $H$, displayed $\Cont$ replay $C$, $\Pkg$ provenance $P$, and local $\NameCert_{\CompileFrontierWitnessUp}$ row $N$. Its only sibling anchors are $\CellularSubstrateClassifierUp$, $\CellularAutomatonUp$, $\HaltingObstructionUp$, and $\CompilerOptimizationEndomorphismUp$ as named by \autoref{ch:concrete-instances-cellularsubstrateclassifier-namecert}, \autoref{ch:concrete-instances-cellularautomaton-namecert}, \autoref{ch:concrete-instances-haltingobstruction-namecert}, and \autoref{ch:concrete-instances-compiler-optimization-endomorphism-namecert}; it exports no host evaluator, detached compiler oracle, unrecorded decoder, global halting classifier, or consumer route outside those rows.
+\end{theorem}
+\leanchecked{BEDC.Derived.CompileFrontierWitnessUp.CompileFrontierWitness\_scope\_closure}
+\begin{proof}
+Start with the carrier definition \autoref{def:compile-frontier-witness-carrier}. It lists $F,T,S,A,B,H,C,P,N$ as the complete public coordinate inventory, so the scoped surface can only be assembled from those rows.
+
+Apply \autoref{thm:compile-frontier-witness-namecert-obligations}. The NameCert rows expose carrier admission, displayed coordinate comparison, pipeline-stage route exactness, audit-row nonescape, and ledger exhaustion for the same finite packet.
+
+Use the boundary results next. The nonchoice boundary of \autoref{thm:compile-frontier-witness-nonchoice-boundary} and the boundary exactness theorem \autoref{thm:compile-frontier-witness-boundary-exactness} force any halted-target read to pass through $B$ before the structural exit rows can be consumed.
+
+Finally apply the consumer nonescape theorem \autoref{thm:compile-frontier-witness-consumer-nonescape}. It restricts public consumers to the cellular substrate classifier, cellular automaton, halting obstruction, and compiler-optimization endomorphism anchors named in the provenance. Hence the scoped surface is exactly the finite route stated above.
+\end{proof}
+
 The later Lean development in \texttt{lean4/BEDC/Derived/CompileFrontierWitnessUp/TasteGate.lean} must provide \texttt{Nontrivial CompileFrontierWitnessUp} and \texttt{FieldFaithful CompileFrontierWitnessUp} instances for the same displayed carrier.
 
-\closureat{CompileFrontierWitnessUp}{seedStr}
+\closureat{CompileFrontierWitnessUp}{obligationStr}[BEDC.Derived.CompileFrontierWitnessUp.CompileFrontierWitnessCarrier\_namecert\_obligations]
 
 \begin{closurestatus}{\CompileFrontierWitnessUp}
   \constructivestory{A $\CompileFrontierWitnessUp$ packet is generated from a present frontier coordinate, halted-machine target coordinate, Cook stage route, audit ledger, nonchoice boundary, componentwise hsame transports, displayed continuation routes, package provenance, and a local NameCert row.}
-  \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:compile-frontier-witness-carrier}, \autoref{thm:compile-frontier-witness-namecert-obligations}, and \autoref{thm:compile-frontier-witness-nonchoice-boundary} specify the finite compile-frontier witness carrier, its five NameCert rows, and its nonchoice boundary.}
+  \theoryclosure{\scopedClosure}
+  \scopeclosed{\autoref{def:compile-frontier-witness-carrier}, \autoref{thm:compile-frontier-witness-namecert-obligations}, \autoref{thm:compile-frontier-witness-nonchoice-boundary}, \autoref{thm:compile-frontier-witness-boundary-exactness}, \autoref{thm:compile-frontier-witness-consumer-nonescape}, and \autoref{thm:compile-frontier-witness-scope-closure} specify the finite compile-frontier witness carrier, its five NameCert rows, nonchoice boundary, exact consumer route, and scoped sibling anchors.}
   \formalstatus{\unformalizedV}
+  \leantarget{BEDC.Derived.CompileFrontierWitnessUp.CompileFrontierWitnessCarrier\_namecert\_obligations}
   \bridgestatus{none}
   \origin{ai}
   \notclaimed{This chapter does not prove Lean verification, bridge checking, Cook universality, compiler correctness, hidden evaluator soundness, arbitrary halting, or successful frontier crossing.}

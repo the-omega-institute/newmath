@@ -1,9 +1,18 @@
+import BEDC.FKernel.Bundle
+import BEDC.FKernel.Cont
 import BEDC.FKernel.NameCert
+import BEDC.FKernel.Package
+import BEDC.FKernel.Unary
 
 namespace BEDC.Derived.ContinuationTerminationUp
 
+open BEDC.FKernel.Ask
+open BEDC.FKernel.Bundle
+open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
 open BEDC.FKernel.NameCert
+open BEDC.FKernel.Package
+open BEDC.FKernel.Unary
 
 def ContinuationTerminationObligationRowSpec
     (s t tau u b h p n row : BHist) : Prop :=
@@ -110,5 +119,53 @@ theorem ContinuationTerminationCarrier_namecert_obligations
     · constructor
       · exact Or.inr (Or.inl (hsame_refl t))
       · exact Or.inr (Or.inr (Or.inl (hsame_refl tau)))
+
+def ContinuationTerminationCarrier [AskSetup] [PackageSetup]
+    (s t tau u b h p n : BHist) (bundle : ProbeBundle ProbeName) (pkg : Pkg) :
+    Prop :=
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont UnaryHistory PkgSig hsame
+  UnaryHistory s ∧ UnaryHistory t ∧ Cont s t tau ∧
+    hsame u u ∧ hsame b b ∧ hsame h h ∧
+      PkgSig bundle p pkg ∧ PkgSig bundle n pkg
+
+def ContinuationTerminationClassifier
+    (s t tau u b h p n s' t' tau' u' b' h' p' n' : BHist) : Prop :=
+  -- BEDC touchpoint anchor: BHist Cont hsame
+  hsame s s' ∧ hsame t t' ∧ hsame tau tau' ∧ Cont s' t' tau' ∧
+    hsame u u' ∧ hsame b b' ∧ hsame h h' ∧ hsame p p' ∧ hsame n n'
+
+theorem ContinuationTerminationCarrier_classifier_stability [AskSetup] [PackageSetup]
+    {s t tau u b h p n s' t' tau' u' b' h' p' n' : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ContinuationTerminationCarrier s t tau u b h p n bundle pkg →
+      ContinuationTerminationClassifier s t tau u b h p n s' t' tau' u' b' h' p' n' →
+        UnaryHistory s' ∧ UnaryHistory t' ∧ Cont s' t' tau' ∧ hsame u u' ∧
+          hsame b b' ∧ hsame h h' ∧ PkgSig bundle p pkg ∧ PkgSig bundle n pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont UnaryHistory PkgSig hsame
+  intro carrier classifier
+  obtain ⟨sUnary, tUnary, route, _sameU, _sameB, _sameH, pPkg, nPkg⟩ := carrier
+  obtain ⟨sameS, sameT, sameTrace, route', sameU', sameB', sameH', _sameP',
+    _sameN'⟩ := classifier
+  have sUnary' : UnaryHistory s' := unary_transport sUnary sameS
+  have tUnary' : UnaryHistory t' := unary_transport tUnary sameT
+  have _sameTraceFromRoutes : hsame tau tau' := cont_respects_hsame sameS sameT route route'
+  have _traceComponent : hsame tau tau' := sameTrace
+  exact ⟨sUnary', tUnary', route', sameU', sameB', sameH', pPkg, nPkg⟩
+
+theorem ContinuationTerminationClassifier_route_exactness [AskSetup] [PackageSetup]
+    {s t tau u b h p n s' t' tau' u' b' h' p' n' : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ContinuationTerminationCarrier s t tau u b h p n bundle pkg →
+      ContinuationTerminationClassifier s t tau u b h p n s' t' tau' u' b' h' p' n' →
+        UnaryHistory s' ∧ UnaryHistory t' ∧ hsame tau tau' ∧ Cont s' t' tau' ∧
+          hsame u u' ∧ hsame b b' ∧ hsame h h' := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont UnaryHistory hsame
+  intro carrier classifier
+  obtain ⟨sUnary, tUnary, _route, _sameU, _sameB, _sameH, _pPkg, _nPkg⟩ := carrier
+  obtain ⟨sameS, sameT, sameTau, route', sameU', sameB', sameH', _sameP',
+    _sameN'⟩ := classifier
+  have sUnary' : UnaryHistory s' := unary_transport sUnary sameS
+  have tUnary' : UnaryHistory t' := unary_transport tUnary sameT
+  exact ⟨sUnary', tUnary', sameTau, route', sameU', sameB', sameH'⟩
 
 end BEDC.Derived.ContinuationTerminationUp

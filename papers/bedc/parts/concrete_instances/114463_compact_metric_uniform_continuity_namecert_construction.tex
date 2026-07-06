@@ -89,12 +89,48 @@ Compose the compact, metric, and continuous-map rows. The point under inspection
 The structural rows keep the export constructive. Componentwise $\hsame$ transport $H$ preserves the compact witness, metric distance witness, radius budget, and handoff, while displayed $\Cont$ replay $C$ records the same route for each requested tolerance. Hence the exported uniform-continuity claim is the finite-net route $K,F,M,Q,D,R,T,H,C,P,N$, not open-cover compactness, a choice-selected subcover, or pointwise continuity detached from a displayed modulus.
 \end{proof}
 
+\begin{theorem}[Compact metric uniform-continuity source obligation]
+\label{thm:compact-metric-uniform-continuity-source-obligation}
+For every accepted $\CompactMetricUniformContinuityUp$ packet $U=(K,F,M,Q,D,R,T,H,C,P,N)$, the source-admission obligation is the displayed finite-net $\CompactMetricUp$ row $K$ together with the pointwise $\ContinuousMapUp$ rows in $F$. Before any modulus handoff is public, $K$ must expose the finite center list, cover-radius witnesses, and located membership reads used by $F$, and $F$ must attach its pointwise continuity data to those displayed centers rather than to a choice-selected family.
+\end{theorem}
+\begin{proof}
+Project the source rows from \autoref{def:compact-metric-uniform-continuity-carrier}. The row $K$ supplies the compact finite-net data, and $F$ supplies only pointwise continuity rows over the centers named by $K$.
+
+Use the explicit modulus scope of \autoref{thm:compact-metric-uniform-continuity-explicit-modulus-scope}. It prevents $F$ from exporting a $\UniformModulusUp$ row before the finite-net coverage and metric comparison route are visible.
+
+Thus source admission is exactly the pair $K,F$ under the structural rows $H,C,P,N$. No open-cover compactness, sequential compactness, or choice-selected center family is admitted.
+\end{proof}
+
+\begin{theorem}[Compact metric uniform-continuity modulus obligation]
+\label{thm:compact-metric-uniform-continuity-modulus-obligation}
+For every accepted $\CompactMetricUniformContinuityUp$ packet $U=(K,F,M,Q,D,R,T,H,C,P,N)$, the modulus obligation requires the handoff row $T$ to depend only on the requested tolerance and the displayed finite route through $K,F,M,Q,D,R$. The exported $\UniformModulusUp$ row may read the metric triangle ledger, rational lower-bound fold, dyadic positivity and halving ledger, and RegSeqRat/Real seal rows, but it may not retain a point, center choice, host map equality, or open-cover witness as an extra argument.
+\end{theorem}
+\begin{proof}
+Start with the finite-net modulus route of \autoref{thm:compact-metric-uniform-continuity-finite-net-modulus-route}. It routes the compact and continuous-map data through $M,Q,D,R$ before the handoff row $T$ is used.
+
+The row $M$ supplies only the metric triangle estimates. The rows $Q$ and $D$ fold the displayed finite family to a rational lower bound and transport the requested tolerance through dyadic comparison.
+
+Finally $R$ seals the numerical reads before $T$ is public. Since the handoff is tolerance-only, no inspected point, chosen center, open-cover witness, or host equality datum survives as a public modulus parameter.
+\end{proof}
+
+\begin{theorem}[Compact metric uniform-continuity ledger obligation]
+\label{thm:compact-metric-uniform-continuity-ledger-obligation}
+For every accepted $\CompactMetricUniformContinuityUp$ packet $U=(K,F,M,Q,D,R,T,H,C,P,N)$, the ledger-exactness obligation identifies the numeric side of the certificate with the displayed $\DyadicRatCoreUp$, $\RegSeqRatUp$, and $\RealUp$ rows in $D$ and $R$, together with the rational fold $Q$. Every exported comparison used by the modulus handoff is read through those rows and then transported by $H,C,P,N$; no ambient Real completeness, quotient representative, external order decision, or host equality row is available.
+\end{theorem}
+\begin{proof}
+Read the numeric rows in the carrier. The rational fold is $Q$, the dyadic comparison and tolerance transport ledger is $D$, and the RegSeqRat/Real seal boundary is $R$.
+
+Apply the NameCert obligation theorem, \autoref{thm:compact-metric-uniform-continuity-namecert-obligations}. It lists rational lower-bound fold exactness, dyadic tolerance transport, RegSeqRat and Real seal discipline, and componentwise transport as required parts of the local surface.
+
+The explicit modulus scope then forces every exported comparison to pass through $Q,D,R,H,C,P,N$ before $T$ is read. The carrier has no ambient completeness, quotient, external order, or host-equality coordinate, so the displayed ledger is exact.
+\end{proof}
+
 \closureat{CompactMetricUniformContinuityUp}{seedStr}
 
 \begin{closurestatus}{\CompactMetricUniformContinuityUp}
   \constructivestory{A $\CompactMetricUniformContinuityUp$ packet is generated from compact finite-net rows, ContinuousMapUp pointwise-modulus rows, MetricUp triangle ledgers, RatUp lower-bound folds, DyadicRatCoreUp tolerance transport, RegSeqRatUp and RealUp seal boundaries, UniformModulusUp handoff, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
-  \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:compact-metric-uniform-continuity-carrier}, \autoref{thm:compact-metric-uniform-continuity-namecert-obligations}, and \autoref{thm:compact-metric-uniform-continuity-finite-net-modulus-route} seed the finite-net Heine--Cantor certificate over compact metric sources and pointwise continuous maps.}
+  \theoryclosure{\obligationClosure}
+  \scopeclosed{\autoref{def:compact-metric-uniform-continuity-carrier}, \autoref{thm:compact-metric-uniform-continuity-namecert-obligations}, \autoref{thm:compact-metric-uniform-continuity-source-obligation}, \autoref{thm:compact-metric-uniform-continuity-modulus-obligation}, and \autoref{thm:compact-metric-uniform-continuity-ledger-obligation} expose the finite-net source admission, tolerance-only modulus handoff, and DyadicRatCore/RegSeqRat/Real ledger exactness obligations.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{This chapter does not claim open-cover compactness, sequential compactness, choice-selected centers, host function equality, Lean verification, or bridge checking.}

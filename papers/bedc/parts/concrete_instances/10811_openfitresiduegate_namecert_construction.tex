@@ -65,16 +65,34 @@ Transport through $H$, replay through $Q$, provenance through $P$, and naming th
 
 Later Lean development in \texttt{lean4/BEDC/Derived/OpenFitResidueGateUp/TasteGate.lean} must provide explicit $\mathsf{Nontrivial}\ \OpenFitResidueGateUp$ and $\mathsf{FieldFaithful}\ \OpenFitResidueGateUp$ instances.
 
-\closureat{OpenFitResidueGateUp}{publicStr}
+\begin{theorem}[Open-fit residue-gate paper bridge surface]
+\label{thm:open-fit-residue-gate-paper-bridge-surface}
+Any standard-bridge premise that reads an accepted $\OpenFitResidueGateUp$ packet may use only the displayed route
+$$
+T,F,R,V,C,H,Q,P,N .
+$$
+It may expose open physical fit, finite observation residue, observation reflection, and GAP-policy accountability only as rows of that same finite packet. It cannot replace finite undefeated fit by final fit, host physical truth, hidden observation closure, detached residue erasure, or a bridge-checked certificate.
+\end{theorem}
+\begin{proof}
+Project the carrier $G=(T,F,R,V,C,H,Q,P,N)$ from \autoref{def:open-fit-residue-gate-carrier}. These rows are the only admitted packet surface available to a bridge-facing premise.
+
+Apply the NameCert obligations of \autoref{thm:open-fit-residue-gate-namecert-obligations}. They require trace request, finite fit, open residue, verdict, classifier, transport, replay, provenance, and local naming to remain visible before the packet is read as physically admissible at the finite prefix.
+
+Use the scoped consumer factorization of \autoref{thm:open-fit-residue-gate-scoped-consumer-factorization}. It keeps every admissible consumer on the same route and excludes final fit, host physical truth, hidden observation closure, and residue erasure.
+
+Therefore the bridge-facing surface is a paper bridge over the public packet route. It does not supply a machine-checked bridge theorem, and it adds no row outside $T,F,R,V,C,H,Q,P,N$.
+\end{proof}
+
+\closureat{OpenFitResidueGateUp}{matureStr}
 
 \begin{closurestatus}{\OpenFitResidueGateUp}
   \constructivestory{An $\OpenFitResidueGateUp$ packet is generated from trace request, finite-fit certificate, open-residue, verdict, classifier, transport, replay, provenance, and local NameCert rows, as a composite over open physical fit, finite observation residue boundary, observation reflection packet, and reality-constrained open fit surfaces.}
-  \theoryclosure{\publicClosure}
-  \scopeclosed{\autoref{def:open-fit-residue-gate-carrier}, \autoref{thm:open-fit-residue-gate-namecert-obligations}, and \autoref{thm:open-fit-residue-gate-scoped-consumer-factorization} bind carrier, NameCert obligations, TasteGate alignment, consumer factorization, falsifiable prediction, independence witness, Nontrivial, and FieldFaithful rows into the displayed public residue-gate surface.}
+  \theoryclosure{\matureClosure}
+  \scopeclosed{\autoref{def:open-fit-residue-gate-carrier}, \autoref{thm:open-fit-residue-gate-namecert-obligations}, \autoref{thm:open-fit-residue-gate-scoped-consumer-factorization}, and \autoref{thm:open-fit-residue-gate-paper-bridge-surface} bind carrier, NameCert obligations, TasteGate alignment, consumer factorization, falsifiable prediction, independence witness, Nontrivial, FieldFaithful, and paper bridge rows into the displayed residue-gate surface.}
   \formalstatus{\axiomCleanV}
   \leantarget{BEDC.Derived.OpenFitResidueGateUp.TasteGate.OpenFitResidueGateTasteGate\_single\_carrier\_alignment}
-  \bridgestatus{none}
+  \bridgestatus{paperBridge}
   \origin{ai}
-  \notclaimed{This chapter does not assert final fit, host physical truth, residue erasure, hidden observation closure, or bridge checking.}
-  \upgradepath{Bridge checking requires a standard bridge from the public open-fit residue-gate surface to the acceptance schema.}
+  \notclaimed{This chapter does not assert final fit, host physical truth, residue erasure, hidden observation closure, or machine bridge checking.}
+  \upgradepath{The mature packet is closed on the paper axis; Lean standard-bridge checking remains a verification-axis matter.}
 \end{closurestatus}

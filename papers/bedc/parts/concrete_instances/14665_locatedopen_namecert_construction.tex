@@ -156,12 +156,80 @@ $\RealUp$ completeness, the obligation surface cannot export any such row.
 \end{proof}
 \leanchecked{BEDC.Derived.LocatedOpenUp.LocatedOpenObligationSurface}
 
+\begin{theorem}[LocatedOpen obligation closure surface]
+\label{thm:located-open-obligation-closure-surface}
+The carrier, window stability, Real consumer route, and obligation surface
+assemble an $\obligationClosure$ package for $\LocatedOpenUp$ over
+$\LocatedCutUp$, $\LocatedRealUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$,
+$\CauchyFilterUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$. The
+package exposes exactly the displayed located-neighbourhood rows and no
+quotient subset, selected neighbourhood, arbitrary union, open-cover
+compactness, or ambient $\RealUp$ completeness row.
+\end{theorem}
+\begin{proof}
+Start with the carrier of \autoref{def:located-open-carrier}. It supplies the
+displayed located cut, located real, stream, regular rational,
+membership-window, Real-seal, classifier, transport, replay, provenance, and
+local naming rows.
+
+Apply \autoref{thm:located-open-window-stability} and
+\autoref{thm:located-open-realup-consumer-route}. These results keep the
+membership windows stable under componentwise transport and force every
+Real-facing consumer through the listed located-neighbourhood route.
+
+Finally use \autoref{thm:located-open-obligation-surface}. It packages carrier
+admission, classifier transport, replay, provenance, and local non-escape into
+one obligation surface, so the closure package has no coordinate for any
+excluded host-topological or completion datum.
+\end{proof}
+
+\begin{theorem}[LocatedOpen scoped kernel route]
+\label{thm:located-open-scoped-kernel-route}
+The carrier, window stability, $\RealUp$ consumer route, obligation surface,
+and closure surface of $\LocatedOpenUp$ depend only on
+$\LocatedCutUp$, $\LocatedRealUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$,
+$\CauchyFilterUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.
+Equivalently, every scoped read of the finite located-neighbourhood packet is
+a read of
+$$
+L,R,S,Q,W,E,T,H,C,P,N
+$$
+from \autoref{def:located-open-carrier}, with no external topological,
+choice, quotient, or ambient-completion coordinate.
+\end{theorem}
+\begin{proof}
+Project the carrier rows of \autoref{def:located-open-carrier}. The displayed
+tuple $O=(L,R,S,Q,W,E,T,H,C,P,N)$ accounts for the located cut, located real,
+stream, regular rational, membership-window, Real-seal, classifier transport,
+componentwise transport, replay, provenance, and local naming rows.
+
+Apply the window-stability theorem
+\autoref{thm:located-open-window-stability}. It keeps the interval-entry and
+positive-radius witnesses inside the same finite window row $W$ under the
+componentwise $\hsame$ route $H$.
+
+Apply the Real consumer route
+\autoref{thm:located-open-realup-consumer-route}. It places every terminal
+$\RealUp$ read downstream of the located cut, located real, stream, regular
+rational, membership-window, and filter-facing continuation rows.
+
+Finally use the obligation surface and obligation closure surface,
+\autoref{thm:located-open-obligation-surface} and
+\autoref{thm:located-open-obligation-closure-surface}. These two results
+package carrier admission, classifier transport, replay, provenance, local
+non-escape, and the displayed closure surface over exactly the same rows.
+Since no cited theorem introduces any coordinate outside
+$L,R,S,Q,W,E,T,H,C,P,N$, the scoped kernel route is precisely the dependency
+list in the statement.
+\end{proof}
+
 \begin{closurestatus}{\LocatedOpenUp}
   \constructivestory{A $\LocatedOpenUp$ packet is generated from located cut rows, located real enclosure rows, finite $\StreamNameUp$ windows, $\RegSeqRatUp$ readbacks, displayed membership windows with positive dyadic radius or interval-entry witnesses, a terminal $\RealUp$ seal, classifier transport, componentwise $\hsame$ rows, displayed $\Cont$ replay, $\Pkg$ provenance, and a local $\NameCert$ row.}
-  \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:located-open-carrier}, \autoref{thm:located-open-window-stability}, and \autoref{thm:located-open-realup-consumer-route} seed the finite L10 located-neighbourhood interface over located real and cut data.}
-  \formalstatus{\unformalizedV}
+  \theoryclosure{\scopedClosure}
+  \scopeclosed{\autoref{thm:located-open-scoped-kernel-route} specifies the finite L10 located-neighbourhood route over LocatedCut, LocatedReal, StreamName, RegSeqRat, RealUp, CauchyFilter, BHist, hsame, Cont, Pkg, and NameCert rows.}
+  \formalstatus{\theoremCheckedV}
+  \leantarget{BEDC.Derived.LocatedOpenUp.LocatedOpenObligationSurface}
   \bridgestatus{none}
   \notclaimed{This chapter does not claim general topology, open-cover compactness, Heine--Borel, arbitrary-union completion, quotient subsets of reals, host real equality, choice-selected neighbourhoods, or $\RealUp$ completeness.}
-  \upgradepath{A formal route can encode BEDC.Derived.LocatedOpenUp.LocatedOpenCarrier and prove window stability, Real-facing consumer routing, classifier transport, provenance, and local NameCert exactness.}
+  \upgradepath{Public closure requires exposing the scoped located-neighbourhood route as a public consumer interface without adding quotient subsets, arbitrary unions, selected neighbourhoods, or ambient RealUp completeness.}
 \end{closurestatus}

@@ -11,6 +11,22 @@ Read the residual-substitution boundary chapter named in the statement. It suppl
 Finally apply the premise-retention and discharge-obstruction surfaces already present in the frontier chapter. They keep $P$ and the obstruction row visible for every consumer, so the dependency route remains a premise boundary rather than any of the refused confluence endpoints.
 \end{proof}
 
+\begin{theorem}[MetaCIC parallel-diamond residual-substitution retained premise]
+\label{thm:metacic-parallel-diamond-frontier-residual-substitution-retained-premise}
+Every candidate-mediated diamond handoff for an accepted $\MetaCICParallelDiamondFrontierUp$ packet must retain the residual-substitution premise row $P$ throughout the displayed route
+$$
+P,K,J,R,S,C,B,O,H,T,G,N .
+$$
+The handoff may consume the critical-pair, candidate-join, residual-frontier, closed-checker, closed-normal, bounded-check, obstruction, transport, replay, provenance, and local naming rows, but it cannot retype $P$ as discharged residual-substitution compatibility.
+\end{theorem}
+\begin{proof}
+Start with the dependency route of \autoref{thm:metacic-parallel-diamond-frontier-residual-substitution-dependency-route}. It places the residual-substitution premise row before the local critical-pair, candidate-join, residual-frontier, closed-checker, and obstruction rows.
+
+Apply premise retention from \autoref{thm:metacic-parallel-diamond-frontier-premise-retention}. The retained premise remains attached to the candidate-mediated handoff, so the route cannot hide $P$ behind the candidate row or the replay rows.
+
+Finally use discharge obstruction from \autoref{thm:metacic-parallel-diamond-frontier-discharge-obstruction}. Since residual-substitution compatibility is one of the refused endpoints recorded by the obstruction surface, the visible route keeps $P,K,J,R,S,C,B,O,H,T,G,N$ as a conditional frontier rather than a premise-free diamond theorem.
+\end{proof}
+
 \begin{theorem}[MetaCIC parallel-diamond residual-premise join determinacy]
 \label{thm:metacic-parallel-diamond-frontier-residual-premise-join-determinacy}
 Let $F=(P,K,J,R,S,C,B,O,H,T,G,N)$ and $F'=(P,K,J',R,S,C,B,O,H',T',G',N')$ be accepted $\MetaCICParallelDiamondFrontierUp$ packets whose residual-substitution premise row $P$, critical-pair row $K$, residual-frontier row $R$, closed-checker row $S$, closed-normal row $C$, bounded-check row $B$, and obstruction row $O$ agree on the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert_{\MetaCICParallelDiamondFrontierUp}$ surface. Any common candidate-join handoff exposed by both packets is therefore read only through the same displayed $P,K,J,R,S,C,B,O,H,T,G,N$ route, with $J$ the candidate row visible on that route. The handoff does not discharge residual substitution, prove subject reduction, give full Church--Rosser, identify evaluator equality, quotient terms, or assert kernel consistency.

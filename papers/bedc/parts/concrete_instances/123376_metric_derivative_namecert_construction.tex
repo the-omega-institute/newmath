@@ -1,0 +1,71 @@
+\chapter{A Concrete Naming Certificate for $\MetricDerivativeUp$}
+\label{ch:concrete-instances-metric-derivative-namecert}
+\origin{human}
+
+Following Kirchheim on metric differentiability, the $\MetricDerivativeUp$ packet records a finite time-window witness for the metric speed of a displayed curve without adding an ambient derivative primitive. It sits over the metric carrier of \autoref{ch:concrete-instances-metric-namecert}, the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the finite stream-window surface of \autoref{ch:concrete-instances-streamname-namecert}, the length-space route of \autoref{ch:concrete-instances-length-space-namecert}, and the rectifiable-curve boundary of \autoref{ch:concrete-instances-rectifiable-curve-namecert}. The packet names a displayed finite quotient window for one path row and one dyadic time row; it does not assert differentiability almost everywhere, choose a representative derivative, identify host curve equality, or import ambient $\RealUp$ completeness.
+
+\begin{definition}[MetricDerivative carrier]
+\label{def:metric-derivative-carrier}
+A $\MetricDerivativeUp$ carrier is a finite $\BHist$ packet
+$$
+M=(\Gamma,T,D,Q,R,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $\Gamma$ is the path row, recording the accepted $\RectifiableCurveUp$ source, its $\LengthSpaceUp$ target, and the inspected source point;
+\item $T$ is the dyadic time-window row, recording the base time, left and right dyadic radii, exclusion of the zero-radius denominator, and the finite window labels supplied by $\StreamNameUp$;
+\item $D$ is the metric-distance row, recording the two endpoint evaluations and the $\MetricUp$ distance read between their displayed target values;
+\item $Q$ is the distance-quotient row, recording the quotient of the distance row by the dyadic time displacement inside the inspected window;
+\item $R$ is the $\RegSeqRatUp$ and $\RealUp$ seal row, recording the regular rational approximation surface and the terminal real-name seal for the quotient read;
+\item $H$ records componentwise $\hsame$ transports for the path, time-window, distance, quotient, regular-readback, real-seal, continuation, provenance, and local naming rows;
+\item $C$ records the displayed $\Cont$ replay routes by which consumers inspect the same window, distance, quotient, and seal rows;
+\item $P$ is the $\Pkg$ provenance over $\BHist$, $\MetricUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\LengthSpaceUp$, $\RectifiableCurveUp$, $\hsame$, $\Cont$, and local naming;
+\item $N$ is the local $\NameCert_{\MetricDerivativeUp}$ row.
+\end{enumerate}
+The carrier contains exactly these rows. It has no coordinate for an infinitesimal tangent object, a host limit of quotients, an almost-everywhere differentiability theorem, a selected representative of a real quotient, or an ambient completeness principle.
+\end{definition}
+
+\begin{theorem}[MetricDerivative NameCert obligations]
+\label{thm:metric-derivative-namecert-obligations}
+The local $\NameCert_{\MetricDerivativeUp}$ surface for the carrier of \autoref{def:metric-derivative-carrier} consists of carrier admission for
+$$
+M=(\Gamma,T,D,Q,R,H,C,P,N),
+$$
+path-row exposure, dyadic time-window exactness, metric-distance readback, quotient-row formation, $\RegSeqRatUp$ and $\RealUp$ seal compatibility, componentwise $\hsame$ stability, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:metric-derivative-carrier}. The rows $\Gamma,T,D,Q,R,H,C,P,N$ are the only data visible to the local certificate.
+
+The path and time-window obligations are read from $\Gamma$ and $T$. The metric-distance obligation is then read from $D$, while the quotient obligation is read from $Q$ using the displayed nonzero dyadic displacement in the same time window.
+
+The regular and real-facing obligations are confined to $R$. Transport and replay are confined to $H$ and $C$, and provenance and local naming are confined to $P$ and $N$. Since no other coordinate is present, the certificate cannot export an infinitesimal tangent object, a host limit, a representative selector, or ambient completeness.
+\end{proof}
+
+\begin{theorem}[MetricDerivative length-window boundary]
+\label{thm:metric-derivative-length-window-boundary}
+For an accepted $\MetricDerivativeUp$ packet, every length-space or rectifiable-curve consumer reads the metric derivative window only through the finite rows
+$$
+\Gamma,T,D,Q,R,H,C,P,N.
+$$
+The consumer may inspect the path source, dyadic time window, metric-distance quotient, regular rational handoff, terminal real seal, transport, replay, provenance, and local naming rows, but it cannot extract a global length derivative, an almost-everywhere differentiability assertion, a host quotient representative, or an ambient completeness theorem.
+\end{theorem}
+\begin{proof}
+Start with the carrier of \autoref{def:metric-derivative-carrier}. The curve source and length-space target are stored only in $\Gamma$, and the inspected time window is stored only in $T$.
+
+The distance and quotient data are then the displayed rows $D$ and $Q$. Any real-facing read of the quotient must pass through the regular and real seal row $R$, so the consumer never reads a separate host quotient or selected representative.
+
+Finally, $H,C,P,N$ provide the transport, replay, provenance, and local naming routes for the same finite packet. Because the packet has no coordinate for global length differentiation, almost-everywhere reasoning, host representatives, or completeness, those objects are outside the exported boundary.
+\end{proof}
+
+\closureat{MetricDerivativeUp}{seedStr}
+
+\begin{closurestatus}{\MetricDerivativeUp}
+  \constructivestory{A $\MetricDerivativeUp$ packet is generated from a rectifiable path row, a dyadic time-window row, a metric-distance quotient row, a $\RegSeqRatUp$ and $\RealUp$ seal row, componentwise $\hsame$ transports, displayed $\Cont$ routes, $\Pkg$ provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:metric-derivative-carrier}, \autoref{thm:metric-derivative-namecert-obligations}, and \autoref{thm:metric-derivative-length-window-boundary} specify the finite carrier rows, local naming obligations, and length-window non-escape boundary for one metric derivative quotient packet.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{human}
+  \notclaimed{This chapter does not claim metric differentiability almost everywhere, uniqueness of a derivative value, global length differentiation, host equality of curves, selected real representatives, ambient completeness, Lean verification, or bridge checking.}
+  \upgradepath{Formal verification requires a checked Lean carrier and NameCert theorem for the displayed finite metric derivative window packet.}
+\end{closurestatus}

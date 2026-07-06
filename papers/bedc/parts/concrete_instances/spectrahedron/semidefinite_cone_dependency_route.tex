@@ -1,0 +1,11 @@
+\begin{theorem}[Spectrahedron semidefinite-cone dependency route]
+\label{thm:spectrahedron-semidefinite-cone-dependency-route}
+Any accepted $\SpectrahedronUp$ packet consumes the $\SemidefiniteConeUp$ membership row and the $\ConvexSetUp$ provenance row before spectrahedral membership can be read. The affine parameter row, pencil row, displayed matrix row, semidefinite-cone row, convex-set row, transport, replay, provenance, and local naming remain visible as packet data; the route is not a host convex subset, determinant test, or matrix-inequality oracle.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:spectrahedron-carrier}. The semidefinite membership row $K$ and convex provenance row $V$ are both displayed coordinates of the accepted packet, not external predicates.
+
+The semidefinite-cone route reads $K$ through the $\SemidefiniteConeUp$ sibling of \autoref{ch:concrete-instances-semidefinitecone-namecert}, while the convex-set route reads $V$ through the $\ConvexSetUp$ sibling of \autoref{ch:concrete-instances-convexset-namecert}. These displayed carriers must be present before any consumer can interpret the packet as a spectrahedral membership read.
+
+Thus spectrahedral membership is the finite dependency route carried by the packet itself. It does not export a host convex subset, a detached matrix-inequality oracle, a determinant criterion, or an implicit analytic closure principle.
+\end{proof}

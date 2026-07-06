@@ -14,6 +14,7 @@ check:
 	python3 scripts/check_export_matrix.py MATRIX.md
 	python3 scripts/check_mathlib_correspondence.py MATRIX.md
 	python3 scripts/check_no_hollow.py MATRIX.md
+	python3 scripts/check_value_anchor.py MATRIX.md  # shadow: reports Nat-shadow laundering (dead natToUnary/bwordLength anchor); exit 0 until existing rows are cleaned + the authoritative Lean-env gate (BridgeAudit.lean) lands, then promote with --gate
 	python3 scripts/check_canonical_int_law.py
 	python3 scripts/check_ring_bundle.py
 	python3 scripts/check_statement_shape_dup.py

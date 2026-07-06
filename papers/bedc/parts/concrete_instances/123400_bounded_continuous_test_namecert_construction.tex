@@ -1,0 +1,101 @@
+\chapter{A Concrete Naming Certificate for $\BoundedContinuousTestUp$}
+\label{ch:concrete-instances-bounded-continuous-test-namecert}
+\origin{human}
+
+Following the bounded-continuous test formulation of weak convergence on
+metric spaces, the $\BoundedContinuousTestUp$ packet records a finite probe row
+whose evaluation is visible only through compact or metric source data,
+continuous-map rows, real bounds, transport, replay, provenance, and local
+naming. It sits after the compact metric test surface of
+\autoref{ch:concrete-instances-compactmetric-namecert}, the metric carrier of
+\autoref{ch:concrete-instances-metric-namecert}, the continuous-map row of
+\autoref{ch:concrete-instances-continuousmap-namecert}, and the real
+comparison boundary of \autoref{ch:concrete-instances-real-namecert}. The
+packet names the finite probe surface used by $\PortmanteauUp$ consumers; it
+does not import a host function space, supremum norm completion, selected
+subsequence, choice principle, or ambient weak-convergence theorem.
+
+\begin{definition}[BoundedContinuousTest carrier]
+\label{def:bounded-continuous-test-carrier}
+A $\BoundedContinuousTestUp$ carrier is a finite $\BHist$ packet
+$$
+B=(K,M,F,U,R,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $K$ is the $\CompactMetricUp$ source row when compact test support is
+available.
+\item $M$ is the $\MetricUp$ source row used for metric-domain reads outside a
+compact support window.
+\item $F$ is the $\ContinuousMapUp$ row whose graph or pointwise-modulus
+surface supplies the displayed probe.
+\item $U$ is the finite bound ledger, recording the inspected upper and lower
+real bounds for the probe values.
+\item $R$ is the $\RealUp$ comparison row for probe values, bounds, and
+tolerance readback.
+\item $E$ is the endpoint or tolerance window naming which finite probe
+evaluation is being inspected.
+\item $H$ records componentwise $\hsame$ transport for the compact, metric,
+continuous-map, bound, real-comparison, endpoint, replay, provenance, and
+naming rows.
+\item $C$ records displayed $\Cont$ replay from a probe request through compact
+or metric source admission, continuous-map readback, finite bound inspection,
+real comparison, and endpoint readback.
+\item $P$ is the $\Pkg$ provenance over $\BoundedContinuousTestUp$,
+$\CompactMetricUp$, $\MetricUp$, $\ContinuousMapUp$, $\RealUp$, $\BHist$,
+$\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\BoundedContinuousTestUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through these displayed rows. It
+has no coordinate for a host space of continuous functions, a supremum norm
+completion, a selected dense family, weak compactness, or ambient $\RealUp$
+completeness.
+\end{definition}
+
+\begin{theorem}[BoundedContinuousTest NameCert obligations]
+\label{thm:bounded-continuous-test-namecert-obligations}
+For every accepted $\BoundedContinuousTestUp$ packet
+$B=(K,M,F,U,R,E,H,C,P,N)$, the local
+$\NameCert_{\BoundedContinuousTestUp}$ surface consists exactly of compact or
+metric source admission, $\ContinuousMapUp$ probe admission, finite bound-ledger
+inspection, $\RealUp$ comparison, endpoint or tolerance readback,
+componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance,
+and local naming. Every downstream $\PortmanteauUp$ or compact-metric consumer
+must read the displayed $\ContinuousMapUp$, $\CompactMetricUp$ or $\MetricUp$,
+and $\RealUp$ rows before it may treat the probe as a bounded-continuous test.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:bounded-continuous-test-carrier}. Its rows
+name the compact support, metric source, continuous-map probe, finite bound
+ledger, real comparisons, endpoint window, transport, replay, provenance, and
+local certificate.
+
+Probe admission is routed through $F$. The continuous-map row supplies the
+finite graph or modulus observations, while $K$ or $M$ supplies the source
+metric surface on which those observations are read.
+
+Boundedness is a finite ledger. The row $U$ records the inspected bounds and
+$R,E$ provide the real comparison and tolerance window, so a consumer obtains a
+bounded-continuous probe only after these rows have been displayed together.
+
+Finally $H,C,P,N$ transport, replay, package, and name the same finite surface.
+Since no carrier coordinate stores a host function space, supremum norm
+completion, selected dense family, weak compactness, or ambient completeness,
+the listed obligations exhaust the local NameCert surface.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\BoundedContinuousTestUp$ probe read exposes a $\ContinuousMapUp$ row, a $\CompactMetricUp$ or $\MetricUp$ source row, a finite bound ledger, and a $\RealUp$ comparison row before any Portmanteau-facing consumer can inspect it.}
+
+\independenceWitness{compactmetric, metric, continuous-map, real: the packet is not bijective to any listed sibling because it binds source admission, continuous-map probe admission, finite boundedness, real comparison, transport, replay, provenance, and local NameCert rows as one weak-convergence test surface.}
+
+\closureat{BoundedContinuousTestUp}{seedStr}
+
+\begin{closurestatus}{\BoundedContinuousTestUp}
+  \constructivestory{A $\BoundedContinuousTestUp$ packet is generated from CompactMetricUp or MetricUp source rows, ContinuousMapUp probe rows, finite bound ledgers, RealUp comparison rows, endpoint windows, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:bounded-continuous-test-carrier} and \autoref{thm:bounded-continuous-test-namecert-obligations} seed the finite bounded-continuous probe surface used by compact-metric and Portmanteau consumers.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close host continuous-function spaces, supremum norm completion, selected dense families, weak compactness, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked compact or metric source admission, ContinuousMapUp probe admission, finite bound-ledger inspection, RealUp comparison, endpoint readback, transport, replay, provenance, and local naming for BEDC.Derived.BoundedContinuousTestUp.}
+\end{closurestatus}

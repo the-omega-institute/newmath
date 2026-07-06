@@ -34,6 +34,7 @@ The carrier is a boundary packet, not a dimension object. It exposes the finite 
 \label{def:dimlift-boundary-classifier}
 For accepted packets $D=(Z,N,A,F,R,H,C,P,Q)$ and $D'=(Z',N',A',F',R',H',C',P',Q')$, the classifier $\mathsf{DimLiftBoundaryClassifier}(D,D')$ holds exactly when the displayed $\hsame$ and $\Cont$ rows transport $Z$ to $Z'$, $N$ to $N'$, $A$ to $A'$, $F$ to $F'$, $R$ to $R'$, $P$ to $P'$, and $Q$ to $Q'$ componentwise. The classifier preserves carry and normal-address rows while blocking any read that treats those rows as a primitive dimension.
 \end{definition}
+\leandef{BEDC.Derived.DimLiftBoundaryUp.DimLiftBoundaryClassifier}
 
 \begin{theorem}[DimLiftBoundary NameCert obligations]
 \label{thm:dimlift-boundary-namecert-obligations}
@@ -183,6 +184,7 @@ Finally apply \autoref{thm:dimlift-boundary-non-escape}. Since primitive dimensi
 \label{thm:dimliftboundary-obligation-classifier}
 For accepted packets $D=(Z,N,A,F,R,H,C,P,Q)$ and $D'=(Z',N',A',F',R',H',C',P',Q')$, the $\DimLiftBoundaryUp$ classifier is stable exactly when the displayed $\hsame$ and $\Cont$ rows transport the carry, normal-address, cannot-claim, full-axis, real-facing refusal, provenance, and local naming coordinates componentwise. This stability preserves the refusal interpretation of $Z,N,A,F,R$ and does not create a geometric, topological, vector-space, homological, projective, metric, or real dimension row.
 \end{theorem}
+\leanchecked{BEDC.Derived.DimLiftBoundaryUp.DimLiftBoundaryCarrier\_classifier\_stability\_obligation}
 \begin{proof}
 Start with \autoref{def:dimlift-boundary-classifier}. It defines classifier comparison by componentwise $\hsame$ and $\Cont$ transport across $Z,N,A,F,R,P,Q$ and their primed counterparts.
 
@@ -202,6 +204,7 @@ Package provenance and local naming are the rows $P$ and $Q$ of \autoref{def:dim
 
 Non-escape is then \autoref{thm:dimlift-boundary-non-escape}. Together with the public boundary statement of \autoref{thm:dimlift-boundary-public-export}, it ensures that the ledger exports refusal evidence for downstream acceptance work and no primitive dimension interface.
 \end{proof}
+\leanchecked{BEDC.Derived.DimLiftBoundaryUp.DimLiftBoundaryCarrier\_ledger\_obligation}
 
 \closureat{DimLiftBoundaryUp}{seedStr}
 

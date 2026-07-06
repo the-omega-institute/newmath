@@ -167,4 +167,261 @@ theorem RationalEmbeddingRealSealBoundary [AskSetup] [PackageSetup]
   }
   exact ⟨cert, scheduleUnary, readbackUnary, dyadicUnary, sealUnary⟩
 
+theorem RationalEmbeddingStationaryReadbackExactness [AskSetup] [PackageSetup]
+    {q S R D E H C P N qSchedule stationary dyadicSeal : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    UnaryHistory q →
+      UnaryHistory S →
+        UnaryHistory R →
+          UnaryHistory D →
+            Cont q S qSchedule →
+              Cont qSchedule R stationary →
+                Cont stationary D dyadicSeal →
+                  PkgSig bundle P pkg →
+                    PkgSig bundle N pkg →
+                      SemanticNameCert
+                          (fun row : BHist => hsame row stationary ∧ UnaryHistory row)
+                          (fun row : BHist =>
+                            hsame row q ∨ hsame row S ∨ hsame row R ∨
+                              hsame row qSchedule ∨ hsame row stationary)
+                          (fun row : BHist =>
+                            UnaryHistory row ∧ Cont q S qSchedule ∧
+                              Cont qSchedule R stationary ∧ PkgSig bundle P pkg ∧
+                                PkgSig bundle N pkg)
+                          hsame ∧
+                        UnaryHistory qSchedule ∧ UnaryHistory stationary := by
+  -- BEDC touchpoint anchor: BHist Cont ProbeBundle PkgSig SemanticNameCert hsame
+  intro unaryQ unaryS unaryR _unaryD routeSchedule routeStationary _routeDyadic sourcePkg namePkg
+  have scheduleUnary : UnaryHistory qSchedule :=
+    unary_cont_closed unaryQ unaryS routeSchedule
+  have stationaryUnary : UnaryHistory stationary :=
+    unary_cont_closed scheduleUnary unaryR routeStationary
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => hsame row stationary ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row q ∨ hsame row S ∨ hsame row R ∨
+              hsame row qSchedule ∨ hsame row stationary)
+          (fun row : BHist =>
+            UnaryHistory row ∧ Cont q S qSchedule ∧
+              Cont qSchedule R stationary ∧ PkgSig bundle P pkg ∧
+                PkgSig bundle N pkg)
+          hsame := {
+    core := {
+      carrier_inhabited := Exists.intro stationary
+        ⟨hsame_refl stationary, stationaryUnary⟩
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        exact
+          ⟨hsame_trans (hsame_symm sameRows) source.left,
+            unary_transport source.right sameRows⟩
+    }
+    pattern_sound := by
+      intro _row source
+      exact Or.inr (Or.inr (Or.inr (Or.inr source.left)))
+    ledger_sound := by
+      intro _row source
+      exact ⟨source.right, routeSchedule, routeStationary, sourcePkg, namePkg⟩
+  }
+  exact ⟨cert, scheduleUnary, stationaryUnary⟩
+
+theorem RationalEmbeddingStreamNameScope [AskSetup] [PackageSetup]
+    {q S R D E H C P N qSchedule stationary dyadicSeal : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RationalEmbeddingCarrier q S R D E H C P N bundle pkg ->
+      Cont q S qSchedule ->
+        Cont qSchedule R stationary ->
+          Cont stationary D dyadicSeal ->
+            PkgSig bundle N pkg ->
+              SemanticNameCert
+                  (fun row : BHist => hsame row S ∧ UnaryHistory row)
+                  (fun row : BHist =>
+                    hsame row q ∨ hsame row S ∨ hsame row qSchedule ∨
+                      hsame row stationary ∨ hsame row dyadicSeal)
+                  (fun row : BHist =>
+                    UnaryHistory row ∧ Cont q S qSchedule ∧
+                      Cont qSchedule R stationary ∧ PkgSig bundle N pkg)
+                  hsame ∧
+                UnaryHistory qSchedule ∧ UnaryHistory stationary ∧
+                  UnaryHistory dyadicSeal := by
+  -- BEDC touchpoint anchor: BHist Cont ProbeBundle PkgSig SemanticNameCert hsame
+  intro carrier routeSchedule routeStationary routeDyadic namePkg
+  obtain ⟨unaryQ, unaryS, unaryR, unaryD, _unaryE, _unaryH, _unaryC, _unaryP,
+    _unaryN, _carrierPkg, _carrierName⟩ := carrier
+  have scheduleUnary : UnaryHistory qSchedule :=
+    unary_cont_closed unaryQ unaryS routeSchedule
+  have stationaryUnary : UnaryHistory stationary :=
+    unary_cont_closed scheduleUnary unaryR routeStationary
+  have dyadicUnary : UnaryHistory dyadicSeal :=
+    unary_cont_closed stationaryUnary unaryD routeDyadic
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => hsame row S ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row q ∨ hsame row S ∨ hsame row qSchedule ∨
+              hsame row stationary ∨ hsame row dyadicSeal)
+          (fun row : BHist =>
+            UnaryHistory row ∧ Cont q S qSchedule ∧
+              Cont qSchedule R stationary ∧ PkgSig bundle N pkg)
+          hsame := {
+    core := {
+      carrier_inhabited := Exists.intro S ⟨hsame_refl S, unaryS⟩
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        exact
+          ⟨hsame_trans (hsame_symm sameRows) source.left,
+            unary_transport source.right sameRows⟩
+    }
+    pattern_sound := by
+      intro _row source
+      exact Or.inr (Or.inl source.left)
+    ledger_sound := by
+      intro _row source
+      exact ⟨source.right, routeSchedule, routeStationary, namePkg⟩
+  }
+  exact ⟨cert, scheduleUnary, stationaryUnary, dyadicUnary⟩
+
+theorem RationalEmbeddingNameCertObligations [AskSetup] [PackageSetup]
+    {q S R D E H C P N qSchedule stationary dyadicSeal sealRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RationalEmbeddingCarrier q S R D E H C P N bundle pkg ->
+      Cont q S qSchedule ->
+        Cont qSchedule R stationary ->
+          Cont stationary D dyadicSeal ->
+            Cont dyadicSeal E sealRead ->
+              PkgSig bundle P pkg ->
+                PkgSig bundle N pkg ->
+                  SemanticNameCert
+                      (fun row : BHist => hsame row N ∧ UnaryHistory row)
+                      (fun row : BHist =>
+                        hsame row q ∨ hsame row S ∨ hsame row R ∨ hsame row D ∨
+                          hsame row E ∨ hsame row H ∨ hsame row C ∨ hsame row P ∨
+                            hsame row N)
+                      (fun row : BHist =>
+                        UnaryHistory row ∧ Cont q S qSchedule ∧
+                          Cont qSchedule R stationary ∧
+                            Cont stationary D dyadicSeal ∧
+                              Cont dyadicSeal E sealRead ∧ PkgSig bundle P pkg ∧
+                                PkgSig bundle N pkg)
+                      hsame ∧
+                    UnaryHistory qSchedule ∧ UnaryHistory stationary ∧
+                      UnaryHistory dyadicSeal ∧ UnaryHistory sealRead := by
+  -- BEDC touchpoint anchor: BHist Cont ProbeBundle PkgSig SemanticNameCert hsame
+  intro carrier routeSchedule routeStationary routeDyadic routeSeal sourcePkg namePkg
+  obtain ⟨unaryQ, unaryS, unaryR, unaryD, unaryE, _unaryH, _unaryC, _unaryP,
+    unaryN, _carrierPkg, _carrierName⟩ := carrier
+  have scheduleUnary : UnaryHistory qSchedule :=
+    unary_cont_closed unaryQ unaryS routeSchedule
+  have stationaryUnary : UnaryHistory stationary :=
+    unary_cont_closed scheduleUnary unaryR routeStationary
+  have dyadicUnary : UnaryHistory dyadicSeal :=
+    unary_cont_closed stationaryUnary unaryD routeDyadic
+  have sealUnary : UnaryHistory sealRead :=
+    unary_cont_closed dyadicUnary unaryE routeSeal
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => hsame row N ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row q ∨ hsame row S ∨ hsame row R ∨ hsame row D ∨
+              hsame row E ∨ hsame row H ∨ hsame row C ∨ hsame row P ∨
+                hsame row N)
+          (fun row : BHist =>
+            UnaryHistory row ∧ Cont q S qSchedule ∧
+              Cont qSchedule R stationary ∧
+                Cont stationary D dyadicSeal ∧
+                  Cont dyadicSeal E sealRead ∧ PkgSig bundle P pkg ∧
+                    PkgSig bundle N pkg)
+          hsame := {
+    core := {
+      carrier_inhabited := Exists.intro N ⟨hsame_refl N, unaryN⟩
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        exact
+          ⟨hsame_trans (hsame_symm sameRows) source.left,
+            unary_transport source.right sameRows⟩
+    }
+    pattern_sound := by
+      intro _row source
+      exact
+        Or.inr
+          (Or.inr
+            (Or.inr
+              (Or.inr
+                (Or.inr
+                  (Or.inr
+                    (Or.inr
+                      (Or.inr source.left)))))))
+    ledger_sound := by
+      intro _row source
+      exact
+        ⟨source.right, routeSchedule, routeStationary, routeDyadic, routeSeal, sourcePkg,
+          namePkg⟩
+  }
+  exact ⟨cert, scheduleUnary, stationaryUnary, dyadicUnary, sealUnary⟩
+
+theorem RationalEmbeddingNonescape [AskSetup] [PackageSetup]
+    {q S R D E H C P N qSchedule stationary dyadicSeal sealRead consumerRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RationalEmbeddingCarrier q S R D E H C P N bundle pkg ->
+      Cont q S qSchedule ->
+        Cont qSchedule R stationary ->
+          Cont stationary D dyadicSeal ->
+            Cont dyadicSeal E sealRead ->
+              Cont sealRead N consumerRead ->
+                PkgSig bundle consumerRead pkg ->
+                  UnaryHistory q ∧ UnaryHistory S ∧ UnaryHistory R ∧ UnaryHistory D ∧
+                    UnaryHistory E ∧ UnaryHistory H ∧ UnaryHistory C ∧ UnaryHistory P ∧
+                      UnaryHistory N ∧ UnaryHistory qSchedule ∧
+                        UnaryHistory stationary ∧ UnaryHistory dyadicSeal ∧
+                          UnaryHistory sealRead ∧ UnaryHistory consumerRead ∧
+                            Cont q S qSchedule ∧ Cont qSchedule R stationary ∧
+                              Cont stationary D dyadicSeal ∧ Cont dyadicSeal E sealRead ∧
+                                Cont sealRead N consumerRead ∧
+                                  PkgSig bundle consumerRead pkg := by
+  -- BEDC touchpoint anchor: BHist Cont ProbeBundle PkgSig UnaryHistory
+  intro carrier routeSchedule routeStationary routeDyadic routeSeal routeConsumer consumerPkg
+  obtain ⟨unaryQ, unaryS, unaryR, unaryD, unaryE, unaryH, unaryC, unaryP, unaryN,
+    _carrierPkg, _carrierName⟩ := carrier
+  have scheduleUnary : UnaryHistory qSchedule :=
+    unary_cont_closed unaryQ unaryS routeSchedule
+  have stationaryUnary : UnaryHistory stationary :=
+    unary_cont_closed scheduleUnary unaryR routeStationary
+  have dyadicUnary : UnaryHistory dyadicSeal :=
+    unary_cont_closed stationaryUnary unaryD routeDyadic
+  have sealUnary : UnaryHistory sealRead :=
+    unary_cont_closed dyadicUnary unaryE routeSeal
+  have consumerUnary : UnaryHistory consumerRead :=
+    unary_cont_closed sealUnary unaryN routeConsumer
+  exact
+    ⟨unaryQ, unaryS, unaryR, unaryD, unaryE, unaryH, unaryC, unaryP, unaryN,
+      scheduleUnary, stationaryUnary, dyadicUnary, sealUnary, consumerUnary, routeSchedule,
+      routeStationary, routeDyadic, routeSeal, routeConsumer, consumerPkg⟩
+
 end BEDC.Derived.RationalEmbeddingUp

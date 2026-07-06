@@ -1,4 +1,5 @@
 import BEDC.Derived.BanachAlgebraUp.TasteGate
+import BEDC.Derived.BanachAlgebraUp.CompletionProductNonescape
 import BEDC.FKernel.Ask
 import BEDC.FKernel.Bundle
 import BEDC.FKernel.Cont
@@ -200,5 +201,35 @@ theorem BanachAlgebraPublicExportSurface [AskSetup] [PackageSetup]
           publicPkg⟩
   }
   exact ⟨cert, productUnary, completionUnary, publicUnary⟩
+
+theorem BanachAlgebraGelfandSpectrumDependencyBoundary [AskSetup] [PackageSetup]
+    {ring norm banach productControl completionSeal transport replay provenance localName
+      productRead completionRead spectrumRequest : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    BanachAlgebraCarrier ring norm banach productControl completionSeal transport replay
+        provenance localName bundle pkg →
+      Cont banach productControl productRead →
+        Cont productRead completionSeal completionRead →
+          Cont completionRead localName spectrumRequest →
+            PkgSig bundle spectrumRequest pkg →
+              UnaryHistory productRead ∧ UnaryHistory completionRead ∧
+                UnaryHistory spectrumRequest ∧ Cont banach productControl productRead ∧
+                  Cont productRead completionSeal completionRead ∧
+                    Cont completionRead localName spectrumRequest ∧
+                      PkgSig bundle provenance pkg ∧ PkgSig bundle spectrumRequest pkg := by
+  -- BEDC touchpoint anchor: BanachAlgebraUp BHist Cont ProbeBundle Pkg UnaryHistory PkgSig
+  intro carrier productRoute completionRoute spectrumRoute spectrumPkg
+  obtain ⟨_ringUnary, _normUnary, banachUnary, productControlUnary, completionUnary,
+    _transportUnary, _replayUnary, _provenanceUnary, localNameUnary, _ringNormRoute,
+    _completionSealRoute, _replayRoute, provenancePkg⟩ := carrier
+  have productUnary : UnaryHistory productRead :=
+    unary_cont_closed banachUnary productControlUnary productRoute
+  have completionReadUnary : UnaryHistory completionRead :=
+    unary_cont_closed productUnary completionUnary completionRoute
+  have spectrumUnary : UnaryHistory spectrumRequest :=
+    unary_cont_closed completionReadUnary localNameUnary spectrumRoute
+  exact
+    ⟨productUnary, completionReadUnary, spectrumUnary, productRoute, completionRoute,
+      spectrumRoute, provenancePkg, spectrumPkg⟩
 
 end BEDC.Derived.BanachAlgebraUp

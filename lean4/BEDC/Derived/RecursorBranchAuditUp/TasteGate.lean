@@ -392,4 +392,26 @@ theorem RecursorBranchAuditCarrier_motive_boundary
       exact source
   }
 
+theorem RecursorBranchAuditCarrier_generator_nonescape (x : RecursorBranchAuditUp) :
+    exists I S R M B D O H C P N branchReplay outputReplay : BHist,
+      x = RecursorBranchAuditUp.mk I S R M B D O H C P N ∧
+        Cont S B branchReplay ∧ Cont branchReplay D outputReplay ∧
+          hsame outputReplay (append branchReplay D) ∧
+            recursorBranchAuditFromEventFlow (recursorBranchAuditToEventFlow x) = some x := by
+  -- BEDC touchpoint anchor: BHist BMark Cont hsame RecursorBranchAuditUp
+  cases x with
+  | mk I S R M B D O H C P N =>
+      refine ⟨I, S, R, M, B, D, O, H, C, P, N, append S B, append (append S B) D, ?_⟩
+      constructor
+      · rfl
+      · constructor
+        · exact cont_intro rfl
+        · constructor
+          · exact cont_intro rfl
+          · constructor
+            · exact hsame_refl (append (append S B) D)
+            · exact
+                recursorBranchAudit_round_trip
+                  (RecursorBranchAuditUp.mk I S R M B D O H C P N)
+
 end BEDC.Derived.RecursorBranchAuditUp

@@ -26,6 +26,18 @@ with the following displayed rows:
 The classifier compares accepted packets only through $X,L,A,S,K,V,T,C,P,N$. It has no coordinate for eigenvalue decompositions, determinant tests, quotient equality of matrix pencils, selected feasible points, or ambient closed-convex analytic structure.
 \end{definition}
 
+\begin{theorem}[Spectrahedron Loewner-order handoff]
+\label{thm:spectrahedron-loewner-order-handoff}
+For every accepted $\SpectrahedronUp$ carrier $Q=(X,L,A,S,K,V,T,C,P,N)$, the semidefinite-cone membership row $K$ is consumed through the positive-semidefinite comparison route of \autoref{ch:concrete-instances-loewner-order-namecert} before the convex-set provenance row $V$ is exported. Thus a feasibility consumer reads the displayed pencil matrix $S$ as the Loewner-order comparison $0 \preceq S$, then records the resulting parameter surface through $\ConvexSetUp$, transport, replay, package provenance, and local naming.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:spectrahedron-carrier}. The affine data $X,L,A,S$ expose only the displayed matrix pencil; no convex feasible-region coordinate is available before the cone row is read.
+
+The row $K$ is the unique $\SemidefiniteConeUp$ membership row. Reading it as feasibility requires the Loewner-order positive-semidefinite comparison route of \autoref{ch:concrete-instances-loewner-order-namecert}, namely the finite comparison that treats the displayed pencil as $0 \preceq S$ rather than as a host spectral predicate.
+
+Only after that order-theoretic read does the row $V$ export $\ConvexSetUp$ provenance. The structural rows $T,C,P,N$ then preserve and name the same route, so the spectrahedron packet cannot bypass the Loewner-order dependency when serving semidefinite-feasibility consumers.
+\end{proof}
+
 \begin{theorem}[Spectrahedron NameCert obligations]
 \label{thm:spectrahedron-namecert-obligations}
 For every accepted $\SpectrahedronUp$ carrier
@@ -80,12 +92,14 @@ The semidefinite-cone handoff theorem \autoref{thm:spectrahedron-semidefinite-co
 Because the carrier contains no coordinate for spectral decomposition, determinant feasibility, quotient equality of matrix pencils, selected feasible points, or analytic closedness, the public route cannot export any of those host objects.
 \end{proof}
 
+This affine-pencil feasibility route consumes the Loewner-order sibling of \autoref{ch:concrete-instances-loewner-order-namecert} before the semidefinite-cone membership row $K$ and convex-set provenance row $V$ become public. Thus the spectrahedron lattice records the order comparison $0 \preceq S$ as a displayed dependency, not as an implicit analytic convention behind $\SemidefiniteConeUp$ or $\ConvexSetUp$.
+
 \closureat{SpectrahedronUp}{seedStr}
 
 \begin{closurestatus}{\SpectrahedronUp}
   \constructivestory{A $\SpectrahedronUp$ packet is generated from an affine parameter row, LinearMap pencil row, Matrix offset row, matrix-pencil row, SemidefiniteCone membership row, ConvexSet provenance row, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
   \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:spectrahedron-carrier}, \autoref{thm:spectrahedron-namecert-obligations}, and \autoref{thm:spectrahedron-semidefinite-cone-handoff} seed the affine semidefinite-feasibility route through parameter, pencil, cone, convex, transport, replay, provenance, and naming rows.}
+  \scopeclosed{\autoref{def:spectrahedron-carrier}, \autoref{thm:spectrahedron-loewner-order-handoff}, \autoref{thm:spectrahedron-namecert-obligations}, and \autoref{thm:spectrahedron-semidefinite-cone-handoff} seed the affine semidefinite-feasibility route through parameter, pencil, Loewner-order cone comparison, convex, transport, replay, provenance, and naming rows.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{This chapter does not close Lean verification, bridge checking, spectral decomposition, determinant feasibility criteria, quotient equality of matrix pencils, selected feasible points, or ambient analytic closedness of semidefinite sections.}

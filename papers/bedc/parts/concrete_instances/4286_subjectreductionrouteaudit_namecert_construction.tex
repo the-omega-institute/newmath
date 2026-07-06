@@ -62,6 +62,7 @@ $H$ and continuations $C$ replay only the displayed route and socket
 coordinates, and $P,N$ record provenance and local naming. These rows exhaust
 the finite NameCert obligations.
 \end{proof}
+\leanchecked{BEDC.Derived.SubjectReductionRouteAuditUp.SubjectReductionRouteAudit\_namecert\_obligations}
 
 \begin{theorem}[SubjectReductionRouteAudit socket handoff]
 \label{thm:subject-reduction-route-audit-socket-handoff}
@@ -92,6 +93,7 @@ audit row for bundle-route consumption alone.
 \label{thm:subject-reduction-route-audit-obligation-surface}
 Every accepted $\SubjectReductionRouteAuditUp$ packet exposes exactly its bundle route comparison row, socket handoff row, nonescape ledger, componentwise $\hsame$ transport, $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ row before any MetaCIC discharge consumer can inspect it. The exposed surface remains an audit packet and does not prove subject reduction, closed subject reduction, or a public schema bridge.
 \end{theorem}
+\leanchecked{BEDC.Derived.SubjectReductionRouteAuditUp.SubjectReductionRouteAudit\_obligation\_surface}
 \begin{proof}
 Project the carrier of \autoref{def:subject-reduction-route-audit-carrier}. The comparison row is $E$, the socket handoff is read through $U,S$, the nonescape information is the absence of any discharge-hypothesis coordinate beyond the displayed route rows, and $H,C,P,N$ supply transport, replay, provenance, and naming.
 
@@ -110,6 +112,35 @@ Project the carrier of \autoref{def:subject-reduction-route-audit-carrier}. The 
 Apply \autoref{thm:subject-reduction-route-audit-namecert-obligations}. It forces every accepted inspection route to pass through exactly those displayed rows before a downstream MetaCIC consumer can read the packet.
 
 Apply \autoref{thm:subject-reduction-route-audit-socket-handoff}. The socket handoff exposes the discharge-socket payload through $U,S$ while preserving the absence of coordinates for the four hypothesis inhabitants, host conversion, closed subject reduction, or an alternate route. Thus the discharge boundary is a finite audit surface and not a proof of subject reduction.
+\end{proof}
+\leanchecked{BEDC.Derived.SubjectReductionRouteAuditUp.SubjectReductionRouteAudit\_discharge\_boundary}
+
+\begin{theorem}[SubjectReductionRouteAudit discharge socket scope]
+\label{thm:subject-reduction-route-audit-discharge-socket-scope}
+Every accepted $\SubjectReductionRouteAuditUp$ packet scopes MetaCIC discharge inspection to the explicit bundle row $B$, route exactness $E$, invocation $I$, socket handoff $U,S$, transport $H$, replay $C$, provenance $P$, and local $\NameCert$ row $N$. It does not provide the four discharge hypotheses.
+\end{theorem}
+\leanchecked{BEDC.Derived.SubjectReductionRouteAuditUp.SubjectReductionRouteAudit\_discharge\_socket\_scope}
+\begin{proof}
+Use the carrier of \autoref{def:subject-reduction-route-audit-carrier}. It lists exactly the bundle, route-exactness, invocation, handoff, socket, transport, replay, provenance, and local naming rows.
+
+Apply the NameCert obligations of \autoref{thm:subject-reduction-route-audit-namecert-obligations}. They force accepted inspection to preserve those rows as the packet surface rather than replacing them by inhabited discharge hypotheses.
+
+The socket handoff of \autoref{thm:subject-reduction-route-audit-socket-handoff} and the discharge boundary of \autoref{thm:subject-reduction-route-audit-discharge-boundary} then confine the downstream MetaCIC read to $U,S$ and the displayed structural rows. Since no carrier coordinate supplies an inhabitant of any discharge hypothesis, the packet remains a scope theorem for inspection, not a subject-reduction proof.
+\end{proof}
+
+\begin{theorem}[SubjectReductionRouteAudit obligation closure]
+\label{thm:subject-reduction-route-audit-obligation-closure}
+The carrier admission row, bundle route comparison row, socket handoff exactness row, non-escape row, provenance row, and local naming row form the obligation-closed $\SubjectReductionRouteAuditUp$ surface for the same finite route-audit packet $A=(B,E,I,U,S,H,C,P,N)$. This closure records the explicit bundle route and its discharge-socket handoff; it does not inhabit the four discharge hypotheses and does not prove subject reduction.
+\end{theorem}
+\leanchecked{BEDC.Derived.SubjectReductionRouteAuditUp.SubjectReductionRouteAudit\_obligation\_closure}
+\begin{proof}
+Carrier admission is \autoref{def:subject-reduction-route-audit-carrier}: the packet exposes exactly the rows $B,E,I,U,S,H,C,P,N$.
+
+The bundle route comparison is supplied by \autoref{thm:subject-reduction-route-audit-namecert-obligations} and \autoref{thm:subject-reduction-route-audit-obligation-surface}. They identify $B,E,I$ as the displayed route, comparison, and invocation rows, with $H$ and $C$ carrying transport and replay.
+
+Socket handoff exactness is \autoref{thm:subject-reduction-route-audit-socket-handoff}, refined by \autoref{thm:subject-reduction-route-audit-discharge-boundary} and \autoref{thm:subject-reduction-route-audit-discharge-socket-scope}. These theorems confine every downstream read to $U,S$ and the same structural rows.
+
+The non-escape, provenance, and local naming clauses are then just the remaining coordinates $P,N$ together with the absence of any carrier field for the four discharge hypotheses, host conversion, closed subject reduction, or an alternate route. Hence the displayed rows form the obligation-closed audit surface without claiming subject reduction.
 \end{proof}
 
 \closureat{SubjectReductionRouteAuditUp}{seedStr}

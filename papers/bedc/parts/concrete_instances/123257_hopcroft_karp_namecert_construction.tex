@@ -1,0 +1,75 @@
+\chapter{A Concrete Naming Certificate for $\HopcroftKarpUp$}
+\label{ch:concrete-instances-hopcroft-karp-namecert}
+\origin{human}
+
+Following Hopcroft and Karp, the $\HopcroftKarpUp$ packet records the finite layered augmenting-path certificate for bipartite matching as BEDC NameCert data. It sits beside the graph carrier of \autoref{ch:concrete-instances-graph-namecert}, the matching surface of \autoref{ch:concrete-instances-matching-namecert}, the network-flow route of \autoref{ch:concrete-instances-networkflow-namecert}, and the finite-list and natural-number rows used to display breadth-first layers. The packet names one finite phase of the algorithmic certificate; it is not a host graph equality, a choice of augmenting paths outside the ledger, a maximum-matching theorem over ambient graphs, or an unbounded search oracle.
+
+\begin{definition}[Hopcroft-Karp carrier]
+\label{def:hopcroft-karp-carrier}
+A $\HopcroftKarpUp$ carrier is a finite $\BHist$ packet
+$$
+H=(G,M,U,V,L,A,P,Hs,C,R,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $G$ is the bipartite $\GraphUp$ row, including the left and right vertex rows and the displayed edge relation.
+\item $M$ is the current $\MatchingUp$ row inside $G$.
+\item $U$ and $V$ are the unmatched left and unmatched right frontier rows read from $M$.
+\item $L$ is the breadth-first layer ledger, recording alternating unmatched and matched edge steps from $U$ toward $V$.
+\item $A$ is the shortest augmenting-path family row selected from the first layer that reaches an unmatched right frontier.
+\item $P$ is the matching-update provenance row, recording the finite symmetric toggling of $M$ along the paths in $A$.
+\item $Hs$ records componentwise $\hsame$ transport for $G,M,U,V,L,A,P,C,R,N$.
+\item $C$ records displayed $\Cont$ replay for layer construction, path readback, matching update, provenance, and local naming.
+\item $R$ is the $\Pkg$ provenance over $\HopcroftKarpUp$, $\GraphUp$, $\MatchingUp$, $\NetworkFlowUp$, $\ListUp$, $\NatUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\HopcroftKarpUp}$ row.
+\end{enumerate}
+The carrier compares accepted packets only through these rows. It has no coordinate for host graph equality, a path selector outside the displayed layer ledger, a hidden maximality oracle, quotient matching representatives, or an unrecorded flow theorem.
+\end{definition}
+
+\begin{theorem}[Hopcroft-Karp NameCert obligations]
+\label{thm:hopcroft-karp-namecert-obligations}
+For every accepted $\HopcroftKarpUp$ carrier
+$$
+H=(G,M,U,V,L,A,P,Hs,C,R,N),
+$$
+the local $\NameCert_{\HopcroftKarpUp}$ surface consists exactly of bipartite graph admission through $G$, current matching exposure through $M$, unmatched-frontier exposure through $U,V$, breadth-first alternating-layer coverage through $L$, shortest augmenting-path family exposure through $A$, matching-update provenance through $P$, componentwise transport through $Hs$, displayed replay through $C$, package provenance through $R$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier. The rows $G,M,U,V$ expose the bipartite graph, current matching, and unmatched frontiers before any layer or path row can be consumed.
+
+The row $L$ is the finite layer ledger. Inspecting it gives the alternating edge discipline: unmatched graph edges advance out of a left layer, matched edges return from a right layer, and the first right layer meeting $V$ bounds the paths stored in $A$.
+
+The path family row $A$ and update row $P$ then record the finite toggling step. Since all paths are read from the same shortest layer boundary, the update changes only the displayed matching row and its recorded provenance.
+
+Finally $Hs,C,R,N$ transport, replay, source, and name the packet. No carrier coordinate stores host graph equality, a hidden path selector, quotient matching equality, or a maximality oracle, so the listed rows exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[Hopcroft-Karp augmenting-layer progress]
+\label{thm:hopcroft-karp-augmenting-layer-progress}
+In an accepted $\HopcroftKarpUp$ packet, every path exported by $A$ begins in the unmatched-left frontier $U$, alternates through the layer ledger $L$, ends in the first unmatched-right layer meeting $V$, and is then toggled by the matching-update provenance row $P$. Consequently the packet exports a finite layer-progress certificate for the next matching row, while exporting no path outside $L$, no host equality of matchings, and no ambient maximum-matching conclusion.
+\end{theorem}
+\begin{proof}
+Read the layer ledger $L$ after $G,M,U,V$ have been projected. Its finite inspection identifies exactly which alternating steps are admitted at each breadth-first layer.
+
+The row $A$ is downstream of that inspection. Every path in $A$ is drawn from the first layer that reaches $V$, so any longer path, skipped layer, or path beginning outside $U$ lacks a displayed ledger row.
+
+The update row $P$ records the alternating-path toggle against the current matching $M$. Matched edges on the displayed paths are removed, unmatched edges are inserted, and all unaffected matching rows remain as recorded by $P$.
+
+The structural rows $Hs,C,R,N$ replay only this finite update. Thus the packet gives layer progress for the displayed matching surface without importing a host maximality theorem or an external equality of graph matchings.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\HopcroftKarpUp$ update that exports a matching row after an augmenting phase factors through the displayed unmatched-frontier rows, breadth-first layer ledger, shortest augmenting-path family, matching-update provenance, transport, replay, package provenance, and local NameCert row.}
+
+\independenceWitness{graph, matching, network-flow, list, nat: $\HopcroftKarpUp$ is not bijective to any listed sibling because it jointly carries a current matching, unmatched frontiers, shortest alternating layers, an augmenting-path family, update provenance, transport, replay, package provenance, and local naming as one finite packet.}
+
+\closureat{HopcroftKarpUp}{seedStr}
+
+\begin{closurestatus}{\HopcroftKarpUp}
+  \constructivestory{A $\HopcroftKarpUp$ packet is generated from a bipartite GraphUp row, current MatchingUp row, unmatched frontier rows, a finite alternating-layer ledger, a shortest augmenting-path family, matching-update provenance, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:hopcroft-karp-carrier}, \autoref{thm:hopcroft-karp-namecert-obligations}, and \autoref{thm:hopcroft-karp-augmenting-layer-progress} seed the finite layered augmenting-path certificate for bipartite matching.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close Lean verification, bridge checking, ambient maximum matching, host graph equality, quotient matching equality, unbounded search, or path choice outside the displayed ledger.}
+  \upgradepath{Obligation closure requires checked carrier admission, frontier exposure, alternating-layer exactness, shortest-path family exposure, matching-update provenance, transport, replay, package provenance, and local naming for BEDC.Derived.HopcroftKarpUp.}
+\end{closurestatus}

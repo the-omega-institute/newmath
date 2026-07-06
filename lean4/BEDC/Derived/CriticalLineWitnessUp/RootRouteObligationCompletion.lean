@@ -75,4 +75,64 @@ theorem CriticalLineWitnessCarrier_modulus_route_totality_certificate
     ⟨cert, routeClosure.left, unaryH, routeUnary, refusalUnary, routeQ, depthRoute,
       routeRoute, refusalRoute⟩
 
+theorem CriticalLineWitnessCarrier_downstream_rh_boundary_nonescape
+    {Z S M R Q H C P N boundaryRead refusalRead : BHist} :
+    CriticalLineWitnessCarrier Z S M R Q H C P N ->
+      Cont Z S boundaryRead ->
+        Cont N Q refusalRead ->
+          SemanticNameCert
+              (fun row : BHist => hsame row boundaryRead ∧ UnaryHistory row)
+              (fun row : BHist =>
+                hsame row Z ∨ hsame row S ∨ hsame row M ∨ hsame row R ∨ hsame row Q ∨
+                  hsame row boundaryRead ∨ hsame row refusalRead)
+              (fun row : BHist =>
+                UnaryHistory row ∧ Cont Z S boundaryRead ∧ Cont N Q refusalRead)
+              hsame ∧
+            UnaryHistory boundaryRead ∧ UnaryHistory refusalRead := by
+  -- BEDC touchpoint anchor: BHist Cont hsame SemanticNameCert UnaryHistory CriticalLineWitnessCarrier
+  intro packet boundaryRoute refusalRoute
+  have routeClosure :
+      UnaryHistory Q ∧ UnaryHistory C ∧ UnaryHistory N ∧ hsame H (append Z S) :=
+    CriticalLineWitnessCarrier_modulus_route_closure packet
+  obtain ⟨unaryZ, unaryS, _unaryM, _unaryR, _unaryP, _sameH, _routeQ, _routeC,
+    _routeN⟩ := packet
+  have boundaryUnary : UnaryHistory boundaryRead :=
+    unary_cont_closed unaryZ unaryS boundaryRoute
+  have refusalUnary : UnaryHistory refusalRead :=
+    unary_cont_closed routeClosure.right.right.left routeClosure.left refusalRoute
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => hsame row boundaryRead ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row Z ∨ hsame row S ∨ hsame row M ∨ hsame row R ∨ hsame row Q ∨
+              hsame row boundaryRead ∨ hsame row refusalRead)
+          (fun row : BHist =>
+            UnaryHistory row ∧ Cont Z S boundaryRead ∧ Cont N Q refusalRead)
+          hsame := {
+    core := {
+      carrier_inhabited := Exists.intro boundaryRead ⟨hsame_refl boundaryRead, boundaryUnary⟩
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        exact
+          ⟨hsame_trans (hsame_symm sameRows) source.left,
+            unary_transport source.right sameRows⟩
+    }
+    pattern_sound := by
+      intro _row source
+      exact Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inl source.left)))))
+    ledger_sound := by
+      intro _row source
+      exact ⟨source.right, boundaryRoute, refusalRoute⟩
+  }
+  exact ⟨cert, boundaryUnary, refusalUnary⟩
+
 end BEDC.Derived.CriticalLineWitnessUp

@@ -438,4 +438,112 @@ theorem BaireOneFunctionCarrier_finite_schedule_nonescape [AskSetup] [PackageSet
   }
   exact ⟨cert, pointwiseUnary, lscUnary, publicUnary⟩
 
+theorem BaireOneFunctionCarrier_pointwise_readback_real_seal [AskSetup] [PackageSetup]
+    {X F S Q R L H C P N pointwiseRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    BaireOneFunctionCarrier X F S Q R L H C P N bundle pkg ->
+      Cont S Q pointwiseRead ->
+        hsame pointwiseRead R ∧ UnaryHistory pointwiseRead ∧ Cont X F S ∧ Cont S Q R := by
+  -- BEDC touchpoint anchor: BHist Cont ProbeBundle Pkg hsame UnaryHistory
+  intro carrier pointwiseRoute
+  obtain ⟨_xUnary, _fUnary, _sUnary, _qUnary, rUnary, _lUnary, _hUnary, _cUnary,
+    _pUnary, _nUnary, sourceApproxSchedule, scheduleReadbackReal, _realHandoffTransport,
+    _transportContinuationProvenance, _provenancePkg, _namePkg⟩ := carrier
+  have pointwiseReal : hsame pointwiseRead R :=
+    cont_deterministic pointwiseRoute scheduleReadbackReal
+  have pointwiseUnary : UnaryHistory pointwiseRead :=
+    unary_transport rUnary (hsame_symm pointwiseReal)
+  exact ⟨pointwiseReal, pointwiseUnary, sourceApproxSchedule, scheduleReadbackReal⟩
+
+theorem BaireOneFunctionCarrier_finite_schedule_real_seal_nonescape
+    [AskSetup] [PackageSetup]
+    {X F S Q R L H C P N pointwiseRead lscRead publicRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    BaireOneFunctionCarrier X F S Q R L H C P N bundle pkg ->
+      Cont S Q pointwiseRead ->
+        Cont R L lscRead ->
+          Cont L C publicRead ->
+            PkgSig bundle publicRead pkg ->
+              hsame pointwiseRead R ∧ UnaryHistory pointwiseRead ∧ UnaryHistory lscRead ∧
+                UnaryHistory publicRead ∧ Cont R L lscRead ∧ Cont L C publicRead := by
+  -- BEDC touchpoint anchor: BHist Cont ProbeBundle PkgSig hsame UnaryHistory
+  intro carrier pointwiseRoute lscRoute publicRoute _publicPkg
+  obtain ⟨_xUnary, _fUnary, _sUnary, _qUnary, rUnary, lUnary, _hUnary, cUnary,
+    _pUnary, _nUnary, _sourceApproxSchedule, scheduleReadbackReal, _realHandoffTransport,
+    _transportContinuationProvenance, _provenancePkg, _namePkg⟩ := carrier
+  have pointwiseReal : hsame pointwiseRead R :=
+    cont_deterministic pointwiseRoute scheduleReadbackReal
+  have pointwiseUnary : UnaryHistory pointwiseRead :=
+    unary_transport rUnary (hsame_symm pointwiseReal)
+  have lscUnary : UnaryHistory lscRead :=
+    unary_cont_closed rUnary lUnary lscRoute
+  have publicUnary : UnaryHistory publicRead :=
+    unary_cont_closed lUnary cUnary publicRoute
+  exact ⟨pointwiseReal, pointwiseUnary, lscUnary, publicUnary, lscRoute, publicRoute⟩
+
+theorem BaireOneFunctionCarrier_pointwise_schedule_real_seal_route
+    [AskSetup] [PackageSetup]
+    {X F S Q R L H C P N pointwiseRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    BaireOneFunctionCarrier X F S Q R L H C P N bundle pkg ->
+      Cont S Q pointwiseRead ->
+        PkgSig bundle pointwiseRead pkg ->
+          SemanticNameCert
+              (fun row : BHist => hsame row pointwiseRead ∧ UnaryHistory row)
+              (fun row : BHist =>
+                hsame row X ∨ hsame row F ∨ hsame row S ∨ hsame row Q ∨
+                  hsame row R ∨ hsame row pointwiseRead)
+              (fun row : BHist =>
+                UnaryHistory row ∧ Cont X F S ∧ Cont S Q R ∧
+                  PkgSig bundle P pkg ∧ PkgSig bundle pointwiseRead pkg)
+              hsame ∧
+            hsame pointwiseRead R ∧ UnaryHistory pointwiseRead := by
+  -- BEDC touchpoint anchor: BHist Cont ProbeBundle PkgSig SemanticNameCert hsame UnaryHistory
+  intro carrier pointwiseRoute pointwisePkg
+  obtain ⟨_xUnary, _fUnary, _sUnary, _qUnary, rUnary, _lUnary, _hUnary, _cUnary,
+    _pUnary, _nUnary, sourceApproxSchedule, scheduleReadbackReal, _realHandoffTransport,
+    _transportContinuationProvenance, provenancePkg, _namePkg⟩ := carrier
+  have pointwiseReal : hsame pointwiseRead R :=
+    cont_deterministic pointwiseRoute scheduleReadbackReal
+  have pointwiseUnary : UnaryHistory pointwiseRead :=
+    unary_transport rUnary (hsame_symm pointwiseReal)
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => hsame row pointwiseRead ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row X ∨ hsame row F ∨ hsame row S ∨ hsame row Q ∨ hsame row R ∨
+              hsame row pointwiseRead)
+          (fun row : BHist =>
+            UnaryHistory row ∧ Cont X F S ∧ Cont S Q R ∧
+              PkgSig bundle P pkg ∧ PkgSig bundle pointwiseRead pkg)
+          hsame := {
+    core := {
+      carrier_inhabited := Exists.intro pointwiseRead
+        ⟨hsame_refl pointwiseRead, pointwiseUnary⟩
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        exact
+          ⟨hsame_trans (hsame_symm sameRows) source.left,
+            unary_transport source.right sameRows⟩
+    }
+    pattern_sound := by
+      intro _row source
+      exact Or.inr (Or.inr (Or.inr (Or.inr (Or.inr source.left))))
+    ledger_sound := by
+      intro _row source
+      exact
+        ⟨source.right, sourceApproxSchedule, scheduleReadbackReal, provenancePkg,
+          pointwisePkg⟩
+  }
+  exact ⟨cert, pointwiseReal, pointwiseUnary⟩
+
 end BEDC.Derived.BaireOneFunctionUp

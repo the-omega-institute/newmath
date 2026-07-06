@@ -85,6 +85,83 @@ theorem HellySelection_namecert_obligations [AskSetup] [PackageSetup]
   }
   exact ⟨cert, bUnary, aUnary, wUnary, sUnary, rUnary, eUnary, auditUnary⟩
 
+theorem HellySelection_public_export_namecert_consumer [AskSetup] [PackageSetup]
+    {B A W S R E T C P N auditRead publicRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    HellySelectionCarrier B A W S R E T C P N bundle pkg ->
+      Cont E T auditRead ->
+        PkgSig bundle auditRead pkg ->
+          Cont auditRead C publicRead ->
+            SemanticNameCert
+                (fun row : BHist => hsame row publicRead ∧ UnaryHistory row)
+                (fun row : BHist =>
+                  hsame row B ∨ hsame row A ∨ hsame row W ∨ hsame row S ∨
+                    hsame row R ∨ hsame row E ∨ hsame row auditRead ∨ hsame row publicRead)
+                (fun row : BHist =>
+                  UnaryHistory row ∧
+                    (PkgSig bundle auditRead pkg ∧ Cont auditRead C publicRead))
+                hsame ∧
+              UnaryHistory auditRead ∧ UnaryHistory publicRead := by
+  -- BEDC touchpoint anchor: BHist Cont ProbeBundle Pkg PkgSig hsame SemanticNameCert
+  intro carrier auditRoute auditPkg publicRoute
+  obtain ⟨auditCert, _bUnary, _aUnary, _wUnary, _sUnary, _rUnary, _eUnary,
+    auditUnary⟩ :=
+    HellySelection_namecert_obligations
+      (B := B) (A := A) (W := W) (S := S) (R := R) (E := E) (T := T)
+      (C := C) (P := P) (N := N) (auditRead := auditRead)
+      (bundle := bundle) (pkg := pkg) carrier auditRoute auditPkg
+  have ledgerWitness :
+      Exists
+        (fun row : BHist => hsame row auditRead ∧ PkgSig bundle auditRead pkg) :=
+    semanticNameCert_ledger_policy_witness auditCert
+  obtain ⟨_bUnary, _aUnary, _wUnary, _sUnary, _rUnary, _eUnary, _tUnary, cUnary,
+    _pUnary, _nUnary, _namePkg⟩ := carrier
+  have publicUnary : UnaryHistory publicRead :=
+    unary_cont_closed auditUnary cUnary publicRoute
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => hsame row publicRead ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row B ∨ hsame row A ∨ hsame row W ∨ hsame row S ∨
+              hsame row R ∨ hsame row E ∨ hsame row auditRead ∨ hsame row publicRead)
+          (fun row : BHist =>
+            UnaryHistory row ∧ (PkgSig bundle auditRead pkg ∧ Cont auditRead C publicRead))
+          hsame := {
+    core := {
+      carrier_inhabited := Exists.intro publicRead ⟨hsame_refl publicRead, publicUnary⟩
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        exact
+          ⟨hsame_trans (hsame_symm sameRows) source.left,
+            unary_transport source.right sameRows⟩
+    }
+    pattern_sound := by
+      intro _row source
+      exact
+        Or.inr
+          (Or.inr
+            (Or.inr
+              (Or.inr
+                (Or.inr
+                  (Or.inr
+                    (Or.inr source.left))))))
+    ledger_sound := by
+      intro _row source
+      exact ⟨source.right, auditPkg, publicRoute⟩
+  }
+  cases ledgerWitness with
+  | intro _auditLedger _auditLedgerPolicy =>
+      exact ⟨cert, auditUnary, publicUnary⟩
+
 theorem HellySelection_bounded_variation_window [AskSetup] [PackageSetup]
     {B A W S R E T C P N variationRead boundedRead : BHist}
     {bundle : ProbeBundle ProbeName} {pkg : Pkg} :

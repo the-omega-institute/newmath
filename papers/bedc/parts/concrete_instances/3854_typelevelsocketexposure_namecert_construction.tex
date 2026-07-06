@@ -104,14 +104,26 @@ Apply the NameCert obligations of \autoref{thm:type-level-socket-exposure-namece
 Use ledger non-escape, refusal exactness, and scope exactness from \autoref{thm:type-level-socket-exposure-ledger-nonescape}, \autoref{thm:type-level-socket-exposure-refusal-exactness}, and \autoref{thm:type-level-socket-exposure-scope-exactness}. Since every consumer route is already confined to $S,A,K,L,R,H,C,P,N$, no outside supply, host type equality, hidden setup field, theorem-valued premise, or global kernel soundness can enter through a separate coordinate.
 \end{proof}
 
-\closureat{TypeLevelSocketExposureUp}{scopedStr}
+\begin{theorem}[Type-level socket exposure public export]
+\label{thm:type-level-socket-exposure-public-export}
+The public $\TypeLevelSocketExposureUp$ export is exactly the setup-field surface $S$, carrier-shape row $A$, classifier row $K$, ledger-placement row $L$, refusal row $R$, componentwise $\hsame$ transport row $H$, displayed $\Cont$ replay row $C$, $\Pkg$ provenance row $P$, and local $\NameCert_{\TypeLevelSocketExposureUp}$ row $N$. It exports no outside supply, theorem-valued premise, host dependency, unlisted setup field, unmarked supply channel, or global kernel-soundness premise.
+\end{theorem}
+\begin{proof}
+Project the carrier and apply the NameCert obligations of \autoref{thm:type-level-socket-exposure-namecert-obligations}. The public rows are precisely $S,A,K,L,R,H,C,P,N$.
+
+Use ledger non-escape from \autoref{thm:type-level-socket-exposure-ledger-nonescape} and refusal exactness from \autoref{thm:type-level-socket-exposure-refusal-exactness}. These results exclude hidden axiom channels, theorem-valued outside premises, host dependencies, unlisted setup fields, and unmarked supply channels from the exported surface.
+
+Finally apply scope exactness and kernel grounding from \autoref{thm:type-level-socket-exposure-scope-exactness} and \autoref{thm:type-level-socket-exposure-scope-kernel-grounding}. The exported object is the displayed finite surface itself, not an external supply or a theorem-valued premise attached to it.
+\end{proof}
+
+\closureat{TypeLevelSocketExposureUp}{publicStr}
 
 \begin{closurestatus}{\TypeLevelSocketExposureUp}
   \constructivestory{A $\TypeLevelSocketExposureUp$ packet is generated from a setup-field exposure row, admitted carrier-shape row, classifier row, ledger-placement row, refusal row, componentwise $\hsame$ transports, displayed $\Cont$ routes, $\Pkg$ provenance, and a local $\NameCert$ row.}
-  \theoryclosure{\scopedClosure}
-  \scopeclosed{\autoref{def:type-level-socket-exposure-carrier}, \autoref{thm:type-level-socket-exposure-namecert-obligations}, \autoref{thm:type-level-socket-exposure-ledger-nonescape}, \autoref{thm:type-level-socket-exposure-refusal-exactness}, \autoref{thm:type-level-socket-exposure-scope-exactness}, and \autoref{thm:type-level-socket-exposure-scope-kernel-grounding} bind the scoped finite surface for type-level outside-supply exposure.}
+  \theoryclosure{\publicClosure}
+  \scopeclosed{\autoref{def:type-level-socket-exposure-carrier}, \autoref{thm:type-level-socket-exposure-namecert-obligations}, \autoref{thm:type-level-socket-exposure-ledger-nonescape}, \autoref{thm:type-level-socket-exposure-refusal-exactness}, \autoref{thm:type-level-socket-exposure-scope-exactness}, \autoref{thm:type-level-socket-exposure-scope-kernel-grounding}, and \autoref{thm:type-level-socket-exposure-public-export} bind the public finite surface for type-level outside-supply exposure.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{This chapter does not close Lean verification, bridge checking, existence of any outside supply, global kernel soundness, all setup-field designs, or any hidden host principle.}
-  \upgradepath{Obligation closure requires checked carrier admission, setup-field exposure, classifier visibility, ledger placement, refusal exactness, provenance, and non-escape for the same finite packet.}
+  \upgradepath{Bridged closure requires a standard bridge theorem connecting the public finite export to the acceptance-bridge schema.}
 \end{closurestatus}

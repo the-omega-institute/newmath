@@ -1,0 +1,72 @@
+\chapter{A Concrete Naming Certificate for $\DyadicCauchyCompletionUp$}
+\label{ch:concrete-instances-dyadic-cauchy-completion-namecert}
+\origin{human}
+
+Following Bishop and Bridges on constructive real completion by regular Cauchy data, the $\DyadicCauchyCompletionUp$ packet records the dyadic-window completion surface as finite BEDC naming data. It sits over the signed dyadic arithmetic rows of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the finite stream-window interface of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational Cauchy rows of \autoref{ch:concrete-instances-regseqrat-namecert}, the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}, and the dense-unit completion boundary of \autoref{ch:concrete-instances-cauchy-completion-dense-unit-namecert}. The packet names dyadic approximants, tolerance ledgers, regular-Cauchy readback, terminal real sealing, transport, replay, provenance, and local naming; it does not quotient sequences, choose representatives, assert ambient real completeness, or import a host metric completion theorem.
+
+\begin{definition}[Dyadic Cauchy completion carrier]
+\label{def:dyadic-cauchy-completion-carrier}
+A $\DyadicCauchyCompletionUp$ carrier is a finite $\BHist$ packet
+$$
+K=(D,W,E,R,S,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $D$ is the $\DyadicRatCoreUp$ arithmetic row for signed dyadic endpoints, shared denominators, and finite comparison ledgers.
+\item $W$ is the $\StreamNameUp$ window row listing the inspected dyadic stream segment and its source indices.
+\item $E$ is the dyadic tolerance ledger, recording finite radius bounds and common-scale refinements for the displayed windows.
+\item $R$ is the $\RegSeqRatUp$ regular-Cauchy readback row obtained from the same dyadic windows and tolerance ledger.
+\item $S$ is the terminal $\RealUp$ seal naming the completed real endpoint reached by the regular-Cauchy readback.
+\item $H$ stores componentwise $\hsame$ transports for dyadic arithmetic, stream windows, tolerance ledgers, regular-Cauchy readback, terminal real sealing, replay, provenance, and local naming.
+\item $C$ stores displayed $\Cont$ routes from dyadic windows to tolerance ledgers, from tolerance ledgers to regular-Cauchy readback, and from regular-Cauchy readback to the terminal real seal.
+\item $P$ is the $\Pkg$ provenance over $\DyadicCauchyCompletionUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\CauchyCompletionDenseUnitUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\DyadicCauchyCompletionUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $D,W,E,R,S,H,C,P,N$. It has no coordinate for quotient sequence equality, selected Cauchy representatives, arbitrary real limits, host metric completion, or analytic completeness outside the displayed finite rows.
+\end{definition}
+\leandef{BEDC.Derived.DyadicCauchyCompletionUp}
+
+\begin{theorem}[Dyadic Cauchy completion obligation surface]
+\label{thm:dyadic-cauchy-completion-obligation-surface}
+For every accepted $\DyadicCauchyCompletionUp$ carrier $K=(D,W,E,R,S,H,C,P,N)$, the public obligation surface consists exactly of carrier admission for the dyadic arithmetic row $D$, stream-window row $W$, tolerance ledger $E$, regular-Cauchy readback row $R$, terminal real seal $S$, componentwise transport row $H$, displayed replay row $C$, provenance row $P$, and local naming row $N$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:dyadic-cauchy-completion-carrier}. Its nine coordinates are the only rows available to a consumer of the packet.
+
+Read $D,W,E$ first. These rows expose finite dyadic arithmetic, finite stream windows, and the tolerance ledger that compares the inspected windows at common dyadic scales.
+
+Next read $R$ and $S$. The row $R$ is the regular-Cauchy readback obtained from the displayed dyadic data, and $S$ is the terminal $\RealUp$ seal for that readback. The structural rows $H,C,P,N$ only transport, replay, source, and name the same route.
+
+Since the carrier contains no quotient equality of sequences, selected representative, unrestricted limit operator, host metric completion, or analytic completeness theorem, the listed rows exhaust the obligation surface.
+\end{proof}
+
+\begin{theorem}[Dyadic completion sibling bridge]
+\label{thm:dyadic-cauchy-completion-sibling-bridge}
+Every accepted $\DyadicCauchyCompletionUp$ packet factors its completion read through the sibling lattice
+$$
+\DyadicRatCoreUp,\ \StreamNameUp,\ \RegSeqRatUp,\ \RealUp,\ \CauchyCompletionDenseUnitUp .
+$$
+The dyadic arithmetic row is read through \autoref{ch:concrete-instances-dyadicratcore-namecert}, the finite window row through \autoref{ch:concrete-instances-streamname-namecert}, the regular-Cauchy readback through \autoref{ch:concrete-instances-regseqrat-namecert}, the terminal real seal through \autoref{ch:concrete-instances-real-namecert}, and the dense-unit completion boundary through \autoref{ch:concrete-instances-cauchy-completion-dense-unit-namecert} before the local $\NameCert_{\DyadicCauchyCompletionUp}$ row is public.
+\end{theorem}
+\begin{proof}
+Use \autoref{thm:dyadic-cauchy-completion-obligation-surface}. The rows $D,W,E,R,S$ are visible before the structural rows can expose the local certificate.
+
+The row $D$ supplies the signed dyadic arithmetic and common-scale comparison surface. The row $W$ supplies the finite stream-window request, and $E$ records the tolerance ledger that lets those windows be read at a shared dyadic scale.
+
+The row $R$ then routes the same data through $\RegSeqRatUp$, while $S$ records the terminal $\RealUp$ seal. The dense-unit completion chapter supplies the completion boundary that keeps this read as a displayed finite completion packet rather than a quotient or host limit.
+
+Finally $H,C,P,N$ preserve and name that sibling route. Therefore any completion consumer receives the dyadic, stream, regular-Cauchy, real-seal, and dense-unit rows before the local name certificate is public.
+\end{proof}
+
+\closureat{DyadicCauchyCompletionUp}{seedStr}
+
+\begin{closurestatus}{\DyadicCauchyCompletionUp}
+  \constructivestory{A $\DyadicCauchyCompletionUp$ packet is generated from signed dyadic arithmetic rows, finite stream-window rows, dyadic tolerance ledgers, regular-Cauchy readback rows, a terminal real seal, componentwise $\hsame$ transports, displayed $\Cont$ routes, $\Pkg$ provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:dyadic-cauchy-completion-carrier}, \autoref{thm:dyadic-cauchy-completion-obligation-surface}, and \autoref{thm:dyadic-cauchy-completion-sibling-bridge} seed the dyadic Cauchy completion packet over finite dyadic windows, tolerance ledgers, regular-Cauchy readback, terminal real sealing, transport, replay, provenance, and naming rows.}
+  \formalstatus{\encodedDefV}
+  \leantarget{BEDC.Derived.DyadicCauchyCompletionUp}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient sequence equality, chosen Cauchy representatives, arbitrary real-limit construction, ambient metric completion, analytic completeness, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, dyadic-window tolerance stability, regular-Cauchy readback, terminal real-seal nonescape, sibling dependency coverage, transport stability, replay stability, and local naming.}
+\end{closurestatus}

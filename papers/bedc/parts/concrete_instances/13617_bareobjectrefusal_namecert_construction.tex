@@ -40,12 +40,53 @@ For the carrier of \autoref{def:bare-object-refusal-carrier}, the local $\NameCe
 \end{enumerate}
 Consequently a public consumer of an accepted $\BareObjectRefusalUp$ packet receives a refusal certificate for the failed object license, not a weak object license.
 \end{theorem}
+\leanchecked{BEDC.Derived.BareObjectRefusalUp.BareObjectRefusalCarrier\_namecert\_obligations}
 \begin{proof}
 Carrier admission is projection from the displayed tuple $B=(O,M,R,W,L,H,C,P,N)$. The missing-field row $M$ is the only place where the five object-knowledge fields are named, and it records absence or refusal rather than a licensed object packet.
 
 The first four obligation rows inspect the failed source, pattern, classifier, and stability fields. They show that the requested name has not met the object-knowledge discipline of \autoref{ch:concrete-instances-objectknowledgecertificate-namecert}; description expansion, negative-certificate refusal, and classifier-boundary rows remain sibling surfaces rather than substitutes for the missing object license.
 
 The ledger obligation then closes the export. The witness-audit row $W$, refusal row $R$, anti-primitive ledger $L$, transports $H$, routes $C$, provenance $P$, and local naming row $N$ expose only the failed-license packet. Since no carrier coordinate contains a licensed object name or witness row, the consumer cannot repack the refusal as object knowledge.
+\end{proof}
+
+\begin{theorem}[Bare-object refusal obligation carrier]
+\label{thm:bare-object-refusal-obligation-carrier}
+Every accepted $\BareObjectRefusalUp$ packet must expose the rows
+$$
+O,M,R,W,L,H,C,P,N
+$$
+before any consumer reads the requested name as an object-layer license. In particular, source, missing-field, refusal, witness-audit, anti-primitive ledger, transport, replay, provenance, and local naming data are public parts of the same finite carrier.
+\end{theorem}
+\begin{proof}
+Project the carrier tuple of \autoref{def:bare-object-refusal-carrier}. Its coordinates are exactly $O,M,R,W,L,H,C,P,N$, and no coordinate stores a licensed object name detached from the missing-field row.
+
+The object-knowledge sibling of \autoref{ch:concrete-instances-objectknowledgecertificate-namecert} supplies a positive route only when source, pattern, classifier, stability, ledger, object-name, and witness rows are displayed. The description, apophatic, and classifier siblings of \autoref{ch:concrete-instances-definite-description-boundary-namecert}, \autoref{ch:concrete-instances-negativecertificateboundary-namecert}, and \autoref{ch:concrete-instances-classifierboundary-namecert} regulate boundary rows without replacing the missing object-license carrier.
+
+Thus any read of $O$ as an object license must first pass through the exposed refusal tuple, and the $\BareObjectRefusalUp$ packet exports the requested name only as part of that finite failed-license carrier.
+\end{proof}
+
+\begin{theorem}[Bare-object refusal classifier preservation]
+\label{thm:bare-object-refusal-obligation-classifier}
+Same-packet comparison for $\BareObjectRefusalUp$ preserves the missing-field row $M$ and the refusal row $R$. It cannot turn an absent classifier field into object identity by using $\hsame$ transport, continuation replay, package provenance, local naming, or any sibling boundary packet.
+\end{theorem}
+\begin{proof}
+Compare two accepted reads of the same carrier $B=(O,M,R,W,L,H,C,P,N)$. Componentwise $\hsame$ transport in $H$ preserves the displayed coordinates; it does not create a new classifier coordinate.
+
+The classifier boundary sibling of \autoref{ch:concrete-instances-classifierboundary-namecert} exposes classifier-boundary rows only as displayed boundary data. The object-knowledge sibling of \autoref{ch:concrete-instances-objectknowledgecertificate-namecert} requires an accepted classifier field for object identity, while the description and negative-certificate siblings of \autoref{ch:concrete-instances-definite-description-boundary-namecert} and \autoref{ch:concrete-instances-negativecertificateboundary-namecert} do not synthesize that missing field.
+
+Therefore same-packet comparison can preserve the refusal surface, but it cannot convert the absent classifier entry recorded in $M$ into a licensed object-identity row.
+\end{proof}
+
+\begin{theorem}[Bare-object refusal ledger export]
+\label{thm:bare-object-refusal-obligation-ledger}
+The only public export of an accepted $\BareObjectRefusalUp$ packet is the anti-primitive ledger row $L$ together with the witness-audit row $W$ and their displayed refusal routes, unless a separate $\ObjectKnowledgeCertificateUp$ route is displayed.
+\end{theorem}
+\begin{proof}
+Read the ledger part of the carrier. Rows $W,L$ record that no auditable witness has been supplied and that the requested name cannot be treated as a primitive object token; rows $R,C,P,N$ expose the refusal, replay, provenance, and local naming around that ledger.
+
+The positive export route belongs to \autoref{ch:concrete-instances-objectknowledgecertificate-namecert}. The sibling boundaries of \autoref{ch:concrete-instances-definite-description-boundary-namecert}, \autoref{ch:concrete-instances-negativecertificateboundary-namecert}, and \autoref{ch:concrete-instances-classifierboundary-namecert} can route or refuse descriptions and classifiers, but they do not provide the source-pattern-classifier-stability-ledger package required for object knowledge.
+
+Hence the public packet exported by $\BareObjectRefusalUp$ remains the anti-primitive and witness-audit refusal surface, except when an independent $\ObjectKnowledgeCertificateUp$ certificate supplies the missing positive route.
 \end{proof}
 
 \begin{theorem}[Bare-object refusal object-license nonescape]
@@ -56,6 +97,7 @@ O,M,R,W,L,H,C,P,N.
 $$
 It cannot export an object-layer license unless the read factors through an existing $\ObjectKnowledgeCertificateUp$ packet with displayed source, pattern, classifier, stability, ledger, object-name, and witness rows.
 \end{theorem}
+\leanchecked{BEDC.Derived.BareObjectRefusalUp.BareObjectRefusalCarrier\_object\_license\_nonescape}
 \begin{proof}
 Start with the NameCert obligations above. They make the missing source, pattern, classifier, stability, and ledger fields part of the refusal surface, so the local packet records a failed object license rather than a partial one.
 
@@ -68,16 +110,16 @@ Finally apply the anti-primitive ledger row. The ledger $L$ records that a consu
 
 \independenceWitness{Nearest siblings objectknowledgecertificate, definitedescriptionboundary, negativecertificateboundary, and classifierboundary are not bijective because they respectively accept licensed names, description-expansion rows, apophatic refusal rows, and classifier-boundary rows, while BareObjectRefusalUp records the failed five-field object license itself.}
 
-\closureat{BareObjectRefusalUp}{seedStr}[BEDC.Derived.BareObjectRefusalUp.BareObjectRefusalTasteGate\_single\_carrier\_alignment]
+\closureat{BareObjectRefusalUp}{obligationStr}[BEDC.Derived.BareObjectRefusalUp.BareObjectRefusalTasteGate\_single\_carrier\_alignment]
 
 \begin{closurestatus}{\BareObjectRefusalUp}
   \constructivestory{A $\BareObjectRefusalUp$ packet is generated from requested object-name, missing-field, refusal, witness-audit, anti-primitive ledger, componentwise hsame, displayed Cont, Pkg provenance, and local NameCert rows.}
-  \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:bare-object-refusal-carrier}, \autoref{thm:bare-object-refusal-namecert-obligations}, and \autoref{thm:bare-object-refusal-object-license-nonescape} specify the finite failed-license packet and its object-license nonescape boundary.}
+  \theoryclosure{\obligationClosure}
+  \scopeclosed{\autoref{def:bare-object-refusal-carrier}, \autoref{thm:bare-object-refusal-namecert-obligations}, \autoref{thm:bare-object-refusal-obligation-carrier}, \autoref{thm:bare-object-refusal-obligation-classifier}, \autoref{thm:bare-object-refusal-obligation-ledger}, and \autoref{thm:bare-object-refusal-object-license-nonescape} specify the finite failed-license packet, its source-classifier-ledger obligation surface, and its object-license nonescape boundary.}
   \formalstatus{\axiomCleanV}
   \leantarget{BEDC.Derived.BareObjectRefusalUp.BareObjectRefusalTasteGate\_single\_carrier\_alignment}
   \bridgestatus{none}
   \origin{ai}
   \notclaimed{This chapter does not close positive object knowledge, description expansion, apophatic refusal in general, classifier-boundary completeness, or bridge checking.}
-  \upgradepath{Obligation closure requires checked source, pattern, classifier, stability, ledger, witness-audit, and object-license nonescape rows for the same packet.}
+  \upgradepath{Public closure requires a displayed consumer route that factors every object-license read either through this refusal packet or through a separate ObjectKnowledgeCertificateUp route.}
 \end{closurestatus}

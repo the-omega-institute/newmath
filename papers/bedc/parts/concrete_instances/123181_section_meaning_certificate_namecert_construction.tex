@@ -1,0 +1,71 @@
+\chapter{A Concrete Naming Certificate for $\SectionMeaningCertificateUp$}
+\label{ch:concrete-instances-section-meaning-certificate-namecert}
+\origin{ai}
+
+The $\SectionMeaningCertificateUp$ packet realizes the section-relative meaning branch of \autoref{sec:visions-philosophy-section-meaning-certificate} as finite NameCert data. It records that an orbit-level observation can be accepted while a label readout requires a displayed section, fiber ledger, or refusal row rather than a hidden representative selector.
+
+The fiber-ledger row is read through \autoref{ch:concrete-instances-digestfiberledger-namecert}, while orbit-level observation remains separate from label readback.
+
+\begin{definition}[Section meaning certificate carrier]
+\label{def:section-meaning-certificate-carrier}
+A $\SectionMeaningCertificateUp$ carrier is a finite $\BHist$ packet
+$$
+S=(O,L,Q,A,R,F,B,H,C,P,N)
+$$
+whose rows have the following roles:
+\begin{enumerate}
+\item $O$ records the orbit-observation packet from \autoref{def:philosophy-orbit-observation-packet}, including the source carrier, action certificate, orbit package, projection row, and invariant observation readout.
+\item $L$ records the anti-invariant label packet from \autoref{def:philosophy-anti-invariant-label-packet}, including the two-label interface, involution, action row, and label readout.
+\item $Q$ records the package-level quotient or orbit token read by the observation rows.
+\item $A$ records the section-authorization row for a displayed section binding, when such a binding is supplied.
+\item $R$ records the relative meaning readback $L_\sigma$ obtained from the authorized section row, or the refusal of such a readback when the section row is absent.
+\item $F$ records the fiber ledger separating orbit-invariant observation from section-relative label meaning.
+\item $B$ records the boundary row forbidding a hidden canonical section, a bare representative selector, or a package-level anti-invariant label.
+\item $H$ records componentwise $\hsame$ transport for $O,L,Q,A,R,F,B$ and the local naming row.
+\item $C$ records displayed $\Cont$ replay from orbit observation and section authorization to relative meaning readback.
+\item $P$ is the $\Pkg$ provenance over $\SectionMeaningCertificateUp$, orbit observation, anti-invariant label, section authorization, fiber ledger, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\SectionMeaningCertificateUp}$ row.
+\end{enumerate}
+The carrier exports only finite orbit, label, section, fiber-ledger, boundary, transport, replay, provenance, and local naming data. It has no coordinate for a hidden canonical section, an intrinsic orbit-level meaning label, an unledgered representative choice, or a classifier that identifies anti-invariant labels.
+\end{definition}
+\leanstmt{BEDC.Derived.SectionMeaningCertificateUp}
+
+\begin{theorem}[Section meaning certificate obligations]
+\label{thm:section-meaning-certificate-obligations}
+For the carrier of \autoref{def:section-meaning-certificate-carrier}, the local $\NameCert_{\SectionMeaningCertificateUp}$ surface consists exactly of orbit-observation admission, anti-invariant label admission, orbit-package exposure, section-authorization exposure or section-refusal exposure, relative meaning readback, fiber-ledger separation, boundary refusal, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming.
+\end{theorem}
+\begin{proof}
+Project the rows $O,L,Q,A,R,F,B,H,C,P,N$. The rows $O,L,Q$ expose the orbit observation, label, and package token named in \autoref{sec:visions-philosophy-section-meaning-certificate}.
+
+The rows $A,R,F,B$ are the certificate-specific surface. They either display the section authorization used for relative meaning or record the absence of such authorization, then separate fiber-relative meaning from orbit-invariant observation and refuse hidden section readings.
+
+Finally $H,C,P,N$ preserve the packet under componentwise transport, replay the displayed route, source the finite rows, and name the local certificate. Since no other row is present, the listed obligations exhaust the accepted surface.
+\end{proof}
+
+\begin{theorem}[Section-relative meaning boundary]
+\label{thm:section-meaning-certificate-boundary}
+Every accepted $\SectionMeaningCertificateUp$ read factors through orbit-observation rows, anti-invariant label rows, orbit-package rows, and either a displayed section-authorization row or a displayed fiber-ledger refusal. The packet may export a section-relative meaning readback, but it cannot export an intrinsic orbit-level label, a hidden canonical section, or a representative selector not named by the carrier.
+\end{theorem}
+\begin{proof}
+Use the carrier of \autoref{def:section-meaning-certificate-carrier}. The only rows that mention observation, label, orbit package, section authorization, relative readback, and refusal are $O,L,Q,A,R,F,B$.
+
+Apply \autoref{thm:section-meaning-certificate-obligations}. A consumer that asks for meaning must pass through $A$ and $R$ when a section is present, or through $F$ and $B$ when the section is refused.
+
+The excluded readings have no carrier coordinate. In particular, the anti-invariant label row cannot be collapsed through $Q$ without violating the boundary row, so accepted meaning remains section-relative.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\SectionMeaningCertificateUp$ read exposes orbit-observation, anti-invariant label, orbit-package, section-authorization or section-refusal, fiber-ledger, boundary, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ rows before any section-relative meaning judgment is exported.}
+
+\independenceWitness{orbit-observation-packet, anti-invariant-label-packet, section-authorization, fiber-ledger: no listed sibling is bijective with $\SectionMeaningCertificateUp$ because this packet jointly binds orbit observation, label anti-invariance, section-relative readback or refusal, fiber separation, transport, replay, provenance, and local naming as one finite carrier.}
+
+\closureat{SectionMeaningCertificateUp}{seedStr}
+
+\begin{closurestatus}{\SectionMeaningCertificateUp}
+  \constructivestory{A $\SectionMeaningCertificateUp$ packet is generated from finite orbit-observation, anti-invariant label, orbit-package, section-authorization or refusal, fiber-ledger, boundary, transport, replay, provenance, and local NameCert rows.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:section-meaning-certificate-carrier}, \autoref{thm:section-meaning-certificate-obligations}, and \autoref{thm:section-meaning-certificate-boundary} bind section-relative meaning as finite certificate data.}
+  \formalstatus{\formalTargetV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close Lean verification, bridge checking, a hidden canonical section, intrinsic orbit-level label meaning, unledgered representative choice, or label no-confusion collapse.}
+  \upgradepath{Lean closure requires checked carrier, obligation-surface, and section-boundary declarations for $\SectionMeaningCertificateUp$.}
+\end{closurestatus}

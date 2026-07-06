@@ -208,6 +208,7 @@ Use the shared-window obligation and obligation-closure route, \autoref{thm:fini
 
 Finally apply the scoped kernel route and witness exhaustion theorems, \autoref{thm:finite-window-real-separation-scoped-kernel-route} and \autoref{thm:finite-window-real-separation-witness-exhaustion}. The scoped route already lists the dyadic, stream, regular-rational, Real, exact-boundary, budgeted-seal, and tail-meet dependencies, while witness exhaustion blocks every outside completion witness.
 \end{proof}
+\leanchecked{BEDC.Derived.FiniteWindowRealSeparationUp.FiniteWindowRealSeparation\_scoped\_completion\_route}
 
 \begin{theorem}[Finite-window Real-separation shared-budget normalization]
 \label{thm:finite-window-real-separation-shared-budget-normalization}
@@ -255,12 +256,51 @@ The refusal clause follows from the carrier inventory. The packet has no coordin
 \end{proof}
 \leanchecked{BEDC.Derived.FiniteWindowRealSeparationUp.FiniteWindowRealSeparation\_common\_window\_exactness}
 
+\begin{theorem}[Finite-window Real-separation terminal readback exclusion]
+\label{thm:finitewindowrealseparation-terminal-readback-exclusion}
+For every accepted $\FiniteWindowRealSeparationUp$ carrier
+$$
+F=(W,D,S,R,H,C,P,N),
+$$
+any terminal $\RealUp$ readback exposed by the packet remains downstream of the shared finite window $W$, dyadic tolerance row $D$, $\StreamNameUp/\RegSeqRatUp$ readback row $S$, componentwise transport $H$, displayed replay $C$, provenance $P$, and local $\NameCert_{\FiniteWindowRealSeparationUp}$ row $N$. The terminal readback cannot be replaced by host equality, quotient streams, selected representatives, detached Real witnesses, or ambient completeness.
+\end{theorem}
+\leanchecked{BEDC.Derived.FiniteWindowRealSeparationUp.FiniteWindowRealSeparation\_terminal\_readback\_exclusion}
+\begin{proof}
+Start with the shared-window refusal of \autoref{thm:finite-window-real-separation-window-refusal}. It blocks access to the $\RealUp$ row unless the common finite window, dyadic tolerance, and StreamName/RegSeqRat readback rows have already been displayed.
+
+Apply the NameCert surface of \autoref{thm:finite-window-real-separation-namecert-surface}. The structural rows $H,C,P,N$ transport, replay, source, and name the same eight-row carrier, so a terminal readback has no route outside the displayed packet.
+
+Use the scoped completion route of \autoref{thm:finite-window-real-separation-scoped-completion-route}. Completion-facing consumers see the Real-facing row only after the finite route through $W,D,S,R,H,C,P,N$ and the listed exact-boundary, budgeted-seal, and shared-tail-meet provenance rows.
+
+Finally combine shared-budget normalization and common-window exactness, \autoref{thm:finite-window-real-separation-shared-budget-normalization} and \autoref{thm:finite-window-real-separation-common-window-exactness}. These theorems keep every admissible terminal readback attached to the same finite window and tolerance budget, while the carrier has no coordinate for host equality, quotient streams, selected representatives, detached Real witnesses, or ambient completeness.
+\end{proof}
+
+\begin{theorem}[Finite-window Real-separation public route]
+\label{thm:finite-window-real-separation-public-route}
+Every public $\RealUp$, $\RegSeqRatUp$, or $\StreamNameUp$ consumer of a $\FiniteWindowRealSeparationUp$ separation window factors through the displayed finite route
+$$
+W \longmapsto D \longmapsto S \longmapsto R \longmapsto H \longmapsto C \longmapsto P \longmapsto N .
+$$
+The consumer reads the shared-window budget, dyadic tolerance, StreamName and RegSeqRat readback, refusal boundary, and terminal Real readback only through the rows already established by the carrier admission, window refusal, obligation surface, shared-window obligation, scoped kernel route, shared-budget normalization, common-window exactness, and terminal-readback exclusion results. It receives no quotient stream, host Real equality, selected representative, detached Real witness, or ambient completeness principle.
+\end{theorem}
+\leanchecked{BEDC.Derived.FiniteWindowRealSeparationUp.FiniteWindowRealSeparation\_public\_route}
+\begin{proof}
+Project the accepted carrier $F=(W,D,S,R,H,C,P,N)$ from \autoref{def:finite-window-real-separation-carrier}. The public route starts with the same shared finite-window row $W$, dyadic tolerance row $D$, and StreamName/RegSeqRat readback row $S$ that the carrier admission exposes.
+
+Apply the window refusal, obligation surface, and shared-window obligation results: \autoref{thm:finite-window-real-separation-window-refusal}, \autoref{thm:finite-window-real-separation-obligation-surface}, and \autoref{thm:finite-window-real-separation-shared-window-obligation}. Together they force every admissible $\RealUp$ separation read to pass through $W,D,S$ before the Real-facing row $R$ and the structural rows $H,C,P,N$ become public.
+
+Use the scoped kernel route, shared-budget normalization, and common-window exactness of \autoref{thm:finite-window-real-separation-scoped-kernel-route}, \autoref{thm:finite-window-real-separation-shared-budget-normalization}, and \autoref{thm:finite-window-real-separation-common-window-exactness}. These results identify the same finite budget for every $\RegSeqRatUp$ or $\StreamNameUp$ read that supports the separation window, so the public consumer cannot choose a second readback budget.
+
+Finally apply terminal-readback exclusion from \autoref{thm:finitewindowrealseparation-terminal-readback-exclusion}. The terminal $\RealUp$ row remains downstream of the displayed window, tolerance, readback, transport, replay, provenance, and local naming rows, while quotient streams, host Real equality, selected representatives, detached witnesses, and ambient completeness have no coordinate in the packet.
+\end{proof}
+
 \closureat{FiniteWindowRealSeparationUp}{obligationStr}
+\closureat{FiniteWindowRealSeparationUp}{scopedStr}
 
 \begin{closurestatus}{\FiniteWindowRealSeparationUp}
   \constructivestory{A $\FiniteWindowRealSeparationUp$ packet is generated from a shared finite-window row, a DyadicRatCore tolerance row, StreamName and RegSeqRat readback, RealUp separation readback, componentwise hsame transport, displayed Cont replay, package provenance, and a local NameCert row.}
-  \theoryclosure{\obligationClosure}
-  \scopeclosed{\autoref{def:finite-window-real-separation-carrier}, \autoref{thm:finite-window-real-separation-obligation-surface}, \autoref{thm:finite-window-real-separation-shared-window-obligation}, \autoref{thm:finite-window-real-separation-tastegate-obligation}, \autoref{thm:finite-window-real-separation-witness-exhaustion}, and \autoref{thm:finite-window-real-separation-shared-budget-normalization} bind the finite Real-separation carrier, obligation surface, shared-window obligation, TasteGate obligation, witness exhaustion, and shared-budget normalization rows.}
+  \theoryclosure{\scopedClosure}
+  \scopeclosed{\autoref{def:finite-window-real-separation-carrier}, \autoref{thm:finite-window-real-separation-obligation-surface}, \autoref{thm:finite-window-real-separation-shared-window-obligation}, \autoref{thm:finite-window-real-separation-tastegate-obligation}, \autoref{thm:finite-window-real-separation-scoped-kernel-route}, \autoref{thm:finite-window-real-separation-witness-exhaustion}, \autoref{thm:finite-window-real-separation-shared-budget-normalization}, and \autoref{thm:finite-window-real-separation-common-window-exactness} bind the finite Real-separation carrier, obligation surface, shared-window obligation, TasteGate obligation, scoped kernel route, witness exhaustion, shared-budget normalization, and common-window exactness rows.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{ai}

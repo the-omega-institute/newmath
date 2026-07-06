@@ -291,6 +291,24 @@ theorem NatUnaryPrefix_directed_common_upper {h k : BHist} :
                       (And.intro unary_empty (cont_right_unit h)))
                     (Exists.intro tail (And.intro tailUnary tailCont))))
 
+theorem NatUnaryDependencyRoute_add_int_common_upper {h k : BHist} :
+    UnaryHistory h -> UnaryHistory k ->
+      exists upper : BHist, UnaryHistory upper ∧
+        (exists addTail : BHist, UnaryHistory addTail ∧ Cont h addTail upper) ∧
+          (exists intTail : BHist, UnaryHistory intTail ∧ Cont k intTail upper) ∧
+            hsame upper upper := by
+  -- BEDC touchpoint anchor: BHist UnaryHistory Cont hsame
+  intro hUnary kUnary
+  obtain ⟨upper, upperUnary, addRoute, intRoute⟩ :=
+    NatUnaryPrefix_directed_common_upper hUnary kUnary
+  obtain ⟨addTail, addTailUnary, addTailCont⟩ := addRoute
+  obtain ⟨intTail, intTailUnary, intTailCont⟩ := intRoute
+  exact
+    ⟨upper, upperUnary,
+      ⟨addTail, addTailUnary, addTailCont⟩,
+      ⟨intTail, intTailUnary, intTailCont⟩,
+      hsame_refl upper⟩
+
 theorem NatUnaryPrefix_cont_tail_cases {h k tail : BHist} :
     UnaryHistory tail -> Cont h tail k -> hsame h k ∨ NatUnaryStrictPrefix h k := by
   intro tailUnary tailCont

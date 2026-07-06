@@ -100,12 +100,12 @@ Apply audit-face separation and the Lean marker boundary. These force audit evid
 
 Finally apply non-escape. The ledger row refuses every object outside $\BHist$, $\hsame$, $\Cont$, $\Pkg$, $\NameCert_{\HostDelegationSocketUp}$, $\KernelAcceptanceTraceUp$, and $\InscribedRouteUp$, so the primitive socket scope is exactly the displayed carrier surface.
 \end{proof}
-\leanchecked{BEDC.Derived.HostDelegationSocketUp.HostDelegationSocket\_primitive\_scope\_binding}
 
 \begin{theorem}[HostDelegationSocket public interface]
 \label{thm:host-delegation-socket-public-interface}
 An accepted $\HostDelegationSocketUp$ packet exports a consumer-facing socket interface consisting of the manuscript marker row $M$, audit face $A$, exact target-resolution row $D$, transport row $T$, continuation row $C$, provenance row $P$, boundary ledger $L$, and local naming row $N$. This interface lets downstream chapters replay marker resolution, inspect audit evidence, read the delegated host-kernel target, and transport the local certificate, while exporting no host truth predicate, global CIC completeness assertion, source axiom, forbidden host dependency, fuzzy resolver, or bridge-checked status.
 \end{theorem}
+\leanchecked{BEDC.Derived.HostDelegationSocketUp.HostDelegationSocket\_public\_interface}
 \begin{proof}
 Project the carrier of \autoref{def:host-delegation-socket-carrier}. The public rows visible to a consumer are exactly the displayed marker, audit, delegation, target-resolution, transport, continuation, provenance, ledger, and naming coordinates.
 
@@ -114,15 +114,47 @@ Use audit-face separation to keep $A$ apart from the host-kernel delegation row,
 Finally apply primitive scope binding and non-escape. These results confine the exported socket to the displayed $\BHist$, $\hsame$, $\Cont$, $\Pkg$, imported acceptance and route surfaces, and local $\NameCert_{\HostDelegationSocketUp}$ row; the ledger $L$ refuses every stronger host-level predicate or forbidden dependency claim.
 \end{proof}
 
-\closureat{HostDelegationSocketUp}{publicStr}
+\begin{theorem}[HostDelegationSocket bridge interface]
+\label{thm:host-delegation-socket-bridge-interface}
+For an accepted $\HostDelegationSocketUp$ packet, the public socket rows $M,A,K,D,T,C,P,L,N$ form the bridge interface from paper marker sites to audited Lean host-kernel declarations. The interface preserves audit-face separation, exact target resolution, and boundary-ledger non-escape: a consumer may cross from the manuscript marker to the delegated declaration only through the displayed audit face, host-kernel row, target-resolution row, transport, replay, provenance, ledger, and local naming row.
+\end{theorem}
+\leanchecked{BEDC.Derived.HostDelegationSocketUp.HostDelegationSocket\_bridge\_interface}
+\begin{proof}
+Start with the NameCert obligations for the carrier of \autoref{def:host-delegation-socket-carrier}. They expose $M,A,K,D,T,C,P,L,N$ as the complete socket surface, so the bridge interface has no hidden row beyond the accepted packet.
+
+Audit-face separation keeps $A$ distinct from the delegated host-kernel row $K$. Thus crossing the interface records the audit evidence and the delegated declaration as neighboring rows, not as a host truth predicate or a global completeness claim.
+
+The Lean marker boundary forces the manuscript marker $M$ through the exact target-resolution row $D$ before the local name can be read. The public interface theorem then packages the same route for downstream consumers.
+
+Finally apply non-escape. The ledger $L$ refuses fuzzy marker matching, source axioms, forbidden host dependencies, global CIC completeness, and bridge-checked status, so the interface is a paper-side bridge boundary rather than a Lean bridge certificate.
+\end{proof}
+
+\begin{theorem}[HostDelegationSocket positive boundary]
+\label{thm:host-delegation-socket-positive-boundary}
+For an accepted $\HostDelegationSocketUp$ packet, the only positive export is the finite tuple
+$$
+M,A,K,D,T,C,P,L,N
+$$
+as a replayable marker-to-declaration boundary. The exported rows are exactly the marker text $M$, audit evidence $A$, delegated target row $K$, exact resolution-or-refusal row $D$, componentwise $\hsame$ transport $T$, displayed $\Cont$ replay $C$, $\Pkg$ provenance $P$, boundary ledger $L$, and local $\NameCert_{\HostDelegationSocketUp}$ row $N$. No further object is exported as host truth, global completeness, fuzzy resolution, source-axiom admission, forbidden dependency admission, or bridge-checked status.
+\end{theorem}
+\begin{proof}
+Start with the NameCert obligations of \autoref{thm:host-delegation-socket-namecert-obligations}. They expose precisely the tuple $M,A,K,D,T,C,P,L,N$ and attach local naming to those rows.
+
+Audit-face separation and the Lean marker boundary identify the positive route: the marker row is read with its audit evidence, delegated target, and exact resolution-or-refusal row before any local name is replayed. Primitive scope binding keeps the route inside $\BHist$, $\hsame$, $\Cont$, $\Pkg$, the imported acceptance and route surfaces, and the local $\NameCert_{\HostDelegationSocketUp}$ row.
+
+The public interface and bridge interface then repack the same finite route for downstream consumers. Finally, non-escape and the ledger row $L$ remove every stronger reading, so the positive export is exactly the displayed replayable boundary and nothing outside the tuple.
+\end{proof}
+
+\closureat{HostDelegationSocketUp}{matureStr}
 
 \begin{closurestatus}{\HostDelegationSocketUp}
   \constructivestory{A $\HostDelegationSocketUp$ packet is generated from a manuscript marker row, audit-face row, host-kernel delegation row, displayed target-resolution row, componentwise $\hsame$ transports, displayed $\Cont$ routes, $\Pkg$ provenance, a boundary ledger, and a local $\NameCert$ row.}
-  \theoryclosure{\publicClosure}
-  \scopeclosed{\autoref{def:host-delegation-socket-carrier}, \autoref{thm:host-delegation-socket-namecert-obligations}, \autoref{thm:host-delegation-socket-audit-face-separation}, \autoref{thm:host-delegation-socket-lean-marker-boundary}, \autoref{thm:host-delegation-socket-non-escape}, \autoref{thm:host-delegation-socket-primitive-scope-binding}, and \autoref{thm:host-delegation-socket-public-interface} specify the finite host delegation socket carrier, local naming obligations, audit separation, marker boundary, transport replay, provenance, primitive scope, non-escape ledger, and consumer-facing public socket interface.}
-  \formalstatus{\unformalizedV}
+  \theoryclosure{\matureClosure}
+  \scopeclosed{\autoref{def:host-delegation-socket-carrier}, \autoref{thm:host-delegation-socket-namecert-obligations}, \autoref{thm:host-delegation-socket-audit-face-separation}, \autoref{thm:host-delegation-socket-lean-marker-boundary}, \autoref{thm:host-delegation-socket-non-escape}, \autoref{thm:host-delegation-socket-primitive-scope-binding}, \autoref{thm:host-delegation-socket-public-interface}, \autoref{thm:host-delegation-socket-bridge-interface}, and \autoref{thm:host-delegation-socket-positive-boundary} specify the finite host delegation socket carrier, local naming obligations, audit separation, marker boundary, transport replay, provenance, primitive scope, non-escape ledger, consumer-facing public socket interface, paper-side bridge interface, and replayable positive boundary.}
+  \formalstatus{\theoremCheckedV}
+  \leantarget{BEDC.Derived.HostDelegationSocketUp.HostDelegationSocketCarrier\_semantic\_name\_certificate}
   \bridgestatus{none}
   \origin{human}
-  \notclaimed{This chapter does not close host truth predicates, global CIC completeness, bridge checking, source-axiom admission, forbidden host-dependency admission, fuzzy marker matching, or Lean-side formal verification for $\HostDelegationSocketUp$.}
-  \upgradepath{Lean verification requires a checked public-interface theorem and an audit-clean bridge surface for $\HostDelegationSocketUp$.}
+  \notclaimed{This chapter does not close host truth predicates, global CIC completeness, bridge checking, source-axiom admission, forbidden host-dependency admission, fuzzy marker matching, or audit-clean bridge certification for $\HostDelegationSocketUp$.}
+  \upgradepath{Audit-clean and bridge-checked status requires a checked bridge surface for $\HostDelegationSocketUp$.}
 \end{closurestatus}

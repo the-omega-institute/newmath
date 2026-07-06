@@ -1,0 +1,76 @@
+\chapter{A Concrete Naming Certificate for $\HoareLogicUp$}
+\label{ch:concrete-instances-hoare-logic-namecert}
+\origin{human}
+
+Following Hoare's axiomatic basis for computer programming, the $\HoareLogicUp$ packet records a Hoare triple proof as finite assertion, command-trace, rule-ledger, replay, transport, provenance, and local naming data. It sits beside the first-order assertion surface of \autoref{ch:concrete-instances-firstorder-namecert}, the computability boundary of \autoref{ch:concrete-instances-computable-namecert}, the machine-trace carrier of \autoref{ch:concrete-instances-turingmachine-namecert}, the proof-trace normal form of \autoref{ch:concrete-instances-proof-trace-normal-form-namecert}, and the Kripke forcing surface of \autoref{ch:concrete-instances-kripke-semantics-namecert}. The packet names finite program-logic certificate rows only; it does not import host semantic validity, a global weakest-precondition oracle, total correctness, or an ambient program equivalence theorem.
+
+\begin{definition}[Hoare logic NameCert carrier]
+\label{def:hoare-logic-carrier}
+A $\HoareLogicUp$ carrier is a finite $\BHist$ packet
+$$
+J=(A,T,R,L,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $A$ is the assertion-source row, exposing precondition, postcondition, and intermediate assertion formulas through the $\FirstOrderUp$ surface.
+\item $T$ is the command-step trace row, recording the finite operational trace inspected through $\ComputableUp$ and $\TuringMachineUp$ rows.
+\item $R$ is the pre/postcondition row ledger, listing the Hoare triple boundary rows whose source and target assertions are read from $A$.
+\item $L$ is the proof-rule ledger, containing exactly the displayed rule instances used by the certificate: assignment, sequencing, conditional, loop-invariant, consequence, and structural transport rows.
+\item $E$ is the proof-trace replay row, reading $L$ through the $\ProofTraceNormalFormUp$ sibling before any consumer may cite the resulting triple.
+\item $H$ records componentwise $\hsame$ transport for assertion rows, command-step rows, pre/postcondition rows, rule-ledger rows, replay rows, provenance rows, and local naming rows.
+\item $C$ records displayed $\Cont$ routes from assertion readback to command-step replay, from command-step replay to rule-ledger replay, from rule-ledger replay to proof-trace normal form, and from the resulting triple to downstream program-logic consumers.
+\item $P$ records $\Pkg$ provenance over $\HoareLogicUp$, $\FirstOrderUp$, $\ComputableUp$, $\TuringMachineUp$, $\ProofTraceNormalFormUp$, $\KripkeSemanticsUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\HoareLogicUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $A,T,R,L,E,H,C,P,N$. It has no coordinate for host semantic validity, a global weakest-precondition transformer, total correctness, unbounded proof search, hidden machine semantics, or ambient program equivalence.
+\end{definition}
+
+\begin{theorem}[Hoare logic NameCert obligations]
+\label{thm:hoare-logic-namecert-obligations}
+For every accepted $\HoareLogicUp$ carrier
+$$
+J=(A,T,R,L,E,H,C,P,N),
+$$
+the local $\NameCert_{\HoareLogicUp}$ surface consists exactly of assertion-source admission through $A$, command-step trace admission through $T$, pre/postcondition ledger exposure through $R$, proof-rule ledger exactness through $L$, proof-trace replay through $E$, componentwise $\hsame$ transport through $H$, displayed $\Cont$ replay through $C$, $\Pkg$ provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:hoare-logic-carrier}. The visible proof-theoretic rows are precisely the assertion source $A$, command-step trace $T$, pre/postcondition ledger $R$, rule ledger $L$, and proof-trace replay $E$.
+
+Read the sibling rows in order. $\FirstOrderUp$ supplies the assertion formulas, $\ComputableUp$ and $\TuringMachineUp$ supply the finite command-step trace boundary, and $\ProofTraceNormalFormUp$ supplies the replay discipline for the rule ledger.
+
+The structural rows $H,C,P,N$ then transport, replay, source, and name that same finite packet. Since the carrier has no row for host semantic validity, weakest-precondition search, total correctness, hidden machine semantics, or ambient program equivalence, no local NameCert obligation can be stored outside the displayed route.
+\end{proof}
+
+\begin{theorem}[Hoare logic rule-soundness ledger]
+\label{thm:hoare-logic-rule-soundness-ledger}
+Every public rule-soundness read of an accepted $\HoareLogicUp$ packet factors through the finite route
+$$
+A \to T \to R \to L \to E .
+$$
+The rule ledger may cite $\KripkeSemanticsUp$ only as a displayed forcing-style accountability row for assertion transport; it does not export host semantic validity, a global weakest-precondition transformer, total correctness, hidden proof search, or ambient program equivalence.
+\end{theorem}
+\begin{proof}
+Start with carrier admission. The precondition and postcondition formulas are read from $A$, the command behavior visible to the certificate is read from $T$, and the triple boundary is recorded in $R$.
+
+Next read the proof-rule ledger $L$. Each rule instance is a displayed finite row and is replayed through $E$ before the triple is public. The proof-trace normal form prevents a consumer from replacing the ledger by an unstated host derivation.
+
+Kripke-style accountability is only a sibling row for assertion transport. It can record that assertion movement is read through displayed forcing data, but it does not add semantic validity or weakest-precondition computation to the carrier.
+
+Finally use $H,C,P,N$. These rows preserve the same route under transport, replay, provenance, and local naming. Therefore every public rule-soundness read is confined to $A,T,R,L,E,H,C,P,N$ and exports none of the excluded host principles.
+\end{proof}
+
+\falsifiablePrediction{A claimed $\HoareLogicUp$ read is rejected if a public Hoare triple cites a proof rule whose assertion source row, command-step trace row, pre/postcondition ledger row, and proof-trace replay row are not all displayed in the same packet.}
+
+\independenceWitness{firstorder, computable, turingmachine, proof-trace-normal-form, kripke-semantics: none of these siblings alone carries assertion source, command-step trace, pre/postcondition ledger, proof-rule ledger, proof-trace replay, transport, provenance, and local naming as one program-logic packet.}
+
+\closureat{HoareLogicUp}{seedStr}
+
+\begin{closurestatus}{\HoareLogicUp}
+  \constructivestory{A $\HoareLogicUp$ packet is generated from first-order assertion rows, finite command-step traces, pre/postcondition ledger rows, proof-rule ledger rows, proof-trace replay, componentwise hsame transport, displayed Cont routes, package provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:hoare-logic-carrier}, \autoref{thm:hoare-logic-namecert-obligations}, and \autoref{thm:hoare-logic-rule-soundness-ledger} seed the finite program-logic certificate surface.}
+  \formalstatus{\formalTargetV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close host semantic validity, global weakest-precondition computation, total correctness, unbounded proof search, ambient program equivalence, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, assertion-source exactness, command-trace exposure, pre/postcondition ledger accountability, proof-rule ledger exactness, proof-trace replay, transport, provenance, and local naming.}
+\end{closurestatus}

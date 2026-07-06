@@ -1,0 +1,54 @@
+\chapter{A Concrete Naming Certificate for $\BishopRealModulusOfContinuityUp$}
+\label{ch:concrete-instances-bishop-real-modulus-of-continuity-namecert}
+\origin{human}
+
+Following Bishop and Bridges, the $\BishopRealModulusOfContinuityUp$ packet records continuity control as explicit finite rows over real names. It is read after the terminal real-name surface of \autoref{ch:concrete-instances-real-namecert} and the regular sequence rational route of \autoref{ch:concrete-instances-regseqrat-namecert}, while still exposing the stream-window and dyadic comparison data needed by $\StreamNameUp$, $\DyadicRatCoreUp$, and $\RealClassifierUp$ consumers. The packet names the modulus as a finite BEDC ledger rather than as an ambient function-space semantic object.
+
+\begin{definition}[BishopRealModulusOfContinuity carrier]
+\label{def:bishop-real-modulus-of-continuity-carrier}
+A $\BishopRealModulusOfContinuityUp$ carrier is a finite $\BHist$ packet
+$$
+B=(D,F,M,W,Q,R,S,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $D$ is the domain real-name row, read through the $\RealUp$ certificate and its regular rational windows.
+\item $F$ is the target real-name row or graph-read row, with each output request routed through finite $\RegSeqRatUp$ and $\StreamNameUp$ observations.
+\item $M$ is the modulus row, assigning to an output precision request a finite input-window precision request.
+\item $W$ is the window ledger recording which stream prefixes of the input real names are inspected.
+\item $Q$ is the $\DyadicRatCoreUp$ comparison row used to compare input windows and output tolerances.
+\item $R$ is the $\RealClassifierUp$ finite-window comparison route that states when two real-name observations are close enough for the same output request.
+\item $S$ records stability of the modulus row under displayed refinements of regular rational names.
+\item $H$ stores componentwise $\hsame$ transport for $D,F,M,W,Q,R,S$.
+\item $C$ stores displayed $\Cont$ replay from an output precision request through the input window, dyadic comparison, real classifier, and target real-name read.
+\item $P$ is the $\Pkg$ provenance over $\RealUp$, $\RegSeqRatUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\RealClassifierUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\BishopRealModulusOfContinuityUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for a host function space, an epsilon-delta proposition over completed reals, a selected global representative of a real function, quotient equality of real names, or countable choice.
+\end{definition}
+
+\begin{theorem}[BishopRealModulusOfContinuity NameCert obligations]
+\label{thm:bishop-real-modulus-of-continuity-namecert-obligations}
+For every accepted $\BishopRealModulusOfContinuityUp$ carrier $B=(D,F,M,W,Q,R,S,H,C,P,N)$, the local $\NameCert_{\BishopRealModulusOfContinuityUp}$ surface consists exactly of carrier admission for the displayed real-name input and output rows, finite modulus exposure through $M$, stream-window inspection through $W$, dyadic comparison through $Q$, real-classifier routing through $R$, refinement stability through $S$, componentwise transport through $H$, displayed replay through $C$, provenance through $P$, and local naming through $N$.
+
+Consequently every consumer of the packet receives explicit continuity-control data over real names, not an ambient function-space continuity assertion.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:bishop-real-modulus-of-continuity-carrier}. The input and output real-name rows are $D$ and $F$, and the finite modulus row is $M$.
+
+The stream and dyadic rows $W,Q$ make the inspected input prefixes and tolerance comparisons visible. The real-classifier route $R$ is therefore the only route by which a finite-window comparison can justify an output precision read.
+
+Refinement stability is the row $S$, while $H,C,P,N$ transport, replay, package, and name the same displayed rows. Since the carrier contains no host function-space coordinate, no quotient equality of real functions, and no choice-selected representative, the listed rows exhaust the local certificate surface.
+\end{proof}
+
+\closureat{BishopRealModulusOfContinuityUp}{seedStr}
+
+\begin{closurestatus}{\BishopRealModulusOfContinuityUp}
+  \constructivestory{A $\BishopRealModulusOfContinuityUp$ packet is generated from real-name input and output rows, a finite modulus row, stream-window inspection, dyadic comparison, RealClassifier finite-window routing, refinement stability, componentwise transport, displayed replay, provenance, and local NameCert naming.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:bishop-real-modulus-of-continuity-carrier} and \autoref{thm:bishop-real-modulus-of-continuity-namecert-obligations} seed explicit Bishop-style continuity-control data over $\RealUp$ names read through $\RegSeqRatUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, and $\RealClassifierUp$ rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close host function-space continuity, quotient equality of real functions, selected global representatives, countable choice, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, modulus exposure, stream-window inspection, dyadic comparison, RealClassifier routing, refinement stability, transport, replay, provenance, and local naming for BEDC.Derived.BishopRealModulusOfContinuityUp.}
+\end{closurestatus}

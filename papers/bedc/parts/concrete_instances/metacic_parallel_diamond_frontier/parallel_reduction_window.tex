@@ -1,0 +1,10 @@
+\begin{theorem}[MetaCIC parallel reduction window]\label{thm:metacic-parallel-reduction-window}
+For a finite pair of one-step candidate reductions with a shared source row, the $\MetaCICParallelDiamondFrontierUp$ packet joins the pair only through the displayed residual-substitution rows, critical-pair rows, retained-premise rows, and candidate-normalization rows already present in this chapter. The join surface is therefore a finite residual window over the shared source, not an appeal to an ambient confluence theorem outside the packet.
+\end{theorem}
+\begin{proof}
+Induct on the finite residual window attached to the pair of one-step candidates. In the base window, the shared source row and the two candidate rows are visible before any residual is consumed, so the only admissible comparison is the displayed critical-pair envelope of the packet.
+
+For the step window, append one residual-substitution row. The candidate-normalization rows keep the appended candidate inside the same syntactic frontier, while the retained-premise rows record which premises remain available after the substitution. The critical-pair rows then compare the two displayed one-step fronts over the same source row.
+
+The induction hypothesis joins the consumed prefix through the same residual, critical-pair, retained-premise, and normalization rows. Appending the final row preserves that route because no carrier coordinate names a global reduction closure, a selected normal form, or an external confluence principle. Thus every accepted join of the finite pair is exhausted by the displayed residual window.
+\end{proof}

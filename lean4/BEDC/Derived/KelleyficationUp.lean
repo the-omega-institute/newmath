@@ -53,6 +53,82 @@ theorem KelleyficationCarrier_namecert_obligations [AskSetup] [PackageSetup]
       exportedUnary, compactOpenRoute, reflectedRoute, exportedRoute, provenancePkg,
       exportedPkg, localNamePkg⟩
 
+theorem KelleyficationCarrier_public_export_route [AskSetup] [PackageSetup]
+    {topology coreCompact compactOpen window transport replay provenance localName reflected
+      exported : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    KelleyficationCarrier topology coreCompact compactOpen window transport replay provenance
+        localName bundle pkg →
+      Cont compactOpen window reflected →
+        Cont reflected replay exported →
+          PkgSig bundle exported pkg →
+            SemanticNameCert
+                (fun row : BHist => hsame row exported ∧ UnaryHistory row)
+                (fun row : BHist =>
+                  hsame row topology ∨ hsame row coreCompact ∨ hsame row compactOpen ∨
+                    hsame row window ∨ hsame row reflected ∨ hsame row exported)
+                (fun row : BHist =>
+                  UnaryHistory row ∧ Cont topology coreCompact compactOpen ∧
+                    Cont compactOpen window reflected ∧ Cont reflected replay exported ∧
+                      PkgSig bundle provenance pkg ∧ PkgSig bundle exported pkg ∧
+                        PkgSig bundle localName pkg)
+                hsame ∧
+              UnaryHistory exported := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont PkgSig hsame SemanticNameCert
+  intro carrier reflectedRoute exportedRoute exportedPkg
+  have obligations :=
+    KelleyficationCarrier_namecert_obligations
+      (topology := topology) (coreCompact := coreCompact) (compactOpen := compactOpen)
+      (window := window) (transport := transport) (replay := replay)
+      (provenance := provenance) (localName := localName) (reflected := reflected)
+      (exported := exported) (bundle := bundle) (pkg := pkg)
+      carrier reflectedRoute exportedRoute exportedPkg
+  obtain ⟨_topologyUnary, _coreCompactUnary, _compactOpenUnary, _windowUnary,
+    _reflectedUnary, exportedUnary, compactOpenRoute, reflectedRouteFromObligation,
+    exportedRouteFromObligation, provenancePkg, exportedPkgFromObligation,
+    localNamePkg⟩ := obligations
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => hsame row exported ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row topology ∨ hsame row coreCompact ∨ hsame row compactOpen ∨
+              hsame row window ∨ hsame row reflected ∨ hsame row exported)
+          (fun row : BHist =>
+            UnaryHistory row ∧ Cont topology coreCompact compactOpen ∧
+              Cont compactOpen window reflected ∧ Cont reflected replay exported ∧
+                PkgSig bundle provenance pkg ∧ PkgSig bundle exported pkg ∧
+                  PkgSig bundle localName pkg)
+          hsame := {
+    core := {
+      carrier_inhabited :=
+        Exists.intro exported ⟨hsame_refl exported, exportedUnary⟩
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        exact
+          ⟨hsame_trans (hsame_symm sameRows) source.left,
+            unary_transport source.right sameRows⟩
+    }
+    pattern_sound := by
+      intro _row source
+      exact Or.inr <| Or.inr <| Or.inr <| Or.inr <| Or.inr source.left
+    ledger_sound := by
+      intro _row source
+      exact
+        ⟨source.right, compactOpenRoute, reflectedRouteFromObligation,
+          exportedRouteFromObligation, provenancePkg, exportedPkgFromObligation,
+          localNamePkg⟩
+  }
+  exact ⟨cert, exportedUnary⟩
+
 theorem KelleyficationCarrier_compact_generated_obligation [AskSetup] [PackageSetup]
     {topology coreCompact compactOpen window transport replay provenance localName compactRead
       reflectedOpen : BHist}
@@ -123,6 +199,10 @@ theorem KelleyficationCarrier_compact_generated_obligation [AskSetup] [PackageSe
   }
   exact ⟨cert, compactReadUnary, reflectedOpenUnary⟩
 
+-- staging: until CompactlyGeneratedWeakHausdorffUp or CompactOpenExponentialLawUp
+-- receives a Lean-side carrier, this theorem records the compact-window replay
+-- certificate consumed by those paper neighbours. Expected next steps: add the
+-- consumer carrier and route its Kelleyfication row through this certificate.
 theorem KelleyficationCarrier_compact_window_exhaustion [AskSetup] [PackageSetup]
     {topology coreCompact compactOpen window transport replay provenance localName compactRead
       reflectedOpen replayedOpen : BHist}

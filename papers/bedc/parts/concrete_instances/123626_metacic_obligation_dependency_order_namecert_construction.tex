@@ -1,0 +1,55 @@
+\chapter{A Concrete Naming Certificate for $\MetaCICObligationDependencyOrderUp$}
+\label{ch:concrete-instances-metacic-obligation-dependency-order-namecert}
+\origin{ai}
+
+The $\MetaCICObligationDependencyOrderUp$ packet realizes the subject-reduction branch of \autoref{sec:metacic-open-problems-subject-reduction} as finite dependency-order data. It sits beside the four-face obligation packet of \autoref{ch:concrete-instances-metacic-subject-reduction-obligation-namecert}, the discharge surface of \autoref{ch:concrete-instances-subjectreductiondischarge-namecert}, the normalization budget of \autoref{ch:concrete-instances-metacicnormalizationbudget-namecert}, and the closed-normal consistency boundary of \autoref{ch:concrete-instances-closed-normal-consistency-boundary-namecert}. The packet records that the beta-substitution, application-argument, lambda-domain, and Pi-domain faces are simultaneous predecessors of the parameterised theorem row, and that dropping any one face routes the consumer to the obstruction row.
+
+\begin{definition}[MetaCIC obligation dependency-order carrier]
+\label{def:metacic-obligation-dependency-order-carrier}
+A $\MetaCICObligationDependencyOrderUp$ carrier is a finite $\BHist$ packet
+$$
+O=(B,A,L,P,Q,R,\Omega,H,C,G,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $B,A,L,P$ are respectively the beta-substitution, application-argument, lambda-domain, and Pi-domain discharge faces.
+\item $Q$ is the parameterised subject-reduction theorem row whose input sockets are exactly $B,A,L,P$.
+\item $R$ is the obstruction row reached by any consumer that asks for a closed theorem while one of the four faces is absent.
+\item $\Omega$ is the dependency-order ledger, recording $B,A,L,P$ as unordered siblings that must all precede $Q$ and that none of them may be read as a replacement for another.
+\item $H$ records componentwise $\hsame$ transport for discharge faces, theorem rows, obstruction rows, order ledgers, replay, provenance, and local naming.
+\item $C$ records displayed $\Cont$ replay from the four discharge faces through $\Omega$ to either $Q$ or $R$.
+\item $G$ records $\Pkg$ provenance over the MetaCIC open-problem route, $\MetaCICSubjectReductionObligationUp$, $\SubjectReductionDischargeUp$, $\MetaCICNormalizationBudgetUp$, $\ClosedNormalConsistencyBoundaryUp$, $\BHist$, $\hsame$, $\Cont$, and local naming.
+\item $N$ is the local $\NameCert_{\MetaCICObligationDependencyOrderUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for a linear priority among the four faces, a completed closed subject-reduction theorem, a hidden discharge face, quotient syntax equality, host conversion, or global normalization.
+\end{definition}
+
+\begin{theorem}[MetaCIC obligation dependency-order non-escape]
+\label{thm:metacic-obligation-dependency-order-nonescape}
+Every accepted $\MetaCICObligationDependencyOrderUp$ packet routes a closed subject-reduction consumer through all four discharge faces $B,A,L,P$ before the parameterised theorem row $Q$ can be read. If any one of $B,A,L,P$ is absent, the consumer reaches the obstruction row $R$ rather than $Q$. The order ledger $\Omega$ records this as simultaneous predecessor data, not as a linear priority, a hidden proof of one face from another, or a closed theorem.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:metacic-obligation-dependency-order-carrier}. The only discharge-face rows are $B,A,L,P$, the only theorem row is $Q$, and the only failure-facing row is $R$.
+
+Read the four-way boundary of \autoref{thm:metacic-subject-reduction-obligation-four-way-boundary}. It already requires all four faces before the parameterised theorem row of the subject-reduction obligation packet can be consumed.
+
+The order ledger $\Omega$ preserves that boundary as dependency data. It records the faces as siblings that must all precede $Q$, so no single face can stand for the others and no linear order can hide a missing obligation.
+
+Finally $H,C,G,N$ transport, replay, source, and name the same dependency route. Since the carrier has no coordinate for a completed closed theorem, hidden discharge, quotient syntax equality, host conversion, or global normalization, a consumer missing any face reaches $R$ rather than escaping to $Q$.
+\end{proof}
+
+\falsifiablePrediction{Any closed subject-reduction consumer missing one of $B,A,L,P$ routes to the obstruction row rather than to the parameterised theorem row.}
+
+\independenceWitness{metacic-subject-reduction-obligation, subjectreductiondischarge, metacicnormalizationbudget, closed-normal-consistency-boundary: $\MetaCICObligationDependencyOrderUp$ is not bijective to any listed sibling because it binds the four discharge faces, the parameterised theorem row, the obstruction row, the simultaneous dependency-order ledger, transport, replay, provenance, and local naming as one packet.}
+
+\closureat{MetaCICObligationDependencyOrderUp}{seedStr}
+
+\begin{closurestatus}{\MetaCICObligationDependencyOrderUp}
+  \constructivestory{A $\MetaCICObligationDependencyOrderUp$ packet is generated from four subject-reduction discharge faces, a parameterised theorem row, an obstruction row, a simultaneous dependency-order ledger, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:metacic-obligation-dependency-order-carrier} and \autoref{thm:metacic-obligation-dependency-order-nonescape} seed the finite dependency-order packet for the four MetaCIC subject-reduction obligations.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not prove any discharge face, closed subject reduction, host conversion, quotient syntax equality, global normalization, Lean-side verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, four-face dependency exposure, theorem-row routing, obstruction routing, order-ledger exactness, transport, replay, provenance, and local naming for the same finite packet.}
+\end{closurestatus}

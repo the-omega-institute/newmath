@@ -1,11 +1,21 @@
+import BEDC.FKernel.Ask
+import BEDC.FKernel.Bundle
+import BEDC.FKernel.Cont
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
+import BEDC.FKernel.NameCert
+import BEDC.FKernel.Package
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.MetaCICClosurePreservationUp
 
+open BEDC.FKernel.Ask
+open BEDC.FKernel.Bundle
+open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
+open BEDC.FKernel.NameCert
+open BEDC.FKernel.Package
 open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
@@ -376,5 +386,170 @@ theorem MetaCICClosurePreservationTasteGate_single_carrier_alignment :
       · intro x y heq
         exact metaCICClosurePreservationToEventFlow_injective heq
       · rfl
+
+theorem MetaCICClosurePreservationCarrier_beta_chain_nonescape
+    (x : MetaCICClosurePreservationUp) :
+    ∃ betaClosed betaStarClosed generatorClassifier subjectReductionConsumer route provenance
+        name : BHist,
+      ∃ shiftClosed varSubstClosed substClosed auditRow closedSeal transport : BHist,
+        x =
+            MetaCICClosurePreservationUp.mk shiftClosed varSubstClosed substClosed
+              betaClosed betaStarClosed auditRow closedSeal generatorClassifier
+              subjectReductionConsumer transport route provenance name ∧
+          metaCICClosurePreservationFromEventFlow
+              (metaCICClosurePreservationToEventFlow x) =
+            some x ∧
+            metaCICClosurePreservationDecodeBHist
+                (metaCICClosurePreservationEncodeBHist betaStarClosed) =
+              betaStarClosed ∧
+              metaCICClosurePreservationEncodeBHist BHist.Empty = ([] : List BMark) := by
+  -- BEDC touchpoint anchor: BHist BMark
+  cases x with
+  | mk shiftClosed varSubstClosed substClosed betaClosed betaStarClosed auditRow closedSeal
+      generatorClassifier subjectReductionConsumer transport route provenance name =>
+      refine
+        ⟨betaClosed, betaStarClosed, generatorClassifier, subjectReductionConsumer, route,
+          provenance, name, shiftClosed, varSubstClosed, substClosed, auditRow, closedSeal,
+          transport, ?_⟩
+      constructor
+      · rfl
+      · constructor
+        · exact metaCICClosurePreservation_round_trip
+            (MetaCICClosurePreservationUp.mk shiftClosed varSubstClosed substClosed
+              betaClosed betaStarClosed auditRow closedSeal generatorClassifier
+              subjectReductionConsumer transport route provenance name)
+        · constructor
+          · exact metaCICClosurePreservationDecode_encode_bhist betaStarClosed
+          · rfl
+
+theorem MetaCICClosurePreservationCarrier_ledger_exactness
+    (x : MetaCICClosurePreservationUp) :
+    (∃ S V U B F A C G R H Q P N : BHist,
+      x = MetaCICClosurePreservationUp.mk S V U B F A C G R H Q P N ∧
+        metaCICClosurePreservationFromEventFlow
+            (metaCICClosurePreservationToEventFlow x) =
+          some x) ∧
+      metaCICClosurePreservationEncodeBHist BHist.Empty = ([] : List BMark) := by
+  -- BEDC touchpoint anchor: BHist BMark
+  cases x with
+  | mk shiftClosed varSubstClosed substClosed betaClosed betaStarClosed auditRow closedSeal
+      generatorClassifier subjectReductionConsumer transport route provenance name =>
+      constructor
+      · refine
+          ⟨shiftClosed, varSubstClosed, substClosed, betaClosed, betaStarClosed, auditRow,
+            closedSeal, generatorClassifier, subjectReductionConsumer, transport, route,
+            provenance, name, ?_⟩
+        constructor
+        · rfl
+        · exact metaCICClosurePreservation_round_trip
+            (MetaCICClosurePreservationUp.mk shiftClosed varSubstClosed substClosed
+              betaClosed betaStarClosed auditRow closedSeal generatorClassifier
+              subjectReductionConsumer transport route provenance name)
+      · rfl
+
+theorem MetaCICClosurePreservationCarrier_generator_substitution_induction
+    (x : MetaCICClosurePreservationUp) :
+    ∃ shiftClosed varSubstClosed substClosed betaClosed betaStarClosed auditRow
+        closedSeal generatorClassifier subjectReductionConsumer transport route provenance name : BHist,
+      x = MetaCICClosurePreservationUp.mk shiftClosed varSubstClosed substClosed betaClosed
+        betaStarClosed auditRow closedSeal generatorClassifier subjectReductionConsumer transport
+        route provenance name ∧
+        metaCICClosurePreservationFromEventFlow
+            (metaCICClosurePreservationToEventFlow x) =
+          some x ∧
+          metaCICClosurePreservationDecodeBHist
+              (metaCICClosurePreservationEncodeBHist auditRow) =
+            auditRow ∧
+            metaCICClosurePreservationDecodeBHist
+                (metaCICClosurePreservationEncodeBHist closedSeal) =
+              closedSeal ∧
+              metaCICClosurePreservationDecodeBHist
+                  (metaCICClosurePreservationEncodeBHist generatorClassifier) =
+                generatorClassifier ∧
+                metaCICClosurePreservationDecodeBHist
+                    (metaCICClosurePreservationEncodeBHist betaClosed) =
+                  betaClosed ∧
+                  metaCICClosurePreservationDecodeBHist
+                      (metaCICClosurePreservationEncodeBHist subjectReductionConsumer) =
+                    subjectReductionConsumer ∧
+                    metaCICClosurePreservationEncodeBHist BHist.Empty = ([] : List BMark) := by
+  -- BEDC touchpoint anchor: BHist BMark
+  cases x with
+  | mk shiftClosed varSubstClosed substClosed betaClosed betaStarClosed auditRow closedSeal
+      generatorClassifier subjectReductionConsumer transport route provenance name =>
+      refine
+        ⟨shiftClosed, varSubstClosed, substClosed, betaClosed, betaStarClosed, auditRow,
+          closedSeal, generatorClassifier, subjectReductionConsumer, transport, route,
+          provenance, name, ?_⟩
+      constructor
+      · rfl
+      · constructor
+        · exact metaCICClosurePreservation_round_trip
+            (MetaCICClosurePreservationUp.mk shiftClosed varSubstClosed substClosed
+              betaClosed betaStarClosed auditRow closedSeal generatorClassifier
+              subjectReductionConsumer transport route provenance name)
+        · constructor
+          · exact metaCICClosurePreservationDecode_encode_bhist auditRow
+          · constructor
+            · exact metaCICClosurePreservationDecode_encode_bhist closedSeal
+            · constructor
+              · exact metaCICClosurePreservationDecode_encode_bhist generatorClassifier
+              · constructor
+                · exact metaCICClosurePreservationDecode_encode_bhist betaClosed
+                · constructor
+                  · exact metaCICClosurePreservationDecode_encode_bhist subjectReductionConsumer
+                  · rfl
+
+inductive MetaCICClosurePreservationRowSource
+    (S V U B F A C G R H Q P N : BHist) : BHist → Prop where
+  | shiftClosed : MetaCICClosurePreservationRowSource S V U B F A C G R H Q P N S
+  | varSubstClosed : MetaCICClosurePreservationRowSource S V U B F A C G R H Q P N V
+  | substClosed : MetaCICClosurePreservationRowSource S V U B F A C G R H Q P N U
+  | betaClosed : MetaCICClosurePreservationRowSource S V U B F A C G R H Q P N B
+  | betaStarClosed : MetaCICClosurePreservationRowSource S V U B F A C G R H Q P N F
+  | auditRow : MetaCICClosurePreservationRowSource S V U B F A C G R H Q P N A
+  | closedSeal : MetaCICClosurePreservationRowSource S V U B F A C G R H Q P N C
+  | generatorClassifier : MetaCICClosurePreservationRowSource S V U B F A C G R H Q P N G
+  | subjectReductionConsumer : MetaCICClosurePreservationRowSource S V U B F A C G R H Q P N R
+  | transport : MetaCICClosurePreservationRowSource S V U B F A C G R H Q P N H
+  | route : MetaCICClosurePreservationRowSource S V U B F A C G R H Q P N Q
+  | provenance : MetaCICClosurePreservationRowSource S V U B F A C G R H Q P N P
+  | localName : MetaCICClosurePreservationRowSource S V U B F A C G R H Q P N N
+
+def MetaCICClosurePreservationCarrier [AskSetup] [PackageSetup]
+    (S V U B F A C G R H Q P N : BHist) (bundle : ProbeBundle ProbeName) (pkg : Pkg) :
+    Prop :=
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont PkgSig hsame
+  MetaCICClosurePreservationRowSource S V U B F A C G R H Q P N S ∧
+    Cont S A Q ∧ Cont U B F ∧ Cont C G R ∧
+      PkgSig bundle P pkg ∧ PkgSig bundle N pkg
+
+theorem MetaCICClosurePreservationCarrier_namecert_obligations [AskSetup] [PackageSetup]
+    {S V U B F A C G R H Q P N : BHist} {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    MetaCICClosurePreservationCarrier S V U B F A C G R H Q P N bundle pkg →
+      NameCert (MetaCICClosurePreservationRowSource S V U B F A C G R H Q P N) hsame ∧
+        Cont S A Q ∧ Cont U B F ∧ Cont C G R ∧
+          PkgSig bundle P pkg ∧ PkgSig bundle N pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont PkgSig hsame NameCert
+  intro carrier
+  obtain ⟨sourceS, routeSAQ, routeUBF, routeCGR, pPkg, nPkg⟩ := carrier
+  have cert :
+      NameCert (MetaCICClosurePreservationRowSource S V U B F A C G R H Q P N) hsame := {
+    carrier_inhabited := Exists.intro S sourceS
+    equiv_refl := by
+      intro row _source
+      exact hsame_refl row
+    equiv_symm := by
+      intro _row _other sameRows
+      exact hsame_symm sameRows
+    equiv_trans := by
+      intro _row _middle _other sameLeft sameRight
+      exact hsame_trans sameLeft sameRight
+    carrier_respects_equiv := by
+      intro row other sameRows source
+      cases sameRows
+      exact source
+  }
+  exact ⟨cert, routeSAQ, routeUBF, routeCGR, pPkg, nPkg⟩
 
 end BEDC.Derived.MetaCICClosurePreservationUp

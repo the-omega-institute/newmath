@@ -184,6 +184,22 @@ def taste_gate : ChapterTasteGate HostTotalTraceUp :=
   -- BEDC touchpoint anchor: BHist BMark
   hostTotalTraceChapterTasteGate
 
+def HostTotalTraceClassifier (x y : HostTotalTraceUp) : Prop :=
+  -- BEDC touchpoint anchor: BHist BMark
+  hostTotalTraceToEventFlow x = hostTotalTraceToEventFlow y ∧
+    hostTotalTraceEncodeBHist BHist.Empty = ([] : List BMark)
+
+theorem HostTotalTraceClassifier_exactness (x : HostTotalTraceUp) :
+    HostTotalTraceClassifier x x ∧
+      hostTotalTraceFromEventFlow (hostTotalTraceToEventFlow x) = some x := by
+  -- BEDC touchpoint anchor: BHist BMark
+  constructor
+  · change
+      hostTotalTraceToEventFlow x = hostTotalTraceToEventFlow x ∧
+        hostTotalTraceEncodeBHist BHist.Empty = ([] : List BMark)
+    exact ⟨rfl, rfl⟩
+  · exact hostTotalTrace_round_trip x
+
 theorem HostTotalTraceTasteGate_single_carrier_alignment :
     (∀ h : BHist, hostTotalTraceDecodeBHist (hostTotalTraceEncodeBHist h) = h) ∧
       (∀ x : HostTotalTraceUp,
@@ -198,5 +214,40 @@ theorem HostTotalTraceTasteGate_single_carrier_alignment :
         intro x y heq
         exact hostTotalTraceToEventFlow_injective heq,
       rfl⟩
+
+theorem HostTotalTrace_timeout_endpoint_separation (x : HostTotalTraceUp) :
+    ∃ H F R E U L C P N : BHist,
+      x = HostTotalTraceUp.mk H F R E U L C P N ∧
+        hostTotalTraceFromEventFlow (hostTotalTraceToEventFlow x) = some x ∧
+          hostTotalTraceDecodeBHist (hostTotalTraceEncodeBHist E) = E ∧
+            hostTotalTraceDecodeBHist (hostTotalTraceEncodeBHist U) = U ∧
+              (∀ encoded : List BMark,
+                hostTotalTraceEncodeBHist E = encoded →
+                  hostTotalTraceEncodeBHist U = encoded → E = U) := by
+  -- BEDC touchpoint anchor: BHist BMark
+  cases x with
+  | mk host fuel readback endpoint timeout transport route provenance name =>
+      refine
+        ⟨host, fuel, readback, endpoint, timeout, transport, route, provenance, name,
+          rfl, ?_, ?_, ?_, ?_⟩
+      · exact
+          hostTotalTrace_round_trip
+            (HostTotalTraceUp.mk host fuel readback endpoint timeout transport route
+              provenance name)
+      · exact hostTotalTrace_decode_encode_bhist endpoint
+      · exact hostTotalTrace_decode_encode_bhist timeout
+      · intro encoded endpointEncoded timeoutEncoded
+        have endpointDecoded :
+            hostTotalTraceDecodeBHist (hostTotalTraceEncodeBHist endpoint) =
+              hostTotalTraceDecodeBHist encoded :=
+          congrArg hostTotalTraceDecodeBHist endpointEncoded
+        have timeoutDecoded :
+            hostTotalTraceDecodeBHist (hostTotalTraceEncodeBHist timeout) =
+              hostTotalTraceDecodeBHist encoded :=
+          congrArg hostTotalTraceDecodeBHist timeoutEncoded
+        exact
+          Eq.trans (hostTotalTrace_decode_encode_bhist endpoint).symm
+            (Eq.trans endpointDecoded
+              (Eq.trans timeoutDecoded.symm (hostTotalTrace_decode_encode_bhist timeout)))
 
 end BEDC.Derived.HostTotalTraceUp

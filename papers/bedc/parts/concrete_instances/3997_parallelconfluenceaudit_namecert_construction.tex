@@ -36,6 +36,7 @@ A=(P,S,D,C,Nm,At,No,H,R,L,G),
 $$
 parallel-step route visibility, substitution-boundary visibility, conditional parallel-diamond handoff visibility, closed-diamond-to-star-confluence handoff visibility, closed-normal fragment visibility, atom and non-lambda fragment visibility, non-claim exactness, componentwise $\hsame$ transport, displayed $\Cont$ route replay, $\Pkg$ provenance, and local naming.
 \end{theorem}
+\leanchecked{BEDC.Derived.ParallelConfluenceAuditUp.ParallelConfluenceAudit\_namecert\_obligations}
 \begin{proof}
 Project the carrier. The inventory is exactly $P,S,D,C,Nm,At,No,H,R,L,G$, so every local naming obligation is read from a displayed finite row.
 
@@ -78,6 +79,57 @@ Use \autoref{thm:parallel-confluence-audit-conditional-bridge}. Reads of the bri
 Use \autoref{thm:parallel-confluence-audit-namecert-obligations} for local naming and provenance. The non-claim row $No$ is part of the same finite packet as the displayed routes, and the missing endpoint theorems have no carrier coordinate.
 
 Therefore a downstream consumer may cite the audit packet only as the finite confluence-side map described above. It cannot turn the map into arbitrary closed Church--Rosser, a proof of substitution compatibility, or a proof of the closed parallel diamond.
+\end{proof}
+\leanchecked{BEDC.Derived.ParallelConfluenceAuditUp.ParallelConfluenceAudit\_nonescape}
+
+\begin{theorem}[ParallelConfluenceAudit residual premise retention]
+\label{thm:parallel-confluence-audit-residual-premise-retention}
+Let $A=(P,S,D,C,Nm,At,No,H,R,L,G)$ be an accepted $\ParallelConfluenceAuditUp$ carrier. Any residual-substitution premise read by a confluence consumer is retained as the displayed boundary row $S$ throughout the route
+$$
+P \longmapsto S \longmapsto D \longmapsto C \longmapsto H \longmapsto R .
+$$
+The packet may transport the premise through the finite typed-window route, but it does not discharge $\mathrm{BetaParallelSubstitutionCompatibility}$ or replace it by evaluator equality, quotient term equality, subject reduction, kernel consistency, or full Church--Rosser.
+\end{theorem}
+\begin{proof}
+Project the carrier rows. The row $S$ is explicitly the substitution-compatibility boundary, and the rows $D$ and $C$ occur downstream of it.
+
+Use the conditional bridge theorem. It forces every read of the parallel-diamond handoff to pass through $S$ before $D$, and every closed-star handoff to pass through $D$ before $C$.
+
+The transport and replay rows $H,R$ preserve the same premise-bearing route. Since the non-claim row $No$ excludes the discharged premise and the full confluence endpoints, the residual-substitution premise remains visible rather than becoming a hidden proof.
+\end{proof}
+\leanchecked{BEDC.Derived.ParallelConfluenceAuditUp.ParallelConfluenceAudit\_residual\_premise\_retention}
+
+\begin{theorem}[ParallelConfluenceAudit typed-window local join]
+\label{thm:parallel-confluence-audit-typed-window-local-join}
+Every typed-window local join exposed by an accepted $\ParallelConfluenceAuditUp$ packet is mediated by the finite rows $P,S,D,C,Nm,At,No,H,R,L,G$. The join may use the closed-normal fragment $Nm$ and the atom or non-lambda fragment $At$ as local cases, while the conditional handoffs $S,D,C$ remain retained premises. It exports no full Church--Rosser theorem, subject reduction theorem, evaluator equality, quotient term equality, or kernel consistency statement.
+\end{theorem}
+\begin{proof}
+Start with a typed-window local join request. The carrier has no independent join coordinate, so the request first reads the parallel-step route $P$ and the substitution boundary $S$.
+
+The conditional rows then determine the join surface. The row $D$ is only the parallel-diamond handoff under the retained premise, and $C$ is only the closed-diamond-to-star handoff.
+
+The fragment rows $Nm$ and $At$ provide local closed-normal and atom-shape cases. They are useful inside the typed window, but their positions do not remove $S,D,C$ or create global evaluator equality.
+
+Finally read $No,H,R,L,G$. The non-claim, transport, replay, provenance, and naming rows keep the local join candidate inside the displayed finite packet and block the listed global MetaCIC conclusions.
+\end{proof}
+\leanchecked{BEDC.Derived.ParallelConfluenceAuditUp.ParallelConfluenceAudit\_typed\_window\_local\_join}
+
+\begin{theorem}[ParallelConfluenceAudit candidate-mediated boundary]
+\label{thm:parallel-confluence-audit-candidate-mediated-boundary}
+Every confluence candidate exported by an accepted $\ParallelConfluenceAuditUp$ packet is mediated by the displayed rows
+$$
+P,S,D,C,Nm,At,No,H,R,L,G .
+$$
+It is a candidate-mediated typed-window boundary: residual-substitution premises are retained, local fragment joins are named, and the endpoint remains short of full Church--Rosser, subject reduction, evaluator equality, quotient term equality, and kernel consistency.
+\end{theorem}
+\begin{proof}
+Read the candidate from the carrier. The rows $P,S,D,C$ provide the parallel-step route and the two conditional handoffs, with $S$ retained as a premise boundary.
+
+Read the local fragments next. The rows $Nm$ and $At$ cover closed-normal and atom or non-lambda cases inside the displayed typed window, not arbitrary closed terms.
+
+Apply non-escape. The row $No$ and \autoref{thm:parallel-confluence-audit-nonescape} prevent the candidate from being read as full Church--Rosser or as proofs of the named conditional premises.
+
+The structural rows $H,R,L,G$ only transport, replay, source, and name this candidate-mediated boundary. They add no evaluator equality, quotient term equality, subject reduction theorem, or kernel-consistency theorem.
 \end{proof}
 
 \closureat{ParallelConfluenceAuditUp}{seedStr}

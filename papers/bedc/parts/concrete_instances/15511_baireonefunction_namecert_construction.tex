@@ -55,7 +55,7 @@ For every accepted $\BaireOneFunctionUp$ carrier $K=(X,F,S,Q,R,L,H,C,P,N)$, the 
 \end{enumerate}
 No NameCert obligation is stored outside these rows.
 \end{theorem}
-\leanchecked{BEDC.Derived.BaireOneFunctionUp.BaireOneFunctionCarrier\_namecert\_obligation\_surface}
+\leanchecked{BEDC.Derived.BaireOneFunctionUp.BaireOneFunctionCarrier\_namecert\_obligations\_transport\_surface}
 \begin{proof}
 Carrier admission is projection from \autoref{def:baireonefunction-carrier}. The accepted packet exposes exactly the source context, continuous approximant ledger, stream schedule, regular rational readback, real value seal, lower-semicontinuous handoff, transport, continuation, provenance, and local naming rows.
 
@@ -77,6 +77,7 @@ X,F,S,Q \longmapsto R .
 $$
 The route reads a source point from the $\BaireSpaceUp$ context, selects finitely many continuous approximant observations through the $\StreamNameUp$ schedule, checks the selected windows through the $\RegSeqRatUp$ readback, and then exposes the $\RealUp$ value seal. It is not an ambient pointwise-convergence theorem, not a quotient of real names, and not a choice principle for approximating sequences.
 \end{theorem}
+\leanchecked{BEDC.Derived.BaireOneFunctionUp.BaireOneFunctionCarrier\_pointwise\_limit\_handoff\_certificate}
 \begin{proof}
 Start with a consumer of the value seal $R$. The carrier places $R$ in the same packet as $X,F,S,Q$, and the continuation row $C$ records the only displayed route into $R$.
 
@@ -84,13 +85,12 @@ The source request first reads the $\BaireSpaceUp$ context $X$. The continuous a
 
 The regular rational readback $Q$ checks those selected windows before the seal row is available. Componentwise transport by $H$ preserves this route, and the package and local naming rows record no ambient function-space coordinate. Therefore every exported value seal factors through $X,F,S,Q$.
 \end{proof}
-\leanchecked{BEDC.Derived.BaireOneFunctionUp.BaireOneFunctionCarrier\_pointwise\_lowersemicontinuous\_handoff\_certificate}
 
 \begin{theorem}[BaireOneFunction pointwise schedule obligations]
 \label{thm:baireonefunction-pointwise-schedule-obligations}
 For every accepted $\BaireOneFunctionUp$ carrier $K=(X,F,S,Q,R,L,H,C,P,N)$, every pointwise value read must expose the $\BaireSpaceUp$ source row $X$, the $\ContinuousMapUp$ family ledger $F$, the $\StreamNameUp$ schedule $S$, the $\RegSeqRatUp$ readback $Q$, the $\RealUp$ seal $R$, and the transport, replay, provenance, and local naming rows $H,C,P,N$ before any $\LowerSemicontinuousUp$ handoff row $L$ is consumed. Thus the handoff cannot be read as a shortcut around the pointwise schedule.
 \end{theorem}
-\leanchecked{BEDC.Derived.BaireOneFunctionUp.BaireOneFunctionCarrier\_pointwise\_schedule\_obligations}
+\leanchecked{BEDC.Derived.BaireOneFunctionUp.BaireOneFunctionCarrier\_pointwise\_schedule\_real\_seal\_route}
 \begin{proof}
 Project the carrier of \autoref{def:baireonefunction-carrier}. The rows $X,F,S,Q,R$ appear before the lower-semicontinuous handoff row $L$ in the displayed pointwise-limit ledger.
 
@@ -154,7 +154,7 @@ K=(X,F,S,Q,R,L,H,C,P,N)
 $$
 is exhausted by the displayed source context $X$, continuous approximant ledger $F$, stream schedule $S$, regular rational readback $Q$, real value seal $R$, transport row $H$, replay row $C$, provenance row $P$, and local naming row $N$. The lower-semicontinuous row $L$ may publish only the public observations already routed through these rows; it cannot introduce hidden approximants, quotient real equality, full measurability, or completeness of $\RealUp$.
 \end{theorem}
-\leanchecked{BEDC.Derived.BaireOneFunctionUp.BaireOneFunctionCarrier\_lowersemicontinuous\_exhaustion}
+\leanchecked{BEDC.Derived.BaireOneFunctionUp.BaireOneFunctionCarrier\_lowersemicontinuous\_public\_nonescape\_certificate}
 \begin{proof}
 Start with the pointwise ledger of \autoref{thm:baireonefunction-pointwise-limit-ledger}. It binds every value observation to the route $X,F,S,Q\longmapsto R$, so a downstream lower-semicontinuous consumer cannot read a value that is detached from the displayed source context, approximant family, schedule, and readback.
 
@@ -162,6 +162,13 @@ Next apply the schedule obligations of \autoref{thm:baireonefunction-pointwise-s
 
 Finally use the lower-semicontinuous handoff of \autoref{thm:baireonefunction-lowersemicontinuous-handoff}. The handoff row $L$ is downstream of the same pointwise ledger, while $H,C,P,N$ only transport, replay, source, and name the displayed packet. Therefore the public lower-semicontinuous export is exhausted by the stated rows and has no coordinate for hidden approximants, quotient real equality, full measurability, or $\RealUp$ completeness.
 \end{proof}
+
+\begin{theorem}[BaireOneFunction formal lower-semicontinuous target handoff]
+\label{thm:baireonefunction-formal-target-handoff}
+The lower-semicontinuous handoff recorded by \autoref{thm:baireonefunction-lowersemicontinuous-handoff} and exhausted by \autoref{thm:baireonefunction-lowersemicontinuous-exhaustion} is the finite target consumed by the checked Lean theorem
+$\mathsf{BEDC.Derived.BaireOneFunctionUp.BaireOneFunctionCarrier\_lowersemicontinuous\_exhaustion}$. Its paper content is exactly the requirement that every $\LowerSemicontinuousUp$ public row remains downstream of $X,F,S,Q,R,H,C,P,N$ and introduces no hidden approximant, quotient real equality, full measurability, or $\RealUp$ completeness coordinate.
+\end{theorem}
+\leanchecked{BEDC.Derived.BaireOneFunctionUp.BaireOneFunctionCarrier\_lowersemicontinuous\_exhaustion}
 
 \begin{theorem}[BaireOneFunction public export]
 \label{thm:baireonefunction-public-export}
@@ -188,7 +195,7 @@ X,F,S,Q,R,L,H,C,P,N .
 $$
 The route first exposes the $\BaireSpaceUp$ source row $X$, the $\ContinuousMapUp$ approximant ledger $F$, the $\StreamNameUp$ schedule $S$, the $\RegSeqRatUp$ readback $Q$, the $\RealUp$ seal $R$, and the $\LowerSemicontinuousUp$ handoff $L$, then preserves the read through transport $H$, replay $C$, provenance $P$, and local naming $N$. It cannot introduce an undisplayed approximant selector, ambient function-space equality, quotient real equality, measurability theorem, or $\RealUp$ completeness.
 \end{theorem}
-\leanchecked{BEDC.Derived.BaireOneFunctionUp.BaireOneFunctionCarrier\_finite\_schedule\_nonescape}
+\leanchecked{BEDC.Derived.BaireOneFunctionUp.BaireOneFunctionCarrier\_finite\_schedule\_real\_seal\_nonescape}
 \begin{proof}
 Start with the pointwise-limit ledger of \autoref{thm:baireonefunction-pointwise-limit-ledger}. It binds every value read to the displayed source row, approximant ledger, finite schedule, regular rational readback, and real seal.
 
@@ -200,10 +207,13 @@ Finally use the lower-semicontinuous handoff and public export, \autoref{thm:bai
 \closureat{BaireOneFunctionUp}{bridgedStr}
 \closureat{BaireOneFunctionUp}{matureStr}
 
+The formal target companion for this packet is the namespace $\mathsf{BEDC.Derived.BaireOneFunctionUp}$. Its natural theorem shape is the finite route assertion that classifier transport, the pointwise-limit ledger, the lower-semicontinuous handoff, and finite schedule nonescape preserve exactly the carrier rows $X,F,S,Q,R,L,H,C,P,N$ and introduce no ambient function-space equality, hidden approximant selector, quotient real equality, full measurability theorem, or $\RealUp$ completeness coordinate.
+
 \begin{closurestatus}{\BaireOneFunctionUp}
   \theoryclosure{\matureClosure}
   \scopeclosed{\autoref{def:baireonefunction-carrier}, \autoref{def:baireonefunction-classifier}, \autoref{thm:baireonefunction-namecert-obligation-surface}, \autoref{thm:baireonefunction-pointwise-limit-ledger}, \autoref{thm:baireonefunction-lowersemicontinuous-handoff}, and \autoref{thm:baireonefunction-public-export} bind the finite pointwise-limit packet from continuous real-valued approximants to lower-semicontinuous public consumers.}
-  \formalstatus{\unformalizedV}
+  \formalstatus{\theoremCheckedV}
+  \leantarget{BEDC.Derived.BaireOneFunctionUp.BaireOneFunctionCarrier\_lowersemicontinuous\_exhaustion}
   \bridgestatus{none}
   \notclaimed{This chapter does not close ambient function spaces, arbitrary choice of approximating sequence, quotient equality of real names, full measurability, completeness of $\RealUp$, Lean verification, or a standard bridge.}
   \upgradepath{No paper-side theory upgrade remains; future work is Lean verification or bridge checking if not already recorded.}

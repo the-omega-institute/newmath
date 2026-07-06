@@ -26,6 +26,7 @@ with the following displayed rows:
 \end{enumerate}
 The carrier has no coordinate for a host proof kernel, quotient transport, classical selection, proposition extensionality, hidden conversion, or an accepted proof oracle outside the displayed rows.
 \end{definition}
+\leanchecked{BEDC.Derived.ClosedGeneratorAuditUp.ClosedGeneratorAuditTasteGate\_single\_carrier\_alignment}
 
 \begin{theorem}[Closed generator audit NameCert obligations]
 \label{thm:closed-generator-audit-namecert-obligations}
@@ -75,6 +76,54 @@ Apply \autoref{thm:closed-generator-audit-namecert-obligations}. The NameCert su
 The refusal part is exact. Since the audit row $A$ names the forbidden dependencies and unrecorded proof-oracle requests only as refused rows, no consumer route can reinterpret them as accepted kernel evidence or closed-term evidence.
 
 Thus every readable row is a displayed MetaCIC or BEDC row in the packet. The excluded host, quotient, classical, extensional, conversion, and oracle coordinates are absent from the carrier and cannot be exported by transport or replay.
+\end{proof}
+\leanchecked{BEDC.Derived.ClosedGeneratorAuditCarrier\_nonescape}
+
+\begin{theorem}[Closed generator audit refusal replay exactness]
+\label{thm:closed-generator-audit-refusal-replay-exactness}
+For every accepted $\ClosedGeneratorAuditUp$ carrier
+$$
+G=(T,K,R,S,A,H,C,P,N),
+$$
+a consumer can replay refusal of \texttt{Classical.choice}, \texttt{Quot.sound}, \texttt{propext}, host conversion, and unrecorded proof oracles only through the audit row $A$ together with $H,C,P,N$. No kernel row, recursor row, closed-substitution row, transport row, or substitution row can reclassify a refused dependency as accepted evidence.
+\end{theorem}
+\begin{proof}
+Project the carrier $G$. The audit-purity coordinate is the row $A$, while $T,K,R,S$ record generated syntax, kernel acceptance, authorized recursor output, and closed-substitution data.
+
+Apply \autoref{thm:closed-generator-audit-namecert-obligations}. Its five obligations include audit-refusal exactness as the row that records refusal of \texttt{Classical.choice}, \texttt{Quot.sound}, \texttt{propext}, host conversion, and unrecorded proof oracles.
+
+Use \autoref{thm:closed-generator-audit-nonescape}. Every consumer read remains inside $T,K,R,S,A,H,C,P,N$, so the structural rows $H,C,P,N$ may replay and source the audit row but cannot create an additional acceptance coordinate.
+
+Thus any replay of a refused dependency passes through $A$ and the displayed structural support. The kernel, recursor, and substitution rows remain separate carrier coordinates and cannot recast refusal as accepted evidence.
+\end{proof}
+\leanchecked{BEDC.Derived.ClosedGeneratorAuditCarrier\_refusal\_replay\_exactness}
+
+\begin{theorem}[Closed generator audit obligation boundary]
+\label{thm:closed-generator-audit-obligation-boundary}
+Every obligationClosure consumer of a $\ClosedGeneratorAuditUp$ packet must expose the generated object row $T$, kernel row $K$, authorized recursor row $R$, closed-substitution row $S$, audit-refusal row $A$, and structural rows $H,C,P,N$ before reading the packet as a ClosedGeneratorAudit obligation surface. No consumer may replace those rows by a host proof kernel, global recursor theorem, hidden substitution lemma, quotient transport, classical choice, proposition extensionality, or unrecorded proof oracle.
+\end{theorem}
+\begin{proof}
+Start with the carrier definition. It displays exactly $T,K,R,S,A,H,C,P,N$, so any obligationClosure read begins with those rows rather than with a host-side proof object.
+
+Apply the NameCert obligations. Carrier admission, generator-closure replay, closed-substitution non-escape, kernel-acceptance replay, and audit-refusal exactness each return to one of the displayed rows.
+
+Use the non-escape theorem to keep consumer access inside the same tuple. Then use refusal replay exactness to force every forbidden dependency request through $A$ together with $H,C,P,N$.
+
+Thus the obligation boundary is precisely the exposed generated object, kernel, recursor, substitution, audit, and structural rows. The excluded host, quotient, classical, extensional, conversion, and oracle routes remain absent coordinates.
+\end{proof}
+\leanchecked{BEDC.Derived.ClosedGeneratorAuditCarrier\_obligation\_boundary}
+
+\begin{theorem}[Closed generator audit kernel-replay induction]
+\label{thm:closed-generator-audit-kernel-replay-induction}
+Every accepted $\ClosedGeneratorAuditUp$ replay over a finite generator-audit path must expose the kernel acceptance witness row, kernel acceptance trace row, generator audit closure row, and recursion authorization ledger row before any closed refusal replay is exported. Induction on the displayed replay length preserves the refusal boundary and exports no Lean kernel soundness, global recursor soundness, quotient transport, or classical choice.
+\end{theorem}
+\leanchecked{BEDC.Derived.ClosedGeneratorAuditCarrier\_kernel\_replay\_induction}
+\begin{proof}
+For replay length zero, project the carrier of \autoref{def:closed-generator-audit-carrier}. The rows $K,R,S,A,H,C,P,N$ display kernel acceptance, recursor authorization, generator closure, refusal audit, transport, replay, provenance, and local naming before any consumer sees a closed refusal row.
+
+For a successor replay, append one generator-audit closure row to the displayed path. The appended row is read through the same generator-audit closure coordinate $S$, while $K$ keeps the accepted kernel witness or trace visible and $R$ keeps the recursion authorization ledger visible.
+
+Apply \autoref{thm:closed-generator-audit-nonescape} to keep the successor replay inside the displayed tuple, and apply \autoref{thm:closed-generator-audit-refusal-replay-exactness} to keep refused dependencies routed through $A,H,C,P,N$. Thus the induction preserves the refusal boundary without exporting Lean kernel soundness, global recursor soundness, quotient transport, or classical choice.
 \end{proof}
 
 \closureat{ClosedGeneratorAuditUp}{seedStr}

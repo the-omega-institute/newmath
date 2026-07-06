@@ -3,7 +3,7 @@
 \origin{human}
 
 The $\KernelAcceptanceBoundaryUp$ packet records the finite audit boundary inherited from the Lean kernel acceptance tradition: a generated candidate is either accepted as a declaration in an environment or refused before it becomes a BEDC theorem row. The packet concretizes \autoref{ch:visions-kernel-acceptance-as-audit-witness} as displayed NameCert data over generated candidates, kernel classifier stamps, environment ledger rows, accepted declarations, axiom-query refusal, replay, provenance, and local naming. It is a finite audit boundary for formal content, not a proof of the kernel implementation, not a semantic interpretation of a theorem name, and not an additional logical axiom.
-It consumes $\KernelAcceptanceWitnessUp$ for accepted-declaration rows via \autoref{ch:concrete-instances-kernelacceptancewitness-namecert} and $\AxiomQueryLedgerUp$ for forbidden-ancestry refusal rows via \autoref{ch:concrete-instances-axiomqueryledger-namecert}.
+It consumes $\KernelAcceptanceWitnessUp$ for accepted-declaration rows via \autoref{ch:concrete-instances-kernelacceptancewitness-namecert} and $\AxiomQueryLedgerUp$ for forbidden-ancestry refusal rows via \autoref{ch:concrete-instances-axiomqueryledger-namecert}. It also reads the accepted-declaration trace discipline of \autoref{ch:concrete-instances-kernelacceptancetrace-namecert} and the generator-audit closure surface of \autoref{ch:concrete-instances-generatorauditclosure-namecert}; those siblings supply trace replay and closure-classifier rows while this boundary binds them to candidate acceptance and refusal.
 
 \begin{definition}[Kernel acceptance boundary carrier]
 \label{def:kernel-acceptance-boundary-carrier}
@@ -91,6 +91,22 @@ Apply accepted-declaration exposure, \autoref{thm:kernel-acceptance-boundary-acc
 Read the refusal row $F$ from the same carrier. This row keeps forbidden ancestry, unresolved marker targets, and non-kernel semantic claims outside the accepted-declaration coordinates.
 
 A closed proof trace can therefore consume kernel acceptance only through the displayed boundary packet. The downstream trace replay receives an accepted-declaration row and a refusal row, not a proof of kernel implementation correctness or theorem-name semantics.
+\end{proof}
+
+\begin{theorem}[Kernel acceptance boundary gap-closure forward route]
+\label{thm:kernel-acceptance-boundary-gap-closure-forward-route}
+Every $\GapClosureBoundaryUp$ or gap-audit consumer reading a kernel accepted-declaration boundary must first expose the generated candidate row, classifier stamp, accepted declaration row, environment ledger, replay ledger, axiom-query refusal row, transport row, replay row, provenance row, and local naming row of the $\KernelAcceptanceBoundaryUp$ carrier
+$$
+Q=(G,K,A,E,L,F,H,C,P,N).
+$$
+The route is a forward audit dependency into \autoref{ch:concrete-instances-gapclosureboundary-namecert}: a gap-closure consumer may read kernel acceptance only through the displayed accepted-declaration exposure and replay boundary, not through kernel self-correctness, hidden theorem-name semantics, compiler correctness, hardware trust, or an unstored closure premise.
+\end{theorem}
+\begin{proof}
+Begin with accepted-declaration exposure, \autoref{thm:kernel-acceptance-boundary-accepted-declaration-exposure}. It displays $A$ only together with the generated candidate $G$, classifier stamp $K$, environment ledger $E$, replay ledger $L$, axiom-query refusal row $F$, transport $H$, replay $C$, provenance $P$, and local naming row $N$.
+
+Next use replay nonescape, \autoref{thm:kernel-acceptance-boundary-replay-nonescape}. Any gap-closure or gap-audit consumer that replays the accepted boundary remains inside those same rows and cannot manufacture a theorem from forbidden ancestry, unresolved marker targets, or non-kernel semantic claims.
+
+Finally route the visible boundary into the gap-closure chapter named in the statement. Since the $\GapClosureBoundaryUp$ side consumes displayed source and refusal rows, the kernel acceptance boundary supplies only the accepted-declaration exposure and axiom-query refusal surface; it does not supply kernel self-correctness, compiler correctness, hardware trust, theorem-name semantics, or hidden closure.
 \end{proof}
 
 \begin{theorem}[Kernel acceptance boundary replay nonescape]

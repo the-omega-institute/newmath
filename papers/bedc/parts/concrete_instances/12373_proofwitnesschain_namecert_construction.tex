@@ -80,8 +80,8 @@ The Lean follow-up file \texttt{lean4/BEDC/Derived/ProofWitnessChainUp/TasteGate
 
 \begin{closurestatus}{\ProofWitnessChainUp}
   \constructivestory{The proof witness chain is generated from $BHist$ rows that list proof trace data, source rows, classifier witnesses, transport, ledger entries, forbidden-resource refusal, audit verdict, provenance, and local naming in order. The carrier first reads each witness row, then checks that the ledger connects adjacent rows as a chain, and finally allows $\Cont$ to carry the trace forward without replacing it by an external proof object. The $hsame$ relation keeps the witness sequence stable when histories are represented differently. The NameCert obligations, ledger non-escape, proof-trace handoff, prediction, and independence witness thus make the chain a visible certificate of derivation evidence.}
-  \theoryclosure{\obligationClosure}
-  \scopeclosed{This chapter binds the proof witness-chain carrier, NameCert obligations, ledger non-escape theorem, proof-trace handoff theorem, falsifiable prediction, and independence witness as the visible obligation surface.}
+  \theoryclosure{\scopedClosure}
+  \scopeclosed{This chapter binds the $\BHist$ proof trace rows, $\hsame$ transport, $\Cont$ replay, $\Pkg$ provenance, local $\NameCert$ naming, forbidden-resource refusal, audit verdict, and the cited sibling surfaces $\ProofTraceAuditWitnessUp$, $\KernelAuditWitnessUp$, $\NameCertMorphismUp$, $\ProofTermErasureTraceUp$, and $\FiniteWitnessRouteUp$ as the exact proof witness-chain kernel scope.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{ai}

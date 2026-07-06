@@ -1,0 +1,79 @@
+\chapter{A Concrete Naming Certificate for $\SmallCategoryUp$}
+\label{ch:concrete-instances-small-category-namecert}
+\origin{human}
+
+Following Mac Lane's small-category convention, the $\SmallCategoryUp$ packet records the size-controlled category surface in which the object and morphism rows are displayed BEDC data before categorical composition is read. It sits beside the category carrier of \autoref{ch:concrete-instances-category-namecert}, the functor carrier of \autoref{ch:concrete-instances-functor-namecert}, the membership carrier of \autoref{ch:concrete-instances-setlike-namecert}, and the displayed-family carrier of \autoref{ch:concrete-instances-typelike-namecert}. The packet names one finite object ledger, one finite hom-ledger family, identities, composition, law transport, continuation replay, provenance, and local naming; it does not import a host universe of all objects, quotient equality of hom-sets, selected representatives, or an ambient large-category principle.
+
+\begin{definition}[SmallCategory carrier]
+\label{def:small-category-carrier}
+A $\SmallCategoryUp$ carrier is a finite $\BHist$ packet
+$$
+S=(O,M,I,C,L,A,F,T,H,K,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $O$ is the $\SetLikeUp$ object ledger, naming the accepted object rows and their membership classifier.
+\item $M$ is the displayed hom-ledger family, read as $\TypeLikeUp$ fibers over ordered pairs from $O$.
+\item $I$ is the identity row, assigning to each displayed object an admitted morphism row in the corresponding fiber.
+\item $C$ is the composition row, assigning to each displayed composable pair a displayed composite morphism row.
+\item $L$ is the categorical law ledger, recording associativity and left- and right-identity laws as carried $\hsame$ rows.
+\item $A$ is the parent $\CategoryUp$ admission row, exposing the same object, hom, identity, composition, and law rows to the category interface.
+\item $F$ is the $\FunctorUp$ handoff row, recording which object and morphism rows a functor-facing consumer may read.
+\item $T$ is the size ledger, requiring every object row and every hom-fiber row to be read through the displayed $\SetLikeUp$ and $\TypeLikeUp$ surfaces before $A$ or $F$ is consumed.
+\item $H$ records componentwise $\hsame$ transport for object, hom, identity, composition, law, category-admission, functor-handoff, size, replay, provenance, and local naming rows.
+\item $K$ records displayed $\Cont$ replay from a small-category request through $O,M,I,C,L,A,F,T,H$.
+\item $P$ is the $\Pkg$ provenance over $\SmallCategoryUp$, $\CategoryUp$, $\FunctorUp$, $\SetLikeUp$, $\TypeLikeUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\SmallCategoryUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for a host universe of objects, unrestricted hom-set collection, quotient equality of morphisms, selected representatives, large-category closure, or an external category of all BEDC packets.
+\end{definition}
+
+\begin{theorem}[SmallCategory NameCert obligations]
+\label{thm:small-category-namecert-obligations}
+For every accepted $\SmallCategoryUp$ carrier
+$$
+S=(O,M,I,C,L,A,F,T,H,K,P,N),
+$$
+the local $\NameCert_{\SmallCategoryUp}$ surface consists exactly of carrier admission for the displayed object ledger $O$, hom-ledger family $M$, identity row $I$, composition row $C$, categorical law ledger $L$, parent $\CategoryUp$ admission $A$, $\FunctorUp$ handoff $F$, size ledger $T$, componentwise $\hsame$ transport $H$, displayed $\Cont$ replay $K$, $\Pkg$ provenance $P$, and local naming row $N$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:small-category-carrier}. The object side is the SetLike row $O$, and the morphism side is the TypeLike hom-ledger family $M$ over displayed ordered object pairs.
+
+The categorical operations are finite displayed rows. The identity row $I$ and composition row $C$ are read before the law ledger $L$, and $L$ records the three category laws through carried $\hsame$ evidence rather than host equality of morphisms.
+
+The parent and consumer rows are downstream. The Category admission $A$ and Functor handoff $F$ may be consumed only after the size ledger $T$ has exposed the SetLike and TypeLike routes. Componentwise transport $H$, continuation replay $K$, provenance $P$, and local naming $N$ preserve the same route.
+
+Since no additional coordinate exists, the local NameCert obligations cannot ask for a host object universe, unrestricted hom-set collection, quotient equality, selected representatives, large-category closure, or an external category of all BEDC packets.
+\end{proof}
+
+\begin{theorem}[SmallCategory Category handoff]
+\label{thm:small-category-category-handoff}
+Every $\CategoryUp$ or $\FunctorUp$ consumer of an accepted $\SmallCategoryUp$ packet must first expose the displayed route
+$$
+\SetLikeUp,\ \TypeLikeUp,\ O,M,I,C,L,T \longmapsto A,F,H,K,P,N .
+$$
+Thus the parent category interface receives object and morphism carriers already bounded by $\SetLikeUp$ and $\TypeLikeUp$, while the functor interface receives only the displayed object and morphism rows selected by $F$. The handoff cannot be reread as a large category, a host universe, an unrestricted hom-set family, quotient morphism equality, or a selected representative principle.
+\end{theorem}
+\begin{proof}
+Begin with the NameCert obligations of \autoref{thm:small-category-namecert-obligations}. They force every categorical read to expose the object ledger $O$, hom-ledger family $M$, identity row $I$, composition row $C$, law ledger $L$, and size ledger $T$ before the parent or functor rows are available.
+
+The sibling chapters supply the bounded carrier surfaces. $\SetLikeUp$ supplies the displayed object-membership ledger, $\TypeLikeUp$ supplies the displayed hom-fiber family, $\CategoryUp$ supplies the parent category interface, and $\FunctorUp$ supplies the consumer-facing object and morphism mapping route.
+
+Finally read $A,F,H,K,P,N$. Category admission and functor handoff are preserved by componentwise $\hsame$ transport and replayed by $\Cont$, while provenance and local naming keep the route sourced inside the finite packet. The refused large-category and host-universe principles are absent from the carrier, so no consumer can recover them from the handoff.
+\end{proof}
+
+\falsifiablePrediction{A purported $\SmallCategoryUp$ read is outside the packet if it reaches a $\CategoryUp$ or $\FunctorUp$ consumer without first exposing the SetLike object ledger, TypeLike hom-ledger family, identities, composition, categorical law ledger, size ledger, hsame transport, Cont replay, Pkg provenance, and local NameCert row.}
+
+\independenceWitness{category, functor, setlike, typelike: $\SmallCategoryUp$ is not bijective to any listed sibling because it jointly binds SetLike-bounded objects, TypeLike-bounded hom fibers, identities, composition, category laws, parent Category admission, Functor handoff, size ledger, transport, replay, provenance, and local naming.}
+
+\closureat{SmallCategoryUp}{seedStr}
+
+\begin{closurestatus}{\SmallCategoryUp}
+  \constructivestory{A $\SmallCategoryUp$ packet is generated from a SetLike object ledger, TypeLike hom-ledger family, identity and composition rows, categorical law ledger, Category admission, Functor handoff, size ledger, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:small-category-carrier}, \autoref{thm:small-category-namecert-obligations}, and \autoref{thm:small-category-category-handoff} seed the size-controlled category carrier and its Category and Functor handoff routes.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close large-category principles, host object universes, unrestricted hom-set collection, quotient morphism equality, selected representatives, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, SetLike object exposure, TypeLike hom exposure, identity and composition exactness, law transport, Category admission, Functor handoff, size ledger routing, replay, provenance, and local naming for BEDC.Derived.SmallCategoryUp.}
+\end{closurestatus}

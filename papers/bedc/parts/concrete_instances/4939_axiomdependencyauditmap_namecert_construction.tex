@@ -24,6 +24,7 @@ with the following visible coordinates:
 \end{enumerate}
 The carrier exports no hidden proof oracle, no global theorem census, no host axiom permission, and no conversion from a restricted or supplied row into an unconditional BEDC theorem.
 \end{definition}
+\leanchecked{BEDC.Derived.AxiomDependencyAuditMapUp.AxiomDependencyAuditMapTasteGate\_single\_carrier\_alignment}
 
 \begin{theorem}[AxiomDependencyAuditMap mode totality]
 \label{thm:axiom-dependency-audit-map-mode-totality}
@@ -72,13 +73,101 @@ The mode-totality theorem fixes the interpretation of $M,W,A$ in each branch. Th
 
 Finally replay the packet through $H,C,P,N$. Componentwise transport and package provenance preserve the same finite rows, so there is no route to an unrestricted theorem, hidden supply, proof oracle, or host axiom outside the carrier.
 \end{proof}
+\leanchecked{BEDC.Derived.AxiomDependencyAuditMapUp.AxiomDependencyAuditMapCarrier\_nonescape}
+
+\begin{theorem}[AxiomDependencyAuditMap obligation surface]
+\label{thm:axiom-dependency-audit-map-obligation-surface}
+Every accepted $\AxiomDependencyAuditMapUp$ packet exposes exactly the audit-source row, forbidden-axiom ancestry row, paper-Lean drift witness row, dependency edge ledger, componentwise $\hsame$ transport, $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ row needed by an audit-map consumer. No consumer may read $\mathsf{Classical.choice}$, $\mathsf{Quot.sound}$, $\mathsf{propext}$, a host import graph, or an external audit oracle outside those displayed rows.
+\end{theorem}
+\leanchecked{BEDC.Derived.AxiomDependencyAuditMapUp.AxiomDependencyAuditMapCarrier\_obligation\_surface}
+\begin{proof}
+Project the accepted packet as $D=(K,M,W,A,L,H,C,P,N)$. The audit-source row is $K$, while $M,W,A$ give the mode, witness, and required-axiom readings attached to the source.
+
+The finite ledger $L$ supplies the dependency edge ledger. Through the provenance row $P$, the same ledger exposes the paper-Lean drift witness of \autoref{ch:concrete-instances-paper-lean-drift-witness-namecert} and the forbidden-axiom ancestry surface of \autoref{ch:concrete-instances-forbidden-axiom-ancestry-namecert}.
+
+It remains to read the structural rows. The componentwise transport row $H$, replay row $C$, provenance row $P$, and local naming row $N$ preserve only the displayed audit carrier.
+
+Since the carrier definition contains no coordinate for $\mathsf{Classical.choice}$, $\mathsf{Quot.sound}$, $\mathsf{propext}$, a host import graph, or an external audit oracle, row exhaustion blocks every read outside the listed obligation surface.
+\end{proof}
+
+\begin{theorem}[AxiomDependencyAuditMap top-window obligation route]
+\label{thm:axiom-dependency-audit-map-top-window-obligation-route}
+Any top-window audit-map consumer that reads a dependency-map entry from an accepted $\AxiomDependencyAuditMapUp$ packet must first display the $\PaperLeanDriftWitnessUp$ row, the $\ForbiddenAxiomAncestryUp$ row, the $\AxiomDependencyMapUp$ source row, the mode row, the witness row, the required-axiom row, the ledger row, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and the local $\NameCert_{\AxiomDependencyAuditMapUp}$ row. The route admits no dependency-map read that bypasses those rows through a host import graph, external audit oracle, hidden proof ancestry, or unrecorded axiom supply.
+\end{theorem}
+\begin{proof}
+Project the accepted packet as $D=(K,M,W,A,L,H,C,P,N)$. The source row $K$ is the dependency-map entry under audit, while $M,W,A$ provide the mode, witness, and required-axiom rows that make the entry readable.
+
+Apply mode totality from \autoref{thm:axiom-dependency-audit-map-mode-totality}. It forces the top-window consumer to keep the internal, restricted, and externally supplied branches visible through the displayed mode row before interpreting the witness or supply rows.
+
+Apply the obligation surface of \autoref{thm:axiom-dependency-audit-map-obligation-surface}. The ledger $L$ and provenance $P$ expose the $\PaperLeanDriftWitnessUp$, $\ForbiddenAxiomAncestryUp$, and $\AxiomDependencyMapUp$ siblings, while $H,C,P,N$ keep transport, replay, provenance, and local naming attached to the same finite packet.
+
+Finally use non-escape from \autoref{thm:axiom-dependency-audit-map-nonescape}. Since the carrier has no coordinate for a host import graph, external audit oracle, hidden proof ancestry, or unrecorded axiom supply, a top-window read reaches a dependency-map entry only through the displayed obligation route.
+\end{proof}
+\leanchecked{BEDC.Derived.AxiomDependencyAuditMapUp.AxiomDependencyAuditMapCarrier\_top\_window\_obligation\_route}
+
+\begin{theorem}[AxiomDependencyAuditMap witness and required-axiom exactness]
+\label{thm:axiom-dependency-audit-map-witness-required-axiom-exactness}
+For every accepted $\AxiomDependencyAuditMapUp$ packet
+$$
+D=(K,M,W,A,L,H,C,P,N),
+$$
+each mode branch pairs exactly one witness reading with the corresponding required-axiom reading. The internal branch pairs the internal witness row with empty supply, the restricted branch pairs the restricted witness row with the restricted surface, and the externally supplied branch pairs one of the finite named supply, refusal, counterexample, or socket witness rows with the matching finite named supply row. No branch turns required supply into a BEDC theorem, and no branch reads a witness without the required-axiom row displayed beside it.
+\end{theorem}
+\begin{proof}
+Begin with mode totality, \autoref{thm:axiom-dependency-audit-map-mode-totality}. It exhausts $M$ into the internal, restricted, and externally supplied branches, and in each branch it displays the paired $W$ and $A$ rows.
+
+For the internal branch, the totality row reads $W$ as the internal witness and $A$ as empty supply. Since the carrier has only one witness coordinate and one required-axiom coordinate, there is no second internal witness or hidden supply row to choose.
+
+For the restricted branch, the same carrier projection pairs the restricted witness with the restricted surface. The obligation surface of \autoref{thm:axiom-dependency-audit-map-obligation-surface} keeps both rows visible before any audit-map consumer may read the dependency entry.
+
+For the externally supplied branch, $W$ is the displayed refusal, counterexample, or socket witness row, while $A$ is the finite named supply required by that branch. Nonescape from \autoref{thm:axiom-dependency-audit-map-nonescape} prevents the supplied row from being reinterpreted as an internal BEDC theorem, so exactness is a visible audit pairing rather than a proof import.
+\end{proof}
+\leanchecked{BEDC.Derived.AxiomDependencyAuditMapUp.AxiomDependencyAuditMapCarrier\_witness\_required\_axiom\_exactness}
+
+\begin{theorem}[AxiomDependencyAuditMap witness-ledger totality]
+\label{thm:axiom-dependency-audit-map-witness-ledger-totality}
+For every accepted $\AxiomDependencyAuditMapUp$ packet
+$$
+D=(K,M,W,A,L,H,C,P,N),
+$$
+each branch selected by the mode row $M$ exposes a matching ledger segment in $L$ tying the audited claim row $K$, witness row $W$, and required-axiom row $A$ to the paper-Lean drift witness, forbidden-axiom ancestry, and dependency-map source rows. No internal, restricted, or externally supplied witness branch may be read unless its ledger segment is displayed in $L$ and replayed through $P,H,C,N$.
+\end{theorem}
+\begin{proof}
+Project the accepted packet as $D=(K,M,W,A,L,H,C,P,N)$. The mode row, witness row, required-axiom row, ledger row, structural transport, replay, provenance, and local name are visible coordinates of one finite carrier.
+
+Apply mode totality from \autoref{thm:axiom-dependency-audit-map-mode-totality}. It splits $M$ into the internal, restricted, and externally supplied branches and keeps the corresponding $W,A$ pair visible in each branch.
+
+Apply witness and required-axiom exactness from \autoref{thm:axiom-dependency-audit-map-witness-required-axiom-exactness}. The internal branch has the internal witness with empty supply, the restricted branch has the restricted witness with its restricted surface, and the externally supplied branch has the displayed refusal, counterexample, or socket witness with finite named supply.
+
+It remains to attach the ledger. The obligation surface of \autoref{thm:axiom-dependency-audit-map-obligation-surface} forces $L$ to expose the paper-Lean drift witness, forbidden-axiom ancestry row, dependency-map source row, and dependency edge ledger for the same audited claim row $K$.
+
+Finally use non-escape from \autoref{thm:axiom-dependency-audit-map-nonescape}. Since every public read remains inside $K,M,W,A,L,H,C,P,N$, a witness branch cannot bypass its ledger segment through a host import graph, hidden proof ancestry, external audit oracle, or unrecorded supply.
+\end{proof}
+\leanchecked{BEDC.Derived.AxiomDependencyAuditMapUp.AxiomDependencyAuditMapCarrier\_witness\_ledger\_totality}
+
+\begin{theorem}[AxiomDependencyAuditMap obligation closure]
+\label{thm:axiom-dependency-audit-map-obligation-closure}
+Every accepted $\AxiomDependencyAuditMapUp$ carrier whose mode row, witness row, required-axiom row, dependency-edge ledger, paper-Lean drift witness, forbidden-axiom ancestry surface, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ rows are displayed has the full obligation package needed for obligation closure. The package contains carrier admission, mode totality, witness and required-axiom exactness, ledger exposure, non-escape, and the local audit-map naming surface, without importing a host axiom, hidden proof supply, or unresolved Lean marker.
+\end{theorem}
+\begin{proof}
+Start with the carrier of \autoref{def:axiom-dependency-audit-map-carrier}. It exposes one finite packet $D=(K,M,W,A,L,H,C,P,N)$, so the accepted audit-map read has visible coordinates for the audited claim, mode, witness, required-axiom, ledger, transport, replay, provenance, and local naming rows.
+
+The local certificate surface is supplied by \autoref{thm:axiom-dependency-audit-map-namecert-obligations}. It forces a consumer to read the dependency-map entry through the displayed carrier, mode, witness, required-axiom, ledger, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ rows before any public audit-map conclusion is available.
+
+Next apply mode totality from \autoref{thm:axiom-dependency-audit-map-mode-totality} and witness-required-axiom exactness from \autoref{thm:axiom-dependency-audit-map-witness-required-axiom-exactness}. Together they keep the internal, restricted, and externally supplied branches paired with exactly the corresponding witness and required-supply rows.
+
+It remains to bind the ledger and refusal boundary. The obligation surface of \autoref{thm:axiom-dependency-audit-map-obligation-surface} displays the dependency-edge ledger, paper-Lean drift witness, forbidden-axiom ancestry surface, transport, replay, provenance, and local naming rows for the same packet. The witness-ledger totality theorem \autoref{thm:axiom-dependency-audit-map-witness-ledger-totality} then attaches each selected branch to its ledger segment.
+
+Finally use non-escape from \autoref{thm:axiom-dependency-audit-map-nonescape}. Since every read remains inside $K,M,W,A,L,H,C,P,N$, the obligation package does not import a host axiom, hidden proof supply, external audit oracle, or unresolved Lean marker.
+\end{proof}
+\leanchecked{BEDC.Derived.AxiomDependencyAuditMapUp.AxiomDependencyAuditMapCarrier\_obligation\_closure}
 
 \closureat{AxiomDependencyAuditMapUp}{seedStr}
 
 \begin{closurestatus}{\AxiomDependencyAuditMapUp}
   \constructivestory{An $\AxiomDependencyAuditMapUp$ packet is generated from an audited claim row, a mode row, a witness row, a required-axiom row, a finite audit ledger, displayed $\hsame$ and $\Cont$ routes, $\Pkg$ provenance, and a local $\NameCert$ row.}
   \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:axiom-dependency-audit-map-carrier}, \autoref{thm:axiom-dependency-audit-map-mode-totality}, \autoref{thm:axiom-dependency-audit-map-namecert-obligations}, and \autoref{thm:axiom-dependency-audit-map-nonescape} specify the finite dependency-map packet for mode, witness, required-axiom, ledger, and non-escape reads.}
+  \scopeclosed{\autoref{def:axiom-dependency-audit-map-carrier}, \autoref{thm:axiom-dependency-audit-map-mode-totality}, \autoref{thm:axiom-dependency-audit-map-namecert-obligations}, \autoref{thm:axiom-dependency-audit-map-nonescape}, and \autoref{thm:axiom-dependency-audit-map-obligation-surface} specify the finite dependency-map packet for mode, witness, required-axiom, ledger, non-escape, and obligation-surface reads.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{human}

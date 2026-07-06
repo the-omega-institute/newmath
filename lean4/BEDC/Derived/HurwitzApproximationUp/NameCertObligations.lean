@@ -106,4 +106,20 @@ theorem HurwitzApproximationCarrier_namecert_obligations [AskSetup] [PackageSetu
   }
   exact ⟨cert, outputUnary⟩
 
+theorem HurwitzApproximation_continued_fraction_handoff (x : HurwitzApproximationUp) :
+    ∃ X Q A C F S D R E T U P N inputPrefix prefixTable comparisonRoute : BHist,
+      x = HurwitzApproximationUp.mk X Q A C F S D R E T U P N ∧
+        HurwitzApproximationTasteGate_single_carrier_alignment_fields x =
+          [X, Q, A, C, F, S, D, R, E, T, U, P, N] ∧
+          Cont X Q inputPrefix ∧
+            Cont A C prefixTable ∧
+              Cont (append F S) D comparisonRoute ∧ hsame R R ∧ hsame E E := by
+  -- BEDC touchpoint anchor: BHist Cont hsame
+  cases x with
+  | mk X Q A C F S D R E T U P N =>
+      exact
+        ⟨X, Q, A, C, F, S, D, R, E, T, U, P, N, append X Q, append A C,
+          append (append F S) D, rfl, rfl, rfl, rfl, rfl, hsame_refl R,
+          hsame_refl E⟩
+
 end BEDC.Derived.HurwitzApproximationUp

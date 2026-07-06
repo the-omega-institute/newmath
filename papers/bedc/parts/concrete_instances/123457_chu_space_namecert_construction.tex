@@ -1,0 +1,80 @@
+\chapter{A Concrete Naming Certificate for $\ChuSpaceUp$}
+\label{ch:concrete-instances-chu-space-namecert}
+\origin{human}
+
+Following Chu and Barr on duality for spaces of states and observations, the $\ChuSpaceUp$ packet records a finite state-observation-evaluation surface as NameCert data. It sits beside the categorical object and transport rows of \autoref{ch:concrete-instances-category-namecert}, \autoref{ch:concrete-instances-functor-namecert}, and \autoref{ch:concrete-instances-nattrans-namecert}, and it reads its state and observation carriers through \autoref{ch:concrete-instances-setlike-namecert} and \autoref{ch:concrete-instances-typelike-namecert}. The certificate names a displayed Chu-style duality route, not a host category of all Chu spaces, an ambient profunctor calculus, a selected adjunction, or an external linear-logic semantics.
+
+\begin{definition}[ChuSpace carrier]
+\label{def:chu-space-carrier}
+A $\ChuSpaceUp$ carrier is a finite $\BHist$ packet
+$$
+K=(S,O,E,D,T,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the state row, read as a finite $\SetLikeUp$ or $\TypeLikeUp$ carrier display.
+\item $O$ is the observation row, read through the same set-like or type-like naming discipline.
+\item $E$ is the evaluation relation row, displaying which state-observation incidences are accepted by the packet.
+\item $D$ is the duality flip row, exchanging the state and observation faces while reversing the evaluation read.
+\item $T$ is the category and profunctor transport row, recording the $\CategoryUp$, $\FunctorUp$, and $\NatTransUp$ handoff used by a categorical consumer.
+\item $H$ records componentwise $\hsame$ transport for $S,O,E,D,T,C,P,N$.
+\item $C$ records displayed $\Cont$ replay for evaluation, duality flip, category transport, provenance, and local naming.
+\item $P$ is the $\Pkg$ provenance over $\ChuSpaceUp$, $\CategoryUp$, $\FunctorUp$, $\NatTransUp$, $\SetLikeUp$, $\TypeLikeUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\ChuSpaceUp}$ row.
+\end{enumerate}
+The local classifier compares accepted packets only through $S,O,E,D,T,H,C,P,N$. It has no coordinate for an unbounded class of all Chu spaces, a host profunctor oracle, a quotient evaluation relation, a selected dualizing object, or an ambient linear-logic interpretation.
+\end{definition}
+\leanchecked{BEDC.Derived.ChuSpaceUp.ChuSpaceTasteGate\_single\_carrier\_alignment}
+
+\begin{theorem}[ChuSpace NameCert obligations]
+\label{thm:chu-space-namecert-obligations}
+For the carrier of \autoref{def:chu-space-carrier}, the local $\NameCert_{\ChuSpaceUp}$ surface consists exactly of carrier admission for $K=(S,O,E,D,T,H,C,P,N)$, state-row exposure, observation-row exposure, evaluation-relation exposure, duality-flip exposure, category and profunctor transport through $T$, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming. Every accepted evaluation read must pass through
+$$
+S,O \longmapsto E \longmapsto D
+$$
+before a categorical transport consumer may read $T,H,C,P,N$.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:chu-space-carrier}. The packet exposes the state row $S$, observation row $O$, evaluation relation row $E$, duality flip row $D$, categorical transport row $T$, and the structural rows $H,C,P,N$.
+
+The evaluation route is finite. A consumer first reads the displayed state and observation carriers, then the evaluation relation row, and only then the duality flip that reverses the two faces of the packet.
+
+The categorical handoff is downstream of those rows. The $\CategoryUp$, $\FunctorUp$, and $\NatTransUp$ dependencies appear only through $T$, while the carrier rows $S$ and $O$ are read through $\SetLikeUp$ or $\TypeLikeUp$ before the handoff is available.
+
+Finally, $H,C,P,N$ transport, replay, source, and name the same finite route. Since the carrier has no coordinate for a host category of all Chu spaces, an ambient profunctor oracle, quotient evaluation, a selected dualizing object, or linear-logic semantics, the listed rows exhaust the NameCert obligations.
+\end{proof}
+
+\begin{theorem}[ChuSpace duality handoff]
+\label{thm:chu-space-duality-handoff}
+Every accepted $\ChuSpaceUp$ packet exposes its duality consumer through the finite handoff
+$$
+(S,O,E)\longmapsto D\longmapsto T\longmapsto H,C,P,N .
+$$
+The flip row $D$ may exchange state and observation faces only after the state row, observation row, and evaluation relation row have been displayed, and the category/profunctor transport row $T$ may be consumed only after that flip row is available. The handoff exports no host-level Chu category, no implicit profunctor equality, no quotient of evaluations, and no selected external dualizing object.
+\end{theorem}
+\begin{proof}
+Project the carrier from \autoref{def:chu-space-carrier}. The rows $S,O,E$ are the only state, observation, and evaluation coordinates available to a consumer.
+
+Use the NameCert obligations of \autoref{thm:chu-space-namecert-obligations}. They force every accepted evaluation read through the displayed state and observation rows before the duality flip row can be interpreted.
+
+Read the transport row $T$ after the flip row. The categorical dependencies on $\CategoryUp$, $\FunctorUp$, and $\NatTransUp$ are therefore attached to the displayed duality route rather than to a host profunctor calculus.
+
+The support rows $H,C,P,N$ preserve and name the same route. Because no carrier row stores a host category of all Chu spaces, quotient evaluation equality, or an external dualizing object, the duality handoff is exactly the displayed finite packet.
+\end{proof}
+
+\falsifiablePrediction{An accepted $\ChuSpaceUp$ consumer that reads duality or categorical transport without first displaying the state row, observation row, and evaluation relation row refutes the carrier surface.}
+
+\independenceWitness{category, functor, nattrans, setlike, typelike: no listed sibling supplies the whole packet $K=(S,O,E,D,T,H,C,P,N)$, because each sibling contributes only categorical transport, morphism/naturality transport, or carrier display while this chapter binds state-observation evaluation, duality flip, transport, replay, provenance, and local naming.}
+
+\closureat{ChuSpaceUp}{seedStr}
+
+\begin{closurestatus}{\ChuSpaceUp}
+  \constructivestory{A $\ChuSpaceUp$ packet is generated from a state row, an observation row, an evaluation relation row, a duality flip row, category and profunctor transport, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:chu-space-carrier}, \autoref{thm:chu-space-namecert-obligations}, and \autoref{thm:chu-space-duality-handoff} seed the finite Chu-space carrier, its NameCert obligation rows, and its displayed duality handoff.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{human}
+  \notclaimed{This chapter does not close Lean verification, bridge checking, a host category of all Chu spaces, ambient profunctor calculus, quotient evaluation equality, selected dualizing objects, or linear-logic semantics.}
+  \upgradepath{Obligation closure requires checked carrier admission, evaluation routing, duality flip nonescape, category/profunctor transport, hsame transport, Cont replay, provenance, and local naming for BEDC.Derived.ChuSpaceUp.}
+\end{closurestatus}

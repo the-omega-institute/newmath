@@ -1,11 +1,21 @@
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
+import BEDC.FKernel.Ask
+import BEDC.FKernel.Bundle
+import BEDC.FKernel.Cont
+import BEDC.FKernel.Package
+import BEDC.FKernel.Unary.History
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.BanachContractionUp
 
+open BEDC.FKernel.Ask
+open BEDC.FKernel.Bundle
+open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
+open BEDC.FKernel.Package
+open BEDC.FKernel.Unary
 open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
@@ -157,5 +167,40 @@ theorem BanachContractionTasteGate_single_carrier_alignment :
       Nonempty.intro banachContractionBHistCarrier,
       Nonempty.intro banachContractionChapterTasteGate,
       rfl⟩
+
+def BanachContractionRouteCarrier [AskSetup] [PackageSetup]
+    (K I M Q S E H C P N : BHist) (bundle : ProbeBundle ProbeName) (pkg : Pkg) :
+    Prop :=
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg UnaryHistory PkgSig
+  UnaryHistory K ∧ UnaryHistory I ∧ UnaryHistory M ∧ UnaryHistory Q ∧
+    UnaryHistory S ∧ UnaryHistory E ∧ UnaryHistory H ∧ UnaryHistory C ∧
+      UnaryHistory P ∧ UnaryHistory N ∧ PkgSig bundle P pkg ∧ PkgSig bundle N pkg
+
+theorem BanachContractionCauchyOrbitRoute [AskSetup] [PackageSetup]
+    {K I M Q S E H C P N orbitRead tailRead sealRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    BanachContractionRouteCarrier K I M Q S E H C P N bundle pkg ->
+      Cont K I orbitRead ->
+        Cont orbitRead Q tailRead ->
+          Cont tailRead S sealRead ->
+            PkgSig bundle sealRead pkg ->
+              UnaryHistory K ∧ UnaryHistory I ∧ UnaryHistory Q ∧ UnaryHistory S ∧
+                UnaryHistory orbitRead ∧ UnaryHistory tailRead ∧ UnaryHistory sealRead ∧
+                  Cont K I orbitRead ∧ Cont orbitRead Q tailRead ∧
+                    Cont tailRead S sealRead ∧ PkgSig bundle P pkg ∧
+                      PkgSig bundle sealRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont UnaryHistory PkgSig
+  intro carrier orbitRoute tailRoute sealRoute sealPkg
+  obtain ⟨kUnary, iUnary, _mUnary, qUnary, sUnary, _eUnary, _hUnary, _cUnary,
+    pUnary, _nUnary, provenancePkg, _namePkg⟩ := carrier
+  have orbitUnary : UnaryHistory orbitRead :=
+    unary_cont_closed kUnary iUnary orbitRoute
+  have tailUnary : UnaryHistory tailRead :=
+    unary_cont_closed orbitUnary qUnary tailRoute
+  have sealUnary : UnaryHistory sealRead :=
+    unary_cont_closed tailUnary sUnary sealRoute
+  exact
+    ⟨kUnary, iUnary, qUnary, sUnary, orbitUnary, tailUnary, sealUnary, orbitRoute,
+      tailRoute, sealRoute, provenancePkg, sealPkg⟩
 
 end BEDC.Derived.BanachContractionUp

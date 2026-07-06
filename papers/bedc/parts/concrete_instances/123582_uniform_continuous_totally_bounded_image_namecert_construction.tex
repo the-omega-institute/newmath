@@ -1,0 +1,75 @@
+\chapter{A Concrete Naming Certificate for $\UniformContinuousTotallyBoundedImageUp$}
+\label{ch:concrete-instances-uniform-continuous-totally-bounded-image-namecert}
+\origin{human}
+
+Following Bishop and Bridges on total boundedness and uniform continuity, the $\UniformContinuousTotallyBoundedImageUp$ packet records the finite image-net route as NameCert data. It consumes the totally bounded source packet of \autoref{ch:concrete-instances-totallybounded-namecert}, the uniform-continuity surface of \autoref{ch:concrete-instances-uniformcontinuity-namecert}, the graph-facing map route of \autoref{ch:concrete-instances-continuousmap-namecert}, the terminal Real seal of \autoref{ch:concrete-instances-real-namecert}, the regular rational tolerance readback of \autoref{ch:concrete-instances-regseqrat-namecert}, and the finite stream-name interface of \autoref{ch:concrete-instances-streamname-namecert}. The packet names only the displayed transport from a finite source net to a finite target net; it does not import open-cover compactness, ambient $\RealUp$ completeness, quotient function equality, selected subcovers, or bridge checking.
+
+\begin{definition}[Uniform continuous totally bounded image carrier]
+\label{def:uniform-continuous-totally-bounded-image-carrier}
+A $\UniformContinuousTotallyBoundedImageUp$ carrier is a finite $\BHist$ packet
+$$
+I=(S,F,M,N,T,E,H,C,P,L)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the source $\TotallyBoundedUp$ packet, including the displayed source metric row and finite-net admission surface.
+\item $F$ is the $\UniformContinuityUp$ and $\ContinuousMapUp$ map packet, tying the same source and target rows to a displayed graph.
+\item $M$ is the explicit modulus row, sending each requested target tolerance to the source tolerance used by the finite source net.
+\item $N$ is the finite source-net row at the modulus-selected source tolerance.
+\item $T$ is the transported target-net row, listing the finitely many displayed images of the source-net points.
+\item $E$ is the $\RealUp$ and $\RegSeqRatUp$ tolerance seal, recording the rational tolerance readback used by $M,N,T$.
+\item $H$ records componentwise $\hsame$ transport for source total boundedness, the map packet, the modulus, source net, target net, tolerance seal, replay, provenance, and naming rows.
+\item $C$ records displayed $\Cont$ replay from an image-net request through $M$, then $N$, then $T$.
+\item $P$ records $\Pkg$ provenance over $\TotallyBoundedUp$, $\UniformContinuityUp$, $\ContinuousMapUp$, $\RealUp$, $\RegSeqRatUp$, $\StreamNameUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $L$ is the local $\NameCert_{\UniformContinuousTotallyBoundedImageUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for open-cover compactness, ambient $\RealUp$ completeness, quotient equality of functions, selected subcovers, countable choice over centers, or a checked bridge.
+\end{definition}
+
+\begin{theorem}[Uniform continuous totally bounded image NameCert obligations]
+\label{thm:uniform-continuous-totally-bounded-image-namecert-obligations}
+For every accepted $\UniformContinuousTotallyBoundedImageUp$ carrier
+$$
+I=(S,F,M,N,T,E,H,C,P,L),
+$$
+the local $\NameCert_{\UniformContinuousTotallyBoundedImageUp}$ surface consists exactly of source total-boundedness admission through $S$, uniform map admission through $F$, explicit modulus selection through $M$, finite source-net exposure through $N$, transported target-net exposure through $T$, $\RealUp$ and $\RegSeqRatUp$ tolerance sealing through $E$, componentwise $\hsame$ transport through $H$, displayed $\Cont$ replay through $C$, $\Pkg$ provenance through $P$, and local naming through $L$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:uniform-continuous-totally-bounded-image-carrier}. The rows $S,F,M,N,T,E,H,C,P,L$ are the full packet visible to a consumer.
+
+First read the requested target tolerance through the tolerance seal $E$ and explicit modulus row $M$. The source total-boundedness packet $S$ is then queried only at the modulus-selected source tolerance, producing the finite source net $N$.
+
+Next apply the map row $F$ to the listed net points. The target-net row $T$ records exactly those finitely many images, and the replay row $C$ preserves the order of the read from tolerance to modulus to source net to target net.
+
+The transport, provenance, and local naming rows repack the same finite data. Since no open cover, completion theorem, quotient equality, selected subcover, or bridge row occurs in the carrier, the listed rows exhaust the NameCert obligations.
+\end{proof}
+
+\begin{theorem}[Uniform continuous image-net route]
+\label{thm:uniform-continuous-totally-bounded-image-route}
+Every image-net read of an accepted $\UniformContinuousTotallyBoundedImageUp$ carrier factors first through the explicit modulus row $M$, then through the source finite-net row $N$, and only then through the transported target-net row $T$ before a target total-boundedness row is public. No accepted route may expose a target net without the same source total-boundedness packet $S$, uniform map packet $F$, tolerance seal $E$, transport, replay, provenance, and local naming rows.
+\end{theorem}
+\begin{proof}
+Start with the NameCert obligations. They force every consumer to expose $S,F,M,N,T,E,H,C,P,L$ before the local name can be read.
+
+The modulus row is the first non-structural gate for an image-net request. It turns the target tolerance, sealed by $E$, into the source tolerance used by the source total-boundedness row.
+
+The finite source-net row $N$ then supplies the only centers that may be transported. The map row $F$ sends those displayed centers to the target, and $T$ records the finite target list.
+
+Thus the public target total-boundedness row is a transported finite-net row, not an open-cover compactness theorem or a quotient-equality theorem about functions.
+\end{proof}
+
+\falsifiablePrediction{An accepted $\UniformContinuousTotallyBoundedImageUp$ consumer is refuted if it obtains a target finite-net read without displaying the source $\TotallyBoundedUp$ packet, the $\UniformContinuityUp$ and $\ContinuousMapUp$ map packet, the explicit modulus, the finite source net, the transported target net, the $\RealUp$ and $\RegSeqRatUp$ tolerance seal, transport, replay, provenance, and local naming.}
+
+\independenceWitness{totallybounded, uniformcontinuity, continuousmap, real, regseqrat, streamname: no listed sibling is bijective with $\UniformContinuousTotallyBoundedImageUp$ because this packet jointly binds source total boundedness, a uniform map, an explicit modulus, a finite source net, its transported target net, rational and Real tolerance sealing, transport, replay, provenance, and local naming in one carrier.}
+
+\closureat{UniformContinuousTotallyBoundedImageUp}{seedStr}
+
+\begin{closurestatus}{\UniformContinuousTotallyBoundedImageUp}
+  \constructivestory{A $\UniformContinuousTotallyBoundedImageUp$ packet is generated from a source totally bounded packet, a uniform continuous map packet, an explicit modulus, a finite source net, a transported target net, RealUp and RegSeqRatUp tolerance sealing, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:uniform-continuous-totally-bounded-image-carrier}, \autoref{thm:uniform-continuous-totally-bounded-image-namecert-obligations}, and \autoref{thm:uniform-continuous-totally-bounded-image-route} seed the finite image-net route for uniformly continuous images of totally bounded packets.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close open-cover compactness, ambient $\RealUp$ completeness, quotient function equality, selected subcovers, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked source total-boundedness admission, uniform map admission, explicit modulus selection, finite source-net exposure, target-net transport, tolerance sealing, transport, replay, provenance, and local naming for BEDC.Derived.UniformContinuousTotallyBoundedImageUp.}
+\end{closurestatus}

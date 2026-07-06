@@ -156,14 +156,26 @@ Finally use the validated consumer boundary of \autoref{thm:taylormodel-validate
 \leanchecked{BEDC.Derived.TaylorModelUp.TaylorModelRemainderObligationRoute}
 \leanvariant{BEDC.Derived.TaylorModelUp.TaylorModelCarrier\_remainder\_obligation\_route}
 
-\closureat{TaylorModelUp}{scopedStr}
+\begin{theorem}[TaylorModel bridge-facing route]\label{thm:taylormodel-bridge-facing-route}
+Every bridge consumer of an accepted $\TaylorModelUp$ carrier reads the packet only through the carrier rows $T=(c,J,R,I,E,V,P,N)$, the finite-jet transport route, interval-remainder soundness, validated consumer boundary, finite-jet prefix restriction, and finite-jet remainder obligation route. Thus the bridge-facing paper route exposes the displayed center, dyadic coefficient histories, finite $\StreamNameUp$ windows, interval or dyadic-ball remainder, interval-operation ledger, evaluation route, readback certificate, provenance, and local naming rows, and it exports no host Taylor series semantics, analytic convergence, selected real limit, quotient real equality, or outside remainder object.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:taylormodel-bhist-carrier}. The bridge-facing consumer starts from the same finite packet $T=(c,J,R,I,E,V,P,N)$ as the local NameCert surface, so its source rows are exactly the center, finite jet, remainder, ledger, evaluation, readback, provenance, and naming coordinates.
+
+Apply \autoref{thm:taylormodel-finite-jet-transport}, \autoref{thm:taylormodel-interval-remainder-soundness}, and \autoref{thm:taylormodel-validated-consumer-boundary}. These theorems force coefficient reads through the displayed dyadic and StreamName rows, enclosure reads through $R$ and $I$, and validated consumers through the finite readback certificate.
+
+Finally apply \autoref{prop:taylormodel-finite-jet-prefix-restriction} and \autoref{thm:taylormodel-remainder-obligation-route}. Prefix restriction keeps every consumer window inside a displayed finite subledger, and the remainder route exhausts the obligation rows for the restricted packet. Since no cited row names host series semantics, analytic convergence, selected limits, quotient equality, or an outside remainder object, the bridge-facing route is exactly the finite paper route stated above.
+\end{proof}
+\leanchecked{BEDC.Derived.TaylorModelUp.TaylorModelBridgeFacingRoute}
+
+\closureat{TaylorModelUp}{matureStr}
 
 \begin{closurestatus}{\TaylorModelUp}
   \constructivestory{A $\TaylorModelUp$ packet is generated from a center $\RealUp$ observation row, a finite dyadic jet ledger, an interval or dyadic-ball remainder enclosure, an $\IntervalArithmeticUp$ operation ledger, a $\RealUp$ and $\RegSeqRatUp$ evaluation route, a $\ValidatedNumericsUp$ readback certificate, package provenance, and a local $\NameCert$ row.}
-  \theoryclosure{\publicClosure}
-  \scopeclosed{The scoped finite-jet and remainder route records the finite carrier, NameCert obligation surface, finite-jet transport, interval-remainder soundness, validated consumer boundary, finite-jet prefix restriction, and finite-jet remainder obligation route.}
+  \theoryclosure{\matureClosure}
+  \scopeclosed{The mature finite-jet and remainder route records the finite carrier, NameCert obligation surface, finite-jet transport, interval-remainder soundness, validated consumer boundary, finite-jet prefix restriction, finite-jet remainder obligation route, and bridge-facing route, including the displayed prefix and remainder examples already exposed in the chapter body.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{This chapter does not close host Taylor series semantics, analytic convergence, selected real limits, quotient real equality, public Taylor-model algebra, or bridge checking.}
-  \upgradepath{The next verification step is checked carrier habitation, classifier stability under $\hsame$ and $\Cont$, finite-jet transport, interval-remainder soundness, validated consumer boundary, and finite-jet remainder nonescape for the same packet rows.}
+  \upgradepath{Formal verification and bridge checking remain the next work for the mature finite Taylor-model paper route.}
 \end{closurestatus}

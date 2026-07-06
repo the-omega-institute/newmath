@@ -6,18 +6,17 @@ open BedcMathlibBridge.Constructive.FussCatalan
 
 structure FussCatalanExportWitness where
   readback : Nat -> Nat -> Nat
-  readback_apply :
-    forall m n : Nat, readback m n = toNat m n
-  bedc_apply :
-    forall m n : Nat,
-      readback m n = BEDC.Derived.FussCatalanUp.fussCatalanCount m n
-  nat_choose_formula_apply :
-    forall m n : Nat,
-      readback m n = Nat.choose (m * n) n / ((m - 1) * n + 1)
-  prompt_shift_apply :
-    forall m n : Nat,
-      readback (Nat.succ m) n =
-        BEDC.Derived.FussCatalanUp.fussCatalanPromptCount m n
+  readback_apply : ∀ m n : Nat, readback m n = toNat m n
+  bedc_apply : ∀ m n : Nat,
+    readback m n = BEDC.Derived.FussCatalanUp.fussCatalanCount m n
+  nat_choose_formula_apply : ∀ m n : Nat,
+    readback m n = Nat.choose (m * n) n / ((m - 1) * n + 1)
+  nat_choose_div_apply : ∀ m n : Nat,
+    readback m n = Nat.choose (m * n) n / ((m - 1) * n + 1)
+  prompt_shift_apply : ∀ m n : Nat,
+    readback (Nat.succ m) n = BEDC.Derived.FussCatalanUp.fussCatalanPromptCount m n
+  binary_central_binom_apply : ∀ n : Nat,
+    readback 2 n = Nat.centralBinom n / (n + 1)
 
 def fussCatalanExport : FussCatalanExportWitness where
   readback := toNat
@@ -26,11 +25,29 @@ def fussCatalanExport : FussCatalanExportWitness where
     rfl
   bedc_apply := toNat_apply
   nat_choose_formula_apply := toNat_eq_nat_choose_formula
+  nat_choose_div_apply := toNat_eq_nat_choose_formula
   prompt_shift_apply := toNat_prompt_shift
+  binary_central_binom_apply := toNat_binary_eq_centralBinom_div
 
 theorem fussCatalanCount_eq_nat_choose_formula (m n : Nat) :
     BEDC.Derived.FussCatalanUp.fussCatalanCount m n =
       Nat.choose (m * n) n / ((m - 1) * n + 1) :=
-  BedcMathlibBridge.Constructive.FussCatalan.toNat_eq_nat_choose_formula m n
+  calc
+    BEDC.Derived.FussCatalanUp.fussCatalanCount m n = toNat m n :=
+      (toNat_apply m n).symm
+    _ = Nat.choose (m * n) n / ((m - 1) * n + 1) :=
+      BedcMathlibBridge.Constructive.FussCatalan.toNat_eq_nat_choose_formula m n
+
+theorem fussCatalanCount_eq_nat_choose_div (m n : Nat) :
+    BEDC.Derived.FussCatalanUp.fussCatalanCount m n =
+      Nat.choose (m * n) n / ((m - 1) * n + 1) :=
+  fussCatalanCount_eq_nat_choose_formula m n
+
+theorem fussCatalan_binary_eq_centralBinom_div (n : Nat) :
+    BEDC.Derived.FussCatalanUp.fussCatalanCount 2 n =
+      Nat.centralBinom n / (n + 1) :=
+  by
+    change toNat 2 n = Nat.centralBinom n / (n + 1)
+    exact BedcMathlibBridge.Constructive.FussCatalan.toNat_binary_eq_centralBinom_div n
 
 end BedcMathlibBridge.Export.FussCatalan

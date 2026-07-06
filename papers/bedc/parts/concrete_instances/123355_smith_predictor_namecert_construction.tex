@@ -1,0 +1,71 @@
+\chapter{A Concrete Naming Certificate for $\SmithPredictorUp$}
+\label{ch:concrete-instances-smith-predictor-namecert}
+\origin{human}
+
+Following Smith's predictor for delayed feedback systems and standard control-theory treatments, the $\SmithPredictorUp$ packet records the finite delay-compensation surface used by a controller that predicts through a displayed delay model before feeding back the plant row. It sits over \autoref{ch:concrete-instances-statespacemodel-namecert}, \autoref{ch:concrete-instances-riccati-namecert}, \autoref{ch:concrete-instances-lqr-namecert}, \autoref{ch:concrete-instances-kalman-filter-namecert}, \autoref{ch:concrete-instances-controlobservability-namecert}, and \autoref{ch:concrete-instances-matrix-namecert}. The chapter names only finite BEDC rows for the predictor packet; it does not import analytic stability, infinite-horizon optimality, stochastic convergence, or host delay differential equations.
+
+\begin{definition}[Smith predictor carrier]
+\label{def:smith-predictor-carrier}
+A $\SmithPredictorUp$ carrier is a finite $\BHist$ packet
+$$
+S=(P,D,C,K,E,H,R,Q,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $P$ is the $\StateSpaceModelUp$ plant row, exposing the finite state, input, output, transition, input-map, and observation-map data consumed by the predictor.
+\item $D$ is the delay-model row, read as a finite ledger of delayed plant-output windows and matrix rows through $\MatrixUp$.
+\item $C$ is the controller row, consuming the $\LQRUp$ and $\RiccatiUp$ control ledger when a displayed feedback law is available.
+\item $K$ is the prediction row, reading the finite delayed-output estimate through $\KalmanFilterUp$ and the observable-output surface of $\ControlObservabilityUp$.
+\item $E$ is the error-compensation ledger, recording the finite difference between delayed measured output and predicted output before the controller row is consumed.
+\item $H$ records componentwise $\hsame$ transport for $P,D,C,K,E,R,Q,N$.
+\item $R$ records displayed $\Cont$ replay from plant and delay rows to prediction, compensation, and controller handoff.
+\item $Q$ is the $\Pkg$ provenance over $\SmithPredictorUp$, $\StateSpaceModelUp$, $\RiccatiUp$, $\LQRUp$, $\KalmanFilterUp$, $\ControlObservabilityUp$, $\MatrixUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\SmithPredictorUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through these rows. It has no coordinate for an analytic delay equation, an asymptotic closed-loop theorem, a stochastic convergence assertion, a selected infinite prediction horizon, or an external transfer-function identity.
+\end{definition}
+
+\begin{theorem}[Smith predictor NameCert obligations]
+\label{thm:smith-predictor-namecert-obligations}
+For every accepted $\SmithPredictorUp$ carrier $S=(P,D,C,K,E,H,R,Q,N)$, the local $\NameCert_{\SmithPredictorUp}$ surface consists exactly of plant admission through $P$, delay-model admission through $D$, controller admission through $C$, prediction admission through $K$, error-compensation exposure through $E$, componentwise transport through $H$, replay through $R$, provenance through $Q$, and local naming through $N$. Any accepted predictor read must display these rows before treating delayed feedback compensation as available.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:smith-predictor-carrier}. The plant, delay, controller, prediction, and compensation rows are the only control-facing rows available to the packet.
+
+The structural rows then preserve the same finite surface. Transport through $H$ aligns corresponding plant, delay, controller, prediction, compensation, replay, provenance, and naming rows; replay through $R$ records the displayed route from plant and delay data to prediction and compensation; provenance through $Q$ names the sibling certificates consumed by the packet.
+
+Since no carrier coordinate stores an analytic delay equation, asymptotic theorem, stochastic convergence proof, infinite prediction horizon, or external transfer-function identity, the listed rows exhaust the local NameCert obligations.
+\end{proof}
+
+\begin{theorem}[Smith predictor delay-compensation handoff]
+\label{thm:smith-predictor-delay-compensation-handoff}
+Every controller-facing read exported by an accepted $\SmithPredictorUp$ packet factors through the finite route
+$$
+P \longmapsto D \longmapsto K \longmapsto E \longmapsto C.
+$$
+The controller row $C$ may consume the compensation ledger only after the plant row, delay-model row, prediction row, and error-compensation row have been displayed and replayed through $H,R,Q,N$.
+\end{theorem}
+\begin{proof}
+Start from the NameCert obligations of \autoref{thm:smith-predictor-namecert-obligations}. They require plant admission, delay-model admission, prediction admission, compensation exposure, and controller admission inside the same finite packet.
+
+The handoff route is recorded by $R$. A prediction row $K$ is downstream of the plant and delay rows, and the compensation ledger $E$ is downstream of the delayed-output prediction. Only then can the controller row $C$ consume the compensated signal as displayed data.
+
+Transport and provenance add no second route. The rows $H,Q,N$ preserve and name the same finite packet, while the carrier has no coordinate for host delay differential equations, analytic stability, infinite-horizon optimality, or stochastic convergence. Thus the controller-facing handoff is exactly the displayed route.
+\end{proof}
+
+\falsifiablePrediction{An accepted $\SmithPredictorUp$ consumer is refuted if it reaches a controller-facing compensated feedback row without first displaying the plant row, delay-model row, prediction row, error-compensation ledger, transport, replay, provenance, and local naming rows.}
+
+\independenceWitness{statespacemodel, riccati, lqr, kalman-filter, controlobservability, matrix: no listed sibling supplies the whole packet $S=(P,D,C,K,E,H,R,Q,N)$, because the plant model, matrix delay ledger, controller ledger, prediction row, observable-output row, compensation ledger, transport, replay, provenance, and local naming are bound together only by $\SmithPredictorUp$.}
+
+\closureat{SmithPredictorUp}{seedStr}
+
+\begin{closurestatus}{\SmithPredictorUp}
+  \constructivestory{A $\SmithPredictorUp$ packet is generated from a StateSpaceModelUp plant row, MatrixUp delay-model ledger, LQRUp/RiccatiUp controller row, KalmanFilterUp prediction row, ControlObservabilityUp output-read surface, error-compensation ledger, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:smith-predictor-carrier}, \autoref{thm:smith-predictor-namecert-obligations}, and \autoref{thm:smith-predictor-delay-compensation-handoff} seed the finite Smith-predictor delay-compensation surface over displayed control, matrix, transport, replay, provenance, and local naming rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{human}
+  \notclaimed{This chapter does not claim analytic stability, infinite-horizon optimality, stochastic convergence, host delay differential equations, transfer-function equality, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked plant admission, delay-model admission, controller admission, prediction admission, error-compensation exposure, transport, replay, provenance, and local naming for BEDC.Derived.SmithPredictorUp.}
+\end{closurestatus}

@@ -2,6 +2,7 @@ import BEDC.FKernel.Ask
 import BEDC.FKernel.Bundle
 import BEDC.FKernel.Cont
 import BEDC.FKernel.Hist
+import BEDC.FKernel.NameCert
 import BEDC.FKernel.Package
 import BEDC.FKernel.Unary
 
@@ -11,6 +12,7 @@ open BEDC.FKernel.Ask
 open BEDC.FKernel.Bundle
 open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
+open BEDC.FKernel.NameCert
 open BEDC.FKernel.Package
 open BEDC.FKernel.Unary
 
@@ -66,6 +68,27 @@ theorem ClosurePreservationAuditWitness_substitution_row [AskSetup] [PackageSetu
     ⟨sUnary, vUnary, fUnary, substitutionUnary, fullSubstitutionUnary,
       substitutionRoute, fullSubstitutionRoute, provenancePkg, fullSubstitutionPkg⟩
 
+theorem ClosurePreservationAuditWitness_beta_step_row [AskSetup] [PackageSetup]
+    {S V F B R H C P N betaStepRead : BHist} {bundle : ProbeBundle ProbeName}
+    {pkg : Pkg} :
+    ClosurePreservationAuditWitnessCarrier S V F B R H C P N bundle pkg →
+      Cont B N betaStepRead →
+        PkgSig bundle betaStepRead pkg →
+          UnaryHistory S ∧ UnaryHistory V ∧ UnaryHistory F ∧ UnaryHistory B ∧
+            UnaryHistory betaStepRead ∧ Cont S V F ∧ Cont F B H ∧
+              Cont B N betaStepRead ∧ PkgSig bundle P pkg ∧
+                PkgSig bundle betaStepRead pkg := by
+  -- BEDC touchpoint anchor: BHist Cont ProbeBundle PkgSig UnaryHistory
+  intro carrier betaStepRoute betaStepPkg
+  obtain ⟨sUnary, vUnary, fUnary, bUnary, _rUnary, _hUnary, _cUnary, _pUnary,
+    nUnary, shiftVariableRoute, fullBetaRoute, _betaStepCarrierRoute, provenancePkg⟩ :=
+    carrier
+  have betaStepUnary : UnaryHistory betaStepRead :=
+    unary_cont_closed bUnary nUnary betaStepRoute
+  exact
+    ⟨sUnary, vUnary, fUnary, bUnary, betaStepUnary, shiftVariableRoute, fullBetaRoute,
+      betaStepRoute, provenancePkg, betaStepPkg⟩
+
 theorem ClosurePreservationAuditWitness_namecert_obligations [AskSetup] [PackageSetup]
     {S V F B R H C P N nameRead : BHist} {bundle : ProbeBundle ProbeName}
     {pkg : Pkg} :
@@ -86,5 +109,68 @@ theorem ClosurePreservationAuditWitness_namecert_obligations [AskSetup] [Package
   exact
     ⟨sUnary, vUnary, fUnary, bUnary, rUnary, hUnary, cUnary, pUnary, nUnary, nameUnary,
       shiftVariableRoute, fullBetaRoute, betaStepRoute, nameRoute, provenancePkg, namePkg⟩
+
+theorem ClosurePreservationAuditWitness_non_escape [AskSetup] [PackageSetup]
+    {source value frontier betaStep betaStar history certificate provenance name betaRead
+      substRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ClosurePreservationAuditWitnessCarrier source value frontier betaStep betaStar history
+        certificate provenance name bundle pkg ->
+      Cont betaStep betaStar betaRead ->
+        Cont frontier value substRead ->
+          SemanticNameCert
+              (fun row : BHist => hsame row name /\ UnaryHistory row)
+              (fun row : BHist =>
+                hsame row source \/ hsame row value \/ hsame row frontier \/
+                  hsame row betaStep \/ hsame row betaStar \/ hsame row history \/
+                    hsame row certificate \/ hsame row provenance \/ hsame row name)
+              (fun row : BHist => hsame row name /\ Cont betaStep betaStar betaRead /\
+                Cont frontier value substRead)
+              hsame /\ UnaryHistory betaRead /\ UnaryHistory substRead := by
+  -- BEDC touchpoint anchor: BHist Cont ProbeBundle Pkg hsame SemanticNameCert UnaryHistory
+  intro carrier betaRoute substRoute
+  obtain ⟨sourceUnary, valueUnary, frontierUnary, betaStepUnary, betaStarUnary, historyUnary,
+    _certificateUnary, _provenanceUnary, nameUnary, _sourceValueFrontier,
+    _frontierBetaHistory, _betaStepRoute, _provenancePkg⟩ := carrier
+  have betaReadUnary : UnaryHistory betaRead :=
+    unary_cont_closed betaStepUnary betaStarUnary betaRoute
+  have substReadUnary : UnaryHistory substRead :=
+    unary_cont_closed frontierUnary valueUnary substRoute
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => hsame row name /\ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row source \/ hsame row value \/ hsame row frontier \/
+              hsame row betaStep \/ hsame row betaStar \/ hsame row history \/
+                hsame row certificate \/ hsame row provenance \/ hsame row name)
+          (fun row : BHist => hsame row name /\ Cont betaStep betaStar betaRead /\
+            Cont frontier value substRead)
+          hsame := {
+    core := {
+      carrier_inhabited := Exists.intro name ⟨hsame_refl name, nameUnary⟩
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        exact
+          ⟨hsame_trans (hsame_symm sameRows) source.left,
+            unary_transport source.right sameRows⟩
+    }
+    pattern_sound := by
+      intro _row source
+      exact Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr
+        (Or.inr source.left)))))))
+    ledger_sound := by
+      intro _row source
+      exact ⟨source.left, betaRoute, substRoute⟩
+  }
+  exact ⟨cert, betaReadUnary, substReadUnary⟩
 
 end BEDC.Derived.ClosurePreservationAuditWitnessUp

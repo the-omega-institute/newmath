@@ -1,11 +1,21 @@
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
+import BEDC.FKernel.Cont
+import BEDC.FKernel.NameCert
+import BEDC.FKernel.Package
+import BEDC.FKernel.Unary
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.AuditMapFrontierIndexUp
 
+open BEDC.FKernel.Ask
+open BEDC.FKernel.Bundle
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
+open BEDC.FKernel.Cont
+open BEDC.FKernel.NameCert
+open BEDC.FKernel.Package
+open BEDC.FKernel.Unary
 open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
@@ -417,5 +427,138 @@ theorem AuditMapFrontierIndexTasteGate_single_carrier_alignment :
                 by
                   intro h
                   cases h⟩
+
+def AuditMapFrontierIndexCarrier [AskSetup] [PackageSetup]
+    (T A E P R O F S H C K N : BHist) (bundle : ProbeBundle ProbeName) (pkg : Pkg) :
+    Prop :=
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg UnaryHistory PkgSig
+  UnaryHistory T ∧ UnaryHistory A ∧ UnaryHistory E ∧ UnaryHistory P ∧ UnaryHistory R ∧
+    UnaryHistory O ∧ UnaryHistory F ∧ UnaryHistory S ∧ UnaryHistory H ∧
+      UnaryHistory C ∧ UnaryHistory K ∧ UnaryHistory N ∧ PkgSig bundle K pkg ∧
+        PkgSig bundle N pkg
+
+theorem AuditMapFrontierIndexCarrier_namecert_obligations [AskSetup] [PackageSetup]
+    {T A E P R O F S H C K N familyRead frontierRead consumerRead nameRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    AuditMapFrontierIndexCarrier T A E P R O F S H C K N bundle pkg ->
+      Cont T A familyRead -> Cont O F frontierRead -> Cont F S consumerRead ->
+        Cont K N nameRead -> PkgSig bundle N pkg ->
+          SemanticNameCert
+            (fun row : BHist => hsame row N ∧ UnaryHistory row)
+            (fun row : BHist =>
+              hsame row T ∨ hsame row A ∨ hsame row E ∨ hsame row P ∨
+                hsame row R ∨ hsame row O ∨ hsame row F ∨ hsame row S ∨
+                  hsame row H ∨ hsame row C ∨ hsame row K ∨ hsame row N)
+            (fun row : BHist =>
+              UnaryHistory row ∧ PkgSig bundle N pkg ∧ Cont K N nameRead)
+            hsame ∧
+            UnaryHistory familyRead ∧ UnaryHistory frontierRead ∧
+              UnaryHistory consumerRead ∧ UnaryHistory nameRead := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont UnaryHistory PkgSig hsame SemanticNameCert
+  intro carrier familyRoute frontierRoute consumerRoute nameRoute namePkg
+  obtain ⟨unaryT, unaryA, _unaryE, _unaryP, _unaryR, unaryO, unaryF, unaryS,
+    _unaryH, _unaryC, unaryK, unaryN, _provenancePkg, _carrierNamePkg⟩ := carrier
+  have familyUnary : UnaryHistory familyRead :=
+    unary_cont_closed unaryT unaryA familyRoute
+  have frontierUnary : UnaryHistory frontierRead :=
+    unary_cont_closed unaryO unaryF frontierRoute
+  have consumerUnary : UnaryHistory consumerRead :=
+    unary_cont_closed unaryF unaryS consumerRoute
+  have nameUnary : UnaryHistory nameRead := unary_cont_closed unaryK unaryN nameRoute
+  have cert :
+      SemanticNameCert
+        (fun row : BHist => hsame row N ∧ UnaryHistory row)
+        (fun row : BHist =>
+          hsame row T ∨ hsame row A ∨ hsame row E ∨ hsame row P ∨ hsame row R ∨
+            hsame row O ∨ hsame row F ∨ hsame row S ∨ hsame row H ∨ hsame row C ∨
+              hsame row K ∨ hsame row N)
+        (fun row : BHist =>
+          UnaryHistory row ∧ PkgSig bundle N pkg ∧ Cont K N nameRead)
+        hsame := {
+    core := {
+      carrier_inhabited := Exists.intro N ⟨hsame_refl N, unaryN⟩
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        exact
+          ⟨hsame_trans (hsame_symm sameRows) source.left,
+            unary_transport source.right sameRows⟩
+    }
+    pattern_sound := by
+      intro _row source
+      exact
+        Or.inr
+          (Or.inr
+            (Or.inr
+              (Or.inr
+                (Or.inr
+                  (Or.inr
+                    (Or.inr
+                      (Or.inr
+                        (Or.inr
+                          (Or.inr
+                            (Or.inr source.left))))))))))
+    ledger_sound := by
+      intro _row source
+      exact ⟨source.right, namePkg, nameRoute⟩
+  }
+  exact ⟨cert, familyUnary, frontierUnary, consumerUnary, nameUnary⟩
+
+theorem AuditMapFrontierIndex_synthesis_handoff_obligation [AskSetup] [PackageSetup]
+    {T A E P R O F S H C K N synthesisRead nameRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    AuditMapFrontierIndexCarrier T A E P R O F S H C K N bundle pkg ->
+      Cont F S synthesisRead -> Cont K N nameRead -> PkgSig bundle N pkg ->
+        UnaryHistory synthesisRead ∧ UnaryHistory nameRead ∧ PkgSig bundle N pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont UnaryHistory PkgSig
+  intro carrier synthesisRoute nameRoute namePkg
+  obtain ⟨_unaryT, _unaryA, _unaryE, _unaryP, _unaryR, _unaryO, unaryF, unaryS,
+    _unaryH, _unaryC, unaryK, unaryN, _provenancePkg, _carrierNamePkg⟩ := carrier
+  exact
+    ⟨unary_cont_closed unaryF unaryS synthesisRoute,
+      unary_cont_closed unaryK unaryN nameRoute, namePkg⟩
+
+theorem AuditMapFrontierIndex_neighbour_restriction [AskSetup] [PackageSetup]
+    {T A E E0 P R O F S H C K N : BHist} {bundle : ProbeBundle ProbeName}
+    {pkg : Pkg} :
+    AuditMapFrontierIndexCarrier T A E P R O F S H C K N bundle pkg →
+      UnaryHistory E0 →
+        AuditMapFrontierIndexCarrier T A E0 P R O F S H C K N bundle pkg ∧
+          hsame (append A E0) (append A E0) := by
+  -- BEDC touchpoint anchor: BHist hsame UnaryHistory ProbeBundle Pkg append
+  intro carrier unaryE0
+  obtain ⟨unaryT, unaryA, _unaryE, unaryP, unaryR, unaryO, unaryF, unaryS,
+    unaryH, unaryC, unaryK, unaryN, provenancePkg, namePkg⟩ := carrier
+  exact
+    ⟨⟨unaryT, unaryA, unaryE0, unaryP, unaryR, unaryO, unaryF, unaryS, unaryH,
+        unaryC, unaryK, unaryN, provenancePkg, namePkg⟩,
+      hsame_refl (append A E0)⟩
+
+theorem AuditMapFrontierIndex_obstruction_route
+    {mapTag localAudit neighbouringMap positive conditional obstruction frontier
+      synthesisConsumer transport route provenance localName guarded exposed direct : BHist} :
+    auditMapFrontierIndexFields
+        (AuditMapFrontierIndexUp.mk mapTag localAudit neighbouringMap positive conditional
+          obstruction frontier synthesisConsumer transport route provenance localName) =
+      [mapTag, localAudit, neighbouringMap, positive, conditional, obstruction, frontier,
+        synthesisConsumer, transport, route, provenance, localName] →
+      Cont localAudit conditional route →
+        Cont route obstruction guarded →
+          Cont guarded frontier exposed →
+            Cont localAudit (append conditional obstruction) direct →
+              hsame (append direct frontier) exposed := by
+  -- BEDC touchpoint anchor: BHist Cont hsame append
+  intro _fields routeStep obstructionStep frontierStep directStep
+  rw [frontierStep, obstructionStep, routeStep, directStep]
+  exact congrArg (fun row => append row frontier)
+    (append_assoc localAudit conditional obstruction).symm
 
 end BEDC.Derived.AuditMapFrontierIndexUp

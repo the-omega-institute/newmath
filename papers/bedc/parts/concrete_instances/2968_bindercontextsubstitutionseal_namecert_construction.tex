@@ -208,16 +208,18 @@ Apply the compiler handoff theorem, \autoref{thm:binder-context-substitution-sea
 
 Use route determinacy, \autoref{thm:binder-context-substitution-seal-route-determinacy}, together with the scope triad of \autoref{thm:binder-context-substitution-seal-scope-triad}. These fix every consumer route through the same packet and exclude open-term semantics, global evaluator correctness, subject reduction, and hidden binder context from the bridge-facing surface.
 \end{proof}
+\leanchecked{BEDC.Derived.BinderContextSubstitutionSealUp.BinderContextSubstitutionSealCarrier\_bridged\_export}
 
 \closureat{BinderContextSubstitutionSealUp}{seedStr}
 \closureat{BinderContextSubstitutionSealUp}{obligationStr}
 \closureat{BinderContextSubstitutionSealUp}{scopedStr}
 \closureat{BinderContextSubstitutionSealUp}{publicStr}
 \closureat{BinderContextSubstitutionSealUp}{bridgedStr}
+\closureat{BinderContextSubstitutionSealUp}{matureStr}
 
 \begin{closurestatus}{\BinderContextSubstitutionSealUp}
   \constructivestory{A $\BinderContextSubstitutionSealUp$ packet is generated from a \texttt{Term} row, a binder-depth row, a substitution payload, a replayed \texttt{substitute} result, a \texttt{ClosedAt} inertness witness, componentwise $\hsame$ transports, displayed $\Cont$ routes, package provenance, and a local $\NameCert$ row.}
-  \theoryclosure{\bridgedClosure}
+  \theoryclosure{\matureClosure}
   \scopeclosed{\autoref{def:binder-context-substitution-seal-carrier}, \autoref{thm:binder-context-substitution-seal-namecert-obligations}, \autoref{thm:binder-context-substitution-seal-obligation-rows}, \autoref{thm:binder-context-substitution-seal-closed-boundary-exactness}, \autoref{thm:binder-context-substitution-seal-route-determinacy}, \autoref{thm:binder-context-substitution-seal-obligation-consumer}, \autoref{thm:binder-context-substitution-seal-scope-triad}, and \autoref{thm:binder-context-substitution-seal-bridged-export} bind the bridge-facing primitive surface over \texttt{Term}, \texttt{ClosedAt}, \texttt{substitute}, inertness, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}

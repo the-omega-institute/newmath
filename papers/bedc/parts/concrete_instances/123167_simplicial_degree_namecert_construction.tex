@@ -1,0 +1,75 @@
+\chapter{A Concrete Naming Certificate for $\SimplicialDegreeUp$}
+\label{ch:concrete-instances-simplicial-degree-namecert}
+\origin{human}
+
+Following Eilenberg--Steenrod and standard finite simplicial homology treatments, the $\SimplicialDegreeUp$ packet records degree as an integer ledger read from oriented simplex-chain data. It sits after the finite face inventory of \autoref{ch:concrete-instances-simplicialcomplex-namecert}, the homology carrier of \autoref{ch:concrete-instances-homology-namecert}, the Brouwer-degree boundary surface of \autoref{ch:concrete-instances-brouwer-degree-namecert}, and the winding-number carrier of \autoref{ch:concrete-instances-winding-number-namecert}. The packet names only displayed chain rows, boundary rows, integer-degree rows, transport, replay, provenance, and local naming; it does not import quotient homology classes, host topological degree, selected preimages, ambient compactness, or an external triangulation theorem.
+
+\begin{definition}[Simplicial degree carrier]
+\label{def:simplicial-degree-carrier}
+A $\SimplicialDegreeUp$ carrier is a finite $\BHist$ packet
+$$
+D=(K,L,A,B,I,H,T,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $K$ is the source $\SimplicialComplexUp$ row, exposing finite oriented simplex rows, face incidence, dimension grading, and orientation signs.
+\item $L$ is the target $\SimplicialComplexUp$ row, exposing the finite oriented target simplex inventory in the degree window.
+\item $A$ is the finite chain-map ledger, recording how each oriented top simplex in $K$ is sent to a signed finite chain in $L$.
+\item $B$ is the boundary-row ledger, recording the displayed compatibility between the simplex boundary rows of $K$, the chain-map row $A$, and the boundary rows of $L$.
+\item $I$ is the integer-degree ledger row, read through $\IntUp$, that records the signed coefficient obtained on the displayed target top-chain window.
+\item $H$ is the homology readback row, read through $\HomologyUp$ only as a finite cycle-boundary handoff for the same displayed chain rows.
+\item $T$ records componentwise $\hsame$ transport for the source complex, target complex, chain-map ledger, boundary ledger, integer-degree ledger, homology readback, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from oriented simplex rows through boundary compatibility, integer readback, homology handoff, transport, provenance, and local naming.
+\item $P$ is the $\Pkg$ provenance over $\SimplicialDegreeUp$, $\SimplicialComplexUp$, $\HomologyUp$, $\BrouwerDegreeUp$, $\WindingNumberUp$, $\IntUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\SimplicialDegreeUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through these rows. It has no coordinate for quotient homology classes, host topological degree, selected preimages, ambient compactness, chosen chain representatives outside the displayed ledger, or an external simplicial approximation theorem.
+\end{definition}
+
+\begin{theorem}[Simplicial degree NameCert obligations]
+\label{thm:simplicial-degree-namecert-obligations}
+For every accepted $\SimplicialDegreeUp$ carrier
+$$
+D=(K,L,A,B,I,H,T,C,P,N),
+$$
+the local $\NameCert_{\SimplicialDegreeUp}$ surface consists exactly of source and target oriented simplex admission through $K,L$, chain-map exposure through $A$, boundary compatibility through $B$, integer-degree readback through $I$, homology handoff through $H$, componentwise transport through $T$, displayed replay through $C$, provenance through $P$, and local naming through $N$. Every downstream $\BrouwerDegreeUp$ or $\WindingNumberUp$ consumer must read the displayed oriented simplex rows and boundary ledger before it may consume the integer degree row.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:simplicial-degree-carrier}. The source and target complex rows provide the only oriented simplex inventories visible to the packet.
+
+Next read the chain-map and boundary ledgers. The row $A$ records signed images of top simplex rows, while $B$ checks that the displayed boundary rows agree before any integer degree can be consumed.
+
+The integer row $I$ and homology readback row $H$ are downstream of the same finite boundary route. The structural rows $T,C,P,N$ transport, replay, source, and name exactly this finite route, so the NameCert surface contains no quotient homology class, host topological degree, selected preimage, ambient compactness witness, or hidden chain representative.
+\end{proof}
+
+\begin{theorem}[Simplicial degree boundary handoff]
+\label{thm:simplicial-degree-boundary-handoff}
+Every boundary-facing degree read exported by an accepted $\SimplicialDegreeUp$ packet factors through the finite route
+$$
+K,L,A,B,I,H,T,C,P,N.
+$$
+The route may hand an integer degree ledger to $\BrouwerDegreeUp$ and $\WindingNumberUp$ consumers, but only after the source and target oriented simplex rows, chain-map ledger, boundary-row compatibility, and homology readback have been displayed.
+\end{theorem}
+\begin{proof}
+Start with a boundary-facing degree read. The accepted carrier has no direct topological-degree coordinate, so the consumer must first inspect $K,L,A,B$.
+
+The row $B$ is the handoff boundary: it ties the source boundary rows to the target boundary rows through the displayed chain-map ledger. Only after that compatibility row is visible can $I$ be read as the integer degree ledger.
+
+The homology readback $H$ records the finite cycle-boundary surface used by algebraic-topology consumers. Transport, replay, provenance, and local naming through $T,C,P,N$ preserve the same route, so Brouwer-degree and winding-number packets receive a finite simplicial degree handoff rather than host topological degree, selected preimages, quotient homology classes, or ambient compactness.
+\end{proof}
+
+\falsifiablePrediction{An accepted $\SimplicialDegreeUp$ consumer that exports an integer degree without first exposing source and target oriented simplex rows, chain-map rows, boundary compatibility, homology readback, transport, replay, provenance, and local naming refutes the carrier surface.}
+
+\independenceWitness{simplicialcomplex, homology, brouwer-degree, winding-number: no listed sibling supplies the whole ten-row packet $D=(K,L,A,B,I,H,T,C,P,N)$, because SimplicialComplexUp supplies finite oriented faces, HomologyUp supplies cycle-boundary readback, BrouwerDegreeUp and WindingNumberUp consume degree ledgers, and this chapter binds the finite chain-level degree route between them.}
+
+\closureat{SimplicialDegreeUp}{seedStr}
+
+\begin{closurestatus}{\SimplicialDegreeUp}
+  \constructivestory{A $\SimplicialDegreeUp$ packet is generated from source and target SimplicialComplexUp rows, a finite chain-map ledger, boundary-row compatibility, an IntUp degree ledger, a HomologyUp readback row, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:simplicial-degree-carrier}, \autoref{thm:simplicial-degree-namecert-obligations}, and \autoref{thm:simplicial-degree-boundary-handoff} seed the finite oriented simplex-chain degree surface over simplicial-complex, homology, integer, transport, replay, provenance, and local naming rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim quotient homology classes, host topological degree, selected preimages, ambient compactness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked oriented simplex admission, chain-map exposure, boundary compatibility, integer readback, homology handoff, transport stability, replay stability, provenance, and local naming for BEDC.Derived.SimplicialDegreeUp.}
+\end{closurestatus}

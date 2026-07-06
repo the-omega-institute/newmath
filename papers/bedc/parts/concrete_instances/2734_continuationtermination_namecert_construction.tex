@@ -37,6 +37,7 @@ T'=(s',t',\tau',u',b',h',p',n'),
 $$
 the classifier $\mathsf{ContinuationTerminationClassifier}(T,T')$ compares only the displayed start histories, terminal histories, finite $\Cont$ traces, terminal witness rows, behaviour-classifier rows, componentwise $\hsame$ transports, $\Pkg$ provenance, and local $\NameCert$ rows. It never compares host evaluation functions, quotient behaviour classes, infinite traces, or global termination predicates.
 \end{definition}
+\leanchecked{BEDC.Derived.ContinuationTerminationUp.ContinuationTerminationClassifier\_route\_exactness}
 
 \begin{theorem}[Continuation termination NameCert obligations]
 \label{thm:continuation-termination-namecert-obligations}
@@ -98,6 +99,7 @@ Use the NameCert obligations of \autoref{thm:continuation-termination-namecert-o
 
 Since no carrier coordinate names host evaluation, quotient behaviour equality, an unbounded trace, or a global termination decision, reading $u$ cannot escape the finite terminal route.
 \end{proof}
+\leanchecked{BEDC.Derived.ContinuationTerminationUp.ContinuationTerminationCarrier\_terminal\_route}
 
 \begin{theorem}[Continuation termination classifier stability]
 \label{thm:continuation-termination-classifier-stability}
@@ -114,6 +116,7 @@ Apply the behaviour transport theorem to move any classifier-facing consumer alo
 
 No hidden evaluator, quotient behaviour class, infinite trace, or termination oracle remains outside those coordinates. Hence classifier-related packets preserve terminal and behaviour reads componentwise through the listed rows.
 \end{proof}
+\leanchecked{BEDC.Derived.ContinuationTerminationUp.ContinuationTerminationCarrier\_classifier\_stability}
 
 \begin{closurestatus}{\ContinuationTerminationUp}
   \constructivestory{A $\ContinuationTerminationUp$ packet is generated from finite $\BHist$ rows for an initial state, displayed continuation trace, terminal witness, behavior classifier, and consumer-facing route ledger. Termination is not read as a global evaluator predicate; it is the existence of the shown finite trace whose endpoint is routed by $\Cont$ to the terminal row. Classifier-facing consumers use $\hsame$ to transport the visible trace, witness, and behavior rows componentwise, while $\Pkg$ records the continuation and naming dependencies. The packet therefore supplies a bounded continuation-termination certificate and refuses unbounded behavior classes or host evaluation semantics.}

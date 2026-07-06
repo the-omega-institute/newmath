@@ -5,6 +5,7 @@ import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
 import BEDC.FKernel.NameCert
 import BEDC.FKernel.Package.Core
+import BEDC.FKernel.Unary
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.FiniteCauchyGluingBudgetUp
@@ -16,6 +17,7 @@ open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
 open BEDC.FKernel.NameCert
 open BEDC.FKernel.Package
+open BEDC.FKernel.Unary
 open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
@@ -342,5 +344,286 @@ theorem FiniteCauchyGluingBudgetCarrier_nonescape [AskSetup] [PackageSetup]
       intro _row sourceRow
       exact ⟨sourceRow.left, publicPkg⟩
   }
+
+theorem FiniteCauchyGluingBudgetCarrier_witness_ledger_exhaustion
+    [AskSetup] [PackageSetup]
+    {left right bridge budget gluing seam transport replay provenance localName terminal
+      publicRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    Cont left bridge budget →
+      Cont budget gluing seam →
+        Cont seam transport terminal →
+          Cont terminal replay publicRead →
+            PkgSig bundle publicRead pkg →
+              ∃ packet : FiniteCauchyGluingBudgetUp,
+                packet =
+                    FiniteCauchyGluingBudgetUp.mk left right bridge budget gluing seam
+                      transport replay provenance localName ∧
+                  finiteCauchyGluingBudgetFields packet =
+                    [left, right, bridge, budget, gluing, seam, transport, replay, provenance,
+                      localName] ∧
+                    SemanticNameCert
+                      (fun row : BHist =>
+                        hsame row publicRead ∧
+                          ∃ packet : FiniteCauchyGluingBudgetUp,
+                            packet =
+                              FiniteCauchyGluingBudgetUp.mk left right bridge budget gluing
+                                seam transport replay provenance localName)
+                      (fun row : BHist =>
+                        Cont left bridge budget ∧ Cont budget gluing seam ∧
+                          Cont seam transport terminal ∧ Cont terminal replay publicRead ∧
+                            hsame row publicRead)
+                      (fun row : BHist => hsame row publicRead ∧ PkgSig bundle publicRead pkg)
+                      hsame := by
+  -- BEDC touchpoint anchor: BHist Cont ProbeBundle PkgSig hsame SemanticNameCert
+  intro leftBudget budgetSeam seamTerminal terminalPublic publicPkg
+  let packet :=
+    FiniteCauchyGluingBudgetUp.mk left right bridge budget gluing seam transport replay
+      provenance localName
+  have fields_exact :
+      finiteCauchyGluingBudgetFields packet =
+        [left, right, bridge, budget, gluing, seam, transport, replay, provenance,
+          localName] := by
+    rfl
+  have cert :
+      SemanticNameCert
+        (fun row : BHist =>
+          hsame row publicRead ∧
+            ∃ packet : FiniteCauchyGluingBudgetUp,
+              packet =
+                FiniteCauchyGluingBudgetUp.mk left right bridge budget gluing seam transport
+                  replay provenance localName)
+        (fun row : BHist =>
+          Cont left bridge budget ∧ Cont budget gluing seam ∧
+            Cont seam transport terminal ∧ Cont terminal replay publicRead ∧
+              hsame row publicRead)
+        (fun row : BHist => hsame row publicRead ∧ PkgSig bundle publicRead pkg)
+        hsame := by
+    exact {
+      core := {
+        carrier_inhabited :=
+          Exists.intro publicRead
+            ⟨hsame_refl publicRead, Exists.intro packet rfl⟩
+        equiv_refl := by
+          intro row _source
+          exact hsame_refl row
+        equiv_symm := by
+          intro _row _other sameRows
+          exact hsame_symm sameRows
+        equiv_trans := by
+          intro _row _middle _other sameLeft sameRight
+          exact hsame_trans sameLeft sameRight
+        carrier_respects_equiv := by
+          intro _row _other sameRows sourceRow
+          exact
+            ⟨hsame_trans (hsame_symm sameRows) sourceRow.left, sourceRow.right⟩
+      }
+      pattern_sound := by
+        intro _row sourceRow
+        exact ⟨leftBudget, budgetSeam, seamTerminal, terminalPublic, sourceRow.left⟩
+      ledger_sound := by
+        intro _row sourceRow
+        exact ⟨sourceRow.left, publicPkg⟩
+    }
+  exact ⟨packet, rfl, fields_exact, cert⟩
+
+theorem FiniteCauchyGluingBudgetCarrier_window {G L S U V P N T K D R H : BHist} :
+    UnaryHistory G ->
+      UnaryHistory L ->
+        UnaryHistory S ->
+          UnaryHistory U ->
+            UnaryHistory V ->
+              UnaryHistory P ->
+                UnaryHistory N ->
+                  hsame H (append G L) ->
+                    Cont G L T ->
+                      Cont T S K ->
+                        Cont K U D ->
+                          Cont D V R ->
+                            SemanticNameCert
+                                (fun row : BHist => hsame row R ∧ UnaryHistory row)
+                                (fun row : BHist => hsame row R)
+                                (fun row : BHist => hsame row R ∧ Cont D V R)
+                                hsame ∧
+                              UnaryHistory G ∧ UnaryHistory L ∧ UnaryHistory T ∧
+                                UnaryHistory S ∧ UnaryHistory K ∧ UnaryHistory U ∧
+                                  UnaryHistory D ∧ UnaryHistory V ∧ UnaryHistory R ∧
+                                    UnaryHistory P ∧ UnaryHistory N ∧
+                                      hsame H (append G L) ∧ Cont G L T ∧
+                                        Cont T S K ∧ Cont K U D ∧ Cont D V R := by
+  -- BEDC touchpoint anchor: BHist Cont hsame SemanticNameCert UnaryHistory
+  intro unaryG unaryL unaryS unaryU unaryV unaryP unaryN sameH gluingTail tailSeal
+    streamDyadic dyadicReal
+  have unaryT : UnaryHistory T :=
+    unary_cont_closed unaryG unaryL gluingTail
+  have unaryK : UnaryHistory K :=
+    unary_cont_closed unaryT unaryS tailSeal
+  have unaryD : UnaryHistory D :=
+    unary_cont_closed unaryK unaryU streamDyadic
+  have unaryR : UnaryHistory R :=
+    unary_cont_closed unaryD unaryV dyadicReal
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => hsame row R ∧ UnaryHistory row)
+          (fun row : BHist => hsame row R)
+          (fun row : BHist => hsame row R ∧ Cont D V R)
+          hsame := {
+    core := {
+      carrier_inhabited := Exists.intro R ⟨hsame_refl R, unaryR⟩
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        exact
+          ⟨hsame_trans (hsame_symm sameRows) source.left,
+            unary_transport source.right sameRows⟩
+    }
+    pattern_sound := by
+      intro _row source
+      exact source.left
+    ledger_sound := by
+      intro _row source
+      exact ⟨source.left, dyadicReal⟩
+  }
+  exact
+    ⟨cert, unaryG, unaryL, unaryT, unaryS, unaryK, unaryU, unaryD, unaryV, unaryR, unaryP,
+      unaryN, sameH, gluingTail, tailSeal, streamDyadic, dyadicReal⟩
+
+theorem FiniteCauchyGluingBudgetCarrier_real_seal_handoff
+    {S K U V D R streamRead dyadicRead sealRead : BHist} :
+    UnaryHistory S ->
+      UnaryHistory K ->
+        UnaryHistory U ->
+          UnaryHistory V ->
+            Cont S K streamRead ->
+              Cont streamRead U dyadicRead ->
+                Cont dyadicRead V sealRead ->
+                  hsame sealRead R ->
+                    UnaryHistory streamRead ∧ UnaryHistory dyadicRead ∧
+                      UnaryHistory sealRead ∧ UnaryHistory R ∧ Cont S K streamRead ∧
+                        Cont streamRead U dyadicRead ∧ Cont dyadicRead V sealRead ∧
+                          hsame sealRead R := by
+  -- BEDC touchpoint anchor: BHist Cont hsame UnaryHistory
+  intro unaryS unaryK unaryU unaryV streamRoute dyadicRoute sealRoute sameSeal
+  have streamUnary : UnaryHistory streamRead :=
+    unary_cont_closed unaryS unaryK streamRoute
+  have dyadicUnary : UnaryHistory dyadicRead :=
+    unary_cont_closed streamUnary unaryU dyadicRoute
+  have sealUnary : UnaryHistory sealRead :=
+    unary_cont_closed dyadicUnary unaryV sealRoute
+  have realUnary : UnaryHistory R :=
+    unary_transport sealUnary sameSeal
+  exact
+    ⟨streamUnary, dyadicUnary, sealUnary, realUnary, streamRoute, dyadicRoute, sealRoute,
+      sameSeal⟩
+
+theorem FiniteCauchyGluingBudgetCarrier_common_tail [AskSetup] [PackageSetup]
+    {left right bridge budget gluing seam transport replay provenance localName right'
+      transport' replay' provenance' localName' terminal publicRead publicRead' : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    Cont left bridge budget →
+      Cont budget gluing seam →
+        Cont seam transport terminal →
+          Cont terminal replay publicRead →
+            Cont seam transport' terminal →
+              Cont terminal replay' publicRead' →
+                PkgSig bundle publicRead pkg →
+                  PkgSig bundle publicRead' pkg →
+                    SemanticNameCert
+                        (fun row : BHist =>
+                          hsame row publicRead ∧
+                            ∃ packet : FiniteCauchyGluingBudgetUp,
+                              packet =
+                                FiniteCauchyGluingBudgetUp.mk left right bridge budget gluing
+                                  seam transport replay provenance localName)
+                        (fun row : BHist =>
+                          Cont left bridge budget ∧ Cont budget gluing seam ∧
+                            Cont seam transport terminal ∧ Cont terminal replay publicRead ∧
+                              hsame row publicRead)
+                        (fun row : BHist => hsame row publicRead ∧ PkgSig bundle publicRead pkg)
+                        hsame ∧
+                      SemanticNameCert
+                        (fun row : BHist =>
+                          hsame row publicRead' ∧
+                            ∃ packet : FiniteCauchyGluingBudgetUp,
+                              packet =
+                                FiniteCauchyGluingBudgetUp.mk left right' bridge budget gluing
+                                  seam transport' replay' provenance' localName')
+                        (fun row : BHist =>
+                          Cont left bridge budget ∧ Cont budget gluing seam ∧
+                            Cont seam transport' terminal ∧ Cont terminal replay' publicRead' ∧
+                              hsame row publicRead')
+                        (fun row : BHist =>
+                          hsame row publicRead' ∧ PkgSig bundle publicRead' pkg)
+                        hsame := by
+  -- BEDC touchpoint anchor: BHist Cont ProbeBundle Pkg PkgSig hsame SemanticNameCert
+  intro leftBudget budgetSeam seamTerminal terminalPublic seamTerminal'
+    terminalPublic' publicPkg publicPkg'
+  constructor
+  · exact {
+      core := {
+        carrier_inhabited :=
+          Exists.intro publicRead
+            ⟨hsame_refl publicRead,
+              Exists.intro
+                (FiniteCauchyGluingBudgetUp.mk left right bridge budget gluing seam transport
+                  replay provenance localName)
+                rfl⟩
+        equiv_refl := by
+          intro row _source
+          exact hsame_refl row
+        equiv_symm := by
+          intro _row _other sameRows
+          exact hsame_symm sameRows
+        equiv_trans := by
+          intro _row _middle _other sameLeft sameRight
+          exact hsame_trans sameLeft sameRight
+        carrier_respects_equiv := by
+          intro _row _other sameRows sourceRow
+          exact ⟨hsame_trans (hsame_symm sameRows) sourceRow.left, sourceRow.right⟩
+      }
+      pattern_sound := by
+        intro _row sourceRow
+        exact ⟨leftBudget, budgetSeam, seamTerminal, terminalPublic, sourceRow.left⟩
+      ledger_sound := by
+        intro _row sourceRow
+        exact ⟨sourceRow.left, publicPkg⟩
+    }
+  · exact {
+      core := {
+        carrier_inhabited :=
+          Exists.intro publicRead'
+            ⟨hsame_refl publicRead',
+              Exists.intro
+                (FiniteCauchyGluingBudgetUp.mk left right' bridge budget gluing seam
+                  transport' replay' provenance' localName')
+                rfl⟩
+        equiv_refl := by
+          intro row _source
+          exact hsame_refl row
+        equiv_symm := by
+          intro _row _other sameRows
+          exact hsame_symm sameRows
+        equiv_trans := by
+          intro _row _middle _other sameLeft sameRight
+          exact hsame_trans sameLeft sameRight
+        carrier_respects_equiv := by
+          intro _row _other sameRows sourceRow
+          exact ⟨hsame_trans (hsame_symm sameRows) sourceRow.left, sourceRow.right⟩
+      }
+      pattern_sound := by
+        intro _row sourceRow
+        exact ⟨leftBudget, budgetSeam, seamTerminal', terminalPublic', sourceRow.left⟩
+      ledger_sound := by
+        intro _row sourceRow
+        exact ⟨sourceRow.left, publicPkg'⟩
+    }
 
 end BEDC.Derived.FiniteCauchyGluingBudgetUp

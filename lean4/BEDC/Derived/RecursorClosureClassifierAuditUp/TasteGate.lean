@@ -1,11 +1,23 @@
+import BEDC.Derived.RecursorInducedNameCertUp.TasteGate
+import BEDC.FKernel.Ask
+import BEDC.FKernel.Bundle
+import BEDC.FKernel.Cont
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
+import BEDC.FKernel.Package
+import BEDC.FKernel.Unary
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.RecursorClosureClassifierAuditUp.TasteGate
 
+open BEDC.FKernel.Ask
+open BEDC.FKernel.Bundle
+open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
+open BEDC.FKernel.Package
+open BEDC.FKernel.Unary
+open BEDC.Derived.RecursorInducedNameCertUp
 open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
@@ -241,5 +253,63 @@ theorem RecursorClosureClassifierAuditTasteGate_single_carrier_alignment :
         intro x y heq
         exact recursorClosureClassifierAuditToEventFlow_injective heq,
       rfl⟩
+
+theorem RecursorClosureClassifierAudit_induced_replay_consumer [AskSetup] [PackageSetup]
+    {signature motive branch output audit transport continuation provenance name
+      signatureMotive branchRead outputRead auditRead classifierRead closureRead
+      closureTransport closureReplay closureName : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    UnaryHistory signature →
+      UnaryHistory motive →
+        UnaryHistory branch →
+          UnaryHistory output →
+            UnaryHistory audit →
+              UnaryHistory classifierRead →
+                Cont signature motive signatureMotive →
+                  Cont signatureMotive branch branchRead →
+                    Cont branchRead output outputRead →
+                      Cont outputRead audit auditRead →
+                        Cont auditRead classifierRead closureRead →
+                          PkgSig bundle provenance pkg →
+                            recursorInducedNameCertFromEventFlow
+                                (recursorInducedNameCertToEventFlow
+                                  (RecursorInducedNameCertUp.mk signature motive branch output
+                                    audit transport continuation provenance name)) =
+                              some
+                                (RecursorInducedNameCertUp.mk signature motive branch output
+                                  audit transport continuation provenance name) →
+                              recursorClosureClassifierAuditFromEventFlow
+                                  (recursorClosureClassifierAuditToEventFlow
+                                    (RecursorClosureClassifierAuditUp.mk signature provenance
+                                      branch classifierRead audit closureTransport closureReplay
+                                      provenance closureName)) =
+                                some
+                                  (RecursorClosureClassifierAuditUp.mk signature provenance
+                                    branch classifierRead audit closureTransport closureReplay
+                                    provenance closureName) ∧
+                                UnaryHistory closureRead ∧
+                                  hsame
+                                    (recursorInducedNameCertDecodeBHist
+                                      (recursorInducedNameCertEncodeBHist audit))
+                                    audit ∧
+                                    PkgSig bundle provenance pkg := by
+  -- BEDC touchpoint anchor: BHist Cont PkgSig UnaryHistory hsame
+  intro signatureUnary motiveUnary branchUnary outputUnary auditUnary classifierUnary
+    signatureRoute branchRoute outputRoute auditRoute classifierRoute pkgProvenance readback
+  have replay :=
+    _root_.BEDC.Derived.RecursorInducedNameCertUp.RecursorInducedNameCertAuditBoundary_replay_route
+      signatureUnary motiveUnary branchUnary
+        outputUnary auditUnary signatureRoute branchRoute outputRoute auditRoute readback
+  have auditReadUnary : UnaryHistory auditRead :=
+    replay.right.right.right.left
+  have closureReadUnary : UnaryHistory closureRead :=
+    unary_cont_closed auditReadUnary classifierUnary classifierRoute
+  exact
+    ⟨recursorClosureClassifierAudit_round_trip
+        (RecursorClosureClassifierAuditUp.mk signature provenance branch classifierRead audit
+          closureTransport closureReplay provenance closureName),
+      closureReadUnary,
+      replay.right.right.right.right,
+      pkgProvenance⟩
 
 end BEDC.Derived.RecursorClosureClassifierAuditUp.TasteGate

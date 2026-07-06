@@ -341,6 +341,20 @@ Finally apply \autoref{thm:realsequencelimit-diagonal-window-uniqueness}. The lo
 \end{proof}
 \leanchecked{BEDC.Derived.RealSequenceLimitUp.RealSequenceLimitSqueezeHandoff}
 
+\begin{theorem}[RealSequenceLimit squeeze-envelope exactness]\label{thm:real-sequence-limit-squeeze-envelope-exactness}
+Let $K^-=(S^-,L,W^-,D^-,E^-,H^-,C^-,P^-,N^-)$, $K=(S,L,W,D,E,H,C,P,N)$, and $K^+=(S^+,L,W^+,D^+,E^+,H^+,C^+,P^+,N^+)$ be accepted $\RealSequenceLimitUp$ packets with the same displayed limit row $L$. Suppose the lower and upper packets expose dyadic envelopes for $L$, and suppose these envelopes co-bound the middle packet through the same $\StreamNameUp$, $\RegSeqRatUp$, and $\DyadicRatCoreUp$ route used by $K$. Then the terminal $\RealUp$ seal of the middle packet is exact for that squeeze envelope before provenance $P$ and local naming $N$ are read: every admitted middle-limit read factors through the common envelope window, the regular readback, the dyadic tolerance ledger, and the same terminal Real seal, with no additional host limit, quotient stream equality, selected tail, countable choice, trichotomy, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Start with \autoref{thm:squeeze-theorem-real-sequence-limit-handoff}. The handoff already routes the middle tolerance request through the displayed squeeze window supplied by the lower and upper packets, using the same $\StreamNameUp$, $\RegSeqRatUp$, and $\DyadicRatCoreUp$ observation path.
+
+Apply \autoref{thm:realsequencelimit-regular-classifier-transport}. The middle classifier can be consumed only after the regular readback and componentwise transport have displayed the same route as the two bounding envelopes.
+
+Next use \autoref{thm:realsequencelimit-diagonal-window-uniqueness}. Since the lower, middle, and upper packets meet at one finite diagonal window over the same limit row $L$, the envelope comparison cannot split into two different middle-limit reads.
+
+Finally apply \autoref{thm:real-sequence-limit-real-seal-nonescape}. The terminal $\RealUp$ seal is reached only after the dyadic ledger, finite window, regular readback, transport, and replay rows are displayed. Provenance and local naming therefore package an already exact envelope route, rather than supplying a host limit, quotient stream equality, selected tail, countable choice, trichotomy, or ambient completeness.
+\end{proof}
+\leanchecked{BEDC.Derived.RealSequenceLimitUp.RealSequenceLimitSqueezeEnvelopeExactness}
+
 \begin{theorem}[RealSequenceLimit scoped dependency package]\label{thm:realsequencelimit-scoped-dependency-package}
 For every accepted $\RealSequenceLimitUp$ packet $K=(S,L,W,D,E,H,C,P,N)$, every accepted limit read factors through the full finite dependency route
 $$

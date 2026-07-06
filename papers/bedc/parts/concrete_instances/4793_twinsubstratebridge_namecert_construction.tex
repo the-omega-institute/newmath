@@ -56,6 +56,7 @@ The structural rows $H,C,P,N$ preserve, replay, source, and name the same displa
 \label{thm:twin-substrate-bridge-replay-stability}
 For every accepted $\TwinSubstrateBridgeUp$ carrier $B=(M,G,F,R,L,H,C,P,N)$, componentwise transport through $H$ and displayed replay through $C$ preserve the route separation recorded by $R$ and $L$. A replayed MetaCIC-facing request still consumes $M$ before frontier context, a replayed GroundCompiler-facing request still consumes $G$ before frontier context, and a replayed bridge-facing request still compares the sides only through $F$ and $L$.
 \end{theorem}
+\leanchecked{BEDC.Derived.TwinSubstrateBridgeUp.TwinSubstrateBridgeCarrier\_replay\_stability}
 \begin{proof}
 Read the route classifier $R$ and ledger $L$ before replay. They determine whether a request is MetaCIC-facing, GroundCompiler-facing, or bridge-facing, and they record which substrate row the request may consume.
 
@@ -90,6 +91,7 @@ For the GroundCompiler route, the only compiler-facing audit row supplied by the
 
 The bridge route reads both sides only through $F,L,H,C,P,N$. These rows display comparison context, transport, continuation, provenance, and naming; they do not add a common substrate equality. Thus every public consumer preserves the two audit ledgers as distinct coordinates of the same finite packet.
 \end{proof}
+\leanchecked{BEDC.Derived.TwinSubstrateBridgeUp.TwinSubstrateBridgeCarrier\_audit\_separation}
 
 \begin{theorem}[TwinSubstrateBridge non-escape]
 \label{thm:twin-substrate-bridge-nonescape}
@@ -102,6 +104,7 @@ Apply \autoref{thm:twin-substrate-bridge-audit-separation}. Any request involvin
 
 The sibling chapters provide only their own named surfaces: MetaCIC synthesis, GroundCompiler audit mapping, and audit-map frontier accounting. Since the bridge carrier has no coordinate for a compiler proof checker, MetaCIC evaluator, hidden host oracle, or frontier-closing theorem, none of those objects can be exported by a consumer route.
 \end{proof}
+\leanchecked{BEDC.Derived.TwinSubstrateBridgeUp.TwinSubstrateBridgeCarrier\_nonescape}
 
 \closureat{TwinSubstrateBridgeUp}{seedStr}
 

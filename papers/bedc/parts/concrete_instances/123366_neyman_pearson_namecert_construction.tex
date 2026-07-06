@@ -1,0 +1,84 @@
+\chapter{A Concrete Naming Certificate for $\NeymanPearsonUp$}
+\label{ch:concrete-instances-neyman-pearson-namecert}
+\origin{human}
+
+Following Neyman and Pearson, the $\NeymanPearsonUp$ packet records the finite likelihood-ratio optimality boundary for simple null and alternative hypotheses at a displayed size budget. It sits after the hypothesis-test surface of \autoref{ch:concrete-instances-hypothesis-namecert}, the likelihood-ratio decision row of \autoref{ch:concrete-instances-likelihood-ratio-test-namecert}, the probability source of \autoref{ch:concrete-instances-probspace-namecert}, the random-variable observation row of \autoref{ch:concrete-instances-randomvar-namecert}, and the distribution readback of \autoref{ch:concrete-instances-distribution-namecert}. The packet names the finite boundary where likelihood-ratio rejection is compared against all displayed competitors of the same size; it does not import selected rejection regions, ambient measure completion, randomized tests outside the ledger, or host probability choice.
+
+\begin{definition}[Neyman--Pearson carrier]
+\label{def:neyman-pearson-carrier}
+A $\NeymanPearsonUp$ carrier is a finite $\BHist$ packet
+$$
+N=(H_0,H_1,P,X,D,L,\alpha,B,T,O,H,C,Q,M)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $H_0$ is the null $\HypothesisTestUp$ row over the probability source.
+\item $H_1$ is the simple alternative $\HypothesisTestUp$ row over the same observation surface.
+\item $P$ is the $\ProbSpaceUp$ source row naming the normalized event ledger.
+\item $X$ is the $\RandomVarUp$ observation row whose finite fibers are inspected by tests.
+\item $D$ is the $\DistributionUp$ readback row for the null and alternative laws of $X$.
+\item $L$ is the $\LikelihoodRatioTestUp$ row displaying the likelihood-ratio score ledger and threshold comparison.
+\item $\alpha$ is the displayed size-budget row, read through the null distribution and the probability source.
+\item $B$ is the boundary ledger recording the threshold and tie row used by the likelihood-ratio decision.
+\item $T$ is the finite competitor-test ledger, containing only tests whose null-size row is bounded by $\alpha$.
+\item $O$ is the optimality comparison row: each competitor in $T$ has alternative power no larger than the displayed likelihood-ratio decision after reading the same probability, observation, and distribution rows.
+\item $H$ records componentwise $\hsame$ transport for the hypotheses, probability source, random variable, distribution, likelihood-ratio row, size budget, boundary ledger, competitor ledger, optimality row, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay of the route from hypotheses and observation data through likelihood-ratio scoring, size control, competitor inspection, and power comparison.
+\item $Q$ is the $\Pkg$ provenance over $\NeymanPearsonUp$, $\HypothesisTestUp$, $\LikelihoodRatioTestUp$, $\ProbSpaceUp$, $\RandomVarUp$, $\DistributionUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $M$ is the local $\NameCert_{\NeymanPearsonUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through these displayed rows. It has no coordinate for ambient measure completion, selected rejection regions outside the finite competitor ledger, randomized tests not displayed by $T$, quotient probability equality, or host choice.
+\end{definition}
+
+\begin{theorem}[Neyman--Pearson NameCert obligations]
+\label{thm:neyman-pearson-namecert-obligations}
+For every accepted $\NeymanPearsonUp$ carrier $N=(H_0,H_1,P,X,D,L,\alpha,B,T,O,H,C,Q,M)$, the local $\NameCert_{\NeymanPearsonUp}$ surface consists exactly of the following finite obligation rows:
+\begin{enumerate}
+\item shared-source admission for the null row, alternative row, probability source, observation row, and distribution readback;
+\item likelihood-ratio boundary admission, requiring $L$ and $B$ to display the score ledger, threshold row, and tie boundary before any optimality comparison is read;
+\item size control, requiring the likelihood-ratio decision and every competitor in $T$ to display a null-size row bounded by $\alpha$ through $P$ and $D$;
+\item power comparison, requiring $O$ to compare each displayed competitor with the likelihood-ratio decision under the alternative distribution row;
+\item classifier stability under componentwise $\hsame$ transport and displayed $\Cont$ replay for the route $H_0,H_1,P,X,D,L,\alpha,B,T,O$;
+\item ledger nonescape, requiring $Q$ and $M$ to export no selected rejection region, ambient measure completion, hidden randomized test, quotient probability equality, or host choice principle.
+\end{enumerate}
+No NameCert obligation is stored outside those rows.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:neyman-pearson-carrier}. The projected rows expose the two hypotheses, common probability source, observation row, distribution readback, likelihood-ratio ledger, size budget, boundary ledger, competitor ledger, optimality row, transport, replay, provenance, and local naming row.
+
+The likelihood-ratio boundary is available only through $L$ and $B$. Thus a public optimality read first displays the score ledger, threshold comparison, and boundary tie row before it can inspect either the likelihood-ratio decision or a competitor.
+
+The size and power clauses use the same finite source. The null distribution row bounds both the likelihood-ratio decision and every competitor in $T$ by $\alpha$, while the alternative distribution row supplies the power comparison recorded in $O$.
+
+Transport and replay preserve the route row by row. Since selected rejection regions, ambient measure completion, hidden randomized tests, quotient probability equality, and host choice are not carrier rows, the local NameCert surface cannot export them.
+\end{proof}
+
+\begin{theorem}[Neyman--Pearson likelihood-ratio boundary]
+\label{thm:neyman-pearson-likelihood-ratio-boundary}
+Every finite competitor read consumed by an accepted $\NeymanPearsonUp$ packet must pass through the shared $\HypothesisTestUp$ source rows, the $\ProbSpaceUp$ probability ledger, the $\RandomVarUp$ observation row, the $\DistributionUp$ null and alternative readbacks, the $\LikelihoodRatioTestUp$ score row, the displayed size budget $\alpha$, the boundary row $B$, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and the local $\NameCert$ row before it can be compared for alternative power. Consequently the packet exports the finite likelihood-ratio boundary as a NameCert route, not as a selected critical region, a uniformly most-powerful theorem for composite families, a quotient filter, an ambient measure-completion object, or a host choice principle.
+\end{theorem}
+\begin{proof}
+Start with the obligation surface of \autoref{thm:neyman-pearson-namecert-obligations}. Any competitor in $T$ is admitted only after the shared null and alternative rows, probability source, observation row, and distribution readback have been displayed.
+
+The likelihood-ratio decision is then read through $L$ and $B$. These rows provide the finite score ledger, threshold comparison, and boundary tie data against which the competitor is compared.
+
+The optimality row $O$ uses no outside test space. It compares only displayed competitors whose null-size rows are bounded by $\alpha$, and it reads alternative power through the same distribution row $D$.
+
+Finally, $H,C,Q,M$ transport, replay, source, and name this finite route. Since the carrier contains no selected critical-region coordinate, no composite-family uniformity row, no quotient filter, no ambient measure-completion row, and no host choice coordinate, none of those objects is exported by the boundary theorem.
+\end{proof}
+
+\falsifiablePrediction{An accepted $\NeymanPearsonUp$ consumer that compares competitor power without first exposing the two hypothesis rows, the common probability source, the observation row, the null and alternative distribution readbacks, the likelihood-ratio ledger, the size budget, the boundary row, transport, replay, provenance, and local naming refutes the carrier surface.}
+
+\independenceWitness{hypothesis-test, likelihood-ratio-test, probspace, randomvar, distribution: $\NeymanPearsonUp$ is not bijective to any listed sibling because it jointly carries a size budget, boundary row, finite competitor-test ledger, and alternative-power comparison row in addition to the displayed source rows.}
+
+\closureat{NeymanPearsonUp}{seedStr}
+
+\begin{closurestatus}{\NeymanPearsonUp}
+  \constructivestory{A $\NeymanPearsonUp$ packet is generated from two simple hypothesis-test rows over one probability source, a random-variable observation row, null and alternative distribution readbacks, a likelihood-ratio score ledger, a displayed size budget, a boundary row, a finite competitor-test ledger, an optimality comparison row, componentwise hsame transport, continuation replay, package provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:neyman-pearson-carrier}, \autoref{thm:neyman-pearson-namecert-obligations}, and \autoref{thm:neyman-pearson-likelihood-ratio-boundary} seed the finite likelihood-ratio optimality boundary through hypothesis-test, likelihood-ratio-test, probability, random-variable, distribution, transport, replay, provenance, and local naming rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{The chapter does not close composite-family uniform optimality, selected rejection regions, randomized tests outside the finite ledger, ambient measure completion, quotient probability equality, or host choice.}
+  \upgradepath{Obligation closure requires checked carrier admission, shared-source stability, size-budget control, boundary-ledger stability, competitor-ledger coverage, power-comparison nonescape, transport, replay, provenance, and local naming for BEDC.Derived.NeymanPearsonUp.}
+\end{closurestatus}

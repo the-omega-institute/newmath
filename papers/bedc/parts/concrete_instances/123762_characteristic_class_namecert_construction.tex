@@ -1,0 +1,70 @@
+\chapter{A Concrete Naming Certificate for $\CharacteristicClassUp$}
+\label{ch:concrete-instances-characteristic-class-namecert}
+\origin{human}
+
+Following Milnor--Stasheff and Chern--Weil theory, the $\CharacteristicClassUp$ packet records a finite BEDC surface for characteristic-class rows before Chern--Weil or index-theorem consumers inspect them. It sits between the vector-bundle source of \autoref{ch:concrete-instances-vectorbundle-namecert}, the curvature and de~Rham sources of \autoref{ch:concrete-instances-curvature-namecert} and \autoref{ch:concrete-instances-derham-namecert}, the cohomology carrier of \autoref{ch:concrete-instances-cohomology-namecert}, and the downstream Chern--Weil and Atiyah--Singer consumers of \autoref{ch:concrete-instances-chernweil-namecert} and \autoref{ch:concrete-instances-atiyahsinger-namecert}. The packet names characteristic classes as displayed finite rows rather than as an implicit family inside those consumers.
+
+\begin{definition}[Characteristic class carrier]
+\label{def:characteristic-class-carrier}
+A $\CharacteristicClassUp$ carrier is a finite $\BHist$ packet
+$$
+C=(V,B,R,D,H,L,T,P,N)
+$$
+with the following rows:
+\begin{enumerate}
+\item $V$ is the vector-bundle source row, read through \autoref{ch:concrete-instances-vectorbundle-namecert}.
+\item $B$ is the base-space and coefficient row used by the cohomology carrier.
+\item $R$ is the representative row, such as a Chern, Stiefel--Whitney, Pontryagin, Euler, Chern-character, or Todd row, displayed as finite BEDC data.
+\item $D$ is the de~Rham or cohomology readback row, read through \autoref{ch:concrete-instances-derham-namecert} and \autoref{ch:concrete-instances-cohomology-namecert}.
+\item $H$ records componentwise $\hsame$ transport for vector-bundle replacement, representative replacement, and cohomology readback.
+\item $L$ records displayed $\Cont$ replay from bundle data and representative data to the cohomology row.
+\item $T$ is the consumer handoff row used by Chern--Weil and index-theorem packets.
+\item $P$ is the $\Pkg$ provenance over $\CharacteristicClassUp$, vector-bundle, curvature, de~Rham, cohomology, Chern--Weil, and index-theorem dependency rows.
+\item $N$ is the local $\NameCert_{\CharacteristicClassUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for an ambient cohomology quotient, an unrecorded universal bundle, a chosen connection outside the curvature packet, or a host equality of characteristic classes.
+\end{definition}
+
+\begin{theorem}[Characteristic class NameCert obligations]
+\label{thm:characteristic-class-namecert-obligations}
+For the carrier of \autoref{def:characteristic-class-carrier}, the local $\NameCert_{\CharacteristicClassUp}$ surface consists exactly of the vector-bundle source row, base and coefficient row, representative row, de~Rham or cohomology readback row, componentwise transport row, displayed continuation row, consumer handoff row, provenance row, and local naming row. Every accepted characteristic-class read must factor through
+$$
+V,B,R,D,H,L,T,P,N
+$$
+before it is exported to Chern--Weil or index-theorem consumers.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:characteristic-class-carrier}. The rows $V,B,R,D$ expose the bundle source, coefficient context, displayed representative, and cohomology readback as finite coordinates of the same packet.
+
+The structural rows $H,L,T,P,N$ then preserve and name that same route. Componentwise transport changes only displayed rows, continuation replay records the finite route to the cohomology output, the handoff row exposes the consumer boundary, provenance records the dependency packets, and local naming binds the packet under $\CharacteristicClassUp$.
+
+Thus a downstream read cannot replace the packet by an ambient universal construction, an unrecorded cohomology quotient, or host equality of characteristic classes. The listed rows are exactly the NameCert obligations.
+\end{proof}
+
+\begin{theorem}[Characteristic class vector-bundle handoff]
+\label{thm:characteristic-class-vector-bundle-handoff}
+Every $\CharacteristicClassUp$ consumer that starts from vector-bundle data must read the vector-bundle row of \autoref{ch:concrete-instances-vectorbundle-namecert}, then the displayed representative and cohomology readback rows, before it may hand a characteristic-class row to the Chern--Weil surface of \autoref{ch:concrete-instances-chernweil-namecert}. In particular, Atiyah--Singer-style index packets may consume the resulting row only as the finite handoff $T$ of \autoref{def:characteristic-class-carrier}, not as a hidden family of characteristic classes.
+\end{theorem}
+\begin{proof}
+Begin with an accepted carrier $C=(V,B,R,D,H,L,T,P,N)$. The vector-bundle source is the first public row, and the representative and cohomology readback rows are the only route from that source to a characteristic-class output.
+
+Apply \autoref{thm:characteristic-class-namecert-obligations}. It identifies $T$ as the consumer boundary and binds the Chern--Weil and index-theorem reads to the same finite packet.
+
+Therefore the vector-bundle handoff is a displayed BEDC row sequence rather than an implicit characteristic-class family inside downstream chapters.
+\end{proof}
+
+\falsifiablePrediction{Any accepted $\CharacteristicClassUp$ consumer that exports a characteristic-class row without displaying the vector-bundle source, representative row, cohomology readback, transport, continuation, handoff, provenance, and local naming rows refutes the packet.}
+
+\independenceWitness{vectorbundle, chernweil, derham, cohomology, curvature, and atiyahsinger: none is bijective to $\CharacteristicClassUp$ because this packet isolates the characteristic-class representative, cohomology readback, and consumer handoff rows as a first-class finite NameCert surface.}
+
+\closureat{CharacteristicClassUp}{seedStr}
+
+\begin{closurestatus}{\CharacteristicClassUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:characteristic-class-carrier}, \autoref{thm:characteristic-class-namecert-obligations}, and \autoref{thm:characteristic-class-vector-bundle-handoff} seed the finite characteristic-class carrier and its vector-bundle handoff route.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close universal characteristic-class constructions, ambient cohomology quotients, host equality of characteristic classes, full Chern--Weil theory, index-theorem equality, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, representative-row visibility, cohomology readback routing, vector-bundle handoff, Chern--Weil consumer boundary, transport stability, replay, provenance, and local NameCert registration for BEDC.Derived.CharacteristicClassUp.}
+  \constructivestory{A $\CharacteristicClassUp$ packet is generated from a vector-bundle source row, base and coefficient row, representative row, de~Rham or cohomology readback row, componentwise hsame transport, Cont replay, consumer handoff, Pkg provenance, and a local NameCert row.}
+\end{closurestatus}

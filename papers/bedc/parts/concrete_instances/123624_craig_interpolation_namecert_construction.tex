@@ -1,0 +1,56 @@
+\chapter{A Concrete Naming Certificate for $\CraigInterpolationUp$}
+\label{ch:concrete-instances-craig-interpolation-namecert}
+\origin{human}
+
+Following Craig and the standard proof-theoretic interpolation theorem, the $\CraigInterpolationUp$ packet reconstructs the separator route as finite BEDC NameCert data. It sits over the first-order syntax surface of \autoref{ch:concrete-instances-firstorder-namecert}, the derivability and proof-row surfaces used by the model-theoretic chapters, and the transport discipline of $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$. The packet names the finite place where a left formula, a right formula, their shared-symbol ledger, and an interpolant row can be inspected without importing a host completeness theorem, quotient syntax equality, or an ambient semantic compactness argument.
+
+\begin{definition}[Craig interpolation carrier]
+\label{def:craig-interpolation-carrier}
+A $\CraigInterpolationUp$ carrier is a finite $\BHist$ packet
+$$
+I=(S,L,R,\Sigma,D,J,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the $\FirstOrderUp$ signature and formula source row.
+\item $L$ is the left formula endpoint and $R$ is the right formula endpoint, both read through $S$.
+\item $\Sigma$ is the shared-symbol ledger, listing exactly the relation, function, and constant names visible on both sides of the proposed separation.
+\item $D$ is the derivability row witnessing the accepted implication or inconsistency route from the left side to the right-side target.
+\item $J$ is the interpolant row, naming a formula endpoint whose symbols are all recorded in $\Sigma$.
+\item $H$ records componentwise $\hsame$ transport for formula endpoints, shared symbols, derivability rows, interpolant rows, replay, provenance, and local naming.
+\item $C$ records displayed $\Cont$ replay from the derivability row through the interpolant row to any downstream separator consumer.
+\item $P$ records $\Pkg$ provenance over the first-order source, derivability row, interpolation row, $\BHist$, $\hsame$, $\Cont$, and local naming data.
+\item $N$ is the local $\NameCert_{\CraigInterpolationUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for host proof normalization, semantic completeness, quotient equality of formulas, a selected proof search procedure, or a separator whose symbols are not displayed in $\Sigma$.
+\end{definition}
+
+\begin{theorem}[Craig interpolation symbol separation]
+\label{thm:craig-interpolation-symbol-separation}
+Every accepted $\CraigInterpolationUp$ packet exposes the left formula row $L$, right formula row $R$, shared-symbol ledger $\Sigma$, derivability row $D$, interpolant row $J$, componentwise $\hsame$ transport $H$, displayed $\Cont$ replay $C$, $\Pkg$ provenance $P$, and local $\NameCert$ row $N$ before any interpolation consumer may read the separator. A consumer that cannot display one of these rows has no route from the finite packet to an interpolant formula.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:craig-interpolation-carrier}. The formula endpoints, shared-symbol ledger, derivability row, interpolant row, transport, replay, provenance, and local name are exactly the displayed coordinates of the packet.
+
+The shared-symbol ledger is read before the interpolant row. Thus the separator is not merely a formula endpoint; it is a formula endpoint whose relation, function, and constant names have already been checked against $\Sigma$.
+
+The derivability row is also explicit. It records the proof-theoretic route that licenses the separator read, while $H,C,P,N$ preserve the same route under transport, replay, provenance, and local naming.
+
+Since the carrier contains no coordinate for host proof normalization, semantic completeness, quotient formula equality, selected proof search, or off-ledger symbols, none of those objects can supply the separator. Every interpolation consumer must pass through the listed finite rows.
+\end{proof}
+
+\falsifiablePrediction{A claimed $\CraigInterpolationUp$ separator is rejected if it displays $L$ and $R$ but omits the shared-symbol ledger $\Sigma$, the derivability row $D$, the interpolant row $J$, or the structural rows $H,C,P,N$.}
+
+\independenceWitness{firstorder, modeltheory, henkin-model: $\CraigInterpolationUp$ is not bijective with any listed sibling because it binds two formula endpoints, a shared-symbol ledger, a derivability row, an interpolant row, transport, replay, provenance, and local naming in one separator packet.}
+
+\closureat{CraigInterpolationUp}{seedStr}
+
+\begin{closurestatus}{\CraigInterpolationUp}
+  \constructivestory{A $\CraigInterpolationUp$ packet is generated from a first-order source row, left and right formula endpoints, a shared-symbol ledger, a derivability row, an interpolant row, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:craig-interpolation-carrier} and \autoref{thm:craig-interpolation-symbol-separation} seed the finite Craig interpolation separator packet.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not prove semantic completeness, proof normalization, quotient equality of formulas, selected proof search, host compactness, Lean-side verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, shared-symbol exactness, derivability-row exposure, interpolant-row exposure, transport, replay, provenance, and local naming for the same finite separator packet.}
+\end{closurestatus}

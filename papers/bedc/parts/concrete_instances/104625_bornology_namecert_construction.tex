@@ -128,14 +128,31 @@ Apply the CauchyBornology handoff of \autoref{thm:bornology-cauchy-bornology-han
 Finally compose the obligation closure route \autoref{thm:bornology-obligation-closure-route} with the scoped bounded-family route \autoref{thm:bornology-scoped-bounded-family-route}. The resulting kernel grounding is exactly the route through $\BoundedSetUp$, $\FilterBaseUp$, $\UniformSpaceUp$, $\CauchyBornologyUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$, with no extra compactness or completeness coordinate.
 \end{proof}
 
+\begin{theorem}[Bornology public bounded-family export]
+\label{thm:bornology-public-bounded-family-export}
+Every public bounded-family consumer of an accepted $\BornologyUp$ carrier reads the displayed rows
+$$
+F,S,U,E,D,H,C,P,N
+$$
+as the exported $\NameCert_{\BornologyUp}$ surface. The export is public exactly for bounded-family readers: it exposes source families, subset heredity, finite unions, singleton source rows, handoff to $\FilterBaseUp$, $\UniformSpaceUp$, and $\CauchyBornologyUp$, componentwise transport, replay, provenance, and local naming, while exporting no selected bound, host supremum, quotient family, countable-choice selector, open-cover compactness theorem, or ambient completeness premise.
+\end{theorem}
+\leanchecked{BEDC.Derived.BornologyUp.BornologyPublicBoundedFamilyExport}
+\begin{proof}
+Read the scoped kernel grounding of \autoref{thm:bornology-scope-kernel-grounding}. It identifies the displayed bounded-family route over the sibling rows and the kernel rows.
+
+Use the obligation closure route of \autoref{thm:bornology-obligation-closure-route}. It shows that an accepted obligation read has no coordinate outside $F,S,U,E,D,H,C,P,N$.
+
+The public bounded-family export is therefore the same finite route made available to bounded-family consumers. Since the carrier has no row for selected bounds, host suprema, quotient families, choice, compactness, or ambient completeness, the public export cannot expose any of those objects.
+\end{proof}
+
 \closureat{BornologyUp}{seedStr}
 
 \begin{closurestatus}{\BornologyUp}
-  \theoryclosure{\scopedClosure}
-  \scopeclosed{\autoref{def:bornology-carrier}, \autoref{thm:bornology-namecert-obligations}, \autoref{thm:bornology-bounded-family-union-stability}, \autoref{thm:bornology-cauchy-bornology-handoff}, \autoref{thm:bornology-obligation-closure-route}, \autoref{thm:bornology-scoped-bounded-family-route}, and \autoref{thm:bornology-scope-kernel-grounding} bind the finite bounded-family NameCert surface over bounded-set, filter-base, uniform-space, and Cauchy-bornology consumers.}
+  \theoryclosure{\publicClosure}
+  \scopeclosed{\autoref{def:bornology-carrier}, \autoref{thm:bornology-namecert-obligations}, \autoref{thm:bornology-bounded-family-union-stability}, \autoref{thm:bornology-cauchy-bornology-handoff}, \autoref{thm:bornology-obligation-closure-route}, \autoref{thm:bornology-scoped-bounded-family-route}, \autoref{thm:bornology-scope-kernel-grounding}, and \autoref{thm:bornology-public-bounded-family-export} bind the finite bounded-family NameCert surface over bounded-set, filter-base, uniform-space, and Cauchy-bornology consumers.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{This chapter does not claim host suprema, selected bounds, quotient families, countable choice, open-cover compactness, ambient completeness, Lean verification, or bridge checking.}
-  \upgradepath{Public closure asks for a public bounded-family export theorem and later Lean verification for BEDC.Derived.BornologyUp.}
+  \upgradepath{Further verification requires Lean carrier admission, bounded-family route exactness, public export coverage, and bridge checking for BEDC.Derived.BornologyUp.}
   \constructivestory{A $\BornologyUp$ packet is generated from bounded-family source rows, subset-heredity ledgers, finite-union ledgers, singleton and source exposure, FilterBaseUp or UniformSpaceUp handoff rows, CauchyBornologyUp specialization, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
 \end{closurestatus}

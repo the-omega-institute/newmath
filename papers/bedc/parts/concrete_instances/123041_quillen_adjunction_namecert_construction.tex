@@ -1,0 +1,65 @@
+\chapter{A Concrete Naming Certificate for $\QuillenAdjunctionUp$}
+\label{ch:concrete-instances-quillen-adjunction-namecert}
+\origin{human}
+
+Following Quillen and Hovey on adjunctions between model categories, the $\QuillenAdjunctionUp$ packet records a finite NameCert surface for a displayed adjoint pair whose left side preserves cofibrations and acyclic cofibrations, equivalently whose right side preserves fibrations and acyclic fibrations. It sits after the model-category class rows of \autoref{ch:concrete-instances-modelcat-namecert}, the unit-counit triangle rows of \autoref{ch:concrete-instances-adjunction-namecert}, and the selected cofibrant witness surface of \autoref{ch:concrete-instances-cofibrantreplacement-namecert}. The packet also exposes only local handoff rows to localization and homotopy consumers; it does not import a homotopy-category quotient, a global replacement functor, or a selected total derived functor.
+
+\begin{definition}[QuillenAdjunction carrier]
+\label{def:quillen-adjunction-carrier}
+A $\QuillenAdjunctionUp$ carrier is a finite $\BHist$ packet
+$$
+Q=(M,N,L,R,\eta,\epsilon,C_F,C_W,F_B,W_B,D,H,T,P,A)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $M,N$ are the source and target $\ModelCatUp$ rows, including their weak-equivalence, cofibration, fibration, and factorisation faces;
+\item $L,R,\eta,\epsilon$ are the $\AdjunctionUp$ rows naming the left functor, right functor, unit, counit, and triangle comparison data;
+\item $C_F$ records that $L$ sends displayed cofibration rows of $M$ to displayed cofibration rows of $N$;
+\item $C_W$ records that $L$ sends displayed acyclic cofibration rows of $M$ to displayed acyclic cofibration rows of $N$;
+\item $F_B$ records the dual fibration-side readback for $R$;
+\item $W_B$ records the dual acyclic-fibration-side readback for $R$;
+\item $D$ is the derived-functor boundary row read through the local $\CofibrantReplacementUp$ witness surface and not through a global replacement choice;
+\item $H$ records componentwise $\hsame$ transports for the model-category rows, adjunction rows, preservation rows, dual readback rows, derived boundary row, provenance row, and local name;
+\item $T$ records the finite $\Cont$ routes by which localization and homotopy consumers inspect the packet;
+\item $P$ is the $\Pkg$ provenance over $\ModelCatUp$, $\AdjunctionUp$, $\CofibrantReplacementUp$, $\BousfieldLocalizationUp$, $\HomotopyUp$, $\BHist$, $\hsame$, and $\Cont$;
+\item $A$ is the local $\NameCert_{\QuillenAdjunctionUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through these displayed model-category classes, adjunction rows, preservation rows, dual readback rows, local derived boundary, transports, continuations, provenance, and naming row. It has no coordinate for a homotopy-category quotient, a functorial replacement choice, an ambient derived equivalence, or host equality of derived functors.
+\end{definition}
+
+\begin{theorem}[QuillenAdjunction NameCert obligations]
+\label{thm:quillen-adjunction-namecert-obligations}
+The local $\NameCert_{\QuillenAdjunctionUp}$ surface consists of six finite rows: carrier admission for the packet of \autoref{def:quillen-adjunction-carrier}; adjunction compatibility through the $\AdjunctionUp$ unit, counit, and triangle rows; model-class preservation through $C_F$ and $C_W$; dual fibration readback through $F_B$ and $W_B$; local derived-boundary handoff through $D$ and $T$; and non-escape for homotopy-category quotients, global replacement choices, derived equivalence claims, and host equality of derived functors.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection of the finite tuple $Q$. The source and target model-category rows, adjunction rows, preservation rows, dual readback rows, derived boundary, transports, continuations, provenance, and local name are all displayed coordinates.
+
+Adjunction compatibility is read from the existing $\AdjunctionUp$ rows $L,R,\eta,\epsilon$. These rows supply the unit, counit, and triangle comparison data but do not themselves assert model-category preservation.
+
+The Quillen side is exactly the pair $C_F,C_W$, with $F_B,W_B$ recording the dual right-adjoint readback. Transport through $H$ and replay through $T$ keep those rows attached to the same model-category faces. The derived boundary $D$ is read through the local $\CofibrantReplacementUp$ witness surface, so no global replacement choice or homotopy-category quotient is introduced.
+\end{proof}
+
+\begin{theorem}[QuillenAdjunction derived-functor boundary]
+\label{thm:quillen-adjunction-derived-functor-boundary}
+Every localization or homotopy consumer of an accepted $\QuillenAdjunctionUp$ packet must first read the displayed $\ModelCatUp$ rows, the $\AdjunctionUp$ rows, the cofibration and acyclic-cofibration preservation rows, the dual fibration readback rows, the local $\CofibrantReplacementUp$ boundary row, and the $\Cont$ routes in $T$. The consumer may hand this finite packet to $\BousfieldLocalizationUp$ or $\HomotopyUp$ rows, but it receives no global replacement functor, no homotopy-category quotient, no selected total derived functor, and no derived equivalence claim.
+\end{theorem}
+\begin{proof}
+Start with the NameCert obligations. They identify every accepted read with one of the displayed carrier rows of $Q$.
+
+The preservation rows $C_F,C_W$ and the dual readback rows $F_B,W_B$ are the only model-class coordinates in the packet. Thus a localization or homotopy consumer reaches the Quillen condition only through the visible source and target $\ModelCatUp$ faces and the visible $\AdjunctionUp$ data.
+
+The derived-boundary row $D$ factors through \autoref{ch:concrete-instances-cofibrantreplacement-namecert}. The route may then be inspected by the localization and homotopy consumers named in the provenance row $P$, including the surfaces of \autoref{ch:concrete-instances-modelcat-namecert}, \autoref{ch:concrete-instances-adjunction-namecert}, and \autoref{ch:concrete-instances-cofibrantreplacement-namecert}. Since no carrier coordinate stores a global replacement functor, homotopy-category quotient, selected total derived functor, or derived equivalence witness, none of those data can be exported by the handoff.
+\end{proof}
+
+\closureat{QuillenAdjunctionUp}{seedStr}
+
+\begin{closurestatus}{\QuillenAdjunctionUp}
+  \constructivestory{A $\QuillenAdjunctionUp$ packet is generated from two $\ModelCatUp$ rows, an $\AdjunctionUp$ row, cofibration and acyclic-cofibration preservation rows, dual fibration readback rows, a local $\CofibrantReplacementUp$ derived-boundary row, displayed transports, continuation routes, provenance, and a local $\NameCert$ row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:quillen-adjunction-carrier}, \autoref{thm:quillen-adjunction-namecert-obligations}, and \autoref{thm:quillen-adjunction-derived-functor-boundary} bind the finite Quillen adjunction carrier, obligation surface, and derived-functor boundary.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{human}
+  \notclaimed{This chapter does not construct homotopy categories, global replacement functors, total derived functors, derived equivalences, Lean verification, or a public schema bridge.}
+  \upgradepath{Obligation closure requires checked carrier admission, preservation rows, dual fibration readback, derived-boundary handoff, provenance, local naming, and non-escape for $\QuillenAdjunctionUp$.}
+\end{closurestatus}

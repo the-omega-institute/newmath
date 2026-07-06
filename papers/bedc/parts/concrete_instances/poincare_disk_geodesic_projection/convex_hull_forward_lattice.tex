@@ -1,0 +1,15 @@
+\begin{lemma}[Poincare projection convex-hull forward lattice]
+\label{lem:poincare-disk-geodesic-projection-convex-hull-forward-lattice}
+The $\HyperbolicGeodesicConvexHullUp$ consumer of \autoref{ch:concrete-instances-hyperbolic-geodesic-convex-hull-namecert} can read the local projection carrier of \autoref{def:poincare-disk-geodesic-projection-carrier} only after the $\UnitDiskUp$ row $D$, the $\HyperbolicMetricUp$ row $M$, the $\HyperbolicGeodesicBoundaryUp$ row $B$, and the $\PoincareBoundaryFixedTransportUp$ row $T$ have been displayed in the projection packet. The convex-hull handoff is therefore a geodesic dependency through
+$$
+D,B,M,T \longmapsto J \longmapsto H,C,P,N
+$$
+rather than a direct use of a host projection, selected nearest point, quotient boundary, or ambient hyperbolic plane.
+\end{lemma}
+\begin{proof}
+Project the carrier of \autoref{def:poincare-disk-geodesic-projection-carrier}. The projection join $J$ is not an independent primitive: it is downstream of the disk, boundary, metric, and boundary-fixed transport rows.
+
+Apply \autoref{thm:poincare-disk-geodesic-projection-hyperbolic-dependency}. It forces every projection read to display the $\UnitDiskUp$, $\HyperbolicMetricUp$, $\HyperbolicGeodesicBoundaryUp$, and $\PoincareBoundaryFixedTransportUp$ rows before a consumer may inspect the join.
+
+The convex-hull chapter cited above consumes the same joined geodesic side. Thus its use of $\PoincareDiskGeodesicProjectionUp$ is a horizontal lattice edge through the displayed finite rows, not a kernel-only floating reference.
+\end{proof}

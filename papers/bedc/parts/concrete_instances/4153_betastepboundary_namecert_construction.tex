@@ -86,19 +86,6 @@ conversion or hidden typing preservation, so every consumer remains inside the
 displayed ledger.
 \end{proof}
 
-\closureat{BetaStepBoundaryUp}{seedStr}
-
-\begin{closurestatus}{\BetaStepBoundaryUp}
-  \constructivestory{A $\BetaStepBoundaryUp$ packet is generated from beta-step rule rows, beta-conversion common-reduct rows, subject-reduction obstruction triggers, componentwise $\hsame$ transports, displayed $\Cont$ routes, $\Pkg$ provenance, and local naming.}
-  \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:beta-step-boundary-carrier} and \autoref{thm:beta-step-boundary-namecert-obligations} bind the finite beta-step, beta-conversion, obstruction-trigger, transport, route, provenance, and naming rows.}
-  \formalstatus{\unformalizedV}
-  \bridgestatus{none}
-  \origin{ai}
-  \notclaimed{This chapter does not close subject reduction, beta-substitution preservation, application-argument stability, lambda-domain preservation, Pi-domain preservation, host conversion, or bridge checking.}
-  \upgradepath{Obligation closure requires checked carrier admission, beta-rule exactness, conversion-boundary readback, subject-reduction non-escalation, transport, route replay, provenance, and ledger non-escape for the same finite packet.}
-\end{closurestatus}
-
 \begin{lemma}[BetaStepBoundary obstruction-trigger enumeration]
 \label{lem:beta-step-boundary-obstruction-trigger-enumeration}
 Let $B=(R,C,O,H,K,P,N)$ be an accepted $\BetaStepBoundaryUp$ carrier. If a consumer reads a subject-reduction obstruction trigger from $B$ through the displayed obstruction slot, then the read trigger is one of exactly four rows:
@@ -110,6 +97,7 @@ $$
 $$
 Conversely, each of these four rows is a displayed obstruction-trigger row of the same obstruction slot $O$.
 \end{lemma}
+\leanchecked{BEDC.Derived.BetaStepBoundaryUp.BetaStepBoundaryObstructionTriggerEnumeration}
 \begin{proof}
 Project the accepted carrier through \autoref{def:beta-step-boundary-carrier}. The obstruction coordinate is the single row $O$, and that coordinate is displayed as the list of subject-reduction obstruction triggers: beta substitution, application-argument stability, lambda-domain preservation, and Pi-domain preservation.
 
@@ -119,3 +107,34 @@ The four labels are also the four discharge obligations named in \autoref{sec:me
 
 Therefore every admissible obstruction-trigger read from an accepted $\BetaStepBoundaryUp$ packet is one of the four displayed rows, and the carrier definition supplies the reverse inclusion by listing all four rows inside $O$.
 \end{proof}
+
+\begin{theorem}[BetaStepBoundary scoped obstruction route]
+\label{thm:betastepboundary-scoped-obstruction-route}
+Every scoped $\BetaStepBoundaryUp$ read factors through beta-step rows $R$, beta-conversion rows $C$, the obstruction slot $O$, componentwise $\hsame$ transports $H$, displayed $\Cont$ routes $K$, $\Pkg$ provenance $P$, and local $\NameCert$ row $N$ before any subject-reduction consumer may inspect the four obstruction triggers.
+\end{theorem}
+\leanchecked{BEDC.Derived.BetaStepBoundaryUp.BetaStepBoundary\_scoped\_obstruction\_route}
+\begin{proof}
+Project the carrier of \autoref{def:beta-step-boundary-carrier}. The only visible rows are
+$$
+B=(R,C,O,H,K,P,N),
+$$
+so a scoped read has no coordinate outside the beta-rule, conversion, obstruction, transport, route, provenance, and naming surface.
+
+Apply \autoref{thm:beta-step-boundary-namecert-obligations}. Its beta-rule exactness clause binds $R$, its conversion-boundary readback clause binds $C$, and its subject-reduction non-escalation clause keeps the obstruction entries inside $O$.
+
+Finally apply \autoref{lem:beta-step-boundary-obstruction-trigger-enumeration}. The subject-reduction consumer can inspect only the four displayed obstruction triggers, and it reaches them only after $H,K,P,N$ have replayed and named the same local packet. Hence the obstruction route is scoped by the displayed kernel rows before any preservation-facing consumer reads it.
+\end{proof}
+\leanchecked{BEDC.Derived.BetaStepBoundaryUp.BetaStepBoundaryScopedObstructionRoute}
+
+\closureat{BetaStepBoundaryUp}{obligationStr}[BEDC.Derived.BetaStepBoundaryUp.BetaStepBoundaryTasteGate\_single\_carrier\_alignment]
+\closureat{BetaStepBoundaryUp}{scopedStr}[BEDC.Derived.BetaStepBoundaryUp.BetaStepBoundaryTasteGate\_single\_carrier\_alignment]
+
+\begin{closurestatus}{\BetaStepBoundaryUp}
+  \constructivestory{A $\BetaStepBoundaryUp$ packet is generated from beta-step rule rows, beta-conversion common-reduct rows, subject-reduction obstruction triggers, componentwise $\hsame$ transports, displayed $\Cont$ routes, $\Pkg$ provenance, and local naming.}
+  \theoryclosure{\scopedClosure}
+  \scopeclosed{\autoref{def:beta-step-boundary-carrier}, \autoref{thm:beta-step-boundary-namecert-obligations}, \autoref{lem:beta-step-boundary-obstruction-trigger-enumeration}, and \autoref{thm:betastepboundary-scoped-obstruction-route} bind the beta-step, beta-conversion, obstruction-trigger, transport, route, provenance, and naming rows before preservation-facing consumers can inspect them.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close subject reduction, beta-substitution preservation, application-argument stability, lambda-domain preservation, Pi-domain preservation, host conversion, or bridge checking.}
+  \upgradepath{Formal verification requires Lean coverage for the scoped obstruction route and the preservation-facing consumer boundary.}
+\end{closurestatus}

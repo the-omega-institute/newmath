@@ -217,4 +217,62 @@ theorem LayeredRelationSiteTasteGate_single_carrier_alignment :
         intro x y heq
         exact layeredRelationSiteToEventFlow_injective heq⟩
 
+theorem LayeredRelationSiteCarrier_namecert_obligations
+    (x : LayeredRelationSiteUp) :
+    BHistCarrier.fromEventFlow (BHistCarrier.toEventFlow x) = some x ∧
+      ∃ sourceA sourceB relationA relationB refinementChain localityGate relationTransport
+          replay transport continuation provenance name : BHist,
+        x =
+            LayeredRelationSiteUp.mk sourceA sourceB relationA relationB refinementChain
+              localityGate relationTransport replay transport continuation provenance name ∧
+          FieldFaithful.fields x =
+            [sourceA, sourceB, relationA, relationB, refinementChain, localityGate,
+              relationTransport, replay, transport, continuation, provenance, name] ∧
+            BHistCarrier.fromEventFlow
+                (BHistCarrier.toEventFlow
+                  (LayeredRelationSiteUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+                    BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+                    BHist.Empty BHist.Empty)) =
+              some
+                (LayeredRelationSiteUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+                  BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+                  BHist.Empty BHist.Empty) := by
+  -- BEDC touchpoint anchor: BHist BMark
+  cases x with
+  | mk sourceA sourceB relationA relationB refinementChain localityGate relationTransport
+      replay transport continuation provenance name =>
+      constructor
+      · change
+          layeredRelationSiteFromEventFlow
+              (layeredRelationSiteToEventFlow
+                (LayeredRelationSiteUp.mk sourceA sourceB relationA relationB refinementChain
+                  localityGate relationTransport replay transport continuation provenance
+                  name)) =
+            some
+              (LayeredRelationSiteUp.mk sourceA sourceB relationA relationB refinementChain
+                localityGate relationTransport replay transport continuation provenance name)
+        exact
+          layeredRelationSite_round_trip
+            (LayeredRelationSiteUp.mk sourceA sourceB relationA relationB refinementChain
+              localityGate relationTransport replay transport continuation provenance name)
+      · exact
+          ⟨sourceA, sourceB, relationA, relationB, refinementChain, localityGate,
+            relationTransport, replay, transport, continuation, provenance, name, rfl, rfl,
+            by
+              change
+                layeredRelationSiteFromEventFlow
+                    (layeredRelationSiteToEventFlow
+                      (LayeredRelationSiteUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+                        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+                        BHist.Empty BHist.Empty)) =
+                  some
+                    (LayeredRelationSiteUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+                      BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+                      BHist.Empty BHist.Empty)
+              exact
+                layeredRelationSite_round_trip
+                  (LayeredRelationSiteUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+                    BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+                    BHist.Empty BHist.Empty)⟩
+
 end BEDC.Derived.LayeredRelationSiteUp

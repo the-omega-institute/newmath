@@ -1,0 +1,100 @@
+\chapter{A Concrete Naming Certificate for $\PacketExponentialReadoutUp$}
+\label{ch:concrete-instances-packet-exponential-readout-namecert}
+\origin{ai}
+
+The $\PacketExponentialReadoutUp$ packet realizes the type boundary of \autoref{sec:self-similar-exponential-readouts} as finite NameCert data. It separates packet-level operations from scalar exponential shadows by recording the packet operation row, scalar readout row, normalization ledger, exponential-shadow ledger, and refusal row as distinct carrier coordinates. The packet sits near the stream surface of \autoref{ch:concrete-instances-streamname-namecert}, the real-name surface of \autoref{ch:concrete-instances-real-namecert}, the continuous-map surface of \autoref{ch:concrete-instances-continuousmap-namecert}, and the local naming discipline of $\NameCertUp$; it does not identify a packet operation with the scalar constant $e$.
+
+\begin{definition}[Packet exponential-readout carrier]
+\label{def:packet-exponential-readout-carrier}
+A $\PacketExponentialReadoutUp$ carrier is a finite $\BHist$ packet
+$$
+X=(O,F,S,R,A,E,B,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $O$ is the packet-operation row, recording the self-similar operation or flow operation as packet data.
+\item $F$ is the scalar readout row, read as a displayed $\ContinuousMapUp$-style map from packet data to a scalar carrier.
+\item $S$ is the $\StreamNameUp$ observation row, recording the finite readout samples opened before a scalar shadow is inspected.
+\item $R$ is the $\RealUp$ scalar row used by the readout value and by the displayed exponential comparison.
+\item $A$ is the analytic normalization row, recording the finite ledger for unit value and self-change equations at the readout level.
+\item $E$ is the exponential-shadow row, recording that the scalar readout has the displayed exponential value.
+\item $B$ is the type-boundary row, refusing any identification of $O$ with $E$ or with the scalar constant $e$.
+\item $H$ records componentwise $\hsame$ transport for operation, readout, stream, scalar, normalization, exponential-shadow, boundary, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from packet operations to scalar readout shadows through $O,F,S,R,A,E,B,H$.
+\item $P$ is the $\Pkg$ provenance over $\PacketExponentialReadoutUp$, $\StreamNameUp$, $\RealUp$, $\ContinuousMapUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\PacketExponentialReadoutUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $O,F,S,R,A,E,B,H,C,P,N$. It has no coordinate for identifying a packet operation with a scalar constant, coercing scalar readout values back into operations, choosing a hidden analytic representative, or importing a global field of scalar shadows.
+\end{definition}
+
+\begin{theorem}[Packet exponential-readout NameCert obligations]
+\label{thm:packet-exponential-readout-namecert-obligations}
+For every accepted $\PacketExponentialReadoutUp$ carrier
+$$
+X=(O,F,S,R,A,E,B,H,C,P,N),
+$$
+the local $\NameCert_{\PacketExponentialReadoutUp}$ surface consists exactly of carrier admission, operation-row visibility, scalar-readout visibility, finite stream observation, Real scalar exposure, normalization-ledger exposure, exponential-shadow exposure, type-boundary refusal, transport, replay, provenance, and local naming. No obligation identifies the packet operation row with the scalar exponential row.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:packet-exponential-readout-carrier}. The rows $O,F,S,R,A,E,B,H,C,P,N$ are the whole accepted packet.
+
+The packet operation is stored only in $O$. The scalar readout is stored in $F$, its finite observations in $S$, the scalar carrier in $R$, and the analytic normalization in $A$. The exponential value is stored as the scalar shadow row $E$, while $B$ records the refusal of operation-scalar identification.
+
+Rows $H,C,P,N$ transport, replay, source, and name the same route. Since no row coerces scalar constants back into packet operations, the local NameCert cannot certify such an identification.
+\end{proof}
+
+\begin{theorem}[Packet exponential-readout classifier stability]
+\label{thm:packet-exponential-readout-classifier-stability}
+If two accepted $\PacketExponentialReadoutUp$ packets agree componentwise on $O,F,S,R,A,E,B,H,C,P,N$, then every accepted readout exposes the same packet operation row, scalar readout row, finite observation row, Real scalar row, normalization ledger, exponential-shadow row, and type-boundary refusal. Componentwise transport cannot turn the scalar shadow into the packet operation.
+\end{theorem}
+\begin{proof}
+Use the displayed classifier of \autoref{def:packet-exponential-readout-carrier}. It has access only to $O,F,S,R,A,E,B,H,C,P,N$.
+
+Componentwise agreement preserves the operation row and the scalar-shadow route separately. The readout row $F$ and observation row $S$ remain between $O$ and the scalar rows $R,A,E$, while $B$ continues to refuse an operation-scalar identification.
+
+Transport and replay preserve this row separation. With no hidden coercion row or global scalar-shadow field in the carrier, classifier equality cannot collapse the packet operation into $e$.
+\end{proof}
+
+\begin{theorem}[Packet exponential-readout ledger exactness]
+\label{thm:packet-exponential-readout-ledger-exactness}
+Every accepted $\PacketExponentialReadoutUp$ ledger row is exact for the finite route
+$$
+O \to F \to S \to R \to A \to E \to B \to H \to C \to P \to N.
+$$
+The route records operation data and scalar exponential shadows as separate rows. It does not record a packet-level equality between the operation and the scalar constant $e$.
+\end{theorem}
+\begin{proof}
+Apply the NameCert obligation theorem, \autoref{thm:packet-exponential-readout-namecert-obligations}. It identifies the operation, readout, observation, scalar, normalization, exponential-shadow, boundary, transport, replay, provenance, and naming rows as the whole ledger surface.
+
+The route is ordered by type. A packet operation is read first as packet data, a scalar readout then maps it to observable scalar data, and the exponential shadow is stored only after the scalar and normalization rows.
+
+The boundary row $B$ is part of the same ledger and refuses the equation between packet operation and scalar constant. Exactness therefore preserves the scalar shadow without adding an operation-scalar equality.
+\end{proof}
+
+\begin{theorem}[Packet exponential-readout public boundary]
+\label{thm:packet-exponential-readout-public-boundary}
+A public consumer of an accepted $\PacketExponentialReadoutUp$ packet may cite a scalar exponential readout shadow only through $O,F,S,R,A,E,B,H,C,P,N$. The consumer may assert that the displayed scalar readout has exponential value, but it may not identify the packet operation with scalar $e$, import a hidden field of scalar shadows, or coerce scalar values back into packet operations.
+\end{theorem}
+\begin{proof}
+Start with ledger exactness, \autoref{thm:packet-exponential-readout-ledger-exactness}. It confines every public read to the displayed route from packet operation through scalar readout and exponential shadow to the boundary refusal.
+
+Use classifier stability, \autoref{thm:packet-exponential-readout-classifier-stability}. Componentwise transport preserves the separation between $O$ and $E$, so the scalar shadow cannot become the operation under replay.
+
+Finally inspect the carrier. It contains no coordinate for operation-scalar equality, hidden scalar-shadow fields, scalar-to-operation coercion, or selected analytic representatives. Public consumption therefore stops at the displayed readout shadow and its refusal boundary.
+\end{proof}
+
+\falsifiablePrediction{No accepted $\PacketExponentialReadoutUp$ packet may identify the packet operation row with scalar $e$. A public read that derives operation-scalar equality from $O,F,S,R,A,E,B,H,C,P,N$ refutes the carrier boundary.}
+
+\independenceWitness{The packet depends on StreamName, Real, ContinuousMap, and NameCert sibling slugs for observation, scalar, readout-map, and naming surfaces, while its boundary row keeps packet operations and scalar exponential shadows distinct.}
+
+\closureat{PacketExponentialReadoutUp}{seedStr}
+
+\begin{closurestatus}{\PacketExponentialReadoutUp}
+  \constructivestory{A $\PacketExponentialReadoutUp$ packet is generated from packet-operation rows, scalar readout rows, StreamName observation rows, Real scalar rows, analytic normalization rows, exponential-shadow rows, type-boundary refusal rows, componentwise transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:packet-exponential-readout-carrier}, \autoref{thm:packet-exponential-readout-namecert-obligations}, \autoref{thm:packet-exponential-readout-classifier-stability}, \autoref{thm:packet-exponential-readout-ledger-exactness}, and \autoref{thm:packet-exponential-readout-public-boundary} seed the packet-operation versus scalar-shadow boundary.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close operation-scalar equality, scalar-to-operation coercion, hidden scalar-shadow fields, selected analytic representatives, global field faithfulness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, classifier stability, ledger exactness, public-boundary non-escape, and Nontrivial and FieldFaithful Lean instances for BEDC.Derived.PacketExponentialReadoutUp.}
+\end{closurestatus}

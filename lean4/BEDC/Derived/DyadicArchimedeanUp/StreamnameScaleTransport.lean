@@ -1,4 +1,4 @@
-import BEDC.Derived.DyadicArchimedeanUp.NameCertObligations
+import BEDC.Derived.DyadicArchimedeanUp.L10Handoff
 
 namespace BEDC.Derived.DyadicArchimedeanUp
 
@@ -32,5 +32,39 @@ theorem DyadicArchimedeanStreamnameScaleTransport [AskSetup] [PackageSetup]
   exact
     ⟨scaleUnary, transportedUnary, routeUnary, sameTransported, scaleRoute, routeCont,
       provenancePkg⟩
+
+theorem DyadicArchimedeanStreamname_l10_handoff_transport [AskSetup] [PackageSetup]
+    {source bound scale replay comparison enclosure transport route provenance localCert
+      scaleRead comparisonRead enclosureRead l10Read streamRead consumerRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    DyadicArchimedeanCarrier source bound scale replay comparison enclosure transport route
+        provenance localCert bundle pkg ->
+      Cont source scale scaleRead ->
+        Cont scaleRead replay comparisonRead ->
+          Cont comparisonRead enclosure enclosureRead ->
+            Cont enclosureRead route l10Read ->
+              PkgSig bundle l10Read pkg ->
+                hsame streamRead l10Read ->
+                  Cont streamRead transport consumerRead ->
+                    UnaryHistory streamRead ∧ UnaryHistory consumerRead ∧
+                      hsame streamRead l10Read ∧ Cont streamRead transport consumerRead ∧
+                        PkgSig bundle provenance pkg ∧ PkgSig bundle l10Read pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont PkgSig hsame UnaryHistory
+  intro carrier scaleRoute comparisonRoute enclosureRoute l10Route l10Pkg sameStream
+    consumerRoute
+  have l10Facts :=
+    DyadicArchimedeanCarrier_l10_handoff carrier scaleRoute comparisonRoute enclosureRoute
+      l10Route l10Pkg
+  obtain
+    ⟨_sourceUnary, _boundUnary, _scaleUnary, _replayUnary, _comparisonUnary,
+      _enclosureUnary, _scaleReadUnary, _comparisonReadUnary, _enclosureReadUnary,
+        l10Unary, _scaleRoute, _comparisonRoute, _enclosureRoute, _l10Route,
+          provenancePkg, l10Pkg'⟩ := l10Facts
+  have streamUnary : UnaryHistory streamRead :=
+    unary_transport l10Unary (hsame_symm sameStream)
+  have transportUnary : UnaryHistory transport := carrier.2.2.2.2.2.2.1
+  have consumerUnary : UnaryHistory consumerRead :=
+    unary_cont_closed streamUnary transportUnary consumerRoute
+  exact ⟨streamUnary, consumerUnary, sameStream, consumerRoute, provenancePkg, l10Pkg'⟩
 
 end BEDC.Derived.DyadicArchimedeanUp

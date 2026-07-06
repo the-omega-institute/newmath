@@ -1,0 +1,79 @@
+\chapter{A Concrete Naming Certificate for $\UniformCauchyReflectorUp$}
+\label{ch:concrete-instances-uniform-cauchy-reflector-namecert}
+\origin{human}
+
+Following Bishop and Bridges on constructive real completion, the $\UniformCauchyReflectorUp$ packet records the finite reflector route by which a regular Cauchy rational source is read through dyadic tolerances, stream windows, regular-sequence readback, and the terminal $\RealUp$ seal. It sits over the dyadic arithmetic of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the finite stream windows of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the real-name seal of \autoref{ch:concrete-instances-real-namecert}, and the completion boundary and envelope routes of \autoref{ch:concrete-instances-cauchy-completion-boundary-namecert} and \autoref{ch:concrete-instances-completion-uniform-functorial-envelope-namecert}. The packet exposes completion reflection as finite NameCert data rather than as quotient stream equality, a selected limit, countable choice, or an ambient completed object.
+
+\begin{definition}[Uniform Cauchy reflector carrier]
+\label{def:uniform-cauchy-reflector-carrier}
+A $\UniformCauchyReflectorUp$ carrier is a finite $\BHist$ packet
+$$
+R=(D,S,Q,E,F,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $D$ is the $\DyadicRatCoreUp$ tolerance row, recording the requested radius, halving budget, and comparison cells used by the reflector.
+\item $S$ is the $\StreamNameUp$ row, exposing the finite source windows inspected for the requested tolerance.
+\item $Q$ is the $\RegSeqRatUp$ row, reading the same windows as regular rational observations.
+\item $E$ is the terminal $\RealUp$ seal row, available only after $D,S,Q$ have been displayed.
+\item $F$ is the reflector-route row, recording the finite handoff from the regular Cauchy source through the completion boundary to the Real-facing reflector read.
+\item $H$ records componentwise $\hsame$ transport for the dyadic, stream, regular-readback, Real-seal, reflector-route, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from a tolerance request through $D,S,Q,F$ and then to the Real seal $E$.
+\item $P$ is the $\Pkg$ provenance over $\UniformCauchyReflectorUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\CauchyCompletionBoundaryUp$, $\CompletionUniformFunctorialEnvelopeUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\UniformCauchyReflectorUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $D,S,Q,E,F,H,C,P,N$. It has no coordinate for quotient Cauchy streams, selected representatives, countable choice, host completion operators, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[Uniform Cauchy reflector NameCert obligations]
+\label{thm:uniform-cauchy-reflector-namecert-obligations}
+For every accepted $\UniformCauchyReflectorUp$ carrier
+$$
+R=(D,S,Q,E,F,H,C,P,N),
+$$
+the local $\NameCert_{\UniformCauchyReflectorUp}$ surface consists exactly of DyadicRatCore tolerance exposure through $D$, StreamName window exposure through $S$, RegSeqRat readback through $Q$, terminal Real sealing through $E$, reflector-route exposure through $F$, componentwise transport through $H$, displayed replay through $C$, package provenance through $P$, and local naming through $N$. Every reflector-facing consumer must therefore read the sibling routes of \autoref{ch:concrete-instances-dyadicratcore-namecert}, \autoref{ch:concrete-instances-streamname-namecert}, \autoref{ch:concrete-instances-regseqrat-namecert}, \autoref{ch:concrete-instances-real-namecert}, \autoref{ch:concrete-instances-cauchy-completion-boundary-namecert}, and \autoref{ch:concrete-instances-completion-uniform-functorial-envelope-namecert} through these displayed rows.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:uniform-cauchy-reflector-carrier}. The analytic rows are exactly the dyadic tolerance, finite stream-window, regular-readback, Real-seal, and reflector-route rows $D,S,Q,E,F$.
+
+Read the route in dependency order. The dyadic row $D$ fixes the tolerance request, the stream row $S$ exposes the inspected windows, and the regular rational row $Q$ reads those windows before the terminal Real seal $E$ can be consumed.
+
+The reflector row $F$ binds the same finite data to the completion-boundary and uniform-envelope routes. It therefore records reflection as a displayed handoff, not as an external quotient completion or selected limit.
+
+Finally $H,C,P,N$ transport, replay, source, and name the same finite packet. Since the carrier has no row for quotient streams, selected representatives, countable choice, host completion operators, or ambient real completeness, those principles cannot appear as local NameCert obligations.
+\end{proof}
+
+\begin{theorem}[Uniform Cauchy reflector nonescape]
+\label{thm:uniform-cauchy-reflector-nonescape}
+Every $\RealUp$-facing or completion-facing consumer of an accepted $\UniformCauchyReflectorUp$ packet factors its read through
+$$
+\DyadicRatCoreUp \longmapsto \StreamNameUp \longmapsto \RegSeqRatUp \longmapsto \RealUp
+\longmapsto \CauchyCompletionBoundaryUp,\CompletionUniformFunctorialEnvelopeUp
+$$
+using the rows $D,S,Q,E,F,H,C,P,N$. The exported reflector read contains no quotient Cauchy stream, no selected representative, no countable-choice schedule, no host completion operator, and no ambient $\RealUp$ completeness assertion.
+\end{theorem}
+\begin{proof}
+Start with the accepted packet. The only public source of tolerance information is $D$, so a reflector read cannot begin from an untracked metric or host-completion request.
+
+The finite source windows are then opened by $S$ and read as regular rational data through $Q$. The Real seal $E$ is downstream of those rows, so a consumer cannot read a completed real before the displayed finite observations have been exposed.
+
+The reflector route $F$ attaches this same finite read to the completion-boundary and uniform-envelope siblings. Componentwise $\hsame$ transport and displayed $\Cont$ replay preserve the rows already listed, while $\Pkg$ provenance and local $\NameCert$ naming record where the read came from.
+
+Because no excluded object is a coordinate of $R$, every attempt to export a quotient stream, selected limit, countable-choice schedule, host completion, or ambient real-completeness claim leaves the accepted packet boundary.
+\end{proof}
+
+\falsifiablePrediction{A completion-facing consumer that exports a $\UniformCauchyReflectorUp$ read without displaying DyadicRatCore tolerances, StreamName windows, RegSeqRat readback, Real sealing, reflector-route, transport, replay, provenance, and NameCert rows refutes the packet.}
+
+\independenceWitness{dyadicratcore, streamname, regseqrat, real, cauchy-completion-boundary, completion-uniform-functorial-envelope: none is bijective to $\UniformCauchyReflectorUp$ because this packet binds the tolerance, finite-window, regular-readback, Real-seal, completion-boundary, uniform-envelope, transport, replay, provenance, and local naming rows as one reflector route.}
+
+\closureat{UniformCauchyReflectorUp}{seedStr}
+
+\begin{closurestatus}{\UniformCauchyReflectorUp}
+  \constructivestory{A $\UniformCauchyReflectorUp$ packet is generated from DyadicRatCore tolerance rows, StreamName windows, RegSeqRat readback, a RealUp seal, a reflector route, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:uniform-cauchy-reflector-carrier}, \autoref{thm:uniform-cauchy-reflector-namecert-obligations}, and \autoref{thm:uniform-cauchy-reflector-nonescape} seed the finite completion-reflector route over DyadicRatCore, StreamName, RegSeqRat, Real, completion-boundary, and uniform-envelope rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient Cauchy streams, selected representatives, selected limits, countable choice, host completion operators, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, dyadic tolerance exposure, stream-window readback, regular rational readback, Real-seal nonescape, reflector-route exactness, transport, replay, provenance, and local naming for BEDC.Derived.UniformCauchyReflectorUp.}
+\end{closurestatus}

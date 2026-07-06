@@ -72,17 +72,32 @@ Apply \autoref{thm:fuel-indexed-substrate-bridge-total-host-nonescape}. The cons
 It remains to identify the boundary of the substrate read. The refusal row $Q$ excludes treating $W$ as an all-time computation or as a quotient stream of future states, while $H,C,P,N$ preserve only the displayed finite route. Therefore the public substrate content is exactly the stated finite step window and readback.
 \end{proof}
 
+\begin{theorem}[Fuel-indexed substrate bridge obligation closure]
+\label{thm:fuel-indexed-substrate-bridge-obligation-closure}
+For every accepted $\FuelIndexedSubstrateBridgeUp$ packet $B=(F,S,E,W,R,Q,H,C,P,N)$, the carrier definition together with carrier admission, obligation surface, total-host non-escape, and step-window boundary enumerate the full $\obligationClosure$ surface: fuel exposure, substrate-state exposure, total-host evaluator accountability, finite-window exactness, refusal nonescape, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ naming. The packet exports no partial host evaluator, unbounded substrate completion, halting oracle, quotient stream of future states, selected nontermination evidence, or semantic completion of the universal substrate.
+\end{theorem}
+\leanchecked{BEDC.Derived.FuelIndexedSubstrateBridgeUp.FuelIndexedSubstrateBridge\_obligation\_closure}
+\begin{proof}
+Project the displayed carrier of \autoref{def:fuel-indexed-substrate-bridge-carrier}. The only public rows are $F,S,E,W,R,Q,H,C,P,N$, so carrier admission already fixes the fuel, substrate-state, evaluator, finite-window, readback, refusal, transport, replay, provenance, and local naming coordinates.
+
+Apply the obligation surface theorem \autoref{thm:fuel-indexed-substrate-bridge-obligation-surface}. It names these rows as the complete local $\NameCert_{\FuelIndexedSubstrateBridgeUp}$ surface and orders the computational rows from fuel and substrate state through evaluator, window, and readback.
+
+Use total-host non-escape and step-window boundary, \autoref{thm:fuel-indexed-substrate-bridge-total-host-nonescape} and \autoref{thm:fuel-indexed-substrate-bridge-step-window-boundary}. The first keeps host accountability inside the total evaluator row $E$ under fuel $F$, and the second keeps the substrate content inside the finite window $W$ and readback $R$.
+
+Finally read $Q,H,C,P,N$. The refusal row records the excluded escapes, while transport, replay, provenance, and local naming preserve the same finite packet. Hence the listed rows exhaust the obligation surface and no forbidden host or substrate completion data is exported.
+\end{proof}
+
 The Lean TasteGate module $\mathsf{BEDC.Derived.FuelIndexedSubstrateBridgeUp.TasteGate}$ must provide $\mathsf{Nontrivial}\ \mathsf{FuelIndexedSubstrateBridgeUp}$ and $\mathsf{FieldFaithful}\ \mathsf{FuelIndexedSubstrateBridgeUp}$ instances for the displayed carrier.
 
-\closureat{FuelIndexedSubstrateBridgeUp}{seedStr}
+\closureat{FuelIndexedSubstrateBridgeUp}{obligationStr}
 
 \begin{closurestatus}{\FuelIndexedSubstrateBridgeUp}
   \constructivestory{A $\FuelIndexedSubstrateBridgeUp$ packet is generated from fuel, substrate-state, total-host evaluator, finite-window, readback, refusal, transport, route, provenance, and local NameCert rows.}
-  \theoryclosure{\seedClosure}
+  \theoryclosure{\obligationClosure}
   \scopeclosed{\autoref{def:fuel-indexed-substrate-bridge-carrier}, \autoref{thm:fuel-indexed-substrate-bridge-obligation-surface}, \autoref{thm:fuel-indexed-substrate-bridge-total-host-nonescape}, and \autoref{thm:fuel-indexed-substrate-bridge-step-window-boundary} specify the finite total-host and universal-substrate bridge packet.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{ai}
   \notclaimed{This chapter does not prove Lean verification, bridge checking, host partiality, unbounded substrate completion, halting decidability, quotient stream equality, or semantic completion of the universal substrate.}
-  \upgradepath{Obligation closure requires checked carrier admission, fuel exposure, substrate-state exposure, total-host evaluator accountability, finite-window exactness, refusal non-escape, nontriviality, and field faithfulness for the same packet.}
+  \upgradepath{Scoped closure requires binding the same fuel, substrate-state, total-host evaluator, finite-window, refusal, transport, replay, provenance, and local NameCert rows to all downstream consumer routes.}
 \end{closurestatus}

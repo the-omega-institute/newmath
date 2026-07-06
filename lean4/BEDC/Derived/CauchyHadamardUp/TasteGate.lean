@@ -1,11 +1,21 @@
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
+import BEDC.FKernel.Ask
+import BEDC.FKernel.Bundle
+import BEDC.FKernel.Cont
+import BEDC.FKernel.Package
+import BEDC.FKernel.Unary.History
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.CauchyHadamardUp
 
+open BEDC.FKernel.Ask
+open BEDC.FKernel.Bundle
+open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
+open BEDC.FKernel.Package
+open BEDC.FKernel.Unary
 open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
@@ -164,5 +174,40 @@ theorem CauchyHadamardTasteGate_single_carrier_alignment :
       CauchyHadamardTasteGate_single_carrier_alignment_decode,
       CauchyHadamardTasteGate_single_carrier_alignment_round_trip,
       rfl⟩
+
+def CauchyHadamardRouteCarrier [AskSetup] [PackageSetup]
+    (A W R G D H C P N : BHist) (bundle : ProbeBundle ProbeName) (pkg : Pkg) :
+    Prop :=
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg UnaryHistory PkgSig
+  UnaryHistory A ∧ UnaryHistory W ∧ UnaryHistory R ∧ UnaryHistory G ∧
+    UnaryHistory D ∧ UnaryHistory H ∧ UnaryHistory C ∧ UnaryHistory P ∧
+      UnaryHistory N ∧ PkgSig bundle P pkg ∧ PkgSig bundle N pkg
+
+theorem CauchyHadamardRootBoundHandoff [AskSetup] [PackageSetup]
+    {A W R G D H C P N coefficientRead rootRead radiusRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    CauchyHadamardRouteCarrier A W R G D H C P N bundle pkg ->
+      Cont A W coefficientRead ->
+        Cont coefficientRead R rootRead ->
+          Cont rootRead G radiusRead ->
+            PkgSig bundle radiusRead pkg ->
+              UnaryHistory A ∧ UnaryHistory W ∧ UnaryHistory R ∧ UnaryHistory G ∧
+                UnaryHistory coefficientRead ∧ UnaryHistory rootRead ∧
+                  UnaryHistory radiusRead ∧ Cont A W coefficientRead ∧
+                    Cont coefficientRead R rootRead ∧ Cont rootRead G radiusRead ∧
+                      PkgSig bundle P pkg ∧ PkgSig bundle radiusRead pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont UnaryHistory PkgSig
+  intro carrier coefficientRoute rootRoute radiusRoute radiusPkg
+  obtain ⟨aUnary, wUnary, rUnary, gUnary, _dUnary, _hUnary, _cUnary, _pUnary,
+    _nUnary, provenancePkg, _namePkg⟩ := carrier
+  have coefficientUnary : UnaryHistory coefficientRead :=
+    unary_cont_closed aUnary wUnary coefficientRoute
+  have rootUnary : UnaryHistory rootRead :=
+    unary_cont_closed coefficientUnary rUnary rootRoute
+  have radiusUnary : UnaryHistory radiusRead :=
+    unary_cont_closed rootUnary gUnary radiusRoute
+  exact
+    ⟨aUnary, wUnary, rUnary, gUnary, coefficientUnary, rootUnary, radiusUnary,
+      coefficientRoute, rootRoute, radiusRoute, provenancePkg, radiusPkg⟩
 
 end BEDC.Derived.CauchyHadamardUp

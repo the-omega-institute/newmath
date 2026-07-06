@@ -66,16 +66,32 @@ Use \autoref{thm:metacic-beta-audit-subject-reduction-obstruction-ledger} for th
 
 The rows $H,C,P,N$ then account for transport, route replay, provenance, and naming. Since the packet has no hidden conversion-for-typing coordinate, no unconditional subject-reduction coordinate, and no closed-consistency coordinate, the obligation surface is exhausted by the displayed rows.
 \end{proof}
+\leanchecked{BEDC.Derived.MetaCICBetaAuditUp.MetaCICBetaAuditNameCertObligations}
 
-\closureat{MetaCICBetaAuditUp}{seedStr}
+\begin{theorem}[MetaCIC beta audit obligation-closure package]
+\label{thm:metacic-beta-audit-obligation-closure-package}
+The carrier surface of \autoref{def:metacic-beta-audit-carrier}, the reduction and conversion boundary of \autoref{thm:metacic-beta-audit-reduction-conversion-boundary}, the subject-reduction obstruction ledger of \autoref{thm:metacic-beta-audit-subject-reduction-obstruction-ledger}, and the local NameCert obligations of \autoref{thm:metacic-beta-audit-namecert-obligations} form the complete obligation surface for $\MetaCICBetaAuditUp$. Any accepted audit read must expose $S,V,T,F,O,H,C,P,N$ as separate rows, and it cannot promote those rows to subject reduction, hidden conversion-for-typing, closed consistency, or extra beta constructors.
+\end{theorem}
+\begin{proof}
+Start with the carrier. It displays the reduction inventory $S$, conversion ledger $V$, route data $T$, rigidity row $F$, obstruction ledger $O$, and the structural rows $H,C,P,N$.
+
+Use the reduction and conversion boundary theorem to keep beta steps, common-reduct conversion, multi-step routes, and normal-form rigidity as separate rows. None of these rows contains a typing-preservation field or a closed-consistency field.
+
+Use the subject-reduction obstruction ledger theorem for the typing side. It routes every subject-reduction citation through $O$ and keeps substitution preservation, application-argument type stability, lambda-domain preservation, and Pi-domain preservation as explicit obstruction interfaces.
+
+Finally apply the NameCert obligation theorem. It accounts for transport, replay, provenance, and naming and states that no hidden conversion-for-typing coordinate, unconditional subject-reduction coordinate, closed-consistency coordinate, or additional beta constructor is present. The four cited surfaces therefore exhaust the obligation package.
+\end{proof}
+\leanchecked{BEDC.Derived.MetaCICBetaAuditUp.MetaCICBetaAuditObligationClosurePackage}
+
+\closureat{MetaCICBetaAuditUp}{obligationStr}
 
 \begin{closurestatus}{\MetaCICBetaAuditUp}
   \constructivestory{A $\MetaCICBetaAuditUp$ packet is generated from a BetaStep constructor inventory, BetaConv common-reduct ledger, BetaStarStep route data, normal-form rigidity row, subject-reduction obstruction ledger, componentwise transports, displayed continuation routes, package provenance, and a local naming row.}
-  \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:metacic-beta-audit-carrier}, \autoref{thm:metacic-beta-audit-reduction-conversion-boundary}, \autoref{thm:metacic-beta-audit-subject-reduction-obstruction-ledger}, and \autoref{thm:metacic-beta-audit-namecert-obligations} bind the finite carrier and the reduction, conversion, rigidity, and typing-obstruction boundaries.}
+  \theoryclosure{\obligationClosure}
+  \scopeclosed{\autoref{def:metacic-beta-audit-carrier}, \autoref{thm:metacic-beta-audit-reduction-conversion-boundary}, \autoref{thm:metacic-beta-audit-subject-reduction-obstruction-ledger}, \autoref{thm:metacic-beta-audit-namecert-obligations}, and \autoref{thm:metacic-beta-audit-obligation-closure-package} bind the finite carrier and the reduction, conversion, rigidity, and typing-obstruction boundaries.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \origin{human}
   \notclaimed{This chapter does not close unconditional subject reduction, hidden conversion for typing, closed consistency, new beta constructors, Lean verification, or bridge checking.}
-  \upgradepath{Obligation closure requires checked routing for the displayed reduction inventory, conversion ledger, route data, rigidity row, obstruction ledger, transport rows, continuation rows, provenance row, and local name.}
+  \upgradepath{Scoped closure requires checked routing for the displayed reduction inventory, conversion ledger, route data, rigidity row, obstruction ledger, transport rows, continuation rows, provenance row, and local name.}
 \end{closurestatus}

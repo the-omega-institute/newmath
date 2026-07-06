@@ -1,6 +1,7 @@
 import BEDC.FKernel.Cont
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
+import BEDC.FKernel.NameCert
 import BEDC.FKernel.Unary.History
 import BEDC.Meta.TasteGate
 
@@ -9,6 +10,7 @@ namespace BEDC.Derived.ParallelConfluenceAuditUp
 open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
+open BEDC.FKernel.NameCert
 open BEDC.FKernel.Unary
 open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
@@ -377,5 +379,162 @@ theorem ParallelConfluenceAudit_conditional_bridge_route_closed
           parallelConfluenceAudit_round_trip
             (ParallelConfluenceAuditUp.mk parallelStep substitutionBoundary conditionalDiamond
               closedStar closedNormal atomShape nonClaim transports routes provenance localName)
+
+theorem ParallelConfluenceAudit_nonescape
+    {P S D C Nm At No H R L G substitutionRead diamondRead starRead publicRead : BHist} :
+    UnaryHistory P ->
+      UnaryHistory S ->
+        UnaryHistory D ->
+          UnaryHistory C ->
+            UnaryHistory No ->
+              UnaryHistory G ->
+                Cont P S substitutionRead ->
+                  Cont substitutionRead D diamondRead ->
+                    Cont diamondRead C starRead ->
+                      Cont No G publicRead ->
+                        UnaryHistory substitutionRead ∧ UnaryHistory diamondRead ∧
+                          UnaryHistory starRead ∧ UnaryHistory publicRead ∧
+                            parallelConfluenceAuditFromEventFlow
+                                (parallelConfluenceAuditToEventFlow
+                                  (ParallelConfluenceAuditUp.mk P S D C Nm At No H R L G)) =
+                              some (ParallelConfluenceAuditUp.mk P S D C Nm At No H R L G) := by
+  -- BEDC touchpoint anchor: BHist BMark Cont UnaryHistory
+  intro unaryParallel unarySubstitution unaryDiamond unaryStar unaryNonClaim unaryLocal
+    routeSubstitution routeDiamond routeStar routePublic
+  have unarySubstitutionRead : UnaryHistory substitutionRead :=
+    unary_cont_closed unaryParallel unarySubstitution routeSubstitution
+  have unaryDiamondRead : UnaryHistory diamondRead :=
+    unary_cont_closed unarySubstitutionRead unaryDiamond routeDiamond
+  have unaryStarRead : UnaryHistory starRead :=
+    unary_cont_closed unaryDiamondRead unaryStar routeStar
+  have unaryPublicRead : UnaryHistory publicRead :=
+    unary_cont_closed unaryNonClaim unaryLocal routePublic
+  exact
+    ⟨unarySubstitutionRead, unaryDiamondRead, unaryStarRead, unaryPublicRead,
+      parallelConfluenceAudit_round_trip
+        (ParallelConfluenceAuditUp.mk P S D C Nm At No H R L G)⟩
+
+theorem ParallelConfluenceAudit_typed_window_local_join
+    {P S D C Nm At No H R L G substitutionRead diamondRead starRead normalAtomRead
+      localJoinRead : BHist} :
+    UnaryHistory P →
+      UnaryHistory S →
+        UnaryHistory D →
+          UnaryHistory C →
+            UnaryHistory Nm →
+              UnaryHistory At →
+                Cont P S substitutionRead →
+                  Cont substitutionRead D diamondRead →
+                    Cont diamondRead C starRead →
+                      Cont Nm At normalAtomRead →
+                        Cont starRead normalAtomRead localJoinRead →
+                          SemanticNameCert
+                              (fun row : BHist => hsame row localJoinRead ∧ UnaryHistory row)
+                              (fun row : BHist =>
+                                hsame row P ∨ hsame row S ∨ hsame row D ∨ hsame row C ∨
+                                  hsame row Nm ∨ hsame row At ∨ hsame row localJoinRead)
+                              (fun row : BHist =>
+                                UnaryHistory row ∧ Cont P S substitutionRead ∧
+                                  Cont substitutionRead D diamondRead ∧
+                                    Cont diamondRead C starRead ∧ Cont Nm At normalAtomRead ∧
+                                      Cont starRead normalAtomRead localJoinRead)
+                              hsame ∧
+                            UnaryHistory localJoinRead := by
+  -- BEDC touchpoint anchor: BHist Cont hsame SemanticNameCert UnaryHistory
+  intro unaryParallel unarySubstitution unaryDiamond unaryStar unaryNormal unaryAtom
+    routeSubstitution routeDiamond routeStar routeNormalAtom routeLocalJoin
+  have unarySubstitutionRead : UnaryHistory substitutionRead :=
+    unary_cont_closed unaryParallel unarySubstitution routeSubstitution
+  have unaryDiamondRead : UnaryHistory diamondRead :=
+    unary_cont_closed unarySubstitutionRead unaryDiamond routeDiamond
+  have unaryStarRead : UnaryHistory starRead :=
+    unary_cont_closed unaryDiamondRead unaryStar routeStar
+  have unaryNormalAtomRead : UnaryHistory normalAtomRead :=
+    unary_cont_closed unaryNormal unaryAtom routeNormalAtom
+  have unaryLocalJoinRead : UnaryHistory localJoinRead :=
+    unary_cont_closed unaryStarRead unaryNormalAtomRead routeLocalJoin
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => hsame row localJoinRead ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row P ∨ hsame row S ∨ hsame row D ∨ hsame row C ∨
+              hsame row Nm ∨ hsame row At ∨ hsame row localJoinRead)
+          (fun row : BHist =>
+            UnaryHistory row ∧ Cont P S substitutionRead ∧
+              Cont substitutionRead D diamondRead ∧
+                Cont diamondRead C starRead ∧ Cont Nm At normalAtomRead ∧
+                  Cont starRead normalAtomRead localJoinRead)
+          hsame := {
+    core := {
+      carrier_inhabited :=
+        Exists.intro localJoinRead ⟨hsame_refl localJoinRead, unaryLocalJoinRead⟩
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        exact
+          ⟨hsame_trans (hsame_symm sameRows) source.left,
+            unary_transport source.right sameRows⟩
+    }
+    pattern_sound := by
+      intro _row source
+      exact
+        Or.inr
+          (Or.inr
+            (Or.inr
+              (Or.inr
+                (Or.inr
+                  (Or.inr source.left)))))
+    ledger_sound := by
+      intro _row source
+      exact
+        ⟨source.right, routeSubstitution, routeDiamond, routeStar, routeNormalAtom,
+          routeLocalJoin⟩
+  }
+  exact ⟨cert, unaryLocalJoinRead⟩
+
+theorem ParallelConfluenceAudit_namecert_obligations
+    {P S D C Nm At No H R L G P' S' D' C' Nm' At' No' H' R' L' G' : BHist} :
+    parallelConfluenceAuditToEventFlow (ParallelConfluenceAuditUp.mk P S D C Nm At No H R L G) =
+        parallelConfluenceAuditToEventFlow
+          (ParallelConfluenceAuditUp.mk P' S' D' C' Nm' At' No' H' R' L' G') →
+      hsame P P' ∧ hsame S S' ∧ hsame D D' ∧ hsame C C' ∧ hsame Nm Nm' ∧
+        hsame At At' ∧ hsame No No' ∧ hsame H H' ∧ hsame R R' ∧ hsame L L' ∧
+          hsame G G' := by
+  -- BEDC touchpoint anchor: BHist BMark hsame
+  intro sameDisplay
+  have carrierEq :
+      ParallelConfluenceAuditUp.mk P S D C Nm At No H R L G =
+        ParallelConfluenceAuditUp.mk P' S' D' C' Nm' At' No' H' R' L' G' :=
+    parallelConfluenceAuditToEventFlow_injective sameDisplay
+  cases carrierEq
+  constructor
+  · exact hsame_refl P
+  · constructor
+    · exact hsame_refl S
+    · constructor
+      · exact hsame_refl D
+      · constructor
+        · exact hsame_refl C
+        · constructor
+          · exact hsame_refl Nm
+          · constructor
+            · exact hsame_refl At
+            · constructor
+              · exact hsame_refl No
+              · constructor
+                · exact hsame_refl H
+                · constructor
+                  · exact hsame_refl R
+                  · constructor
+                    · exact hsame_refl L
+                    · exact hsame_refl G
 
 end BEDC.Derived.ParallelConfluenceAuditUp

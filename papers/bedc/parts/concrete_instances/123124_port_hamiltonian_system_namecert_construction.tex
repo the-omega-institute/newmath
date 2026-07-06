@@ -1,0 +1,77 @@
+\chapter{A Concrete Naming Certificate for $\PortHamiltonianSystemUp$}
+\label{ch:concrete-instances-port-hamiltonian-system-namecert}
+\origin{human}
+
+Following van der Schaft on port-Hamiltonian systems, the $\PortHamiltonianSystemUp$ packet records the finite energy-port surface by which a displayed state-space model exposes storage, interconnection, dissipation, input, output, and energy-balance rows before a control consumer may read passivity. It sits after the finite state-space carrier of \autoref{ch:concrete-instances-statespacemodel-namecert}, the routed dynamics surface of \autoref{ch:concrete-instances-dynsystem-namecert}, the quadratic-control rows of \autoref{ch:concrete-instances-lqr-namecert}, the Riccati certificate rows of \autoref{ch:concrete-instances-riccati-namecert}, and the finite rollout ledgers of \autoref{ch:concrete-instances-modelpredictivecontrol-namecert}. The packet names a local energy/passivity interface; it is not a global well-posedness theorem, an analytic semigroup construction, a selected controller, or an ambient infinite-dimensional port model.
+
+\begin{definition}[Port-Hamiltonian system carrier]
+\label{def:port-hamiltonian-system-carrier}
+A $\PortHamiltonianSystemUp$ carrier is a finite $\BHist$ packet
+$$
+P=(S,D,E,J,R,U,Y,B,T,C,Q,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the $\StateSpaceModelUp$ row carrying the finite state, coefficient, input, and output presentation.
+\item $D$ is the $\DynSystemUp$ row recording the finite transition or vector-field read used by the packet.
+\item $E$ is the storage row, naming the displayed Hamiltonian or energy readback through finite $\RealUp$ coordinates.
+\item $J$ is the interconnection row, exposing the skew exchange ledger between state, effort, and port variables.
+\item $R$ is the dissipation row, exposing the finite nonnegative loss ledger attached to the same state and effort rows.
+\item $U$ is the input-port row, displaying the finite input coordinates and port variables offered to the dynamics.
+\item $Y$ is the output-port row, displaying the finite output coordinates paired with $U$ by the energy-balance row.
+\item $B$ is the energy-balance row, recording that every accepted power read uses exactly the displayed $E,J,R,U,Y$ rows.
+\item $T$ records componentwise $\hsame$ transport for the state-space, dynamics, storage, interconnection, dissipation, input, output, and balance rows.
+\item $C$ records displayed $\Cont$ replay from the state-space and dynamics rows through the energy-balance read.
+\item $Q$ is the $\Pkg$ provenance over $\PortHamiltonianSystemUp$, $\StateSpaceModelUp$, $\DynSystemUp$, $\LQRUp$, $\RiccatiUp$, $\ModelPredictiveControlUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\PortHamiltonianSystemUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $S,D,E,J,R,U,Y,B,T,C,Q,N$. It has no coordinate for an unlogged port space, an ambient Hilbert or Banach realization, a hidden Dirac structure, a selected stabilizing controller, a global solution flow, or an analytic passivity theorem outside the displayed rows.
+\end{definition}
+
+\begin{theorem}[Port-Hamiltonian system NameCert obligations]
+\label{thm:port-hamiltonian-system-namecert-obligations}
+For every accepted $\PortHamiltonianSystemUp$ carrier
+$$
+P=(S,D,E,J,R,U,Y,B,T,C,Q,N),
+$$
+the local $\NameCert_{\PortHamiltonianSystemUp}$ surface consists exactly of carrier admission, state-space exposure, dynamical-row exposure, storage exposure, interconnection exposure, dissipation exposure, input-port exposure, output-port exposure, energy-balance exactness, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming. Any consumer that replaces one of these rows by an unlogged port space, ambient infinite-dimensional realization, hidden Dirac structure, selected stabilizing controller, global solution flow, or analytic passivity theorem leaves the accepted carrier.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:port-hamiltonian-system-carrier}. The tuple first displays the state-space and dynamical rows, then the storage, interconnection, dissipation, input-port, output-port, and energy-balance rows, and only then the structural transport, replay, provenance, and local naming rows.
+
+The energy-balance coordinate $B$ is exact for the displayed inventory. It reads $E,J,R,U,Y$ against the same state-space and dynamics rows $S,D$, so no hidden port space, Dirac structure, or analytic passivity theorem can be substituted for the finite rows.
+
+The structural rows $T,C,Q,N$ preserve and name the same route. Since the carrier has no coordinate for a global solution flow, selected stabilizing controller, or ambient infinite-dimensional realization, the listed rows exhaust the local NameCert obligations.
+\end{proof}
+
+\begin{theorem}[Port-Hamiltonian energy-balance route]
+\label{thm:port-hamiltonian-system-energy-balance-route}
+Let $P=(S,D,E,J,R,U,Y,B,T,C,Q,N)$ be an accepted $\PortHamiltonianSystemUp$ packet. Every passivity-facing or energy-balance read factors through the finite route
+$$
+S,D \longrightarrow E,J,R,U,Y \longrightarrow B \longrightarrow T,C,Q,N .
+$$
+The read first displays the state-space and dynamics rows, then the storage, interconnection, dissipation, input, and output rows, then the energy-balance row, and only then the transport, replay, provenance, and local naming rows. The route exports no global solution flow, analytic semigroup, hidden Dirac structure, selected stabilizing controller, ambient infinite-dimensional port model, or unlogged passivity theorem.
+\end{theorem}
+\begin{proof}
+Start with the source rows $S,D$. They fix the finite state-space presentation and the routed dynamics surface over which all energy reads are interpreted.
+
+Next read $E,J,R,U,Y$. These rows display storage, interconnection, dissipation, input, and output data as finite coordinates rather than as an ambient port-Hamiltonian object.
+
+The balance row $B$ binds the same displayed coordinates. Finally $T,C,Q,N$ transport, replay, source, and name that finite route. Coordinate exhaustion rules out a hidden Dirac structure, global solution flow, selected controller, analytic semigroup, or external passivity theorem.
+\end{proof}
+
+\falsifiablePrediction{An accepted $\PortHamiltonianSystemUp$ read is refuted if an energy-balance or passivity conclusion is reached without displaying the StateSpaceModelUp row, DynSystemUp row, storage row, interconnection row, dissipation row, input-port row, output-port row, energy-balance row, transport, replay, provenance, and local naming rows.}
+
+\independenceWitness{statespacemodel, dynsystem, lqr, riccati, and modelpredictivecontrol: none is bijective to $\PortHamiltonianSystemUp$ because only the port-Hamiltonian packet simultaneously records storage, interconnection, dissipation, input and output ports, energy-balance exactness, control dependency provenance, transport, replay, and local NameCert naming.}
+
+\closureat{PortHamiltonianSystemUp}{seedStr}
+
+\begin{closurestatus}{\PortHamiltonianSystemUp}
+  \constructivestory{A $\PortHamiltonianSystemUp$ packet is generated from a StateSpaceModelUp row, DynSystemUp row, storage row, interconnection row, dissipation row, input-port row, output-port row, energy-balance row, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:port-hamiltonian-system-carrier}, \autoref{thm:port-hamiltonian-system-namecert-obligations}, and \autoref{thm:port-hamiltonian-system-energy-balance-route} seed the finite energy/passivity NameCert surface over state-space, dynamics, storage, interconnection, dissipation, input-output, transport, replay, provenance, and local naming rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim global well-posedness, analytic semigroup generation, hidden Dirac structures, selected stabilizing controllers, ambient infinite-dimensional port models, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, energy-balance exactness, passivity-route determinacy, non-escape for analytic port-Hamiltonian primitives, transport, replay, provenance, and local naming for BEDC.Derived.PortHamiltonianSystemUp.}
+\end{closurestatus}

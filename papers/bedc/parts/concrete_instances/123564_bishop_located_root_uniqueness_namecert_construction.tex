@@ -1,0 +1,81 @@
+\chapter{A Concrete Naming Certificate for $\BishopLocatedRootUniquenessUp$}
+\label{ch:concrete-instances-bishop-located-root-uniqueness-namecert}
+\origin{human}
+
+Following Bishop and Bridges constructive analysis, the $\BishopLocatedRootUniquenessUp$ packet records the finite data needed to compare two displayed located-root reads when a separation witness keeps all rival windows apart from the shared bisection route. It consumes the located-root surface of \autoref{ch:concrete-instances-bishop-located-root-namecert}, the separated root-choice packet of \autoref{ch:concrete-instances-root-choice-separation-namecert}, the sign-change bracket route of \autoref{ch:concrete-instances-real-bolzano-namecert}, and the located intermediate-value route of \autoref{ch:concrete-instances-constructive-located-ivt-namecert}. The chapter names the traditional uniqueness handoff over displayed apartness data; it does not assert trichotomy, unrestricted intermediate value, selected roots, quotient real equality, or ambient $\RealUp$ completeness.
+
+\begin{definition}[Located-root uniqueness carrier]
+\label{def:bishop-located-root-uniqueness-carrier}
+A $\BishopLocatedRootUniquenessUp$ carrier is a finite $\BHist$ packet
+$$
+U=(L_0,L_1,A,B,R_0,R_1,E_0,E_1,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $L_0$ and $L_1$ are the two located-root read rows, each read through the $\BishopLocatedRootUp$ surface and exposing its located bracket, opposed-sign witness, bisection schedule, $\RegSeqRatUp$ readback, and terminal $\RealUp$ seal.
+\item $A$ is the separation and apartness row, recording that the two reads are compared only inside a displayed separated window and that every excluded rival window is apart from that window.
+\item $B$ is the shared bisection and $\RootChoiceSeparationUp$ route row, keeping both located-root reads on the same retained sign-changing window before any regular readback is consumed.
+\item $R_0$ and $R_1$ are the paired $\RegSeqRatUp$ comparison rows obtained from the two located-root windows after the shared separated bisection route has been displayed.
+\item $E_0$ and $E_1$ are the paired $\RealUp$ seal rows, terminal only after $L_0,L_1,A,B,R_0,R_1$ have been exposed.
+\item $H$ records componentwise $\hsame$ transport for the located-root reads, the separation row, the shared bisection route, the regular comparison rows, the real seals, replay, provenance, and local name.
+\item $C$ records displayed $\Cont$ replay from a uniqueness-facing request through the same finite rows.
+\item $P$ is the $\Pkg$ provenance over $\BishopLocatedRootUniquenessUp$, $\BishopLocatedRootUp$, $\RootChoiceSeparationUp$, $\RealBolzanoUp$, $\ConstructiveLocatedIVTUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\BishopLocatedRootUniquenessUp}$ row.
+\end{enumerate}
+The carrier predicate compares accepted packets only through these rows. It has no coordinate for trichotomy, unrestricted intermediate value, selected roots, quotient equality of real names, countable choice, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[Located-root uniqueness NameCert obligations]
+\label{thm:bishop-located-root-uniqueness-namecert-obligations}
+For every accepted $\BishopLocatedRootUniquenessUp$ carrier
+$$
+U=(L_0,L_1,A,B,R_0,R_1,E_0,E_1,H,C,P,N),
+$$
+the local $\NameCert_{\BishopLocatedRootUniquenessUp}$ surface consists exactly of the two located-root reads, the displayed separation and apartness row, the shared bisection and $\RootChoiceSeparationUp$ route, the paired $\RegSeqRatUp$ comparison rows, the paired $\RealUp$ seals, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:bishop-located-root-uniqueness-carrier}. The rows $L_0,L_1$ are the only located-root read rows, so any uniqueness-facing consumer starts from two displayed $\BishopLocatedRootUp$ packets.
+
+Read the boundary rows next. The apartness row $A$ and the shared route row $B$ force both reads through the same separated bisection window supplied by $\RootChoiceSeparationUp$, with the sign-change and located intermediate-value context supplied by the cited sibling chapters.
+
+The regular and real comparison rows are downstream. Rows $R_0,R_1$ expose only regular rational readback inside the separated window, and rows $E_0,E_1$ seal only those displayed routes as $\RealUp$ rows.
+
+Finally $H,C,P,N$ transport, replay, source, and name the same finite packet. Since no carrier coordinate contains trichotomy, unrestricted intermediate value, selected roots, quotient real equality, countable choice, or ambient real completeness, the local NameCert surface cannot export any of those principles.
+\end{proof}
+
+\begin{theorem}[Separated-window uniqueness route]
+\label{thm:bishop-located-root-uniqueness-separation-route}
+Every uniqueness-facing read of an accepted $\BishopLocatedRootUniquenessUp$ packet compares the two terminal $\RealUp$ seals only after the route
+$$
+L_0,L_1 \longmapsto A \longmapsto B \longmapsto R_0,R_1 \longmapsto E_0,E_1
+$$
+has been displayed. The packet therefore exports a located separated-window handoff, not trichotomy, unrestricted intermediate value, selected roots, quotient real equality, or ambient real completeness.
+\end{theorem}
+\begin{proof}
+Use \autoref{thm:bishop-located-root-uniqueness-namecert-obligations} to read the exact local surface. A consumer that asks for uniqueness has no row except $A$ for separation and no row except $B$ for the shared bisection route.
+
+Apply the sibling separation packet through \autoref{ch:concrete-instances-root-choice-separation-namecert}. That route keeps both located-root reads inside the retained separated window before either $\RegSeqRatUp$ comparison row is visible.
+
+Then apply the located-root, Bolzano, and located-IVT sibling surfaces cited above. They supply the finite root-read and sign-change context, while $R_0,R_1,E_0,E_1$ provide only regular readback and terminal real seals for the displayed route.
+
+Thus the handoff is unique only at the finite separated-window surface. The excluded principles have no carrier row and cannot be recovered from transport, replay, provenance, or local naming.
+\end{proof}
+
+\leanstmt{BEDC.Derived.BishopLocatedRootUniquenessUp}
+
+\falsifiablePrediction{An accepted $\BishopLocatedRootUniquenessUp$ consumer that compares two terminal $\RealUp$ seals without both located-root rows, the displayed separation and apartness row, the shared bisection and $\RootChoiceSeparationUp$ route, both $\RegSeqRatUp$ rows, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ row refutes the packet.}
+
+\independenceWitness{bishop-located-root, root-choice-separation, real-bolzano, constructive-located-ivt: no listed sibling supplies the joint two-root comparison packet containing paired located-root reads, one displayed separated-window route, paired regular readbacks, paired Real seals, transport, replay, provenance, and local naming while refusing trichotomy, unrestricted IVT, selected roots, quotient real equality, and ambient completeness.}
+
+\closureat{BishopLocatedRootUniquenessUp}{seedStr}
+
+\begin{closurestatus}{\BishopLocatedRootUniquenessUp}
+  \constructivestory{A $\BishopLocatedRootUniquenessUp$ packet is generated from two located-root reads, a displayed separation and apartness row, a shared bisection and RootChoiceSeparation route, paired RegSeqRat comparison rows, paired RealUp seals, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:bishop-located-root-uniqueness-carrier}, \autoref{thm:bishop-located-root-uniqueness-namecert-obligations}, and \autoref{thm:bishop-located-root-uniqueness-separation-route} seed the located-root uniqueness surface over displayed separated-window data.}
+  \formalstatus{\formalTargetV}
+  \bridgestatus{none}
+  \origin{human}
+  \notclaimed{This chapter does not close trichotomy, unrestricted intermediate value, selected roots, quotient real equality, countable choice, ambient $\RealUp$ completeness, checked Lean obligations, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, paired located-root visibility, separated-window routing, RegSeqRat comparison handoff, Real seal nonescape, and classifier stability for BEDC.Derived.BishopLocatedRootUniquenessUp.}
+\end{closurestatus}

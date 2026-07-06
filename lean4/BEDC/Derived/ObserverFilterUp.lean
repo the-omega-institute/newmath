@@ -1,9 +1,11 @@
+import BEDC.Derived.ObserverHistoryIdentityUp
 import BEDC.FKernel.Ask
 import BEDC.FKernel.Bundle
 import BEDC.FKernel.Cont
 import BEDC.FKernel.Hist
 import BEDC.FKernel.NameCert
 import BEDC.FKernel.Package
+import BEDC.FKernel.Sig
 import BEDC.FKernel.Unary
 
 namespace BEDC.Derived.ObserverFilterUp
@@ -14,6 +16,7 @@ open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
 open BEDC.FKernel.NameCert
 open BEDC.FKernel.Package
+open BEDC.FKernel.Sig
 open BEDC.FKernel.Unary
 
 def ObserverFilterCarrier [AskSetup] [PackageSetup]
@@ -238,6 +241,95 @@ theorem ObserverFilterCarrier_observer_history_factorization [AskSetup] [Package
               exact And.intro (unary_transport omittedUnary (hsame_symm sameOmitted)) pkgSig
   }
 
+theorem ObserverFilterCarrier_observer_history_non_escape_consumer [AskSetup] [PackageSetup]
+    {source selected omitted transport filterLedger filterRoutes filterProvenance localName
+      leftHistory rightHistory signatures samenessRows identityLedger identityRoutes
+      identityProvenance identityName : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ObserverFilterCarrier source selected omitted transport filterLedger filterRoutes
+        filterProvenance localName bundle pkg →
+      BEDC.Derived.ObserverHistoryIdentityUp.ObserverHistoryIdentityPacket leftHistory
+          rightHistory signatures samenessRows identityLedger identityRoutes identityProvenance
+          identityName bundle pkg →
+        hsame source leftHistory →
+          SemanticNameCert
+              (fun row : BHist =>
+                BEDC.Derived.ObserverHistoryIdentityUp.ObserverHistoryIdentityPacket leftHistory
+                  rightHistory signatures samenessRows identityLedger identityRoutes
+                  identityProvenance row bundle pkg)
+              (fun row : BHist =>
+                UnaryHistory row ∧ SameSig bundle leftHistory rightHistory ∧
+                  PkgSig bundle signatures pkg)
+              (fun row : BHist =>
+                UnaryHistory row ∧ Cont identityLedger identityRoutes samenessRows ∧
+                  PkgSig bundle identityProvenance pkg)
+              hsame ∧
+            UnaryHistory source ∧ UnaryHistory selected ∧ UnaryHistory omitted ∧
+              SameSig bundle leftHistory rightHistory ∧
+                Cont identityLedger identityRoutes samenessRows ∧
+                  Cont source selected filterLedger ∧ Cont filterLedger omitted filterRoutes ∧
+                    PkgSig bundle signatures pkg ∧
+                      PkgSig bundle identityProvenance pkg ∧
+                        PkgSig bundle filterProvenance pkg ∧ hsame source leftHistory := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg SameSig Cont SemanticNameCert
+  intro filterCarrier identityPacket sameSource
+  have identityBoundary :=
+    BEDC.Derived.ObserverHistoryIdentityUp.ObserverHistoryIdentityPacket_non_escape_boundary
+      (leftHistory := leftHistory) (rightHistory := rightHistory) (signatures := signatures)
+      (samenessRows := samenessRows) (ledger := identityLedger) (routes := identityRoutes)
+      (provenance := identityProvenance) (nameCert := identityName) (bundle := bundle)
+      (pkg := pkg) identityPacket
+  obtain ⟨_leftUnary, _rightUnary, _signaturesUnary, _samenessRowsUnary, _identityLedgerUnary,
+    _identityRoutesUnary, _identityProvenanceUnary, _identityNameUnary, sameRows,
+    identityLedgerRoutes, identityProvenancePkg, signaturesPkg, identityCert⟩ :=
+      identityBoundary
+  obtain ⟨sourceUnary, selectedUnary, omittedUnary, _filterLedgerUnary, _filterRoutesUnary,
+    _filterProvenanceUnary, _localNameUnary, sourceSelected, filterLedgerOmitted,
+    _filterRoutesLocalName, filterProvenancePkg⟩ := filterCarrier
+  exact
+    ⟨identityCert, sourceUnary, selectedUnary, omittedUnary, sameRows, identityLedgerRoutes,
+      sourceSelected, filterLedgerOmitted, signaturesPkg, identityProvenancePkg,
+      filterProvenancePkg, sameSource⟩
+
+theorem ObserverFilterCarrier_observer_history_ledger_handoff [AskSetup] [PackageSetup]
+    {source selected omitted transport filterLedger filterRoutes filterProvenance localName
+      leftHistory rightHistory signatures samenessRows identityLedger identityRoutes
+      identityProvenance identityName : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ObserverFilterCarrier source selected omitted transport filterLedger filterRoutes
+        filterProvenance localName bundle pkg →
+      BEDC.Derived.ObserverHistoryIdentityUp.ObserverHistoryIdentityPacket leftHistory
+          rightHistory signatures samenessRows identityLedger identityRoutes identityProvenance
+          identityName bundle pkg →
+        hsame source leftHistory →
+          Cont identityLedger identityRoutes samenessRows →
+            PkgSig bundle identityProvenance pkg →
+              UnaryHistory identityLedger ∧ UnaryHistory identityRoutes ∧
+                UnaryHistory identityProvenance ∧
+                  SameSig bundle leftHistory rightHistory ∧
+                    Cont identityLedger identityRoutes samenessRows ∧
+                      PkgSig bundle identityProvenance pkg ∧
+                        Cont source selected filterLedger ∧
+                          Cont filterLedger omitted filterRoutes ∧
+                            PkgSig bundle filterProvenance pkg ∧ hsame source leftHistory := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg SameSig Cont UnaryHistory PkgSig
+  intro filterCarrier identityPacket sameSource identityRoute identityProvenancePkg
+  have identityExact :=
+    BEDC.Derived.ObserverHistoryIdentityUp.ObserverHistoryIdentityPacket_ledger_exactness
+      (leftHistory := leftHistory) (rightHistory := rightHistory) (signatures := signatures)
+      (samenessRows := samenessRows) (ledger := identityLedger) (routes := identityRoutes)
+      (provenance := identityProvenance) (nameCert := identityName) (bundle := bundle)
+      (pkg := pkg) identityPacket identityRoute identityProvenancePkg
+  obtain ⟨identityLedgerUnary, identityRoutesUnary, identityProvenanceUnary, sameRows,
+    identityLedgerRoutes, identityProvenancePkg'⟩ := identityExact
+  obtain ⟨_sourceUnary, _selectedUnary, _omittedUnary, _filterLedgerUnary,
+    _filterRoutesUnary, _filterProvenanceUnary, _localNameUnary, sourceSelected,
+    filterLedgerOmitted, _filterRoutesLocalName, filterProvenancePkg⟩ := filterCarrier
+  exact
+    ⟨identityLedgerUnary, identityRoutesUnary, identityProvenanceUnary, sameRows,
+      identityLedgerRoutes, identityProvenancePkg', sourceSelected, filterLedgerOmitted,
+      filterProvenancePkg, sameSource⟩
+
 theorem ObserverFilterCarrier_streamname_handoff [AskSetup] [PackageSetup]
     {source selected omitted transport ledger routes provenance localName streamRead : BHist}
     {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
@@ -401,6 +493,80 @@ theorem ObserverFilterCarrier_streamname_selected_subhistory_nonescape [AskSetup
   exact
     ⟨cert, selectedUnary, streamUnary, sourceSelected, selectedLocalName, provenancePkg,
       streamPkg⟩
+
+theorem ObserverFilterCarrier_observer_history_classifier_stream_handoff [AskSetup]
+    [PackageSetup]
+    {source selected omitted transport filterLedger filterRoutes filterProvenance localName
+      leftHistory rightHistory signatures samenessRows identityLedger identityRoutes
+      identityProvenance identityName signatures' samenessRows' identityLedger' identityRoutes'
+      streamRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ObserverFilterCarrier source selected omitted transport filterLedger filterRoutes
+        filterProvenance localName bundle pkg →
+      BEDC.Derived.ObserverHistoryIdentityUp.ObserverHistoryIdentityPacket leftHistory
+          rightHistory signatures samenessRows identityLedger identityRoutes identityProvenance
+          identityName bundle pkg →
+        hsame source leftHistory →
+          hsame signatures signatures' →
+            hsame samenessRows samenessRows' →
+              hsame identityLedger identityLedger' →
+                hsame identityRoutes identityRoutes' →
+                  SameSig bundle leftHistory rightHistory →
+                    Cont identityLedger' identityRoutes' samenessRows' →
+                      PkgSig bundle signatures' pkg →
+                        Cont selected localName streamRead →
+                          PkgSig bundle streamRead pkg →
+                            BEDC.Derived.ObserverHistoryIdentityUp.ObserverHistoryIdentityPacket
+                                leftHistory rightHistory signatures' samenessRows'
+                                identityLedger' identityRoutes' identityProvenance identityName
+                                bundle pkg ∧
+                              SemanticNameCert
+                                  (fun row : BHist =>
+                                    ObserverFilterCarrier source selected omitted transport
+                                        filterLedger filterRoutes filterProvenance localName
+                                        bundle pkg ∧
+                                      hsame row selected)
+                                  (fun row : BHist =>
+                                    Cont selected localName streamRead ∧ hsame row selected ∧
+                                      PkgSig bundle streamRead pkg)
+                                  (fun row : BHist =>
+                                    UnaryHistory row ∧ PkgSig bundle filterProvenance pkg ∧
+                                      PkgSig bundle streamRead pkg)
+                                  hsame ∧
+                                UnaryHistory selected ∧ UnaryHistory streamRead ∧
+                                  Cont source selected filterLedger ∧
+                                    Cont selected localName streamRead ∧
+                                      PkgSig bundle filterProvenance pkg ∧
+                                        PkgSig bundle streamRead pkg ∧
+                                          hsame source leftHistory ∧
+                                            hsame signatures signatures' ∧
+                                              hsame samenessRows samenessRows' := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg hsame Cont SemanticNameCert
+  intro filterCarrier identityPacket sameSource sameSignatures sameSamenessRows
+    sameIdentityLedger sameIdentityRoutes sameRows' transportedIdentityRoutes signaturesPkg'
+    selectedLocalName streamPkg
+  have classifierHandoff :=
+    BEDC.Derived.ObserverHistoryIdentityUp.ObserverHistoryIdentityPacket_classifier_stability
+      (leftHistory := leftHistory) (rightHistory := rightHistory) (signatures := signatures)
+      (samenessRows := samenessRows) (ledger := identityLedger)
+      (routes := identityRoutes) (provenance := identityProvenance) (nameCert := identityName)
+      (signatures' := signatures') (samenessRows' := samenessRows')
+      (ledger' := identityLedger') (routes' := identityRoutes') (bundle := bundle) (pkg := pkg)
+      identityPacket sameSignatures sameSamenessRows sameIdentityLedger sameIdentityRoutes
+      sameRows' transportedIdentityRoutes signaturesPkg'
+  obtain ⟨transportedIdentity, sameSignaturesOut, sameSamenessRowsOut⟩ := classifierHandoff
+  have selectedSurface :=
+    ObserverFilterCarrier_streamname_selected_subhistory_nonescape
+      (source := source) (selected := selected) (omitted := omitted) (transport := transport)
+      (ledger := filterLedger) (routes := filterRoutes) (provenance := filterProvenance)
+      (localName := localName) (streamRead := streamRead) (bundle := bundle) (pkg := pkg)
+      filterCarrier selectedLocalName streamPkg
+  obtain ⟨selectedCert, selectedUnary, streamUnary, sourceSelected, selectedStream,
+    filterProvenancePkg, streamPkgOut⟩ := selectedSurface
+  exact
+    ⟨transportedIdentity, selectedCert, selectedUnary, streamUnary, sourceSelected,
+      selectedStream, filterProvenancePkg, streamPkgOut, sameSource, sameSignaturesOut,
+      sameSamenessRowsOut⟩
 
 theorem ObserverFilterCarrier_budget_selector_l10_handoff [AskSetup] [PackageSetup]
     {source selected omitted transport ledger routes provenance localName budgetSchedule

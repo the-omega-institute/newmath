@@ -1,0 +1,78 @@
+\chapter{A Concrete Naming Certificate for $\ApartnessMetricCompletionUp$}
+\label{ch:concrete-instances-apartness-metric-completion-namecert}
+\origin{human}
+
+Following Bishop and Bridges, the $\ApartnessMetricCompletionUp$ packet records a quotient-free completion route for an apartness metric source. It sits over the metric source rows of \autoref{ch:concrete-instances-metric-space-namecert}, the completion boundary of \autoref{ch:concrete-instances-completion-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}, and the located real boundary of \autoref{ch:concrete-instances-located-real-namecert}. The packet names a finite Cauchy-limit seal with displayed apartness evidence; it does not quotient by equivalence classes, choose representatives, invoke trichotomy, or claim ambient completeness.
+
+\begin{definition}[Apartness metric completion carrier]
+\label{def:apartness-metric-completion-carrier}
+An $\ApartnessMetricCompletionUp$ carrier is a finite $\BHist$ packet
+$$
+A=(M,Q,W,D,E,S,L,T,C,P,N).
+$$
+The rows have the following meanings:
+\begin{enumerate}
+\item $M$ is the $\MetricSpaceUp$ source row, carrying the displayed metric object and its local naming data.
+\item $Q$ is the $\RegSeqRatUp$ regular-Cauchy name row used as the completion input.
+\item $W$ is the finite stream-window row through which the Cauchy name is inspected.
+\item $D$ is the dyadic tolerance ledger for metric distance, Cauchy regularity, apartness comparison, and limit-seal readback.
+\item $E$ is the apartness witness row, recording the positive separatedness evidence available for the displayed comparison.
+\item $S$ is the separated limit seal, reached only after $M,Q,W,D,E$ have been displayed.
+\item $L$ is the $\LocatedRealUp$ readback row that exposes the Real-facing boundary of the separated seal.
+\item $T$ records componentwise $\hsame$ transport for the source, name, window, tolerance, apartness, seal, readback, replay, provenance, and naming rows.
+\item $C$ records displayed $\Cont$ replay from any completion consumer through the same finite rows.
+\item $P$ is the $\Pkg$ provenance over $\ApartnessMetricCompletionUp$, $\MetricSpaceUp$, $\CompletionUp$, $\RegSeqRatUp$, $\RealUp$, $\LocatedRealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\ApartnessMetricCompletionUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through these rows. It has no coordinate for quotient completion, equivalence classes of Cauchy sequences, selected representatives, metric trichotomy, countable choice, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[Apartness metric completion NameCert obligations]
+\label{thm:apartness-metric-completion-namecert-obligations}
+For every accepted $\ApartnessMetricCompletionUp$ carrier
+$$
+A=(M,Q,W,D,E,S,L,T,C,P,N),
+$$
+the local $\NameCert_{\ApartnessMetricCompletionUp}$ surface consists exactly of metric source admission, regular-Cauchy name exposure, finite window readback, dyadic tolerance accounting, displayed apartness evidence, separated limit sealing, located real readback, componentwise transport, displayed replay, provenance, and local naming. Any completion-facing consumer must read $M,Q,W,D,E$ before $S$ or $L$ can be treated as a completed boundary.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:apartness-metric-completion-carrier}. The rows $M,Q,W,D,E,S,L,T,C,P,N$ are the only rows available to the local certificate, so the obligation surface cannot contain hidden quotient, selection, or trichotomy data.
+
+The completion source is displayed before the endpoint is sealed. Row $M$ supplies the metric source, row $Q$ supplies the regular-Cauchy name, row $W$ supplies finite observations, and row $D$ supplies the dyadic budget used by the Cauchy and distance comparisons.
+
+The apartness and limit rows then preserve separation. Row $E$ records the positive apartness witness, $S$ seals the separated limit boundary, and $L$ exposes only the located real readback attached to that seal.
+
+Finally $T,C,P,N$ transport, replay, source, and name the same route. Since no carrier coordinate stores quotient completion, selected representatives, trichotomy, countable choice, or ambient completeness, the listed rows exhaust the NameCert obligations.
+\end{proof}
+
+\begin{theorem}[Apartness Cauchy limit seal]
+\label{thm:apartness-metric-completion-apartness-cauchy-limit-seal}
+Every accepted $\ApartnessMetricCompletionUp$ packet hands a regular-Cauchy completion read to downstream $\CompletionUp$, $\RealUp$, or $\LocatedRealUp$ consumers only through the finite route
+$$
+\MetricSpaceUp,\RegSeqRatUp,\DyadicRatCoreUp,\CompletionUp,\RealUp,\LocatedRealUp,\hsame,\Cont,\Pkg,\NameCert .
+$$
+The route preserves the displayed apartness witness and separated limit seal, but it does not export quotient equality of Cauchy names, selected limits, trichotomy, countable choice, or ambient metric completeness.
+\end{theorem}
+\begin{proof}
+Start from an accepted carrier $A=(M,Q,W,D,E,S,L,T,C,P,N)$. By \autoref{thm:apartness-metric-completion-namecert-obligations}, every completion-facing read first exposes the metric source, regular-Cauchy name, finite windows, dyadic tolerance ledger, and apartness witness.
+
+The separated endpoint is therefore reached only at $S$, with the located real readback $L$ downstream of the same rows. This is a finite seal: it is generated from displayed Cauchy and apartness evidence rather than from an equivalence class of all Cauchy names.
+
+The structural rows $T,C,P,N$ preserve that seal under transport, replay, provenance, and local naming. Any request for quotient equality, a selected limit, trichotomy, countable choice, or ambient completeness asks for a row absent from the packet, so it leaves the certified route.
+\end{proof}
+
+\falsifiablePrediction{Every $\ApartnessMetricCompletionUp$ completion read factors through a MetricSpace source, a RegSeqRat regular-Cauchy name, a finite window row, a dyadic tolerance ledger, an apartness witness, a separated limit seal, a located real readback, componentwise hsame transport, displayed Cont replay, Pkg provenance, and local naming.}
+
+\independenceWitness{metric-space, completion, regseqrat, real, located-real: $\ApartnessMetricCompletionUp$ is not bijective to any listed sibling because it jointly carries an apartness witness and separated limit seal over a regular-Cauchy metric source before the Real and LocatedReal readbacks are public.}
+
+\closureat{ApartnessMetricCompletionUp}{seedStr}
+
+\begin{closurestatus}{\ApartnessMetricCompletionUp}
+  \constructivestory{An $\ApartnessMetricCompletionUp$ packet is generated from a MetricSpace source, a RegSeqRat regular-Cauchy name, finite windows, a DyadicRatCore tolerance ledger, an apartness witness, a separated limit seal, a LocatedReal readback, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:apartness-metric-completion-carrier}, \autoref{thm:apartness-metric-completion-namecert-obligations}, and \autoref{thm:apartness-metric-completion-apartness-cauchy-limit-seal} seed the quotient-free apartness completion route for regular-Cauchy metric names.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim quotient completion, equivalence classes of Cauchy sequences, selected representatives, trichotomy, countable choice, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, metric-source exposure, regular-Cauchy window accounting, apartness witness stability, separated limit sealing, located real readback, transport, replay, provenance, and local naming for BEDC.Derived.ApartnessMetricCompletionUp.}
+\end{closurestatus}

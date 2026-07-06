@@ -265,13 +265,47 @@ as in the certificate template of \autoref{def:typed-naming-certificate}.
 \end{proof}
 \leanchecked{BEDC.Derived.MonadUp.MonadAdjunctionEndomorphism\_semanticNameCert}
 
+\begin{theorem}[Monad scoped kernel route]
+\label{thm:monad-scoped-kernel-route}
+The $\MonadUp$ adjunction-endomorphism packet displayed in this chapter is
+scoped exactly over $\mathsf{BHist}$, $\hsame$, $\Cont$,
+$\mathsf{AdjunctionUnitCounitCarrier}$, and $\mathsf{SemanticNameCert}$.
+Its readable rows are the adjunction-endomorphism carrier, the triangle
+empty-result rows, the bridge-empty iff rows, the componentwise classifier, and
+the semantic NameCert row. No row in the scoped route adds arbitrary monad laws
+for all categories, Eilenberg-Moore constructions, Kleisli equivalences, or host
+categorical equality.
+\end{theorem}
+\leanchecked{BEDC.Derived.MonadUp.MonadAdjunctionEndomorphism\_scoped\_kernel\_route}
+\begin{proof}
+The carrier scope is fixed by the displayed
+$\mathsf{AdjunctionUnitCounitCarrier}$ row. Apply
+\autoref{thm:monad-adjunction-endomorphism-unit-counit-triangle-empty} and the
+two triangle empty-result suffix rows to read the unit, counit, and triangle
+coordinates only as $\mathsf{BHist}$ data transported by $\hsame$ and replayed
+through $\Cont$.
+
+The bridge rows stay in the same kernel scope. Use
+\autoref{thm:monad-adjunction-endomorphism-triangle-bridge-empty-iff} and
+\autoref{thm:monad-adjunction-endomorphism-unit-counit-bridge-empty-iff} to see
+that every displayed bridge is classified by the empty middle history rather
+than by an ambient categorical equality.
+
+Finally apply
+\autoref{thm:monad-adjunction-endomorphism-semantic-namecert}. Its source,
+pattern, ledger, classifier, transport, and exactness rows are all built from the
+same adjunction-endomorphism carrier and componentwise $\hsame$ classifier, so
+the semantic certificate closes precisely the five named kernel scopes.
+\end{proof}
+
 \begin{closurestatus}{\MonadUp}
   \constructivestory{A $\MonadUp$ certificate is generated here from an adjunction endomorphism carrier: prefix rows, object row, unit and counit component histories, triangle-result histories, continuation ledgers, and componentwise $\hsame$ classifiers. The $\BHist$ construction collapses the displayed endomorphism unit, counit, and triangle rows to the empty identity behavior by finite carrier inversion and $\Cont$ determinacy. The semantic certificate uses the same carrier as source, pattern, and ledger, so the monad-facing name is generated from explicit adjunction data rather than from an ambient category-theoretic law object.}
-  \theoryclosure{\obligationClosure}
-  \scopeclosed{The obligation surface consists of the adjunction-endomorphism carrier, triangle empty-result, bridge-empty iff, componentwise classifier, and semantic NameCert rows displayed in this chapter.}
-  \formalstatus{\unformalizedV}
+  \theoryclosure{\scopedClosure}
+  \scopeclosed{\autoref{thm:monad-scoped-kernel-route} binds the adjunction-endomorphism carrier, triangle empty-result rows, bridge-empty iff rows, componentwise classifier, and semantic NameCert rows exactly over BHist, hsame, Cont, AdjunctionUnitCounitCarrier, and SemanticNameCert.}
+  \formalstatus{\theoremCheckedV}
+  \leantarget{BEDC.Derived.MonadUp.MonadAdjunctionEndomorphism\_scoped\_kernel\_route}
   \bridgestatus{none}
   \origin{human}
   \notclaimed{It does not claim arbitrary monad laws for all categories, Eilenberg-Moore constructions, Kleisli category equivalence, or host categorical equality.}
-  \upgradepath{Scoped closure requires binding those obligations explicitly to the BHist, hsame, Cont, AdjunctionUnitCounitCarrier, and SemanticNameCert scopes.}
+  \upgradepath{The next closure step requires a public exported monad-facing package beyond the scoped adjunction-endomorphism certificate.}
 \end{closurestatus}

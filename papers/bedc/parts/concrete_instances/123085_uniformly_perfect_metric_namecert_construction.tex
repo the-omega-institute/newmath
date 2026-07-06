@@ -1,0 +1,63 @@
+\chapter{A Concrete Naming Certificate for $\UniformlyPerfectMetricUp$}
+\label{ch:concrete-instances-uniformly-perfect-metric-namecert}
+\origin{human}
+
+Following Heinonen on analysis on metric spaces, the $\UniformlyPerfectMetricUp$ packet records the finite annular-witness data behind the usual uniformly perfect metric condition. It sits over the displayed metric source of \autoref{ch:concrete-instances-metric-namecert}, beside the scale-control packet of \autoref{ch:concrete-instances-doubling-metric-namecert}, and across the complementary hole schedule of \autoref{ch:concrete-instances-porous-set-namecert}. Compact-metric consumers may read the same scale rows through \autoref{ch:concrete-instances-compactmetric-namecert}. The packet names a finite non-isolatedness and annular-witness surface; it does not assert doubling, compactness, porosity, geodesicity, completeness, or a selected point of any host annulus.
+
+\begin{definition}[UniformlyPerfectMetric carrier]
+\label{def:uniformly-perfect-metric-carrier}
+A $\UniformlyPerfectMetricUp$ carrier is a finite $\BHist$ packet
+$$
+U=(M,R,A,W,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $M$ is the source $\MetricUp$ row, including the point classifier, distance reads, ball membership reads, and metric-law ledger inspected by every annular request;
+\item $R$ is the radius schedule, storing positive scale rows and the bounded shrink factor used to compare an outer radius with its annular inner radius;
+\item $A$ is the annular-witness row, recording for each displayed center-scale request a finite witness read in the annulus determined by $R$;
+\item $W$ is the non-isolatedness boundary row, refusing a read in which the center is the only visible point inside every positive radius window;
+\item $H$ stores componentwise $\hsame$ transport for $M,R,A,W$ and for the structural rows below;
+\item $C$ stores displayed $\Cont$ replay from metric source requests to radius-schedule reads, annular-witness reads, non-isolatedness checks, and sibling consumer reads;
+\item $P$ is the $\Pkg$ provenance over $\UniformlyPerfectMetricUp$, $\MetricUp$, $\DoublingMetricUp$, $\PorousSetUp$, $\CompactMetricUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$;
+\item $N$ is the local $\NameCert_{\UniformlyPerfectMetricUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $M,R,A,W,H,C,P,N$. It has no coordinate for a doubling cover, a porous-set hole selection, an open-cover compactness theorem, a completion quotient, a geodesic segment, or host-level point equality beyond the displayed metric rows.
+\end{definition}
+
+\begin{theorem}[UniformlyPerfectMetric NameCert obligations]
+\label{thm:uniformly-perfect-metric-namecert-obligations}
+For every accepted $\UniformlyPerfectMetricUp$ carrier $U=(M,R,A,W,H,C,P,N)$, the local $\NameCert_{\UniformlyPerfectMetricUp}$ surface consists exactly of the following finite obligation rows:
+\begin{enumerate}
+\item metric-source admission, requiring every annular request to begin at the same $\MetricUp$ row $M$;
+\item radius-schedule exactness, requiring $R$ to expose the positive outer scale and the bounded inner comparison used by the annular window;
+\item annular-witness exposure, requiring $A$ to display a finite witness row between the inner and outer metric reads rather than a host existential point;
+\item non-isolatedness retention, requiring $W$ to remain visible whenever a consumer reads the packet as a uniformly perfect metric surface;
+\item hsame transport, requiring $H$ to preserve $M,R,A,W$ componentwise under classifier comparison;
+\item Cont replay, requiring $C$ to replay metric, radius, annular, non-isolatedness, and sibling-consumer reads through the same finite route;
+\item provenance and local naming, requiring $P$ and $N$ to record the dependency on $\MetricUp$, $\DoublingMetricUp$, $\PorousSetUp$, $\CompactMetricUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ without importing any stronger sibling theorem.
+\end{enumerate}
+No obligation row exports doubling control, porous holes, compactness, completeness, geodesic interpolation, selected annulus points, or host-level equality outside $M,R,A,W,H,C,P,N$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:uniformly-perfect-metric-carrier}. The accepted packet displays exactly the metric source, radius schedule, annular witness, non-isolatedness boundary, transport, replay, provenance, and local naming rows.
+
+The metric and radius stages force every witness request to pass through $M$ and $R$. The annular stage then reads $A$ only inside the displayed inner and outer scale comparison, while $W$ records the refusal of isolated-point collapse.
+
+Finally $H,C,P,N$ preserve and name the same finite route. Because no carrier coordinate stores doubling covers, porous holes, compactness, completion data, geodesic segments, selected host witnesses, or external equality, the listed obligations exhaust the local NameCert surface.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\UniformlyPerfectMetricUp$ read factors through one MetricUp source row, one positive radius schedule, one annular witness row, one non-isolatedness boundary row, componentwise hsame transport, displayed Cont replay, Pkg provenance, and local NameCert data.}
+
+\independenceWitness{metric, doublingmetric, porousset, compactmetric: none is bijective with $\UniformlyPerfectMetricUp$ because this packet jointly binds annular witness rows and non-isolatedness boundaries over one displayed MetricUp source without asserting doubling covers, porous holes, compactness, or completion data.}
+
+\closureat{UniformlyPerfectMetricUp}{seedStr}
+
+\begin{closurestatus}{\UniformlyPerfectMetricUp}
+  \constructivestory{A $\UniformlyPerfectMetricUp$ packet is generated from a MetricUp source row, positive radius schedule, annular witness row, non-isolatedness boundary, componentwise hsame transport, displayed Cont replay, Pkg provenance, and local NameCert evidence.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:uniformly-perfect-metric-carrier} and \autoref{thm:uniformly-perfect-metric-namecert-obligations} seed the finite annular-witness and non-isolatedness certificate over a displayed $\MetricUp$ source.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close doubling, porosity, compactness, completeness, geodesicity, selected host annulus witnesses, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, radius-schedule exactness, annular-witness exposure, non-isolatedness retention, transport, replay, provenance, and local NameCert rows for BEDC.Derived.UniformlyPerfectMetricUp.}
+\end{closurestatus}

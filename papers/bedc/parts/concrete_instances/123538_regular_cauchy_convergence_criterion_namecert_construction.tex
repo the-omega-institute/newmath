@@ -1,0 +1,85 @@
+\chapter{A Concrete Naming Certificate for $\RegularCauchyConvergenceCriterionUp$}
+\label{ch:concrete-instances-regular-cauchy-convergence-criterion-namecert}
+\origin{human}
+
+Following Bishop and Bridges constructive analysis, convergence of a regular Cauchy rational name is read through explicit tail windows, dyadic tolerances, and a displayed modulus before any completed real endpoint is consumed. The $\RegularCauchyConvergenceCriterionUp$ packet records this criterion as finite NameCert data over the finite windows of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the dyadic tolerance ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the modulus surface of \autoref{ch:concrete-instances-cauchymodulus-namecert}, the separation boundary of \autoref{ch:concrete-instances-regularcauchyseparation-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. The packet names the convergence criterion for the L10 Real and Completion route; it does not quotient regular names, select a limit, invoke trichotomy, use countable choice, or assume ambient $\RealUp$ completeness.
+
+\begin{definition}[Regular Cauchy convergence criterion carrier]
+\label{def:regular-cauchy-convergence-criterion-carrier}
+A $\RegularCauchyConvergenceCriterionUp$ carrier is a finite $\BHist$ packet
+$$
+K=(W,R,D,M,S,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $W$ is the $\StreamNameUp$ finite-window ledger, naming the inspected tail windows and the precision requests attached to those windows.
+\item $R$ is the $\RegSeqRatUp$ readback row, exposing the regular rational observations obtained from $W$.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance ledger, recording the dyadic radius, residual comparison rows, and late-window tolerance accounting.
+\item $M$ is the $\CauchyModulusUp$ evidence row that licenses which tail windows must be displayed before a convergence read is public.
+\item $S$ is the $\RegularCauchySeparationUp$ boundary row, recording that equality-facing and separation-facing reads remain inside the regular Cauchy comparison surface.
+\item $E$ is the terminal $\RealUp$ seal row, available only after $W,R,D,M,S$ have been displayed.
+\item $H$ records componentwise $\hsame$ transport for window, readback, dyadic tolerance, modulus, separation, seal, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from precision request to finite windows, from windows to regular rational readback, from tolerance and modulus rows to the separation boundary, and from that boundary to the Real seal.
+\item $P$ is the $\Pkg$ provenance over $\RegularCauchyConvergenceCriterionUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\CauchyModulusUp$, $\RegularCauchySeparationUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\RegularCauchyConvergenceCriterionUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $W,R,D,M,S,E,H,C,P,N$. It has no coordinate for quotient equality of regular names, selected limits, trichotomy, countable choice, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[Regular Cauchy convergence criterion NameCert obligations]
+\label{thm:regular-cauchy-convergence-criterion-namecert-obligations}
+For every accepted $\RegularCauchyConvergenceCriterionUp$ carrier $K=(W,R,D,M,S,E,H,C,P,N)$, the local $\NameCert_{\RegularCauchyConvergenceCriterionUp}$ surface consists exactly of carrier admission for the displayed stream-window, regular-readback, dyadic-tolerance, modulus-evidence, separation-boundary, Real-seal, transport, replay, provenance, and local naming rows. Every convergence read must expose those rows before a $\RealUp$ or completion-facing consumer can consume the criterion.
+\end{theorem}
+\begin{proof}
+Project the carrier in \autoref{def:regular-cauchy-convergence-criterion-carrier}. The packet displays exactly the rows $W,R,D,M,S,E,H,C,P,N$.
+
+The analytic rows are $W,R,D,M,S,E$. The finite windows $W$ supply the inspected tail data, $R$ exposes the regular rational readback, $D$ records the dyadic tolerance ledger, $M$ gives the Cauchy-modulus evidence, $S$ keeps equality and separation reads inside the regular comparison boundary, and $E$ is read only after those rows are visible.
+
+The structural rows are $H,C,P,N$. They transport, replay, source, and name the same finite route, so the local NameCert surface has no additional coordinate from which a quotient equality, selected limit, trichotomy principle, countable-choice schedule, or ambient completeness theorem could be exported.
+\end{proof}
+
+\begin{theorem}[Regular Cauchy convergence criterion window route]
+\label{thm:regular-cauchy-convergence-criterion-window-route}
+Every accepted $\RegularCauchyConvergenceCriterionUp$ packet routes a precision request through the displayed $\StreamNameUp$ windows, $\RegSeqRatUp$ readbacks, $\DyadicRatCoreUp$ tolerance ledger, $\CauchyModulusUp$ evidence row, and $\RegularCauchySeparationUp$ boundary before any convergence-facing seal is public. The route is
+$$
+W \longmapsto R \longmapsto D \longmapsto M \longmapsto S \longmapsto E
+$$
+inside the same finite $\BHist$ packet, with $H,C,P,N$ preserving transport, replay, provenance, and local naming.
+\end{theorem}
+\begin{proof}
+Start with a precision request on an accepted carrier $K$. The request first opens the finite window row $W$, because no regular rational readback is a coordinate of the carrier before a window has been displayed.
+
+Read $R$ and $D$ next. The readback row supplies the regular rational observations, while the dyadic ledger records the tolerance accounting used by the convergence criterion.
+
+The modulus row $M$ then states which late windows license the comparison, and the separation boundary $S$ keeps equality-facing and separation-facing reads within the regular Cauchy surface. Only after those rows are displayed can the terminal seal $E$ be consumed.
+
+Finally $H,C,P,N$ preserve the same route under componentwise transport, displayed continuation, provenance, and local naming. Thus the window route exports exactly the displayed finite packet.
+\end{proof}
+
+\begin{theorem}[Regular Cauchy convergence criterion Real seal handoff]
+\label{thm:regular-cauchy-convergence-criterion-real-seal-handoff}
+Every $\RealUp$ or completion-facing consumer of an accepted $\RegularCauchyConvergenceCriterionUp$ carrier receives the Real seal only through the finite convergence-criterion route $W,R,D,M,S,E,H,C,P,N$. The handoff preserves the $\StreamNameUp$ windows, $\RegSeqRatUp$ readbacks, $\DyadicRatCoreUp$ tolerance ledger, $\CauchyModulusUp$ evidence row, $\RegularCauchySeparationUp$ boundary, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ row; it exports no quotient equality of regular names, selected limits, trichotomy, countable choice, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Apply the window route of \autoref{thm:regular-cauchy-convergence-criterion-window-route}. It places every convergence-facing read on the finite chain from windows to readback, dyadic tolerance, modulus evidence, separation boundary, and terminal seal.
+
+A Real-facing consumer can therefore read $E$ only after the rows $W,R,D,M,S$ have been displayed. The completion-facing use is the same handoff: it consumes the named route, not a hidden completion principle.
+
+The support rows $H,C,P,N$ keep the handoff inside the accepted packet. Since the carrier definition has no coordinate for quotient equality of regular names, selected limits, trichotomy, countable choice, or ambient completeness, none of those endpoints can be exported by the seal handoff.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\RegularCauchyConvergenceCriterionUp$ Real-facing or completion-facing read must display StreamName windows, RegSeqRat readbacks, a DyadicRatCore tolerance ledger, a CauchyModulus evidence row, a RegularCauchySeparation boundary, a RealUp seal, componentwise hsame transport, Cont replay, Pkg provenance, and local naming.}
+
+\independenceWitness{streamname, regseqrat, dyadicratcore, cauchymodulus, regularcauchyseparation, real: none is bijective to $\RegularCauchyConvergenceCriterionUp$ because this packet binds finite windows, regular readback, dyadic tolerance, modulus evidence, separation boundary, Real sealing, transport, replay, provenance, and local NameCert as one convergence-criterion surface.}
+
+\closureat{RegularCauchyConvergenceCriterionUp}{seedStr}
+
+\begin{closurestatus}{\RegularCauchyConvergenceCriterionUp}
+  \constructivestory{A $\RegularCauchyConvergenceCriterionUp$ packet is generated from StreamName finite windows, RegSeqRat readbacks, a DyadicRatCore tolerance ledger, CauchyModulus evidence, a RegularCauchySeparation boundary, a RealUp seal, componentwise hsame transport, displayed Cont replay, package provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:regular-cauchy-convergence-criterion-carrier}, \autoref{thm:regular-cauchy-convergence-criterion-namecert-obligations}, \autoref{thm:regular-cauchy-convergence-criterion-window-route}, and \autoref{thm:regular-cauchy-convergence-criterion-real-seal-handoff} seed the finite convergence-criterion route over $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\CauchyModulusUp$, $\RegularCauchySeparationUp$, $\RealUp$, transport, replay, provenance, and local naming rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient equality of regular names, selected limits, trichotomy, countable choice, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Formal verification requires a Lean carrier and checked NameCert obligations for the displayed regular Cauchy convergence criterion route.}
+\end{closurestatus}

@@ -1,0 +1,54 @@
+\chapter{A Concrete Naming Certificate for $\LagariasIntervalCertificateUp$}
+\label{ch:concrete-instances-lagarias-interval-certificate-namecert}
+\origin{ai}
+
+The $\LagariasIntervalCertificateUp$ packet realizes the finite rational enclosure branch of the RH counterexample-program safety flow. It names the interval-certificate mechanism of \autoref{def:rh-lagarias-interval-certificate} as a concrete NameCert carrier: a public counter event may read only a displayed positive index, precision budget, rational endpoints, divisor and harmonic ledgers, exp-log approximation rows, an enclosed Lagarias right-hand side, a comparison row, transport, replay, provenance, and local naming.
+
+The interval certificate consumes the rational endpoint route of \autoref{ch:concrete-instances-rat-namecert}, the dyadic precision route of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the finite StreamName window route of \autoref{ch:concrete-instances-streamname-namecert}, the RegSeqRat readback route of \autoref{ch:concrete-instances-regseqrat-namecert}, and the terminal Real seal route of \autoref{ch:concrete-instances-real-namecert}.
+
+\begin{definition}[Lagarias interval certificate carrier]
+\label{def:lagarias-interval-certificate-carrier}
+A $\LagariasIntervalCertificateUp$ carrier is a finite $\BHist$ packet
+$$
+L=(n,q,a,b,D,H,E,B,X,T,C,P,N).
+$$
+Here $n$ is a positive $\NatUp$ index, $q$ is the precision budget, $a,b$ are rational endpoints, $D$ is the divisor-sum row for $\sigma(n)$, $H$ is the harmonic-sum row for $H_n$, $E$ is the exp-log approximation row for $\exp(H_n)\log(H_n)$, $B$ is the $\mathsf{LagRHS}$ enclosure row proving $a\leq \mathsf{LagRHS}(n)\leq b$, $X$ is the rational comparison row witnessing the upper-bound comparison used by a counter event, $T$ is componentwise $\hsame$ transport, $C$ is displayed $\Cont$ replay, $P$ is $\Pkg$ provenance over $\LagariasIntervalCertificateUp$, $\NatUp$, $\RatUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, and $\Cont$, and $N$ is the local $\NameCert_{\LagariasIntervalCertificateUp}$ row.
+\end{definition}
+
+\begin{theorem}[Lagarias interval certificate NameCert obligations]
+\label{thm:lagarias-interval-certificate-namecert-obligations}
+For every accepted carrier $L=(n,q,a,b,D,H,E,B,X,T,C,P,N)$, the local $\NameCert_{\LagariasIntervalCertificateUp}$ surface consists exactly of the positive index and precision rows, rational endpoint rows, divisor-sum row, harmonic-sum row, exp-log approximation row, $\mathsf{LagRHS}$ enclosure row, comparison row, transport, replay, provenance, and local naming row.
+\end{theorem}
+\begin{proof}
+Read the accepted packet in row order. The index and precision rows determine the finite arithmetic request, while the endpoint, divisor, harmonic, exp-log, enclosure, and comparison rows provide the certificate payload.
+
+Transport, replay, provenance, and the local name attach those rows to one finite packet. Since the carrier has no coordinate for an exact real-number oracle, an unbounded host computation, or an uninspected arithmetic predicate, the displayed rows exhaust the NameCert surface.
+\end{proof}
+
+\begin{theorem}[Lagarias interval certificate counter soundness]
+\label{thm:lagarias-interval-certificate-counter-soundness}
+If an accepted $\LagariasIntervalCertificateUp$ carrier exposes a comparison row $X$ whose rational upper endpoint lies below the divisor-sum row, then the public $\mathsf{CounterLag}$ event factors through the same interval enclosure row and comparison row before it is visible.
+\end{theorem}
+\begin{proof}
+The interval enclosure row $B$ supplies the only permitted read of $\mathsf{LagRHS}(n)$, and the divisor row $D$ supplies the only permitted read of $\sigma(n)$.
+
+The comparison row $X$ compares those displayed rational bounds. Therefore a public counter event can be produced only after the packet exposes $B$ and $X$ on the same transport, replay, provenance, and local-name route.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\LagariasIntervalCertificateUp$ counter read must expose the interval enclosure row and rational upper-bound comparison before a CounterLag event is public.}
+
+\independenceWitness{nat, rat, dyadicratcore, streamname, regseqrat, real: the packet is not bijective to any listed sibling because it jointly carries Lagarias index data, rational interval endpoints, divisor and harmonic ledgers, exp-log approximation rows, certified comparison, replay, provenance, and local naming.}
+
+The Lean follow-up for \texttt{lean4/BEDC/Derived/LagariasIntervalCertificateUp/TasteGate.lean} must provide \texttt{Nontrivial LagariasIntervalCertificateUp} and \texttt{FieldFaithful LagariasIntervalCertificateUp} instances before a positive discovery claim is available.
+
+\closureat{LagariasIntervalCertificateUp}{seedStr}
+
+\begin{closurestatus}{\LagariasIntervalCertificateUp}
+  \constructivestory{A $\LagariasIntervalCertificateUp$ packet is generated from a positive natural index, precision budget, rational endpoints, divisor and harmonic ledgers, exp-log approximation rows, a LagRHS enclosure, comparison row, transport, replay, provenance, and local NameCert evidence.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{The seed surface is the finite rational enclosure route for Lagarias counter packets through $\NatUp$, $\RatUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$ rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close RH, a complete FRACTRAN counter recognizer, exact real equality, divisor-sum total correctness, or ambient RealUp completeness.}
+  \upgradepath{Obligation closure requires checked carrier admission, interval enclosure soundness, comparison non-escape, and TasteGate instances for $\LagariasIntervalCertificateUp$.}
+\end{closurestatus}

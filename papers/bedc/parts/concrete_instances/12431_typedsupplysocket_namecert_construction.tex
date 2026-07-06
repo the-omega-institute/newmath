@@ -162,6 +162,22 @@ Next use the scoped-row theorem \autoref{thm:typed-supply-socket-scope-rows}. Th
 Finally apply audit-gate nonescape \autoref{thm:typed-supply-socket-audit-gate-nonescape} together with the checked TasteGate marker of \autoref{thm:typed-supply-socket-obligation-rows}. The gate-visible read preserves $K,Q,S,G,U,H,C,P,N$ as the accepted carrier rows, so public consumption cannot replace them by an untyped supply availability row.
 \end{proof}
 
+\begin{theorem}[Typed supply socket mature public surface]
+\label{thm:typedsupplysocket-mature-public-surface}
+Every mature public consumer of $\TypedSupplySocketUp$ reads the rows
+$$
+K,Q,S,G,U,H,C,P,N
+$$
+through $\SocketKindClassifierUp$, $\SupplySocketLedgerUp$, $\MachineInterfaceSocketUp$, $\ApophaticFarEndSocketUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$. The consumer receives the typed socket kind, requested-supply ledger, machine-facing consumption site, apophatic far-end boundary, transport, replay, provenance, and local naming surface; it receives no untyped grant.
+\end{theorem}
+\begin{proof}
+Start from the public consumer theorem \autoref{thm:typed-supply-socket-public-consumer-surface}. It requires every public consumer to read $K,Q,S,G,U,H,C,P,N$ before any supply availability is visible.
+
+Use the scoped-row theorem \autoref{thm:typed-supply-socket-scope-rows}. The scope of those rows is exactly the socket-kind classifier, supply ledger, machine-interface socket, apophatic far-end socket, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ surface.
+
+Finally apply the audit-gate nonescape theorem \autoref{thm:typed-supply-socket-audit-gate-nonescape}. Since the audit route cannot replace the rows by an untyped supply grant or hidden witness, the mature public consumer surface is closed by the displayed carrier rows.
+\end{proof}
+
 \falsifiablePrediction{If the socket kind row is erased, Type I induction sockets and Type II witness sockets can no longer be separated by the public classifier.}
 
 \independenceWitness{socketkindclassifier, supplysocketledger, machineinterfacesocket, apophaticfarendsocket: SocketKindClassifierUp classifies kinds but lacks requested-supply, consumption-site, audit-gate, and non-internalization rows; SupplySocketLedgerUp accounts for requested supply but does not bind all seven kinds to a consumption site and gate; MachineInterfaceSocketUp routes formalization targets rather than the full seven-kind socket taxonomy; ApophaticFarEndSocketUp names the far-end refusal position but lacks the typed request and site rows. None is bijective to $\TypedSupplySocketUp$ under NameCert-row preservation.}
@@ -173,12 +189,12 @@ The Lean follow-up must provide explicit $\mathsf{Nontrivial}\ \TypedSupplySocke
 
 \begin{closurestatus}{\TypedSupplySocketUp}
   \constructivestory{The typed supply socket is generated from a $BHist$ packet that records a socket kind, requested supply, consumption site, audit gate, non-internalization row, and the socket route that consumes them together. The carrier convention reads the typed socket directly from those rows and uses $hsame$ to preserve both socket identity and kind across equivalent histories. Continuations are admitted only through $\Cont$ extensions that keep the typed row attached to the supply route. NameCert obligations, kind separation, TasteGate obligation, prediction, and independence witness certify that a consumer cannot silently retag a socket or use an untyped supply source. The socket is therefore a typed ledger route, not an ambient resource.}
-  \theoryclosure{\publicClosure}
-  \scopeclosed{\autoref{thm:typed-supply-socket-scope-rows} scopes the rows $K,Q,S,G,U,H,C,P,N$ exactly over SocketKindClassifierUp, SupplySocketLedgerUp, MachineInterfaceSocketUp, ApophaticFarEndSocketUp, BHist, hsame, Cont, Pkg, and NameCert, with no untyped supply availability row exported.}
+  \theoryclosure{\matureClosure}
+  \scopeclosed{\autoref{thm:typedsupplysocket-mature-public-surface} closes the mature public consumer surface over $K,Q,S,G,U,H,C,P,N$ through SocketKindClassifierUp, SupplySocketLedgerUp, MachineInterfaceSocketUp, ApophaticFarEndSocketUp, TasteGate, BHist, hsame, Cont, Pkg, and NameCert, with no untyped supply grant or hidden witness exported.}
   \formalstatus{\theoremCheckedV}
   \leantarget{BEDC.Derived.TypedSupplySocketUp.taste\_gate}
   \bridgestatus{none}
   \origin{ai}
   \notclaimed{It does not claim untyped supply availability, host resource equality, or kind conversion outside the recorded socket carrier.}
-  \upgradepath{Bridge closure requires a standard bridge route that exports the public typed-supply socket surface without adding an untyped supply availability row.}
+  \upgradepath{No further theory-axis obligation remains for the mature public consumer surface; bridgeChecked verification would require a checked standard bridge over the same typed socket rows.}
 \end{closurestatus}

@@ -1,0 +1,75 @@
+\chapter{A Concrete Naming Certificate for $\ComplementarySlacknessUp$}
+\label{ch:concrete-instances-complementary-slackness-namecert}
+\origin{human}
+
+Following Boyd and Vandenberghe, \emph{Convex Optimization}, the $\ComplementarySlacknessUp$ packet records the finite row by which primal slack and dual multiplier data meet at zero product inside a KKT or LP-duality certificate. It sits between the KKT packet of \autoref{ch:concrete-instances-kkt-namecert}, the objective-gap route of \autoref{ch:concrete-instances-lpduality-namecert}, and the cone-feasibility rows of \autoref{ch:concrete-instances-semidefinitecone-namecert}. The packet names the slackness row as reusable finite NameCert data; it does not assert solver optimality, differentiability, Slater regularity, host minimization, or analytic dual attainment.
+
+\begin{definition}[Complementary slackness carrier]
+\label{def:complementary-slackness-carrier}
+A $\ComplementarySlacknessUp$ carrier is a finite $\BHist$ packet
+$$
+(P,D,S,K,L,C,H,T,G,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $P$ is the primal row whose constraint residuals or cone slack coordinates are inspected.
+\item $D$ is the dual multiplier row paired componentwise with the primal slack data.
+\item $S$ is the slack row, read from the primal feasibility surface and exposed as finite scalar or cone-coordinate data.
+\item $K$ is the $\KKTUp$ row that consumes stationarity, feasibility, and this slackness row as a displayed KKT component.
+\item $L$ is the $\LPDualityUp$ row that reads the same slackness data as the zero duality-gap handoff.
+\item $C$ is the cone and feasibility row, including the semidefinite or linear feasibility surface through which slack and multipliers are admissible.
+\item $H$ records componentwise $\hsame$ transport for primal data, multiplier data, slack rows, KKT rows, LP-duality rows, cone feasibility, replay, provenance, and local naming.
+\item $T$ records displayed $\Cont$ replay from primal feasibility and dual multipliers to the slackness row, then onward to the KKT and LP-duality consumers.
+\item $G$ is the $\Pkg$ provenance over $\ComplementarySlacknessUp$, $\KKTUp$, $\LPDualityUp$, $\SemidefiniteConeUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\ComplementarySlacknessUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through the rows $P,D,S,K,L,C,H,T,G,N$. It has no coordinate for a host optimizer, selected primal or dual solution, differentiability witness, Slater point, nonlinear stationarity theorem, or analytic dual-attainment principle.
+\end{definition}
+
+\begin{theorem}[Complementary slackness NameCert obligations]
+\label{thm:complementary-slackness-namecert-obligations}
+For every accepted $\ComplementarySlacknessUp$ carrier
+$$
+(P,D,S,K,L,C,H,T,G,N),
+$$
+the local $\NameCert_{\ComplementarySlacknessUp}$ surface consists exactly of carrier admission, primal-row exposure, dual-multiplier exposure, slack-row exposure, KKT consumption, LP-duality-gap consumption, cone and feasibility admissibility, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:complementary-slackness-carrier}. The only mathematical rows before the structural certificate are the primal row $P$, the multiplier row $D$, the slack row $S$, the KKT row $K$, the LP-duality row $L$, and the cone/feasibility row $C$.
+
+Primal and multiplier exposure force any slackness consumer to display both sides of the pairing before a zero-product read is available. The slack row $S$ is therefore not an ambient equation; it is the finite coordinate read from the feasibility surface $C$ and paired with $D$.
+
+The KKT and LP-duality consumers are separate downstream reads of the same row. The KKT row $K$ reads complementary slackness as one displayed KKT component, while the LP-duality row $L$ reads it as the objective-gap handoff already isolated in the duality packet.
+
+Finally replay $H,T,G,N$. These rows transport, continue, source, and name the same finite route. Since no row contains a host optimizer, selected primal or dual solution, differentiability witness, Slater point, nonlinear stationarity theorem, or analytic dual-attainment principle, the listed obligations exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[Complementary slackness KKT duality-gap route]
+\label{thm:complementary-slackness-kkt-duality-gap-route}
+Every accepted $\ComplementarySlacknessUp$ packet supplies the finite route by which a KKT complementary-slackness component is read as the LP-duality zero-gap handoff:
+$$
+P,D,S,C \longrightarrow K \longrightarrow L .
+$$
+The route is available only after the primal row, dual multiplier row, slack row, cone/feasibility row, transport rows, replay rows, provenance row, and local NameCert row have been displayed, and it exports no solver certificate, host minimizer, Slater regularity, nonlinear KKT theorem, or analytic dual-attainment claim.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:complementary-slackness-carrier}. The rows $P,D,S,C$ form the finite feasibility and multiplier surface, and $H,T,G,N$ attach transport, replay, provenance, and local naming to that surface.
+
+Read the KKT consumer through \autoref{ch:concrete-instances-kkt-namecert}. Its public packet already treats complementary slackness as one displayed row beside stationarity and feasibility, so $K$ consumes the same slack row $S$ paired with the multiplier row $D$.
+
+Next read the LP-duality consumer through \autoref{ch:concrete-instances-lpduality-namecert}. The zero-gap handoff there uses the same finite slackness row rather than a separate analytic minimization principle.
+
+The cone and feasibility admissibility comes from \autoref{ch:concrete-instances-semidefinitecone-namecert} together with the local row $C$. Therefore the route from KKT slackness to duality-gap equality remains the finite packet $(P,D,S,K,L,C,H,T,G,N)$, with the excluded solver, optimizer, regularity, nonlinear, and dual-attainment endpoints outside the claim.
+\end{proof}
+
+\closureat{ComplementarySlacknessUp}{seedStr}
+
+\begin{closurestatus}{\ComplementarySlacknessUp}
+  \constructivestory{A $\ComplementarySlacknessUp$ packet is generated from a primal row, a dual multiplier row, a slack row, a KKT consumer row, an LP-duality consumer row, a cone and feasibility row, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:complementary-slackness-carrier}, \autoref{thm:complementary-slackness-namecert-obligations}, and \autoref{thm:complementary-slackness-kkt-duality-gap-route} seed the finite slackness route through primal, dual, slack, KKT, LP-duality, cone, transport, replay, provenance, and local naming rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim solver optimality, selected primal or dual solutions, differentiability, Slater regularity, nonlinear stationarity, analytic dual attainment, theorem-level Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, primal-row exposure, dual-multiplier exposure, slack-row exactness, KKT consumption, LP-duality-gap consumption, cone admissibility, transport, replay, provenance, and local naming for BEDC.Derived.ComplementarySlacknessUp.}
+\end{closurestatus}

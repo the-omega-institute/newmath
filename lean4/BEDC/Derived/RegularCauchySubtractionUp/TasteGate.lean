@@ -1,17 +1,38 @@
+import BEDC.FKernel.Ask
+import BEDC.FKernel.Bundle
+import BEDC.FKernel.Cont
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
+import BEDC.FKernel.NameCert
+import BEDC.FKernel.Package
+import BEDC.FKernel.Unary
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.RegularCauchySubtractionUp
 
+open BEDC.FKernel.Ask
+open BEDC.FKernel.Bundle
+open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
+open BEDC.FKernel.NameCert
+open BEDC.FKernel.Package
+open BEDC.FKernel.Unary
 open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
 inductive RegularCauchySubtractionUp : Type where
   | mk (X Y G A W D E S H C P N : BHist) : RegularCauchySubtractionUp
   deriving DecidableEq
+
+def RegularCauchySubtractionCarrier [AskSetup] [PackageSetup]
+    (X Y G A W D E S H C P N : BHist)
+    (bundle : ProbeBundle ProbeName) (pkg : Pkg) : Prop :=
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont PkgSig UnaryHistory
+  UnaryHistory X ∧ UnaryHistory Y ∧ UnaryHistory G ∧ UnaryHistory A ∧
+    UnaryHistory W ∧ UnaryHistory D ∧ UnaryHistory E ∧ UnaryHistory S ∧
+      UnaryHistory H ∧ UnaryHistory C ∧ UnaryHistory P ∧ UnaryHistory N ∧
+        PkgSig bundle P pkg ∧ PkgSig bundle N pkg
 
 def regularCauchySubtractionEncodeBHist : BHist → RawEvent
   -- BEDC touchpoint anchor: BHist BMark
@@ -188,5 +209,77 @@ theorem RegularCauchySubtractionTasteGate_single_carrier_alignment :
         intro x y heq
         exact regularCauchySubtractionToEventFlow_injective heq,
       rfl⟩
+
+theorem RegularCauchySubtractionCarrier_namecert_obligations [AskSetup] [PackageSetup]
+    {X Y G A W D E S H C P N read : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RegularCauchySubtractionCarrier X Y G A W D E S H C P N bundle pkg ->
+      Cont H C read ->
+        PkgSig bundle N pkg ->
+          SemanticNameCert
+              (fun row : BHist => hsame row N ∧ UnaryHistory row)
+              (fun row : BHist =>
+                hsame row X ∨ hsame row Y ∨ hsame row G ∨ hsame row A ∨
+                  hsame row W ∨ hsame row D ∨ hsame row E ∨ hsame row S ∨
+                    hsame row H ∨ hsame row C ∨ hsame row P ∨ hsame row N)
+              (fun row : BHist =>
+                UnaryHistory row ∧ Cont H C read ∧ PkgSig bundle N pkg)
+              hsame ∧
+            UnaryHistory read := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont PkgSig hsame SemanticNameCert UnaryHistory
+  intro carrier replay localPkg
+  obtain ⟨_xUnary, _yUnary, _gUnary, _aUnary, _wUnary, _dUnary, _eUnary, _sUnary,
+    hUnary, cUnary, _pUnary, nUnary, _provenancePkg, _carrierNamePkg⟩ := carrier
+  have readUnary : UnaryHistory read :=
+    unary_cont_closed hUnary cUnary replay
+  have sourceN :
+      (fun row : BHist => hsame row N ∧ UnaryHistory row) N := by
+    exact ⟨hsame_refl N, nUnary⟩
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => hsame row N ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row X ∨ hsame row Y ∨ hsame row G ∨ hsame row A ∨
+              hsame row W ∨ hsame row D ∨ hsame row E ∨ hsame row S ∨
+                hsame row H ∨ hsame row C ∨ hsame row P ∨ hsame row N)
+          (fun row : BHist =>
+            UnaryHistory row ∧ Cont H C read ∧ PkgSig bundle N pkg)
+          hsame := {
+    core := {
+      carrier_inhabited := Exists.intro N sourceN
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        exact
+          ⟨hsame_trans (hsame_symm sameRows) source.left,
+            unary_transport source.right sameRows⟩
+    }
+    pattern_sound := by
+      intro _row source
+      exact
+        Or.inr
+          (Or.inr
+            (Or.inr
+              (Or.inr
+                (Or.inr
+                  (Or.inr
+                    (Or.inr
+                      (Or.inr
+                        (Or.inr
+                          (Or.inr
+                            (Or.inr source.left))))))))))
+    ledger_sound := by
+      intro _row source
+      exact ⟨source.right, replay, localPkg⟩
+  }
+  exact ⟨cert, readUnary⟩
 
 end BEDC.Derived.RegularCauchySubtractionUp

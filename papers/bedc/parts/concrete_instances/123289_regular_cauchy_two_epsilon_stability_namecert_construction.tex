@@ -1,0 +1,74 @@
+\chapter{A Concrete Naming Certificate for $\RegularCauchyTwoEpsilonStabilityUp$}
+\label{ch:concrete-instances-regular-cauchy-two-epsilon-stability-namecert}
+\origin{human}
+
+Following Bishop and Bridges on regular Cauchy sequences, the $\RegularCauchyTwoEpsilonStabilityUp$ packet records the finite L10 certificate that turns a requested tolerance into a halved tolerance window before a regular-rational readback is sealed. It reads the dyadic tolerance arithmetic of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the finite request schedule of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, and the terminal sealing discipline of \autoref{ch:concrete-instances-real-namecert}. The packet names epsilon-halving stability for displayed windows only; it does not assert quotient real equality, selected limits, countable choice, or ambient completeness of $\RealUp$.
+
+\begin{definition}[Regular Cauchy two-epsilon stability carrier]
+\label{def:regular-cauchy-two-epsilon-stability-carrier}
+A $\RegularCauchyTwoEpsilonStabilityUp$ carrier is a finite $\BHist$ packet
+$$
+E=(T,B,W_0,W_1,R,S,L,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $T$ is the requested tolerance row, read as a positive $\DyadicRatCoreUp$ budget $\varepsilon$.
+\item $B$ is the halving witness row, displaying a dyadic budget $\delta$ with $2\delta\leq\varepsilon$ inside the same dyadic ledger.
+\item $W_0$ and $W_1$ are two finite window rows whose indices are admitted by the $\StreamNameUp$ schedule.
+\item $R$ is the $\RegSeqRatUp$ readback row for the two windows, recording rational values and tail budgets at the requested precision.
+\item $S$ is the $\StreamNameUp$ schedule row that names the finite requests used to obtain $W_0,W_1$ and $R$.
+\item $L$ is the shared modulus ledger, requiring both windows to use the same halved tolerance witness before their readbacks are compared.
+\item $H$ records componentwise $\hsame$ transport for tolerance, halving, window, readback, schedule, ledger, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay of the tolerance request through the halved-window comparison.
+\item $P$ is the $\Pkg$ provenance over $\RegularCauchyTwoEpsilonStabilityUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\RegularCauchyTwoEpsilonStabilityUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $T,B,W_0,W_1,R,S,L,H,C,P,N$. It has no coordinate for quotient equality of rational streams, selected real limits, countable choice, host convergence, or ambient $\RealUp$ completeness.
+\end{definition}
+\leanchecked{BEDC.Derived.RegularCauchyTwoEpsilonStabilityUp.RegularCauchyTwoEpsilonStabilityTasteGate\_single\_carrier\_alignment}
+
+\begin{theorem}[Regular Cauchy two-epsilon obligation surface]
+\label{thm:regular-cauchy-two-epsilon-stability-obligation-surface}
+For every accepted $\RegularCauchyTwoEpsilonStabilityUp$ carrier
+$$
+E=(T,B,W_0,W_1,R,S,L,H,C,P,N),
+$$
+the local $\NameCert_{\RegularCauchyTwoEpsilonStabilityUp}$ surface consists exactly of requested tolerance admission, dyadic halving, two finite StreamName windows, RegSeqRat readback, shared modulus-ledger comparison, componentwise transport, displayed replay, provenance, and local naming. Any $\RealUp$-facing consumer that reads the stability packet must display $T,B,W_0,W_1,R,S,L,H,C,P,N$ before it may use the comparison as a regular-Cauchy tolerance step.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:regular-cauchy-two-epsilon-stability-carrier}. The row $T$ supplies the requested tolerance, while $B$ is the only row that records a halved dyadic budget below that request.
+
+The two windows $W_0,W_1$ are admitted by the same schedule row $S$. Thus the finite requests are visible before the regular-rational readback row $R$ is consumed.
+
+The ledger row $L$ ties both windows to the same halving witness. It blocks a consumer from comparing one window at the requested tolerance and the other at an unrecorded tolerance.
+
+Finally $H,C,P,N$ transport, replay, source, and name exactly the displayed route. Since no carrier coordinate stores quotient stream equality, selected Real limits, countable choice, or ambient Real completeness, the listed rows exhaust the local obligation surface.
+\end{proof}
+
+\begin{theorem}[Regular Cauchy window halving]
+\label{thm:regular-cauchy-two-epsilon-stability-window-halving}
+If an accepted $\RegularCauchyTwoEpsilonStabilityUp$ carrier displays requested tolerance $T=\varepsilon$ and halving witness $B=\delta$ with $2\delta\leq\varepsilon$, then any comparison of the two accepted windows factors through the shared $\DyadicRatCoreUp$ ledger before it reaches $\RegSeqRatUp$ readback or a downstream $\RealUp$ seal. The comparison is therefore a finite halved-window read, not a quotient real equality or ambient completeness claim.
+\end{theorem}
+\begin{proof}
+Read the dyadic rows first. The requested tolerance $T$ and halving witness $B$ live in the same $\DyadicRatCoreUp$ budget surface, so the inequality $2\delta\leq\varepsilon$ is part of the displayed packet rather than an external estimate.
+
+Next expose the finite window rows. The $\StreamNameUp$ schedule row $S$ names the requests that produce $W_0$ and $W_1$, and the shared ledger $L$ requires both windows to use the halved witness.
+
+Only after those rows have been displayed can the $\RegSeqRatUp$ readback row $R$ be consumed. A downstream $\RealUp$ seal receives the same finite route through $T,B,W_0,W_1,R,S,L,H,C,P,N$ and no row for quotient equality, selected limits, choice, or ambient completeness.
+\end{proof}
+
+\falsifiablePrediction{A claimed $\RegularCauchyTwoEpsilonStabilityUp$ read that compares two regular-rational windows without displaying the requested tolerance row, the halving witness, both StreamName windows, the RegSeqRat readback, and the shared modulus ledger is not an accepted packet.}
+
+\independenceWitness{dyadicratcore, streamname, regseqrat, real: no listed sibling is bijective with $\RegularCauchyTwoEpsilonStabilityUp$ because this packet binds a requested dyadic tolerance, a halving witness, two finite windows, regular-rational readback, shared modulus comparison, transport, replay, provenance, and local naming in one carrier.}
+
+\closureat{RegularCauchyTwoEpsilonStabilityUp}{seedStr}
+
+\begin{closurestatus}{\RegularCauchyTwoEpsilonStabilityUp}
+  \constructivestory{A $\RegularCauchyTwoEpsilonStabilityUp$ packet is generated from a requested dyadic tolerance, a halving witness, two StreamName windows, RegSeqRat readback, a shared modulus ledger, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:regular-cauchy-two-epsilon-stability-carrier}, \autoref{thm:regular-cauchy-two-epsilon-stability-obligation-surface}, and \autoref{thm:regular-cauchy-two-epsilon-stability-window-halving} seed the finite two-epsilon window-stability packet over the L10 Real corridor.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient real equality, selected limits, countable choice, host convergence, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, dyadic halving, finite-window scheduling, regular-rational readback, shared modulus-ledger preservation, transport, provenance, and nonescape for BEDC.Derived.RegularCauchyTwoEpsilonStabilityUp.}
+\end{closurestatus}

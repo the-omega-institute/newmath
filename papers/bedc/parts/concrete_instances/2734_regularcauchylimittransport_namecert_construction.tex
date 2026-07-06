@@ -185,6 +185,22 @@ Next use dyadic ledger stability, \autoref{thm:regular-cauchy-limit-transport-dy
 Finally apply seal-route determinacy, \autoref{thm:regular-cauchy-limit-transport-seal-route-determinacy}, together with ledger exactness, \autoref{thm:regular-cauchy-limit-transport-ledger-exactness}. The seal row $S$ is reached through the same displayed packet rows and no other coordinate is present. Hence the selected-window, dyadic-ledger, and seal routes form one commuting finite handoff.
 \end{proof}
 
+\begin{theorem}[Regular Cauchy limit transport tail induction]
+\label{thm:regular-cauchy-limit-transport-tail-induction}
+Let $T=(R,W,D,S,H,C,P,N)$ be an accepted $\RegularCauchyLimitTransportUp$ carrier. Finite tail transport proceeds by induction over the displayed selected-window and tolerance rows: the base step reads the source row through
+$$
+R \to W,
+$$
+each successor step extends the displayed finite tail through the dyadic ledger $D$, and the terminal step seals the transported tail through $S,H,C,P,N$. The induction exposes no quotient stream, host real equality, selected external limit, trichotomy row, or ambient completeness coordinate.
+\end{theorem}
+\begin{proof}
+For the base step, use selected-window exactness, \autoref{thm:regular-cauchy-limit-transport-selected-window-exactness}. It forces every diagonal source observation to pass from $R$ through the selected-window row $W$, with replay and transport recorded by the displayed rows.
+
+For the successor step, use dyadic ledger stability, \autoref{thm:regular-cauchy-limit-transport-dyadic-ledger-stability}. Extending the finite tail by one displayed tolerance request keeps the tolerance, absolute-value, comparison, and triangle-bound entries inside the same ledger $D$ under the same componentwise transport.
+
+For the terminal step, use seal-route determinacy and the window-dyadic-seal triangle, \autoref{thm:regular-cauchy-limit-transport-seal-route-determinacy} and \autoref{thm:regular-cauchy-limit-transport-window-dyadic-seal-triangle}. These theorems identify the completed route as the single handoff $R \to W \to D \to S$ with provenance $H,C,P,N$, so the induction closes inside the displayed packet boundary.
+\end{proof}
+
 \begin{theorem}[Regular Cauchy limit transport classifier handoff coverage]
 \label{thm:regular-cauchy-limit-transport-classifier-handoff-coverage}
 Every accepted classifier handoff of a $\RegularCauchyLimitTransportUp$ carrier is covered by the displayed rows

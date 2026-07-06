@@ -1,0 +1,65 @@
+\chapter{A Concrete Naming Certificate for $\HausdorffCompletionReflectorUp$}
+\label{ch:concrete-instances-hausdorff-completion-reflector-namecert}
+\origin{human}
+
+Following Bishop and Bridges and the Bourbaki separated-completion reflector discipline, the $\HausdorffCompletionReflectorUp$ packet records the finite BEDC data needed to pass from a completion request to a separated completion handoff. It sits beside the completion-reflection route of \autoref{ch:concrete-instances-cauchy-completion-reflection-namecert}, the separated-reflection route of \autoref{ch:concrete-instances-separated-completion-reflection-namecert}, the metric completion surface of \autoref{ch:concrete-instances-metriccompletion-namecert}, the stream-name windows of \autoref{ch:concrete-instances-streamname-namecert}, the regular-rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, and the terminal real seal of \autoref{ch:concrete-instances-real-namecert}. The packet is a reflector-side NameCert carrier; it is not a quotient construction, an ambient Hausdorff-space theorem, a choice of representatives, or an unbounded completion oracle.
+
+\begin{definition}[Hausdorff completion reflector carrier]
+\label{def:hausdorff-completion-reflector-carrier}
+A $\HausdorffCompletionReflectorUp$ carrier is a finite $\BHist$ packet
+$$
+R=(Q,S,M,W,A,D,G,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $Q$ is the completion-request row, recording the input metric object, requested tolerance, and completion read sought by the packet.
+\item $S$ is the separated-reflector row, recording that indistinguishable Cauchy data must pass through the separated reflection of $\SeparatedCompletionReflectionUp$ before it is exported.
+\item $M$ is the metric-completion handoff row, tying the request to the $\MetricCompletionUp$ and $\CauchyCompletionReflectionUp$ carrier surfaces.
+\item $W$ is the $\StreamNameUp$ window row, listing the finite stream windows inspected by the reflector before the separated handoff.
+\item $A$ is the $\RegSeqRatUp$ readback row, recording the regular rational witnesses used to compare the named windows.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance row for dyadic precision cuts used in the separated comparison.
+\item $G$ is the $\RealUp$ seal row, saying that Real-facing reads consume only the separated completion handoff after $A$ and $D$ have been displayed.
+\item $H$ records componentwise $\hsame$ transport for completion request, separated reflector, metric-completion handoff, stream windows, regular-rational readback, dyadic tolerance, Real seal, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay of the route
+$$
+Q,S,M,W,A,D \longmapsto G,H,P,N .
+$$
+\item $P$ is the $\Pkg$ provenance over $\HausdorffCompletionReflectorUp$, $\CauchyCompletionReflectionUp$, $\SeparatedCompletionReflectionUp$, $\MetricCompletionUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\HausdorffCompletionReflectorUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $Q,S,M,W,A,D,G,H,C,P,N$. It has no coordinate for a quotient proof, chosen representative, host Hausdorff theorem, external completion functor, countable choice, or ambient Real-completeness argument.
+\end{definition}
+
+\begin{theorem}[Hausdorff completion reflector NameCert obligations]
+\label{thm:hausdorff-completion-reflector-namecert-obligations}
+For every accepted $\HausdorffCompletionReflectorUp$ carrier
+$$
+R=(Q,S,M,W,A,D,G,H,C,P,N),
+$$
+the local $\NameCert_{\HausdorffCompletionReflectorUp}$ surface consists exactly of completion-request exposure through $Q$, separated-reflector exposure through $S$, metric-completion handoff through $M$, StreamName window exposure through $W$, RegSeqRat readback through $A$, DyadicRatCore tolerance exposure through $D$, Real seal ordering through $G$, componentwise $\hsame$ transport through $H$, displayed $\Cont$ replay through $C$, $\Pkg$ provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:hausdorff-completion-reflector-carrier}. Its rows are exactly $Q,S,M,W,A,D,G,H,C,P,N$.
+
+The completion request, separated reflector, and metric-completion handoff are the structural entry rows. They force a completion read to pass through the separated reflector before any Real-facing result can be named.
+
+The StreamName, RegSeqRat, and DyadicRatCore rows provide the finite observable data used by the handoff. They expose windows, regular rational readback, and dyadic tolerance cuts without adding a quotient or representative-choice coordinate.
+
+Finally $G,H,C,P,N$ seal, transport, replay, source, and locally name the same route. Since the carrier has no host Hausdorff theorem, external completion functor, countable-choice row, or ambient Real-completeness coordinate, the displayed rows exhaust the local NameCert surface.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\HausdorffCompletionReflectorUp$ read is refuted if it exports a separated completion result without displaying the completion request, separated-reflector row, metric-completion handoff, StreamName windows, RegSeqRat readback, DyadicRatCore tolerance row, Real seal, $\hsame$ transport, $\Cont$ replay, $\Pkg$ provenance, and local $\NameCert$ row.}
+
+\independenceWitness{cauchy-completion-reflection, separated-completion-reflection, metric-completion, stream-name, regseqrat, real: $\HausdorffCompletionReflectorUp$ is not identical to any listed sibling because it binds the completion request, separated-reflector handoff, metric-completion route, finite stream windows, regular-rational readback, dyadic tolerance, and Real seal as one NameCert packet.}
+
+\closureat{HausdorffCompletionReflectorUp}{seedStr}
+
+\begin{closurestatus}{\HausdorffCompletionReflectorUp}
+  \constructivestory{A $\HausdorffCompletionReflectorUp$ packet is generated from a completion request, separated-reflector row, metric-completion handoff, StreamName windows, RegSeqRat readback, DyadicRatCore tolerance rows, a Real seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:hausdorff-completion-reflector-carrier} and \autoref{thm:hausdorff-completion-reflector-namecert-obligations} seed the finite separated-reflector side of completion as local NameCert data.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim a quotient construction, selected representatives, host Hausdorff theorem, external completion functor, countable choice, ambient Real completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, separated-reflector exposure, metric-completion handoff, StreamName window exactness, RegSeqRat readback, DyadicRatCore tolerance exactness, Real seal ordering, transport, replay, provenance, and local naming for BEDC.Derived.HausdorffCompletionReflectorUp.}
+\end{closurestatus}

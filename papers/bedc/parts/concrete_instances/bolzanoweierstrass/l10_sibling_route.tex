@@ -1,0 +1,37 @@
+\begin{theorem}[Bolzano--Weierstrass L10 sibling route]
+\label{thm:bolzano-weierstrass-l10-sibling-route}
+Every subsequence or cluster read from an accepted $\BolzanoWeierstrassUp$ packet must pass through the L10 sibling route
+$$
+\CompactMetricUp \longmapsto \StreamNameUp \longmapsto \RegSeqRatUp \longmapsto \DyadicRatCoreUp \longmapsto \RealUp .
+$$
+The compact-metric row supplies finite-net data, the stream row supplies finite windows, the regular rational row supplies readback, the dyadic row supplies tolerance control, and the terminal Real row supplies the cluster seal. No cluster boundary is public before these sibling rows are displayed, and the packet refuses sequential compactness without explicit finite-net, window, readback, tolerance, and seal data.
+\end{theorem}
+\leanchecked{BEDC.Derived.BolzanoWeierstrassUp.BolzanoWeierstrassCarrier\_l10\_sibling\_route}
+\begin{proof}
+Start with the bounded source and interval-net rows of the $\BolzanoWeierstrassUp$ carrier. The finite-net data used by a subsequence or cluster consumer is read through the compact-metric surface of \autoref{ch:concrete-instances-compactmetric-namecert} before retained windows can be inspected.
+
+Next read the window and regularity rows. The $\StreamNameUp$ windows of \autoref{ch:concrete-instances-streamname-namecert} expose the finite observations, and the $\RegSeqRatUp$ readback of \autoref{ch:concrete-instances-regseqrat-namecert} packages those observations as regular rational data.
+
+Then apply the dyadic and Real boundaries. The $\DyadicRatCoreUp$ tolerance ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert} controls the retained windows, and the terminal $\RealUp$ seal of \autoref{ch:concrete-instances-real-namecert} is read only after that tolerance data is displayed.
+
+Thus the L10 route is a displayed sibling dependency chain. It gives no public cluster boundary from sequential compactness alone, selected subsequence choice, quotient stream equality, open-cover compactness, or ambient $\RealUp$ completeness.
+\end{proof}
+
+\begin{theorem}[Bolzano--Weierstrass retained window induction]
+\label{thm:bolzano-weierstrass-retained-window-induction}
+For an accepted $\BolzanoWeierstrassUp$ packet, induction over the finite retained-window ledger may expose a cluster-window read only after the compact-metric finite-net row, the stream window row, the regular-rational readback row, the dyadic tolerance row, and the terminal $\RealUp$ seal have all been displayed. Each induction step consumes one retained window and preserves the same route
+$$
+\CompactMetricUp \longmapsto \StreamNameUp \longmapsto \RegSeqRatUp \longmapsto \DyadicRatCoreUp \longmapsto \RealUp .
+$$
+The induction exports no selected subsequence choice, open-cover compactness principle, quotient stream equality, or ambient $\RealUp$ completeness.
+\end{theorem}
+\leanchecked{BEDC.Derived.BolzanoWeierstrassUp.BolzanoWeierstrassCarrier\_retained\_window\_induction}
+\begin{proof}
+Use finite induction on the retained-window ledger. The empty window exposes no cluster read, because there is no compact-metric finite-net cell or stream observation for a consumer to inspect.
+
+For the induction step, assume the preceding retained windows already pass through the finite-net, stream, regular-rational, dyadic, and Real seal rows. Read the next retained window from the compact-metric row, then expose its finite stream observations through $\StreamNameUp$.
+
+The regular-rational and dyadic rows supply the readback and tolerance checks for that same window. Only after those checks are displayed does the terminal $\RealUp$ seal become available for the cluster-window read.
+
+Thus every public cluster read is produced by a finite ledger induction over displayed rows. The construction refuses selected subsequence choice, open-cover compactness, quotient stream equality, and ambient $\RealUp$ completeness because none of those rows appears in the retained-window ledger.
+\end{proof}

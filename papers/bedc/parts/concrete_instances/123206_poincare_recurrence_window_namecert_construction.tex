@@ -1,0 +1,78 @@
+\chapter{A Concrete Naming Certificate for $\PoincareRecurrenceWindowUp$}
+\label{ch:concrete-instances-poincare-recurrence-window-namecert}
+\origin{human}
+
+Following Poincare and the finite-window reading of recurrence in measure-preserving dynamics, the $\PoincareRecurrenceWindowUp$ packet isolates the inspected return-window object used by recurrence consumers. It refines the finite-window row already present in \autoref{ch:concrete-instances-poincare-recurrence-namecert}, while keeping its source rows anchored in the dynamic carrier of \autoref{ch:concrete-instances-dynsystem-namecert}, the invariant-support packet of \autoref{ch:concrete-instances-ergodic-namecert}, the normalized probability surface of \autoref{ch:concrete-instances-probspace-namecert}, and the measurable-event route of \autoref{ch:concrete-instances-measure-namecert}. The packet names only a finite inspected return window and its displayed hit row.
+
+\begin{definition}[Poincare recurrence window carrier]
+\label{def:poincare-recurrence-window-carrier}
+A $\PoincareRecurrenceWindowUp$ carrier is a finite $\BHist$ packet
+$$
+W=(D,E,P,M,A,I,T,H,C,Q,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $D$ is the $\DynSystemUp$ routed-system row, naming the finite step relation whose returns are being inspected.
+\item $E$ is the $\ErgodicUp$ invariant-support row used only as recurrence-facing classifier support.
+\item $P$ is the $\ProbSpaceUp$ normalization row exposing the total event and probability classifier.
+\item $M$ is the $\MeasureUp$ measurable-event row through which the source event is read.
+\item $A$ is the displayed source event whose positive measure is tested for a return.
+\item $I$ is the finite return-window row, listing the inspected nonzero time indices and the displayed inverse-image or forward-image cells for $A$.
+\item $T$ is the return-hit row, recording the measured overlap found inside the finite window $I$.
+\item $H$ records componentwise $\hsame$ transport for the routed system, invariant support, probability normalization, measurable event, source event, return window, return hit, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay through the routed system, event classifier, finite window, and return-hit ledger.
+\item $Q$ is the $\Pkg$ provenance over $\PoincareRecurrenceWindowUp$, $\PoincareRecurrenceUp$, $\DynSystemUp$, $\ErgodicUp$, $\ProbSpaceUp$, $\MeasureUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\PoincareRecurrenceWindowUp}$ row.
+\end{enumerate}
+The classifier compares accepted window packets only through these eleven rows. It has no coordinate for a selected recurrent point, completed sigma-algebra, countable-choice return schedule, host almost-everywhere predicate, or ergodic decomposition.
+\end{definition}
+\leanstmt{BEDC.Derived.PoincareRecurrenceWindowUp}
+
+\begin{theorem}[Poincare recurrence window NameCert obligations]
+\label{thm:poincare-recurrence-window-namecert-obligations}
+For every accepted $\PoincareRecurrenceWindowUp$ carrier
+$$
+W=(D,E,P,M,A,I,T,H,C,Q,N),
+$$
+the local $\NameCert_{\PoincareRecurrenceWindowUp}$ surface consists exactly of routed-system admission, invariant-support compatibility, probability normalization, measurable-event exposure, source-event exposure, finite return-window visibility, return-hit exposure, componentwise transport, displayed replay, package provenance, and local naming through the rows $D,E,P,M,A,I,T,H,C,Q,N$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:poincare-recurrence-window-carrier}. The rows $D,E,P,M,A$ expose the only dynamic, invariant, probability, measure, and source-event data visible before a return window is read.
+
+The finite inspected window is then forced through $I$. The return-hit row $T$ may be consumed only after that window has listed the inspected nonzero times and their displayed event images.
+
+The remaining rows $H,C,Q,N$ transport, replay, source, and name the same finite route. Since no excluded object is a carrier coordinate, the local certificate cannot export selected recurrent points, completed sigma-algebras, countable-choice return schedules, host almost-everywhere predicates, or ergodic decompositions.
+\end{proof}
+
+\begin{theorem}[Poincare recurrence window return route]
+\label{thm:poincare-recurrence-window-return-route}
+Every recurrence-facing consumer of an accepted $\PoincareRecurrenceWindowUp$ carrier reads only the finite route
+$$
+\DynSystemUp \longmapsto \ErgodicUp \longmapsto \ProbSpaceUp \longmapsto \MeasureUp \longmapsto A \longmapsto I \longmapsto T
+$$
+together with $H,C,Q,N$. Thus later consumers may cite a reusable finite inspected-window object without importing the whole $\PoincareRecurrenceUp$ packet as a host recurrence theorem.
+\end{theorem}
+\begin{proof}
+Start with a consumer requesting finite recurrence-window data. The routed-system, invariant-support, probability, and measure rows $D,E,P,M$ must be displayed before the source event $A$ can be inspected.
+
+The window object itself is the pair of rows $I,T$. Row $I$ lists the finite inspected times and event images, while row $T$ records the return hit visible inside that finite list.
+
+The structural rows $H,C,Q,N$ preserve this route for downstream recurrence consumers. They add no selected recurrent point, completed measurable universe, countable return schedule, host almost-everywhere predicate, or ergodic decomposition, so the exported object is exactly the finite return-window route.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\PoincareRecurrenceWindowUp$ read factors through $\DynSystemUp$, $\ErgodicUp$, $\ProbSpaceUp$, $\MeasureUp$, a displayed source event, a finite return-window row, and a return-hit row before a recurrence consumer can inspect it.}
+
+\independenceWitness{poincare-recurrence, dynsystem, ergodic, probspace, measure: no listed sibling is bijective to $\PoincareRecurrenceWindowUp$ because this packet jointly carries the finite inspected window and return-hit route while refusing the full recurrence packet as a host theorem.}
+
+\closureat{PoincareRecurrenceWindowUp}{seedStr}
+
+\begin{closurestatus}{\PoincareRecurrenceWindowUp}
+  \constructivestory{A $\PoincareRecurrenceWindowUp$ packet is generated from DynSystemUp routed-system rows, Ergodic invariant-support rows, ProbSpaceUp normalization rows, MeasureUp event rows, a displayed source event, finite return-window rows, return-hit rows, hsame transport, Cont replay, Pkg provenance, and local NameCert rows.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:poincare-recurrence-window-carrier}, \autoref{thm:poincare-recurrence-window-namecert-obligations}, and \autoref{thm:poincare-recurrence-window-return-route} seed the reusable finite inspected-window route for recurrence consumers.}
+  \formalstatus{\formalTargetV}
+  \leantarget{BEDC.Derived.PoincareRecurrenceWindowUp}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close selected recurrent points, completed sigma-algebras, countable-choice return schedules, host almost-everywhere predicates, ergodic decomposition, theorem-checked Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, dynamic routing, invariant-support stability, probability normalization, measurable-event exposure, finite return-window visibility, return-hit nonescape, transport, replay, provenance, and local naming for BEDC.Derived.PoincareRecurrenceWindowUp.}
+\end{closurestatus}

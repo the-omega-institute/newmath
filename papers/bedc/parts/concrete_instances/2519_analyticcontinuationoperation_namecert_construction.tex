@@ -227,16 +227,28 @@ Next use socket extraction and socket handoff exactness, \autoref{thm:analytic-c
 Finally apply the contour socket handoff and zeta consumer boundary, \autoref{thm:analytic-continuation-operation-contour-socket-handoff} and \autoref{thm:analytic-continuation-operation-zeta-consumer-boundary}. The contour consumer route receives only the displayed operation packet, while the zeta-facing route carries no RH zero-location coordinate. Ledger exactness keeps quotient-of-germs equality, global monodromy, and branch selection outside the exported bridge consumption surface.
 \end{proof}
 
+\begin{theorem}[AnalyticContinuationOperation mature package]
+\label{thm:analytic-continuation-operation-mature-package}
+The $\AnalyticContinuationOperationUp$ chapter is a mature package: the carrier row, NameCert obligation row, public export row, socket extraction row, contour and zeta consumer rows, and bridge-consumption row together exhaust the displayed operation surface for an accepted packet $Q=(D_1,D_2,F,G,U,A,O,L,H,C,P,N)$. The package exports only the finite source, overlap, operation, output, ledger, transport, replay, provenance, and local naming rows; it does not export quotient-of-germs equality, a global monodromy decision, a branch selector, a second $\HolomorphicUp$ output, or an RH zero-location consequence.
+\end{theorem}
+\begin{proof}
+The carrier and NameCert obligation theorems identify the finite packet and its obligation rows. Public export then exposes exactly those rows as the operation surface.
+
+Socket extraction and socket handoff exactness identify the operation-facing socket consumed by downstream readers. Domain-overlap boundary, overlap classifier exactness, and branch-ledger non-escape keep the socket attached to the displayed source, overlap, output, and ledger coordinates.
+
+The contour socket handoff and zeta consumer boundary account for the named consumers. Finally, bridge consumption shows that a bridge-facing reader must still pass through the same finite rows. These clauses exhaust the package and leave no coordinate for quotient-of-germs equality, global monodromy, branch selection, a second output, or an RH zero-location consequence.
+\end{proof}
+
 \closureat{AnalyticContinuationOperationUp}{seedStr}
 \closureat{AnalyticContinuationOperationUp}{obligationStr}[BEDC.Derived.AnalyticContinuationOperationUp.AnalyticContinuationOperationCarrier\_namecert\_obligations]
 \closureat{AnalyticContinuationOperationUp}{scopedStr}[BEDC.Derived.AnalyticContinuationOperationUp.AnalyticContinuationOperationCarrier\_namecert\_obligations]
 \closureat{AnalyticContinuationOperationUp}{publicStr}[BEDC.Derived.AnalyticContinuationOperationUp.AnalyticContinuationOperationCarrier\_namecert\_obligations]
-\closureat{AnalyticContinuationOperationUp}{bridgedStr}[thm:analytic-continuation-operation-bridge-consumption]
+\closureat{AnalyticContinuationOperationUp}{matureStr}[thm:analytic-continuation-operation-mature-package]
 
 \begin{closurestatus}{\AnalyticContinuationOperationUp}
   \constructivestory{An $\AnalyticContinuationOperationUp$ packet is generated from two $\ComplexUp$ domain rows, two $\HolomorphicUp$ input rows, finite overlap and pointwise $\hsame$ evidence, an $\AnalyticContUp$ operation row, an output $\HolomorphicUp$ row, a continuation ledger, componentwise $\hsame$ transports, finite $\Cont$ routes, $\Pkg$ provenance, and a local $\NameCert$ row.}
-  \theoryclosure{\bridgedClosure}
-  \scopeclosed{\autoref{def:analytic-continuation-operation-carrier}, \autoref{thm:analytic-continuation-operation-namecert-obligations}, \autoref{thm:analytic-continuation-operation-public-export}, and \autoref{thm:analytic-continuation-operation-bridge-consumption} define the local operation carrier, obligation rows, exported operation certificate, and bridge-consumption route.}
+  \theoryclosure{\matureClosure}
+  \scopeclosed{\autoref{def:analytic-continuation-operation-carrier}, \autoref{thm:analytic-continuation-operation-namecert-obligations}, \autoref{thm:analytic-continuation-operation-public-export}, \autoref{thm:analytic-continuation-operation-bridge-consumption}, and \autoref{thm:analytic-continuation-operation-mature-package} define the local operation carrier, obligation rows, exported operation certificate, bridge-consumption route, and mature package.}
   \formalstatus{\axiomCleanV}
   \leantarget{BEDC.Derived.AnalyticContinuationOperationUp.AnalyticContinuationOperationCarrier\_namecert\_obligations}
   \bridgestatus{none}

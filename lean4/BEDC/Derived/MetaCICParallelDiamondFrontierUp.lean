@@ -256,4 +256,69 @@ theorem MetacicParallelDiamondFrontierCandidateNormalizationScope [AskSetup] [Pa
     }
   exact ⟨cert, candidateUnary, normalizedUnary⟩
 
+theorem MetacicParallelDiamondFrontierClosurestatusGuard [AskSetup] [PackageSetup]
+    {premise critical candidate residual sn obstruction transport replay provenance name
+      statusRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    UnaryHistory premise -> UnaryHistory critical -> UnaryHistory candidate ->
+      UnaryHistory residual -> UnaryHistory sn -> UnaryHistory obstruction ->
+        UnaryHistory transport -> UnaryHistory replay -> UnaryHistory provenance ->
+          UnaryHistory name -> Cont premise critical candidate -> Cont residual sn obstruction ->
+            Cont transport replay statusRead -> PkgSig bundle provenance pkg ->
+              PkgSig bundle statusRead pkg ->
+                SemanticNameCert
+                    (fun row : BHist => hsame row statusRead ∧ UnaryHistory row)
+                    (fun row : BHist =>
+                      hsame row premise ∨ hsame row critical ∨ hsame row candidate ∨
+                        hsame row residual ∨ hsame row sn ∨ hsame row obstruction ∨
+                          hsame row transport ∨ hsame row replay ∨ hsame row provenance ∨
+                            hsame row name ∨ hsame row statusRead)
+                    (fun row : BHist =>
+                      UnaryHistory row ∧ Cont premise critical candidate ∧
+                        Cont residual sn obstruction ∧ Cont transport replay statusRead ∧
+                          PkgSig bundle statusRead pkg)
+                    hsame ∧
+                  UnaryHistory statusRead := by
+  -- BEDC touchpoint anchor: MetaCICParallelDiamondFrontier BHist ProbeBundle Pkg Cont PkgSig hsame SemanticNameCert UnaryHistory
+  intro _premiseUnary _criticalUnary _candidateUnary _residualUnary _snUnary _obstructionUnary
+    transportUnary replayUnary _provenanceUnary _nameUnary premiseRoute residualRoute statusRoute
+    _provenancePkg statusPkg
+  have statusUnary : UnaryHistory statusRead :=
+    unary_cont_closed transportUnary replayUnary statusRoute
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => hsame row statusRead ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row premise ∨ hsame row critical ∨ hsame row candidate ∨
+              hsame row residual ∨ hsame row sn ∨ hsame row obstruction ∨
+                hsame row transport ∨ hsame row replay ∨ hsame row provenance ∨
+                  hsame row name ∨ hsame row statusRead)
+          (fun row : BHist =>
+            UnaryHistory row ∧ Cont premise critical candidate ∧
+              Cont residual sn obstruction ∧ Cont transport replay statusRead ∧
+                PkgSig bundle statusRead pkg)
+          hsame := {
+    core := {
+      carrier_inhabited := Exists.intro statusRead ⟨hsame_refl statusRead, statusUnary⟩
+      equiv_refl := by intro row _source; exact hsame_refl row
+      equiv_symm := by intro _row _other sameRows; exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        exact
+          ⟨hsame_trans (hsame_symm sameRows) source.left,
+            unary_transport source.right sameRows⟩
+    }
+    pattern_sound := by
+      intro _row source
+      right; right; right; right; right; right; right; right; right; right
+      exact source.left
+    ledger_sound := by
+      intro _row source
+      exact ⟨source.right, premiseRoute, residualRoute, statusRoute, statusPkg⟩
+  }
+  exact ⟨cert, statusUnary⟩
+
 end BEDC.Derived.MetaCICParallelDiamondFrontierUp

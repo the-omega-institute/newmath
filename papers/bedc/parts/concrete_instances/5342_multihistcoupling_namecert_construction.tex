@@ -60,6 +60,92 @@ Apply the local NameCert obligations of \autoref{thm:multihist-coupling-namecert
 
 The invariant consumer of \autoref{ch:concrete-instances-interhistinvariant-namecert} may therefore read the paired histories through $J,S,T,C,P,N$. A $\CrossHistCausalUp$ consumer may use that same finite route as its input surface, but any additional causal-dependence row must be displayed by the downstream causal packet rather than projected from this carrier.
 \end{proof}
+\leanchecked{BEDC.Derived.MultihistCouplingUp.TasteGate.MultihistCoupling\_invariant\_handoff}
+
+\begin{theorem}[MultiHistCoupling pair-symmetry obligation]
+\label{thm:multihist-coupling-pair-symmetry-obligation}
+Every accepted $\MultihistCouplingUp$ carrier $K=(H_0,H_1,J,S,T,C,P,N)$ admits only the displayed symmetric coupling read. Swapping the two history rows must transport through the same joint row $J$, the source rows $H_0,H_1$, the observer-symmetry row $S$, the coupling route $C$, the provenance row $P$, and the local $\NameCert$ row $N$. The swapped read cannot introduce $\CrossHistCausalUp$ dependence, $\MaxCausalRateUp$ bounds, Lorentz geometry, global frames, or quotient history equality.
+\end{theorem}
+\begin{proof}
+Project the carrier. The two visible history rows are $H_0$ and $H_1$, and the only row relating them is the symmetric coupling ledger $J$ together with the observer-symmetry witness $S$.
+
+Use the invariant handoff theorem. It already routes any invariant or causal consumer through the paired-history rows, $J,S,T,C,P,N$, and it leaves any additional causal-dependence data to downstream packets.
+
+Therefore swapping the displayed source and target histories changes only the order in which $H_0$ and $H_1$ are read. The same ledger, transport, replay, provenance, and local naming rows remain in force, while causal dependence, rate bounds, Lorentz geometry, global frames, and quotient history equality have no carrier coordinate.
+\end{proof}
+\leanchecked{BEDC.Derived.MultihistCouplingUp.MultihistCoupling\_pair\_symmetry\_obligation}
+
+\begin{theorem}[MultiHistCoupling source exactness]
+\label{thm:multihist-coupling-source-exactness}
+Every accepted $\MultihistCouplingUp$ carrier $K=(H_0,H_1,J,S,T,C,P,N)$ reads its two history rows only through the displayed $\ObserverSubjectBoundaryUp$, $\ObserverHistIdentityUp$, and $\MultiHistConfigUp$ sibling surfaces. The rows $H_0$ and $H_1$ must be admitted as paired histories from the same finite multi-history configuration after the no-subject boundary and observer-history identity rows have been exposed; no global observer frame, subject-substance coordinate, host history equality, or quotient-pair source can replace those reads.
+\end{theorem}
+\begin{proof}
+Project the carrier to the two source rows $H_0,H_1$. The definition attaches both rows to the same $\MultiHistConfigUp$ surface, not to an ambient history universe.
+
+Read the sibling boundaries next. The no-subject boundary blocks subject-substance coordinates, and the observer-history identity surface fixes the identity-facing route by which an observer row is read as a history row.
+
+The remaining rows $J,S,T,C,P,N$ consume the two admitted sources but do not create new sources. Hence every accepted source read is exact at the displayed observer-boundary, identity, and multi-configuration rows.
+\end{proof}
+\leanchecked{BEDC.Derived.MultihistCouplingUp.MultihistCoupling\_source\_exactness}
+
+\begin{theorem}[MultiHistCoupling ledger transport]
+\label{thm:multihist-coupling-ledger-transport}
+Swapping the displayed order of $H_0$ and $H_1$ in an accepted $\MultihistCouplingUp$ carrier preserves the coupling ledger rows $J,S,T,C,P,N$. The swapped packet reads the same two directed coupling entries in $J$, the same observer-symmetry witness $S$, the same componentwise transport $T$, the same replay row $C$, the same provenance row $P$, and the same local naming row $N$.
+\end{theorem}
+\leanchecked{BEDC.Derived.MultihistCouplingUp.MultihistCoupling\_ledger\_transport}
+\begin{proof}
+Use pair-symmetry, \autoref{thm:multihist-coupling-pair-symmetry-obligation}. It states that the swapped read must still transport through $H_0,H_1,J,S,C,P,N$ and cannot introduce a causal, rate, Lorentz, global-frame, or quotient-history coordinate.
+
+The transport row $T$ records the componentwise $\hsame$ and displayed $\psame$ data for the same two history rows and ledger entries. Thus the swap changes only presentation order; it leaves the ledger, symmetry, transport, replay, provenance, and local naming rows intact.
+\end{proof}
+
+\begin{theorem}[MultiHistCoupling carrier admission obligation]
+\label{thm:multihist-coupling-carrier-admission-obligation}
+For the concrete carrier tuple $K=(H_0,H_1,J,S,T,C,P,N)$, carrier admission for $\MultihistCouplingUp$ is the finite $\BHist$ admission of the two paired history rows $H_0,H_1$, the symmetric coupling ledger $J$, the observer-symmetry row $S$, the componentwise $\hsame$ and displayed $\psame$ transport row $T$, the $\Cont$ replay row $C$, the $\Pkg$ provenance row $P$, and the local $\NameCert_{\MultihistCouplingUp}$ row $N$. No admitted carrier may replace these rows by a global observer frame, host history equality, quotient-pair source, or causal-dependence predicate outside $K$.
+\end{theorem}
+\begin{proof}
+Project the tuple displayed in \autoref{def:multihist-coupling-carrier}. The two source coordinates are $\BHist$ rows, and every additional coordinate is listed as transport, replay, provenance, or local naming data over those rows.
+
+The admission test is therefore finite and componentwise. The $\hsame$ and $\psame$ entries in $T$ preserve the displayed rows, $C$ replays only those rows, $P$ names their package provenance, and $N$ records the local NameCert boundary. Since no excluded coordinate is present in $K$, none can be admitted by carrier projection.
+\end{proof}
+\leanchecked{BEDC.Derived.MultihistCouplingUp.MultihistCoupling\_carrier\_admission\_obligation}
+
+\begin{theorem}[MultiHistCoupling symmetric ledger exactness]
+\label{thm:multihist-coupling-symmetric-ledger-exactness}
+For every accepted carrier $K=(H_0,H_1,J,S,T,C,P,N)$, the coupling ledger is exactly the symmetric $\BHist$ row $J$ read together with $H_0,H_1,S,T,C,P,N$. It records the two displayed directed reads $H_0 \to H_1$ and $H_1 \to H_0$ as one coupling surface, transports them only by the listed $\hsame$ and $\psame$ rows, replays them only through $\Cont$, and packages them only through the displayed $\Pkg$ provenance and local $\NameCert$ row.
+\end{theorem}
+\begin{proof}
+Read the ledger row $J$ from the carrier. By definition it is the single row that contains both directed coupling entries, while $S$ states that neither displayed history is privileged.
+
+Now apply ledger transport, \autoref{thm:multihist-coupling-ledger-transport}. Swapping the displayed order of $H_0$ and $H_1$ preserves $J,S,T,C,P,N$, so the ledger cannot split into two unrelated oriented rows.
+
+The remaining structure only transports, replays, packages, and names this same row. Thus symmetric ledger exactness is fixed by $J$ together with the support rows of $K$.
+\end{proof}
+
+\begin{theorem}[MultiHistCoupling transport stability]
+\label{thm:multihist-coupling-transport-stability}
+Let $K=(H_0,H_1,J,S,T,C,P,N)$ be an accepted $\MultihistCouplingUp$ carrier. If the displayed history rows, probe rows, and signature rows are transported through the componentwise $\hsame$ and displayed $\psame$ data in $T$, then the same coupling packet is replayed through $C$, retains the same $\Pkg$ provenance $P$, and keeps the same local $\NameCert$ row $N$. Transport cannot create a new history source, a new coupling ledger, a privileged observer row, or a downstream causal-dependence row.
+\end{theorem}
+\begin{proof}
+Start with the transport row $T$. It names only componentwise $\hsame$ transport for $H_0,H_1$ and displayed $\psame$ transport for the probe and signature rows used by $J$.
+
+Replay after transport is forced through $C$. The replay row reads the same histories, ledger, symmetry witness, transports, provenance, and local name, so no fresh source or ledger coordinate is introduced.
+
+Finally use $P$ and $N$. Provenance keeps the packet inside the listed sibling surfaces, and the local NameCert records exactly the transported carrier. Hence transport stability preserves $K$ and blocks all excluded coordinates.
+\end{proof}
+\leanchecked{BEDC.Derived.MultihistCouplingUp.MultihistCoupling\_transport\_stability}
+
+\begin{theorem}[MultiHistCoupling obligation closure]
+\label{thm:multihist-coupling-obligation-closure}
+The $\MultihistCouplingUp$ paper surface is obligation-closed for the displayed paired-history packet: carrier admission is fixed by \autoref{thm:multihist-coupling-carrier-admission-obligation}, source exactness is fixed by \autoref{thm:multihist-coupling-source-exactness}, symmetric ledger exactness is fixed by \autoref{thm:multihist-coupling-symmetric-ledger-exactness}, transport stability is fixed by \autoref{thm:multihist-coupling-transport-stability}, and non-escape is fixed by the exclusions in \autoref{thm:multihist-coupling-namecert-obligations}.
+\end{theorem}
+\begin{proof}
+Carrier admission supplies the finite tuple $K=(H_0,H_1,J,S,T,C,P,N)$ and no other coordinates.
+
+Source exactness forces both histories through the observer-subject boundary, observer-history identity, and multi-history configuration rows. Symmetric ledger exactness then records both directed reads in $J$ with the observer-symmetry witness $S$.
+
+Ledger transport preserves $J,S,T,C,P,N$ under swapped history order. The NameCert obligations exclude global frames, synchronized clocks, host history equality, quotient pairs, subject-substance rows, and causal-dependence reads outside the displayed packet. These clauses are exactly the obligation rows needed by the chapter surface.
+\end{proof}
 
 \begin{theorem}[MultiHistCoupling TasteGate obligation]
 \label{thm:multihist-coupling-tastegate-obligation}
@@ -75,16 +161,16 @@ Nontriviality prevents collapse of $H_0$, $H_1$, and $J$ into one indistinguisha
 
 \independenceWitness{observerhistidentity, observersubjectboundary, multihistconfig, interhistinvariant, crosshistcausal: MultiHistCouplingUp is not bijective to any of them because it contains both paired-history rows and a symmetric coupling ledger; each sibling lacks either the paired coupling row, the no-subject boundary, the invariant output row, or the causal-dependence row.}
 
-\closureat{MultiHistCouplingUp}{seedStr}
+\closureat{MultiHistCouplingUp}{obligationStr}
 
 \begin{closurestatus}{\MultihistCouplingUp}
   \constructivestory{A $\MultihistCouplingUp$ packet is generated from two paired $\BHist$ rows, a symmetric coupling ledger, an observer-symmetry witness, componentwise $\hsame$ and displayed $\psame$ transports, $\Cont$ routes, $\Pkg$ provenance, and a local $\NameCert$ row.}
-  \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:multihist-coupling-carrier}, \autoref{thm:multihist-coupling-namecert-obligations}, \autoref{thm:multihist-coupling-invariant-handoff}, and \autoref{thm:multihist-coupling-tastegate-obligation} specify the finite paired-history coupling packet, its NameCert obligations, downstream handoff, and TasteGate instance surface.}
+  \theoryclosure{\obligationClosure}
+  \scopeclosed{\autoref{def:multihist-coupling-carrier}, \autoref{thm:multihist-coupling-carrier-admission-obligation}, \autoref{thm:multihist-coupling-symmetric-ledger-exactness}, \autoref{thm:multihist-coupling-transport-stability}, \autoref{thm:multihist-coupling-obligation-closure}, and \autoref{thm:multihist-coupling-tastegate-obligation} specify the finite paired-history coupling packet, carrier admission, symmetric ledger exactness, transport stability, obligation-closure surface, and TasteGate instance surface.}
   \formalstatus{\axiomCleanV}
   \leantarget{BEDC.Derived.MultihistCouplingUp.TasteGate.MultihistCouplingTasteGate\_single\_carrier\_alignment}
   \bridgestatus{none}
   \origin{ai}
   \notclaimed{This chapter does not close CrossHistCausalUp dependence, MaxCausalRateUp bounds, Lorentz geometry, global frames, quotient history equality, or bridge checking for $\MultihistCouplingUp$.}
-  \upgradepath{Obligation closure requires checked carrier admission, paired-history source exactness, symmetric coupling exactness, transport stability, non-escape, and TasteGate nontriviality with field faithfulness.}
+  \upgradepath{Scoped closure requires binding the paired-history source, symmetric ledger, transport, non-escape, and TasteGate rows to a single named consumer scope.}
 \end{closurestatus}

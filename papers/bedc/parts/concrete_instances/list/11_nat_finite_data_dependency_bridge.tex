@@ -1,0 +1,13 @@
+\begin{theorem}[List Nat finite-data dependency bridge]
+\label{thm:list-nat-finite-data-dependency-bridge}
+Every public $\ListUp$ spine read that exports length, append, reverse, or payload structure first consumes the unary length surface of \autoref{ch:concrete-instances-nat-namecert} together with the existing Bool, Option, Product, and Sum finite-data rows. Thus the visible list route reads constructor tags, absence and presence endpoints, branch alternatives, component envelopes, and the $\NatUp$ length coordinate before any public list consumer receives a finite-data certificate.
+\end{theorem}
+\begin{proof}
+Project the public list spine. Its empty and cons rows expose the constructor tag, endpoint, payload, and tail coordinates before append, reverse, or length can be exported.
+
+Use the sibling lattice of \autoref{thm:list-finite-data-sibling-lattice}. The Bool row supplies constructor tags, the Option row supplies absence and presence endpoints, the Sum row supplies branch alternatives, and the Product row supplies component envelopes for payload and tail rows.
+
+Now read the unary length surface through \autoref{ch:concrete-instances-nat-namecert}. The length row is a finite $\NatUp$ coordinate attached to the same spine, so append and reverse can expose length behavior only after the Nat surface and sibling finite-data certificates have been displayed.
+
+Componentwise transport and replay preserve those rows as a single finite route. Therefore a public $\ListUp$ consumer receives length, append, reverse, and payload structure only through the Nat, Bool, Option, Product, and Sum dependency bridge.
+\end{proof}

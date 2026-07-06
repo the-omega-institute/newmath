@@ -1,0 +1,64 @@
+\chapter{A Concrete Naming Certificate for $\AronszajnFixedPointUp$}
+\label{ch:concrete-instances-aronszajn-fixed-point-namecert}
+\origin{human}
+
+Following Aronszajn's fixed-point work in compact convex analysis, the $\AronszajnFixedPointUp$ packet records the finite BEDC route by which a compact convex self-map certificate is read through existing fixed-point siblings. It sits beside $\BrouwerFixedPointUp$ in \autoref{ch:concrete-instances-brouwer-fixed-point-namecert}, $\SchauderFixedPointUp$ in \autoref{ch:concrete-instances-schauder-fixed-point-namecert}, and $\KakutaniFixedPointUp$ in \autoref{ch:concrete-instances-kakutani-fixed-point-namecert}; it also consumes the compact source of \autoref{ch:concrete-instances-compact-namecert}, the convex-membership surface of \autoref{ch:concrete-instances-convexset-namecert}, and the self-map route of \autoref{ch:concrete-instances-continuousmap-namecert}. The packet names a finite compact-convex fixed-point handoff and does not export a host fixed point, an unrestricted compactness theorem, a global selector, ambient real completeness, or bridge checking.
+
+\begin{definition}[Aronszajn fixed-point carrier]
+\label{def:aronszajn-fixed-point-carrier}
+An $\AronszajnFixedPointUp$ carrier is a finite $\BHist$ packet
+$$
+A=(K,Q,F,B,S,T,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $K$ is the $\CompactUp$ source row for the carried domain, including only the compactness evidence visible to the packet.
+\item $Q$ is the $\ConvexSetUp$ row for the same domain, exposing membership and finite affine-combination stability.
+\item $F$ is the $\ContinuousMapUp$ self-map row whose source and target reads are confined to the displayed compact convex carrier.
+\item $B$ is the $\BrouwerFixedPointUp$ finite-subdivision comparison row, used only as the finite approximate fixed-simplex sibling surface.
+\item $S$ is the $\SchauderFixedPointUp$ compact-convex approximation row, used only as the compact-convex limiting handoff surface.
+\item $T$ is the $\KakutaniFixedPointUp$ graph-selector boundary row, used only when the consumer reads a set-valued or selector-facing comparison.
+\item $H$ records componentwise $\hsame$ transport for the compact, convex, self-map, Brouwer, Schauder, Kakutani, continuation, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from compact and convex reads to the self-map row, then to the three fixed-point sibling rows.
+\item $P$ is the $\Pkg$ provenance over $\AronszajnFixedPointUp$, $\CompactUp$, $\ConvexSetUp$, $\ContinuousMapUp$, $\BrouwerFixedPointUp$, $\SchauderFixedPointUp$, $\KakutaniFixedPointUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\AronszajnFixedPointUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $K,Q,F,B,S,T,H,C,P,N$. It has no coordinate for a chosen fixed point, a global selector, a host compactness theorem, an ambient topological-vector-space theorem, unrestricted hyperspace compactness, real-completeness choice, Lean verification, or a standard bridge.
+\end{definition}
+
+\begin{theorem}[Aronszajn fixed-point NameCert obligations]
+\label{thm:aronszajn-fixed-point-namecert-obligations}
+For every accepted $\AronszajnFixedPointUp$ carrier $A=(K,Q,F,B,S,T,H,C,P,N)$, the local $\NameCert_{\AronszajnFixedPointUp}$ surface consists exactly of five obligation rows:
+\begin{enumerate}
+\item compact-convex admission, requiring the compact row $K$ and convex row $Q$ to name the same displayed domain;
+\item self-map admission, requiring the $\ContinuousMapUp$ row $F$ to read source and target data only through $K$ and $Q$;
+\item fixed-point sibling exposure, requiring the Brouwer row $B$, Schauder row $S$, and Kakutani row $T$ to be read only as displayed sibling handoff surfaces;
+\item transport and replay stability, requiring $H$ and $C$ to preserve the same compact, convex, self-map, and sibling rows componentwise;
+\item provenance and naming nonescape, requiring $P$ and $N$ to name only the displayed packet and to export no host fixed point, global selector, unrestricted compactness theorem, ambient real completeness, or bridge certificate.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:aronszajn-fixed-point-carrier}. The compact and convex rows $K,Q$ are displayed before the self-map row is read, so the domain is fixed by the local packet.
+
+The self-map row $F$ is then read through the same compact-convex surface. It supplies only the source and target data available to $\ContinuousMapUp$, with no separate host map or ambient function-space structure.
+
+The fixed-point sibling rows $B,S,T$ are exposed after $K,Q,F$. They point respectively to the Brouwer finite-subdivision route, the Schauder compact-convex handoff, and the Kakutani graph-selector boundary; none of them adds a chosen fixed point or a global selector to this packet.
+
+Finally $H,C,P,N$ transport, replay, source, and name the same finite carrier. Since no coordinate outside $K,Q,F,B,S,T,H,C,P,N$ is present, the excluded host compactness, real-completeness, choice, and bridge objects cannot enter the local NameCert surface.
+\end{proof}
+
+\falsifiablePrediction{Every $\AronszajnFixedPointUp$ read factors through compact, convex, continuous-map, Brouwer, Schauder, Kakutani, transport, continuation, provenance, and local naming rows.}
+
+\independenceWitness{brouwer-fixed-point, schauder-fixed-point, kakutani-fixed-point, compact, convexset, continuousmap: $\AronszajnFixedPointUp$ is not bijective to any listed sibling because it jointly carries compact-convex domain data, a continuous self-map row, three fixed-point sibling handoff rows, transport, continuation, provenance, and local NameCert evidence as one finite packet.}
+
+\closureat{AronszajnFixedPointUp}{seedStr}
+
+\begin{closurestatus}{\AronszajnFixedPointUp}
+  \constructivestory{An $\AronszajnFixedPointUp$ packet is generated from a CompactUp source row, ConvexSetUp membership and finite-affine stability, a ContinuousMapUp self-map row, BrouwerFixedPointUp finite-subdivision comparison, SchauderFixedPointUp compact-convex handoff, KakutaniFixedPointUp graph-selector boundary, componentwise hsame transport, displayed Cont replay, Pkg provenance, and local NameCert evidence.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:aronszajn-fixed-point-carrier} and \autoref{thm:aronszajn-fixed-point-namecert-obligations} seed the finite Aronszajn fixed-point NameCert surface over compact, convex, continuous-map, Brouwer, Schauder, Kakutani, transport, replay, provenance, and local naming rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close host fixed-point existence, unrestricted compactness, global selector choice, ambient real completeness, hyperspace compactness, Lean verification, or a standard bridge.}
+  \upgradepath{Obligation closure requires checked carrier admission, compact-convex admission, continuous self-map admission, fixed-point sibling exposure, transport and replay stability, provenance, and local naming for BEDC.Derived.AronszajnFixedPointUp.}
+\end{closurestatus}

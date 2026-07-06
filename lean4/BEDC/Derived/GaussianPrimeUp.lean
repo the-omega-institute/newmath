@@ -183,15 +183,6 @@ theorem sum_two_squares_splits {p : Z} :
               (BEDC.Derived.GaussianUp.gaussMul_conj_norm z)
               (gaussOfInt_respects normShape)⟩
 
-theorem rational_prime_split_of_congruent_one_mod_four
-    {p : BHist} (hp : UnaryHistory p) :
-    NatPrime p ->
-      NatCongruentOneModFour p ->
-        FermatTwoSquaresBridge p hp ->
-          GaussianSplit (intOfUnary p hp) := by
-  intro primeP pMod bridge
-  exact sum_two_squares_splits (bridge primeP pMod)
-
 theorem rational_prime_inert_of_congruent_three_mod_four
     {p : BHist} (hp : UnaryHistory p) :
     NatPrime p ->

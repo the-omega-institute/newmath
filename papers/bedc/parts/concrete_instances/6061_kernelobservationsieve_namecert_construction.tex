@@ -52,6 +52,7 @@ Transport, route stability, and provenance exposure are supplied by $T,C,P,N$. S
 \label{thm:kernel-observation-sieve-nonescape}
 No consumer of an accepted $\KernelObservationSieveUp$ packet can recover an omitted observation row without passing through the rejected-row ledger $R$. A consumer may read accepted observations through $A$ and displayed routes $C$, but omitted rows remain boundary data in $R$ and cannot be reconstructed from $\ObserverHistoryIdentityUp$, $\SelectorLedgerUp$, $\ObserverFilterUp$, host equality, quotient stream equality, or an unrecorded inscription event.
 \end{theorem}
+\leanchecked{BEDC.Derived.KernelObservationSieveUp.KernelObservationSieveRejectedLedger\_nonescape}
 \begin{proof}
 Project the accepted carrier $K=(O,S,F,A,R,T,C,P,N)$. The omitted observations are named only in the rejected-row ledger $R$, while accepted observations are named in $A$.
 
@@ -71,6 +72,7 @@ Use \autoref{thm:kernel-observation-sieve-namecert-obligations}. The accepted le
 
 Finally apply non-escape from \autoref{thm:kernel-observation-sieve-nonescape}. Since omitted rows cannot be recovered without $R$, the inscription-facing consumer receives the accepted ledger together with the refusal boundary and no hidden observation source.
 \end{proof}
+\leanchecked{BEDC.Derived.KernelObservationSieveUp.KernelObservationSieve\_inscription\_handoff}
 
 \falsifiablePrediction{No accepted $\KernelObservationSieveUp$ consumer can recover an omitted observation row without passing through the rejected-row ledger $R$.}
 

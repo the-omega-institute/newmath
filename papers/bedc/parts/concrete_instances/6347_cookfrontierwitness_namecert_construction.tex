@@ -30,6 +30,7 @@ with the following displayed rows:
 \end{enumerate}
 The carrier has no coordinate for a total halting decision, a semantic oracle, a host equality between compiler stages, an unbounded substrate trace, or an unstaged Cook universality proof.
 \end{definition}
+\leandef{BEDC.Derived.CookFrontierWitnessUp.CookFrontierWitnessCarrier}
 
 \begin{theorem}[Cook frontier witness obligation surface]
 \label{thm:cook-frontier-witness-obligation-surface}
@@ -76,6 +77,7 @@ u \hsame u'.
 $$
 Equivalently, duplicate accepted $\CookFrontierWitnessUp$ packets with the same finite replay route cannot expose two non-$\hsame$ frontier-coordinate reads.
 \end{lemma}
+\leanchecked{BEDC.Derived.CookFrontierWitnessUp.CookFrontierWitness\_replay\_audit\_route\_determinacy}
 \begin{proof}
 Project the two accepted carriers by \autoref{def:cook-frontier-witness-carrier}. The first coordinate of each packet is the same frontier-coordinate row $F$, and the replay side of each packet is the same finite route: the row $A$ replays the Rule~110 trace back through $R$, then $Y$, then $M$, and finally to the halted-target row $T$.
 

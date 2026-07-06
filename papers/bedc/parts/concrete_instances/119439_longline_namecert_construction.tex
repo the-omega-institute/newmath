@@ -29,6 +29,7 @@ The classifier compares accepted packets only through $S,I,O,T,H,C,P,N$. It has 
 \label{thm:long-line-namecert-obligations}
 For every accepted $\LongLineUp$ carrier $L=(S,I,O,T,H,C,P,N)$, the local $\NameCert_{\LongLineUp}$ surface consists exactly of the well-order-prefix schedule $S$, interval-cell row $I$, lexicographic comparison row $O$, order-topology neighbourhood row $T$, componentwise $\hsame$ transport $H$, displayed $\Cont$ replay $C$, package provenance $P$, and local naming $N$. Every topology- or order-facing consumer must expose these rows before reading a long-line point comparison, interval membership test, open ray, or open interval.
 \end{theorem}
+\leanchecked{BEDC.Derived.LongLineUp.LongLineCarrier\_namecert\_obligations}
 \begin{proof}
 Project the carrier of \autoref{def:long-line-carrier}. The only prefix evidence is $S$, and the only within-prefix coordinate evidence is $I$.
 
@@ -47,6 +48,7 @@ S,I \longrightarrow O \longrightarrow T \longrightarrow H,C,P,N .
 $$
 The route exposes the order comparison inherited from \autoref{ch:concrete-instances-order-namecert} and \autoref{ch:concrete-instances-totalorder-namecert} before it exposes the topology read of \autoref{ch:concrete-instances-topology-namecert}. It exports no host ordinal, no uncountable choice, no quotient point equality, no selected representatives, and no compactness theorem.
 \end{theorem}
+\leanchecked{BEDC.Derived.LongLineUp.LongLineCarrier\_lexicographic\_order\_route}
 \begin{proof}
 Start with the displayed point data. A point read has only the prefix schedule $S$ and interval-cell row $I$, so there is no separate representative or host ordinal from which a consumer can read comparison data.
 
@@ -55,6 +57,24 @@ Next read the lexicographic row $O$. It is the sole comparison row and therefore
 Then read the order-topology row $T$. Open rays and open intervals are generated from $O$, so a topology consumer reaches the open-neighbourhood surface only after the displayed lexicographic order route is visible.
 
 The structural rows $H,C,P,N$ preserve and name that same route. They do not add uncountable choice, quotient point equality, selected representatives, a completed open-set lattice, or compactness evidence.
+\end{proof}
+
+\begin{theorem}[LongLine prefix-neighbourhood exactness]
+\label{thm:long-line-prefix-neighbourhood-exactness}
+Any accepted $\LongLineUp$ open-ray or interval-neighbourhood read must display the well-order-prefix schedule $S$, interval-cell row $I$, lexicographic comparison row $O$, order-topology row $T$, and structural rows $H,C,P,N$ from the carrier
+$$
+L=(S,I,O,T,H,C,P,N).
+$$
+It cannot replace prefix evidence with a host ordinal, uncountable choice, quotient point equality, selected representative, completed open-set lattice, or compactness theorem.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:long-line-carrier}. The prefix schedule $S$ and interval-cell row $I$ are the only source rows from which a long-line point read can obtain prefix and within-prefix evidence.
+
+Apply the NameCert obligations of \autoref{thm:long-line-namecert-obligations}. They require every topology- or order-facing consumer to expose $S,I,O,T,H,C,P,N$ before reading point comparison, interval membership, open rays, or open intervals.
+
+Now compose with the lexicographic order route of \autoref{thm:long-line-lexicographic-order-route}. The comparison row $O$ is read after $S,I$, and the order-topology row $T$ is read after $O$, so a neighbourhood read cannot bypass the displayed prefix route.
+
+The refused endpoints are absent from the finite packet. Since $H,C,P,N$ only transport, replay, source, and name the same rows, they do not add host ordinals, choice, quotient equality, representatives, completed open lattices, or compactness evidence.
 \end{proof}
 
 \falsifiablePrediction{An accepted $\LongLineUp$ consumer is refuted if it reads a point comparison, open ray, open interval, topology membership, transport, replay, provenance, or local naming without first displaying the corresponding $S,I,O,T,H,C,P,N$ rows.}

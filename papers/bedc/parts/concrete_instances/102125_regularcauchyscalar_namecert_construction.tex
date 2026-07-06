@@ -45,6 +45,7 @@ the local $\NameCert_{\RegularCauchyScalarUp}$ surface consists exactly of the f
 \end{enumerate}
 No scalar-multiplication obligation is stored outside these finite rows, and the surface refuses quotient stream equality, selected limits, countable choice, trichotomy, host real equality, ambient $\RealUp$ completeness, Lean verification, and bridge checking as local data.
 \end{theorem}
+\leanchecked{BEDC.Derived.RegularCauchyScalarUp.RegularCauchyScalarCarrier\_namecert\_obligations}
 \begin{proof}
 Project the accepted carrier. The analytic rows are the source row $X$, scalar row $A$, window schedule $W$, source observations $D$, scaled ledger $F$, and Real seal handoff $E$.
 
@@ -74,14 +75,76 @@ The Real-facing boundary is downstream of that ledger. The seal handoff $E$ is e
 Therefore the scaled regular name is read through the finite BEDC scalar route. The listed refusal data are absent from the carrier, so no consumer can obtain them from this handoff.
 \end{proof}
 
-\closureat{RegularCauchyScalarUp}{seedStr}
+\begin{theorem}[RegularCauchyScalar finite-window stability]
+\label{thm:regular-cauchy-scalar-window-stability}
+Let
+$$
+S=(X,A,W,D,F,E,H,C,P,N)
+$$
+and
+$$
+S'=(X',A',W',D',F',E',H',C',P',N')
+$$
+be accepted $\RegularCauchyScalarUp$ packets. If their source row, dyadic scalar row, finite window schedule, source observations, scaled ledger, $\RealUp$ seal, componentwise transport, replay, provenance, and local naming rows agree componentwise under $\hsame$, then they expose the same scalar-facing finite-window read. No downstream consumer can read a scaled regular name outside the displayed rows $X,A,W,D,F,E,H,C,P,N$.
+\end{theorem}
+\leanchecked{BEDC.Derived.RegularCauchyScalarUp.RegularCauchyScalarCarrier\_window\_stability}
+\begin{proof}
+Project the two accepted carriers through \autoref{def:regular-cauchy-scalar-carrier}. The only rows available to a scalar-facing consumer are the source row, scalar row, window schedule, source observations, scaled ledger, Real seal, transport, replay, provenance, and local naming rows.
+
+Apply \autoref{thm:regular-cauchy-scalar-namecert-obligations}. Its finite-window handoff and scaled-ledger stability clauses force each accepted read to pass through $X,A,W,D,F$ before the seal and structural rows are visible.
+
+Now use the componentwise $\hsame$ agreement. Since the corresponding rows of $S$ and $S'$ agree, the finite window schedule, source observations, and scaled ledger exposed to the consumer are the same scalar-facing finite-window read.
+
+Finally apply \autoref{thm:regular-cauchy-scalar-real-handoff}. Any Real-facing or algebra-facing request reaches the scaled regular name only after the displayed route $X,A,W,D,F,E,H,C,P,N$, so there is no external coordinate from which a different scaled regular name could be read.
+\end{proof}
+
+\begin{theorem}[RegularCauchyScalar obligation-closure package]
+\label{thm:regular-cauchy-scalar-obligation-closure-package}
+For every accepted $\RegularCauchyScalarUp$ carrier
+$$
+S=(X,A,W,D,F,E,H,C,P,N),
+$$
+the carrier admission, scalar-row exactness, finite-window handoff, scaled-ledger stability, classifier transport, Real seal non-escape, provenance, and local naming rows assemble the full $\obligationClosure$ surface over $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$. The package records dyadic scalar multiplication only through the displayed finite route and exports no quotient stream equality, selected limit, countable choice, trichotomy, host real equality, ambient $\RealUp$ completeness, Lean verification, or bridge checking.
+\end{theorem}
+\begin{proof}
+Start from the carrier and local obligation surfaces. The definition of $S$ exposes the source row, dyadic scalar row, finite window schedule, source observations, scaled ledger, Real seal, transport, replay, provenance, and local naming rows, while \autoref{thm:regular-cauchy-scalar-namecert-obligations} identifies the exact obligations attached to those rows.
+
+Next use the Real handoff theorem. By \autoref{thm:regular-cauchy-scalar-real-handoff}, every Real-facing or algebra-facing consumer reads $X,A,W,D,F,E,H,C,P,N$ in the displayed order before it sees the scaled regular name.
+
+The scaled-ledger and classifier clauses stay inside that same packet. The ledger row $F$ is formed from $A$ and $D$ through $\DyadicRatCoreUp$, and the transport row $H$ preserves the source, scalar, window, observation, scaled-ledger, seal, replay, provenance, and naming coordinates.
+
+Thus all obligation rows are visible over the named BEDC dependencies and no excluded analytic or verification endpoint has a carrier coordinate from which it could be projected.
+\end{proof}
+\leanchecked{BEDC.Derived.RegularCauchyScalarUp.RegularCauchyScalarCarrier\_obligation\_closure\_package}
+
+\begin{theorem}[RegularCauchyScalar scoped consumer route]
+\label{thm:regular-cauchy-scalar-scoped-consumer-route}
+Every $\RealUp$ or algebraic scalar consumer of an accepted $\RegularCauchyScalarUp$ carrier must read exactly the source $\RegSeqRatUp$ row $X$, the $\DyadicRatCoreUp$ scalar row $A$, the $\StreamNameUp$ window schedule $W$, the source observation row $D$, the scaled ledger $F$, the $\RealUp$ seal $E$, the $\hsame$ transport row $H$, the $\Cont$ replay row $C$, the $\Pkg$ provenance row $P$, and the local $\NameCert_{\RegularCauchyScalarUp}$ row $N$. These rows are the full BEDC kernel scope for the scalar route; no consumer in this chapter can read a quotient stream equality, selected limit, countable-choice selector, trichotomy witness, host real equality, ambient completeness coordinate, Lean verification row, or bridge-checking row as part of the scalar route.
+\end{theorem}
+\begin{proof}
+Start with the carrier definition. It exposes only the rows $X,A,W,D,F,E,H,C,P,N$, with $X$ naming the regular rational source, $A$ naming the dyadic scalar, $W,D$ naming the finite observation window, $F$ naming the scaled dyadic ledger, and $E,H,C,P,N$ sealing, transporting, replaying, sourcing, and naming the same packet.
+
+Apply the NameCert obligation theorem. Its scalar-row exactness, finite-window handoff, scaled-ledger stability, classifier transport, Real-seal nonescape, provenance, and local naming clauses require every accepted read to pass through these displayed rows before any scalar-facing output is visible.
+
+Use the Real handoff theorem next. It orders every Real-facing or algebra-facing request through
+$$
+(X,A)\longmapsto W\longmapsto D\longmapsto F\longmapsto E\longmapsto(H,C,P,N).
+$$
+Thus the consumer receives the scaled regular name only after the same finite route has been displayed.
+
+Finally apply the obligation-closure package. It assembles the listed rows as the complete obligation surface over $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$. Since the carrier contains no further coordinates, the displayed rows are exactly the scoped kernel route for downstream scalar consumers.
+\end{proof}
+\leanchecked{BEDC.Derived.RegularCauchyScalarUp.RegularCauchyScalar\_scoped\_consumer\_route}
+
+\closureat{RegularCauchyScalarUp}{obligationStr}
+\closureat{RegularCauchyScalarUp}{scopedStr}
 
 \begin{closurestatus}{\RegularCauchyScalarUp}
-  \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:regular-cauchy-scalar-carrier}, \autoref{thm:regular-cauchy-scalar-namecert-obligations}, and \autoref{thm:regular-cauchy-scalar-real-handoff} seed the finite dyadic scalar-multiplication surface over a $\RegSeqRatUp$ source row, $\DyadicRatCoreUp$ scalar row, $\StreamNameUp$ finite-window schedule, source dyadic observations, scaled dyadic ledger, $\RealUp$ seal handoff, $\hsame$, $\Cont$, $\Pkg$, and local $\NameCert$ rows.}
+  \theoryclosure{\scopedClosure}
+  \scopeclosed{\autoref{thm:regular-cauchy-scalar-scoped-consumer-route} binds the full scalar consumer scope to the rows $X,A,W,D,F,E,H,C,P,N$ over the finite dyadic scalar route.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{This chapter does not close quotient stream equality, selected limits, countable choice, trichotomy, host real equality, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
-  \upgradepath{Obligation closure requires checked carrier admission, scalar-row exactness, finite-window handoff, scaled-ledger stability, classifier transport, Real seal non-escape, provenance, and local naming for BEDC.Derived.RegularCauchyScalarUp.}
+  \upgradepath{Formal verification requires a checked RegularCauchyScalar scoped consumer route for the same source, scalar, window, observation, scaled-ledger, Real-seal, transport, replay, provenance, and local NameCert rows.}
   \constructivestory{A $\RegularCauchyScalarUp$ packet is generated from a $\RegSeqRatUp$ source row, a $\DyadicRatCoreUp$ scalar row, a $\StreamNameUp$ finite-window schedule, a source dyadic observation row, a scaled dyadic observation ledger, a $\RealUp$ seal handoff, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and a local $\NameCert$ row.}
 \end{closurestatus}

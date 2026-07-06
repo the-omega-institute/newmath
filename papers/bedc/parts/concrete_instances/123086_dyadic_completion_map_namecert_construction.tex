@@ -1,0 +1,58 @@
+\chapter{A Concrete Naming Certificate for $\DyadicCompletionMapUp$}
+\label{ch:concrete-instances-dyadic-completion-map-namecert}
+\origin{human}
+
+Following Bishop and Bridges on constructive real-number completion, the $\DyadicCompletionMapUp$ packet records the finite map object by which dyadic rational source data are read into Real-sealed regular Cauchy names. It sits over the dyadic tolerance core of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the finite stream-window discipline of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. The packet names a map surface from dyadic source rows to sealed regular names; it does not quotient streams, choose selected limits, use countable choice, or assert Real completeness.
+
+\begin{definition}[Dyadic completion map carrier]
+\label{def:dyadic-completion-map-carrier}
+A $\DyadicCompletionMapUp$ carrier is a finite $\BHist$ packet
+$$
+M=(D,S,R,E,W,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $D$ is the $\DyadicRatCoreUp$ source and tolerance row, recording the dyadic rational input, radius, slack, and finite comparison budget.
+\item $S$ is the $\StreamNameUp$ finite-window row generated from the dyadic source and the requested precision windows.
+\item $R$ is the $\RegSeqRatUp$ regular rational readback attached to the same stream windows.
+\item $E$ is the terminal $\RealUp$ seal reached only after $D,S,R$ have been displayed.
+\item $W$ is the map witness row, recording that the dyadic source window and the regular-rational readback use the same finite tolerance ledger.
+\item $H$ records componentwise $\hsame$ transport for dyadic source, stream window, regular readback, real seal, map witness, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from dyadic source data through stream windows and regular readback to the sealed real-name boundary.
+\item $P$ is the $\Pkg$ provenance over $\DyadicCompletionMapUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\DyadicCompletionMapUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for quotient streams, selected limits, countable choice, host equality of completed names, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[Dyadic completion map NameCert obligations]
+\label{thm:dyadic-completion-map-namecert-obligations}
+For every accepted $\DyadicCompletionMapUp$ carrier
+$$
+M=(D,S,R,E,W,H,C,P,N),
+$$
+the local $\NameCert_{\DyadicCompletionMapUp}$ surface consists exactly of dyadic source admission through $D$, finite-window generation through $S$, regular rational readback through $R$, terminal sealing through $E$, map-witness exactness through $W$, componentwise transport through $H$, displayed replay through $C$, provenance through $P$, and local naming through $N$. Every Real-facing or completion-facing consumer must read \autoref{ch:concrete-instances-dyadicratcore-namecert}, \autoref{ch:concrete-instances-streamname-namecert}, \autoref{ch:concrete-instances-regseqrat-namecert}, and \autoref{ch:concrete-instances-real-namecert} in that order before consuming the map boundary.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:dyadic-completion-map-carrier}. The displayed tuple gives exactly the dyadic source row $D$, stream window row $S$, regular readback row $R$, Real seal row $E$, map witness row $W$, and structural rows $H,C,P,N$.
+
+Read the analytic route in order. $\DyadicRatCoreUp$ supplies the finite dyadic tolerance ledger, $\StreamNameUp$ supplies the requested finite windows, $\RegSeqRatUp$ supplies the regular rational readback attached to those windows, and $\RealUp$ is reached only as a terminal seal after the regular route has been displayed.
+
+The witness row $W$ binds the dyadic ledger to the regular readback, while $H,C,P,N$ preserve transport, replay, provenance, and local naming for the same route. Since the packet contains no quotient stream, selected limit, countable-choice schedule, host completed-name equality, or ambient Real-completeness row, none of those principles can become a local NameCert obligation.
+\end{proof}
+
+\falsifiablePrediction{An accepted $\DyadicCompletionMapUp$ consumer that reaches the terminal RealUp seal without displaying the DyadicRatCore source row, StreamName finite windows, and RegSeqRat readback row refutes the carrier surface.}
+
+\independenceWitness{dyadicratcore, streamname, regseqrat, real: no listed sibling supplies the whole nine-row packet $M=(D,S,R,E,W,H,C,P,N)$, because each sibling contributes only dyadic tolerance, finite-window, regular-readback, or terminal-seal data while this chapter binds them as one map object.}
+
+\closureat{DyadicCompletionMapUp}{seedStr}
+
+\begin{closurestatus}{\DyadicCompletionMapUp}
+  \constructivestory{A $\DyadicCompletionMapUp$ packet is generated from a DyadicRatCore source and tolerance row, a StreamName finite-window row, a RegSeqRat regular readback row, a terminal RealUp seal, a map witness row, componentwise hsame transport, displayed Cont replay, Pkg provenance, and local NameCert evidence.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:dyadic-completion-map-carrier} and \autoref{thm:dyadic-completion-map-namecert-obligations} seed the dyadic-to-regular-real map route over dyadic source, stream window, regular readback, real seal, witness, transport, replay, provenance, and local naming rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient streams, selected limits, countable choice, host equality of completed names, ambient $\RealUp$ completeness, Lean verification, or bridge checking for $\DyadicCompletionMapUp$.}
+  \upgradepath{Obligation closure requires checked carrier admission, dyadic-window exactness, regular readback, real-seal nonescape, map-witness stability, transport, replay, provenance, and local naming for BEDC.Derived.DyadicCompletionMapUp.}
+\end{closurestatus}

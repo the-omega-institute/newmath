@@ -1,0 +1,70 @@
+\chapter{A Concrete Naming Certificate for $\DenselyDefinedOperatorUp$}
+\label{ch:concrete-instances-densely-defined-operator-namecert}
+\origin{human}
+
+Following Reed--Simon and Conway on unbounded operators on Hilbert spaces, the $\DenselyDefinedOperatorUp$ packet records the finite BEDC surface on which an operator is read only together with its displayed dense domain, graph row, and adjoint-boundary refusal. It sits after the Hilbert carrier of \autoref{ch:concrete-instances-hilbert-namecert}, beside the bounded self-adjoint boundary of \autoref{ch:concrete-instances-bounded-self-adjoint-operator-namecert}, and before any spectral-measure consumer such as \autoref{ch:concrete-instances-spectral-measure-namecert}. The packet names domain-bearing unbounded-operator data; it does not assert closedness, self-adjointness, spectral-measure existence, functional calculus, selected cores, or host graph equality.
+
+\begin{definition}[Densely defined operator carrier]
+\label{def:densely-defined-operator-carrier}
+A $\DenselyDefinedOperatorUp$ carrier is a finite $\BHist$ packet
+$$
+T=(H,D,G,A,R,S,C,P,L)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $H$ is the $\HilbertUp$ source and target carrier row.
+\item $D$ is the dense-domain row, naming the displayed domain predicate and its density witness over $H$.
+\item $G$ is the graph row, recording the accepted action only on vectors admitted by $D$.
+\item $A$ is the adjoint-boundary row, naming the finite pairing tests that may be asked before an adjoint-facing consumer proceeds.
+\item $R$ is the refusal row excluding total bounded extension, hidden domain completion, selected core closure, spectral measure, functional calculus, host graph equality, and self-adjointness not displayed by the packet.
+\item $S$ records componentwise $\hsame$ transport for the Hilbert row, dense-domain row, graph, adjoint boundary, refusal, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from a finite operator observation through domain admission, graph inspection, adjoint-boundary readback, and refusal exposure.
+\item $P$ is the $\Pkg$ provenance over $\DenselyDefinedOperatorUp$, $\HilbertUp$, $\BoundedSelfAdjointOperatorUp$, $\SpectralMeasureUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $L$ is the local $\NameCert_{\DenselyDefinedOperatorUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $H,D,G,A,R,S,C,P,L$. The carrier has no coordinate for a total bounded operator, closed graph theorem, chosen closure, selected core, self-adjoint extension, projection-valued measure, or ambient functional calculus.
+\end{definition}
+
+\begin{theorem}[Densely defined operator NameCert obligations]
+\label{thm:densely-defined-operator-namecert-obligations}
+For every accepted $\DenselyDefinedOperatorUp$ carrier
+$$
+T=(H,D,G,A,R,S,C,P,L),
+$$
+the local $\NameCert_{\DenselyDefinedOperatorUp}$ surface consists exactly of carrier admission, Hilbert-source exposure, dense-domain admission, graph inspection on the displayed domain, adjoint-boundary readback, refusal accounting, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming.
+\end{theorem}
+\begin{proof}
+Carrier admission is projection from \autoref{def:densely-defined-operator-carrier}. The accepted packet exposes exactly the Hilbert, domain, graph, adjoint-boundary, refusal, transport, replay, provenance, and naming rows.
+
+The operator row is domain-bearing. The graph row $G$ is readable only after the dense-domain row $D$ has admitted the vector over the Hilbert source $H$, so the packet cannot be consumed as a total bounded operator.
+
+The adjoint-facing surface is also finite. The row $A$ records only the displayed pairing tests, and the refusal row $R$ keeps spectral-measure, functional-calculus, chosen-core, closure, and self-adjoint-extension data outside the packet.
+
+Finally $S,C,P,L$ preserve the same route under transport, replay, provenance, and local naming. Since no other coordinate is present, the listed rows exhaust the local NameCert obligations.
+\end{proof}
+
+\begin{theorem}[Densely defined operator domain nonescape]
+\label{thm:densely-defined-operator-domain-nonescape}
+Every consumer of an accepted $\DenselyDefinedOperatorUp$ packet must read the graph row $G$ through the dense-domain row $D$ over the Hilbert source $H$ before it reaches the adjoint-boundary row $A$ or any downstream $\BoundedSelfAdjointOperatorUp$ or $\SpectralMeasureUp$ request. The packet exports no total bounded extension, hidden domain completion, selected core, self-adjoint extension, projection-valued measure, functional calculus, or host graph equality.
+\end{theorem}
+\begin{proof}
+Start with the carrier definition. Its only action row is $G$, and $G$ is displayed as a graph over vectors admitted by the dense-domain row $D$ on the Hilbert carrier $H$.
+
+Apply the NameCert obligations of \autoref{thm:densely-defined-operator-namecert-obligations}. They force every consumer route through carrier admission, Hilbert-source exposure, domain admission, graph inspection, and adjoint-boundary readback before any downstream operator-theory request is visible.
+
+The bounded self-adjoint and spectral-measure siblings remain downstream. A $\BoundedSelfAdjointOperatorUp$ consumer must add boundedness and symmetry rows in its own packet, and a $\SpectralMeasureUp$ consumer must add projection-valued measure rows in its own packet.
+
+Finally read the refusal and structural rows $R,S,C,P,L$. They keep the accepted route inside the displayed domain-bearing packet, so no consumer can replace the dense-domain row by a total extension, hidden completion, selected core, self-adjoint extension, spectral measure, functional calculus, or host graph equality.
+\end{proof}
+
+\closureat{DenselyDefinedOperatorUp}{seedStr}
+
+\begin{closurestatus}{\DenselyDefinedOperatorUp}
+  \constructivestory{A $\DenselyDefinedOperatorUp$ packet is generated from a Hilbert source, dense-domain row, graph row, adjoint-boundary row, refusal row, componentwise transport, displayed replay, provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:densely-defined-operator-carrier}, \autoref{thm:densely-defined-operator-namecert-obligations}, and \autoref{thm:densely-defined-operator-domain-nonescape} seed the finite domain-bearing unbounded-operator packet over Hilbert, bounded self-adjoint, and spectral-measure sibling rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close closedness, self-adjointness, selected cores, spectral measures, functional calculus, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, dense-domain exactness, graph-domain compatibility, adjoint-boundary readback, refusal nonescape, transport, replay, provenance, and local naming for the same finite packet.}
+\end{closurestatus}

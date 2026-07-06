@@ -1,10 +1,12 @@
 import BEDC.FKernel.Hist
+import BEDC.FKernel.Cont
 import BEDC.FKernel.Mark
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.SpreadSpaceUp
 
 open BEDC.FKernel.Hist
+open BEDC.FKernel.Cont
 open BEDC.FKernel.Mark
 open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
@@ -153,18 +155,41 @@ def spreadSpaceTasteGate : ChapterTasteGate SpreadSpaceUp :=
   -- BEDC touchpoint anchor: BHist BMark
   spreadSpaceChapterTasteGate
 
-theorem SpreadSpaceTasteGate_single_carrier_alignment :
-    (forall h : BHist, spreadSpaceDecodeBHist (spreadSpaceEncodeBHist h) = h) ∧
-      (forall x : SpreadSpaceUp,
-        spreadSpaceFromEventFlow (spreadSpaceToEventFlow x) = some x) ∧
-        (forall x y : SpreadSpaceUp,
-          spreadSpaceToEventFlow x = spreadSpaceToEventFlow y -> x = y) ∧
-          spreadSpaceEncodeBHist BHist.Empty = ([] : List BMark) := by
-  -- BEDC touchpoint anchor: BHist BMark ChapterTasteGate
+theorem SpreadSpace_prefix_bar_stability {x y : SpreadSpaceUp}
+    (heq : spreadSpaceToEventFlow x = spreadSpaceToEventFlow y) :
+    spreadSpaceEncodeBHist BHist.Empty = ([] : List BMark) ∧
+      match x, y with
+      | SpreadSpaceUp.mk B L Q _ _ _ _ _ _ _,
+        SpreadSpaceUp.mk B' L' Q' _ _ _ _ _ _ _ =>
+          hsame B B' ∧ hsame L L' ∧ hsame Q Q' := by
+  -- BEDC touchpoint anchor: BHist BMark
+  constructor
+  · rfl
+  · have hxy : x = y := spreadSpaceToEventFlow_injective heq
+    cases hxy
+    cases x with
+    | mk B L Q _ _ _ _ _ _ _ =>
+        exact ⟨hsame_refl B, hsame_refl L, hsame_refl Q⟩
+
+theorem SpreadSpaceNameCertObligations
+    {B L Q W R E H C P N B' L' Q' W' R' E' H' C' P' N' : BHist}
+    (heq :
+      spreadSpaceToEventFlow (SpreadSpaceUp.mk B L Q W R E H C P N) =
+        spreadSpaceToEventFlow (SpreadSpaceUp.mk B' L' Q' W' R' E' H' C' P' N'))
+    (hprefix : Cont B L Q) (hstream : Cont Q W R) (hseal : Cont R E N) :
+    hsame B B' ∧ hsame L L' ∧ hsame Q Q' ∧ hsame W W' ∧ hsame R R' ∧
+      hsame E E' ∧ hsame H H' ∧ hsame C C' ∧ hsame P P' ∧ hsame N N' ∧
+        Cont B' L' Q' ∧ Cont Q' W' R' ∧ Cont R' E' N' := by
+  -- BEDC touchpoint anchor: BHist BMark Cont hsame
+  have hmk :=
+    spreadSpaceToEventFlow_injective
+      (x := SpreadSpaceUp.mk B L Q W R E H C P N)
+      (y := SpreadSpaceUp.mk B' L' Q' W' R' E' H' C' P' N')
+      heq
+  cases hmk
   exact
-    ⟨spreadSpaceDecode_encode_bhist,
-      spreadSpace_round_trip,
-      (fun _ _ heq => spreadSpaceToEventFlow_injective heq),
-      rfl⟩
+    ⟨hsame_refl B, hsame_refl L, hsame_refl Q, hsame_refl W, hsame_refl R,
+      hsame_refl E, hsame_refl H, hsame_refl C, hsame_refl P, hsame_refl N,
+      hprefix, hstream, hseal⟩
 
 end BEDC.Derived.SpreadSpaceUp

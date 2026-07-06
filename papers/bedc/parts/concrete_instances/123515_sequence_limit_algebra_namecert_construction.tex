@@ -1,0 +1,85 @@
+\chapter{A Concrete Naming Certificate for $\SequenceLimitAlgebraUp$}
+\label{ch:concrete-instances-sequence-limit-algebra-namecert}
+\origin{human}
+
+Following Bishop and Bridges, \emph{Constructive Analysis}, the $\SequenceLimitAlgebraUp$ packet records the constructive algebra of limits of two displayed real sequences as finite NameCert data. It sits after the sequence-limit interface of \autoref{ch:concrete-instances-real-sequence-limit-namecert}, the real equality boundary of \autoref{ch:concrete-instances-real-equality-namecert}, the Cauchy sum route of \autoref{ch:concrete-instances-cauchy-sum-limit-namecert}, and the Cauchy product route of \autoref{ch:concrete-instances-cauchy-product-limit-namecert}. The packet exposes the sum and product handoff for limit operations without importing host real equality, quotient streams, countable choice, selected representatives, or ambient completeness.
+
+\begin{definition}[SequenceLimitAlgebra carrier]
+\label{def:sequence-limit-algebra-carrier}
+A $\SequenceLimitAlgebraUp$ carrier is a finite $\BHist$ packet
+$$
+A=(X,Y,L_X,L_Y,W_X,W_Y,R_X,R_Y,D_{\Sigma},D_{\Pi},S_{\Sigma},S_{\Pi},E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $X$ and $Y$ are the two $\RealUp$ sequence-source rows whose limit behaviour is being combined.
+\item $L_X$ and $L_Y$ are the two $\RealSequenceLimitUp$ packets, each exposing its own candidate limit row, tail-window schedule, dyadic tolerance ledger, and local convergence classifier.
+\item $W_X$ and $W_Y$ are the finite $\StreamNameUp$ window rows opened for the two source sequences, the two candidate limits, and the operation read.
+\item $R_X$ and $R_Y$ are the $\RegSeqRatUp$ readback rows for the displayed sequence windows and candidate-limit windows.
+\item $D_{\Sigma}$ and $D_{\Pi}$ are the $\DyadicRatCoreUp$ tolerance rows: $D_{\Sigma}$ records the additive tolerance split and $D_{\Pi}$ records the product tolerance, boundedness, and mixed-error accounting.
+\item $S_{\Sigma}$ is the $\CauchySumLimitUp$ handoff row, available only after $X,Y,L_X,L_Y,W_X,W_Y,R_X,R_Y,D_{\Sigma}$ have been displayed.
+\item $S_{\Pi}$ is the $\CauchyProductLimitUp$ handoff row, available only after the same source and readback rows and the product tolerance ledger $D_{\Pi}$ have been displayed.
+\item $E$ is the $\RealEqualityUp$ boundary row used when the two operation readbacks are compared through displayed regular-Cauchy equality data.
+\item $H$ records componentwise $\hsame$ transport for the two source rows, both limit packets, both window families, both readbacks, both tolerance ledgers, the sum and product handoffs, the equality boundary, provenance, and local naming.
+\item $C$ records displayed $\Cont$ replay from any sequence-limit algebra request through the source rows, limit packets, readback rows, dyadic ledgers, sum or product handoff, equality boundary, provenance, and local name.
+\item $P$ is the $\Pkg$ provenance over $\SequenceLimitAlgebraUp$, $\RealSequenceLimitUp$, $\RealEqualityUp$, $\CauchySumLimitUp$, $\CauchyProductLimitUp$, $\RealUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\SequenceLimitAlgebraUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through these rows. It has no coordinate for host sequence equality, quotient stream equality, selected limits, countable choice, trichotomy, completed-real arithmetic outside the displayed Cauchy handoffs, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[SequenceLimitAlgebra NameCert obligations]
+\label{thm:sequence-limit-algebra-namecert-obligations}
+For every accepted $\SequenceLimitAlgebraUp$ carrier
+$$
+A=(X,Y,L_X,L_Y,W_X,W_Y,R_X,R_Y,D_{\Sigma},D_{\Pi},S_{\Sigma},S_{\Pi},E,H,C,P,N),
+$$
+the local $\NameCert_{\SequenceLimitAlgebraUp}$ surface consists exactly of carrier admission for the two $\RealUp$ sequence-source rows; two $\RealSequenceLimitUp$ packets; finite $\StreamNameUp$ windows; $\RegSeqRatUp$ readbacks; additive and product $\DyadicRatCoreUp$ tolerance rows; $\CauchySumLimitUp$ and $\CauchyProductLimitUp$ handoff rows; the $\RealEqualityUp$ comparison boundary; componentwise $\hsame$ transport; displayed $\Cont$ replay; $\Pkg$ provenance; and local naming. No obligation may be discharged by host real equality, quotient streams, selected limits, countable choice, or an ambient completeness principle.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:sequence-limit-algebra-carrier}. The only sequence sources are $X$ and $Y$, and each source is paired with its displayed $\RealSequenceLimitUp$ packet before an operation row is available.
+
+The observation stage is finite. The rows $W_X,W_Y$ open the StreamName windows, while $R_X,R_Y$ record the RegSeqRat readbacks for the source sequences and candidate limits. The dyadic rows $D_{\Sigma}$ and $D_{\Pi}$ then supply exactly the tolerance data needed by the sum and product requests.
+
+The operation stage is forced through sibling handoffs. The sum handoff $S_{\Sigma}$ reads the additive tolerance split through \autoref{ch:concrete-instances-cauchy-sum-limit-namecert}, while $S_{\Pi}$ reads the product tolerance and boundedness route through \autoref{ch:concrete-instances-cauchy-product-limit-namecert}. The equality row $E$ is downstream of the RealEquality boundary of \autoref{ch:concrete-instances-real-equality-namecert}, so comparison-facing consumers still inspect displayed regular-Cauchy equality data.
+
+Finally $H,C,P,N$ transport, replay, source, and name the same finite packet. Since the carrier contains no coordinate for host equality, quotient streams, selected limits, countable choice, or ambient completeness, these objects cannot discharge a local NameCert obligation.
+\end{proof}
+
+\begin{theorem}[SequenceLimitAlgebra sum and product handoff]
+\label{thm:sequence-limit-algebra-sum-product-handoff}
+Every algebra-facing consumer of an accepted $\SequenceLimitAlgebraUp$ carrier reaches the sum limit only through
+$$
+X,Y,L_X,L_Y,W_X,W_Y,R_X,R_Y,D_{\Sigma}\longmapsto S_{\Sigma}
+$$
+and reaches the product limit only through
+$$
+X,Y,L_X,L_Y,W_X,W_Y,R_X,R_Y,D_{\Pi}\longmapsto S_{\Pi}.
+$$
+Both operation routes then pass through the same $\hsame$ transport row, displayed $\Cont$ replay row, $\Pkg$ provenance row, and local $\NameCert$ row before any $\RealEqualityUp$ comparison boundary or terminal $\RealUp$ read is public.
+\end{theorem}
+\begin{proof}
+Begin with an accepted carrier $A$. A consumer first receives the two sequence-source rows and the two sequence-limit packets; neither source is read as a quotient stream or as an uninspected host sequence.
+
+For the sum route, the finite windows and readbacks are $W_X,W_Y,R_X,R_Y$. The additive tolerance row $D_{\Sigma}$ is the only row from which the sum handoff can split a requested tolerance, so $S_{\Sigma}$ is downstream of those displayed data.
+
+For the product route, the same windows and readbacks are reused, but the dyadic ledger is $D_{\Pi}$. That row records the boundedness and mixed-error accounting needed before the product handoff $S_{\Pi}$ can be consumed.
+
+The structural rows are shared. Componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming preserve the chosen sum or product route without adding a second source of equality or completeness. If an equality-facing comparison is requested, it reaches $\RealEqualityUp$ only through the displayed boundary row $E$.
+\end{proof}
+
+\falsifiablePrediction{A sequence-limit algebra consumer that accepts a sum or product read without displaying both sequence-limit packets, finite StreamName windows, RegSeqRat readbacks, and the appropriate DyadicRatCore tolerance row is not reading a SequenceLimitAlgebraUp packet.}
+
+\independenceWitness{realsequencelimit, realequality, cauchysumlimit, cauchyproductlimit: none is bijective with $\SequenceLimitAlgebraUp$, because this packet alone binds two sequence-limit packets, paired windows and readbacks, additive and product tolerance ledgers, both Cauchy operation handoffs, equality comparison, transport, replay, provenance, and local naming into one algebra interface.}
+
+\closureat{SequenceLimitAlgebraUp}{seedStr}
+
+\begin{closurestatus}{\SequenceLimitAlgebraUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:sequence-limit-algebra-carrier}, \autoref{thm:sequence-limit-algebra-namecert-obligations}, and \autoref{thm:sequence-limit-algebra-sum-product-handoff} seed the finite algebra route for two Real sequence-limit packets through StreamName windows, RegSeqRat readbacks, DyadicRatCore tolerance ledgers, CauchySumLimit and CauchyProductLimit handoffs, RealEquality comparison, transport, replay, provenance, and local naming.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close host sequence equality, quotient stream equality, selected limits, countable choice, trichotomy, completed-real arithmetic outside the displayed Cauchy handoffs, ambient RealUp completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, two sequence-limit packet exposure, finite window and readback exactness, additive and product dyadic ledger coverage, Cauchy operation handoff nonescape, equality-boundary routing, transport, replay, provenance, and local naming for BEDC.Derived.SequenceLimitAlgebraUp.}
+  \constructivestory{A $\SequenceLimitAlgebraUp$ packet is generated from two Real sequence-source rows, two RealSequenceLimit packets, finite StreamName windows, RegSeqRat readbacks, additive and product DyadicRatCore tolerance rows, CauchySumLimit and CauchyProductLimit handoff rows, a RealEquality boundary row, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+\end{closurestatus}

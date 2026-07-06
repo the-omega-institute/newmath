@@ -1,0 +1,78 @@
+\chapter{A Concrete Naming Certificate for $\MooreSmithLimitUp$}
+\label{ch:concrete-instances-moore-smith-limit-namecert}
+\origin{human}
+
+Following Moore--Smith and Kelley-style net convergence, the $\MooreSmithLimitUp$ packet records a directed-net limit as finite inspectable NameCert data. It sits beside the Moore--Smith net surface of \autoref{ch:concrete-instances-moore-smith-net-namecert}, the Cauchy-net route of \autoref{ch:concrete-instances-cauchynet-namecert}, the Moore--Smith completion packet of \autoref{ch:concrete-instances-moore-smith-completion-namecert}, the stream-window naming surface of \autoref{ch:concrete-instances-streamname-namecert}, and the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}. The packet names a displayed endpoint together with the directed tail evidence that reaches it; it does not assert quotient equality of nets, selected host limits, countable choice, or ambient completion outside the displayed rows.
+
+\begin{definition}[Moore--Smith limit carrier]
+\label{def:moore-smith-limit-carrier}
+A $\MooreSmithLimitUp$ carrier is a finite $\BHist$ packet
+$$
+L=(D,M,A,K,T,S,Q,R,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $D$ is the directed index row, exposing finite comparison windows and common upper-window witnesses.
+\item $M$ is the $\MooreSmithNetUp$ source row over $D$, recording the net values and tail windows read by the limit consumer.
+\item $A$ is the $\CauchyNetUp$ compatibility row when the source is consumed through the completion route.
+\item $K$ is the $\MooreSmithCompletionUp$ landing row, recording that the displayed endpoint is admitted by the completion-facing net interface.
+\item $T$ is the finite tail-convergence ledger, listing the directed thresholds and tolerance requests checked for the endpoint.
+\item $S$ is the $\StreamNameUp$ window family opened along the displayed tails.
+\item $Q$ is the $\RegSeqRatUp$ readback row assembled from those stream windows.
+\item $R$ is the $\DyadicRatCoreUp$ tolerance row comparing source windows, endpoint windows, and requested radii.
+\item $E$ is the endpoint seal row reached only after the directed tail ledger and regular-rational readback have been displayed.
+\item $H$ records componentwise $\hsame$ transport for the directed row, net row, Cauchy compatibility row, completion landing row, tail ledger, readback rows, endpoint seal, provenance, and local naming.
+\item $C$ records displayed $\Cont$ replay through the same directed-net-to-endpoint route.
+\item $P$ is the $\Pkg$ provenance over $\MooreSmithLimitUp$, $\MooreSmithNetUp$, $\CauchyNetUp$, $\MooreSmithCompletionUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\MooreSmithLimitUp}$ row.
+\end{enumerate}
+The classifier compares accepted carriers only through the visible rows $D,M,A,K,T,S,Q,R,E,H,C,P,N$.
+\end{definition}
+
+\begin{theorem}[Moore--Smith limit NameCert obligations]
+\label{thm:moore-smith-limit-namecert-obligations}
+For an accepted carrier $L=(D,M,A,K,T,S,Q,R,E,H,C,P,N)$ of \autoref{def:moore-smith-limit-carrier}, the local $\NameCert_{\MooreSmithLimitUp}$ surface consists exactly of carrier admission, directed-index exposure, Moore--Smith net exposure, CauchyNet compatibility, MooreSmithCompletion landing, finite tail-convergence ledger visibility, StreamName scheduling, RegSeqRat readback, DyadicRatCore tolerance comparison, endpoint sealing, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming.
+\end{theorem}
+\begin{proof}
+Carrier admission projects the displayed tuple of \autoref{def:moore-smith-limit-carrier}. The directed and net rows $D,M$ are visible before any limit read is consumed.
+
+The completion-facing rows are $A,K,T$. The CauchyNet row $A$ records the common-tail compatibility needed by the completion route, the MooreSmithCompletion row $K$ records the endpoint landing, and $T$ lists the finite directed-tail checks used for the endpoint.
+
+The numerical readback rows are $S,Q,R,E$. They expose stream windows, regular-rational readback, dyadic tolerance comparisons, and the terminal endpoint seal.
+
+Finally $H,C,P,N$ transport, replay, source, and name the same packet. Since no other coordinate occurs in the carrier, the NameCert surface cannot appeal to quotient net equality, selected host limits, countable choice, or ambient completion outside these rows.
+\end{proof}
+
+\begin{theorem}[Moore--Smith limit RegSeqRat handoff]
+\label{thm:moore-smith-limit-regseqrat-handoff}
+Every regular-rational or endpoint-facing consumer of an accepted $\MooreSmithLimitUp$ packet factors the limit read through
+$$
+\MooreSmithNetUp,\;\CauchyNetUp
+\longmapsto
+\MooreSmithCompletionUp
+\longmapsto
+\StreamNameUp,\;\RegSeqRatUp,\;\DyadicRatCoreUp .
+$$
+The handoff supplies the endpoint as finite directed-tail NameCert data and exports no quotient equality of nets, selected host limit, countable-choice selector, or ambient completion principle.
+\end{theorem}
+\begin{proof}
+Start with the directed source. The row $D$ exposes the directed comparison surface, and $M$ records the Moore--Smith net values and tail windows read on that surface.
+
+The Cauchy and completion rows $A,K$ are then consumed in order. They place the endpoint behind the displayed CauchyNet compatibility row and the MooreSmithCompletion landing row rather than behind a host limit assertion.
+
+The readback route is finite. Rows $S,Q,R,E$ record the opened stream windows, regular-rational readback, dyadic tolerance comparisons, and endpoint seal. This is the only route by which a regular-rational or endpoint-facing consumer reaches the limit.
+
+Transport, replay, provenance, and local naming through $H,C,P,N$ preserve the same route. The excluded quotient, selected-limit, choice, and ambient-completion principles have no coordinate in the accepted packet.
+\end{proof}
+
+\closureat{MooreSmithLimitUp}{seedStr}
+
+\begin{closurestatus}{\MooreSmithLimitUp}
+  \constructivestory{A $\MooreSmithLimitUp$ packet is generated from a directed Moore--Smith index row, a MooreSmithNet source row, CauchyNet compatibility, a MooreSmithCompletion endpoint landing row, finite tail-convergence ledgers, StreamName windows, RegSeqRat readback, DyadicRatCore tolerance comparisons, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:moore-smith-limit-carrier}, \autoref{thm:moore-smith-limit-namecert-obligations}, and \autoref{thm:moore-smith-limit-regseqrat-handoff} seed the finite directed-net limit route from Moore--Smith source data to regular-rational endpoint readback.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim quotient equality of nets, selected host limits, countable choice, ambient completion, Lean verification, or a standard bridge.}
+  \upgradepath{Obligation closure requires checked carrier admission, directed-net exposure, CauchyNet compatibility, MooreSmithCompletion endpoint landing, finite tail-ledger exactness, readback routing, transport preservation, and local naming for the displayed limit packet.}
+\end{closurestatus}

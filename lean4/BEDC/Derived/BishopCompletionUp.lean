@@ -112,4 +112,30 @@ theorem BishopCompletionCarrier_namecert_obligations [AskSetup] [PackageSetup]
   }
   exact ⟨cert, regularUnary, dyadicUnary, realUnary, filterUnary, universalUnary⟩
 
+theorem BishopCompletionCarrier_regular_real_boundary [AskSetup] [PackageSetup]
+    {R S D E F U H C P N regularRead dyadicRead realRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    UnaryHistory R ∧ UnaryHistory S ∧ UnaryHistory D ∧ UnaryHistory E ∧
+        UnaryHistory F ∧ UnaryHistory U ∧ UnaryHistory H ∧ UnaryHistory C ∧
+          UnaryHistory P ∧ UnaryHistory N ∧ Cont S R regularRead ∧
+            Cont regularRead D dyadicRead ∧ Cont dyadicRead E realRead ∧
+              PkgSig bundle P pkg ∧ PkgSig bundle N pkg ->
+      UnaryHistory regularRead ∧ UnaryHistory dyadicRead ∧ UnaryHistory realRead ∧
+        Cont S R regularRead ∧ Cont regularRead D dyadicRead ∧
+          Cont dyadicRead E realRead ∧ PkgSig bundle P pkg ∧ PkgSig bundle N pkg := by
+  -- BEDC touchpoint anchor: BHist Cont ProbeBundle Pkg UnaryHistory
+  intro carrier
+  obtain ⟨rUnary, sUnary, dUnary, eUnary, _fUnary, _uUnary, _hUnary, _cUnary,
+    _pUnary, _nUnary, regularRoute, dyadicRoute, realRoute, provenancePkg,
+    namePkg⟩ := carrier
+  have regularUnary : UnaryHistory regularRead :=
+    unary_cont_closed sUnary rUnary regularRoute
+  have dyadicUnary : UnaryHistory dyadicRead :=
+    unary_cont_closed regularUnary dUnary dyadicRoute
+  have realUnary : UnaryHistory realRead :=
+    unary_cont_closed dyadicUnary eUnary realRoute
+  exact
+    ⟨regularUnary, dyadicUnary, realUnary, regularRoute, dyadicRoute, realRoute,
+      provenancePkg, namePkg⟩
+
 end BEDC.Derived.BishopCompletionUp
