@@ -160,14 +160,42 @@ Start with a consumer that reads the terminal row $E$. By \autoref{thm:upper-sem
 Transport and replay cannot remove those rows because the accepted carrier exposes only componentwise $\hsame$ movement through $H$ and displayed $\Cont$ replay through $C$. Provenance and local naming then record the same handoff through $P$ and $N$, so the Real-facing route remains finite and visible.
 \end{proof}
 
-\closureat{UpperSemicontinuousUp}{seedStr}
+\begin{theorem}[UpperSemicontinuous sublevel carrier transport]
+\label{thm:uppersemicontinuous-sublevel-carrier-transport}
+Let $U=(X,F,S,W,R,O,H,C,P,N)$ and $U'=(X',F',S',W',R',O',H',C',P',N')$ be accepted $\UpperSemicontinuousUp$ carriers. If the displayed componentwise $\hsame$ rows identify the source histories, graph rows, sublevel rows, StreamName schedules, RegSeqRat readbacks, UpperReal and LocatedReal comparison rows, Real-seal rows, replay rows, provenance rows, and local NameCert rows, then every sublevel carrier read transported from $U$ to $U'$ is still a read of the same finite obligation surface.
+\end{theorem}
+\begin{proof}
+Project the two carriers through \autoref{def:uppersemicontinuous-carrier}. The sublevel carrier surface is not a separate object: it is the joint row package $X,F,S,W,R,O,H,C,P,N$.
+
+Read the transport row $H$. It moves the source, graph, sublevel, StreamName, RegSeqRat, comparison, replay, provenance, and local naming coordinates componentwise. Thus a transported sublevel read preserves the source row $X$, the graph row $F$, and the sublevel ledger $S$ together with the schedule and readback rows $W,R$.
+
+Now replay the transported row through $C$. The displayed $\Cont$ route still passes through the UpperReal, LocatedReal, and terminal $\RealUp$ comparison ledger $O$ before the provenance and naming rows $P,N$ can be consumed. Hence transport preserves the full finite obligation surface and adds no hidden topology, quotient equality, selected limit, trichotomy, countable choice, or real-completeness coordinate.
+\end{proof}
+
+\begin{theorem}[UpperSemicontinuous Real-seal non-escape]
+\label{thm:uppersemicontinuous-real-seal-nonescape}
+Every $\RealUp$-facing upper-bound read of an accepted $\UpperSemicontinuousUp$ packet factors through
+$$
+W,R,O,H,C,P,N .
+$$
+The read may use the displayed source and sublevel rows already admitted by the carrier, but it cannot reach the terminal Real seal through host topology, quotient real equality, selected limits, trichotomy, countable choice, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Start with an upper-bound read that asks for the terminal $\RealUp$ seal. The carrier first exposes the StreamName schedule $W$ and the RegSeqRat readback $R$, so the request is already confined to a finite window before any real-facing comparison is available.
+
+The comparison ledger $O$ is the only row that connects upper-real, located-real, and terminal real data. Therefore the read reaches the seal only after the displayed comparison row has checked the same finite sublevel inspection.
+
+Finally use the structural rows $H,C,P,N$. They transport, replay, source, and name the same route; none of them stores a host topology, quotient equality of reals, selected limit, trichotomy, countable choice, or completeness principle. Thus every Real-facing read remains inside $W,R,O,H,C,P,N$.
+\end{proof}
+
+\closureat{UpperSemicontinuousUp}{obligationStr}
 
 \begin{closurestatus}{\UpperSemicontinuousUp}
   \constructivestory{A $\UpperSemicontinuousUp$ packet is generated from displayed source histories, finite sublevel rows, StreamName schedules, RegSeqRat readbacks, UpperReal and LocatedReal comparison ledgers, RealUp seal rows, componentwise hsame transport, displayed Cont replay, package provenance, and a local NameCert row.}
-  \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:uppersemicontinuous-carrier}, \autoref{thm:uppersemicontinuous-lower-dual}, and \autoref{thm:uppersemicontinuous-finite-window-stability} seed the finite upper-bound certificate over sublevel windows, stream schedules, regular rational readbacks, upper-real and located comparison rows, and the Real seal.}
+  \theoryclosure{\obligationClosure}
+  \scopeclosed{\autoref{def:uppersemicontinuous-carrier}, \autoref{thm:uppersemicontinuous-lower-dual}, \autoref{thm:uppersemicontinuous-finite-window-stability}, \autoref{thm:uppersemicontinuous-sublevel-carrier-transport}, and \autoref{thm:uppersemicontinuous-real-seal-nonescape} bind the finite upper-bound obligation surface over sublevel windows, StreamName schedules, RegSeqRat readbacks, UpperReal and LocatedReal comparison rows, transport, replay, provenance, local naming, and the Real seal.}
   \formalstatus{\unformalizedV}
   \bridgestatus{none}
   \notclaimed{The chapter does not close host topology, quotient real equality, selected limits, trichotomy, countable choice, or completeness of $\RealUp$.}
-  \upgradepath{Obligation closure requires checked carrier admission, sublevel-window exactness, upper-real classifier stability, located readback compatibility, transport replay, provenance, and real-seal non-escape for BEDC.Derived.UpperSemicontinuousUp.}
+  \upgradepath{The next verification step is a Lean carrier and theorem surface for BEDC.Derived.UpperSemicontinuousUp covering sublevel transport, finite-window stability, Real-seal non-escape, replay, provenance, and local naming.}
 \end{closurestatus}
