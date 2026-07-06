@@ -54,6 +54,11 @@ theorem unitarity_line_iff (s : ℂ) (a : PrimeExp) (h : a.val ≠ 0) :
 /-- 反射 `J(s)=1−conj s`(ch23)。 -/
 def J (s : ℂ) : ℂ := 1 - (starRingEnd ℂ) s
 
+/-- **生成式定理(反射对合)**:`J` 是对合 `J (J s) = s`。反射 `s ↦ 1 − conj s` 复合自身
+还原——这与零点四元组 `{s, 1−s, conj s, 1−conj s}` 的对称群结构一致(源文档未单列此对合性)。 -/
+theorem J_involutive (s : ℂ) : J (J s) = s := by
+  simp only [J, map_sub, map_one, Complex.conj_conj]; ring
+
 /-- **命题 23.8**:反射 `J` 的不动线恰为 `Re s = ½`(纯几何,不涉 zeta)。 -/
 theorem J_fixed_iff (s : ℂ) : J s = s ↔ s.re = 1 / 2 := by
   rw [J, Complex.ext_iff]
