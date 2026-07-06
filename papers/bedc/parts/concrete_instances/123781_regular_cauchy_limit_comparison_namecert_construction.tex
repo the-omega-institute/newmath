@@ -1,0 +1,79 @@
+\chapter{A Concrete Naming Certificate for $\RegularCauchyLimitComparisonUp$}
+\label{ch:concrete-instances-regular-cauchy-limit-comparison-namecert}
+\origin{human}
+
+Following Bishop and Bridges constructive analysis, the $\RegularCauchyLimitComparisonUp$ packet names the finite comparison surface for two displayed regular-Cauchy limit presentations. It sits after the StreamName window of \autoref{ch:concrete-instances-streamname-namecert}, the rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the dyadic tolerance core of \autoref{ch:concrete-instances-dyadicratcore-namecert}, and the Real seal of \autoref{ch:concrete-instances-real-namecert}. It also consumes the diagonal-limit witness route of \autoref{ch:concrete-instances-regular-cauchy-limit-readback-namecert}, while keeping comparison finite and separate from quotient stream equality or ambient completeness.
+
+\begin{definition}[Regular Cauchy limit comparison carrier]
+\label{def:regular-cauchy-limit-comparison-carrier}
+A $\RegularCauchyLimitComparisonUp$ carrier is a finite $\BHist$ packet
+$$
+C=(A,B,W,D,R,E,H,Ct,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $A$ is the first displayed regular-Cauchy limit packet, including its source, modulus, diagonal witness, and Real-facing seal request.
+\item $B$ is the second displayed regular-Cauchy limit packet over the same comparison request.
+\item $W$ is the shared finite $\StreamNameUp$ window in which both packets are inspected.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance comparison row, recording the requested precision, slack, endpoint comparison, and retained dyadic budget.
+\item $R$ is the paired $\RegSeqRatUp$ readback row for the two windows selected by $W$.
+\item $E$ is the paired $\RealUp$ seal row reached only after $W,D,R$ have been displayed.
+\item $H$ stores componentwise $\hsame$ transport for $A,B,W,D,R,E$ and the structural rows.
+\item $Ct$ stores displayed $\Cont$ replay from the two limit packets through the shared window, dyadic comparison, readback, and Real seal.
+\item $P$ is the $\Pkg$ provenance over $\RegularCauchyLimitReadbackUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\RegularCauchyLimitComparisonUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for quotient stream equality, a selected limiting real, trichotomy, countable choice, or an ambient completeness theorem for $\RealUp$.
+\end{definition}
+
+\begin{theorem}[Regular Cauchy limit comparison NameCert obligations]
+\label{thm:regular-cauchy-limit-comparison-namecert-obligations}
+For every accepted $\RegularCauchyLimitComparisonUp$ carrier
+$$
+C=(A,B,W,D,R,E,H,Ct,P,N),
+$$
+the local $\NameCert_{\RegularCauchyLimitComparisonUp}$ surface consists exactly of carrier admission for $C$, shared-window exposure through $W$, dyadic tolerance comparison through $D$, paired rational readback through $R$, paired Real seal nonescape through $E$, componentwise transport through $H$, displayed replay through $Ct$, provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier to the tuple of \autoref{def:regular-cauchy-limit-comparison-carrier}. The two limit presentations are the rows $A$ and $B$, and the comparison data available to public consumers is exactly $W,D,R,E,H,Ct,P,N$.
+
+The shared finite window $W$ fixes the StreamName read for both packets. The dyadic row $D$ records the tolerance comparison for that same window, and the paired readback row $R$ exposes only the rational observations displayed by the window.
+
+The Real seal row $E$ is downstream of those rows. It can report the paired seal as a finite read of the two presentations, but the carrier contains no coordinate for quotienting streams, selecting a host limit, invoking trichotomy, or importing ambient completeness.
+
+Finally $H,Ct,P,N$ transport, replay, source, and name the same finite surface. These structural rows do not add analytic content, so the listed obligations exhaust the local $\NameCert$ packet.
+\end{proof}
+
+\begin{theorem}[Regular Cauchy limit comparison L10 route]
+\label{thm:regular-cauchy-limit-comparison-l10-route}
+Every comparison read of an accepted $\RegularCauchyLimitComparisonUp$ carrier factors through the finite route
+$$
+\StreamNameUp\longrightarrow \DyadicRatCoreUp\longrightarrow \RegSeqRatUp\longrightarrow \RealUp .
+$$
+The route exports the shared window, dyadic tolerance comparison, paired readback, Real seal, transport, replay, provenance, and local name. It exports no quotient stream, selected limit, trichotomy, choice principle, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Begin with the accepted carrier $C=(A,B,W,D,R,E,H,Ct,P,N)$. The only window row is $W$, so any comparison consumer must first read the common $\StreamNameUp$ exposure for the two displayed limit packets.
+
+Apply \autoref{thm:regular-cauchy-limit-comparison-namecert-obligations}. It places the dyadic comparison row $D$ after the shared window and before the paired $\RegSeqRatUp$ readback row $R$.
+
+The Real-facing seal $E$ is then available only after $W,D,R$ have been displayed. The structural rows $H,Ct,P,N$ preserve this route under transport, replay, provenance, and local naming.
+
+Since the carrier of \autoref{def:regular-cauchy-limit-comparison-carrier} has no quotient, selector, trichotomy, choice, or completeness coordinate, no accepted comparison read can export any of those stronger endpoints.
+\end{proof}
+
+\falsifiablePrediction{Any accepted comparison consumer that reads a paired Real seal without first exposing the shared StreamName window, DyadicRatCore tolerance comparison, and RegSeqRat readback refutes the $\RegularCauchyLimitComparisonUp$ packet.}
+
+\independenceWitness{regularcauchylimitreadback, dyadicratcore, streamname, regseqrat, real: $\RegularCauchyLimitComparisonUp$ is not bijective to any listed sibling because it stores two displayed limit packets and their shared comparison window in one finite carrier.}
+
+\closureat{RegularCauchyLimitComparisonUp}{seedStr}
+
+\begin{closurestatus}{\RegularCauchyLimitComparisonUp}
+  \constructivestory{A $\RegularCauchyLimitComparisonUp$ packet is generated from two displayed regular-Cauchy limit packets, a shared StreamName window, a DyadicRatCore tolerance comparison, paired RegSeqRat readback, paired RealUp seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:regular-cauchy-limit-comparison-carrier}, \autoref{thm:regular-cauchy-limit-comparison-namecert-obligations}, and \autoref{thm:regular-cauchy-limit-comparison-l10-route} seed the finite comparison route for two regular-Cauchy limit presentations.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close full Real completeness, quotient equality of regular-Cauchy streams, selected host limits, trichotomy, countable choice, Lean checking, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, shared-window exposure, dyadic tolerance comparison, paired readback, Real seal nonescape, transport, replay, provenance, and local naming for BEDC.Derived.RegularCauchyLimitComparisonUp.}
+\end{closurestatus}
