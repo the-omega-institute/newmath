@@ -1639,6 +1639,7 @@ import BEDC.Derived.BrouwerianCounterexampleUp.TasteGate
 import BEDC.Derived.BrownianBridgeUp.TasteGate
 import BEDC.Derived.BrownianUp
 import BEDC.Derived.BrownianUp.FiniteSuffixCarrierRestriction
+import BEDC.Derived.BrzozowskiDerivativeUp
 import BEDC.Derived.BudgetedRealSealRouteUp.NameCertObligations
 import BEDC.Derived.BudgetedRealSealRouteUp.TasteGate
 import BEDC.Derived.BundleUp
@@ -5345,6 +5346,7 @@ import BEDC.Derived.DiniContinuityUp.TasteGate
 import BEDC.Derived.DiniDerivativeUp.TasteGate
 import BEDC.Derived.DiniDerivativeWindowUp.TasteGate
 import BEDC.Derived.DiniFiniteMinimumBudgetUp.TasteGate
+import BEDC.Derived.DiniModulusContinuityUp
 import BEDC.Derived.DiniMonotoneCompactUniformUp.TasteGate
 import BEDC.Derived.DiniTheoremUp.TasteGate
 import BEDC.Derived.DiniUniformConvergenceUp.CompactUniformLimitRoute
@@ -7156,6 +7158,7 @@ import BEDC.Derived.HausdorffDimensionUp.TasteGate
 import BEDC.Derived.HausdorffDistanceUp.TasteGate
 import BEDC.Derived.HausdorffMeasureUp.TasteGate
 import BEDC.Derived.HausdorffMetricUp.TasteGate
+import BEDC.Derived.HausdorffMomentProblemUp
 import BEDC.Derived.HausdorffRealCompletionUp.TasteGate
 import BEDC.Derived.HausdorffReflectionCompletionCounitUp.TasteGate
 import BEDC.Derived.HausdorffReflectionUp.TasteGate
