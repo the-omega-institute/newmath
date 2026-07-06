@@ -20,17 +20,17 @@ date-modified: today
 
 ## 当前观察 (auto-refresh)
 
-> 最后刷新: 2026-07-06T03:36:14Z
+> 最后刷新: 2026-07-06T04:50:14Z
 
-**Daemon 状态**: monitor (monitor cycle 318, adjust_since_research 2, round_counter 38777, last_adjust rule_evolution_completed)
+**Daemon 状态**: monitor (monitor cycle 319, adjust_since_research 2, round_counter 38823, last_adjust rule_evolution_completed)
 
-**待处理 queue** (1396 条 finding):
-- isolated_theorem: 1021 条; 代表样本 `derived`, `derived`, `derived`
+**待处理 queue** (1395 条 finding):
+- isolated_theorem: 1020 条; 代表样本 `derived`, `derived`, `derived`
 - unauthorized_capstone: 306 条; 代表样本 `cauchy`, `helly_theorem`, `metacic_candidate_strong_normalization`
 - low_entropy_template: 69 条; 代表样本 `variation_norm`, `kernelinductiveacceptance`, `polishspace`
 
 **最近 alert 概览** (24h 内):
-- TASTE ALERT category=isolated_theorem: 121 次
+- TASTE ALERT category=isolated_theorem: 113 次
 - TASTE ALERT category=low_entropy_template: 8 次
 - TASTE ALERT category=cycle_exception: 2 次
 - TASTE ALERT category=resolution_json_parse_failed: 1 次
@@ -636,6 +636,8 @@ error: build failed, audit=skipped, phase_d_lint=skipped.
 - 2026-07-06T02:17:38Z: `resolved` `add_downstream_user` for `BEDC.Derived.KelleyficationUp.KelleyficationCarrier_namecert_obligations` (flag `isolated_theorem`, finding `isolated_theorem:derived:BEDC.Derived.KelleyficationUp.KelleyficationCarrier_namecert_obligations:29cfe6b6`). Rationale: The target is not a trivial wrapper: it extracts the core Kelleyfication carrier obligations used by the chapter's NameCert/public-export story, but before this pass it had no Lean-side downstream consumer beyond paper markers. I added KelleyficationCarrier_public_export_route in the same Kelleyfication module; it substantively consumes KelleyficationCarrier_namecert_obligations to build an exported-row SemanticNameCert and UnaryHistory result for the public export route. Gate results: lake_build=ok, audit=ok, phase_d_lint=ok, axiom_purity=ok.
 
 - 2026-07-06T03:35:23Z: `resolved` `add_downstream_user` for `BEDC.Derived.HurwitzApproximationUp.HurwitzApproximationCarrier_namecert_obligations` (flag `isolated_theorem`, finding `isolated_theorem:hurwitzapproximation:BEDC.Derived.HurwitzApproximationUp.HurwitzApproximationCarrier_namecert_obligations:77526c95`). Rationale: The target is not a trivial wrapper: it constructs the Hurwitz SemanticNameCert obligation surface and proves UnaryHistory for the output row, while the paper binds it to the chapter's NameCert-obligation claim. I added a downstream public consumer boundary theorem that invokes this target, carries its certificate forward, and seals the output through the excluded-principle row via Cont and PkgSig. Gate results: lake_build=ok, audit=ok, phase_d_lint=ok, axiom_purity=ok.
+
+- 2026-07-06T04:49:15Z: `resolved` `move_to_staging` for `BEDC.Derived.KelleyficationUp.KelleyficationCarrier_compact_window_exhaustion` (flag `isolated_theorem`, finding `isolated_theorem:derived:BEDC.Derived.KelleyficationUp.KelleyficationCarrier_compact_window_exhaustion:77526c95`). Rationale: The theorem is not a trivial wrapper: it builds a SemanticNameCert for the replayed compact-window route and closes compactRead/reflectedOpen/replayedOpen UnaryHistory obligations. Repo search found no Lean downstream consumer yet, while the Kelleyfication paper chapter uses it as the compact-window exhaustion verification point and nearby paper consumers name Kelleyfication without having Lean carriers. I added an explicit staging comment tying the theorem to the expected CompactlyGeneratedWeakHausdorffUp or CompactOpenExponentialLawUp Lean-side consumer rather than deleting real content or inventing a premature consumer interface. Gate results: lake_build=ok, audit=ok, phase_d_lint=ok, axiom_purity=ok.
 
 ## 注解
 
