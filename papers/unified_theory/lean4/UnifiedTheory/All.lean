@@ -24,6 +24,7 @@ import UnifiedTheory.Golden.GoldenWeightPrimeEdge
 import UnifiedTheory.Golden.NaryDeficit
 import UnifiedTheory.Golden.NaryDeficitFractional
 import UnifiedTheory.Golden.ShiftedZeckendorf
+import UnifiedTheory.Golden.MinusWindowSigned
 import UnifiedTheory.Golden.TraceMap
 import UnifiedTheory.Kernel.LedgerStatus
 import UnifiedTheory.Kernel.Components
