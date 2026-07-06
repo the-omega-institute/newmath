@@ -55,6 +55,42 @@ Finally, transport and replay are componentwise. The row $T$ records relation tr
 \end{proof}
 \leanchecked{BEDC.Derived.LayeredRelationSiteUp.LayeredRelationSiteCarrier\_namecert\_obligations}
 
+\begin{theorem}[LayeredRelationSite relation admission exactness]
+\label{thm:layered-relation-site-relation-admission-exactness}
+For every accepted $\LayeredRelationSiteUp$ carrier $L=(S_A,S_B,R_A,R_B,J,G,T,E,H,C,P,N)$, an accepted relation comparison is read only through the displayed source-site rows $S_A,S_B$ and relation rows $R_A,R_B$. The comparison exports no object identity between sites, no host powerset equality, and no relation coordinate outside the carrier rows of \autoref{def:layered-relation-site-carrier}.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:layered-relation-site-carrier}. The only source-site coordinates are $S_A,S_B$, and the only relation coordinates over them are $R_A,R_B$.
+
+The admission clause in \autoref{thm:layered-relation-site-namecert-obligations} then has a single route. A comparison request first reads the displayed source sites and then reads their displayed relation rows; no other coordinate can supply a relation comparison.
+
+Transport and replay preserve the same boundary. The rows $T,H,E,C$ move and replay accepted comparisons componentwise, while $P,N$ record provenance and local naming. Hence accepted comparisons remain exact over $S_A,S_B,R_A,R_B$ and cannot become site identity, host powerset equality, or an unrecorded relation.
+\end{proof}
+
+\begin{theorem}[LayeredRelationSite refinement replay]
+\label{thm:layered-relation-site-refinement-replay}
+For every accepted $\LayeredRelationSiteUp$ carrier $L=(S_A,S_B,R_A,R_B,J,G,T,E,H,C,P,N)$, every replayed layer correspondence is controlled by the refinement-chain row $J$. The replay may consume the relation transport row $T$ and the replay rows $E,C$, but it cannot introduce an additional layer map, obstruction ledger, or classifier split outside $J$.
+\end{theorem}
+\begin{proof}
+Project \autoref{def:layered-relation-site-carrier}. The row $J$ is the only coordinate that records finite layer correspondence and obstruction rows forcing classifier splits.
+
+Replay starts from that row. The replay coordinates $E,C$ can repeat relation reads, refinement-chain steps, locality-gate decisions, and refusal ledger entries only as displayed in the accepted carrier.
+
+The transport row $T$ and componentwise $\hsame$ row $H$ do not add a second refinement chain. They move the accepted relation and refinement data componentwise. Therefore every replayed layer correspondence remains controlled by $J$, with no additional layer map or obstruction ledger available.
+\end{proof}
+
+\begin{theorem}[LayeredRelationSite locality refusal provenance]
+\label{thm:layered-relation-site-locality-refusal-provenance}
+For every accepted $\LayeredRelationSiteUp$ carrier $L=(S_A,S_B,R_A,R_B,J,G,T,E,H,C,P,N)$, every refused nonlocal read is routed through the locality-gate row $G$, the provenance row $P$, and the displayed replay rows $E,C$. The refusal route exports no global-frame synchronization, compiler semantics, subject-substance, or unrecorded locality oracle.
+\end{theorem}
+\begin{proof}
+Project the carrier. The only locality-gate coordinate is $G$, and the only provenance coordinate is $P$.
+
+A nonlocal read has no accepted relation output row. By the locality-gate obligation of \autoref{thm:layered-relation-site-namecert-obligations}, it must be recorded as a refusal through $G$.
+
+The replay and provenance rows make the refusal auditable. Rows $E,C$ replay the gate decision and refusal ledger, while $P$ records the package provenance over the listed siblings and local relation-site dependencies. Since no other locality coordinate is present, the refused read cannot pass through global-frame synchronization, compiler semantics, subject-substance, or an unrecorded oracle.
+\end{proof}
+
 \begin{theorem}[LayeredRelationSite independence boundary]
 \label{thm:layered-relation-site-independence-boundary}
 The siblings $\RelationalFrameAuditUp$, $\ObserverHsameClassifierUp$, $\SheafUp$, and $\CertificateCompilerUp$ are independence witnesses for $\LayeredRelationSiteUp$. No bijection from any one sibling carrier to the carrier of \autoref{def:layered-relation-site-carrier} preserves all carrier rows and all five obligations of \autoref{thm:layered-relation-site-namecert-obligations}.
@@ -80,16 +116,16 @@ The downstream gate therefore does not add a new relation semantics. It records 
 \end{proof}
 \leanchecked{BEDC.Derived.LayeredRelationSiteUp.taste\_gate}
 
-\closureat{LayeredRelationSiteUp}{seedStr}
+\closureat{LayeredRelationSiteUp}{obligationStr}
 
 \begin{closurestatus}{\LayeredRelationSiteUp}
   \constructivestory{A $\LayeredRelationSiteUp$ packet is generated from two source-site rows, paired relation rows, a refinement-chain row, a locality-gate refusal row, relation transport, replay, componentwise $\hsame$ transport, displayed $\Cont$ routes, $\Pkg$ provenance, and a local $\NameCert$ row.}
-  \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:layered-relation-site-carrier}, \autoref{thm:layered-relation-site-namecert-obligations}, and \autoref{thm:layered-relation-site-independence-boundary} bind the layered relation certificate as a finite relation-site NameCert packet over source-site rows, relation rows, refinement chains, locality gates, refusal ledgers, transport, replay, provenance, and local naming.}
+  \theoryclosure{\obligationClosure}
+  \scopeclosed{\autoref{def:layered-relation-site-carrier}, \autoref{thm:layered-relation-site-namecert-obligations}, \autoref{thm:layered-relation-site-relation-admission-exactness}, \autoref{thm:layered-relation-site-refinement-replay}, \autoref{thm:layered-relation-site-locality-refusal-provenance}, and \autoref{thm:layered-relation-site-independence-boundary} bind the layered relation certificate as a finite relation-site obligation surface over source-site rows, relation rows, refinement chains, locality gates, refusal ledgers, transport, replay, provenance, and local naming.}
   \formalstatus{\theoremCheckedV}
   \leantarget{BEDC.Derived.LayeredRelationSiteUp.taste\_gate}
   \bridgestatus{none}
   \origin{ai}
   \notclaimed{This chapter does not close object identity between related sites, empirical physics, subject-substance, global-frame synchronization, host powerset equality, compiler semantics, or bridge checking.}
-  \upgradepath{Scoped closure requires checked paper-side exactness for relation admission, refinement-chain replay, locality-gate refusal, dependency provenance, and downstream consumer boundaries over the same finite rows.}
+  \upgradepath{Scoped closure requires full paper-side discharge of relation admission, refinement-chain replay, locality-gate refusal, dependency provenance, and downstream consumer boundaries over the same finite rows.}
 \end{closurestatus}
