@@ -26,7 +26,7 @@
 \maketitle
 
 \begin{abstract}
-We report the portion of the PZG--BEDC dynamic ontology kernel formalized in Lean 4 with mathlib.  PZG denotes prime-axis Zeckendorf coding: each prime axis carries a finite Zeckendorf word, and decoding first turns those words into prime exponents and then reconstructs a positive natural number.  The checked development covers 40 Lean modules: the finite generation layer, Newman normal forms, prime-axis factorization and Euclid escape, Zeckendorf and PZG bijections, finite golden-ratio algebra, deficit ledgers, Cassini--Fricke trace conservation, finite readings and two-square classifiers, Kleene/Cantor/Gödel barriers for self-coding, cost and hidden-fiber rigidity, critical-line reflection algebra, Euler products, no-zero-line zeta facts, completed zeta functional equations, and the RH ledger equivalence.  Every mathematical assertion labeled as machine checked below names an actual Lean declaration under \lean{papers/unified_theory/lean4/UnifiedTheory}.  The RH result is an equivalence with mathlib's \lean{RiemannHypothesis}, not a proof of RH; quasicrystal zeta, explicit-formula analysis, positivity bridges, and open leaves such as O-5 and O-6 remain outside the checked-result column.  The Lean project is mathlib-based and isolated from the mathlib-free BEDC core; the stated reproducibility surface is the branch \lean{feat/unified-theory-mathlib}, with the full project check given by \lean{lake build}.
+We report the portion of the PZG--BEDC dynamic ontology kernel formalized in Lean 4 with mathlib.  PZG denotes prime-axis Zeckendorf coding: each prime axis carries a finite Zeckendorf word, and decoding first turns those words into prime exponents and then reconstructs a positive natural number.  The checked development covers 40 content modules plus the aggregation module: the finite generation layer, Newman normal forms, prime-axis factorization and Euclid escape, Zeckendorf and PZG bijections, finite golden-ratio algebra, deficit and golden-jump ledgers, Cassini--Fricke trace conservation, finite readings and two-square classifiers, Kleene/Cantor/Gödel barriers for self-coding, cost and hidden-fiber rigidity, critical-line reflection algebra, Euler products, no-zero-line zeta facts, completed zeta functional equations, and the RH ledger equivalence.  The generated-results section records ten machine-checked additions, including two oracle-suggested conjectures certified locally after proposal.  Every mathematical assertion labeled as machine checked below names an actual Lean declaration under \lean{papers/unified_theory/lean4/UnifiedTheory}.  The RH result is an equivalence with mathlib's \lean{RiemannHypothesis}, not a proof of RH; quasicrystal zeta, explicit-formula analysis, positivity bridges, and open leaves such as O-5 and O-6 remain outside the checked-result column.  The Lean project is mathlib-based and isolated from the mathlib-free BEDC core; the stated reproducibility surface is the branch \lean{feat/unified-theory-mathlib}, with the full project check given by \lean{lake build}.
 \end{abstract}
 
 \section{Introduction}
@@ -692,37 +692,40 @@ These are the checked tail-additivity and squeeze facts 12.4--12.5.
 
 \section{\texorpdfstring{Generated Results (intuition$\to$formalization loop)}{Generated Results (intuition to formalization loop)}}
 
-The formalization cycle did more than ingest source-document theorems.  It generated new checked statements, then fed them back into the paper as mathematical structure discovered by the intuition$\to$formalization$\to$paper loop.
+The formalization cycle did more than ingest source-document theorems.  It now has two idea sources: the local intuition$\to$formalization loop, and a side-channel oracle loop in which ChatGPT Pro via omega-oracle proposes candidate statements.  The oracle is only a conjecture source; a result enters this paper only after local Lean certification, so the workflow is multi-model assistance at the research-search layer rather than a replacement for kernel checking.
+
+\subsection*{Own-intuition results}
 
 \begin{enumerate}[label=(G\arabic*)]
-  \item \textbf{Sharp Beatty deficit range.}  The theorem
-  $$
-    \lean{UnifiedTheory.deficit_trichotomy_sharp}
-  $$
-  gives witnesses for all three values: $cDef(0,0)=0$, $cDef(1,1)=1$, and $cDef(2,2)=-1$.  With \lean{UnifiedTheory.cDef_mem}, the range is exactly $\{-1,0,1\}$, so the trichotomy is sharp.
-  \item \textbf{Cassini--Fricke nondegeneracy.}  The theorem
-  $$
-    \lean{UnifiedTheory.cassini_fricke_ne_zero}
-  $$
-  proves that the invariant is nonzero exactly when $x\ne0$ and $y\ne0$, separating nontrivial Fibonacci-Hamiltonian parameters from the degenerate track $xy=0$.
-  \item \textbf{$n$-ary ledger composition.}  The theorem
-  $$
-    \lean{UnifiedTheory.Cn_append}
-  $$
-  states $C_n(as{+}{+}bs)=C_n(as)+C_n(bs)+cDef(as.sum,bs.sum)$.  It records the coboundary composition law for concatenated finite ledgers.
-  \item \textbf{Gödel-code growth.}  The theorem
-  $$
-    \lean{UnifiedTheory.SelfCode.godelEncode_ge}
-  $$
-  proves $2^{\mathrm{length}(l)}\le \mathrm{godelEncode}(l)$, an exponential lower bound for arithmeticized self-code registers.
-  \item \textbf{Critical-side sign test.}  The theorems
+  \item \textbf{Sharp Beatty deficit range.}  \lean{UnifiedTheory.deficit_trichotomy_sharp} gives witnesses for all three values: $cDef(0,0)=0$, $cDef(1,1)=1$, and $cDef(2,2)=-1$.  With \lean{UnifiedTheory.cDef_mem}, the range is exactly $\{-1,0,1\}$.
+  \item \textbf{Cassini--Fricke nondegeneracy.}  \lean{UnifiedTheory.cassini_fricke_ne_zero} proves that the invariant is nonzero exactly when $x\ne0$ and $y\ne0$, separating nontrivial Fibonacci-Hamiltonian parameters from the degenerate track $xy=0$.
+  \item \textbf{$n$-ary ledger composition.}  \lean{UnifiedTheory.Cn_append} states $C_n(as{+}{+}bs)=C_n(as)+C_n(bs)+cDef(as.sum,bs.sum)$, the coboundary composition law for concatenated finite ledgers.
+  \item \textbf{Gödel-code growth.}  The theorem $\lean{UnifiedTheory.SelfCode.godelEncode_ge}$ proves $2^{\mathrm{length}(l)}\le \mathrm{godelEncode}(l)$, an exponential lower bound for arithmeticized self-code registers.
+  \item \textbf{Critical-side sign test.}  The declarations
   $$
     \begin{gathered}
     \lean{UnifiedTheory.Lambda_pos_iff}\\
     \lean{UnifiedTheory.Lambda_neg_iff}
     \end{gathered}
   $$
-  prove $0<\Lambda_s(a)\Longleftrightarrow \operatorname{Re}(s)>1/2$ and $\Lambda_s(a)<0\Longleftrightarrow \operatorname{Re}(s)<1/2$ for nontrivial states.  The ledger records the side of the critical line pointwise, without asserting that zeta zeros lie on that line.
+  prove $0<\Lambda_s(a)\Longleftrightarrow \operatorname{Re}(s)>1/2$ and $\Lambda_s(a)<0\Longleftrightarrow \operatorname{Re}(s)<1/2$ for nontrivial states, without asserting that zeta zeros lie on the line.
+  \item \textbf{Critical reflection is involutive.}  \lean{UnifiedTheory.J_involutive} proves $J(J(s))=s$ for the reflection $J(s)=1-\overline{s}$, giving the structural involution behind the zero-quartet symmetry ledger.
+  \item \textbf{Normalized PZG addition laws.}  The declarations
+  $$
+    \begin{gathered}
+    \lean{UnifiedTheory.PZGTable.normAdd_comm}\\
+    \lean{UnifiedTheory.PZGTable.normAdd_assoc}
+    \end{gathered}
+  $$
+  certify commutativity and associativity through the decode equivalence, matching the free commutative prime-axis monoid behavior of theorem 4.4.
+  \item \textbf{Phase readings never vanish.}  $\lean{UnifiedTheory.phase_ne_zero}$ proves $\Phi_s(a)=\exp(-sL(a))\ne0$.  In this formal layer, a zero is a projected cancellation phenomenon, not disappearance of the underlying phase vector.
+\end{enumerate}
+
+\subsection*{Oracle-suggested results}
+
+\begin{enumerate}[label=(O\arabic*)]
+  \item \textbf{Beatty deficit as a $\tau$-floor cocycle.}  $\lean{UnifiedTheory.cDef_eq_floor_tau}$ proves $cDef(a,b)=\lfloor(a+1)\tau\rfloor+\lfloor(b+1)\tau\rfloor-\lfloor(a+b+1)\tau\rfloor$, with $\tau=\phiG-1=1/\phiG$.  Using $S(n)=n+\lfloor(n+1)\tau\rfloor$, the integer parts cancel and the deficit is controlled by the fractional rotation.
+  \item \textbf{Exact golden-jump window telescope.}  \lean{UnifiedTheory.goldJump_window_exact} proves that $goldJump(n)=S(n+1)-S(n)-1=\lfloor(n+2)\tau\rfloor-\lfloor(n+1)\tau\rfloor$ has length-$N$ window sum $\lfloor(m+N+1)\tau\rfloor-\lfloor(m+1)\tau\rfloor$.  This is the finite Sturmian balance-word telescope suggested by the oracle and then certified locally.
 \end{enumerate}
 
 \section{Scope and Honesty}
