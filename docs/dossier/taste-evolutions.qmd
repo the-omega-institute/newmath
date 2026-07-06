@@ -20,18 +20,18 @@ date-modified: today
 
 ## 当前观察 (auto-refresh)
 
-> 最后刷新: 2026-07-06T06:07:45Z
+> 最后刷新: 2026-07-06T07:26:58Z
 
-**Daemon 状态**: monitor (monitor cycle 320, adjust_since_research 2, round_counter 38862, last_adjust rule_evolution_completed)
+**Daemon 状态**: monitor (monitor cycle 321, adjust_since_research 2, round_counter 38892, last_adjust rule_evolution_completed)
 
-**待处理 queue** (1404 条 finding):
-- isolated_theorem: 1029 条; 代表样本 `derived`, `derived`, `derived`
+**待处理 queue** (1415 条 finding):
+- isolated_theorem: 1040 条; 代表样本 `derived`, `derived`, `derived`
 - unauthorized_capstone: 306 条; 代表样本 `cauchy`, `helly_theorem`, `metacic_candidate_strong_normalization`
 - low_entropy_template: 69 条; 代表样本 `variation_norm`, `kernelinductiveacceptance`, `polishspace`
 
 **最近 alert 概览** (24h 内):
-- TASTE ALERT category=isolated_theorem: 109 次
-- TASTE ALERT category=low_entropy_template: 8 次
+- TASTE ALERT category=isolated_theorem: 104 次
+- TASTE ALERT category=low_entropy_template: 7 次
 - TASTE ALERT category=cycle_exception: 2 次
 - TASTE ALERT category=resolution_json_parse_failed: 1 次
 
@@ -640,6 +640,8 @@ error: build failed, audit=skipped, phase_d_lint=skipped.
 - 2026-07-06T04:49:15Z: `resolved` `move_to_staging` for `BEDC.Derived.KelleyficationUp.KelleyficationCarrier_compact_window_exhaustion` (flag `isolated_theorem`, finding `isolated_theorem:derived:BEDC.Derived.KelleyficationUp.KelleyficationCarrier_compact_window_exhaustion:77526c95`). Rationale: The theorem is not a trivial wrapper: it builds a SemanticNameCert for the replayed compact-window route and closes compactRead/reflectedOpen/replayedOpen UnaryHistory obligations. Repo search found no Lean downstream consumer yet, while the Kelleyfication paper chapter uses it as the compact-window exhaustion verification point and nearby paper consumers name Kelleyfication without having Lean carriers. I added an explicit staging comment tying the theorem to the expected CompactlyGeneratedWeakHausdorffUp or CompactOpenExponentialLawUp Lean-side consumer rather than deleting real content or inventing a premature consumer interface. Gate results: lake_build=ok, audit=ok, phase_d_lint=ok, axiom_purity=ok.
 
 - 2026-07-06T06:06:56Z: `resolved` `add_downstream_user` for `BEDC.Derived.HellySelectionUp.HellySelection_subsequence_handoff` (flag `isolated_theorem`, finding `isolated_theorem:hellyselection:BEDC.Derived.HellySelectionUp.HellySelection_subsequence_handoff:42658657`). Rationale: The theorem has real BEDC content matching the paper's Helly selection subsequence-handoff claim, and deleting it would remove the checked bridge from selector/readback/seal/replay rows to a SemanticNameCert. Repository search showed no existing Lean downstream consumer, so I added a sibling consumer theorem, BEDC.Derived.HellySelectionUp.HellySelection_replay_ledger_policy_witness, which calls HellySelection_subsequence_handoff and extracts the replay ledger policy witness through semanticNameCert_ledger_policy_witness. Gate results: lake_build=ok, audit=ok, phase_d_lint=ok, axiom_purity=ok.
+
+- 2026-07-06T07:26:10Z: `resolved` `add_downstream_user` for `BEDC.Derived.HellySelectionUp.HellySelection_finite_variation_window_handoff` (flag `isolated_theorem`, finding `isolated_theorem:hellyselection:BEDC.Derived.HellySelectionUp.HellySelection_finite_variation_window_handoff:42658657`). Rationale: The target is structurally sound: it combines the bounded-variation finite-window route with the selected-read and Real-seal route into a SemanticNameCert carrying boundedRead, selectedRead, and sealedRead unary evidence. Repo search showed no Lean consumer, only the declaration and paper marker, so I placed a sibling consumer in ReplayLedgerPolicyWitness.lean that calls this handoff and extracts the sealedRead ledger policy witness through semanticNameCert_ledger_policy_witness, tying the theorem into the existing NameCert kernel structure. Gate results: lake_build=ok, audit=ok, phase_d_lint=ok, axiom_purity=ok.
 
 ## 注解
 
