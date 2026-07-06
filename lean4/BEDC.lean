@@ -3159,6 +3159,7 @@ import BEDC.Derived.ChoiceRecipeLedgerUp
 import BEDC.Derived.ChoiceRecipeLedgerUp.MaturePackage
 import BEDC.Derived.ChoiceSequenceRealUp
 import BEDC.Derived.ChoiceSequenceRealUp.TasteGate
+import BEDC.Derived.ChoiceSequenceRealizabilityUp.TasteGate
 import BEDC.Derived.ChoiceWindowSequenceUp.TasteGate
 import BEDC.Derived.ChoquetCompleteSpaceUp.TasteGate
 import BEDC.Derived.ChoquetGameUp.TasteGate
