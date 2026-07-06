@@ -319,6 +319,30 @@ is source data: it is not obtained by first reading a fixed-half zero
 divisor and then placing atoms at the squared ordinates.
 \end{definition}
 
+\begin{lemma}[Finite pole-location kernel]
+\label{lem:rh-stieltjes-pole-location-kernel}
+Write a candidate zero as $\tfrac12+w$ and shift to the source variable
+$\lambda=w^2-1$, so that $\mathsf{XiStieltjesLogDerivative}$ over $[1,\infty)$
+admits poles only on the real ray $(-\infty,-1]$.  For off-critical $w$, that
+is $\Re(w)\neq0$, the shifted candidate cannot land there:
+$$
+\Re(w)\neq0
+\quad\Longrightarrow\quad
+w^2-1\notin(-\infty,-1].
+$$
+Concretely, with $w=a+ib$ and $a\neq0$, reality forces $2ab=0$ hence $b=0$,
+and then $w^2-1=a^2-1>-1$.  This is the finite rational-algebraic core of the
+off-line pole exclusion, independent of any analytic input.
+\end{lemma}
+\leanchecked{BEDC.Derived.RHRoute.StieltjesPitExclusion.offCritical\_pit\_exclusion}
+
+The lemma is the only kernel-checked step here.  It does \emph{not} supply
+$\mathsf{XiStieltjesLogDerivative}$: constructing the positive source measure
+$\nu$ from Euler, archimedean, and rational-boundary rows, so that $S_\xi$ is a
+positive Stieltjes transform, remains the analytic obligation.  That
+source-positivity row carries the full fixed-half arithmetic weight of the
+route; it is recorded here as a target and is not established.
+
 \begin{theorem}[Stieltjes row gives the xi Herglotz row]
 \label{thm:rh-xi-stieltjes-gives-xi-herglotz}
 If $\mathsf{XiStieltjesLogDerivative}$ holds, then
