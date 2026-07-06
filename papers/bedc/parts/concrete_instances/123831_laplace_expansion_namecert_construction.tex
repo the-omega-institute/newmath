@@ -1,0 +1,96 @@
+\chapter{A Concrete Naming Certificate for $\LaplaceExpansionUp$}
+\label{ch:concrete-instances-laplace-expansion-namecert}
+\origin{human}
+
+Following Laplace's cofactor expansion and standard finite-dimensional linear algebra, the $\LaplaceExpansionUp$ packet records the finite route by which a displayed square matrix row exposes a determinant read through one chosen row or column of cofactors. It consumes the finite matrix carrier of \autoref{ch:concrete-instances-matrix-namecert}, the determinant surface of \autoref{ch:concrete-instances-determinant-namecert}, and the finite permutation-sign discipline of \autoref{ch:concrete-instances-permutation-namecert}. The packet names only displayed minors, sign rows, cofactor products, determinant handoff, transport, replay, provenance, and local naming; it is not a host determinant algorithm, quotient matrix equality, selected basis theorem, or ambient linear-algebra oracle.
+
+\begin{definition}[Laplace expansion carrier]
+\label{def:laplace-expansion-carrier}
+A $\LaplaceExpansionUp$ carrier is a finite $\BHist$ packet
+$$
+L=(M,i,C,S,D,H,R,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $M$ is the consumed $\MatrixUp$ row, including the square shape, bounded row and column indices, and finite entry readbacks.
+\item $i$ is the chosen expansion index, recorded either as a displayed row index or as a displayed column index of $M$.
+\item $C$ is the cofactor-row ledger. For each displayed partner index it records the deleted row, deleted column, minor matrix row, selected entry of $M$, and the product row used by the cofactor term.
+\item $S$ is the sign-row ledger, read through the finite parity route of $\PermutationUp$ and recording the displayed $(-1)^{i+j}$ sign for each cofactor term.
+\item $D$ is the determinant handoff row, reading each minor determinant and the terminal determinant of $M$ through $\DeterminantUp$.
+\item $H$ records componentwise $\hsame$ transport for the matrix, expansion index, cofactor rows, sign rows, determinant rows, replay, provenance, and local naming.
+\item $R$ records displayed $\Cont$ replay from a determinant-facing consumer through $M,i,C,S,D,H,P,N$.
+\item $P$ is the $\Pkg$ provenance over $\LaplaceExpansionUp$, $\MatrixUp$, $\DeterminantUp$, $\PermutationUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\LaplaceExpansionUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through these rows. It has no coordinate for host matrix equality, ambient determinant computation, an unlogged cofactor deletion, a selected external basis, quotient equality of permutations, or a completed linear-algebra structure outside the displayed finite rows.
+\end{definition}
+
+\begin{theorem}[Laplace expansion NameCert obligations]
+\label{thm:laplace-expansion-namecert-obligations}
+For every accepted $\LaplaceExpansionUp$ carrier
+$$
+L=(M,i,C,S,D,H,R,P,N),
+$$
+the local $\NameCert_{\LaplaceExpansionUp}$ surface consists exactly of carrier admission for the displayed packet; square-matrix exposure through $M$; expansion-index exposure through $i$; cofactor minor and entry exposure through $C$; finite sign exposure through $S$; determinant-source and determinant-target handoff through $D$; componentwise $\hsame$ transport through $H$; displayed $\Cont$ replay through $R$; $\Pkg$ provenance through $P$; and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:laplace-expansion-carrier}. The matrix row, expansion index, cofactor ledger, sign ledger, determinant handoff, transport, replay, provenance, and local naming are the complete list of coordinates.
+
+The matrix and cofactor data are finite. The row $M$ supplies the square shape and entry readbacks, while $i$ fixes the displayed expansion direction. The row $C$ then records each minor by deleting one displayed row and one displayed column, not by invoking a host submatrix operation.
+
+The sign and determinant rows are also displayed. The row $S$ reads finite parity data through $\PermutationUp$, and $D$ reads minor determinants and the terminal determinant through $\DeterminantUp$.
+
+Finally $H,R,P,N$ transport, replay, source, and name the same finite route. Since no further carrier coordinate exists, the listed rows exhaust the local NameCert obligations.
+\end{proof}
+
+\begin{theorem}[Laplace expansion cofactor route]
+\label{thm:laplace-expansion-cofactor-route}
+Every cofactor-facing read of an accepted $\LaplaceExpansionUp$ carrier factors through the finite route
+$$
+\MatrixUp,\ i,\ C,\ \PermutationUp
+  \longmapsto S,D,H,R,P,N .
+$$
+The route exposes each selected entry, deleted row, deleted column, minor matrix, sign row, and cofactor term before any determinant consumer can use the expansion.
+\end{theorem}
+\begin{proof}
+Start with $M$ and $i$. These rows fix the square matrix and the chosen row or column along which the expansion is read.
+
+Read the cofactor ledger $C$. Each cofactor term is attached to one displayed partner index and records the selected entry, the deleted row and column, and the finite minor matrix row. There is no unlogged deletion operation.
+
+Read $S$ and $D$ next. The sign row supplies the parity sign for the same term, and the determinant handoff row attaches the minor determinant read to the terminal determinant route.
+
+Thus every cofactor read passes through displayed finite rows before a determinant consumer sees it. The structural rows $H,R,P,N$ preserve that same route and add no host matrix equality or ambient determinant algorithm.
+\end{proof}
+
+\begin{theorem}[Laplace expansion determinant handoff]
+\label{thm:laplace-expansion-determinant-handoff}
+Every determinant-facing consumer of an accepted $\LaplaceExpansionUp$ carrier must read the determinant handoff through
+$$
+M,i,C,S,D \longmapsto H,R,P,N .
+$$
+The handoff consumes the $\MatrixUp$ source, $\PermutationUp$ sign rows, and $\DeterminantUp$ minor and terminal determinant rows; it exports no host determinant algorithm, quotient matrix equality, selected basis theorem, unbounded summation, or ambient linear-algebra completeness.
+\end{theorem}
+\begin{proof}
+Project the determinant handoff row $D$. By carrier admission it is attached to the matrix row $M$, expansion index $i$, cofactor ledger $C$, and sign ledger $S$.
+
+Apply \autoref{thm:laplace-expansion-cofactor-route}. Each summand in the expansion is read only after the selected entry, minor, and sign rows are displayed.
+
+The terminal determinant read is then transported and replayed through $H$ and $R$, with $P$ and $N$ recording provenance and local naming. Since the carrier has no coordinate for host determinant algorithms, quotient matrix equality, selected bases, unbounded sums, or ambient completeness, the determinant handoff is exactly the displayed finite Laplace route.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\LaplaceExpansionUp$ determinant consumer that reaches $D$ without first displaying $M,i,C,S$ refutes the carrier surface.}
+
+\independenceWitness{matrix, determinant, permutation: no listed sibling supplies the whole packet $L=(M,i,C,S,D,H,R,P,N)$, because MatrixUp supplies the square entry surface, DeterminantUp supplies determinant handoff rows, and PermutationUp supplies finite parity rows, while this chapter binds them into one cofactor-expansion certificate.}
+
+\closureat{LaplaceExpansionUp}{seedStr}
+
+\begin{closurestatus}{\LaplaceExpansionUp}
+  \constructivestory{A $\LaplaceExpansionUp$ packet is generated from a square MatrixUp row, a displayed expansion index, cofactor minor rows, finite sign rows, DeterminantUp minor and terminal determinant handoff rows, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:laplace-expansion-carrier}, \autoref{thm:laplace-expansion-namecert-obligations}, \autoref{thm:laplace-expansion-cofactor-route}, and \autoref{thm:laplace-expansion-determinant-handoff} seed the finite cofactor-expansion route over MatrixUp, DeterminantUp, PermutationUp, BHist, hsame, Cont, Pkg, and NameCert rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \origin{human}
+  \notclaimed{This chapter does not close a host determinant algorithm, quotient matrix equality, selected basis theorem, unbounded summation, ambient linear-algebra completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, cofactor ledger exactness, sign-row replay, determinant handoff, transport stability, provenance, and local naming for BEDC.Derived.LaplaceExpansionUp.}
+\end{closurestatus}
