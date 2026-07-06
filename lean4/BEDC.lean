@@ -1375,6 +1375,7 @@ import BEDC.Derived.BoundedIntervalCauchySubsequenceUp.TasteGate
 import BEDC.Derived.BoundedIntervalProjectionUp.TasteGate
 import BEDC.Derived.BoundedInverseTheoremUp.TasteGate
 import BEDC.Derived.BoundedLinearFunctionalUp.TasteGate
+import BEDC.Derived.BoundedLinearOperatorUp.CompositionClosure
 import BEDC.Derived.BoundedLinearOperatorUp.TasteGate
 import BEDC.Derived.BoundedMetricSpaceUp.TasteGate
 import BEDC.Derived.BoundedMonotoneCauchyWitnessUp
@@ -13352,6 +13353,8 @@ import BEDC.Derived.TheoremGapRegistryUp.GapGateCoverage
 import BEDC.Derived.TheoremGapRegistryUp.PublicExportSurface
 import BEDC.Derived.TheoremGapRegistryUp.StrengthGate
 import BEDC.Derived.TheoremGapRegistryUp.TasteGate
+import BEDC.Derived.TheorySelfClassifierUp.CarrierObligation
+import BEDC.Derived.TheorySelfClassifierUp.ClassifierObligation
 import BEDC.Derived.TheorySelfClassifierUp.FiveRowDeterminacy
 import BEDC.Derived.TheorySelfClassifierUp.LedgerRowInversion
 import BEDC.Derived.TheorySelfClassifierUp.Nonescape
