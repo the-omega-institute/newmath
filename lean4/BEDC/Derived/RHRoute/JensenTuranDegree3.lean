@@ -3,7 +3,6 @@ import BEDC.Derived.RHRoute.JensenTuranDegree2
 
 namespace BEDC.Derived.RHRoute.JensenTuranDegree3
 
-open BEDC.Algebra.Rel (RelCommRing)
 open BEDC.Algebra.FiniteFold
 open BEDC.Derived.RationalUp
 open BEDC.Derived.RationalOrderArithUp
@@ -116,40 +115,38 @@ private theorem ratMul_zero_left_local (x : Rat) :
     RatEq (ratMul ratZero x) ratZero :=
   RatEq_trans _ _ _ (ratMul_comm ratZero x) (ratMul_zero_right_local x)
 
-private def ratRing : RelCommRing Rat RatEq where
-  zero := ratZero
-  one := ratOne
-  add := ratAdd
-  mul := ratMul
-  neg := ratNeg
-  refl := RatEq_refl
-  symm := RatEq_symm
-  trans := by
-    intro _ _ _
-    exact RatEq_trans _ _ _
-  add_congr := by
-    intro _ _ _ _ hleft hright
-    exact ratAdd_respects hleft hright
-  mul_congr := by
-    intro _ _ _ _ hleft hright
-    exact ratMul_respects hleft hright
-  neg_congr := by
-    intro _ _ h
-    exact ratNeg_respects h
-  add_assoc := BEDC.Derived.LocatedReal.ratAdd_assoc_local
-  add_comm := ratAdd_comm
-  add_zero := ratAdd_zero_right
-  zero_add := ratZero_add_left
-  add_neg := BEDC.Derived.LocatedReal.ratAdd_neg_local
-  neg_add := BEDC.Derived.LocatedReal.ratNeg_add_local
-  mul_assoc := ratMul_assoc
-  mul_one := ratMul_one_right
-  one_mul := ratOne_mul_left
-  mul_zero := ratMul_zero_right_local
-  zero_mul := ratMul_zero_left_local
-  left_distrib := BEDC.Real.RatNumKernel.ratMul_add_left
-  right_distrib := BEDC.Real.RatNumKernel.ratMul_add_right
-  mul_comm := ratMul_comm
+private theorem ratNeg_zero_local :
+    RatEq (ratNeg ratZero) ratZero := by
+  apply ratEq_of_num_den_intEq
+  · unfold ratNeg ratZero intToRat
+    change IntEq (IntNeg intZero) intZero
+    exact BEDC.Algebra.Rel.IntegerUp_RelCommRing.neg_zero
+  · unfold ratNeg ratZero ratDenInt intToRat
+    exact IntEq_refl _
+
+private theorem ratMul_neg_right_local (x y : Rat) :
+    RatEq (ratMul x (ratNeg y)) (ratNeg (ratMul x y)) := by
+  apply ratEq_of_num_den_intEq
+  · unfold ratMul ratNeg
+    exact BEDC.Algebra.Rel.IntegerUp_mul_neg x.num y.num
+  · unfold ratMul ratNeg ratDenInt
+    exact IntEq_refl _
+
+private theorem ratMul_neg_left_local (x y : Rat) :
+    RatEq (ratMul (ratNeg x) y) (ratNeg (ratMul x y)) := by
+  exact RatEq_trans _ _ _
+    (ratMul_comm (ratNeg x) y)
+    (RatEq_trans _ _ _
+      (ratMul_neg_right_local y x)
+      (ratNeg_respects (ratMul_comm y x)))
+
+private theorem ratNeg_neg_mul_neg_local (x y : Rat) :
+    RatEq (ratMul (ratNeg x) (ratNeg y)) (ratMul x y) := by
+  exact RatEq_trans _ _ _
+    (ratMul_neg_left_local x (ratNeg y))
+    (RatEq_trans _ _ _
+      (ratNeg_respects (ratMul_neg_right_local x y))
+      (BEDC.Derived.LocatedReal.ratNeg_neg_local (ratMul x y)))
 
 private inductive RExpr where
   | var : Nat -> RExpr
@@ -548,15 +545,15 @@ private theorem rTermEval_mul (vars : Nat -> Rat) (t u : RTerm) :
           · exact rMonoEval_append vars tVars uVars
           · exact RatEq_trans _ _ _
               (ratNeg_respects (rMonoEval_append vars tVars uVars))
-              (RatEq_symm (ratRing.mul_neg (rMonoEval vars tVars)
+              (RatEq_symm (ratMul_neg_right_local (rMonoEval vars tVars)
                 (rMonoEval vars uVars)))
           · exact RatEq_trans _ _ _
               (ratNeg_respects (rMonoEval_append vars tVars uVars))
-              (RatEq_symm (ratRing.neg_mul (rMonoEval vars tVars)
+              (RatEq_symm (ratMul_neg_left_local (rMonoEval vars tVars)
                 (rMonoEval vars uVars)))
           · exact RatEq_trans _ _ _
               (rMonoEval_append vars tVars uVars)
-              (RatEq_symm (ratRing.neg_neg_mul_neg
+              (RatEq_symm (ratNeg_neg_mul_neg_local
                 (rMonoEval vars tVars) (rMonoEval vars uVars)))
 
 private theorem rSum_neg (vars : Nat -> Rat) :
@@ -564,7 +561,7 @@ private theorem rSum_neg (vars : Nat -> Rat) :
       RatEq (rSumTerms vars (List.map rTermNeg terms))
         (ratNeg (rSumTerms vars terms))
   | [] => by
-      exact RatEq_symm ratRing.neg_zero
+      exact RatEq_symm ratNeg_zero_local
   | t :: ts => by
       exact RatEq_trans _ _ _
         (ratAdd_respects (rTermEval_neg vars t) (rSum_neg vars ts))
@@ -950,7 +947,7 @@ theorem cube_nonneg_forces_base_nonneg (x : Rat)
               (RatEq_symm (ratMul_zero_left_local (ratNeg x))) negSqRaw
           have xSqPos : ratLt ratZero (ratMul x x) :=
             BEDC.Real.RatNumKernel.ratLt_of_RatEq_right
-              negSqPos (ratRing.neg_neg_mul_neg x x)
+              negSqPos (ratNeg_neg_mul_neg_local x x)
           have cubeNegRaw :
               ratLt (ratMul x (ratMul x x))
                 (ratMul ratZero (ratMul x x)) :=
