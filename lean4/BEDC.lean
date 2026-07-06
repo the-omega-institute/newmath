@@ -395,6 +395,7 @@ import BEDC.Derived.AssouadSnowflakeEmbeddingUp
 import BEDC.Derived.AssouadSnowflakeEmbeddingUp.TasteGate
 import BEDC.Derived.AsymptoticEquicontinuityUp.TasteGate
 import BEDC.Derived.AsymptoticEquivalenceUp.TasteGate
+import BEDC.Derived.AsymptoticRegularityUp.TasteGate
 import BEDC.Derived.AsymptoticSequenceUp.TasteGate
 import BEDC.Derived.AtiyahSingerUp
 import BEDC.Derived.AtiyahSingerUp.TasteGate
@@ -1093,6 +1094,7 @@ import BEDC.Derived.BishopCompletionComparisonUp.RegularLocatedRoute
 import BEDC.Derived.BishopCompletionComparisonUp.RegularSeal
 import BEDC.Derived.BishopCompletionComparisonUp.TasteGate
 import BEDC.Derived.BishopCompletionCriterionUp.TasteGate
+import BEDC.Derived.BishopCompletionFunctorialityUp.TasteGate
 import BEDC.Derived.BishopCompletionInductionUp.TasteGate
 import BEDC.Derived.BishopCompletionModulusSelectionUp.NameCertObligations
 import BEDC.Derived.BishopCompletionModulusSelectionUp.TasteGate
@@ -13018,6 +13020,7 @@ import BEDC.Derived.StationaryRationalDiagonalUp
 import BEDC.Derived.StationaryRationalDiagonalUp.TasteGate
 import BEDC.Derived.StationaryWindowLatticeUp.TasteGate
 import BEDC.Derived.StationaryWindowNaturalityUp.TasteGate
+import BEDC.Derived.StationaryWindowSealExhaustionUp
 import BEDC.Derived.StationaryWindowSealExhaustionUp.TasteGate
 import BEDC.Derived.StatusDowngradeUp.TasteGate
 import BEDC.Derived.StepFunctionUp.TasteGate

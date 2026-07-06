@@ -512,6 +512,22 @@ theorem AuditMapFrontierIndexCarrier_namecert_obligations [AskSetup] [PackageSet
   }
   exact ⟨cert, familyUnary, frontierUnary, consumerUnary, nameUnary⟩
 
+theorem AuditMapFrontierIndex_neighbour_restriction [AskSetup] [PackageSetup]
+    {T A E E0 P R O F S H C K N : BHist} {bundle : ProbeBundle ProbeName}
+    {pkg : Pkg} :
+    AuditMapFrontierIndexCarrier T A E P R O F S H C K N bundle pkg →
+      UnaryHistory E0 →
+        AuditMapFrontierIndexCarrier T A E0 P R O F S H C K N bundle pkg ∧
+          hsame (append A E0) (append A E0) := by
+  -- BEDC touchpoint anchor: BHist hsame UnaryHistory ProbeBundle Pkg append
+  intro carrier unaryE0
+  obtain ⟨unaryT, unaryA, _unaryE, unaryP, unaryR, unaryO, unaryF, unaryS,
+    unaryH, unaryC, unaryK, unaryN, provenancePkg, namePkg⟩ := carrier
+  exact
+    ⟨⟨unaryT, unaryA, unaryE0, unaryP, unaryR, unaryO, unaryF, unaryS, unaryH,
+        unaryC, unaryK, unaryN, provenancePkg, namePkg⟩,
+      hsame_refl (append A E0)⟩
+
 theorem AuditMapFrontierIndex_obstruction_route
     {mapTag localAudit neighbouringMap positive conditional obstruction frontier
       synthesisConsumer transport route provenance localName guarded exposed direct : BHist} :
