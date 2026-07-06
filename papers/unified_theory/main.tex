@@ -26,7 +26,7 @@
 \maketitle
 
 \begin{abstract}
-We report the portion of the PZG--BEDC dynamic ontology kernel formalized in Lean 4 with mathlib.  PZG denotes prime-axis Zeckendorf coding: each prime axis carries a finite Zeckendorf word, and decoding first turns those words into prime exponents and then reconstructs a positive natural number.  The checked development covers 40 content modules plus the aggregation module: the finite generation layer, Newman normal forms, prime-axis factorization and Euclid escape, Zeckendorf and PZG bijections, finite golden-ratio algebra, deficit and golden-jump ledgers, Cassini--Fricke trace conservation, finite readings and two-square classifiers, Kleene/Cantor/Gödel barriers for self-coding, cost and hidden-fiber rigidity, critical-line reflection algebra, Euler products, no-zero-line zeta facts, completed zeta functional equations, and the RH ledger equivalence.  The generated-results section records ten machine-checked additions, including two oracle-suggested conjectures certified locally after proposal.  Every mathematical assertion labeled as machine checked below names an actual Lean declaration under \lean{papers/unified_theory/lean4/UnifiedTheory}.  The RH result is an equivalence with mathlib's \lean{RiemannHypothesis}, not a proof of RH; quasicrystal zeta, explicit-formula analysis, positivity bridges, and open leaves such as O-5 and O-6 remain outside the checked-result column.  The Lean project is mathlib-based and isolated from the mathlib-free BEDC core; the stated reproducibility surface is the branch \lean{feat/unified-theory-mathlib}, with the full project check given by \lean{lake build}.
+We report the portion of the PZG--BEDC dynamic ontology kernel formalized in Lean 4 with mathlib.  PZG denotes prime-axis Zeckendorf coding: each prime axis carries a finite Zeckendorf word, and decoding first turns those words into prime exponents and then reconstructs a positive natural number.  The checked development covers 40 content modules plus the aggregation module: the finite generation layer, Newman normal forms, prime-axis factorization and Euclid escape, Zeckendorf and PZG bijections, finite golden-ratio algebra, deficit and golden-jump ledgers, Cassini--Fricke trace conservation, finite readings and two-square classifiers, Kleene/Cantor/Gödel barriers for self-coding, cost and hidden-fiber rigidity, critical-line reflection algebra, Euler products, no-zero-line zeta facts, completed zeta functional equations, and the RH ledger equivalence.  The generated-results section records thirteen machine-checked additions, including four oracle-suggested conjectures certified locally after proposal.  Every mathematical assertion labeled as machine checked below names an actual Lean declaration under \lean{papers/unified_theory/lean4/UnifiedTheory}.  The RH result is an equivalence with mathlib's \lean{RiemannHypothesis}, not a proof of RH; quasicrystal zeta, explicit-formula analysis, positivity bridges, and open leaves such as O-5 and O-6 remain outside the checked-result column.  The Lean project is mathlib-based and isolated from the mathlib-free BEDC core; the stated reproducibility surface is the branch \lean{feat/unified-theory-mathlib}, with the full project check given by \lean{lake build}.
 \end{abstract}
 
 \section{Introduction}
@@ -719,6 +719,14 @@ The formalization cycle did more than ingest source-document theorems.  It now h
   $$
   certify commutativity and associativity through the decode equivalence, matching the free commutative prime-axis monoid behavior of theorem 4.4.
   \item \textbf{Phase readings never vanish.}  $\lean{UnifiedTheory.phase_ne_zero}$ proves $\Phi_s(a)=\exp(-sL(a))\ne0$.  In this formal layer, a zero is a projected cancellation phenomenon, not disappearance of the underlying phase vector.
+  \item \textbf{Golden weight ranks the divisibility lattice.}  Writing $\Omega_\phi(n)=\sum_{p\mid n}S(v_p(n))$ for the golden weight, the declarations
+  $$
+    \begin{gathered}
+    \lean{UnifiedTheory.goldWeight_mono_of_dvd}\\
+    \lean{UnifiedTheory.goldWeight_strictMono_of_dvd}
+    \end{gathered}
+  $$
+  prove $m\mid n\Rightarrow\Omega_\phi(m)\le\Omega_\phi(n)$ and, for a proper divisor $m\mid n$ with $m\ne n$ (and $n\ne0$), the strict $\Omega_\phi(m)<\Omega_\phi(n)$.  Since $S$ is nonnegative and strictly monotone, golden weight is an order-embedding of the divisibility lattice $(\mathbb{N}^+,\mid)$ into $(\mathbb{Z},\le)$, strictly into $(\mathbb{Z},<)$, matching the lattice reading of the fixed-length self-code below.
 \end{enumerate}
 
 \subsection*{Oracle-suggested results}
@@ -726,6 +734,22 @@ The formalization cycle did more than ingest source-document theorems.  It now h
 \begin{enumerate}[label=(O\arabic*)]
   \item \textbf{Beatty deficit as a $\tau$-floor cocycle.}  $\lean{UnifiedTheory.cDef_eq_floor_tau}$ proves $cDef(a,b)=\lfloor(a+1)\tau\rfloor+\lfloor(b+1)\tau\rfloor-\lfloor(a+b+1)\tau\rfloor$, with $\tau=\phiG-1=1/\phiG$.  Using $S(n)=n+\lfloor(n+1)\tau\rfloor$, the integer parts cancel and the deficit is controlled by the fractional rotation.
   \item \textbf{Exact golden-jump window telescope.}  \lean{UnifiedTheory.goldJump_window_exact} proves that $goldJump(n)=S(n+1)-S(n)-1=\lfloor(n+2)\tau\rfloor-\lfloor(n+1)\tau\rfloor$ has length-$N$ window sum $\lfloor(m+N+1)\tau\rfloor-\lfloor(m+1)\tau\rfloor$.  This is the finite Sturmian balance-word telescope suggested by the oracle and then certified locally.
+  \item \textbf{Fixed-length G\"odel coding is a lattice embedding.}  For $k$ distinct primes $p:\mathrm{Fin}\,k\to\mathbb{N}$ and $Gvec(x)=\prod_i (p_i)^{x_i+1}$, the declarations
+  $$
+    \begin{gathered}
+    \lean{UnifiedTheory.SelfCode.Gvec_dvd_iff}\\
+    \lean{UnifiedTheory.SelfCode.Gvec_gcd}\qquad\lean{UnifiedTheory.SelfCode.Gvec_lcm}
+    \end{gathered}
+  $$
+  prove $Gvec(x)\mid Gvec(y)\Longleftrightarrow \forall i,\,x_i\le y_i$, and that gcd and lcm are computed coordinatewise by $\min$ and $\max$.  The oracle proposed lifting injectivity of the fixed-length code to a full lattice embedding of $(\mathrm{Fin}\,k\to\mathbb{N},\le)$ into $(\mathbb{N}^+,\mid)$; it was certified locally.
+  \item \textbf{Cross-layer golden-weight quasi-homomorphism.}  With obstruction $\kappa_\phi(m,n)=\sum_p cDef(v_p(m),v_p(n))$, the declarations
+  $$
+    \begin{gathered}
+    \lean{UnifiedTheory.goldWeight_mul}\\
+    \lean{UnifiedTheory.goldWeight_mul_of_coprime}
+    \end{gathered}
+  $$
+  prove $\Omega_\phi(mn)=\Omega_\phi(m)+\Omega_\phi(n)-\kappa_\phi(m,n)$, and that on coprime arguments the obstruction vanishes, so $\Omega_\phi$ is strictly additive.  This bridges the golden/deficit layer to the prime-factorization layer: the failure of $\Omega_\phi$ to be a homomorphism is exactly the sum of pairwise Beatty deficits on shared prime axes.  Proposed by the oracle and certified locally.
 \end{enumerate}
 
 \section{Scope and Honesty}
