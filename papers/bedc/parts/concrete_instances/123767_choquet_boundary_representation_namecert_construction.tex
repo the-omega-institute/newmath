@@ -1,0 +1,77 @@
+\chapter{A Concrete Naming Certificate for $\ChoquetBoundaryRepresentationUp$}
+\label{ch:concrete-instances-choquet-boundary-representation-namecert}
+\origin{human}
+
+Following Choquet, Bishop-de Leeuw, and the compact convex representation tradition, the $\ChoquetBoundaryRepresentationUp$ packet records the finite boundary-representation surface by which a displayed compact convex state row is read through Radon boundary data before a barycentric consumer may use it. It sits after the compact carrier of \autoref{ch:concrete-instances-compact-namecert}, the convex-set rows of \autoref{ch:concrete-instances-convexset-namecert}, the locally convex ambient row of \autoref{ch:concrete-instances-locally-convex-space-namecert}, the Radon-measure handoff of \autoref{ch:concrete-instances-radon-measure-namecert}, the boundary packet of \autoref{ch:concrete-instances-choquet-boundary-namecert}, and the simplex comparison surface of \autoref{ch:concrete-instances-choquet-simplex-namecert}. The chapter names the finite rows needed by downstream compact-convex and measure-representation consumers without selecting a host representing measure, asserting uniqueness, or importing ambient choice.
+
+\begin{definition}[Choquet boundary representation carrier]
+\label{def:choquet-boundary-representation-carrier}
+A $\ChoquetBoundaryRepresentationUp$ carrier is a finite $\BHist$ packet
+$$
+R=(K,V,L,B,M,A,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $K$ is the $\CompactUp$ source row naming the compact state carrier inspected by the representation route;
+\item $V$ is the $\ConvexSetUp$ row naming the convex structure whose points may be represented;
+\item $L$ is the $\LocallyConvexSpaceUp$ ambient row, used only as displayed locally convex context for affine tests;
+\item $B$ is the boundary row inherited from $\ChoquetBoundaryUp$, recording peak-boundary and extreme-facing evidence before measure readback;
+\item $M$ is the $\RadonMeasureUp$ row naming the displayed boundary measure data;
+\item $A$ is the barycentric readback row, recording finite affine tests whose values are read through $M$ and the convex row $V$;
+\item $E$ is the $\ChoquetSimplexUp$ comparison row, used only when a simplex consumer asks whether the boundary-representation route is being compared with simplex barycentric data;
+\item $H$ records componentwise $\hsame$ transport for compact, convex, locally convex, boundary, measure, barycentric, simplex-comparison, provenance, replay, and local naming rows;
+\item $C$ records displayed $\Cont$ routes from compact-convex inspection to boundary evidence, from boundary evidence to Radon-measure handoff, from Radon data to barycentric readback, and from barycentric readback to downstream compact-convex consumers;
+\item $P$ is the $\Pkg$ provenance row over $\CompactUp$, $\ConvexSetUp$, $\LocallyConvexSpaceUp$, $\RadonMeasureUp$, $\ChoquetBoundaryUp$, $\ChoquetSimplexUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$;
+\item $N$ is the local $\NameCert_{\ChoquetBoundaryRepresentationUp}$ row.
+\end{enumerate}
+The carrier contains no coordinate for a selected representing measure, representing-measure uniqueness, Shilov minimality, quotient equality of measures, countable choice, full extreme-point generation, or ambient locally convex completeness.
+\end{definition}
+\leanstmt{BEDC.Derived.ChoquetBoundaryRepresentationUp}
+
+\begin{theorem}[Choquet boundary representation NameCert obligations]
+\label{thm:choquet-boundary-representation-namecert-obligations}
+For every accepted $\ChoquetBoundaryRepresentationUp$ carrier
+$$
+R=(K,V,L,B,M,A,E,H,C,P,N),
+$$
+the local $\NameCert_{\ChoquetBoundaryRepresentationUp}$ surface consists exactly of compact-source admission through $K$, convex-source admission through $V$, locally convex context through $L$, boundary evidence through $B$, Radon boundary-measure handoff through $M$, barycentric readback through $A$, optional simplex comparison through $E$, componentwise $\hsame$ transport through $H$, displayed $\Cont$ replay through $C$, $\Pkg$ provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the finite carrier of \autoref{def:choquet-boundary-representation-carrier}. The compact, convex, locally convex, boundary, measure, barycentric, and simplex-comparison coordinates are exactly $K,V,L,B,M,A,E$.
+
+The certificate reads those rows in order. Compact and convex source rows are displayed before boundary evidence, the boundary row is displayed before Radon-measure handoff, and the measure row is displayed before barycentric readback. The simplex row is only a comparison row, not a replacement for the boundary route.
+
+Finally $H,C,P,N$ transport, replay, source, and name the same finite route. Since the carrier has no further coordinate, selected representing measures, uniqueness, quotient measure equality, countable choice, Shilov minimality, full extreme-point generation, and ambient completeness remain outside the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[Choquet boundary representation barycentric route]
+\label{thm:choquet-boundary-representation-barycentric-route}
+Every barycentric consumer of an accepted $\ChoquetBoundaryRepresentationUp$ packet factors through
+$$
+K,V,L,B,M,A,H,C,P,N
+$$
+before using the representation. If the consumer also compares the packet with $\ChoquetSimplexUp$, the comparison must pass through the displayed row $E$ and cannot be read as representing-measure uniqueness or full simplex generation.
+\end{theorem}
+\begin{proof}
+Start from the carrier rows. A barycentric read has no direct coordinate outside $A$, and $A$ is downstream from compact source, convex source, locally convex context, boundary evidence, and Radon-measure handoff.
+
+Read the displayed continuation row $C$. It routes compact-convex inspection to boundary evidence, boundary evidence to the Radon row, and the Radon row to barycentric readback. Transport and provenance through $H$ and $P$, together with the local name $N$, preserve that same route.
+
+If the simplex comparison row $E$ is used, it is inspected as a sibling comparison with \autoref{ch:concrete-instances-choquet-simplex-namecert}. The row does not add a selector, uniqueness theorem, quotient equality of measures, or full extreme-point-generation principle. Thus every representation read remains inside the displayed compact-convex and Radon boundary packet.
+\end{proof}
+
+\falsifiablePrediction{A ChoquetBoundaryRepresentationUp consumer that reads a barycentric representation without first displaying compact source, convex source, boundary evidence, Radon measure handoff, and the barycentric readback row refutes the carrier surface.}
+
+\independenceWitness{compact, convexset, radon-measure, locally-convex-space, choquet-boundary, choquet-simplex: no listed sibling supplies the whole eleven-row packet $R=(K,V,L,B,M,A,E,H,C,P,N)$, because compact and convex siblings provide sources, RadonMeasure provides measure handoff, LocallyConvexSpace provides ambient affine context, ChoquetBoundary provides boundary evidence, and ChoquetSimplex provides only the comparison row.}
+
+\closureat{ChoquetBoundaryRepresentationUp}{seedStr}
+
+\begin{closurestatus}{\ChoquetBoundaryRepresentationUp}
+  \constructivestory{A $\ChoquetBoundaryRepresentationUp$ packet is generated from compact, convex, locally convex, boundary, Radon-measure, barycentric-readback, simplex-comparison, transport, replay, provenance, and local naming rows.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:choquet-boundary-representation-carrier}, \autoref{thm:choquet-boundary-representation-namecert-obligations}, and \autoref{thm:choquet-boundary-representation-barycentric-route} seed the finite compact-convex boundary-representation surface over Compact, ConvexSet, LocallyConvexSpace, RadonMeasure, ChoquetBoundary, ChoquetSimplex, BHist, hsame, Cont, Pkg, and NameCert rows.}
+  \formalstatus{\formalTargetV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim selected representing measures, uniqueness, Shilov minimality, quotient measure equality, countable choice, full extreme-point generation, ambient locally convex completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked compact-source admission, convex-source admission, boundary evidence, Radon-measure handoff, barycentric readback, simplex-comparison non-escape, transport, replay, provenance, and local naming for BEDC.Derived.ChoquetBoundaryRepresentationUp.}
+\end{closurestatus}
