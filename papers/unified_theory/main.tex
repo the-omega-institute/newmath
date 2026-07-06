@@ -758,14 +758,7 @@ The formalization cycle did more than ingest source-document theorems.  It now h
   $$
   discharge the former front-line bridge hypothesis: the asymmetric window is proved directly, then converted into the identity $S(v)=\sum_{i\in\mathrm{encode}\,v}\mathrm{fib}(i+1)$.  This closes the roadmap P0 item without changing the analytic frontier.
   \item \textbf{Two-sided linear framing of the shift reading.}  $\lean{UnifiedTheory.S_le_two_mul}$ proves $S(v)\le 2v$ (from $\phiG<2$) and $\lean{UnifiedTheory.succ_le_S}$ proves $v+1\le S(v)$ for $v\ge1$ (from $\phiG>3/2$), so $v+1\le S(v)\le 2v$ is the arithmetic shadow of $1<\phiG<2$.  Summing over prime axes, $\lean{UnifiedTheory.goldWeight_le_two_mul}$ and $\lean{UnifiedTheory.sum_succ_le_goldWeight}$ pin the golden weight between the total-with-multiplicity and total-plus-distinct prime counts: $\Omega+\omega\le\Omega_\phi\le 2\Omega$, where $\Omega=\sum_p v_p$ and $\omega$ is the number of distinct prime axes.
-  \item \textbf{Zeckendorf carry rewriting terminates and preserves value.}  $\lean{UnifiedTheory.CarryStep}$ is the Fibonacci carry rewriting on index lists (merge $[i,i{+}1]\!\to\![i{+}2]$, double $[i{+}2,i{+}2]\!\to\![i{+}3,i]$).  The declarations
-  $$
-    \begin{gathered}
-    \lean{UnifiedTheory.CarryStep.value_preserving}\\
-    \lean{UnifiedTheory.CarryStep.terminates}
-    \end{gathered}
-  $$
-  show that every step preserves $\sum \mathrm{fib}$ and prove termination via the lexicographic measure (length, index sum).  This is the correctness-and-termination core of the algorithmic normalization of theorem 5.7; local confluence (hence a unique normal form) requires an order-aware/multiset redesign and is left as future work.
+  \item \textbf{Algorithmic Zeckendorf normalization (theorem 5.7).}  The multiset carry rewriting $\lean{UnifiedTheory.CarryFull}$ (rules $0\mapsto\varnothing$, $1\mapsto2$, $\{i,i{+}1\}\mapsto\{i{+}2\}$, $\{i{+}2,i{+}2\}\mapsto\{i{+}3,i\}$) is value-preserving ($\lean{UnifiedTheory.CarryFull.fibVal_preserving}$) and terminating ($\lean{UnifiedTheory.CarryFull.terminates}$) via a weighted potential $\mu=\sum\mathrm{ixWt}$ under which even the index-raising rule $1\mapsto2$ strictly decreases.  It is confluent: $\lean{UnifiedTheory.exists_normal}$ reduces every multiset to a normal form and $\lean{UnifiedTheory.normal_form_unique}$ makes that form unique.  Normal forms are exactly Zeckendorf sets ($\lean{UnifiedTheory.normal_isZeckMS}$), so uniqueness follows from the uniqueness of Zeckendorf representations ($\lean{UnifiedTheory.normal_unique_of_same_value}$) rather than critical-pair analysis: the rewriting strongly normalizes each multiset to the canonical Zeckendorf representation of its Fibonacci value.
   \item \textbf{Prime logarithms are $\mathbb{Q}$-linearly independent.}  The declaration
   $$
     \lean{UnifiedTheory.prime_log_linearIndependent}
