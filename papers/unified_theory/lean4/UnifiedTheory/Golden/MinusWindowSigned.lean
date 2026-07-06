@@ -117,4 +117,33 @@ theorem signedGeom_window (m : List ℕ)
         · nlinarith [hSlo, hra_le3, hr3φ, hr2_eq, hφpos, h1pr, hpow1, hra_pos]
         · nlinarith [hShi, hra_pos, hr1lt, hpow1, h1φ]
 
+/-- **`MinusWindow` 无条件成立**:收缩面读数落非对称窗口 `(-1/φ², 1/φ)`。
+把 `β₋(encode n) = Σ_{i∈l} ψ^i`(`ψ = -φ⁻¹`)转成升序链上的符号几何和,套 `signedGeom_window`。
+证成后 6.44 位移 Zeckendorf 桥与 6.25 三值同时无条件(卸除全项目唯一条件桥)。 -/
+theorem minusWindow_holds : MinusWindow := by
+  intro n
+  set l := (AxisWord.encode n).1 with hldef
+  have hzeck : (l ++ [0]).IsChain (fun a b => b + 2 ≤ a) := (AxisWord.encode n).2
+  haveI : Trans (fun a b : ℕ => b + 2 ≤ a) (fun a b : ℕ => b + 2 ≤ a)
+      (fun a b : ℕ => b + 2 ≤ a) := ⟨fun {a b c} h1 h2 => by omega⟩
+  have hpair : (l ++ [0]).Pairwise (fun a b => b + 2 ≤ a) := hzeck.pairwise
+  rw [List.pairwise_append] at hpair
+  obtain ⟨hpairL, _, hcross⟩ := hpair
+  have hall : ∀ i ∈ l, 2 ≤ i := by
+    intro i hi; have := hcross i hi 0 (by simp); omega
+  have hrev : l.reverse.IsChain (fun a c => a + 2 ≤ c) := by
+    apply List.Pairwise.isChain
+    rw [List.pairwise_reverse]; exact hpairL
+  have hhead : ∀ x ∈ l.reverse.head?, 2 ≤ x := by
+    intro x hx; apply hall; rw [← List.mem_reverse]; exact List.mem_of_mem_head? hx
+  have hψ : Real.goldenConj = -(Real.goldenRatio⁻¹) := by
+    rw [Real.inv_goldenRatio]; linarith [Real.goldenRatio_add_goldenConj]
+  have hβ : AxisWord.betaMinusReal (AxisWord.encode n)
+      = (l.reverse.map (fun i => (-(Real.goldenRatio⁻¹)) ^ i)).sum := by
+    rw [AxisWord.betaMinusReal_eq_sum]
+    simp only [hψ]
+    rw [← hldef, List.map_reverse, List.sum_reverse]
+  rw [hβ]
+  exact signedGeom_window l.reverse hrev hhead
+
 end UnifiedTheory
