@@ -17,6 +17,7 @@ import UnifiedTheory.Golden.MinusWindow
 import UnifiedTheory.Golden.BeattyDeficit
 import UnifiedTheory.Golden.DeficitSharp
 import UnifiedTheory.Golden.DeficitFractional
+import UnifiedTheory.Golden.GoldenJump
 import UnifiedTheory.Golden.NaryDeficit
 import UnifiedTheory.Golden.TraceMap
 import UnifiedTheory.Kernel.LedgerStatus
