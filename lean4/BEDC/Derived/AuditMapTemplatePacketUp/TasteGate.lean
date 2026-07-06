@@ -262,10 +262,10 @@ theorem AuditMapTemplatePacketTasteGate_single_carrier_alignment :
 def AuditMapTemplatePacketCarrier [AskSetup] [PackageSetup]
     (U P C O F S H R K N : BHist) (bundle : ProbeBundle ProbeName) (pkg : Pkg) :
     Prop :=
-  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg UnaryHistory PkgSig
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg UnaryHistory PkgSig Cont
   UnaryHistory U ∧ UnaryHistory P ∧ UnaryHistory C ∧ UnaryHistory O ∧ UnaryHistory F ∧
     UnaryHistory S ∧ UnaryHistory H ∧ UnaryHistory R ∧ UnaryHistory K ∧
-      UnaryHistory N ∧ PkgSig bundle K pkg ∧ PkgSig bundle N pkg
+      UnaryHistory N ∧ Cont C O F ∧ PkgSig bundle K pkg ∧ PkgSig bundle N pkg
 
 theorem AuditMapTemplatePacketCarrier_namecert_obligations [AskSetup] [PackageSetup]
     {U P C O F S H R K N useRead posRead condRead obsRead frontRead siblingRead
@@ -290,7 +290,7 @@ theorem AuditMapTemplatePacketCarrier_namecert_obligations [AskSetup] [PackageSe
   -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont UnaryHistory PkgSig hsame SemanticNameCert
   intro carrier useRoute posRoute condRoute obsRoute frontRoute siblingRoute nameRoute namePkg
   obtain ⟨unaryU, unaryP, unaryC, unaryO, unaryF, unaryS, unaryH, unaryR, unaryK,
-    unaryN, _provenancePkg, _carrierNamePkg⟩ := carrier
+    unaryN, _conditionalObstructionFrontier, _provenancePkg, _carrierNamePkg⟩ := carrier
   have useUnary : UnaryHistory useRead := unary_cont_closed unaryU unaryP useRoute
   have posUnary : UnaryHistory posRead := unary_cont_closed unaryP unaryC posRoute
   have condUnary : UnaryHistory condRead := unary_cont_closed unaryC unaryO condRoute
@@ -343,5 +343,23 @@ theorem AuditMapTemplatePacketCarrier_namecert_obligations [AskSetup] [PackageSe
   }
   exact
     ⟨cert, useUnary, posUnary, condUnary, obsUnary, frontUnary, siblingUnary, nameUnary⟩
+
+theorem AuditMapTemplatePacketCarrier_conditional_row_non_discharge [AskSetup] [PackageSetup]
+    {use positive conditional obstruction frontier sibling transport replay provenance
+      localName : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    AuditMapTemplatePacketCarrier use positive conditional obstruction frontier sibling
+        transport replay provenance localName bundle pkg ->
+      UnaryHistory conditional ∧ UnaryHistory obstruction ∧ UnaryHistory frontier ∧
+        Cont conditional obstruction frontier ∧ PkgSig bundle provenance pkg ∧
+          PkgSig bundle localName pkg := by
+  -- BEDC touchpoint anchor: BHist Cont ProbeBundle Pkg UnaryHistory PkgSig
+  intro carrier
+  obtain ⟨_useUnary, _positiveUnary, conditionalUnary, obstructionUnary, frontierUnary,
+    _siblingUnary, _transportUnary, _replayUnary, _provenanceUnary, _localNameUnary,
+    conditionalObstructionFrontier, provenancePkg, localNamePkg⟩ := carrier
+  exact
+    ⟨conditionalUnary, obstructionUnary, frontierUnary, conditionalObstructionFrontier,
+      provenancePkg, localNamePkg⟩
 
 end BEDC.Derived.AuditMapTemplatePacketUp

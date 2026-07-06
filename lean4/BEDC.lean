@@ -3159,6 +3159,7 @@ import BEDC.Derived.ChoiceRecipeLedgerUp
 import BEDC.Derived.ChoiceRecipeLedgerUp.MaturePackage
 import BEDC.Derived.ChoiceSequenceRealUp
 import BEDC.Derived.ChoiceSequenceRealUp.TasteGate
+import BEDC.Derived.ChoiceSequenceRealizabilityUp.TasteGate
 import BEDC.Derived.ChoiceWindowSequenceUp.TasteGate
 import BEDC.Derived.ChoquetCompleteSpaceUp.TasteGate
 import BEDC.Derived.ChoquetGameUp.TasteGate
@@ -7303,6 +7304,7 @@ import BEDC.Derived.HostPrimitiveLeakageUp.TasteGate
 import BEDC.Derived.HostTotalTraceUp.Carrier
 import BEDC.Derived.HostTotalTraceUp.TasteGate
 import BEDC.Derived.HurwitzApproximationUp.NameCertObligations
+import BEDC.Derived.HurwitzApproximationUp.PublicConsumerBoundary
 import BEDC.Derived.HurwitzApproximationUp.TasteGate
 import BEDC.Derived.HyersUlamStabilityUp.TasteGate
 import BEDC.Derived.HyperbolicAxisShadowUp.TasteGate
