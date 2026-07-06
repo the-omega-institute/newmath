@@ -113,4 +113,45 @@ theorem goldWeight_mono_of_dvd {m n : ℕ} (hn : n ≠ 0) (hdvd : m ∣ n) :
   unfold goldWeight
   exact Finset.sum_le_sum (fun p _ => S_mono (Finsupp.le_def.mp hle p))
 
+/-- `S` 严格单调:`φ > 1` 令 `(a+1)φ` 每步至少前进一个整数,故 floor 严格增。 -/
+theorem S_strictMono : StrictMono S := by
+  intro a b hab
+  have hφ1 : (1 : ℝ) < Real.goldenRatio := Real.one_lt_goldenRatio
+  have hb : (a : ℝ) + 1 ≤ b := by exact_mod_cast hab
+  have step : ((a : ℝ) + 1) * Real.goldenRatio + 1 ≤ ((b : ℝ) + 1) * Real.goldenRatio := by
+    have hmul : ((a : ℝ) + 2) * Real.goldenRatio ≤ ((b : ℝ) + 1) * Real.goldenRatio :=
+      mul_le_mul_of_nonneg_right (by linarith) (by linarith)
+    nlinarith [hmul, hφ1]
+  have hfl : ⌊((a : ℝ) + 1) * Real.goldenRatio⌋ + 1
+      ≤ ⌊((b : ℝ) + 1) * Real.goldenRatio⌋ := by
+    have := Int.floor_le_floor step
+    rwa [Int.floor_add_one] at this
+  unfold S
+  omega
+
+/-- **金权重是整除格上的严格秩**:`m ∣ n`、`m ≠ n`(`n ≠ 0`)时 `Ωφ m < Ωφ n`。
+真因子严格降低金权重——金权重是整除严格序到 `(ℤ, <)` 的序嵌入。 -/
+theorem goldWeight_strictMono_of_dvd {m n : ℕ} (hn : n ≠ 0) (hdvd : m ∣ n) (hne : m ≠ n) :
+    goldWeight m < goldWeight n := by
+  have hm : m ≠ 0 := fun h => hn (by rw [h] at hdvd; exact Nat.eq_zero_of_zero_dvd hdvd)
+  have hle : m.factorization ≤ n.factorization :=
+    (Nat.factorization_le_iff_dvd hm hn).mpr hdvd
+  have hsub : m.factorization.support ⊆ n.factorization.support := by
+    simp only [Nat.support_factorization]
+    exact Nat.primeFactors_mono hdvd hn
+  have hne_fact : m.factorization ≠ n.factorization :=
+    fun h => hne (Nat.eq_of_factorization_eq hm hn (fun p => by rw [h]))
+  obtain ⟨p, hp⟩ : ∃ p, m.factorization p ≠ n.factorization p := by
+    by_contra hcon
+    push_neg at hcon
+    exact hne_fact (Finsupp.ext hcon)
+  have hplt : m.factorization p < n.factorization p :=
+    lt_of_le_of_ne (Finsupp.le_def.mp hle p) hp
+  have hpmem : p ∈ n.factorization.support := by
+    rw [Finsupp.mem_support_iff]; omega
+  rw [goldWeight_eq_sum_of_subset (n := m) (s := n.factorization.support) hsub]
+  unfold goldWeight
+  exact Finset.sum_lt_sum (fun i _ => S_mono (Finsupp.le_def.mp hle i))
+    ⟨p, hpmem, S_strictMono hplt⟩
+
 end UnifiedTheory
