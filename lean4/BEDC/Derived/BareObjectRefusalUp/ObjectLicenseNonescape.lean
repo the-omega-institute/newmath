@@ -115,4 +115,23 @@ theorem BareObjectRefusalCarrier_namecert_obligations [AskSetup] [PackageSetup]
       exact ⟨source.right, localPkg, nameRoute⟩
   exact ⟨cert, nameUnary, witnessRoute⟩
 
+theorem BareObjectRefusalCarrier_obligation_classifier
+    {objectName missingFields refusal witnessAudit ledger transport routes provenance
+      localName classifierRead : BHist} :
+    BareObjectRefusalCarrier objectName missingFields refusal witnessAudit ledger transport
+        routes provenance localName ->
+      Cont missingFields refusal classifierRead ->
+        UnaryHistory missingFields ∧ UnaryHistory refusal ∧ UnaryHistory classifierRead ∧
+          hsame classifierRead witnessAudit ∧ Cont missingFields refusal witnessAudit := by
+  -- BEDC touchpoint anchor: BHist Cont UnaryHistory hsame
+  intro carrier classifierRoute
+  obtain ⟨_objectUnary, missingUnary, refusalUnary, _witnessUnary, _ledgerUnary,
+    _transportUnary, _routesUnary, _provenanceUnary, _localUnary, witnessRoute,
+    _localRoute⟩ := carrier
+  have classifierUnary : UnaryHistory classifierRead :=
+    unary_cont_closed missingUnary refusalUnary classifierRoute
+  have sameClassifierWitness : hsame classifierRead witnessAudit :=
+    cont_deterministic classifierRoute witnessRoute
+  exact ⟨missingUnary, refusalUnary, classifierUnary, sameClassifierWitness, witnessRoute⟩
+
 end BEDC.Derived.BareObjectRefusalUp

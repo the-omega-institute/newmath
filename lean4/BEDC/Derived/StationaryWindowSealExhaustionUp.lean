@@ -76,4 +76,20 @@ theorem StationaryWindowSealExhaustionCarrier_exhaustion_row_obligations
                             ⟨qToS, sToR, rToD, dToW, eToQ, sameS, sameR, sameD,
                               sameW, sameE, sameH, sameP⟩
 
+theorem StationaryWindowSealExhaustion_finite_window_route
+    {Q S R D W E H C P N route : BHist} :
+    StationaryWindowSealExhaustionCarrier Q S R D W E H C P N ->
+      Cont W E route ->
+        hsame route (append W E) ∧ hsame S Q ∧ hsame R Q ∧ hsame D Q ∧
+          hsame W Q ∧ hsame E Q ∧ hsame H C ∧ hsame P N := by
+  -- BEDC touchpoint anchor: BHist Cont hsame
+  intro carrier finiteWindow
+  have routeSame : hsame route (append W E) := finiteWindow
+  have handoff :
+      hsame S Q ∧ hsame R Q ∧ hsame D Q ∧ hsame W Q ∧ hsame E Q ∧
+        hsame H C ∧ hsame P N :=
+    StationaryWindowSealExhaustionCarrier_l10_handoff carrier
+  obtain ⟨sameS, sameR, sameD, sameW, sameE, sameH, sameP⟩ := handoff
+  exact ⟨routeSame, sameS, sameR, sameD, sameW, sameE, sameH, sameP⟩
+
 end BEDC.Derived.StationaryWindowSealExhaustionUp
