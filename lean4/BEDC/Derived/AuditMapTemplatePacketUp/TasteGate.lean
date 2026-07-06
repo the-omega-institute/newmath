@@ -344,6 +344,25 @@ theorem AuditMapTemplatePacketCarrier_namecert_obligations [AskSetup] [PackageSe
   exact
     ⟨cert, useUnary, posUnary, condUnary, obsUnary, frontUnary, siblingUnary, nameUnary⟩
 
+theorem AuditMapTemplatePacketCarrier_sibling_use_readback [AskSetup] [PackageSetup]
+    {U P C O F S H R K N siblingRead nameRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    AuditMapTemplatePacketCarrier U P C O F S H R K N bundle pkg ->
+      Cont U S siblingRead ->
+        Cont R K nameRead ->
+          UnaryHistory U ∧ UnaryHistory S ∧ UnaryHistory H ∧
+            UnaryHistory siblingRead ∧ UnaryHistory nameRead ∧
+              PkgSig bundle K pkg ∧ PkgSig bundle N pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont UnaryHistory PkgSig
+  intro carrier siblingRoute nameRoute
+  obtain ⟨unaryU, _unaryP, _unaryC, _unaryO, _unaryF, unaryS, unaryH, unaryR,
+    unaryK, _unaryN, _conditionalObstructionFrontier, provenancePkg, carrierNamePkg⟩ :=
+    carrier
+  have siblingUnary : UnaryHistory siblingRead := unary_cont_closed unaryU unaryS siblingRoute
+  have nameUnary : UnaryHistory nameRead := unary_cont_closed unaryR unaryK nameRoute
+  exact
+    ⟨unaryU, unaryS, unaryH, siblingUnary, nameUnary, provenancePkg, carrierNamePkg⟩
+
 theorem AuditMapTemplatePacketCarrier_conditional_row_non_discharge [AskSetup] [PackageSetup]
     {use positive conditional obstruction frontier sibling transport replay provenance
       localName : BHist}
