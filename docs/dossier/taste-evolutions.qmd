@@ -20,17 +20,17 @@ date-modified: today
 
 ## 当前观察 (auto-refresh)
 
-> 最后刷新: 2026-07-06T01:04:25Z
+> 最后刷新: 2026-07-06T02:18:17Z
 
-**Daemon 状态**: monitor (monitor cycle 316, adjust_since_research 2, round_counter 38707, last_adjust rule_evolution_completed)
+**Daemon 状态**: monitor (monitor cycle 317, adjust_since_research 2, round_counter 38747, last_adjust rule_evolution_completed)
 
-**待处理 queue** (1389 条 finding):
-- isolated_theorem: 1015 条; 代表样本 `derived`, `derived`, `derived`
+**待处理 queue** (1391 条 finding):
+- isolated_theorem: 1017 条; 代表样本 `derived`, `derived`, `derived`
 - unauthorized_capstone: 306 条; 代表样本 `cauchy`, `helly_theorem`, `metacic_candidate_strong_normalization`
 - low_entropy_template: 68 条; 代表样本 `variation_norm`, `kernelinductiveacceptance`, `polishspace`
 
 **最近 alert 概览** (24h 内):
-- TASTE ALERT category=isolated_theorem: 126 次
+- TASTE ALERT category=isolated_theorem: 124 次
 - TASTE ALERT category=low_entropy_template: 8 次
 - TASTE ALERT category=cycle_exception: 3 次
 - TASTE ALERT category=resolution_json_parse_failed: 1 次
@@ -632,6 +632,8 @@ error: build failed, audit=skipped, phase_d_lint=skipped.
 - 2026-07-05T23:40:47Z: `resolved` `add_downstream_user` for `BEDC.Derived.NetConvergenceUp.NetConvergenceCarrier_cauchy_filter_handoff` (flag `isolated_theorem`, finding `isolated_theorem:derived:BEDC.Derived.NetConvergenceUp.NetConvergenceCarrier_cauchy_filter_handoff:9c4efedc`). Rationale: The target has meaningful BEDC content: it extracts the CauchyFilter-facing route D,T,E,F and the Real-facing ledger S,R,L,H,C,P,M from the NetConvergence NameCert surface, and the paper uses that handoff in later boundary/readback arguments. Repo grep found no existing Lean downstream user, so I added NetConvergenceCarrier_cauchy_filter_real_seal_boundary in the RealSealNonescape sibling; it directly consumes the flagged theorem and extends its handoff into a SemanticNameCert tying the Cauchy-filter boundary to stream/readback/Real-seal rows. Gate results: lake_build=ok, audit=ok, phase_d_lint=ok, axiom_purity=ok.
 
 - 2026-07-06T01:03:54Z: `resolved` `leave_with_rationale` for `BEDC.Derived.NetConvergenceUp.NetConvergenceCarrier_boundary_readback` (flag `isolated_theorem`, finding `isolated_theorem:derived:BEDC.Derived.NetConvergenceUp.NetConvergenceCarrier_boundary_readback:9c4efedc`). Rationale: The target is not a trivial wrapper: it builds a SemanticNameCert tying the Cauchy-facing D,T,E,F side to the Real-facing F,S,R,L readback boundary, and the paper's ledger-nonescape and SequentialCompact bridge prose depend on that boundary. I attempted an add_downstream_user by adding a Lean consumer that called NetConvergenceCarrier_boundary_readback and exported the boundary certificate with H,C,P,M ledger rows; cd lean4 && lake build passed and phase_d_lint passed, but bedc_ci.py audit did not exit 0, hanging in the full forbidden-token read_text scan until interrupted with KeyboardInterrupt. Per instruction, I reverted the attempted change and leave this with rationale rather than shipping an edit without all required gates. Gate results: lake_build=ok, audit=KeyboardInterrupt after prolonged hang; traceback ended in bedc_ci.py collect_forbidden_tokens -> read_text -> pathlib.read_text -> f.read(), phase_d_lint=ok.
+
+- 2026-07-06T02:17:38Z: `resolved` `add_downstream_user` for `BEDC.Derived.KelleyficationUp.KelleyficationCarrier_namecert_obligations` (flag `isolated_theorem`, finding `isolated_theorem:derived:BEDC.Derived.KelleyficationUp.KelleyficationCarrier_namecert_obligations:29cfe6b6`). Rationale: The target is not a trivial wrapper: it extracts the core Kelleyfication carrier obligations used by the chapter's NameCert/public-export story, but before this pass it had no Lean-side downstream consumer beyond paper markers. I added KelleyficationCarrier_public_export_route in the same Kelleyfication module; it substantively consumes KelleyficationCarrier_namecert_obligations to build an exported-row SemanticNameCert and UnaryHistory result for the public export route. Gate results: lake_build=ok, audit=ok, phase_d_lint=ok, axiom_purity=ok.
 
 ## 注解
 

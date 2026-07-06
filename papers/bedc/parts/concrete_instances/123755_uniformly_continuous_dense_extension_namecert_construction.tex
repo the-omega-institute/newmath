@@ -1,0 +1,67 @@
+\chapter{A Concrete Naming Certificate for $\UniformlyContinuousDenseExtensionUp$}
+\label{ch:concrete-instances-uniformly-continuous-dense-extension-namecert}
+\origin{human}
+
+Following Bishop and Bridges on uniformly continuous maps and completion, the $\UniformlyContinuousDenseExtensionUp$ packet records the standard extension of a uniformly continuous map from a dense metric subcarrier into a completion target as finite BEDC rows. It reads the continuous-map surface of \autoref{ch:concrete-instances-continuousmap-namecert}, the metric source of \autoref{ch:concrete-instances-metric-namecert}, the completion target of \autoref{ch:concrete-instances-completion-namecert}, the finite windows of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, and the terminal real-name seal of \autoref{ch:concrete-instances-real-namecert}. The packet names the dense-extension route without quotienting completion streams, selecting limits, invoking host function extensionality, or assuming ambient completeness beyond the displayed target row.
+
+\begin{definition}[Uniformly continuous dense extension carrier]
+\label{def:uniformly-continuous-dense-extension-carrier}
+A $\UniformlyContinuousDenseExtensionUp$ carrier is a finite $\BHist$ packet
+$$
+E=(D,M,T,G,U,S,R,L,X,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $D$ is the dense subcarrier row, recording the included dense source points, finite density witnesses, and the inspection windows by which completion-facing source requests return to dense data.
+\item $M$ is the source $\MetricUp$ row, carrying the displayed distance classifier and tolerance comparisons used before any target completion row is read.
+\item $T$ is the $\CompletionUp$ target row, exposing the codomain completion only through its accepted finite consumer interface.
+\item $G$ is the uniformly continuous graph row, read as a $\ContinuousMapUp$ graph over dense source observations together with the target completion names produced by the map.
+\item $U$ is the modulus ledger, sending each target tolerance request to a displayed source precision request and recording the finite compatibility checks for dense witnesses.
+\item $S$ is the $\StreamNameUp$ window row, opening the finite source and target observation windows used by the extension route.
+\item $R$ is the $\RegSeqRatUp$ readback row, recording the regular rational approximants attached to the target completion names.
+\item $L$ is the extension graph row, naming the completed map only after the dense subcarrier, source metric, completion target, graph, modulus, stream, and readback rows have been displayed.
+\item $X$ is the uniqueness and readback row, requiring any two dense approximation routes for the same source request to produce the same target readback through the displayed modulus and completion rows.
+\item $H$ records componentwise $\hsame$ transport for $D,M,T,G,U,S,R,L,X$ and the structural rows.
+\item $C$ records displayed $\Cont$ replay of the route
+$$
+D,M,G,U \longmapsto S,R \longmapsto T,L,X .
+$$
+\item $P$ is the $\Pkg$ provenance over $\UniformlyContinuousDenseExtensionUp$, $\ContinuousMapUp$, $\MetricUp$, $\CompletionUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\UniformlyContinuousDenseExtensionUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through these rows. It has no coordinate for arbitrary dense representative choice, quotient-stream equality, selected limits, host function extensionality, host real equality, or ambient completeness outside the displayed $\CompletionUp$ target.
+\end{definition}
+
+\begin{theorem}[Uniformly continuous dense extension obligations]
+\label{thm:uniformly-continuous-dense-extension-obligations}
+For the carrier of \autoref{def:uniformly-continuous-dense-extension-carrier}, the local $\NameCert_{\UniformlyContinuousDenseExtensionUp}$ surface consists exactly of dense subcarrier admission, source metric admission, completion target admission, uniformly continuous graph admission, modulus ledger compatibility, extension graph construction, uniqueness and readback through $X$, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming. Every completed-map read must factor through
+$$
+D,M,G,U,S,R,T,L,X,H,C,P,N
+$$
+before it may be consumed as a $\UniformlyContinuousDenseExtensionUp$ export.
+\end{theorem}
+\begin{proof}
+Project the carrier rows of \autoref{def:uniformly-continuous-dense-extension-carrier}. The dense subcarrier $D$, source metric $M$, target completion $T$, source graph $G$, and modulus ledger $U$ are visible finite coordinates of the same packet.
+
+Read the finite observation rows next. The $\StreamNameUp$ row $S$ opens the source and target windows, while the $\RegSeqRatUp$ row $R$ supplies the regular rational readbacks used by the target completion consumer.
+
+Construct the extension through $L$ and verify readback uniqueness through $X$. These rows only replay the displayed dense approximations through the same modulus and completion data, so no alternate representative selector or quotient-stream equality is available.
+
+Finally transport and replay through $H,C,P,N$. Componentwise $\hsame$ transport preserves the same local packet, displayed $\Cont$ replay follows the named route, provenance cites only the listed dependencies, and the local NameCert row names no extra coordinate. Thus the listed rows exhaust the certificate obligations.
+\end{proof}
+
+\falsifiablePrediction{Any accepted $\UniformlyContinuousDenseExtensionUp$ consumer that reads a completed extension while omitting the dense subcarrier, source metric, completion target, uniformly continuous graph, modulus ledger, finite stream window, regular readback, extension graph, or uniqueness/readback row refutes the packet.}
+
+\independenceWitness{continuousmap, metric, completion, streamname, regseqrat, and real: no listed sibling is bijective with $\UniformlyContinuousDenseExtensionUp$ because this packet jointly carries dense subcarrier data, source metric data, completion-target data, a uniformly continuous graph, a modulus ledger, extension graph, uniqueness/readback, transport, replay, provenance, and local naming as one finite dense-extension route.}
+
+\closureat{UniformlyContinuousDenseExtensionUp}{seedStr}
+
+\begin{closurestatus}{\UniformlyContinuousDenseExtensionUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:uniformly-continuous-dense-extension-carrier} and \autoref{thm:uniformly-continuous-dense-extension-obligations} seed the finite dense-subspace extension route for uniformly continuous maps into displayed completion targets.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient-stream equality, selected limits, arbitrary dense representative choice, host function extensionality, host real equality, ambient completeness outside the displayed target row, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, dense subcarrier visibility, source metric routing, completion target routing, graph admission, modulus compatibility, extension graph construction, uniqueness/readback, transport stability, replay, and local NameCert registration for BEDC.Derived.UniformlyContinuousDenseExtensionUp.}
+  \constructivestory{A $\UniformlyContinuousDenseExtensionUp$ packet is generated from dense subcarrier rows, a source metric row, a completion target row, a uniformly continuous graph row, a modulus ledger, StreamName windows, RegSeqRat readback, an extension graph, uniqueness/readback, componentwise hsame transport, Cont replay, Pkg provenance, and a local NameCert row.}
+\end{closurestatus}

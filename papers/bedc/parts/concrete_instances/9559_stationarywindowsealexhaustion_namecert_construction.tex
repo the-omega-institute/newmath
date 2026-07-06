@@ -55,6 +55,18 @@ Use \autoref{thm:stationary-window-seal-exhaustion-namecert-obligations}. It bin
 Finally compose with the finite faces already consumed by $\mathsf{DiagonalCofinalTail}^{\uparrow}$ and $\mathsf{StationaryWindowLattice}^{\uparrow}$. Those sibling surfaces read the same RatUp seed, StreamName window, RegSeqRat readback, DyadicRatCore ledger, and RealUp seal rows, so a downstream consumer can only receive the single packet $L$ before using the transported stationary seal.
 \end{proof}
 
+\begin{theorem}[Stationary window seal exhaustion transport stability]
+\label{thm:stationary-window-seal-exhaustion-transport-stability}
+Let $L=(Q,S,R,D,W,E,H,C,P,N)$ be an accepted $\StationaryWindowSealExhaustionUp$ carrier. Componentwise $\hsame$ transport of the $\RatUp$ seed row $Q$, $\StreamNameUp$ window row $S$, $\RegSeqRatUp$ readback row $R$, $\DyadicRatCoreUp$ ledger row $D$, $\RealUp$ seal row $W$, exhaustion row $E$, and displayed $\Cont$ routes in $C$ preserves the same local $\NameCert_{\StationaryWindowSealExhaustionUp}$ packet. The transported packet still exposes only the finite route $Q,S,R,D,W,E,H,C,P,N$ and cannot introduce unbounded windows, selected limits, quotient-stream equality, host real equality, or ambient completeness.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:stationary-window-seal-exhaustion-carrier}. The rows $Q,S,R,D,W,E,H,C,P,N$ are the complete displayed packet, and $H$ is already the componentwise transport row for the public readings and structural coordinates.
+
+Use the NameCert obligations of \autoref{thm:stationary-window-seal-exhaustion-namecert-obligations}. They bind carrier admission, the five public readings, transported exhaustion, continuation replay, provenance, and local naming to those same coordinates.
+
+Apply the L10 handoff of \autoref{thm:stationary-window-seal-exhaustion-l10-handoff}. Replaying the transported rows through $H,C,P,N$ preserves the named packet and gives no coordinate from which an unbounded window, selected limit, quotient-stream equality, host real equality, or ambient completeness principle could be exported.
+\end{proof}
+
 \falsifiablePrediction{Any accepted consumer that reads the transported stationary seal without the RatUp seed, StreamName window, RegSeqRat readback, DyadicRatCore ledger, and RealUp seal rows refutes the $\StationaryWindowSealExhaustionUp$ packet.}
 
 \independenceWitness{transportedstationarydiagonal, stationarywindowlattice, diagonalcofinaltail, realtailagreementseal, and realcompletionselectorseal: none is bijective to $\StationaryWindowSealExhaustionUp$ because this carrier alone stores the five public readings together with the exhaustion row, transport rows, continuation replay, provenance, and local naming as one L10 handoff.}
