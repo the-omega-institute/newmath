@@ -20,6 +20,7 @@ import UnifiedTheory.Golden.DeficitFractional
 import UnifiedTheory.Golden.GoldenJump
 import UnifiedTheory.Golden.GoldenWeight
 import UnifiedTheory.Golden.GoldenWeightModular
+import UnifiedTheory.Golden.GoldenWeightPrimeEdge
 import UnifiedTheory.Golden.NaryDeficit
 import UnifiedTheory.Golden.TraceMap
 import UnifiedTheory.Kernel.LedgerStatus
