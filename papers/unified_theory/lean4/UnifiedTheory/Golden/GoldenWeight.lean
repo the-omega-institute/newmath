@@ -154,4 +154,40 @@ theorem goldWeight_strictMono_of_dvd {m n : ℕ} (hn : n ≠ 0) (hdvd : m ∣ n)
   exact Finset.sum_lt_sum (fun i _ => S_mono (Finsupp.le_def.mp hle i))
     ⟨p, hpmem, S_strictMono hplt⟩
 
+/-- 障碍只落在公共素轴上:非公共轴处某个指数为 `0`,`cDef` 归零。 -/
+theorem goldObstruction_eq_sum_inter (m n : ℕ) :
+    goldObstruction m n
+      = ∑ p ∈ m.factorization.support ∩ n.factorization.support,
+          cDef (m.factorization p) (n.factorization p) := by
+  unfold goldObstruction
+  refine (Finset.sum_subset (Finset.inter_subset_left.trans Finset.subset_union_left) ?_).symm
+  intro p _ hpI
+  rw [Finset.mem_inter] at hpI
+  by_cases hpm : p ∈ m.factorization.support
+  · have hpn : p ∉ n.factorization.support := fun h => hpI ⟨hpm, h⟩
+    rw [Finsupp.notMem_support_iff.mp hpn]; unfold cDef; simp [S_at0]
+  · rw [Finsupp.notMem_support_iff.mp hpm]; unfold cDef; simp [S_at0]
+
+/-- **金权重是拟态射(defect 受公共素轴数界定)**:`Ωφ` 偏离可加的量
+`|Ωφ(mn) − Ωφ m − Ωφ n|` 至多为 `m, n` 的公共素轴个数——由亏空三值律 `cDef ∈ {−1,0,1}` 压出。
+互素时公共轴为空,defect 归零(见 `goldWeight_mul_of_coprime`)。 -/
+theorem goldWeight_defect_bound {m n : ℕ} (hm : m ≠ 0) (hn : n ≠ 0) :
+    |goldWeight (m * n) - goldWeight m - goldWeight n|
+      ≤ ((m.factorization.support ∩ n.factorization.support).card : ℤ) := by
+  have hcd : ∀ a b : ℕ, |cDef a b| ≤ (1 : ℤ) := by
+    intro a b; rcases cDef_mem a b with h | h | h <;> rw [h] <;> norm_num
+  rw [goldWeight_mul hm hn]
+  have hrw : goldWeight m + goldWeight n - goldObstruction m n - goldWeight m - goldWeight n
+      = - goldObstruction m n := by ring
+  rw [hrw, abs_neg, goldObstruction_eq_sum_inter]
+  calc |∑ p ∈ m.factorization.support ∩ n.factorization.support,
+          cDef (m.factorization p) (n.factorization p)|
+      ≤ ∑ p ∈ m.factorization.support ∩ n.factorization.support,
+          |cDef (m.factorization p) (n.factorization p)| :=
+        Finset.abs_sum_le_sum_abs _ _
+    _ ≤ ∑ _p ∈ m.factorization.support ∩ n.factorization.support, (1 : ℤ) :=
+        Finset.sum_le_sum (fun p _ => hcd _ _)
+    _ = ((m.factorization.support ∩ n.factorization.support).card : ℤ) := by
+        rw [Finset.sum_const, nsmul_eq_mul, mul_one]
+
 end UnifiedTheory
