@@ -1,0 +1,82 @@
+\chapter{A Concrete Naming Certificate for $\StreamNameConstantSectionUp$}
+\label{ch:concrete-instances-streamname-constant-section-namecert}
+\origin{human}
+
+Following Bishop and Bridges, the $\StreamNameConstantSectionUp$ packet records the finite constant-section bridge by which a displayed stream-name observation is read as a regular rational name and then sealed as a finite real-name row. It sits after the finite stream observations of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the terminal real-name surface of \autoref{ch:concrete-instances-real-namecert}, and the dyadic tolerance ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}. The packet names a constant finite route; it does not assert quotient stream equality, selected limits, host real equality, or ambient $\RealUp$ completeness.
+
+\begin{definition}[StreamName constant-section carrier]
+\label{def:streamname-constant-section-carrier}
+A $\StreamNameConstantSectionUp$ carrier is a finite $\BHist$ packet
+$$
+C=(S,K,R,D,E,T,H,Q,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the $\StreamNameUp$ finite observation row whose prefix windows are inspected.
+\item $K$ is the constant-section row, recording that every displayed window is routed through the same named value row before readback.
+\item $R$ is the $\RegSeqRatUp$ regular Cauchy readback row for the constant section exposed by $S$ and $K$.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance ledger used by the regular readback.
+\item $E$ is the terminal $\RealUp$ seal row, visible only after $S,K,R,D$ have been displayed.
+\item $T$ is the StreamName-to-readback transport row tying prefix observation, constant-section witness, regular rational readback, dyadic tolerance, and terminal seal into one finite route.
+\item $H$ records componentwise $\hsame$ transport for the observation, constant-section, readback, dyadic, seal, transport, replay, provenance, and local-name rows.
+\item $Q$ records displayed $\Cont$ replay of the route
+$$
+S,K \longmapsto R,D \longmapsto E \longmapsto T,H,P,N .
+$$
+\item $P$ is the $\Pkg$ provenance over $\StreamNameConstantSectionUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\StreamNameConstantSectionUp}$ row.
+\end{enumerate}
+The accepted carrier is exactly the displayed packet $C$. It contains no coordinate for a host stream, quotient stream equality, selected completed value, host real equality, or ambient completeness theorem.
+\end{definition}
+
+\begin{theorem}[StreamName constant-section NameCert obligations]
+\label{thm:streamname-constant-section-namecert-obligations}
+For every accepted $\StreamNameConstantSectionUp$ carrier $C=(S,K,R,D,E,T,H,Q,P,N)$, the local $\NameCert_{\StreamNameConstantSectionUp}$ obligations are exhausted by finite StreamName observation through $S$, constant-section witnessing through $K$, RegSeqRat readback through $R$, DyadicRatCore tolerance accounting through $D$, terminal Real sealing through $E$, route transport through $T$, componentwise transport through $H$, displayed replay through $Q$, provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:streamname-constant-section-carrier}. The analytic rows visible to the local classifier are exactly $S,K,R,D,E,T$.
+
+Read the route in order. The StreamName row supplies finite prefix observations, the constant-section row forces those observations through a single displayed value row, and the regular rational row records the Cauchy readback visible through that section. The dyadic row records the tolerance budget, and the terminal seal is downstream of all four rows.
+
+The structural rows $H,Q,P,N$ transport, replay, source, and name the same finite packet. Since no excluded coordinate occurs in the carrier, the listed rows exhaust the local NameCert obligations.
+\end{proof}
+
+\begin{theorem}[StreamName constant-section route]
+\label{thm:streamname-constant-section-streamname-route}
+Every public $\StreamNameConstantSectionUp$ read exposes the finite route
+$$
+S,K,R,D,E,T,H,Q,P,N
+$$
+before any regular rational or Real-facing consumer may read the section. A refinement that preserves $S,K,T$ preserves the constant-section verdict on the common finite StreamName window.
+\end{theorem}
+\begin{proof}
+Start with an accepted carrier $C=(S,K,R,D,E,T,H,Q,P,N)$. The rows $S$ and $K$ are the only rows that expose the finite StreamName windows and their constant-section witness.
+
+Use the transport row $T$. It is the displayed handoff from StreamName observation and constant-section witnessing to the RegSeqRat, DyadicRatCore, and Real rows, so any public read must pass through it before downstream readback.
+
+If a refinement preserves $S,K,T$, then the same displayed windows and the same constant-section handoff are visible on the common part. The downstream rows $R,D,E,H,Q,P,N$ can only replay that route, so the verdict is preserved there.
+\end{proof}
+
+\begin{theorem}[StreamName constant-section Real seal boundary]
+\label{thm:streamname-constant-section-real-seal-boundary}
+Let $C=(S,K,R,D,E,T,H,Q,P,N)$ be an accepted $\StreamNameConstantSectionUp$ carrier. The terminal $\RealUp$ seal $E$ is readable only downstream of the finite StreamName observation, constant-section witness, regular rational readback, dyadic tolerance ledger, transport, replay, provenance, and local naming rows. It cannot export quotient stream equality, selected limits, host real equality, countable choice, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Project the carrier. The row $E$ is the only terminal Real-facing coordinate, and it is displayed in the same finite packet as $S,K,R,D,T,H,Q,P,N$.
+
+Apply \autoref{thm:streamname-constant-section-namecert-obligations}. The obligations force finite observation, constant-section witnessing, regular readback, dyadic accounting, and route transport to be exposed before the terminal seal can be consumed.
+
+Finally replay $H,Q,P,N$. Componentwise transport, displayed continuation, provenance, and local naming preserve the same finite route. Since the carrier has no quotient, selected-limit, host-equality, choice, or ambient-completeness coordinate, the Real seal cannot export any of those endpoints.
+\end{proof}
+
+\closureat{StreamNameConstantSectionUp}{seedStr}
+
+\begin{closurestatus}{\StreamNameConstantSectionUp}
+  \constructivestory{A $\StreamNameConstantSectionUp$ packet is generated from finite StreamNameUp observations, a constant-section witness row, RegSeqRatUp readback, DyadicRatCoreUp tolerance accounting, a terminal RealUp seal, route transport, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:streamname-constant-section-carrier}, \autoref{thm:streamname-constant-section-namecert-obligations}, \autoref{thm:streamname-constant-section-streamname-route}, and \autoref{thm:streamname-constant-section-real-seal-boundary} seed the constant-section route from finite stream observations to regular rational and Real readback.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim quotient stream equality, selected limits, host real equality, countable choice, ambient Real completeness, Lean checking, or bridge checking.}
+  \upgradepath{Obligation closure requires checked StreamName observation, constant-section witnessing, regular readback, dyadic tolerance accounting, Real sealing, route transport, replay, provenance, and local naming for BEDC.Derived.StreamNameConstantSectionUp.}
+\end{closurestatus}
