@@ -19,6 +19,7 @@ import UnifiedTheory.Golden.DeficitSharp
 import UnifiedTheory.Golden.DeficitFractional
 import UnifiedTheory.Golden.GoldenJump
 import UnifiedTheory.Golden.GoldenWeight
+import UnifiedTheory.Golden.GoldenWeightModular
 import UnifiedTheory.Golden.NaryDeficit
 import UnifiedTheory.Golden.TraceMap
 import UnifiedTheory.Kernel.LedgerStatus
@@ -31,6 +32,7 @@ import UnifiedTheory.SelfCode.Diagonal
 import UnifiedTheory.SelfCode.Kleene
 import UnifiedTheory.SelfCode.Godel
 import UnifiedTheory.SelfCode.GodelVec
+import UnifiedTheory.SelfCode.GvecWeight
 import UnifiedTheory.Dynamics.CostArrow
 import UnifiedTheory.Dynamics.Length
 import UnifiedTheory.Dynamics.Phase

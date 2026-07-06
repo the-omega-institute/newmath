@@ -23,8 +23,8 @@ noncomputable def goldObstruction (m n : ℕ) : ℤ :=
   ∑ p ∈ m.factorization.support ∪ n.factorization.support,
     cDef (m.factorization p) (n.factorization p)
 
-/-- 把 `Ωφ` 摊到任一含其支撑的 Finset 上(多余素轴处 `S(0)=0`)。 -/
-private theorem goldWeight_eq_sum_of_subset {n : ℕ} {s : Finset ℕ}
+/-- 把 `Ωφ` 摊到任一含其支撑的 Finset 上(多余素轴处 `S(0)=0`)。可复用基建。 -/
+theorem goldWeight_eq_sum_of_subset {n : ℕ} {s : Finset ℕ}
     (hsub : n.factorization.support ⊆ s) :
     goldWeight n = ∑ p ∈ s, S (n.factorization p) := by
   refine Finset.sum_subset hsub ?_
