@@ -332,4 +332,74 @@ theorem ClosedSubstrateQuadrant_axis_independence_certificate
   cases hcarrier
   exact hclosure rfl
 
+theorem ClosedSubstrateQuadrantCarrier_consumer_boundary
+    {substrate universality closure quadrant witness transports routes provenance nameCert
+        substrate' universality' closure' quadrant' witness' transports' routes' provenance'
+        nameCert' : BHist}
+    (hdisplay :
+      BHistCarrier.toEventFlow
+          (ClosedSubstrateQuadrantUp.mk substrate universality closure quadrant witness transports
+            routes provenance nameCert) =
+        BHistCarrier.toEventFlow
+          (ClosedSubstrateQuadrantUp.mk substrate' universality' closure' quadrant' witness'
+            transports' routes' provenance' nameCert')) :
+    substrate = substrate' ∧ universality = universality' ∧ closure = closure' ∧
+      quadrant = quadrant' ∧ witness = witness' ∧ transports = transports' ∧
+      routes = routes' ∧ provenance = provenance' ∧ nameCert = nameCert' ∧
+      BHistCarrier.fromEventFlow
+          (BHistCarrier.toEventFlow
+            (ClosedSubstrateQuadrantUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+              BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty)) =
+        some
+          (ClosedSubstrateQuadrantUp.mk BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+            BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty) := by
+  -- BEDC touchpoint anchor: BHist BMark
+  change
+      closedSubstrateQuadrantToEventFlow
+          (ClosedSubstrateQuadrantUp.mk substrate universality closure quadrant witness transports
+            routes provenance nameCert) =
+        closedSubstrateQuadrantToEventFlow
+          (ClosedSubstrateQuadrantUp.mk substrate' universality' closure' quadrant' witness'
+            transports' routes' provenance' nameCert') at hdisplay
+  have hcarrier :
+      ClosedSubstrateQuadrantUp.mk substrate universality closure quadrant witness transports
+          routes provenance nameCert =
+        ClosedSubstrateQuadrantUp.mk substrate' universality' closure' quadrant' witness'
+          transports' routes' provenance' nameCert' :=
+    closedSubstrateQuadrantToEventFlow_injective hdisplay
+  cases hcarrier
+  constructor
+  · rfl
+  · constructor
+    · rfl
+    · constructor
+      · rfl
+      · constructor
+        · rfl
+        · constructor
+          · rfl
+          · constructor
+            · rfl
+            · constructor
+              · rfl
+              · constructor
+                · rfl
+                · constructor
+                  · rfl
+                  · change
+                      closedSubstrateQuadrantFromEventFlow
+                          (closedSubstrateQuadrantToEventFlow
+                            (ClosedSubstrateQuadrantUp.mk BHist.Empty BHist.Empty
+                              BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+                              BHist.Empty BHist.Empty)) =
+                        some
+                          (ClosedSubstrateQuadrantUp.mk BHist.Empty BHist.Empty BHist.Empty
+                            BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+                            BHist.Empty)
+                    exact
+                      closedSubstrateQuadrant_round_trip
+                        (ClosedSubstrateQuadrantUp.mk BHist.Empty BHist.Empty BHist.Empty
+                          BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty
+                          BHist.Empty)
+
 end BEDC.Derived.ClosedSubstrateQuadrantUp
