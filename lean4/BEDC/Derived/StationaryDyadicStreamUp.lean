@@ -111,6 +111,23 @@ theorem StationaryDyadicStreamCarrier_real_seal_boundary [AskSetup] [PackageSetu
     ⟨unaryD, unaryW, unaryR, unaryE, sealUnary, terminalUnary, routeDWR, routeWRE,
       sealRoute, terminalRoute, terminalPkg⟩
 
+theorem StationaryDyadicStreamCarrier_regseqrat_handoff [AskSetup] [PackageSetup]
+    {D W R E H C P N regRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    StationaryDyadicStreamCarrier D W R E H C P N bundle pkg ->
+      Cont R E regRead ->
+        PkgSig bundle regRead pkg ->
+          UnaryHistory R /\ UnaryHistory E /\ UnaryHistory regRead /\ Cont D W R /\
+            Cont W R E /\ Cont R E regRead /\ PkgSig bundle N pkg /\
+              PkgSig bundle regRead pkg := by
+  -- BEDC touchpoint anchor: BHist Cont UnaryHistory ProbeBundle PkgSig
+  intro carrier regRoute regPkg
+  obtain ⟨_unaryD, _unaryW, unaryR, unaryE, _unaryH, _unaryC, _unaryP, _unaryN,
+    routeDWR, routeWRE, _routeREC, _routeCPN, pkgN⟩ := carrier
+  have regUnary : UnaryHistory regRead :=
+    unary_cont_closed unaryR unaryE regRoute
+  exact ⟨unaryR, unaryE, regUnary, routeDWR, routeWRE, regRoute, pkgN, regPkg⟩
+
 end StationaryDyadicStreamUp
 
 end BEDC.Derived

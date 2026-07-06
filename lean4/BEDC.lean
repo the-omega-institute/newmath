@@ -9418,6 +9418,7 @@ import BEDC.Derived.ModuleUp
 import BEDC.Derived.ModuleUp.ActionBoundary
 import BEDC.Derived.ModuleUp.FiberExhaustion
 import BEDC.Derived.ModuleUp.ForgetfulCertificates
+import BEDC.Derived.ModuleUp.ForgetfulProjection
 import BEDC.Derived.ModuleUp.KernelExactness
 import BEDC.Derived.ModuleUp.KernelSubmoduleClosure
 import BEDC.Derived.ModuleUp.StdBridge
@@ -13358,6 +13359,7 @@ import BEDC.Derived.TheoremGapRegistryUp.TasteGate
 import BEDC.Derived.TheorySelfClassifierUp.CarrierObligation
 import BEDC.Derived.TheorySelfClassifierUp.ClassifierObligation
 import BEDC.Derived.TheorySelfClassifierUp.FiveRowDeterminacy
+import BEDC.Derived.TheorySelfClassifierUp.LedgerObligation
 import BEDC.Derived.TheorySelfClassifierUp.LedgerRowInversion
 import BEDC.Derived.TheorySelfClassifierUp.Nonescape
 import BEDC.Derived.TheorySelfClassifierUp.ObligationTriple
