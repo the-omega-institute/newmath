@@ -20,6 +20,27 @@ def RealDiagonalRegularitySealCarrier [AskSetup] [PackageSetup]
     UnaryHistory H ∧ UnaryHistory C ∧ UnaryHistory P ∧ UnaryHistory N ∧
       PkgSig bundle P pkg ∧ PkgSig bundle N pkg
 
+def RealDiagonalRegularitySealClassifier
+    (D W T Q R E H C P N D' W' T' Q' R' E' H' C' P' N' : BHist) : Prop :=
+  -- BEDC touchpoint anchor: BHist hsame Cont
+  hsame D D' ∧ hsame W W' ∧ hsame T T' ∧ hsame Q Q' ∧ hsame R R' ∧
+    hsame E E' ∧ hsame H H' ∧ hsame C C' ∧ hsame P P' ∧ hsame N N' ∧
+      Cont D W T ∧ Cont T Q R ∧ Cont R E C
+
+theorem RealDiagonalRegularitySealClassifier_route_payload
+    {D W T Q R E H C P N D' W' T' Q' R' E' H' C' P' N' : BHist} :
+    RealDiagonalRegularitySealClassifier D W T Q R E H C P N D' W' T' Q' R' E'
+        H' C' P' N' ->
+      hsame D D' ∧ hsame W W' ∧ hsame T T' ∧ hsame Q Q' ∧ hsame R R' ∧
+        hsame E E' ∧ Cont D W T ∧ Cont T Q R ∧ Cont R E C := by
+  -- BEDC touchpoint anchor: BHist hsame Cont
+  intro classifier
+  obtain ⟨sameD, sameW, sameT, sameQ, sameR, sameE, _sameH, _sameC, _sameP,
+    _sameN, diagonalWindow, triangleDyadic, regularityReal⟩ := classifier
+  exact
+    ⟨sameD, sameW, sameT, sameQ, sameR, sameE, diagonalWindow, triangleDyadic,
+      regularityReal⟩
+
 theorem RealDiagonalRegularitySealCarrier_obligations [AskSetup] [PackageSetup]
     {D W T Q R E H _C P N publicRead : BHist} {bundle : ProbeBundle ProbeName}
     {pkg : Pkg} :

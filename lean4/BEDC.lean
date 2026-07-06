@@ -5470,6 +5470,7 @@ import BEDC.Derived.DyadicBallUp.WindowRefinement
 import BEDC.Derived.DyadicBarycentricRefinementUp
 import BEDC.Derived.DyadicBinarySearchUp.TasteGate
 import BEDC.Derived.DyadicBisectionScheduleUp.TasteGate
+import BEDC.Derived.DyadicBisectionTreeUp.TasteGate
 import BEDC.Derived.DyadicBisectionUp
 import BEDC.Derived.DyadicBisectionUp.TasteGate
 import BEDC.Derived.DyadicBracketApproximationUp.TasteGate
@@ -5929,6 +5930,7 @@ import BEDC.Derived.ExtremeValueUp.TasteGate
 import BEDC.Derived.FSigmaSetUp
 import BEDC.Derived.FaaDiBrunoUp
 import BEDC.Derived.FaberSchauderSystemUp
+import BEDC.Derived.FaberSchauderSystemUp.SupportRoute
 import BEDC.Derived.FableBranchWitnessUp
 import BEDC.Derived.FableBranchWitnessUp.EmptyBoundarySelectorDependency
 import BEDC.Derived.FableBranchWitnessUp.TasteGate
@@ -7218,6 +7220,7 @@ import BEDC.Derived.HemicompactSpaceUp.TasteGate
 import BEDC.Derived.HenselLemmaUp.NewtonWitnessNonescape
 import BEDC.Derived.HenselLemmaUp.TasteGate
 import BEDC.Derived.HenstockGaugePartitionUp
+import BEDC.Derived.HenstockGaugeVariationUp
 import BEDC.Derived.HenstockKurzweilUp.TasteGate
 import BEDC.Derived.HermiteHadamardUp
 import BEDC.Derived.HermiteHadamardUp.TasteGate
