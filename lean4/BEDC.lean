@@ -1187,6 +1187,8 @@ import BEDC.Derived.BishopLocatedRootUniquenessUp
 import BEDC.Derived.BishopLocatedRootUp.TasteGate
 import BEDC.Derived.BishopLocatedSequenceUp.TasteGate
 import BEDC.Derived.BishopLocatedUniformConvergenceUp.TasteGate
+import BEDC.Derived.BishopLocatedZeroUp
+import BEDC.Derived.BishopLocatedZeroUp.TasteGate
 import BEDC.Derived.BishopMetricCompletionUp.TasteGate
 import BEDC.Derived.BishopMetricSpaceUp.TasteGate
 import BEDC.Derived.BishopModulusConvergenceUp.TasteGate
@@ -13967,7 +13969,6 @@ import BEDC.Derived.ValidatedNumericsUp.RefinementCompositionContainment
 import BEDC.Derived.ValidatedNumericsUp.TasteGate
 import BEDC.Derived.ValuationDomainUp
 import BEDC.Derived.VanDerCorputDifferenceEstimateUp.TasteGate
-import BEDC.Derived.VanDerWaerdenProgressionUp
 import BEDC.Derived.VandermondeChuUp
 import BEDC.Derived.VandermondeDeterminantUp
 import BEDC.Derived.VariationDiminishingUp.TasteGate

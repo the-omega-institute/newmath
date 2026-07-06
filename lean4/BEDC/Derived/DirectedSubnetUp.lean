@@ -416,4 +416,95 @@ theorem DirectedSubnetTargetFilterNonescape [AskSetup] [PackageSetup]
   }
   exact ⟨cert, filterUnary, targetUnary⟩
 
+theorem DirectedSubnetPublicNameCertExport [AskSetup] [PackageSetup]
+    {I J phi K L S R D A H C P N targetRead sealRead obligationRead publicRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    DirectedSubnetCarrier I J phi K L S R D A H C P N bundle pkg →
+      Cont J phi targetRead →
+        Cont targetRead L sealRead →
+          Cont sealRead N obligationRead →
+            Cont obligationRead P publicRead →
+              PkgSig bundle publicRead pkg →
+                SemanticNameCert
+                    (fun row : BHist => hsame row publicRead ∧ UnaryHistory row)
+                    (fun row : BHist =>
+                      hsame row I ∨ hsame row J ∨ hsame row phi ∨ hsame row K ∨
+                        hsame row L ∨ hsame row S ∨ hsame row R ∨ hsame row D ∨
+                          hsame row A ∨ hsame row H ∨ hsame row C ∨ hsame row P ∨
+                            hsame row N ∨ hsame row publicRead)
+                    (fun row : BHist =>
+                      UnaryHistory row ∧ Cont J phi targetRead ∧
+                        Cont targetRead L sealRead ∧ Cont sealRead N obligationRead ∧
+                          Cont obligationRead P publicRead ∧ PkgSig bundle publicRead pkg)
+                    hsame ∧
+                  UnaryHistory publicRead := by
+  -- BEDC touchpoint anchor: DirectedSubnetCarrier BHist Cont ProbeBundle PkgSig hsame SemanticNameCert UnaryHistory
+  intro carrier targetRoute sealRoute obligationRoute publicRoute publicPkg
+  obtain ⟨_unaryI, unaryJ, unaryPhi, _unaryK, unaryL, _unaryS, _unaryR,
+    _unaryD, _unaryA, _unaryH, _unaryC, unaryP, unaryN, _provenancePkg,
+    _namePkg⟩ := carrier
+  have targetUnary : UnaryHistory targetRead :=
+    unary_cont_closed unaryJ unaryPhi targetRoute
+  have sealUnary : UnaryHistory sealRead :=
+    unary_cont_closed targetUnary unaryL sealRoute
+  have obligationUnary : UnaryHistory obligationRead :=
+    unary_cont_closed sealUnary unaryN obligationRoute
+  have publicUnary : UnaryHistory publicRead :=
+    unary_cont_closed obligationUnary unaryP publicRoute
+  have sourcePublic :
+      (fun row : BHist => hsame row publicRead ∧ UnaryHistory row) publicRead := by
+    exact ⟨hsame_refl publicRead, publicUnary⟩
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => hsame row publicRead ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row I ∨ hsame row J ∨ hsame row phi ∨ hsame row K ∨
+              hsame row L ∨ hsame row S ∨ hsame row R ∨ hsame row D ∨
+                hsame row A ∨ hsame row H ∨ hsame row C ∨ hsame row P ∨
+                  hsame row N ∨ hsame row publicRead)
+          (fun row : BHist =>
+            UnaryHistory row ∧ Cont J phi targetRead ∧
+              Cont targetRead L sealRead ∧ Cont sealRead N obligationRead ∧
+                Cont obligationRead P publicRead ∧ PkgSig bundle publicRead pkg)
+          hsame := {
+    core := {
+      carrier_inhabited := Exists.intro publicRead sourcePublic
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        exact
+          ⟨hsame_trans (hsame_symm sameRows) source.left,
+            unary_transport source.right sameRows⟩
+    }
+    pattern_sound := by
+      intro _row source
+      right
+      right
+      right
+      right
+      right
+      right
+      right
+      right
+      right
+      right
+      right
+      right
+      right
+      exact source.left
+    ledger_sound := by
+      intro _row source
+      exact
+        ⟨source.right, targetRoute, sealRoute, obligationRoute, publicRoute, publicPkg⟩
+  }
+  exact ⟨cert, publicUnary⟩
+
 end BEDC.Derived.DirectedSubnetUp
