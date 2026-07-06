@@ -1,0 +1,63 @@
+\chapter{A Concrete Naming Certificate for $\BishopFiniteCompletionWitnessUp$}
+\label{ch:concrete-instances-bishop-finite-completion-witness-namecert}
+\origin{human}
+
+Following Bishop and Bridges, the $\BishopFiniteCompletionWitnessUp$ packet records the finite completion-witness surface used when Bishop-style regular rational data are carried from dyadic radii and stream observations into a terminal real-name seal. It sits over the dyadic tolerance core of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the finite stream-name windows of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the terminal seal of \autoref{ch:concrete-instances-real-namecert}, and the completion-adjoint route of \autoref{ch:concrete-instances-bishop-real-completion-adjoint-namecert}. The packet names only the displayed finite witness rows; it does not assert quotient completion equality, select a limit, compare host real values, import countable choice, or prove ambient $\RealUp$ completeness.
+
+\begin{definition}[Bishop finite completion witness carrier]
+\label{def:bishop-finite-completion-witness-carrier}
+A $\BishopFiniteCompletionWitnessUp$ carrier is a finite $\BHist$ packet
+$$
+W=(D,S,R,E,A,T,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $D$ is the $\DyadicRatCoreUp$ radius and tolerance row for the completion request.
+\item $S$ is the finite $\StreamNameUp$ observation-window row read at that radius.
+\item $R$ is the $\RegSeqRatUp$ regular Cauchy readback row for the observations exposed by $S$ and checked against $D$.
+\item $E$ is the terminal $\RealUp$ seal row, visible only after $D,S,R$ have been displayed.
+\item $A$ is the $\BishopRealCompletionAdjointUp$ transport row that records the finite completion-adjoint handoff consumed by the witness.
+\item $T$ is the local witness row tying the dyadic radius, stream observation, regular readback, terminal seal, and adjoint transport into one displayed completion packet.
+\item $H$ stores componentwise $\hsame$ transport for $D,S,R,E,A,T$ and the structural rows.
+\item $C$ stores displayed $\Cont$ replay of the route from dyadic radius through stream observation, regular readback, terminal seal, adjoint transport, provenance, and local naming.
+\item $P$ is the $\Pkg$ provenance over $\BishopFiniteCompletionWitnessUp$, $\DyadicRatCoreUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\RealUp$, $\BishopRealCompletionAdjointUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\BishopFiniteCompletionWitnessUp}$ row.
+\end{enumerate}
+The accepted carrier is exactly the displayed packet $W$. It has no coordinate for quotient completion equality, a selected completed limit, host real equality, countable choice, ambient $\RealUp$ completeness, or detached completion data outside the listed rows.
+\end{definition}
+
+\begin{theorem}[Bishop finite completion witness NameCert obligations]
+\label{thm:bishop-finite-completion-witness-namecert-obligations}
+For every accepted carrier $W=(D,S,R,E,A,T,H,C,P,N)$, the local $\NameCert_{\BishopFiniteCompletionWitnessUp}$ obligations are exhausted by dyadic radius admission through $D$, finite stream observation through $S$, regular Cauchy readback through $R$, terminal Real sealing through $E$, completion-adjoint transport through $A$, local witness binding through $T$, componentwise transport through $H$, displayed replay through $C$, provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the accepted carrier of \autoref{def:bishop-finite-completion-witness-carrier}. The analytic rows available to the local classifier are exactly $D,S,R,E,A,T$.
+
+Read the route in order. The dyadic row fixes the radius and tolerance budget, the stream row exposes the finite observation window for that budget, and the regular rational row records the Cauchy readback visible in that window. The terminal seal row $E$ is downstream of these rows, and the completion-adjoint row $A$ records only the displayed transport into the completion-facing surface.
+
+The witness row $T$ binds those displayed rows rather than adding a new completion object. Transport, replay, provenance, and local naming preserve the same packet. Since no excluded coordinate appears in $W$, no local obligation can export quotient equality, a selected limit, host equality, countable choice, ambient completeness, or detached completion data.
+\end{proof}
+
+\begin{theorem}[Bishop finite completion witness finite-choice nonescape]
+\label{thm:bishop-finite-completion-witness-finite-choice-nonescape}
+Every completion-witness read from an accepted $\BishopFiniteCompletionWitnessUp$ carrier is a displayed finite packet through dyadic radius, stream observation, regular Cauchy readback, terminal $\RealUp$ seal, completion-adjoint transport, replay, provenance, and local naming. The read cannot export quotient completion equality, selected limits, host real equality, countable choice, or ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Start with an accepted carrier $W=(D,S,R,E,A,T,H,C,P,N)$. The rows $D,S,R,E,A$ are the only completion-facing analytic data, and the local witness row $T$ is displayed beside them in the same finite $\BHist$ packet.
+
+Apply the NameCert obligations of \autoref{thm:bishop-finite-completion-witness-namecert-obligations}. They force every witness read to expose the dyadic radius, stream observation, regular Cauchy readback, terminal seal, and completion-adjoint transport before the witness row can be consumed.
+
+Finally replay $H,C,P,N$. Componentwise transport, displayed continuation replay, provenance, and local naming preserve the same finite packet. Because the carrier contains no row for quotient completion equality, selected limits, host real equality, countable choice, or ambient $\RealUp$ completeness, the witness read cannot export any of those endpoints.
+\end{proof}
+
+\closureat{BishopFiniteCompletionWitnessUp}{seedStr}
+
+\begin{closurestatus}{\BishopFiniteCompletionWitnessUp}
+  \constructivestory{A $\BishopFiniteCompletionWitnessUp$ packet is generated from a DyadicRatCoreUp radius row, a finite StreamNameUp observation row, a RegSeqRatUp regular readback row, a terminal RealUp seal, a BishopRealCompletionAdjointUp transport row, a local witness row, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:bishop-finite-completion-witness-carrier}, \autoref{thm:bishop-finite-completion-witness-namecert-obligations}, and \autoref{thm:bishop-finite-completion-witness-finite-choice-nonescape} seed the finite completion-witness route from dyadic radius and stream observation through regular readback, terminal Real sealing, and completion-adjoint transport.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim quotient completion equality, selected limits, host real equality, countable choice, ambient Real completeness, Lean checking, or bridge checking.}
+  \upgradepath{Obligation closure requires checked dyadic radius admission, stream observation, regular readback, terminal Real sealing, completion-adjoint transport, witness binding, transport, replay, provenance, and local naming for BEDC.Derived.BishopFiniteCompletionWitnessUp.}
+\end{closurestatus}
