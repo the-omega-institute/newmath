@@ -26,6 +26,20 @@ theorem vp_decode_normAdd (p : ℕ) (z w : PZGTable) :
     vp p (decode (normAdd z w)) = vp p (decode z) + vp p (decode w) := by
   rw [decode_normAdd, vp_mul]
 
+/-- **生成式定理(归一化交换律)**:PZG 归一化加法可交换 `normAdd z w = normAdd w z`。
+基于 carry/再编码的归一化操作的可交换性,由其等于 `ℕ⁺` 乘法得出(源只述 5.6 归一化=乘法,
+未单列此代数结构)。 -/
+theorem normAdd_comm (z w : PZGTable) : normAdd z w = normAdd w z := by
+  unfold normAdd; rw [mul_comm]
+
+/-- **生成式定理(归一化结合律)**:`normAdd (normAdd z w) u = normAdd z (normAdd w u)`。
+两侧解码皆为 `𝖣z·𝖣w·𝖣u`,由 `decode` 双射得等。故 PZG 归一化在位表上构成交换幺半群,
+与素轴自由交换幺半群(4.4)同构。 -/
+theorem normAdd_assoc (z w u : PZGTable) :
+    normAdd (normAdd z w) u = normAdd z (normAdd w u) := by
+  apply decode.injective
+  simp only [decode_normAdd, mul_assoc]
+
 end PZGTable
 
 end UnifiedTheory
