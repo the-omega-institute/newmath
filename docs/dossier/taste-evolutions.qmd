@@ -20,19 +20,19 @@ date-modified: today
 
 ## 当前观察 (auto-refresh)
 
-> 最后刷新: 2026-07-06T08:54:17Z
+> 最后刷新: 2026-07-06T11:37:04Z
 
-**Daemon 状态**: monitor (monitor cycle 322, adjust_since_research 2, round_counter 38930, last_adjust rule_evolution_completed)
+**Daemon 状态**: monitor (monitor cycle 323, adjust_since_research 2, round_counter 38977, last_adjust rule_evolution_completed)
 
-**待处理 queue** (1415 条 finding):
-- isolated_theorem: 1040 条; 代表样本 `derived`, `derived`, `derived`
+**待处理 queue** (1417 条 finding):
+- isolated_theorem: 1042 条; 代表样本 `derived`, `derived`, `derived`
 - unauthorized_capstone: 306 条; 代表样本 `cauchy`, `helly_theorem`, `metacic_candidate_strong_normalization`
 - low_entropy_template: 69 条; 代表样本 `variation_norm`, `kernelinductiveacceptance`, `polishspace`
 
 **最近 alert 概览** (24h 内):
-- TASTE ALERT category=isolated_theorem: 98 次
-- TASTE ALERT category=low_entropy_template: 7 次
-- TASTE ALERT category=cycle_exception: 2 次
+- TASTE ALERT category=isolated_theorem: 100 次
+- TASTE ALERT category=low_entropy_template: 6 次
+- TASTE ALERT category=cycle_exception: 3 次
 - TASTE ALERT category=resolution_json_parse_failed: 1 次
 
 **RESEARCH 候选 (尚未 ship)**: 本周期无新候选
@@ -646,6 +646,8 @@ error: build failed, audit=skipped, phase_d_lint=skipped.
 - 2026-07-06T08:53:33Z: `resolved` `add_downstream_user` for `BEDC.Derived.GapFailureBridgeAuditUp.GapFailureBridgeAuditPacket_nonescape` (flag `isolated_theorem`, finding `isolated_theorem:gapfailurebridgeaudit:BEDC.Derived.GapFailureBridgeAuditUp.GapFailureBridgeAuditPacket_nonescape:29cfe6b6`). Rationale: The target is not a disposable wrapper: it proves a separate gap/failure non-escape certificate with SemanticNameCert evidence and explicit T/F event-flow membership, and the paper uses it in the public-surface argument. Exact repo search showed no prior Lean downstream consumer, so I added ScienceBridgeGapFailureAuditNonescapeHandoff in the related ScienceBridge mature failure surface file; the new theorem consumes GapFailureBridgeAuditPacket_nonescape together with the existing ScienceBridgeMatureFailureSurfaceExport, tying the gap/failure audit certificate into a sibling bridge-facing export surface. Gate results: lake_build=ok, audit=ok, phase_d_lint=ok, axiom_purity=ok.
 
 - 2026-07-06T10:06:06Z: `resolved` `leave_with_rationale` for `BEDC.Derived.GapFailureBridgeAuditUp.GapFailureBridgeAuditPacket_axis_separation` (flag `isolated_theorem`, finding `isolated_theorem:gapfailurebridgeaudit:BEDC.Derived.GapFailureBridgeAuditUp.GapFailureBridgeAuditPacket_axis_separation:29cfe6b6`). Rationale: The theorem is not a disposable wrapper: the paper chapter marks it as the Lean site for the GapFailureBridgeAudit axis-separation theorem, and the theorem packages the NameCert surface with the explicit encoded X-row membership and the Cont B X bridge-axis route. The natural downstream sibling is ScienceBridgeUp, which already imports GapFailureBridgeAuditUp and consumes GapFailureBridgeAuditPacket_nonescape; I attempted to add a ScienceBridge handoff theorem consuming this target, but lake build failed in that added theorem with Unknown identifier FieldFaithful.fields. Per the task contract, I reverted the attempted change and leave the theorem as staging-only with a concrete downstream path through ScienceBridgeUp once the consumer statement is adjusted to the available namespace/import surface. Gate results: lake_build=error: BEDC/Derived/ScienceBridgeUp/MatureFailureSurfaceExport.lean:232:36: Unknown identifier `FieldFaithful.fields`; error: build failed, audit=skipped, phase_d_lint=skipped.
+
+- 2026-07-06T11:36:07Z: `resolved` `add_downstream_user` for `BEDC.Derived.EgorovUp.EgorovCarrier_namecert_obligations` (flag `isolated_theorem`, finding `isolated_theorem:derived:BEDC.Derived.EgorovUp.EgorovCarrier_namecert_obligations:88980f14`). Rationale: The target is not staging-only and not a removable wrapper: it constructs the Egorov local SemanticNameCert obligation surface for the carrier, but grep showed no downstream Lean consumer before this change. I added a sibling consumer theorem, BEDC.Derived.EgorovUp.Egorov_measure_ledger_obligation_consumer_handoff, in the measure-ledger sibling file; it calls EgorovCarrier_namecert_obligations to obtain the local Egorov obligation certificate and row obligations, then uses those obligations to build the downstream ledger consumer certificate. Gate results: lake_build=ok, audit=ok, phase_d_lint=ok, axiom_purity=ok.
 
 ## 注解
 
