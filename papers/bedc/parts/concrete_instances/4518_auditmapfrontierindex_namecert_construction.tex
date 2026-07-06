@@ -142,6 +142,24 @@ Finally let $e$ be a neighbouring map not displayed in $E_0$. A frontier entry o
 \end{proof}
 \leanchecked{BEDC.Derived.AuditMapFrontierIndexUp.AuditMapFrontierIndex\_neighbour\_restriction}
 
+\begin{theorem}[Audit-map frontier-index public obstruction frontier separation]
+\label{thm:audit-map-frontier-index-public-obstruction-frontier-separation}
+Let
+$$
+I=(T,A,E,P,R,O,F,S,H,C,K,N)
+$$
+be an accepted $\AuditMapFrontierIndexUp$ carrier. Any public read of the frontier row $F$ must keep visible the obstruction row $O$, conditional route row $R$, neighbouring-map row $E$, synthesis row $S$, transports $H$, continuations $C$, provenance $K$, and local name $N$. No public consumer may treat $F$ as a discharge of $O$, and no public consumer may read $F$ as a frontier for a neighbouring map not listed in $E$.
+\end{theorem}
+\begin{proof}
+Project the carrier by \autoref{def:audit-map-frontier-index-carrier} and the local obligations of \autoref{thm:audit-map-frontier-index-namecert-obligations}. The only frontier coordinate is the displayed row $F$, and its obligation is stated relative to the same packet rows $T,A,E,P,R,O,S,H,C,K,N$.
+
+Read the frontier-row obligation through the obstruction and route rows. The row $O$ supplies the visible obstruction data, while $R$ records the conditional route that can lead to a frontier entry; the frontier row is therefore downstream of both rows and cannot itself be a proof that $O$ has disappeared.
+
+Next use the synthesis-handoff obligation. A public consumer named by $S$ can consume frontier data only together with the neighbouring-map row $E$, transports $H$, continuation ledger $C$, provenance $K$, and local name $N$. These rows keep the public read attached to the displayed finite packet.
+
+Finally apply \autoref{thm:audit-map-frontier-index-neighbour-restriction}. If a neighbouring map is not listed in the displayed row $E$, deleting to the subfamily that omits it leaves no frontier entry or synthesis route for that map. Thus $F$ separates public frontier reads from obstruction discharge and from unlisted neighbouring-map claims.
+\end{proof}
+
 \begin{theorem}[Audit-map frontier-index obstruction route]
 \label{thm:audit-map-frontier-index-obstruction-route}
 Let
