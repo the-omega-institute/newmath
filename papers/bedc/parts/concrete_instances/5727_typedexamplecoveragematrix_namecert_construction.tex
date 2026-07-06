@@ -158,6 +158,18 @@ Apply the boundary rows theorem. Since the matrix has no coordinate for checker 
 The remaining formal targets are therefore row-local obligations about $F,G,C,B,R,E,H,K,P,N$ and their finite NameCert route.
 \end{proof}
 
+\begin{theorem}[Typed example coverage matrix seed readiness]
+\label{thm:typed-example-coverage-matrix-seed-readiness}
+The carrier row $F$, gallery cells $G$, checker cells $C$, beta-boundary cells $B$, regression-spend cells $R$, exactness row $E$, componentwise transport $H$, displayed replay $K$, provenance $P$, and local $\NameCert_{\TypedExampleCoverageMatrixUp}$ row $N$ form the complete seed packet for later MetaCIC checker-audit work. The seed packet supports only row-local carrier admission, paired cell exposure, exactness, transport, replay, provenance, and local naming; it excludes subject reduction, normalization, checker completeness, arbitrary beta closure, and unindexed regression spending.
+\end{theorem}
+\begin{proof}
+Start with the carrier and NameCert obligations, \autoref{def:typed-example-coverage-matrix-carrier} and \autoref{thm:typed-example-coverage-matrix-namecert-obligations}. They display the family index, gallery cells, checker cells, beta-boundary cells, regression-spend cells, exactness row, and structural rows as one finite packet.
+
+Use the public audit route and boundary-row theorems, \autoref{thm:typed-example-coverage-matrix-public-audit-route} and \autoref{thm:typed-example-coverage-matrix-boundary-rows}. The audit route forces every consumer through $F,G,C,B,R,E,H,K,P,N$, while the boundary rows remove subject reduction, normalization, checker completeness, arbitrary beta closure, and wider dependent coverage from the packet surface.
+
+Finally apply regression exactness, checker-cell locality, family exhaustion, and non-escape. These keep every spend, checker, gallery, and beta-boundary read tied to one displayed family row, so the seed packet is complete for row-local MetaCIC checker-audit work without becoming a global checker-completeness claim.
+\end{proof}
+
 \begin{theorem}[Typed example coverage matrix public export]
 \label{thm:typed-example-coverage-matrix-public-export}
 Every MetaCIC audit consumer of an accepted $\TypedExampleCoverageMatrixUp$ packet receives only the family-indexed gallery, checker, beta-boundary, and regression-spend rows $F,G,C,B,R,E,H,K,P,N$. The export may cite the MetaCIC typed-examples gallery of \autoref{ch:concrete-instances-metacictypedexamplesgallery-namecert}, the typed-example audit budget of \autoref{ch:concrete-instances-typedexampleauditbudget-namecert}, and the beta-step boundary of \autoref{ch:concrete-instances-betastepboundary-namecert}, but it does not export checker completeness, subject reduction, normalization, arbitrary beta closure, or gallery soundness beyond the displayed family rows.
