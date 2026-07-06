@@ -1,0 +1,522 @@
+\documentclass[11pt]{article}
+
+\usepackage[a4paper,margin=1in]{geometry}
+\usepackage{amsmath,amssymb,amsthm,mathtools}
+\usepackage{booktabs}
+\usepackage{enumitem}
+\usepackage{xcolor}
+\usepackage[colorlinks=true,linkcolor=blue!55!black,citecolor=blue!55!black,urlcolor=blue!55!black]{hyperref}
+
+\newcommand{\lean}[1]{\relax\ifmmode\hbox{\scriptsize\ttfamily\detokenize{#1}}\else{\small\texttt{\detokenize{#1}}}\fi}
+\newcommand{\PZG}{\mathrm{PZG}}
+\newcommand{\BEDC}{\mathrm{BEDC}}
+\newcommand{\K}{\mathcal{K}}
+\newcommand{\Npos}{\mathbb{N}_{>0}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\phiG}{\varphi}
+\newcommand{\psiG}{\psi}
+
+\title{A Faithful Lean Account of the PZG--BEDC Kernel}
+\author{Unified Theory Working Line}
+\date{}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+We report the portion of the PZG--BEDC dynamic ontology kernel that is presently formalized in Lean 4 with mathlib.  PZG denotes prime-axis Zeckendorf coding: each prime axis carries a finite Zeckendorf word, and decoding first turns those words into prime exponents and then reconstructs a positive natural number.  The checked development covers the finite generation layer, a Newman normal-form criterion, prime-axis factorization and Euclid escape, Zeckendorf and PZG bijections, normalization as multiplication, finite golden-ratio double-sided algebra, integrality of the normalization deficit, finite reading and a prime two-square classifier, Cantor diagonal barriers for self-coding, and a cost-based time arrow for event histories.  Every mathematical assertion labeled as machine checked below names an actual Lean declaration under \lean{papers/unified_theory/lean4/UnifiedTheory}; no theorem claim is made for the analytic zeta program, quasicrystal zeta, zero transport, RH, or any other item not represented by a real Lean declaration.  The Lean project is mathlib-based and isolated from the mathlib-free BEDC core; the stated reproducibility surface is the branch \lean{feat/unified-theory-mathlib}, with the full project check given by \lean{lake build}.
+\end{abstract}
+
+\section{Introduction}
+
+The source theory proposes a dynamic mathematical ontology kernel
+$$
+  \K_{\PZG}
+$$
+whose objects are not only static data, but generated histories, standard codes, decoders, normalizers, finite readings, and ledger states.  The PZG part of the name is literal: \emph{prime axes} provide the coordinate directions, while \emph{Zeckendorf words} provide the per-axis digit system.  In the formalized carrier, a PZG table is a finite-support map
+$$
+  p \longmapsto w_p
+$$
+where the support is restricted to primes and each $w_p$ is a legal Zeckendorf representation.  Decoding maps each $w_p$ to a natural exponent and then uses unique factorization to recover an element of $\Npos$.
+
+The goal of this Lean line is not to certify the full speculative reach of the source document.  It is narrower and more valuable as a logical audit: identify the finite and algebraic claims that can be stated cleanly, prove them in Lean, and keep analytic or self-referential frontier claims outside the checked-result column until they have genuine declarations and proofs.  This paper therefore distinguishes three classes.
+
+\begin{enumerate}[label=(\roman*)]
+  \item \textbf{Checked theorem or definition}: a declaration in \lean{UnifiedTheory/**.lean} that can be referenced by name.
+  \item \textbf{Encoded statement}: a Lean \lean{Prop} used to record a target without pretending that it is proved.
+  \item \textbf{Outlook}: mathematical plans or analytic programs that are not yet formalized.
+\end{enumerate}
+
+The development is deliberately mathlib-based.  It uses mathlib's APIs for natural-number factorization, Zeckendorf representations, golden-ratio identities, pigeonhole arguments, and Fermat's theorem on sums of two squares.  This is separate from the mathlib-free BEDC core in the main repository: no file under the BEDC core imports this Lean project, and this project does not alter the BEDC no-mathlib invariant.
+
+\section{Formalized Results}
+
+This section lists the checked content by layer.  Each item gives an informal statement, the precise Lean declaration name, and the reason it captures the corresponding part of the source theory.
+
+\subsection{Generation, Mark Exchange, and Histories}
+
+\paragraph{Two marks and exchange.}
+The finite basis of the generation layer is the inductive type
+$$
+  \lean{UnifiedTheory.Mark}.
+$$
+It has exactly two constructors, \lean{zero} and \lean{one}.  The exchange operation is
+$$
+  \lean{UnifiedTheory.Mark.sigma : Mark -> Mark},
+$$
+with checked facts
+$$
+  \lean{UnifiedTheory.Mark.sigma_involutive}
+$$
+and
+$$
+  \lean{UnifiedTheory.Mark.sigma_nontrivial}.
+$$
+Informally, the first theorem says $\sigma(\sigma(x))=x$ for both marks, and the second records that $\sigma$ really swaps the two constructors.  This is the formal core of the source definitions 1.1--1.2: the minimal binary marker and its nontrivial exchange are not axioms, but a two-constructor inductive type and a case split.
+
+\paragraph{Finite histories.}
+The history carrier is
+$$
+  \lean{UnifiedTheory.MarkHist},
+$$
+with constructors \lean{empty} and \lean{ext}.  The formal append operation satisfies
+$$
+  \begin{gathered}
+  \lean{UnifiedTheory.MarkHist.empty_append},\\
+  \lean{UnifiedTheory.MarkHist.append_empty},\\
+  \lean{UnifiedTheory.MarkHist.append_assoc},
+  \end{gathered}
+$$
+and its length satisfies
+$$
+  \lean{UnifiedTheory.MarkHist.length_append}.
+$$
+These are the checked version of the finite-history monoid laws in proposition 2.4.  The source document describes generation induction and event finiteness as axiomatic principles; the Lean line does not add such axioms.  It realizes the finite layer by ordinary inductive recursion and lists.
+
+\paragraph{Events and generation.}
+Events are structures
+$$
+  \lean{UnifiedTheory.Event}
+$$
+with fields for source history, opcode, argument, and output tag.  Event histories are lists, and generation is list extension:
+$$
+  \lean{UnifiedTheory.EventHist.generate}.
+$$
+The checked statement
+$$
+  \lean{UnifiedTheory.EventHist.generate_length}
+$$
+says that appending one event increases the list length by one.  This is the finite operational shadow of the source idea that a generated event extends a history.
+
+\subsection{Uniticity by Abstract Rewriting}
+
+The formal rewriting module is generic in a type $\alpha$ and a relation $r:\alpha\to\alpha\to\mathrm{Prop}$.  It defines the reflexive-transitive closure
+$$
+  \lean{UnifiedTheory.Rewriting.Star},
+$$
+normal forms
+$$
+  \lean{UnifiedTheory.Rewriting.Normal},
+$$
+joinability, local confluence, confluence, and termination:
+$$
+  \begin{gathered}
+  \lean{UnifiedTheory.Rewriting.Joinable},\\
+  \lean{UnifiedTheory.Rewriting.LocallyConfluent},\\
+  \lean{UnifiedTheory.Rewriting.Confluent},\\
+  \lean{UnifiedTheory.Rewriting.Terminates}.
+  \end{gathered}
+$$
+The checked Newman theorem is
+$$
+  \lean{UnifiedTheory.Rewriting.newman_confluent}.
+$$
+Its type is:
+$$
+  \mathrm{Terminates}(r)\to \mathrm{LocallyConfluent}(r)\to \mathrm{Confluent}(r).
+$$
+The normal-form theorem is
+$$
+  \lean{UnifiedTheory.Rewriting.exists_unique_normal_form},
+$$
+which states that under the same hypotheses every element has a unique normal form.  This exactly formalizes the source theorem 3.2 at the abstract rewriting level.  It does not assert that every future normalizer in the theory has already been given a terminating rewrite system; it supplies the reusable criterion.
+
+\subsection{Prime Axes and Euclid Escape}
+
+The prime-axis state space is
+$$
+  \lean{UnifiedTheory.PrimeExp},
+$$
+a finite-support natural exponent vector whose support consists of primes.  The declaration
+$$
+  \lean{UnifiedTheory.PrimeExp.equivPNat}
+$$
+has type
+$$
+  \Npos \simeq \lean{UnifiedTheory.PrimeExp}.
+$$
+This is the formalized prime-axis statement: positive natural numbers are equivalent to finite prime exponent vectors.  The proof is a mathlib wrapper around \lean{Nat.factorizationEquiv}, so the paper should not claim that this Lean file rederives the full elementary proof of unique factorization from scratch.
+
+The exponent reading is
+$$
+  \lean{UnifiedTheory.vp},
+$$
+and the multiplicative additivity theorem is
+$$
+  \lean{UnifiedTheory.vp_mul}.
+$$
+It says
+$$
+  v_p(mn)=v_p(m)+v_p(n)
+$$
+for $m,n\in\Npos$.  This is the checked content behind theorem 4.4's ``multiplication is coordinatewise addition on prime axes'' slogan.
+
+Euclid escape is represented by
+$$
+  \lean{UnifiedTheory.euclidEscape}
+$$
+and proved by
+$$
+  \lean{UnifiedTheory.exists_prime_not_mem}.
+$$
+For every finite set $S$ of primes, the theorem produces a prime divisor of
+$$
+  \prod_{p\in S}p+1
+$$
+that is not in $S$.  This is the formalized version of theorem 4.5: no finite window of prime axes exhausts the prime directions.
+
+\subsection{Zeckendorf Words and the PZG Bijection}
+
+On a single axis, the Zeckendorf carrier is
+$$
+  \lean{UnifiedTheory.AxisWord},
+$$
+a subtype of lists satisfying mathlib's \lean{List.IsZeckendorfRep}.  The equivalence
+$$
+  \lean{UnifiedTheory.AxisWord.equivNat}
+$$
+has type
+$$
+  \N\simeq\lean{UnifiedTheory.AxisWord}.
+$$
+The round-trip theorems
+$$
+  \lean{UnifiedTheory.AxisWord.decode_encode},\quad
+  \lean{UnifiedTheory.AxisWord.encode_decode}
+$$
+state the existence and uniqueness directions of Zeckendorf representation.  This is the checked theorem 5.3, again using mathlib's Zeckendorf API rather than a handwritten proof.
+
+The PZG table carrier is
+$$
+  \lean{UnifiedTheory.PZGTable}.
+$$
+It is not merely an exponent vector: it keeps the per-prime Zeckendorf word.  The axis-level equivalence
+$$
+  \lean{UnifiedTheory.PZGTable.equivPrimeExp}
+$$
+decodes each axis word to an exponent and preserves prime support.  Composing this with prime factorization gives
+$$
+  \lean{UnifiedTheory.PZGTable.decode : PZGTable \simeq \Npos}.
+$$
+The checked round trips
+$$
+  \lean{UnifiedTheory.PZGTable.decode_encode},\quad
+  \lean{UnifiedTheory.PZGTable.encode_decode}
+$$
+are the formal statement of theorem 5.5: PZG tables and positive natural numbers are in bijection.
+
+Normalization is defined canonically:
+$$
+  \lean{UnifiedTheory.PZGTable.normAdd z w}
+  =
+  \lean{encode (decode z * decode w)}.
+$$
+The theorem
+$$
+  \lean{UnifiedTheory.PZGTable.decode_normAdd}
+$$
+says
+$$
+  \mathrm{decode}(\mathrm{normAdd}(z,w))
+  =
+  \mathrm{decode}(z)\,\mathrm{decode}(w),
+$$
+and
+$$
+  \lean{UnifiedTheory.PZGTable.vp_decode_normAdd}
+$$
+says the same thing coordinatewise as prime-exponent addition.  This captures theorem 5.6 as a canonical normalization theorem.  It is not a proof of a step-by-step carry algorithm or carry termination; it defines the normalized result by the uniqueness of the PZG bijection.
+
+\subsection{Golden Double-Sided Algebra}
+
+The golden algebra carrier is
+$$
+  \lean{UnifiedTheory.PhiInt}.
+$$
+An element is an integer pair representing $a+b\phiG$ with $\phiG^2=\phiG+1$.  Multiplication, conjugation, and real embeddings are defined by
+$$
+  \begin{gathered}
+  \lean{UnifiedTheory.PhiInt.conj},\\
+  \lean{UnifiedTheory.PhiInt.toRealPlus},\\
+  \lean{UnifiedTheory.PhiInt.toRealMinus}.
+  \end{gathered}
+$$
+The theorem
+$$
+  \lean{UnifiedTheory.PhiInt.fixed_conj_iff}
+$$
+says that a \lean{PhiInt} is fixed by conjugation exactly when its $\phiG$-coefficient is zero.  This is the algebraic reason the deficit integrality proof works.
+
+The embedding compatibility theorem
+$$
+  \lean{UnifiedTheory.PhiInt.toRealMinus_eq_toRealPlus_conj}
+$$
+identifies the shrinking real face with the expanding real face after conjugation, while
+$$
+  \lean{UnifiedTheory.PhiInt.toRealPlus_mul}
+$$
+states that the expanding embedding is multiplicative.  The Fibonacci decomposition of powers is
+$$
+  \lean{UnifiedTheory.PhiInt.phiPow_ab},
+$$
+which says that the $b$-coordinate of $\phiG^n$ is the Fibonacci number $F_n$.
+
+For axis words, the double-sided reading is
+$$
+  \lean{UnifiedTheory.AxisWord.betaPhi}.
+$$
+The checked gap identity
+$$
+  \lean{UnifiedTheory.AxisWord.betaPhi_gap}
+$$
+says that the difference between the expanding and shrinking real readings is $\sqrt{5}$ times the ordinary decoded value.  At the PZG-table level, the two real readings are
+$$
+  \lean{UnifiedTheory.PZGTable.lambdaPlus},\quad
+  \lean{UnifiedTheory.PZGTable.lambdaMinus}.
+$$
+These declarations formalize definition 6.4 as a finite sum over the finite support of a PZG table.
+
+\paragraph{Carry ledger identities.}
+The finite golden carry identities are checked as
+$$
+  \lean{UnifiedTheory.Golden.gold_carry_plus},\quad
+  \lean{UnifiedTheory.Golden.gold_carry_minus},
+$$
+and the bottom-rule identities as
+$$
+  \lean{UnifiedTheory.Golden.gold_bottom_plus},\quad
+  \lean{UnifiedTheory.Golden.gold_bottom_minus}.
+$$
+The exact \lean{PhiInt} version is
+$$
+  \lean{UnifiedTheory.Golden.phiPow_carry}.
+$$
+These are the formal finite algebra behind proposition 6.21: adjacent Fibonacci carries preserve the double-sided account, while the bottom identity records the unit deficit equation $2\phiG^2-\phiG^3=1$.
+
+\paragraph{Deficit integrality.}
+The normalization deficit is defined by
+$$
+  \lean{UnifiedTheory.deficitPhi}.
+$$
+The theorem
+$$
+  \lean{UnifiedTheory.deficitPhi_integer}
+$$
+states that for all $v,w:\N$ there exists $k:\Z$ such that
+$$
+  \mathrm{deficitPhi}(v,w)=\mathrm{ofInt}(k).
+$$
+The equivalent conjugation-fixed statement is
+$$
+  \lean{UnifiedTheory.deficitPhi_conj_fixed}.
+$$
+This is the checked theorem 6.22: the deficit is an integer because its $\phiG$-coordinate cancels.  The stronger three-value statement is not a theorem in the current Lean development; see Section~\ref{sec:scope}.
+
+\paragraph{Finite Fibonacci core.}
+The finite recurrence
+$$
+  \lean{UnifiedTheory.Golden.finiteW_recurrence}
+$$
+and Cassini identity
+$$
+  \lean{UnifiedTheory.Golden.cassini}
+$$
+formalize the finite algebraic core behind the later trace-map and generating-function discussion.  They do not formalize the infinite function $W(x,y)$, the quasicrystal zeta object, Euler products, analytic continuation, or zero transport.
+
+\subsection{Finite Readings and Two-Square Classification}
+
+The finite-reading pigeonhole theorem is
+$$
+  \lean{UnifiedTheory.Reading.reading_has_fiber}.
+$$
+Given a finite carrier, a finite class set, and a map into that class set, if the class set has smaller cardinality than the carrier, two distinct elements share the same reading.  This proves theorem 8.5 at the level of finite sets: a finite reading with too few values has a nontrivial fiber.
+
+The two-square classifier currently formalized is the prime-level theorem
+$$
+  \lean{UnifiedTheory.Reading.prime_sq_add_sq_iff}.
+$$
+For a prime $p$, it states
+$$
+  (\exists a\,b:\N,\ a^2+b^2=p)\quad\Longleftrightarrow\quad p\bmod 4\ne 3.
+$$
+The easy obstruction is proved in the file from the fact that squares modulo $4$ are $0$ or $1$, and the existence direction uses mathlib's theorem for primes that are sums of two squares.  This captures the prime-classifier part of chapter 9.  It is not the full theorem for arbitrary $n$ with all $3\bmod4$ prime exponents even.
+
+\subsection{Self-Coding and Diagonal Barriers}
+
+The self-code layer presently contains Cantor diagonal theorems for arbitrary types.  The declaration
+$$
+  \lean{UnifiedTheory.SelfCode.no_classifier_surjective}
+$$
+says that no classifier
+$$
+  X\to\mathrm{Set}(X)
+$$
+is surjective.  The declaration
+$$
+  \lean{UnifiedTheory.SelfCode.diagonal_not_classified}
+$$
+exhibits the diagonal property $\{y\mid y\notin \mathrm{classify}(y)\}$ and proves it is not hit by any index.  The dual declaration
+$$
+  \lean{UnifiedTheory.SelfCode.no_decoder_injective}
+$$
+says that no decoder $\mathrm{Set}(X)\to X$ is injective.
+
+These are theorem 16.2--16.3 in their pure diagonal form.  They do not formalize the full program-evaluation fixed-point machinery, the same-layer closure predicate, or the internalization tower described in the source theory.
+
+\subsection{Dynamics and the Cost Arrow}
+
+For event histories, the checked cost theorem is
+$$
+  \lean{UnifiedTheory.EventHist.cost_lt_generate}.
+$$
+It states that generating one event strictly increases the length of the event history.  The theorem
+$$
+  \lean{UnifiedTheory.EventHist.generate_ne}
+$$
+then says that the generated history is not equal to the original history.
+
+This is the formal content of theorem 18.11--18.12 currently present in Lean: irreversibility is expressed as strict growth of the event ledger.  It is not yet the full prime-address dynamics with logarithmic cost over signed exponent states.
+
+\subsection{Kernel Components and Ledger States}
+
+The kernel aggregate is intentionally thin.  The status enum
+$$
+  \lean{UnifiedTheory.Kernel.LedgerStatus}
+$$
+has four constructors:
+$$
+  \lean{open},\quad \lean{closed},\quad \lean{tail},\quad \lean{semantic}.
+$$
+The component module supplies aliases such as
+$$
+  \begin{gathered}
+  \lean{UnifiedTheory.Kernel.History},\quad
+  \lean{UnifiedTheory.Kernel.ExponentState},\\
+  \lean{UnifiedTheory.Kernel.CodeRegister},\quad
+  \lean{UnifiedTheory.Kernel.decode},\quad
+  \lean{UnifiedTheory.Kernel.normalize}.
+  \end{gathered}
+$$
+These names stabilize the currently formalized slots of $\K_{\PZG}$.  They do not constitute a theorem that every component of the full source-theory kernel has been built as one closed record.
+
+\section{Scope and Honesty}
+\label{sec:scope}
+
+The following boundaries are part of the result.
+
+\paragraph{The deficit trichotomy is statement-only.}
+The Lean declaration
+$$
+  \lean{UnifiedTheory.DeficitTrichotomy}
+$$
+is a \lean{Prop}, not a theorem.  It states the desired conclusion that the integer deficit lies in $\{-1,0,1\}$, but no Lean proof of this declaration is present.  The checked part is only:
+$$
+  \begin{gathered}
+  \lean{UnifiedTheory.deficitPhi_integer},\\
+  \lean{UnifiedTheory.deficitPhi_conj_fixed}.
+  \end{gathered}
+$$
+Thus theorem 6.25 is not counted among the machine-checked theorems here.  The missing ingredient is the global shrinking-face window bound for legal Zeckendorf words.
+
+\paragraph{Normalization is canonical, not algorithmic carry termination.}
+The theorem
+$$
+  \lean{UnifiedTheory.PZGTable.decode_normAdd}
+$$
+proves that the canonical normalized table decodes to the product.  The current Lean code does not prove termination of a concrete carry-rewrite procedure for Zeckendorf tables.
+
+\paragraph{The analytic layer is not yet formalized.}
+The infinite generating function $W(x,y)$, the quasicrystal zeta object $Z_{\mathrm{qc}}$, Euler-product factorizations beyond the finite algebraic carriers, meromorphic continuation, natural-boundary claims, zero transport, completed zeta, theta/Mellin machinery, spectral geometry, and RH are not represented by checked Lean theorems in this project.  They belong to outlook unless and until they receive real theorem declarations and proofs.
+
+\paragraph{Chapter 9 is represented only at prime level.}
+The declaration
+$$
+  \lean{UnifiedTheory.Reading.prime_sq_add_sq_iff}
+$$
+classifies when a prime is a sum of two squares.  The broader classical theorem for arbitrary $n$ in terms of even exponents at primes $q\equiv3\pmod4$ is not a current Lean theorem in this project.
+
+\paragraph{The self-code layer is diagonal, not a full evaluator.}
+The checked self-code theorems are Cantor diagonal facts about maps $X\to\mathrm{Set}(X)$ and $\mathrm{Set}(X)\to X$.  They do not yet supply a verified instruction set, substitution evaluator, Kleene fixed-point theorem, or same-layer closure-decider contradiction inside the full kernel machine.
+
+\paragraph{No RH or zero-location claim is proved.}
+The source theory contains a rich ledger language for projection zeros, local accounts, mirror pairing, positivity candidates, and several faces of RH.  None of that is a checked theorem in \lean{UnifiedTheory/**}.  This paper therefore makes no theorem claim about zeta zeros.
+
+\section{Outlook / Future Work}
+
+All items in this section are planned or exploratory and are \textbf{not yet formalized}.
+
+\paragraph{Analytic zeta program.}
+The intended analytic line is to connect prime-axis freedom, PZG heat traces, Euler products, completed zeta, and finite-window tail budgets.  The current Lean project contains the prime-axis and PZG bijections, but not the analytic continuation or completed zeta machinery.
+
+\paragraph{Quasicrystal zeta and diagonal feedback.}
+The source theory proposes a quasicrystal zeta object $Z_{\mathrm{qc}}$ built from the golden double-sided reading, with a diagonal feedback problem labeled O-5.  The present Lean project contains only finite golden algebra: \lean{PhiInt}, $\lambda_+/\lambda_-$ definitions, carry identities, deficit integrality, and Cassini.  The analytic $Z_{\mathrm{qc}}$ program is not yet formalized.
+
+\paragraph{RH and its three faces.}
+The theory source discusses RH through local ledger conditions, reflection geometry, and spectral or positivity readings.  These are not Lean theorems in this project.  A faithful Lean route would first need completed zeta, the relevant analytic function theory, a precise positivity bridge, and a clear separation between projection zeros and any stronger ontology-level zero notion.
+
+\paragraph{Internalization tower.}
+The present diagonal module gives Cantor-style unreachability of classifiers.  A later internalization tower would require verified syntax, coding, substitution, evaluator semantics, layer-indexed ledgers, and relative diagonal theorems.  None of those are currently checked beyond the pure diagonal facts listed above.
+
+\paragraph{Automated science as correspondence search.}
+The intended research workflow is to search for structural overlaps between the PZG--BEDC kernel and known external mathematics: Euler products with prime exponent vectors, Beatty--Wythoff and Zeckendorf coding, $\mathbb{Q}(i)$ two-square norms with $\mathbb{Q}(\sqrt5)$ deficit traces, Hecke--Mahler series with golden word factors, and so on.  This is a promising organizational program, but in the present Lean line it is only supported by the finite correspondences actually listed in Section 2.
+
+\section{Reproducibility}
+
+The checked source lives under
+$$
+  \lean{papers/unified_theory/lean4/UnifiedTheory}.
+$$
+The working branch is
+$$
+  \lean{feat/unified-theory-mathlib}.
+$$
+The Lean project is pinned by
+$$
+  \lean{papers/unified_theory/lean4/lean-toolchain}
+$$
+and
+$$
+  \lean{papers/unified_theory/lean4/lakefile.lean}.
+$$
+It is a mathlib project, separate from the mathlib-free BEDC core.  The full verification command is:
+$$
+  \lean{cd papers/unified_theory/lean4 && lake build}.
+$$
+The branch described here is intended to have that check green, with no \lean{sorry} and no \lean{axiom} in the \lean{UnifiedTheory} sources.
+
+For individual claims, the smallest reproducibility surface is Lean's type checker.  For example:
+\[
+\begin{array}{l}
+\lean{#check UnifiedTheory.Rewriting.exists_unique_normal_form}\\
+\lean{#check UnifiedTheory.PZGTable.decode}\\
+\lean{#check UnifiedTheory.PZGTable.decode_normAdd}\\
+\lean{#check UnifiedTheory.deficitPhi_integer}\\
+\lean{#check UnifiedTheory.Reading.prime_sq_add_sq_iff}\\
+\lean{#check UnifiedTheory.SelfCode.no_classifier_surjective}
+\end{array}
+\]
+Each checked theorem named in this manuscript has been chosen to correspond to an existing declaration, not to a similarly named item in the source prose.
+
+\end{document}
