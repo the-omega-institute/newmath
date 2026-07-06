@@ -18,6 +18,11 @@ open Complex
 /-- 相位读数 `Φ_s(a)=exp(-s·L(a))`(定义 19.1)。 -/
 noncomputable def phase (s : ℂ) (a : PrimeExp) : ℂ := Complex.exp (-s * (L a : ℂ))
 
+/-- **生成式定理(相位读数永不为零,呼应 22.5/22.6)**:`Φ_s(a) ≠ 0`。相位/本体向量在每个 `s`
+上恒不消失(`exp` 非零),故零点是**忘标签投影的相消**,不是本体相位向量本身的消失。 -/
+theorem phase_ne_zero (s : ℂ) (a : PrimeExp) : phase s a ≠ 0 :=
+  Complex.exp_ne_zero _
+
 /-- 相位模长 `|Φ_s(a)| = exp(−Re s · L(a))`;纯虚 `s`(Re s=0)时模长 1。 -/
 theorem norm_phase (s : ℂ) (a : PrimeExp) : ‖phase s a‖ = Real.exp (-s.re * L a) := by
   rw [phase, Complex.norm_exp]
