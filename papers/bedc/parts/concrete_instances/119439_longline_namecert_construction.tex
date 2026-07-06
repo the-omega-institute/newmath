@@ -78,19 +78,60 @@ The refused endpoints are absent from the finite packet. Since $H,C,P,N$ only tr
 \end{proof}
 \leanchecked{BEDC.Derived.LongLineUp.LongLineCarrier\_prefix\_neighbourhood\_exactness}
 
+\begin{theorem}[LongLine order-topology obligation]
+\label{thm:longline-order-topology-obligation}
+Every accepted $\LongLineUp$ consumer that reads an open ray, open interval, order-neighbourhood, or topology membership must expose the rows
+$$
+S,I,O,T,H,C,P,N
+$$
+of a displayed carrier $L=(S,I,O,T,H,C,P,N)$. The comparison read must pass through the $\OrderUp$ and $\TotalOrderUp$ rows named by $O$, and the neighbourhood read must pass through the $\TopologyUp$ row named by $T$. No consumer may replace these rows by a host ordinal comparison, an ambient open-set lattice, or a selected point representative.
+\end{theorem}
+\begin{proof}
+Start from the carrier of \autoref{def:long-line-carrier}. The only comparison data is $O$, and the only topology data is $T$.
+
+Apply \autoref{thm:long-line-namecert-obligations}. It requires order- and topology-facing consumers to display $S,I,O,T,H,C,P,N$ before any point comparison, interval membership, open ray, or open interval is read.
+
+The route of \autoref{thm:long-line-lexicographic-order-route} then fixes the dependency order: prefix and interval rows feed $O$, and $O$ feeds $T$. Hence an order-topology read cannot bypass $\OrderUp$, $\TotalOrderUp$, or $\TopologyUp$, and the refused host data have no carrier coordinate.
+\end{proof}
+
+\begin{theorem}[LongLine initial-segment classifier obligation]
+\label{thm:longline-initial-segment-classifier-obligation}
+The initial-segment classifier of an accepted $\LongLineUp$ packet is the displayed finite $\BHist$ classifier obtained from the prefix schedule $S$, interval-cell row $I$, lexicographic comparison row $O$, and structural rows $H,C,P,N$. Prefix comparison must remain a replayable finite classifier row; it cannot be discharged by comparing host ordinals, quotient representatives, or unrecorded well-order stages outside the packet.
+\end{theorem}
+\begin{proof}
+The definition of the carrier assigns all prefix evidence to $S$ and all within-prefix coordinate evidence to $I$. Therefore any initial-segment comparison has to be reconstructed from displayed packet rows.
+
+Use \autoref{thm:long-line-prefix-neighbourhood-exactness}. It prevents a neighbourhood or comparison read from substituting a host ordinal, quotient point equality, or selected representative for the prefix and interval rows.
+
+The remaining rows $O,H,C,P,N$ turn the displayed prefix schedule into a classifier that can be transported, replayed, sourced, and locally named. Since no row stores an external well-order stage, the classifier remains a finite $\BHist$ classifier.
+\end{proof}
+
+\begin{theorem}[LongLine boundary refusal obligation]
+\label{thm:longline-nonsecondcountable-boundary-obligation}
+The local $\NameCert_{\LongLineUp}$ surface refuses second-countability, compactness, selected representatives, and completed open-set lattices as local certificate rows. A consumer may report that these are outside the packet only after it has exposed the displayed prefix schedule, interval cells, lexicographic comparison, order-topology neighbourhoods, transport, replay, provenance, and local naming rows of $L=(S,I,O,T,H,C,P,N)$.
+\end{theorem}
+\begin{proof}
+Read the inventory of \autoref{def:long-line-carrier}. The packet contains rows for prefix schedules, interval cells, lexicographic comparison, order-topology neighbourhoods, transport, replay, provenance, and naming.
+
+Apply \autoref{thm:long-line-namecert-obligations} and \autoref{thm:long-line-prefix-neighbourhood-exactness}. Together they say that accepted consumers expose those finite rows before reading order or topology data.
+
+Second-countability, compactness, selected representatives, and completed open-set lattices are not rows of $L$. Transport by $H$ and replay by $C$ preserve the same finite packet, so they cannot manufacture any of the refused boundary objects.
+\end{proof}
+
 \falsifiablePrediction{An accepted $\LongLineUp$ consumer is refuted if it reads a point comparison, open ray, open interval, topology membership, transport, replay, provenance, or local naming without first displaying the corresponding $S,I,O,T,H,C,P,N$ rows.}
 
 \independenceWitness{topology, order, totalorder: no listed sibling is bijective to $\LongLineUp$ because the packet jointly carries a displayed well-order-prefix schedule, interval-cell row, lexicographic comparison row, order-topology neighbourhood row, componentwise transport, replay, provenance, and local naming.}
 
 \closureat{LongLineUp}{seedStr}
+\closureat{LongLineUp}{obligationStr}
 
 \begin{closurestatus}{\LongLineUp}
   \constructivestory{A $\LongLineUp$ packet is generated from a well-order-prefix schedule, interval-cell row, lexicographic comparison row, order-topology neighbourhood row, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
-  \theoryclosure{\seedClosure}
-  \scopeclosed{\autoref{def:long-line-carrier}, \autoref{thm:long-line-namecert-obligations}, and \autoref{thm:long-line-lexicographic-order-route} seed the finite long-line order-topology route over displayed prefix, interval, comparison, neighbourhood, transport, replay, provenance, and naming rows.}
+  \theoryclosure{\obligationClosure}
+  \scopeclosed{\autoref{def:long-line-carrier}, \autoref{thm:long-line-namecert-obligations}, \autoref{thm:long-line-lexicographic-order-route}, \autoref{thm:longline-order-topology-obligation}, \autoref{thm:longline-initial-segment-classifier-obligation}, and \autoref{thm:longline-nonsecondcountable-boundary-obligation} bind the finite long-line order-topology route and its displayed obligation surface over prefix, interval, comparison, neighbourhood, transport, replay, provenance, and naming rows.}
   \formalstatus{\theoremCheckedV}
   \leantarget{BEDC.Derived.LongLineUp.LongLineTasteGate\_single\_carrier\_alignment}
   \bridgestatus{none}
   \notclaimed{This chapter does not claim host ordinals, uncountable choice, quotient point equality, selected representatives, completed open-set lattices, compactness theorems, or bridge checking.}
-  \upgradepath{Obligation closure requires checked carrier admission, prefix-schedule exactness, interval-cell exactness, lexicographic comparison routing, order-topology neighbourhood routing, transport, replay, provenance, and local naming for BEDC.Derived.LongLineUp.}
+  \upgradepath{Scoped closure requires binding the order-topology, initial-segment classifier, and boundary-refusal obligations to the exact $\OrderUp$, $\TotalOrderUp$, $\TopologyUp$, $\BHist$, $\hsame$, $\Cont$, $\Pkg$, and $\NameCert$ primitive scopes.}
 \end{closurestatus}
