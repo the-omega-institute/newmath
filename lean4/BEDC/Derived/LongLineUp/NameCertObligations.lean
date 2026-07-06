@@ -97,4 +97,23 @@ theorem LongLineCarrier_namecert_obligations [AskSetup] [PackageSetup]
   }
   exact ⟨cert, compareUnary, topologyUnary, nameUnary⟩
 
+theorem LongLineCarrier_lexicographic_order_route [AskSetup] [PackageSetup]
+    {S I O T H C P N compareRead topologyRead nameRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    LongLineCarrier S I O T H C P N compareRead topologyRead nameRead bundle pkg ->
+      UnaryHistory S ∧ UnaryHistory I ∧ UnaryHistory O ∧ UnaryHistory T ∧
+        UnaryHistory compareRead ∧ UnaryHistory topologyRead ∧
+          Cont S I compareRead ∧ Cont compareRead O topologyRead ∧
+            PkgSig bundle P pkg ∧ PkgSig bundle N pkg := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont UnaryHistory PkgSig
+  intro carrier
+  obtain ⟨unaryS, unaryI, unaryO, unaryT, _unaryH, _unaryC, _unaryP, _unaryN,
+    compareRoute, topologyRoute, _nameRoute, provenancePkg, namePkg⟩ := carrier
+  have compareUnary : UnaryHistory compareRead := unary_cont_closed unaryS unaryI compareRoute
+  have topologyUnary : UnaryHistory topologyRead :=
+    unary_cont_closed compareUnary unaryO topologyRoute
+  exact
+    ⟨unaryS, unaryI, unaryO, unaryT, compareUnary, topologyUnary, compareRoute,
+      topologyRoute, provenancePkg, namePkg⟩
+
 end BEDC.Derived.LongLineUp
