@@ -43,6 +43,16 @@ theorem godel_factorization (l : List ℕ) (j : ℕ) :
     (fun i => l.getD i 0 + 1)]
   simp only [Finset.mem_range]
 
+/-- **生成式定理(自代码指数增长下界)**:长度 `n` 序列的 Gödel 码 `≥ 2^n`。每个因子
+`p_i^{l_i+1} ≥ 2`,故描述随序列长度至少指数增长——自编码的信息-论下界。源文档未列。 -/
+theorem godelEncode_ge (l : List ℕ) : 2 ^ l.length ≤ godelEncode l := by
+  unfold godelEncode
+  calc 2 ^ l.length
+      = ∏ _i ∈ Finset.range l.length, 2 := by rw [Finset.prod_const, Finset.card_range]
+    _ ≤ ∏ i ∈ Finset.range l.length, (prm i) ^ (l.getD i 0 + 1) :=
+        Finset.prod_le_prod' (fun i _ =>
+          le_trans (prm_prime i).two_le (Nat.le_self_pow (Nat.succ_ne_zero _) (prm i)))
+
 theorem godelEncode_injective : Function.Injective godelEncode := by
   intro l l' h
   have key : ∀ j, (if j < l.length then l.getD j 0 + 1 else 0)
