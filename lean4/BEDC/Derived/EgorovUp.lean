@@ -92,4 +92,145 @@ theorem EgorovCarrier_namecert_obligations [AskSetup] [PackageSetup]
   }
   exact ⟨cert, exceptionalUnary, windowUnary, uniformityUnary, ledgerUnary⟩
 
+theorem Egorov_exceptional_set_ledger_exposure [AskSetup] [PackageSetup]
+    {M Omega F X S R A W U L H C P N exceptionalRead ledgerRead consumerRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    EgorovCarrier M Omega F X S R A W U L H C P N bundle pkg ->
+      Cont A L exceptionalRead ->
+        Cont exceptionalRead H ledgerRead ->
+          Cont ledgerRead C consumerRead ->
+            PkgSig bundle P pkg ->
+              SemanticNameCert
+                    (fun row : BHist => hsame row consumerRead ∧ UnaryHistory row)
+                    (fun row : BHist =>
+                      hsame row M ∨ hsame row Omega ∨ hsame row A ∨ hsame row L ∨
+                        hsame row exceptionalRead ∨ hsame row ledgerRead ∨
+                          hsame row consumerRead)
+                    (fun row : BHist =>
+                      UnaryHistory row ∧ Cont A L exceptionalRead ∧
+                        Cont exceptionalRead H ledgerRead ∧ Cont ledgerRead C consumerRead ∧
+                          PkgSig bundle P pkg)
+                    hsame ∧
+                UnaryHistory exceptionalRead ∧ UnaryHistory ledgerRead ∧
+                  UnaryHistory consumerRead := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame SemanticNameCert UnaryHistory
+  intro carrier exceptionalRoute ledgerRoute consumerRoute provenancePkg
+  obtain ⟨_packetWitness, _measureUnary, _probUnary, _familyUnary, _limitUnary,
+    _scheduleUnary, _readbackUnary, exceptionalUnary, _windowUnary, _uniformityUnary,
+    ledgerUnary, _transportUnary, _replayUnary, _provenanceUnary, _localNameUnary,
+    _provenancePkgCarrier, _localNamePkg⟩ := carrier
+  have exceptionalReadUnary : UnaryHistory exceptionalRead :=
+    unary_cont_closed exceptionalUnary ledgerUnary exceptionalRoute
+  have ledgerReadUnary : UnaryHistory ledgerRead :=
+    unary_cont_closed exceptionalReadUnary _transportUnary ledgerRoute
+  have consumerReadUnary : UnaryHistory consumerRead :=
+    unary_cont_closed ledgerReadUnary _replayUnary consumerRoute
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => hsame row consumerRead ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row M ∨ hsame row Omega ∨ hsame row A ∨ hsame row L ∨
+              hsame row exceptionalRead ∨ hsame row ledgerRead ∨ hsame row consumerRead)
+          (fun row : BHist =>
+            UnaryHistory row ∧ Cont A L exceptionalRead ∧
+              Cont exceptionalRead H ledgerRead ∧ Cont ledgerRead C consumerRead ∧
+                PkgSig bundle P pkg)
+          hsame := {
+    core := {
+      carrier_inhabited := Exists.intro consumerRead
+        ⟨hsame_refl consumerRead, consumerReadUnary⟩
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        exact
+          ⟨hsame_trans (hsame_symm sameRows) source.left,
+            unary_transport source.right sameRows⟩
+    }
+    pattern_sound := by
+      intro _row source
+      exact Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr source.left)))))
+    ledger_sound := by
+      intro _row source
+      exact
+        ⟨source.right, exceptionalRoute, ledgerRoute, consumerRoute, provenancePkg⟩
+  }
+  exact ⟨cert, exceptionalReadUnary, ledgerReadUnary, consumerReadUnary⟩
+
+theorem Egorov_streamname_real_uniform_window_handoff [AskSetup] [PackageSetup]
+    {M Omega F X S R A W U L H C P N streamRead toleranceRead realRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    EgorovCarrier M Omega F X S R A W U L H C P N bundle pkg ->
+      Cont S R streamRead ->
+        Cont streamRead W toleranceRead ->
+          Cont toleranceRead U realRead ->
+            PkgSig bundle P pkg ->
+              SemanticNameCert
+                    (fun row : BHist => hsame row realRead ∧ UnaryHistory row)
+                    (fun row : BHist =>
+                      hsame row S ∨ hsame row R ∨ hsame row W ∨ hsame row U ∨
+                        hsame row streamRead ∨ hsame row toleranceRead ∨ hsame row realRead)
+                    (fun row : BHist =>
+                      UnaryHistory row ∧ Cont S R streamRead ∧
+                        Cont streamRead W toleranceRead ∧ Cont toleranceRead U realRead ∧
+                          PkgSig bundle P pkg)
+                    hsame ∧
+                UnaryHistory streamRead ∧ UnaryHistory toleranceRead ∧
+                  UnaryHistory realRead := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont hsame SemanticNameCert UnaryHistory
+  intro carrier streamRoute toleranceRoute realRoute provenancePkg
+  obtain ⟨_packetWitness, _measureUnary, _probUnary, _familyUnary, _limitUnary,
+    scheduleUnary, readbackUnary, _exceptionalUnary, windowUnary, uniformityUnary,
+    _ledgerUnary, _transportUnary, _replayUnary, _provenanceUnary, _localNameUnary,
+    _provenancePkgCarrier, _localNamePkg⟩ := carrier
+  have streamReadUnary : UnaryHistory streamRead :=
+    unary_cont_closed scheduleUnary readbackUnary streamRoute
+  have toleranceReadUnary : UnaryHistory toleranceRead :=
+    unary_cont_closed streamReadUnary windowUnary toleranceRoute
+  have realReadUnary : UnaryHistory realRead :=
+    unary_cont_closed toleranceReadUnary uniformityUnary realRoute
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => hsame row realRead ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row S ∨ hsame row R ∨ hsame row W ∨ hsame row U ∨
+              hsame row streamRead ∨ hsame row toleranceRead ∨ hsame row realRead)
+          (fun row : BHist =>
+            UnaryHistory row ∧ Cont S R streamRead ∧
+              Cont streamRead W toleranceRead ∧ Cont toleranceRead U realRead ∧
+                PkgSig bundle P pkg)
+          hsame := {
+    core := {
+      carrier_inhabited := Exists.intro realRead ⟨hsame_refl realRead, realReadUnary⟩
+      equiv_refl := by
+        intro row _source
+        exact hsame_refl row
+      equiv_symm := by
+        intro _row _other sameRows
+        exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        exact
+          ⟨hsame_trans (hsame_symm sameRows) source.left,
+            unary_transport source.right sameRows⟩
+    }
+    pattern_sound := by
+      intro _row source
+      exact Or.inr (Or.inr (Or.inr (Or.inr (Or.inr (Or.inr source.left)))))
+    ledger_sound := by
+      intro _row source
+      exact ⟨source.right, streamRoute, toleranceRoute, realRoute, provenancePkg⟩
+  }
+  exact ⟨cert, streamReadUnary, toleranceReadUnary, realReadUnary⟩
+
 end BEDC.Derived.EgorovUp
