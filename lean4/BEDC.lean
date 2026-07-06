@@ -446,6 +446,7 @@ import BEDC.Derived.AuditMapRouteCompilerUp.GroundCompilerHandoff
 import BEDC.Derived.AuditMapRouteCompilerUp.NameCertObligations
 import BEDC.Derived.AuditMapRouteCompilerUp.NonEscape
 import BEDC.Derived.AuditMapRouteCompilerUp.TasteGate
+import BEDC.Derived.AuditMapTemplatePacketUp.RowFrontier
 import BEDC.Derived.AuditMapTemplatePacketUp.TasteGate
 import BEDC.Derived.AuditMembraneUp
 import BEDC.Derived.AuditMembraneUp.TasteGate
@@ -944,6 +945,7 @@ import BEDC.Derived.BanachUp.NormMetricObligations
 import BEDC.Derived.BarInductionCauchyModulusUp
 import BEDC.Derived.BarRecursionUp.TasteGate
 import BEDC.Derived.BarTheoremUp.TasteGate
+import BEDC.Derived.BareObjectRefusalUp.ObjectLicenseNonescape
 import BEDC.Derived.BareObjectRefusalUp.TasteGate
 import BEDC.Derived.BareissFractionFreeEliminationUp.TasteGate
 import BEDC.Derived.BarrBeckMonadicityUp
@@ -8251,6 +8253,7 @@ import BEDC.Derived.LogicContradictionMetaLoopUp.CarrierAdmission
 import BEDC.Derived.LogicContradictionMetaLoopUp.NameCertObligations
 import BEDC.Derived.LogicContradictionMetaLoopUp.SiblingDependencyRoute
 import BEDC.Derived.LogicContradictionMetaLoopUp.TasteGate
+import BEDC.Derived.LongLineUp.NameCertObligations
 import BEDC.Derived.LongLineUp.TasteGate
 import BEDC.Derived.LorentzFrameRateUp.TasteGate
 import BEDC.Derived.LovaszLocalLemmaUp
