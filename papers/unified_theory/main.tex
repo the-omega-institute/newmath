@@ -700,6 +700,14 @@ $$
 $$
 checked as \lean{UnifiedTheory.primeSide_eq_single_of_support_log3}.  On this chamber the functional equals its archimedean part plus a single explicit prime shift, \lean{UnifiedTheory.WeilFunctional.eval_log3_chamber}---the first nonzero finite prime side (the window $(-\log 2,\log 2)$ had none), and the semi-local finite-packet shape.  Positivity is still not asserted: the archimedean term stays an open leaf.
 
+The chamber structure extends to every window width.  For a test function supported in the open window $(-\log N,\ \log N)$ with $N\ge 2$, every prime $p\ge N$ has smallest frequency $\log p\ge\log N$ outside the window, so it contributes nothing to the prime side, \lean{UnifiedTheory.primeSide_inner_vanishes_of_ge}.  Consequently the outer sum collapses to a finite sum over the primes below $N$:
+$$
+  \operatorname{primeSide}(g) =
+  \sum_{\substack{p<N\\ p\ \mathrm{prime}}}\ \sum_{k\ge 0}
+  (\log p)\,\bigl(g((k{+}1)\log p)+g(-(k{+}1)\log p)\bigr),
+$$
+checked as \lean{UnifiedTheory.primeSide_eq_sum_of_support}.  On bounded support the Weil prime side is therefore a genuine finite object---the finite-packet cutoff---with the arithmetic thresholds $\log 2,\log 3,\log 4,\dots$ marking where each new prime power enters.  This is the geometric prime side only; positivity is not asserted and the archimedean term remains an open leaf.
+
 This formalizes the support-vanishing reduction only; unconditional Weil positivity, the explicit formula's zero side, and RH are not claimed.
 
 \subsection{Kernel Components and Ledger States}
