@@ -34,4 +34,67 @@ theorem concreteW_eq_arch_of_smallSupport (g : ℝ → ℝ)
     concreteW g = archSmall g := by
   rw [concreteW, primeSide_eq_zero_of_smallSupport g hg, add_zero]
 
+open Filter Topology in
+/-- **阿基米德核在 0 处可去奇异**:`g` 在 0 可微时,`archKernel g t → g 0 / 2`(t→0⁺)。 -/
+theorem tendsto_archKernel_zero {g : ℝ → ℝ} (hg : DifferentiableAt ℝ g 0) :
+    Filter.Tendsto (archKernel g) (nhdsWithin 0 (Set.Ioi (0:ℝ))) (nhds (g 0 / 2)) := by
+  let N : ℝ → ℝ := fun t => Real.exp (t / 2) * (g t + g (-t)) - 2 * g 0
+  let D : ℝ → ℝ := fun t => Real.exp t - Real.exp (-t)
+  have hgd : HasDerivAt g (deriv g 0) 0 := hg.hasDerivAt
+  have hneg : HasDerivAt (fun t : ℝ => -t) (-1) 0 := by
+    simpa using hasDerivAt_neg (0 : ℝ)
+  have hgn : HasDerivAt (fun t : ℝ => g (-t)) (-(deriv g 0)) 0 := by
+    have hgdNeg : HasDerivAt g (deriv g 0) (-0) := by
+      simpa using hgd
+    simpa [Function.comp_def] using hgdNeg.comp 0 hneg
+  have hsum : HasDerivAt (fun t : ℝ => g t + g (-t)) 0 0 := by
+    simpa using hgd.add hgn
+  have hhalf : HasDerivAt (fun t : ℝ => t / 2) (1 / 2) 0 := by
+    simpa using (hasDerivAt_id' (0 : ℝ)).div_const (2 : ℝ)
+  have hexp2 : HasDerivAt (fun t : ℝ => Real.exp (t / 2)) (1 / 2) 0 := by
+    simpa using hhalf.exp
+  have hprod :
+      HasDerivAt (fun t : ℝ => Real.exp (t / 2) * (g t + g (-t))) (g 0) 0 := by
+    have h := hexp2.mul hsum
+    convert h using 1
+    ring_nf
+  have hN : HasDerivAt N (g 0) 0 := by
+    simpa [N] using hprod.sub_const (2 * g 0)
+  have hD : HasDerivAt D 2 0 := by
+    have hexp : HasDerivAt (fun t : ℝ => Real.exp t) 1 0 := by
+      simpa using Real.hasDerivAt_exp (0 : ℝ)
+    have hexpNeg : HasDerivAt (fun t : ℝ => Real.exp (-t)) (-1) 0 := by
+      have hexpAtNegZero : HasDerivAt Real.exp (Real.exp (-0)) (-0) :=
+        Real.hasDerivAt_exp (-0)
+      simpa [Function.comp_def] using hexpAtNegZero.comp 0 hneg
+    have h := hexp.sub hexpNeg
+    convert h using 1
+    norm_num
+  have hN0 : N 0 = 0 := by
+    simp [N]
+    ring
+  have hD0 : D 0 = 0 := by
+    simp [D]
+  have hslopeN :
+      Tendsto (fun t : ℝ => t⁻¹ * N t) (𝓝[>] (0 : ℝ)) (𝓝 (g 0)) := by
+    have h := hN.tendsto_slope_zero_right
+    simpa [hN0, zero_add] using h
+  have hslopeD :
+      Tendsto (fun t : ℝ => t⁻¹ * D t) (𝓝[>] (0 : ℝ)) (𝓝 (2 : ℝ)) := by
+    have h := hD.tendsto_slope_zero_right
+    simpa [hD0, zero_add] using h
+  have hquot :
+      Tendsto (fun t : ℝ => (t⁻¹ * N t) / (t⁻¹ * D t))
+        (𝓝[>] (0 : ℝ)) (𝓝 (g 0 / 2)) := by
+    exact hslopeN.div hslopeD (by norm_num)
+  refine hquot.congr' ?_
+  filter_upwards [self_mem_nhdsWithin] with t ht
+  have htne : t ≠ 0 := ne_of_gt ht
+  have hkernel : archKernel g t = N t / D t := by
+    simp [archKernel, N, D, htne]
+  calc
+    (t⁻¹ * N t) / (t⁻¹ * D t) = N t / D t := by
+      field_simp [htne]
+    _ = archKernel g t := hkernel.symm
+
 end UnifiedTheory
