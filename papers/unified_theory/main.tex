@@ -26,7 +26,7 @@
 \maketitle
 
 \begin{abstract}
-We report the portion of the PZG--BEDC dynamic ontology kernel formalized in Lean 4 with mathlib.  PZG denotes prime-axis Zeckendorf coding: each prime axis carries a finite Zeckendorf word, and decoding first turns those words into prime exponents and then reconstructs a positive natural number.  The checked development covers 40 content modules plus the aggregation module: the finite generation layer, Newman normal forms, prime-axis factorization and Euclid escape, Zeckendorf and PZG bijections, finite golden-ratio algebra, deficit and golden-jump ledgers, Cassini--Fricke trace conservation, finite readings and two-square classifiers, Kleene/Cantor/Gödel barriers for self-coding, cost and hidden-fiber rigidity, critical-line reflection algebra, Euler products, no-zero-line zeta facts, completed zeta functional equations, and the RH ledger equivalence.  The generated-results section records twenty-nine machine-checked additions, including the unconditional shifted Zeckendorf--Beatty bridge and fourteen oracle-suggested conjectures certified locally after proposal.  Every mathematical assertion labeled as machine checked below names an actual Lean declaration under \lean{papers/unified_theory/lean4/UnifiedTheory}.  The RH result is an equivalence with mathlib's \lean{RiemannHypothesis}, not a proof of RH; quasicrystal zeta, explicit-formula analysis, positivity bridges, and open leaves such as O-5 and O-6 remain outside the checked-result column.  The Lean project is mathlib-based and isolated from the mathlib-free BEDC core; the stated reproducibility surface is the branch \lean{feat/unified-theory-mathlib}, with the full project check given by \lean{lake build}.
+We report the portion of the PZG--BEDC dynamic ontology kernel formalized in Lean 4 with mathlib.  PZG denotes prime-axis Zeckendorf coding: each prime axis carries a finite Zeckendorf word, and decoding first turns those words into prime exponents and then reconstructs a positive natural number.  The checked development covers 64 content modules plus the aggregation module: the finite generation layer, Newman normal forms, prime-axis factorization and Euclid escape, Zeckendorf and PZG bijections, finite golden-ratio algebra, deficit and golden-jump ledgers, Cassini--Fricke trace conservation, finite readings and two-square classifiers, Kleene/Cantor/Gödel barriers for self-coding, cost and hidden-fiber rigidity, critical-line reflection algebra, Euler products, golden-weight finite Euler factorization, Weil explicit-formula small-support prime-side reduction, no-zero-line zeta facts, completed zeta functional equations, and the RH ledger equivalence.  The generated-results section records twenty-nine machine-checked additions, including the unconditional shifted Zeckendorf--Beatty bridge and fourteen oracle-suggested conjectures certified locally after proposal.  Every mathematical assertion labeled as machine checked below names an actual Lean declaration under \lean{papers/unified_theory/lean4/UnifiedTheory}.  The RH result is an equivalence with mathlib's \lean{RiemannHypothesis}, not a proof of RH; quasicrystal zeta, full explicit-formula zero-side analysis, Weil archimedean positivity, unconditional small-support positivity, the analytic golden-weight Dirichlet L-series, positivity bridges, and open leaves such as O-5 and O-6 remain outside the checked-result column.  The Lean project is mathlib-based and isolated from the mathlib-free BEDC core; the stated reproducibility surface is the branch \lean{feat/unified-theory-mathlib}, with the full project check given by \lean{lake build}.
 \end{abstract}
 
 \section{Introduction}
@@ -201,7 +201,7 @@ has type
 $$
   \N\simeq\lean{UnifiedTheory.AxisWord}.
 $$
-The round-trip theorems
+The encode-decode inverse theorems
 $$
   \lean{UnifiedTheory.AxisWord.decode_encode},\quad
   \lean{UnifiedTheory.AxisWord.encode_decode}
@@ -220,7 +220,7 @@ decodes each axis word to an exponent and preserves prime support.  Composing th
 $$
   \lean{UnifiedTheory.PZGTable.decode : PZGTable \simeq \Npos}.
 $$
-The checked round trips
+The checked inverse laws
 $$
   \lean{UnifiedTheory.PZGTable.decode_encode},\quad
   \lean{UnifiedTheory.PZGTable.encode_decode}
@@ -461,6 +461,21 @@ $$
 $$
 This is the checked theorem 6.36 at the finite trace-map level.  These theorems do not formalize the infinite function $W(x,y)$, the quasicrystal zeta object, its Euler-product or continuation theory, or zero transport.
 
+\subsection{Golden-Weight Generating Function and Finite Euler Product}
+
+The golden weight $\Omega_\varphi$ is additive over coprime factors, so its generating function $n\mapsto x^{\Omega_\varphi(n)}$ is a multiplicative arithmetic function \lean{UnifiedTheory.goldGenAF}, checked in \lean{UnifiedTheory.goldGenAF_isMultiplicative}.  Its local factor at a prime power is $x^{S(v)}$, because $\Omega_\varphi(p^v)=S(v)$:
+$$
+  \begin{gathered}
+  \lean{UnifiedTheory.goldWeight_prime_pow}\\
+  \lean{UnifiedTheory.goldGenAF_prime_pow}.
+  \end{gathered}
+$$
+Consequently, for every $n\neq 0$ the generating function factors as the finite Euler product
+$$
+  x^{\Omega_\varphi(n)} \;=\; \prod_{p^k \,\|\, n} x^{S(k)},
+$$
+checked as \lean{UnifiedTheory.goldGenAF_euler}.  This is the algebraic Euler factorization of the golden weight over prime axes.  The analytic Dirichlet series $\sum_n x^{\Omega_\varphi(n)}\,n^{-s}$---convergence on a half-plane, meromorphic continuation, and any relation to $\zeta$---is not formalized and remains an open leaf.
+
 \subsection{Finite Readings and Two-Square Classification}
 
 The finite-reading pigeonhole theorem is
@@ -669,6 +684,16 @@ $$
 $$
 states that a zero of \lean{completedRiemannZeta} at $s$ gives a zero at $1-s$.  This is one half of the reflected-zero pairing.  It gives symmetry about the critical line, not location on the critical line.
 
+\subsection{Weil Explicit-Formula Small-Support Reduction}
+
+We formalize the support-vanishing mechanism of the Weil explicit formula abstractly, not the full explicit formula.  An explicit-formula functional is modeled by \lean{UnifiedTheory.WeilFunctional}: an archimedean carrier together with the explicit prime-power side
+$$
+  \operatorname{primeSide}(g) \;=\; \sum_{p}\ \sum_{k\ge 0}\ (\log p)\,\bigl(g((k{+}1)\log p) + g(-(k{+}1)\log p)\bigr),
+$$
+which is \lean{UnifiedTheory.primeSide}.  When the test function $g$ is supported in the open window $(-\log 2,\ \log 2)$, every prime-power frequency satisfies $(k{+}1)\log p \ge \log 2$ and so falls outside the window; hence the prime side vanishes term by term, \lean{UnifiedTheory.primeSide_eq_zero_of_smallSupport} (unconditional).  On such test functions the functional therefore reduces to its archimedean part, \lean{UnifiedTheory.WeilFunctional.eval_smallSupport}, and is nonnegative whenever the archimedean part is, \lean{UnifiedTheory.WeilFunctional.eval_nonneg_of_smallSupport}.  The archimedean positivity is supplied as an explicit hypothesis: it is the Connes--Consani archimedean positivity, an open leaf that this development does not prove.
+
+The reduction is non-vacuous: the single-point witness $g=\mathbf 1_{\{\log 2\}}$ gives $\operatorname{primeSide}(g)=\log 2$, checked as \lean{UnifiedTheory.primeSide_witness} and \lean{UnifiedTheory.primeSide_not_identically_zero}, so the prime side genuinely detects prime-power logarithms and $\log 2$ is the exact lower boundary of detectable frequencies.  This formalizes the support-vanishing reduction only; unconditional Weil positivity, the explicit formula's zero side, and RH are not claimed.
+
 \subsection{Kernel Components and Ledger States}
 
 The kernel aggregate is intentionally thin.  The status enum
@@ -789,7 +814,7 @@ The formalization cycle did more than ingest source-document theorems.  It now h
   prove $\Omega_\phi(mn)=\Omega_\phi(m)+\Omega_\phi(n)-\kappa_\phi(m,n)$, and that on coprime arguments the obstruction vanishes, so $\Omega_\phi$ is strictly additive.  This bridges the golden/deficit layer to the prime-factorization layer: the failure of $\Omega_\phi$ to be a homomorphism is exactly the sum of pairwise Beatty deficits on shared prime axes.  Proposed by the oracle and certified locally.
   \item \textbf{Golden weight is a lattice valuation.}  $\lean{UnifiedTheory.goldWeight_gcd_lcm_modular}$ proves $\Omega_\phi(\gcd(m,n))+\Omega_\phi(\mathrm{lcm}(m,n))=\Omega_\phi(m)+\Omega_\phi(n)$, the exact modular law on the divisibility lattice.  Where the product carries an obstruction $\kappa_\phi$, meet and join carry none.  Proposed by the oracle and certified locally.
   \item \textbf{Golden weight of a G\"odel code is coordinate-local.}  $\lean{UnifiedTheory.SelfCode.goldWeight_Gvec}$ proves $\Omega_\phi(Gvec(P,x))=\sum_i S(x_i+1)$ for a fixed-length code over injective primes $P$: the golden rank depends only on the coordinate exponents, not on the concrete prime values.  Proposed by the oracle and certified locally.
-  \item \textbf{Prime-axis edge increment is a Sturmian jump.}  $\lean{UnifiedTheory.goldWeight_mul_prime}$ proves $\Omega_\phi(pn)=\Omega_\phi(n)+1+goldJump(v_p(n))$, with $\lean{UnifiedTheory.goldWeight_mul_prime_pow}$ the $p^N$ window form $\Omega_\phi(p^Nn)-\Omega_\phi(n)=S(v_p(n)+N)-S(v_p(n))$.  Multiplying by a prime raises golden weight by exactly $1$ or $2$, governed by the golden Sturmian word---sharpening strict divisor monotonicity.  Proposed by the oracle and certified locally.
+  \item \textbf{Prime-axis edge jump is Sturmian.}  $\lean{UnifiedTheory.goldWeight_mul_prime}$ proves $\Omega_\phi(pn)=\Omega_\phi(n)+1+goldJump(v_p(n))$, with $\lean{UnifiedTheory.goldWeight_mul_prime_pow}$ the $p^N$ window form $\Omega_\phi(p^Nn)-\Omega_\phi(n)=S(v_p(n)+N)-S(v_p(n))$.  Multiplying by a prime raises golden weight by exactly $1$ or $2$, governed by the golden Sturmian word---sharpening strict divisor monotonicity.  Proposed by the oracle and certified locally.
   \item \textbf{Primitive two-square Zeckendorf atoms.}  $\lean{UnifiedTheory.fib_odd_atom}$ proves that the odd Fibonacci number $\mathrm{fib}(2k{+}3)$ is simultaneously a single-symbol Zeckendorf representation $[2k{+}3]$ and a primitive sum of two squares
   $$
     \mathrm{fib}(k{+}2)^2+\mathrm{fib}(k{+}1)^2
@@ -879,6 +904,25 @@ $$
 $$
 along with completed functional equations and reflected completed-zeta zeros.  These facts give prime-axis analyticity in $\operatorname{Re}(s)>1$, symmetry about the critical line, and exclusion of projected nontrivial zeros from $\operatorname{Re}(s)\ge1$.  They do not prove RH.
 
+The golden-weight layer contains the finite Euler factorization
+$$
+  \lean{UnifiedTheory.goldGenAF_euler}.
+$$
+This is an algebraic product over the finite set of prime axes dividing one natural number.  It is not a formalization of the analytic Dirichlet series $\sum_n x^{\Omega_\varphi(n)}n^{-s}$, its convergence domain, continuation, or any $\zeta$-relation.
+
+The explicit-formula layer contains the small-support prime-side vanishing theorem
+$$
+  \lean{UnifiedTheory.primeSide_eq_zero_of_smallSupport}
+$$
+and the corresponding reduction and conditional nonnegativity declarations
+$$
+  \begin{gathered}
+  \lean{UnifiedTheory.WeilFunctional.eval_smallSupport}\\
+  \lean{UnifiedTheory.WeilFunctional.eval_nonneg_of_smallSupport}.
+  \end{gathered}
+$$
+The last statement assumes archimedean positivity; it does not prove the Connes--Consani archimedean positivity leaf, unconditional small-support positivity, the zero side of the explicit formula, or RH.
+
 The declaration
 $$
   \lean{UnifiedTheory.rh_iff_all_projected_ontic}
@@ -889,7 +933,7 @@ The checked self-code layer contains Cantor barriers, Kleene fixed points, and t
 
 \section{Outlook}
 
-All items in this section are outside the present checked-result column and are \textbf{not yet formalized}.  The analytic program still lacks a PZG heat-trace derivation, Mellin/theta bridge, explicit-formula estimates, tail-budget analysis, and a positivity or spectral argument upgrading projected zeros to ontic zeros.  RH itself, O-5, and O-6 remain open leaves.
+All items in this section are outside the present checked-result column and are \textbf{not yet formalized}.  The analytic program still lacks a PZG heat-trace derivation, Mellin/theta bridge, the full Weil explicit formula with its zero side, tail-budget analysis, and a positivity or spectral argument upgrading projected zeros to ontic zeros.  The checked Weil contribution is the support-vanishing reduction of the prime side under a small-support condition; Weil archimedean positivity, unconditional small-support positivity, and RH remain open leaves.  The analytic Dirichlet series attached to the golden weight, including convergence, continuation, and any relation to $\zeta$, also remains an open leaf.  RH itself, O-5, and O-6 remain open leaves.
 
 The source theory's quasicrystal zeta object $Z_{\mathrm{qc}}$, its Euler product or continuation theory, natural-boundary claims, diagonal feedback program, and pullback-line claim 6.32 remain outlook.  The finite trace-map declarations
 $$
