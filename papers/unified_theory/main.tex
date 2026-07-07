@@ -26,7 +26,7 @@
 \maketitle
 
 \begin{abstract}
-We report the portion of the PZG--BEDC dynamic ontology kernel formalized in Lean 4 with mathlib.  PZG denotes prime-axis Zeckendorf coding: each prime axis carries a finite Zeckendorf word, and decoding first turns those words into prime exponents and then reconstructs a positive natural number.  The checked development covers 64 content modules plus the aggregation module: the finite generation layer, Newman normal forms, prime-axis factorization and Euclid escape, Zeckendorf and PZG bijections, finite golden-ratio algebra, deficit and golden-jump ledgers, Cassini--Fricke trace conservation, finite readings and two-square classifiers, Kleene/Cantor/Gödel barriers for self-coding, cost and hidden-fiber rigidity, critical-line reflection algebra, Euler products, golden-weight finite Euler factorization, Weil explicit-formula small-support prime-side reduction, no-zero-line zeta facts, completed zeta functional equations, and the RH ledger equivalence.  The generated-results section records twenty-nine machine-checked additions, including the unconditional shifted Zeckendorf--Beatty bridge and fourteen oracle-suggested conjectures certified locally after proposal.  Every mathematical assertion labeled as machine checked below names an actual Lean declaration under \lean{papers/unified_theory/lean4/UnifiedTheory}.  The RH result is an equivalence with mathlib's \lean{RiemannHypothesis}, not a proof of RH; quasicrystal zeta, full explicit-formula zero-side analysis, Weil archimedean positivity, unconditional small-support positivity, the analytic golden-weight Dirichlet L-series, positivity bridges, and open leaves such as O-5 and O-6 remain outside the checked-result column.  The Lean project is mathlib-based and isolated from the mathlib-free BEDC core; the stated reproducibility surface is the branch \lean{feat/unified-theory-mathlib}, with the full project check given by \lean{lake build}.
+We report the portion of the PZG--BEDC dynamic ontology kernel formalized in Lean 4 with mathlib.  PZG denotes prime-axis Zeckendorf coding: each prime axis carries a finite Zeckendorf word, and decoding first turns those words into prime exponents and then reconstructs a positive natural number.  The checked development covers 79 content modules plus the aggregation module: the finite generation layer, Newman normal forms, prime-axis factorization and Euclid escape, Zeckendorf and PZG bijections, finite golden-ratio algebra, deficit and golden-jump ledgers, golden double-sided and fiber-coordinate identities, Cassini--Fricke trace conservation, finite readings and two-square classifiers, Kleene/Cantor/Gödel barriers for self-coding, cost and hidden-fiber rigidity, critical-line reflection algebra, Euler products, golden-weight finite Euler factorization, Weil explicit-formula small-support prime-side reduction, concrete archimedean well-definedness, the heart-electrode residual-identity foundation, no-zero-line zeta facts, completed zeta functional equations, and the RH ledger equivalence.  The generated-results section records twenty-nine machine-checked additions; together with the six checked groups folded into the formalized-results section, the manuscript records thirty-five such additions, including the unconditional shifted Zeckendorf--Beatty bridge, the golden double-sided/fiber identities, the heart-electrode foundation, and fourteen oracle-suggested conjectures certified locally after proposal.  Every mathematical assertion labeled as machine checked below names an actual Lean declaration under \lean{papers/unified_theory/lean4/UnifiedTheory}.  The RH result is an equivalence with mathlib's \lean{RiemannHypothesis}, not a proof of RH; quasicrystal zeta, full explicit-formula zero-side analysis, Weil archimedean positivity, unconditional small-support positivity, the analytic golden-weight Dirichlet L-series, positivity bridges, the empirical heart Sturmian shell, and open leaves such as O-5 and O-6 remain outside the checked-result column.  The Lean project is mathlib-based and isolated from the mathlib-free BEDC core; the stated reproducibility surface is the branch \lean{feat/unified-theory-mathlib}, with the full project check given by \lean{lake build}.
 \end{abstract}
 
 \section{Introduction}
@@ -284,6 +284,8 @@ $$
 which says that the $b$-coordinate of $\phiG^n$ is the Fibonacci number $F_n$.
 
 The kernel's cascade cancellation rests on a one-page golden algebra, checked in Lean.  From $\phiG^2=\phiG+1$ one gets $\phiG^3=2\phiG+1$, $\phiG^4=3\phiG+2$, the identity $\phiG^4+\phiG^2-1=2\phiG^3$, \lean{UnifiedTheory.goldenRatio_pow4_add_sq_sub_one}, the second-order golden cancellation $\phiG^2+\phiG^3=\phiG^4$, \lean{UnifiedTheory.goldenRatio_sq_add_cube}, and the Zeckendorf $11\to100$ analytic shadow $\phiG^4-\phiG^3-\phiG^2=0$, \lean{UnifiedTheory.goldenRatio_pow4_sub_cube_sub_sq}.  The conjugate satisfies $\psiG=-1/\phiG$, \lean{UnifiedTheory.goldenConj_eq_neg_inv}, and the constant $C_0$ splits into two half-goldens $\phiG/2=\sqrt5/2-1/(2\phiG)$, \lean{UnifiedTheory.goldenRatio_half_eq_sqrt5_half_sub}.  The one-line Binet identity seeding the $\bar r$-chain, $F_{k+1}/\phiG=F_k-\psiG^{k+1}$, is \lean{UnifiedTheory.fib_succ_div_goldenRatio}.
+
+The double-sided scalar identities are now explicit.  The constant $c^\ast$ from source 6.145 is \lean{UnifiedTheory.cstar_eq_sqrt5_phi}, namely $\phiG^2+1=\sqrt{5}\,\phiG$; Binet's difference formula \lean{UnifiedTheory.goldenPow_sub_goldenConjPow} proves $\phiG^n-\psiG^n=\sqrt{5}\,F_n$, so the source definition 6.4 length $\ell(z)=(\lambda_+-\lambda_-)/\sqrt{5}$ is an integer Fibonacci-weighted quantity, not an irrational golden-weighted one.  The product formula \lean{UnifiedTheory.goldenPow_mul_goldenConjPow}, $\phiG^n\psiG^n=(-1)^n$, is the double-sided orientation sign of the alternating $\bar r$-chain.  Finally, \lean{UnifiedTheory.floorPhiMul_eq} proves $\lfloor(v+1)\phiG\rfloor=(v+1)+\lfloor(v+1)/\phiG\rfloor$, and \lean{UnifiedTheory.beattyShiftRead_eq_add_floor} proves $S(v)=v+\lfloor(v+1)/\phiG\rfloor$; hence shift decode and the fiber coordinate $a+b=\lfloor(v+1)/\phiG\rfloor$ are floors of one golden rotation, as in source Corollary~6.48$'$.
 
 For axis words, the double-sided reading is
 $$
@@ -770,7 +772,36 @@ $$
 $$
 \lean{UnifiedTheory.archSmall_def}.  The kernel's singularity at the origin is removable: for $g$ differentiable at $0$, $K_g(t)\to g(0)/2$ as $t\to0^+$, \lean{UnifiedTheory.tendsto_archKernel_zero}.  Pairing this with the standard weighted prime side $\sum_p\sum_{m\ge1}\log p\cdot p^{-m/2}\bigl(g(m\log p)+g(-m\log p)\bigr)$, \lean{UnifiedTheory.primeSideZeta}, which also vanishes on small support, \lean{UnifiedTheory.primeSideZeta_eq_zero_of_smallSupport}, realizes the kernel-internal form of the explicit formula: on small support the functional reduces to its archimedean part, \lean{UnifiedTheory.concreteW_eq_arch_of_smallSupport}.
 
+The well-definedness side is now complete: \lean{UnifiedTheory.archKernel_intervalIntegrable} gives integrability on $[0,\log 2]$, \lean{UnifiedTheory.archTail_log2} evaluates the cutoff tail as $-\log 3$, and \lean{UnifiedTheory.convSquare_even} checks that convolution squares are even.
+
 Positivity itself remains open.  The target is registered precisely: the archimedean positivity on convolution squares, \lean{UnifiedTheory.ArchimedeanPositivity}, is the Connes--Consani small-support archimedean positivity, source 26.9(iii), a month-scale analytic core that this development does not prove and that does \emph{not} imply RH.  The prime-side positivity limit is the RH wall.  The equivalence of the spectral digamma form and the real-integral form, \lean{UnifiedTheory.ArchSpectralMatchesReal}, is likewise registered as an open leaf, blocked on the digamma Gauss-integral representation.  These are precise open propositions, not theorems; RH remains a ledger restatement.
+
+\subsection{Heart-Electrode Residual-Identity Foundation}
+
+The elementary closed foundation of the heart-chapter residual spectral identity is now separated from the analytic frontier.  The audible-window Mellin transform is \lean{UnifiedTheory.gTilde}; in source H.2 it is
+$$
+  \tilde g(s)=\frac{4\sinh^2(s/2)}{s^2},
+$$
+with removable center \lean{UnifiedTheory.gTilde_zero}, $\tilde g(0)=1$, and limit theorem \lean{UnifiedTheory.tendsto_gTilde_zero}.  This is the closed Mellin-window part of the slogan ``station two empty, station three fully audible.''
+
+The concrete arithmetic left side of source H.1 is the windowed Möbius sum
+$$
+  S_g(N,\delta)=\sum_{k<N}\mu(k+1)\,g((k+1)\delta),
+$$
+encoded as \lean{UnifiedTheory.heartMobiusSum}.  Its linearity in the window is checked by \lean{UnifiedTheory.heartMobiusSum_add} and \lean{UnifiedTheory.heartMobiusSum_smul}.  The analytic station-two input is \lean{UnifiedTheory.one_div_riemannZeta_zero_at_one}: as $s\to1$, $1/\zeta(s)\to0$, so the zeta pole gives the reciprocal zeta factor a zero at the pole.
+
+What is proven here is only this elementary closed foundation: the Mellin window, the windowed Möbius sum and its linearity, the zero of $1/\zeta$ at the pole, and the golden/fiber/Binet identities recorded above.  The deep heart pieces are not closed algebra and are not formalized: the full residual spectral identity
+$$
+  S_g(\delta)=\mathrm{station\ 2}+\sum_\rho
+  \frac{\tilde g(\rho)\delta^{-\rho}}{\zeta'(\rho)}+O(\delta^2),
+$$
+the oscillation-growth statement H.4, the wall-coefficient identity H.6, and the shell positivity $F_d>0$ on $(0,1)$ all depend on the empirical Sturmian budget shell.  That shell consists of frontier numerical facts: $F_d$ is Sturmian-type, the deepest zero is $x_0\approx0.592093$, the oscillation is $B_n\sim3.14\,(-1)^n x_0^{-n}$ with $R^2\approx1.0000$, the identity $F_d\equiv P$ holds to 80 digits, and the Lambert net form is
+$$
+  H=\sum_n \frac{B_n x^n}{1-x^n}.
+$$
+These are registered as precise open propositions, not theorems.
+
+The heart main result $D(1^-)=2$ holds modulo critical oscillation.  This qualifier is a discovery about the structure of the problem: the residual sits in the same room as RH-type oscillation.  It is not a dent in the problem itself, and it must not be dropped.  RH remains a ledger restatement; the archimedean positivity leaf O-6 remains a month-scale open leaf.
 
 \subsection{Kernel Components and Ledger States}
 
