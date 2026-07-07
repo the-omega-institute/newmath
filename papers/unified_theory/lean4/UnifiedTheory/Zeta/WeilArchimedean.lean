@@ -134,4 +134,48 @@ def ArchimedeanPositivity : Prop :=
     (∀ x, convSquare h x ≠ 0 → x ∈ Set.Ioo (-(Real.log 2)) (Real.log 2)) →
     0 ≤ archSmall (convSquare h)
 
+open Filter Topology in
+/-- **阿基米德核于 `[0, log2]` 连续**(`g` 连续且在 0 可微):去奇异 + 分母非零。 -/
+theorem archKernel_continuousOn {g : ℝ → ℝ} (hgc : Continuous g)
+    (hg0 : DifferentiableAt ℝ g 0) :
+    ContinuousOn (archKernel g) (Set.Icc (0:ℝ) (Real.log 2)) := by
+  intro x hx
+  have hlog_pos : (0 : ℝ) < Real.log 2 := Real.log_pos (by norm_num : (1 : ℝ) < 2)
+  by_cases hx0 : x = 0
+  · subst x
+    have hright : ContinuousWithinAt (archKernel g) (Set.Ioi (0 : ℝ)) 0 := by
+      simpa [ContinuousWithinAt, archKernel] using tendsto_archKernel_zero (g := g) hg0
+    have hici : ContinuousWithinAt (archKernel g) (Set.Ici (0 : ℝ)) 0 :=
+      continuousWithinAt_Ioi_iff_Ici.mp hright
+    exact (continuousWithinAt_Icc_iff_Ici hlog_pos).mpr hici
+  · let q : ℝ → ℝ := fun t =>
+      (Real.exp (t / 2) * (g t + g (-t)) - 2 * g 0) /
+        (Real.exp t - Real.exp (-t))
+    have hx_pos : 0 < x := lt_of_le_of_ne hx.1 (Ne.symm hx0)
+    have hden_ne : Real.exp x - Real.exp (-x) ≠ 0 := by
+      have hlt : Real.exp (-x) < Real.exp x := Real.exp_lt_exp.mpr (by linarith)
+      linarith
+    have hq_cont : ContinuousAt q x := by
+      have hnum :
+          ContinuousAt
+            (fun t : ℝ => Real.exp (t / 2) * (g t + g (-t)) - 2 * g 0) x := by
+        fun_prop
+      have hden : ContinuousAt (fun t : ℝ => Real.exp t - Real.exp (-t)) x := by
+        fun_prop
+      exact hnum.div hden hden_ne
+    have hne_eventually : ∀ᶠ t in 𝓝 x, t ≠ 0 := isOpen_ne.mem_nhds hx0
+    have heq : archKernel g =ᶠ[𝓝[Set.Icc (0 : ℝ) (Real.log 2)] x] q := by
+      filter_upwards [nhdsWithin_le_nhds hne_eventually] with t ht
+      simp [archKernel, q, ht]
+    exact hq_cont.continuousWithinAt.congr_of_eventuallyEq heq (by simp [archKernel, q, hx0])
+
+/-- **阿基米德核于 `0..log2` 可积**(截断式 `WInfCompact` 之积分良定)。 -/
+theorem archKernel_intervalIntegrable {g : ℝ → ℝ} (hgc : Continuous g)
+    (hg0 : DifferentiableAt ℝ g 0) :
+    IntervalIntegrable (archKernel g) MeasureTheory.volume 0 (Real.log 2) := by
+  have hlog_nonneg : (0 : ℝ) ≤ Real.log 2 :=
+    Real.log_nonneg (by norm_num : (1 : ℝ) ≤ 2)
+  exact ContinuousOn.intervalIntegrable_of_Icc hlog_nonneg
+    (archKernel_continuousOn hgc hg0)
+
 end UnifiedTheory
