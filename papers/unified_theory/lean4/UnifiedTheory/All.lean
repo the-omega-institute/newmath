@@ -56,6 +56,7 @@ import UnifiedTheory.SelfCode.GvecDivisors
 import UnifiedTheory.SelfCode.GvecDickson
 import UnifiedTheory.Dynamics.CostArrow
 import UnifiedTheory.Dynamics.TraceStepReversible
+import UnifiedTheory.Dynamics.TraceStepSigns
 import UnifiedTheory.Dynamics.Length
 import UnifiedTheory.Dynamics.Phase
 import UnifiedTheory.Dynamics.HiddenRigidity
