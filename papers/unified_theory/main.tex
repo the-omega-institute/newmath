@@ -283,6 +283,8 @@ $$
 $$
 which says that the $b$-coordinate of $\phiG^n$ is the Fibonacci number $F_n$.
 
+The kernel's cascade cancellation rests on a one-page golden algebra, checked in Lean.  From $\phiG^2=\phiG+1$ one gets $\phiG^3=2\phiG+1$, $\phiG^4=3\phiG+2$, the identity $\phiG^4+\phiG^2-1=2\phiG^3$, \lean{UnifiedTheory.goldenRatio_pow4_add_sq_sub_one}, the second-order golden cancellation $\phiG^2+\phiG^3=\phiG^4$, \lean{UnifiedTheory.goldenRatio_sq_add_cube}, and the Zeckendorf $11\to100$ analytic shadow $\phiG^4-\phiG^3-\phiG^2=0$, \lean{UnifiedTheory.goldenRatio_pow4_sub_cube_sub_sq}.  The conjugate satisfies $\psiG=-1/\phiG$, \lean{UnifiedTheory.goldenConj_eq_neg_inv}, and the constant $C_0$ splits into two half-goldens $\phiG/2=\sqrt5/2-1/(2\phiG)$, \lean{UnifiedTheory.goldenRatio_half_eq_sqrt5_half_sub}.  The one-line Binet identity seeding the $\bar r$-chain, $F_{k+1}/\phiG=F_k-\psiG^{k+1}$, is \lean{UnifiedTheory.fib_succ_div_goldenRatio}.
+
 For axis words, the double-sided reading is
 $$
   \lean{UnifiedTheory.AxisWord.betaPhi}.
@@ -755,6 +757,20 @@ The prime-side frequencies connect the two layers.  Under the canonical indexing
 The count of surviving frequencies is a step function of the window.  Writing $\mathrm{ppChamber}(N)=\{q<N: q\ \text{a prime power}\}$ for the prime powers below $N$, the set is monotone in $N$, \lean{UnifiedTheory.ppChamber_mono}, and its cardinality increases by exactly one precisely at prime-power boundaries, \lean{UnifiedTheory.ppChamber_card_succ} and \lean{UnifiedTheory.ppChamber_gains_iff}: the finite prime side acquires a new frequency exactly at each prime power, never between them and never two at once.
 
 This formalizes the support-vanishing reduction only; unconditional Weil positivity, the explicit formula's zero side, and RH are not claimed.
+
+\subsection{Concrete Archimedean Weil Functional}
+
+The archimedean term of the zeta explicit formula, in source ledger form 26.3/26.4, is made concrete in the Connes--Consani positivity sign.  With $C_\infty=\gamma+\log(4\pi)$, \lean{UnifiedTheory.archConst}, and the desingularized kernel
+$$
+  K_g(t)=\frac{e^{t/2}\bigl(g(t)+g(-t)\bigr)-2g(0)}{e^{t}-e^{-t}}\qquad(t\neq 0),\quad K_g(0):=g(0)/2,
+$$
+\lean{UnifiedTheory.archKernel}, the compact-cutoff functional on support in $(-\log 2,\log 2)$ is
+$$
+  \mathrm{archSmall}(g)=-C_\infty\,g(0)-\int_0^{\log 2}K_g(t)\,dt-g(0)\,\log\frac{e^{\log 2}-1}{e^{\log 2}+1},
+$$
+\lean{UnifiedTheory.archSmall_def}.  The kernel's singularity at the origin is removable: for $g$ differentiable at $0$, $K_g(t)\to g(0)/2$ as $t\to0^+$, \lean{UnifiedTheory.tendsto_archKernel_zero}.  Pairing this with the standard weighted prime side $\sum_p\sum_{m\ge1}\log p\cdot p^{-m/2}\bigl(g(m\log p)+g(-m\log p)\bigr)$, \lean{UnifiedTheory.primeSideZeta}, which also vanishes on small support, \lean{UnifiedTheory.primeSideZeta_eq_zero_of_smallSupport}, realizes the kernel-internal form of the explicit formula: on small support the functional reduces to its archimedean part, \lean{UnifiedTheory.concreteW_eq_arch_of_smallSupport}.
+
+Positivity itself remains open.  The target is registered precisely: the archimedean positivity on convolution squares, \lean{UnifiedTheory.ArchimedeanPositivity}, is the Connes--Consani small-support archimedean positivity, source 26.9(iii), a month-scale analytic core that this development does not prove and that does \emph{not} imply RH.  The prime-side positivity limit is the RH wall.  The equivalence of the spectral digamma form and the real-integral form, \lean{UnifiedTheory.ArchSpectralMatchesReal}, is likewise registered as an open leaf, blocked on the digamma Gauss-integral representation.  These are precise open propositions, not theorems; RH remains a ledger restatement.
 
 \subsection{Kernel Components and Ledger States}
 
