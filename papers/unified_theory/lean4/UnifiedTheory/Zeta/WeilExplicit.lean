@@ -1,6 +1,7 @@
 import Mathlib.Analysis.SpecialFunctions.Log.Basic
 import Mathlib.Topology.Algebra.InfiniteSum.Basic
 import Mathlib.Data.Nat.Prime.Basic
+import Mathlib.NumberTheory.SmoothNumbers
 import Mathlib.Tactic
 
 namespace UnifiedTheory
@@ -369,5 +370,20 @@ theorem primeSide_inner_vanishes_of_ge {N : ℕ} (hN : 2 ≤ N) (g : ℝ → ℝ
           + g (-(((k : ℝ) + 1) * Real.log (p : ℝ)))))
       = ∑' (_k : ℕ), (0 : ℝ) := tsum_congr hterm
     _ = 0 := tsum_zero
+
+/-- **有限-N 截断(有限包定理)**:支集在开窗 `(−log N, log N)` 内时,Weil 素边坍缩为对
+`< N` 的素数的**有限和**——`p ≥ N` 的素数按 `primeSide_inner_vanishes_of_ge` 消没。 -/
+theorem primeSide_eq_sum_of_support {N : ℕ} (hN : 2 ≤ N) (g : ℝ → ℝ)
+    (hg : ∀ x, g x ≠ 0 → x ∈ Set.Ioo (-(Real.log N)) (Real.log N)) :
+    primeSide g = ∑ p ∈ (N.primesBelow).subtype Nat.Prime, ∑' (k : ℕ),
+      Real.log (p : ℝ) * (g (((k : ℝ) + 1) * Real.log (p : ℝ))
+        + g (-(((k : ℝ) + 1) * Real.log (p : ℝ)))) := by
+  unfold primeSide
+  apply tsum_eq_sum
+  intro p hp
+  apply primeSide_inner_vanishes_of_ge hN g hg p
+  by_contra hlt
+  push_neg at hlt
+  exact hp (Finset.mem_subtype.mpr (Nat.mem_primesBelow.mpr ⟨hlt, p.2⟩))
 
 end UnifiedTheory
