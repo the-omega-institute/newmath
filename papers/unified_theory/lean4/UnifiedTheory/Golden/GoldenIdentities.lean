@@ -94,4 +94,16 @@ theorem goldenPow_mul_goldenConjPow (n : ℕ) :
     Real.goldenRatio ^ n * Real.goldenConj ^ n = (-1 : ℝ) ^ n := by
   rw [← mul_pow, Real.goldenRatio_mul_goldenConj]
 
+/-- **双面迹(Lucas 迹,源 6.4)**:`φⁿ + ψⁿ = 2·F_{n+1} − F_n`(黄金旋转之迹 = Lucas 数,整值)。
+补齐特征值对称函数之三元组:差(`√5·Fₙ`)、积(`(−1)ⁿ`)、和(Lucas 迹)。 -/
+theorem goldenPow_add_goldenConjPow (n : ℕ) :
+    Real.goldenRatio ^ n + Real.goldenConj ^ n = 2 * (Nat.fib (n + 1) : ℝ) - (Nat.fib n : ℝ) := by
+  have hφ2 : 2 * Real.goldenRatio - 1 = Real.sqrt 5 := by rw [Real.goldenRatio]; ring
+  have hψ2 : 2 * Real.goldenConj - 1 = -Real.sqrt 5 := by rw [Real.goldenConj]; ring
+  have h5 : Real.sqrt 5 ≠ 0 := by positivity
+  rw [Real.coe_fib_eq (n + 1), Real.coe_fib_eq n, pow_succ Real.goldenRatio n,
+    pow_succ Real.goldenConj n]
+  field_simp
+  linear_combination (Real.goldenRatio ^ n) * hφ2 - (Real.goldenConj ^ n) * hψ2
+
 end UnifiedTheory
