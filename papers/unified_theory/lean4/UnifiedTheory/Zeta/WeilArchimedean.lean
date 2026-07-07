@@ -191,4 +191,14 @@ theorem archSmall_cutoff (g : ℝ → ℝ) :
   rw [archSmall_def g, archTail_log2]
   ring
 
+/-- **卷积平方为偶函数**:`convSquare h (−x) = convSquare h x`(Lebesgue 平移不变)。 -/
+theorem convSquare_even (h : ℝ → ℝ) (x : ℝ) : convSquare h (-x) = convSquare h x := by
+  unfold convSquare
+  simp only [sub_neg_eq_add]
+  rw [← integral_sub_right_eq_self (μ := volume) (fun y : ℝ => h y * h (y + x)) x]
+  refine integral_congr_ae ?_
+  filter_upwards with y
+  have hy : y - x + x = y := by ring
+  simp [hy, mul_comm]
+
 end UnifiedTheory
