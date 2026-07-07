@@ -70,4 +70,5 @@ import UnifiedTheory.Zeta.EulerProduct
 import UnifiedTheory.Zeta.WeilExplicit
 import UnifiedTheory.Zeta.WeilGoldenBridge
 import UnifiedTheory.Zeta.WeilArchimedean
+import UnifiedTheory.Zeta.WeilPrimeSideZeta
 import UnifiedTheory.Zeta.WeilChamberCount
