@@ -324,4 +324,50 @@ theorem WeilFunctional.eval_log3_chamber (W : WeilFunctional) (g : ℝ → ℝ)
 
 end
 
+/-- **素边只看 `< N` 的素数**:支集在开窗 `(−log N, log N)` 内时,任何 `p ≥ N` 的素数对
+素边的内层贡献为零(其最小频率 `log p ≥ log N` 已在窗外)。一般窗口的素边支撑限制。 -/
+theorem primeSide_inner_vanishes_of_ge {N : ℕ} (hN : 2 ≤ N) (g : ℝ → ℝ)
+    (hg : ∀ x, g x ≠ 0 → x ∈ Set.Ioo (-(Real.log N)) (Real.log N))
+    (p : Nat.Primes) (hpN : N ≤ (p : ℕ)) :
+    (∑' (k : ℕ), Real.log (p : ℝ) * (g (((k : ℝ) + 1) * Real.log (p : ℝ))
+        + g (-(((k : ℝ) + 1) * Real.log (p : ℝ))))) = 0 := by
+  have hNpos : (0 : ℝ) < (N : ℝ) := by
+    have : 0 < N := by omega
+    exact_mod_cast this
+  have hlogN_le : Real.log (N : ℝ) ≤ Real.log (p : ℝ) := by
+    apply Real.log_le_log hNpos
+    exact_mod_cast hpN
+  have hlogp_nonneg : 0 ≤ Real.log (p : ℝ) := by
+    apply Real.log_nonneg
+    have hp2 : (2 : ℝ) ≤ (p : ℝ) := by exact_mod_cast p.2.two_le
+    linarith
+  have hterm : ∀ k : ℕ,
+      Real.log (p : ℝ) * (g (((k : ℝ) + 1) * Real.log (p : ℝ))
+        + g (-(((k : ℝ) + 1) * Real.log (p : ℝ)))) = 0 := by
+    intro k
+    have hk1 : (1 : ℝ) ≤ (k : ℝ) + 1 := by
+      have : (0 : ℝ) ≤ (k : ℝ) := Nat.cast_nonneg k
+      linarith
+    have hxge : Real.log (N : ℝ) ≤ ((k : ℝ) + 1) * Real.log (p : ℝ) := by
+      calc Real.log (N : ℝ) ≤ Real.log (p : ℝ) := hlogN_le
+        _ = 1 * Real.log (p : ℝ) := (one_mul _).symm
+        _ ≤ ((k : ℝ) + 1) * Real.log (p : ℝ) :=
+            mul_le_mul_of_nonneg_right hk1 hlogp_nonneg
+    set x := ((k : ℝ) + 1) * Real.log (p : ℝ) with hx
+    have hgx : g x = 0 := by
+      by_contra h
+      have hmem := hg x h
+      rw [Set.mem_Ioo] at hmem
+      linarith [hmem.2]
+    have hgnx : g (-x) = 0 := by
+      by_contra h
+      have hmem := hg (-x) h
+      rw [Set.mem_Ioo] at hmem
+      linarith [hmem.1]
+    rw [hgx, hgnx]; ring
+  calc (∑' (k : ℕ), Real.log (p : ℝ) * (g (((k : ℝ) + 1) * Real.log (p : ℝ))
+          + g (-(((k : ℝ) + 1) * Real.log (p : ℝ)))))
+      = ∑' (_k : ℕ), (0 : ℝ) := tsum_congr hterm
+    _ = 0 := tsum_zero
+
 end UnifiedTheory
