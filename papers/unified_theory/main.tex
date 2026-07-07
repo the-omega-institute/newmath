@@ -476,6 +476,14 @@ $$
 $$
 checked as \lean{UnifiedTheory.goldGenAF_euler}.  This is the algebraic Euler factorization of the golden weight over prime axes.  The golden weight is additive over coprime factors but not completely additive ($S(2)=3\neq 2\,S(1)=4$), so the generating function is multiplicative yet \emph{not} completely multiplicative: at $x=2$, $\mathrm{goldGenAF}\,2\,(2\cdot 2)=2^{S(2)}=8$ while $(\mathrm{goldGenAF}\,2\,2)^2=(2^{S(1)})^2=16$, checked as \lean{UnifiedTheory.goldGenAF_not_completelyMultiplicative}.  Hence the local Euler factor is genuinely non-geometric and the golden L-series does not reduce to a shift or power of $\zeta$.  The analytic Dirichlet series $\sum_n x^{\Omega_\varphi(n)}\,n^{-s}$---convergence on a half-plane, meromorphic continuation, and any relation to $\zeta$---is not formalized and remains an open leaf.
 
+\subsection{Golden Weight, Squarefreeness, and Primality}
+
+Because $S(v)\ge 2$ for $v\ge 1$ (with $S(1)=2$ and $S$ monotone), the golden weight is bounded below by twice the number of distinct prime factors, $2\,\omega(n)\le\Omega_\varphi(n)$, checked as \lean{UnifiedTheory.two_mul_primeFactors_card_le_goldWeight}.  Equality holds exactly for squarefree $n$, since $\Omega_\varphi(n)=2\,\omega(n)$ forces every prime exponent to equal $1$:
+$$
+  \Omega_\varphi(n) = 2\,\omega(n) \iff n\ \text{squarefree},
+$$
+checked as \lean{UnifiedTheory.goldWeight_eq_two_mul_primeFactors_card_iff_squarefree}.  On the prime-power axis the golden weight reads primality: for $n$ a prime power, $\Omega_\varphi(n)=2$ iff $n$ is prime, checked as \lean{UnifiedTheory.isPrimePow_goldWeight_eq_two_iff_prime} (as $S(v)=2\iff v=1$).  Thus weight $2$ is the first-order prime channel of the golden weight.
+
 \subsection{Finite Readings and Two-Square Classification}
 
 The finite-reading pigeonhole theorem is
@@ -707,6 +715,8 @@ $$
   (\log p)\,\bigl(g((k{+}1)\log p)+g(-(k{+}1)\log p)\bigr),
 $$
 checked as \lean{UnifiedTheory.primeSide_eq_sum_of_support}.  On bounded support the Weil prime side is therefore a genuine finite object---the finite-packet cutoff---with the arithmetic thresholds $\log 2,\log 3,\log 4,\dots$ marking where each new prime power enters.  This is the geometric prime side only; positivity is not asserted and the archimedean term remains an open leaf.
+
+The prime-side frequencies connect the two layers.  Under the canonical indexing $(p,k)\mapsto p^{k+1}$ of prime powers, the Weil frequency $\log(p^{k+1})=(k{+}1)\log p$ carries the golden label $\Omega_\varphi(p^{k+1})=S(k+1)$, checked as \lean{UnifiedTheory.primePower_frequency_goldLabel}, so the explicit-formula and golden-weight layers meet on prime powers.  Moreover the frequency map $(p,k)\mapsto (k{+}1)\log p$ is injective, checked as \lean{UnifiedTheory.weilFreq_injective}: the prime side is indexed by distinct prime powers with no frequency collisions and no duplicate $(p,k)$ data.
 
 This formalizes the support-vanishing reduction only; unconditional Weil positivity, the explicit formula's zero side, and RH are not claimed.
 
