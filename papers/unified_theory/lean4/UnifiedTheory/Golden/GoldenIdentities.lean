@@ -72,4 +72,12 @@ theorem fib_succ_div_goldenRatio (k : ℕ) :
   rw [div_eq_iff hφ]
   nlinarith [Real.fib_succ_sub_goldenRatio_mul_fib k, hmul]
 
+/-- **c\* 恒等(钉一,源 6.145(一))**:`φ² + 1 = √5·φ`(= c\*)。 -/
+theorem cstar_eq_sqrt5_phi : goldenRatio ^ 2 + 1 = Real.sqrt 5 * goldenRatio := by
+  have hsqrt : Real.sqrt 5 = 2 * goldenRatio - 1 := by
+    change Real.sqrt 5 = 2 * ((1 + Real.sqrt 5) / 2) - 1
+    ring
+  rw [hsqrt]
+  nlinarith [Real.goldenRatio_sq]
+
 end UnifiedTheory
