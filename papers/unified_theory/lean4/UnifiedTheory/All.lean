@@ -64,3 +64,4 @@ import UnifiedTheory.Zeta.Completed
 import UnifiedTheory.Zeta.ZeroFreeLine
 import UnifiedTheory.Zeta.EulerProduct
 import UnifiedTheory.Zeta.WeilExplicit
+import UnifiedTheory.Zeta.WeilGoldenBridge
