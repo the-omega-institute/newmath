@@ -105,4 +105,47 @@ theorem isPrimePow_goldWeight_eq_two_iff_prime {n : ℕ} (hn : IsPrimePow n) :
     have hk1 : k = 1 := hprime.eq_one_of_pow
     rw [hk1, S_at1]
 
+/-- 辅助:`S v = 3 ↔ v = 2`。 -/
+theorem S_eq_three_iff {v : ℕ} : S v = 3 ↔ v = 2 := by
+  constructor
+  · intro h
+    exact S_strictMono.injective (by rw [h, S_at2])
+  · intro h
+    rw [h, S_at2]
+
+/-- **金权 3 检测素数平方**:`Ωφ(n) = 3 ↔ n = p²`(某素数 p)。 -/
+theorem goldWeight_eq_three_iff_prime_sq {n : ℕ} (hn : n ≠ 0) :
+    goldWeight n = 3 ↔ ∃ p : ℕ, Nat.Prime p ∧ n = p ^ 2 := by
+  constructor
+  · intro hgold
+    have hcard_bound_int : (2 * n.primeFactors.card : ℤ) ≤ 3 := by
+      simpa [hgold] using two_mul_primeFactors_card_le_goldWeight (n := n) hn
+    have hcard_le : n.primeFactors.card ≤ 1 := by
+      omega
+    have hcard_ne_zero : n.primeFactors.card ≠ 0 := by
+      intro hcard0
+      have hempty : n.primeFactors = ∅ := Finset.card_eq_zero.mp hcard0
+      have hn01 : n = 0 ∨ n = 1 := Nat.primeFactors_eq_empty.mp hempty
+      cases hn01 with
+      | inl h0 => exact hn h0
+      | inr h1 =>
+          have hzero : goldWeight n = 0 := by
+            rw [h1, goldWeight_one]
+          omega
+    have hcard_eq : n.primeFactors.card = 1 := by
+      have hcard_pos : 0 < n.primeFactors.card := Nat.pos_of_ne_zero hcard_ne_zero
+      omega
+    have hn_pp : IsPrimePow n := isPrimePow_iff_card_primeFactors_eq_one.mpr hcard_eq
+    obtain ⟨p, k, hp, _hk, hpk⟩ := (isPrimePow_nat_iff n).mp hn_pp
+    have hS : S k = 3 := by
+      have hgold_pk : goldWeight (p ^ k) = 3 := by
+        rw [hpk]
+        exact hgold
+      rwa [goldWeight_prime_pow hp] at hgold_pk
+    have hk2 : k = 2 := S_eq_three_iff.mp hS
+    refine ⟨p, hp, ?_⟩
+    rw [← hpk, hk2]
+  · rintro ⟨p, hp, rfl⟩
+    rw [goldWeight_prime_pow hp, S_at2]
+
 end UnifiedTheory
