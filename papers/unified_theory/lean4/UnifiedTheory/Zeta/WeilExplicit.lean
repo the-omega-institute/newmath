@@ -67,6 +67,153 @@ theorem primeSide_eq_zero_of_smallSupport (g : ℝ → ℝ)
         _ = 0 := tsum_zero
     _ = 0 := tsum_zero
 
+private lemma primeSide_witness_pos_eq_iff (p : Nat.Primes) (k : ℕ) :
+    ((k : ℝ) + 1) * Real.log (p : ℝ) = Real.log 2 ↔ (p : ℕ) = 2 ∧ k = 0 := by
+  constructor
+  · intro hx
+    have hlog2pos : 0 < Real.log 2 := Real.log_pos (by norm_num)
+    have hp2 : (2 : ℝ) ≤ (p : ℝ) := by
+      exact_mod_cast p.2.two_le
+    have hlog2p : Real.log 2 ≤ Real.log (p : ℝ) :=
+      Real.log_le_log (by norm_num) hp2
+    have hlogp_nonneg : 0 ≤ Real.log (p : ℝ) := by
+      linarith
+    have hk1 : (1 : ℝ) ≤ (k : ℝ) + 1 := by
+      have hk0 : (0 : ℝ) ≤ (k : ℝ) := by
+        exact_mod_cast Nat.zero_le k
+      linarith
+    have hlogp_le_x :
+        Real.log (p : ℝ) ≤ ((k : ℝ) + 1) * Real.log (p : ℝ) :=
+      le_mul_of_one_le_left hlogp_nonneg hk1
+    have hlogp_le_log2 : Real.log (p : ℝ) ≤ Real.log 2 := by
+      simpa [hx] using hlogp_le_x
+    have hlogp_eq : Real.log (p : ℝ) = Real.log 2 :=
+      le_antisymm hlogp_le_log2 hlog2p
+    have hp_pos : 0 < (p : ℝ) := by
+      exact_mod_cast p.2.pos
+    have hp_real : (p : ℝ) = 2 := by
+      have h_exp := congrArg Real.exp hlogp_eq
+      rwa [Real.exp_log hp_pos, Real.exp_log (by norm_num)] at h_exp
+    have hp_nat : (p : ℕ) = 2 := by
+      exact_mod_cast hp_real
+    have hx_log2 : ((k : ℝ) + 1) * Real.log 2 = Real.log 2 := by
+      simpa [hlogp_eq] using hx
+    have hk1_eq : (k : ℝ) + 1 = 1 := by
+      have hmul : ((k : ℝ) + 1) * Real.log 2 = 1 * Real.log 2 := by
+        simpa using hx_log2
+      exact mul_right_cancel₀ (ne_of_gt hlog2pos) hmul
+    have hk_real : (k : ℝ) = 0 := by
+      linarith
+    have hk_nat : k = 0 := by
+      exact_mod_cast hk_real
+    exact ⟨hp_nat, hk_nat⟩
+  · rintro ⟨hp, hk⟩
+    subst hk
+    have hp_real : (p : ℝ) = 2 := by
+      exact_mod_cast hp
+    simp [hp_real]
+
+private lemma primeSide_witness_neg_ne (p : Nat.Primes) (k : ℕ) :
+    -(((k : ℝ) + 1) * Real.log (p : ℝ)) ≠ Real.log 2 := by
+  have hlog2pos : 0 < Real.log 2 := Real.log_pos (by norm_num)
+  have hp2 : (2 : ℝ) ≤ (p : ℝ) := by
+    exact_mod_cast p.2.two_le
+  have hlog2p : Real.log 2 ≤ Real.log (p : ℝ) :=
+    Real.log_le_log (by norm_num) hp2
+  have hlogp_nonneg : 0 ≤ Real.log (p : ℝ) := by
+    linarith
+  have hk1 : (1 : ℝ) ≤ (k : ℝ) + 1 := by
+    have hk0 : (0 : ℝ) ≤ (k : ℝ) := by
+      exact_mod_cast Nat.zero_le k
+    linarith
+  have hlogp_le_x :
+      Real.log (p : ℝ) ≤ ((k : ℝ) + 1) * Real.log (p : ℝ) :=
+    le_mul_of_one_le_left hlogp_nonneg hk1
+  have hxge : Real.log 2 ≤ ((k : ℝ) + 1) * Real.log (p : ℝ) := by
+    linarith
+  intro h
+  linarith
+
+private lemma primeSide_witness_summand_eq (p : Nat.Primes) (k : ℕ) :
+    Real.log (p : ℝ) *
+        ((if ((k : ℝ) + 1) * Real.log (p : ℝ) = Real.log 2 then (1 : ℝ) else 0) +
+          if -(((k : ℝ) + 1) * Real.log (p : ℝ)) = Real.log 2 then (1 : ℝ) else 0) =
+      if (p : ℕ) = 2 ∧ k = 0 then Real.log 2 else 0 := by
+  have hposiff := primeSide_witness_pos_eq_iff p k
+  have hneg := primeSide_witness_neg_ne p k
+  by_cases hpk : (p : ℕ) = 2 ∧ k = 0
+  · have hpos : ((k : ℝ) + 1) * Real.log (p : ℝ) = Real.log 2 := hposiff.mpr hpk
+    have hp_real : (p : ℝ) = 2 := by
+      exact_mod_cast hpk.1
+    rw [if_pos hpk, if_pos hpos, if_neg hneg, hp_real]
+    ring
+  · have hpos : ((k : ℝ) + 1) * Real.log (p : ℝ) ≠ Real.log 2 := by
+      intro hx
+      exact hpk (hposiff.mp hx)
+    rw [if_neg hpk, if_neg hpos, if_neg hneg]
+    ring
+
+/-- **素边非虚(校准见证)**:单点见证 `g = 𝟙_{log 2}` 恰好挑出 `p=2, k=0` 项,
+`primeSide g = log 2 ≠ 0`。说明小支集消没引理非虚——素边确实探测素数幂对数,
+且 `log 2` 是精确边界。 -/
+theorem primeSide_witness :
+    primeSide (fun y => if y = Real.log 2 then (1 : ℝ) else 0) = Real.log 2 := by
+  let q : Nat.Primes := ⟨2, Nat.prime_two⟩
+  unfold primeSide
+  calc
+    (∑' (p : Nat.Primes) (k : ℕ),
+        Real.log (p : ℝ) *
+          ((if ((k : ℝ) + 1) * Real.log (p : ℝ) = Real.log 2 then (1 : ℝ) else 0) +
+            if -(((k : ℝ) + 1) * Real.log (p : ℝ)) = Real.log 2 then (1 : ℝ) else 0)) =
+        ∑' (p : Nat.Primes) (k : ℕ), if (p : ℕ) = 2 ∧ k = 0 then Real.log 2 else 0 := by
+      apply tsum_congr
+      intro p
+      apply tsum_congr
+      intro k
+      exact primeSide_witness_summand_eq p k
+    _ = ∑' (p : Nat.Primes), if (p : ℕ) = 2 then Real.log 2 else 0 := by
+      apply tsum_congr
+      intro p
+      by_cases hp : (p : ℕ) = 2
+      · calc
+          (∑' (k : ℕ), if (p : ℕ) = 2 ∧ k = 0 then Real.log 2 else 0) =
+              (if (p : ℕ) = 2 ∧ (0 : ℕ) = 0 then Real.log 2 else 0) := by
+            apply tsum_eq_single 0
+            intro k hk
+            rw [if_neg]
+            intro h
+            exact hk h.2
+          _ = if (p : ℕ) = 2 then Real.log 2 else 0 := by
+            simp [hp]
+      · calc
+          (∑' (k : ℕ), if (p : ℕ) = 2 ∧ k = 0 then Real.log 2 else 0) =
+              ∑' (_k : ℕ), (0 : ℝ) := by
+            apply tsum_congr
+            intro k
+            rw [if_neg]
+            intro h
+            exact hp h.1
+          _ = if (p : ℕ) = 2 then Real.log 2 else 0 := by
+            rw [tsum_zero]
+            simp [hp]
+    _ = (if (q : ℕ) = 2 then Real.log 2 else 0) := by
+      apply tsum_eq_single q
+      intro p hp
+      rw [if_neg]
+      intro hp2
+      apply hp
+      apply Subtype.ext
+      simpa [q] using hp2
+    _ = Real.log 2 := by
+      simp [q]
+
+/-- 素边非平凡:存在测试函数使素边非零(小支集假设做实事)。 -/
+theorem primeSide_not_identically_zero :
+    ∃ g : ℝ → ℝ, primeSide g ≠ 0 := by
+  refine ⟨fun y => if y = Real.log 2 then (1 : ℝ) else 0, ?_⟩
+  rw [primeSide_witness]
+  exact ne_of_gt (Real.log_pos (by norm_num))
+
 /-- 抽象 Weil 显式公式泛函:阿基米德项(抽象载体)+ 素边(显式)。 -/
 structure WeilFunctional where
   archimedean : (ℝ → ℝ) → ℝ
