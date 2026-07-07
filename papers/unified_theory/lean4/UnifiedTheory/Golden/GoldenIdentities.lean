@@ -57,4 +57,19 @@ theorem goldenRatio_half_eq_sqrt5_half_sub :
   rw [hhalf_inv, hsqrt]
   ring
 
+/-- **Binet 逐位恒等(r̄-链之种,观察 6.146(二))**:`F_{k+1}/φ = F_k − ψ^{k+1}`。 -/
+theorem fib_succ_div_goldenRatio (k : ℕ) :
+    (Nat.fib (k + 1) : ℝ) / goldenRatio = (Nat.fib k : ℝ) - goldenConj ^ (k + 1) := by
+  have hφ : (goldenRatio : ℝ) ≠ 0 := Real.goldenRatio_ne_zero
+  have hmul : goldenRatio * goldenConj ^ (k + 1) = -goldenConj ^ k := by
+    calc
+      goldenRatio * goldenConj ^ (k + 1) = (goldenRatio * goldenConj) * goldenConj ^ k := by
+        rw [pow_succ']
+        ring
+      _ = -goldenConj ^ k := by
+        rw [Real.goldenRatio_mul_goldenConj]
+        ring
+  rw [div_eq_iff hφ]
+  nlinarith [Real.fib_succ_sub_goldenRatio_mul_fib k, hmul]
+
 end UnifiedTheory
