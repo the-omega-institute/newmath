@@ -31,6 +31,7 @@ import UnifiedTheory.Golden.GoldenWeight
 import UnifiedTheory.Golden.GoldenWeightModular
 import UnifiedTheory.Golden.GoldenWeightPrimeEdge
 import UnifiedTheory.Golden.GoldenWeightBounds
+import UnifiedTheory.Golden.GoldenWeightLSeries
 import UnifiedTheory.Golden.NaryDeficit
 import UnifiedTheory.Golden.NaryDeficitFractional
 import UnifiedTheory.Golden.ShiftedZeckendorf
