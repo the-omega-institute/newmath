@@ -1,5 +1,6 @@
 import UnifiedTheory.Golden.GoldenWeight
 import UnifiedTheory.Golden.GoldenWeightPrimeEdge
+import UnifiedTheory.Golden.DeficitSharp
 import Mathlib.NumberTheory.ArithmeticFunction
 
 namespace UnifiedTheory
@@ -58,5 +59,24 @@ theorem goldGenAF_euler (x : ℝ) {n : ℕ} (hn : n ≠ 0) :
     (goldGenAF x) (goldGenAF_isMultiplicative x) hn]
   refine Finsupp.prod_congr fun p hp => ?_
   exact goldGenAF_prime_pow x (Nat.prime_of_mem_primeFactors hp) (n.factorization p)
+
+/-- **金权生成函数非完全积性**:金权在非互素处不可加(`S 2 = 3 ≠ 2·S 1 = 4`),故局部欧拉
+因子非几何、金权 L-级数不塌为 ζ 的位移/幂。见证 `x=2, m=n=2`:
+`goldGenAF 2 (2*2) = 2^{S 2} = 8`,而 `goldGenAF 2 2 * goldGenAF 2 2 = (2^{S 1})² = 16`。 -/
+theorem goldGenAF_not_completelyMultiplicative :
+    ∃ (x : ℝ) (m n : ℕ), goldGenAF x (m * n) ≠ goldGenAF x m * goldGenAF x n := by
+  refine ⟨2, 2, 2, ?_⟩
+  have hleft : goldGenAF (2 : ℝ) (2 * 2) = 8 := by
+    have h4 : (2 * 2 : ℕ) = 2 ^ 2 := by norm_num
+    rw [h4, goldGenAF_prime_pow (2 : ℝ) Nat.prime_two 2, S_at2]
+    rw [show (3 : ℤ).toNat = 3 by rfl]
+    norm_num
+  have hright : goldGenAF (2 : ℝ) 2 * goldGenAF (2 : ℝ) 2 = 16 := by
+    have h1 : (2 : ℕ) = 2 ^ 1 := by norm_num
+    rw [h1, goldGenAF_prime_pow (2 : ℝ) Nat.prime_two 1, S_at1]
+    rw [show (2 : ℤ).toNat = 2 by rfl]
+    norm_num
+  rw [hleft, hright]
+  norm_num
 
 end UnifiedTheory
