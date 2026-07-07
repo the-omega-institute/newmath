@@ -474,7 +474,7 @@ Consequently, for every $n\neq 0$ the generating function factors as the finite 
 $$
   x^{\Omega_\varphi(n)} \;=\; \prod_{p^k \,\|\, n} x^{S(k)},
 $$
-checked as \lean{UnifiedTheory.goldGenAF_euler}.  This is the algebraic Euler factorization of the golden weight over prime axes.  The analytic Dirichlet series $\sum_n x^{\Omega_\varphi(n)}\,n^{-s}$---convergence on a half-plane, meromorphic continuation, and any relation to $\zeta$---is not formalized and remains an open leaf.
+checked as \lean{UnifiedTheory.goldGenAF_euler}.  This is the algebraic Euler factorization of the golden weight over prime axes.  The golden weight is additive over coprime factors but not completely additive ($S(2)=3\neq 2\,S(1)=4$), so the generating function is multiplicative yet \emph{not} completely multiplicative: at $x=2$, $\mathrm{goldGenAF}\,2\,(2\cdot 2)=2^{S(2)}=8$ while $(\mathrm{goldGenAF}\,2\,2)^2=(2^{S(1)})^2=16$, checked as \lean{UnifiedTheory.goldGenAF_not_completelyMultiplicative}.  Hence the local Euler factor is genuinely non-geometric and the golden L-series does not reduce to a shift or power of $\zeta$.  The analytic Dirichlet series $\sum_n x^{\Omega_\varphi(n)}\,n^{-s}$---convergence on a half-plane, meromorphic continuation, and any relation to $\zeta$---is not formalized and remains an open leaf.
 
 \subsection{Finite Readings and Two-Square Classification}
 
@@ -692,7 +692,15 @@ $$
 $$
 which is \lean{UnifiedTheory.primeSide}.  When the test function $g$ is supported in the open window $(-\log 2,\ \log 2)$, every prime-power frequency satisfies $(k{+}1)\log p \ge \log 2$ and so falls outside the window; hence the prime side vanishes term by term, \lean{UnifiedTheory.primeSide_eq_zero_of_smallSupport} (unconditional).  On such test functions the functional therefore reduces to its archimedean part, \lean{UnifiedTheory.WeilFunctional.eval_smallSupport}, and is nonnegative whenever the archimedean part is, \lean{UnifiedTheory.WeilFunctional.eval_nonneg_of_smallSupport}.  The archimedean positivity is supplied as an explicit hypothesis: it is the Connes--Consani archimedean positivity, an open leaf that this development does not prove.
 
-The reduction is non-vacuous: the single-point witness $g=\mathbf 1_{\{\log 2\}}$ gives $\operatorname{primeSide}(g)=\log 2$, checked as \lean{UnifiedTheory.primeSide_witness} and \lean{UnifiedTheory.primeSide_not_identically_zero}, so the prime side genuinely detects prime-power logarithms and $\log 2$ is the exact lower boundary of detectable frequencies.  This formalizes the support-vanishing reduction only; unconditional Weil positivity, the explicit formula's zero side, and RH are not claimed.
+The reduction is non-vacuous: the single-point witness $g=\mathbf 1_{\{\log 2\}}$ gives $\operatorname{primeSide}(g)=\log 2$, checked as \lean{UnifiedTheory.primeSide_witness} and \lean{UnifiedTheory.primeSide_not_identically_zero}, so the prime side genuinely detects prime-power logarithms and $\log 2$ is the exact lower boundary of detectable frequencies.
+
+Widening the window by one arithmetic threshold makes the finite-packet structure explicit.  Since $2$ is the only prime power below $3$, a test function supported in $(-\log 3,\ \log 3)$ leaves exactly one surviving prime term:
+$$
+  \operatorname{primeSide}(g) = \log 2\,\bigl(g(\log 2)+g(-\log 2)\bigr),
+$$
+checked as \lean{UnifiedTheory.primeSide_eq_single_of_support_log3}.  On this chamber the functional equals its archimedean part plus a single explicit prime shift, \lean{UnifiedTheory.WeilFunctional.eval_log3_chamber}---the first nonzero finite prime side (the window $(-\log 2,\log 2)$ had none), and the semi-local finite-packet shape.  Positivity is still not asserted: the archimedean term stays an open leaf.
+
+This formalizes the support-vanishing reduction only; unconditional Weil positivity, the explicit formula's zero side, and RH are not claimed.
 
 \subsection{Kernel Components and Ledger States}
 
