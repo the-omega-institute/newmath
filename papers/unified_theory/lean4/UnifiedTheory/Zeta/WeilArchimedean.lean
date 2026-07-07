@@ -97,4 +97,41 @@ theorem tendsto_archKernel_zero {g : ℝ → ℝ} (hg : DifferentiableAt ℝ g 0
       field_simp [htne]
     _ = archKernel g t := hkernel.symm
 
+/-- **Brick C(紧截断式)**:`archSmall g = −C∞·g0 − ∫_0^{log2} K_g − g0·archTail(log2)`。 -/
+theorem archSmall_def (g : ℝ → ℝ) :
+    archSmall g = - archConst * g 0
+      - (∫ t in (0:ℝ)..Real.log 2, archKernel g t) - g 0 * archTail (Real.log 2) := by
+  rfl
+
+/-- 物理 Fourier 变换(约定 `∫ g(t) e^{iτt} dt`,非 2π 归一)。 -/
+noncomputable def fourierPhys (g : ℝ → ℂ) (τ : ℝ) : ℂ :=
+  ∫ t : ℝ, Complex.exp (Complex.I * (τ : ℂ) * (t : ℂ)) * g t
+
+/-- Gamma 乘子 `Re ψ(1/4 + iτ/2) − log π`(`ψ = Complex.digamma`)。 -/
+noncomputable def gammaMultiplier (τ : ℝ) : ℝ :=
+  (Complex.digamma ((1 / 4 : ℝ) + (τ / 2 : ℝ) * Complex.I)).re - Real.log Real.pi
+
+/-- 阿基米德泛函之谱形(digamma 积分表示)。 -/
+noncomputable def WInfSpectral (g : ℝ → ℂ) : ℂ :=
+  (1 / (2 * Real.pi) : ℝ) • ∫ τ : ℝ, (gammaMultiplier τ : ℂ) * fourierPhys g τ
+
+/-- 自卷积平方 `(h ⋆ h̃)(x) = ∫ h(y) h(y − x) dy`(`h̃(x) := h(−x)`)。 -/
+noncomputable def convSquare (h : ℝ → ℝ) (x : ℝ) : ℝ :=
+  ∫ y : ℝ, h y * h (y - x)
+
+/-- **开叶子:谱形 = 实积分形之等价**(卡 mathlib digamma Gauss 积分表示,TODO)。
+本理论不证;登记为 O-6 邻域之精确命题。 -/
+def ArchSpectralMatchesReal : Prop :=
+  ∀ g : ℝ → ℝ, ContDiff ℝ (⊤ : ℕ∞) g → HasCompactSupport g →
+    (∀ x, g x ≠ 0 → x ∈ Set.Ioo (-(Real.log 2)) (Real.log 2)) →
+    WInfSpectral (fun t => (g t : ℂ)) = (archSmall g : ℂ)
+
+/-- **开叶子(O-6):阿基米德正性(小支撑卷积平方类)** = Connes–Consani 小支撑
+archimedean 正性;月级解析核心,本理论不证——登记为精确开命题。**不蕴含 RH**
+(素边正性之 ∀-极限才是 RH 墙)。 -/
+def ArchimedeanPositivity : Prop :=
+  ∀ h : ℝ → ℝ, ContDiff ℝ (⊤ : ℕ∞) h → HasCompactSupport h →
+    (∀ x, convSquare h x ≠ 0 → x ∈ Set.Ioo (-(Real.log 2)) (Real.log 2)) →
+    0 ≤ archSmall (convSquare h)
+
 end UnifiedTheory
