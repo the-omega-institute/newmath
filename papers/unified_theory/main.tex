@@ -790,7 +790,13 @@ $$
 $$
 encoded as \lean{UnifiedTheory.heartMobiusSum}.  Its linearity in the window is checked by \lean{UnifiedTheory.heartMobiusSum_add} and \lean{UnifiedTheory.heartMobiusSum_smul}.  The analytic station-two input is \lean{UnifiedTheory.one_div_riemannZeta_zero_at_one}: as $s\to1$, $1/\zeta(s)\to0$, so the zeta pole gives the reciprocal zeta factor a zero at the pole.
 
-What is proven here is only this elementary closed foundation: the Mellin window, the windowed Möbius sum and its linearity, the zero of $1/\zeta$ at the pole, and the golden/fiber/Binet identities recorded above.  The deep heart pieces are not closed algebra and are not formalized: the full residual spectral identity
+The source-6.147 one-page algebra of the $\bar r$-chain is now closed in Lean.  The heart $\delta$-table term is $\delta_k=\mathrm{fib}(k{+}1)\,\phiG^{-(k+2)}$, \lean{UnifiedTheory.heartDelta}, with $\delta_0=1/\phiG^2$, \lean{UnifiedTheory.heartDelta_zero}.  Its geometric $\psiG$-weighted sum has the closed value
+$$
+  \sum_{k}\psiG^{k}\delta_k=\frac{1}{2\phiG},\qquad \bar r=-\frac{1}{2\phiG},
+$$
+proven as \lean{UnifiedTheory.rbar_series_eq} (with \lean{UnifiedTheory.rbar_eq_neg}) by splitting the series through Binet into two geometric series, both of norm below one, the closing step being $\sqrt5=2\phiG-1$.  The dual-seal constant is $C_0=\sqrt5/2-1/(2\phiG)=\phiG/2$, \lean{UnifiedTheory.heartC0_eq}, i.e.\ $C_0=c^\ast\kappa+\bar r$ with $c^\ast=\sqrt5\,\phiG$ and $\kappa=1/(2\phiG)$.  These are the elementary constants of the heart chapter; they do not close $D(1^-)=2$, whose full statement stays open below.
+
+What is proven here is only this elementary closed foundation: the Mellin window, the windowed Möbius sum and its linearity, the zero of $1/\zeta$ at the pole, the $\delta$-table constants $\bar r$ and $C_0$, and the golden/fiber/Binet identities recorded above.  The deep heart pieces are not closed algebra and are not formalized: the full residual spectral identity
 $$
   S_g(\delta)=\mathrm{station\ 2}+\sum_\rho
   \frac{\tilde g(\rho)\delta^{-\rho}}{\zeta'(\rho)}+O(\delta^2),
