@@ -178,4 +178,17 @@ theorem archKernel_intervalIntegrable {g : ℝ → ℝ} (hgc : Continuous g)
   exact ContinuousOn.intervalIntegrable_of_Icc hlog_nonneg
     (archKernel_continuousOn hgc hg0)
 
+/-- **尾系数精确值**:`archTail (log 2) = −log 3`(`(e^{log2}−1)/(e^{log2}+1) = 1/3`)。 -/
+theorem archTail_log2 : archTail (Real.log 2) = - Real.log 3 := by
+  rw [archTail, Real.exp_log (by norm_num : (0 : ℝ) < 2)]
+  norm_num
+  rw [show (1 : ℝ) / 3 = (3 : ℝ)⁻¹ by norm_num, Real.log_inv]
+
+/-- **紧截断式(源 6.147 形)**:`archSmall g = −C∞·g0 − ∫_0^{log2} K_g + g0·log 3`。 -/
+theorem archSmall_cutoff (g : ℝ → ℝ) :
+    archSmall g = - archConst * g 0
+      - (∫ t in (0:ℝ)..Real.log 2, archKernel g t) + g 0 * Real.log 3 := by
+  rw [archSmall_def g, archTail_log2]
+  ring
+
 end UnifiedTheory
