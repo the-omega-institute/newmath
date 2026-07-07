@@ -80,4 +80,18 @@ theorem cstar_eq_sqrt5_phi : goldenRatio ^ 2 + 1 = Real.sqrt 5 * goldenRatio := 
   rw [hsqrt]
   nlinarith [Real.goldenRatio_sq]
 
+/-- **双面长度整性(Binet 差,源 6.4)**:`φⁿ − ψⁿ = √5·Fₙ`。
+故双面长度 `ℓ(z) = (λ₊−λ₋)/√5` 为整 Fibonacci 权,而非无理黄金权。 -/
+theorem goldenPow_sub_goldenConjPow (n : ℕ) :
+    Real.goldenRatio ^ n - Real.goldenConj ^ n = Real.sqrt 5 * (Nat.fib n : ℝ) := by
+  rw [Real.coe_fib_eq n]
+  have h5 : Real.sqrt 5 ≠ 0 := by positivity
+  field_simp [h5]
+
+/-- **双面取向符号(源 6.4)**:`φⁿ·ψⁿ = (−1)ⁿ`(因 `φ·ψ = −1`)。
+这是 r̄-链振荡的交错符号。 -/
+theorem goldenPow_mul_goldenConjPow (n : ℕ) :
+    Real.goldenRatio ^ n * Real.goldenConj ^ n = (-1 : ℝ) ^ n := by
+  rw [← mul_pow, Real.goldenRatio_mul_goldenConj]
+
 end UnifiedTheory
