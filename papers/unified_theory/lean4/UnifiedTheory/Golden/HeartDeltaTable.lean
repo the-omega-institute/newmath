@@ -91,4 +91,15 @@ theorem rbar_eq_neg :
     -(∑' k : ℕ, Real.goldenConj ^ k * heartDelta k) = -(1 / (2 * Real.goldenRatio)) := by
   rw [rbar_series_eq]
 
+/-- **C₀ 常数(源 6.147,对偶销案)**:`√5/2 − 1/(2φ) = φ/2`。
+这是热流章与心脏预算同出黄金链与 Weyl 之半的对偶常数(= c*·κ + r̄,c*=√5·φ,κ=1/(2φ),r̄=−1/(2φ))。 -/
+theorem heartC0_eq :
+    Real.sqrt 5 / 2 - 1 / (2 * Real.goldenRatio) = Real.goldenRatio / 2 := by
+  have hφpos : (0 : ℝ) < Real.goldenRatio := Real.goldenRatio_pos
+  rw [Real.goldenRatio]
+  have hnz : (1 : ℝ) + Real.sqrt 5 ≠ 0 := by positivity
+  have h5 : Real.sqrt 5 ^ 2 = 5 := Real.sq_sqrt (by norm_num)
+  field_simp
+  nlinarith [h5, Real.sqrt_nonneg 5]
+
 end UnifiedTheory
