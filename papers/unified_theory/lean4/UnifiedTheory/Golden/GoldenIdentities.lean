@@ -106,4 +106,15 @@ theorem goldenPow_add_goldenConjPow (n : ℕ) :
   field_simp
   linear_combination (Real.goldenRatio ^ n) * hφ2 - (Real.goldenConj ^ n) * hψ2
 
+/-- **自相似 no-go(源定理 6.2)**:不存在几何比 `Λ` 使 `F_{k+2} = Λ·F_{k+1}` 对所有 `k` 成立
+(相邻 Fibonacci 比 `F_{k+1}/F_k = 1, 2, 3/2, …` 非常数)。这是双面提升(6.3)之必要性:
+没有单一几何权重能复现 Zeckendorf 取值,故需二维本征提升。 -/
+theorem no_geometric_fib_ratio :
+    ¬ ∃ Λ : ℝ, ∀ k : ℕ, (Nat.fib (k + 2) : ℝ) = Λ * (Nat.fib (k + 1) : ℝ) := by
+  rintro ⟨Λ, h⟩
+  have h0 := h 0
+  have h1 := h 1
+  norm_num [Nat.fib] at h0 h1
+  linarith
+
 end UnifiedTheory
