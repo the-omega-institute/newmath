@@ -237,6 +237,91 @@ theorem WeilFunctional.eval_nonneg_of_smallSupport (W : WeilFunctional) (g : ℝ
   rw [WeilFunctional.eval_smallSupport W g hg]
   exact harch
 
+/-- **Weil log-3 腔:素边单项约化(第一有限包实例)**。支集在 `(−log3, log3)` 内时,唯一
+`< 3` 的素数幂是 `2`,故素边恰为单一 `p=2, m=1` 项 `log 2·(g(log2)+g(−log2))`。 -/
+theorem primeSide_eq_single_of_support_log3 (g : ℝ → ℝ)
+    (hg : ∀ x, g x ≠ 0 → x ∈ Set.Ioo (-(Real.log 3)) (Real.log 3)) :
+    primeSide g = Real.log 2 * (g (Real.log 2) + g (-(Real.log 2))) := by
+  let q : Nat.Primes := ⟨2, Nat.prime_two⟩
+  have hsummand : ∀ (p : Nat.Primes) (k : ℕ),
+      Real.log (p : ℝ) * (g (((k : ℝ) + 1) * Real.log (p : ℝ))
+          + g (-(((k : ℝ) + 1) * Real.log (p : ℝ))))
+        = if (p : ℕ) = 2 ∧ k = 0
+            then Real.log 2 * (g (Real.log 2) + g (-(Real.log 2))) else 0 := by
+    intro p k
+    by_cases hpk : (p : ℕ) = 2 ∧ k = 0
+    · obtain ⟨hp2, hk0⟩ := hpk
+      have hpR : (p : ℝ) = 2 := by exact_mod_cast hp2
+      subst hk0
+      rw [if_pos ⟨hp2, rfl⟩, hpR]
+      norm_num
+    · rw [if_neg hpk]
+      have h3le : 3 ≤ (p : ℕ) ^ (k + 1) := by
+        by_cases hp3 : 3 ≤ (p : ℕ)
+        · calc (3 : ℕ) ≤ (p : ℕ) := hp3
+            _ = (p : ℕ) ^ 1 := (pow_one _).symm
+            _ ≤ (p : ℕ) ^ (k + 1) := Nat.pow_le_pow_right (by omega) (by omega)
+        · have hp2 : 2 ≤ (p : ℕ) := p.2.two_le
+          have hpeq : (p : ℕ) = 2 := by omega
+          have hk : k ≠ 0 := fun hk0 => hpk ⟨hpeq, hk0⟩
+          calc (3 : ℕ) ≤ 2 ^ 2 := by norm_num
+            _ ≤ (p : ℕ) ^ (k + 1) := by
+                rw [hpeq]; exact Nat.pow_le_pow_right (by norm_num) (by omega)
+      have h3leR : (3 : ℝ) ≤ (p : ℝ) ^ (k + 1) := by exact_mod_cast h3le
+      have hxeq : ((k : ℝ) + 1) * Real.log (p : ℝ) = Real.log ((p : ℝ) ^ (k + 1)) := by
+        rw [Real.log_pow]; push_cast; ring
+      have hxge : Real.log 3 ≤ ((k : ℝ) + 1) * Real.log (p : ℝ) := by
+        rw [hxeq]; exact Real.log_le_log (by norm_num) h3leR
+      set x := ((k : ℝ) + 1) * Real.log (p : ℝ) with hx
+      have hgx : g x = 0 := by
+        by_contra h
+        have hmem := hg x h
+        rw [Set.mem_Ioo] at hmem
+        linarith [hmem.2]
+      have hgnx : g (-x) = 0 := by
+        by_contra h
+        have hmem := hg (-x) h
+        rw [Set.mem_Ioo] at hmem
+        linarith [hmem.1]
+      rw [hgx, hgnx]; ring
+  calc primeSide g
+      = ∑' (p : Nat.Primes) (k : ℕ),
+          (if (p : ℕ) = 2 ∧ k = 0
+            then Real.log 2 * (g (Real.log 2) + g (-(Real.log 2))) else 0) := by
+        unfold primeSide
+        exact tsum_congr (fun p => tsum_congr (fun k => hsummand p k))
+    _ = ∑' (p : Nat.Primes),
+          (if (p : ℕ) = 2
+            then Real.log 2 * (g (Real.log 2) + g (-(Real.log 2))) else 0) := by
+        apply tsum_congr
+        intro p
+        by_cases hp : (p : ℕ) = 2
+        · rw [tsum_eq_single 0 (fun k hk => by
+              rw [if_neg]; rintro ⟨_, hk0⟩; exact hk hk0)]
+          rw [if_pos ⟨hp, rfl⟩, if_pos hp]
+        · have hz : ∀ k : ℕ,
+              (if (p : ℕ) = 2 ∧ k = 0
+                then Real.log 2 * (g (Real.log 2) + g (-(Real.log 2))) else 0) = 0 := by
+            intro k; rw [if_neg]; rintro ⟨hp2, _⟩; exact hp hp2
+          rw [if_neg hp, tsum_congr hz, tsum_zero]
+    _ = (if (q : ℕ) = 2
+            then Real.log 2 * (g (Real.log 2) + g (-(Real.log 2))) else 0) := by
+        apply tsum_eq_single q
+        intro p hp
+        rw [if_neg]
+        intro hp2
+        apply hp
+        apply Subtype.ext
+        simpa [q] using hp2
+    _ = Real.log 2 * (g (Real.log 2) + g (-(Real.log 2))) := by
+        simp [q]
+
+/-- **Weil 泛函在 log-3 腔 = 阿基米德项 + 单一素数移位**(有限包证书形状)。 -/
+theorem WeilFunctional.eval_log3_chamber (W : WeilFunctional) (g : ℝ → ℝ)
+    (hg : ∀ x, g x ≠ 0 → x ∈ Set.Ioo (-(Real.log 3)) (Real.log 3)) :
+    W.eval g = W.archimedean g + Real.log 2 * (g (Real.log 2) + g (-(Real.log 2))) := by
+  rw [WeilFunctional.eval, primeSide_eq_single_of_support_log3 g hg]
+
 end
 
 end UnifiedTheory
