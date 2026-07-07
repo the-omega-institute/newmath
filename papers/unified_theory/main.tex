@@ -557,6 +557,20 @@ $$
 $$
 is theorem 14.1: two encoded lists with the same Gödel product are equal.  This supplies the checked arithmetic infrastructure for self-code separation; the full syntax tower and substitution evaluator remain outside the checked column.
 
+For the fixed-length Gödel-vector code $\mathrm{Gvec}(x)=\prod_i p_i^{\,x_i+1}$, perfect-power collapse is coordinatewise.  The checked criterion
+$$
+  \lean{UnifiedTheory.SelfCode.gvec_isPow_iff_coord_dvd}
+$$
+says that $\mathrm{Gvec}(x)$ is a perfect $e$-th power exactly when every shifted coordinate exponent $x_i+1$ is divisible by $e$; in particular it is a square exactly when every $x_i+1$ is even.  The golden weight of the same code is read by
+$$
+  \Omega_\varphi(\mathrm{Gvec}(x))=\sum_i S(x_i+1),
+$$
+and
+$$
+  \lean{UnifiedTheory.SelfCode.gvec_Omega_first_shell}
+$$
+identifies the first non-base golden shell: $\Omega_\varphi(\mathrm{Gvec}(x))=2k+1$ exactly when some $x_i=1$ and every other $x_j=0$.  These are elementary finite-code facts: they rule out hidden perfect-power collapse of the code and pin the first golden shell to single unit perturbations.
+
 \subsection{Dynamics and the Cost Arrow}
 
 For event histories, the checked cost theorem is
@@ -580,6 +594,20 @@ $$
   \lean{UnifiedTheory.L_pos}
 $$
 says that every nonzero prime-exponent state has strictly positive logarithmic length.  This is theorem 18.7 for the prime-axis state carrier.  It supplies the length input for the phase and critical-line ledger, but it does not by itself define a completed heat trace or analytic continuation.
+
+The Fibonacci--Fricke trace map $T(a,b,c)=(b,c,bc-a)$ also has a finite quotient-dynamics constraint under the three even-sign flips $(a,b,c)\mapsto(-a,-b,c)$, $(-a,b,-c)$, and $(a,-b,-c)$.  It does not commute with the individual flips; instead it cyclically permutes them:
+$$
+  T\circ\mathrm{flipAB}=\mathrm{flipAC}\circ T
+$$
+and cyclically, checked as
+$$
+  \lean{UnifiedTheory.traceMap_evenSign_cycle}.
+$$
+Consequently only $T^3$ descends through the even-sign quotient by commuting with each flip, checked for $\mathrm{flipAB}$ as
+$$
+  \lean{UnifiedTheory.traceMap_iterate_three_comm_flipAB}
+$$
+and by the two cyclic variants.  This is a finite algebraic invariant of the trace dynamics, not an analytic positivity or RH statement and not a consequence of periodicity alone.
 
 The topology component checks hidden-direction rigidity.  The theorem
 $$
