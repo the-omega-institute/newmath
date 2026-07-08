@@ -135,18 +135,19 @@ theorem LaplaceData.integrableOn_derivIntegrand {D : LaplaceData} {s : ℂ}
     _ = (1 / ε) * ‖D.f u * Real.exp (-σ₂ * u)‖ := by
         rw [norm_mul, Real.norm_eq_abs, Real.norm_eq_abs, abs_of_nonneg (Real.exp_pos _).le]; ring
 
-/-- **Laplace 变换于收敛半平面全纯(源 F-7 A2)**:`0 ≤ u₀` 时 `F` 于
-`{s | abscissa < Re s}` 复可微。参数积分求导(`hasDerivAt_integral_of_dominated_loc_of_deriv_le`):
-取 `abscissa < σ₂ < σ₁ < Re s₀`,邻域 `{σ₁ < Re}`;`∂_s` 被积函数 `f·(-u)·e^{-su}` 之模于
-该邻域一致受 `(1/ε)‖f·e^{-σ₂·}‖`(`ε=σ₁−σ₂`)支配,后者可积;逐点复导数由 `HasDerivAt.cexp`
-给出。此即 Landau 引擎所需之 F 全纯性。 -/
-theorem LaplaceData.differentiableOn_F {D : LaplaceData} (hu₀ : 0 ≤ D.u₀) :
-    DifferentiableOn ℂ D.F {s : ℂ | D.abscissa < (s.re : EReal)} := by
-  intro s₀ hs₀
-  simp only [Set.mem_setOf_eq] at hs₀
-  show DifferentiableWithinAt ℂ
-    (fun s => ∫ u in Ici D.u₀, (D.f u : ℂ) * Complex.exp (-s * u))
-    {s : ℂ | D.abscissa < (s.re : EReal)} s₀
+/-- **Laplace 变换之显式一阶导(源 F-7 B1a 入口 / A2 强化)**:`0 ≤ u₀` 且
+`abscissa < Re s₀` 时,`F` 于 `s₀` 复可导且导数即被积函数逐点求导的积分
+`F'(s₀) = ∫_{u≥u₀} f(u)(-u)e^{-s₀u}`。参数积分求导
+(`hasDerivAt_integral_of_dominated_loc_of_deriv_le`):取 `abscissa < σ₂ < σ₁ < Re s₀`,
+邻域 `{σ₁ < Re}`;`∂_s` 被积函数 `f·(-u)·e^{-su}` 之模于该邻域一致受
+`(1/ε)‖f·e^{-σ₂·}‖`(`ε=σ₁−σ₂`)支配,后者可积;逐点复导数由 `HasDerivAt.cexp` 给出。
+这是 Landau 引擎逐阶导数(`(-1)^n F^{(n)}` 符号控制)的 `n=1` 底座。 -/
+theorem LaplaceData.hasDerivAt_F {D : LaplaceData} (hu₀ : 0 ≤ D.u₀) {s₀ : ℂ}
+    (hs₀ : D.abscissa < (s₀.re : EReal)) :
+    HasDerivAt D.F
+      (∫ u in Ici D.u₀, (D.f u : ℂ) * (-(u : ℂ)) * Complex.exp (-s₀ * u)) s₀ := by
+  show HasDerivAt (fun s => ∫ u in Ici D.u₀, (D.f u : ℂ) * Complex.exp (-s * u))
+    (∫ u in Ici D.u₀, (D.f u : ℂ) * (-(u : ℂ)) * Complex.exp (-s₀ * u)) s₀
   obtain ⟨σ₁, hσ₁a, hσ₁s⟩ := D.exists_real_between hs₀
   obtain ⟨σ₂, hσ₂a, hσ₂1⟩ := D.exists_real_between hσ₁a
   have hconv : D.Converges σ₂ := D.converges_of_abscissa_lt hσ₂a
@@ -173,7 +174,7 @@ theorem LaplaceData.differentiableOn_F {D : LaplaceData} (hu₀ : 0 ≤ D.u₀) 
     (F' := fun x u => (D.f u : ℂ) * (-(u : ℂ)) * Complex.exp (-x * u))
     (bound := fun u => (1 / ε) * ‖D.f u * Real.exp (-σ₂ * u)‖)
     hnb_mem (Filter.Eventually.of_forall hmeasF) (D.integrableOn_integrand hs₀) hmeasF'
-    ?hbound (hconv.norm.const_mul (1 / ε)) ?hdiff).2.differentiableAt.differentiableWithinAt
+    ?hbound (hconv.norm.const_mul (1 / ε)) ?hdiff).2
   case hbound =>
     rw [ae_restrict_iff' measurableSet_Ici]
     filter_upwards with u hu
@@ -210,5 +211,11 @@ theorem LaplaceData.differentiableOn_F {D : LaplaceData} (hu₀ : 0 ≤ D.u₀) 
     have hd := (hinner.cexp).const_mul (D.f u : ℂ)
     convert hd using 1
     ring
+
+/-- **Laplace 变换于收敛半平面全纯(源 F-7 A2)**:`0 ≤ u₀` 时 `F` 于
+`{s | abscissa < Re s}` 复可微。由显式一阶导 `hasDerivAt_F` 直接给出。 -/
+theorem LaplaceData.differentiableOn_F {D : LaplaceData} (hu₀ : 0 ≤ D.u₀) :
+    DifferentiableOn ℂ D.F {s : ℂ | D.abscissa < (s.re : EReal)} :=
+  fun _s hs => (D.hasDerivAt_F hu₀ hs).differentiableAt.differentiableWithinAt
 
 end UnifiedTheory
