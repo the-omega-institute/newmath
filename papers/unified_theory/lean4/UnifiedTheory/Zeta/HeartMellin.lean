@@ -79,4 +79,37 @@ theorem gTilde_ne_zero_of_re_pos {s : ℂ} (hs : 0 < s.re) : gTilde s ≠ 0 := b
   · exact mul_ne_zero (by norm_num) (pow_ne_zero _ hsinh)
   · exact pow_ne_zero _ hs0
 
+/-- `‖sinh z‖ ≤ cosh(Re z)`(三角不等式于 `sinh z = (e^z − e^{−z})/2` + `‖e^z‖ = e^{Re z}`)。 -/
+theorem norm_sinh_le_cosh_re (z : ℂ) : ‖Complex.sinh z‖ ≤ Real.cosh z.re := by
+  have hf : Complex.sinh z = (Complex.exp z - Complex.exp (-z)) / 2 := rfl
+  rw [hf, norm_div, Complex.norm_ofNat, Real.cosh_eq,
+    div_le_div_iff_of_pos_right (by norm_num : (0:ℝ) < 2)]
+  calc ‖Complex.exp z - Complex.exp (-z)‖
+      ≤ ‖Complex.exp z‖ + ‖Complex.exp (-z)‖ := norm_sub_le _ _
+    _ = Real.exp z.re + Real.exp (-z.re) := by
+        rw [Complex.norm_exp, Complex.norm_exp, Complex.neg_re]
+
+/-- **可听窗于临界线之衰减(源 F-1)**:`‖g̃(½+iγ)‖ ≤ 4cosh²(¼)/γ²`——`O(γ⁻²)` 衰减,
+故站三(零点站)之谱和逐项受控。证:`sinh(s/2)` 之模于 `Re(s/2)=¼` 上有界 `≤ cosh(¼)`,
+而 `‖s‖² ≥ (Im s)² = γ²`。 -/
+theorem gTilde_critical_line_decay (γ : ℝ) (hγ : γ ≠ 0) :
+    ‖gTilde (1 / 2 + γ * Complex.I)‖ ≤ 4 * Real.cosh (1 / 4) ^ 2 / γ ^ 2 := by
+  set s : ℂ := 1 / 2 + γ * Complex.I with hsdef
+  have hsre : s.re = 1 / 2 := by simp [hsdef]
+  have hsim : s.im = γ := by simp [hsdef]
+  have hs0 : s ≠ 0 := by
+    intro h
+    rw [h, Complex.zero_im] at hsim
+    exact hγ hsim.symm
+  have hhalf : (s / 2).re = 1 / 4 := by
+    rw [Complex.div_re]; simp [hsre, hsim, Complex.normSq]; ring
+  have hsinhbound : ‖Complex.sinh (s / 2)‖ ≤ Real.cosh (1 / 4) := by
+    rw [← hhalf]; exact norm_sinh_le_cosh_re _
+  have hsge : γ ^ 2 ≤ ‖s‖ ^ 2 := by
+    have him : |s.im| ≤ ‖s‖ := Complex.abs_im_le_norm s
+    rw [hsim] at him
+    nlinarith [him, abs_nonneg γ, sq_abs γ, norm_nonneg s]
+  rw [gTilde_eq_of_ne hs0, norm_div, norm_mul, norm_pow, norm_pow, Complex.norm_ofNat]
+  gcongr
+
 end UnifiedTheory
