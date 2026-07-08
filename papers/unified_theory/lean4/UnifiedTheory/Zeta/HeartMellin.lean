@@ -112,4 +112,52 @@ theorem gTilde_critical_line_decay (γ : ℝ) (hγ : γ ≠ 0) :
   rw [gTilde_eq_of_ne hs0, norm_div, norm_mul, norm_pow, norm_pow, Complex.norm_ofNat]
   gcongr
 
+/-- 裸形(去 `if`),`s ≠ 0` 处与 `g̃` 重合;供整性证明用。 -/
+noncomputable def gForm (s : ℂ) : ℂ := 4 * Complex.sinh (s / 2) ^ 2 / s ^ 2
+
+/-- `g̃` 之裸形于 `s ≠ 0` 处可微(初等商,分母 `s² ≠ 0`)。 -/
+theorem gForm_differentiableAt {z : ℂ} (hz : z ≠ 0) :
+    DifferentiableAt ℂ gForm z := by
+  have hsinh : DifferentiableAt ℂ (fun t : ℂ => Complex.sinh (t / 2)) z := by fun_prop
+  have hnum : DifferentiableAt ℂ (fun t : ℂ => 4 * Complex.sinh (t / 2) ^ 2) z :=
+    (hsinh.pow 2).const_mul 4
+  have hden : DifferentiableAt ℂ (fun t : ℂ => t ^ 2) z := by fun_prop
+  exact hnum.div hden (pow_ne_zero 2 hz)
+
+/-- `g̃ = update gForm 0 1`:即裸形于 `0` 处补以极限值 `1`。 -/
+theorem gTilde_eqForm : gTilde = Function.update gForm 0 1 := by
+  funext t
+  by_cases ht : t = 0
+  · subst ht; simp [gTilde, Function.update_self]
+  · rw [gTilde_eq_of_ne ht, Function.update_of_ne ht]; rfl
+
+/-- `g̃` 于每点解析:`s ≠ 0` 为初等商,`s = 0` 由 Riemann 可去奇点定理补齐
+(极限值 `1` 即定义值)。 -/
+theorem gTilde_analyticAt (s : ℂ) : AnalyticAt ℂ gTilde s := by
+  rcases eq_or_ne s 0 with rfl | hs
+  · refine Complex.analyticAt_of_differentiable_on_punctured_nhds_of_continuousAt ?_ ?_
+    · filter_upwards [self_mem_nhdsWithin] with z hz
+      have hz' : z ≠ 0 := hz
+      refine (gForm_differentiableAt hz').congr_of_eventuallyEq ?_
+      filter_upwards [isOpen_compl_singleton.mem_nhds (show z ∈ ({0}ᶜ : Set ℂ) from hz')]
+        with w hw
+      exact gTilde_eq_of_ne hw
+    · rw [gTilde_eqForm, continuousAt_update_same]
+      refine tendsto_gTilde_zero.congr' ?_
+      filter_upwards [self_mem_nhdsWithin] with z hz
+      exact gTilde_eq_of_ne hz
+  · have hdon : DifferentiableOn ℂ gForm ({(0 : ℂ)}ᶜ) := fun z hz =>
+      (gForm_differentiableAt hz).differentiableWithinAt
+    have hform : AnalyticAt ℂ gForm s :=
+      hdon.analyticAt (isOpen_compl_singleton.mem_nhds hs)
+    refine hform.congr ?_
+    filter_upwards [isOpen_compl_singleton.mem_nhds hs] with w hw
+    exact (gTilde_eq_of_ne hw).symm
+
+/-- **可听窗为整函数(源 F-1 收口)**:`g̃` 于全 `ℂ` 解析。`s = 0` 之可去奇点由 Riemann 定理补齐
+(极限值 `1` 即定义值),`s ≠ 0` 处为初等商。整性是"每枚离线零点必被某只环形电极听见"(H.7 逆向半)
+所需之最小解析规整性:求值对象无极点,谱和逐项良定义。 -/
+theorem gTilde_entire : AnalyticOnNhd ℂ gTilde Set.univ :=
+  fun s _ => gTilde_analyticAt s
+
 end UnifiedTheory
