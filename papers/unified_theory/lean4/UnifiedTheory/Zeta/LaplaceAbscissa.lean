@@ -291,4 +291,74 @@ theorem LaplaceData.hasDerivAt_F' {D : LaplaceData} (hu₀ : 0 ≤ D.u₀) {s : 
     push_cast; ring
   rw [hval]; exact h
 
+/-- `mulNegU` 不改变 Laplace 数据的下端。 -/
+theorem LaplaceData.u₀_iterate (D : LaplaceData) :
+    ∀ n : ℕ, ((LaplaceData.mulNegU^[n]) D).u₀ = D.u₀ := by
+  intro n
+  induction n with
+  | zero =>
+      simp
+  | succ n ih =>
+      simp [Function.iterate_succ_apply', LaplaceData.mulNegU, ih]
+
+/-- **逐阶横标保持**:反复乘 `-u` 后,收敛横标仍留在同一半平面内。 -/
+theorem LaplaceData.abscissa_iterate_lt (D : LaplaceData) (hu₀ : 0 ≤ D.u₀) {s : ℂ}
+    (hs : D.abscissa < (s.re : EReal)) :
+    ∀ n : ℕ, ((LaplaceData.mulNegU^[n]) D).abscissa < (s.re : EReal) := by
+  intro n
+  induction n with
+  | zero =>
+      simpa using hs
+  | succ n ih =>
+      have hu₀n : 0 ≤ ((LaplaceData.mulNegU^[n]) D).u₀ := by
+        rw [LaplaceData.u₀_iterate D n]
+        exact hu₀
+      have hstep := LaplaceData.abscissa_mulNegU_lt
+        (D := ((LaplaceData.mulNegU^[n]) D)) hu₀n (s := s) ih
+      simpa [Function.iterate_succ_apply'] using hstep
+
+/-- **迭代导数塔闭式**:在收敛半平面内,
+`F` 的第 `n` 阶导数等于权重连续乘 `-u` 后的 Laplace 变换。 -/
+theorem LaplaceData.iteratedDeriv_F (D : LaplaceData) (hu₀ : 0 ≤ D.u₀) {s : ℂ}
+    (hs : D.abscissa < (s.re : EReal)) :
+    ∀ n : ℕ, iteratedDeriv n D.F s = ((LaplaceData.mulNegU^[n]) D).F s := by
+  have hopen : IsOpen {z : ℂ | D.abscissa < (z.re : EReal)} := by
+    have hcont : Continuous fun z : ℂ => (z.re : EReal) :=
+      continuous_coe_real_ereal.comp Complex.continuous_re
+    simpa [Set.preimage] using (isOpen_Ioi.preimage hcont : IsOpen
+      ((fun z : ℂ => (z.re : EReal)) ⁻¹' Set.Ioi D.abscissa))
+  have hlocal : ∀ n : ℕ, ∀ {z : ℂ},
+      D.abscissa < (z.re : EReal) →
+      iteratedDeriv n D.F z = ((LaplaceData.mulNegU^[n]) D).F z := by
+    intro n
+    induction n with
+    | zero =>
+        intro z _hz
+        simp
+    | succ n ih =>
+        intro z hz
+        rw [iteratedDeriv_succ]
+        have heqOn : Set.EqOn (iteratedDeriv n D.F) (((LaplaceData.mulNegU^[n]) D).F)
+            {w : ℂ | D.abscissa < (w.re : EReal)} := by
+          intro w hw
+          exact ih hw
+        have hderiv_eq : deriv (iteratedDeriv n D.F) z =
+            deriv (((LaplaceData.mulNegU^[n]) D).F) z :=
+          (Filter.eventuallyEq_of_mem (hopen.mem_nhds hz) heqOn).deriv_eq
+        rw [hderiv_eq]
+        have hu₀n : 0 ≤ ((LaplaceData.mulNegU^[n]) D).u₀ := by
+          rw [LaplaceData.u₀_iterate D n]
+          exact hu₀
+        have habsn : ((LaplaceData.mulNegU^[n]) D).abscissa < (z.re : EReal) :=
+          D.abscissa_iterate_lt hu₀ hz n
+        calc
+          deriv (((LaplaceData.mulNegU^[n]) D).F) z =
+              (((LaplaceData.mulNegU^[n]) D).mulNegU).F z :=
+            (LaplaceData.hasDerivAt_F' (D := ((LaplaceData.mulNegU^[n]) D))
+              hu₀n habsn).deriv
+          _ = ((LaplaceData.mulNegU^[n.succ]) D).F z := by
+            simp [Function.iterate_succ_apply']
+  intro n
+  exact hlocal n hs
+
 end UnifiedTheory
