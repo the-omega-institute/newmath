@@ -518,6 +518,8 @@ $$
 $$
 It states that a natural number $n$ is a sum of two squares exactly when every prime factor $p\equiv3\pmod4$ appears in the factorization of $n$ with even exponent.  This is theorem 9.10 in its ordinary arithmetic form.  The proof is a mathlib-based wrapper around the standard sum-of-two-squares factorization theorem; the Lean file records the kernel-facing reading theorem, not an elementary reproof of Fermat's theorem.
 
+The constructive input behind the $p\equiv1\pmod4$ branch is source theorem 9.5, checked here as an \emph{explicit} certificate rather than a mere existence claim.  The factorial pairing \lean{UnifiedTheory.factorial_pairing} proves $(p-1)!\equiv(-1)^{m}(m!)^2$ in $\mathbb{Z}/p$ for odd prime $p$ and $m=(p-1)/2$, by reflecting the upper half $\{m{+}1,\dots,p{-}1\}$ onto the lower half via $k\mapsto p-k$ and using $\overline{p-k}=-\bar k$ to extract $(-1)^{m}$.  Combined with Wilson's lemma and $m$ even for $p\equiv1\pmod4$, this yields \lean{UnifiedTheory.neg_one_sq_witness}: the element $m!$ is an \emph{explicit} square root of $-1$ modulo $p$.  This strengthens mathlib's existence-only \lean{ZMod.exists_sq_eq_neg_one_iff} to a named witness, in keeping with the kernel's certificate discipline.
+
 \subsection{Self-Coding and Diagonal Barriers}
 
 The self-code layer contains Cantor diagonal theorems for arbitrary types.  The declaration
