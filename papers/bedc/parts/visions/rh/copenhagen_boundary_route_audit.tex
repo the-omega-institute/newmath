@@ -120,6 +120,42 @@ Archimedean no-scale brick.  It is checked in Lean with no additional
 axiom.
 \end{proof}
 
+\begin{theorem}[Finite normal-defect ledger]
+\label{thm:rh-normal-defect-ledger}
+Let $h_1,\dots,h_m$ be rational heights and $r$ a rational normal
+parameter, with per-height defect $d_a=-rh_a$, total reading
+$D=\sum_a d_a$, and energy $E=\sum_a d_a^{2}$.  Then
+$$
+D=-r\sum_a h_a,\qquad E=r^{2}\sum_a h_a^{2},
+$$
+the mirror $r\mapsto-r$ flips each first-order defect and fixes the
+second-order energy, and if $\sum_a h_a^{2}>0$ then $E>0$ for $r^{2}>0$
+while $E=0$ forces $r=0$.
+\leanchecked{BEDC.Derived.RHRoute.NormalDefectLedger.ledgerE\_identity}
+\leanvariant{BEDC.Derived.RHRoute.NormalDefectLedger.ledgerD\_identity}
+\leanvariant{BEDC.Derived.RHRoute.NormalDefectLedger.ledgerE\_neg\_parameter}
+\leanvariant{BEDC.Derived.RHRoute.NormalDefectLedger.ledgerE\_positive\_of\_square\_positive}
+\leanvariant{BEDC.Derived.RHRoute.NormalDefectLedger.ledgerE\_zero\_forces\_parameter\_zero}
+\end{theorem}
+
+\begin{proof}
+The first-order defect changes sign under the function-equation mirror,
+while the second-order energy survives the mirror.  Thus a finite
+window's energy reading is a faithful detector of an off-line normal
+offset at the level of rational ledger data.  This ledger supplies
+per-level readings for the Copenhagen tower of
+\autoref{thm:rh-copenhagen-bounded-energy-excludes-positive-scale-apartness},
+whereas the tower supplies the bounded-energy contradiction.
+
+The ledger does not say that a zeta zero rejects a nonzero normal
+parameter.  That rejection principle, whether named as no extra zero
+sheet, defect-zero incompatibility, or boundary stability, is the same
+$\mathsf{RH}$-equivalent wall as the Copenhagen tower capture obligation.
+An independent oracle route, treating an off-line zero as a new type and
+expecting boundary-information contradiction, audits to that same wall.
+The extractable value before the wall is precisely this finite ledger.
+\end{proof}
+
 \begin{theorem}[Finite jets underdetermine the polynomial]
 \label{thm:rh-finite-visibility-additive-jet-underdetermination}
 For every polynomial $p$ over the rationals and every $N$, there is an

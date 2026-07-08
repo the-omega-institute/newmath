@@ -39,6 +39,22 @@ private theorem ratMul_neg_right_local (x y : Rat) :
   · unfold ratMul ratNeg ratDenInt
     exact IntEq_refl _
 
+private theorem ratMul_neg_left_local (x y : Rat) :
+    RatEq (ratMul (ratNeg x) y) (ratNeg (ratMul x y)) := by
+  exact RatEq_trans _ _ _
+    (ratMul_comm (ratNeg x) y)
+    (RatEq_trans _ _ _
+      (ratMul_neg_right_local y x)
+      (ratNeg_respects (ratMul_comm y x)))
+
+private theorem ratNeg_neg_mul_neg_local (x y : Rat) :
+    RatEq (ratMul (ratNeg x) (ratNeg y)) (ratMul x y) := by
+  exact RatEq_trans _ _ _
+    (ratMul_neg_left_local x (ratNeg y))
+    (RatEq_trans _ _ _
+      (ratNeg_respects (ratMul_neg_right_local x y))
+      (BEDC.Derived.LocatedReal.ratNeg_neg_local (ratMul x y)))
+
 private theorem ratSub_respects_local {x x' y y' : Rat} :
     RatEq x x' -> RatEq y y' -> RatEq (ratSub x y) (ratSub x' y') := by
   intro hx hy
@@ -53,43 +69,6 @@ private theorem ratSub_mul_left_local (c a b : Rat) :
     (BEDC.Real.RatNumKernel.ratMul_add_left c a (ratNeg b))
     (ratAdd_respects (RatEq_refl (ratMul c a))
       (ratMul_neg_right_local c b))
-
-private def ratRing : BEDC.Algebra.Rel.RelCommRing Rat RatEq where
-  zero := ratZero
-  one := ratOne
-  add := ratAdd
-  mul := ratMul
-  neg := ratNeg
-  refl := RatEq_refl
-  symm := by
-    intro _ _
-    exact RatEq_symm
-  trans := by
-    intro _ _ _
-    exact RatEq_trans _ _ _
-  add_congr := by
-    intro _ _ _ _ hleft hright
-    exact ratAdd_respects hleft hright
-  mul_congr := by
-    intro _ _ _ _ hleft hright
-    exact ratMul_respects hleft hright
-  neg_congr := by
-    intro _ _ h
-    exact ratNeg_respects h
-  add_assoc := BEDC.Derived.LocatedReal.ratAdd_assoc_local
-  add_comm := ratAdd_comm
-  add_zero := ratAdd_zero_right
-  zero_add := ratZero_add_left
-  add_neg := BEDC.Derived.LocatedReal.ratAdd_neg_local
-  neg_add := BEDC.Derived.LocatedReal.ratNeg_add_local
-  mul_assoc := ratMul_assoc
-  mul_one := ratMul_one_right
-  one_mul := ratOne_mul_left
-  mul_zero := ratMul_zero_right_local
-  zero_mul := ratMul_zero_left_local
-  left_distrib := BEDC.Real.RatNumKernel.ratMul_add_left
-  right_distrib := BEDC.Real.RatNumKernel.ratMul_add_right
-  mul_comm := ratMul_comm
 
 private theorem ratNeg_pos_of_neg {x : Rat} :
     ratLt x ratZero -> ratLt ratZero (ratNeg x) := by
@@ -123,7 +102,7 @@ theorem ratMul_self_nonneg (x : Rat) :
             BEDC.Real.RatNumKernel.ratMul_nonneg negNonneg negNonneg
           have sameSquare :
               RatEq (ratMul (ratNeg x) (ratNeg x)) (ratMul x x) :=
-            ratRing.neg_neg_mul_neg x x
+            ratNeg_neg_mul_neg_local x x
           exact BEDC.Real.RatNumKernel.ratLe_of_RatEq_right
             negSquareNonneg sameSquare
 
