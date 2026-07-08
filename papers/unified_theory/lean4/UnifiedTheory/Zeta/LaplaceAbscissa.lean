@@ -62,4 +62,22 @@ theorem LaplaceData.converges_of_abscissa_lt {D : LaplaceData} {σ : ℝ}
   have h2 : (σ'' : EReal) < (σ : EReal) := hxσ
   exact hσ''conv.mono (by exact_mod_cast h2.le)
 
+/-- **半平面被积函数可积**:`abscissa < Re s` 时复被积函数 `u ↦ f(u) e^{-su}` 于
+`[u₀,∞)` 绝对可积——故 `F(s)` 于 `Re s > σ_c` 真正良定义。其范数逐点等于实收敛
+被积函数(`σ = Re s`)之范数,积分性由 `converges_of_abscissa_lt` 供给。此即
+参数积分求导(F 全纯,源 F-7 A2)所需之 `hF_int` 假设。 -/
+theorem LaplaceData.integrableOn_integrand {D : LaplaceData} {s : ℂ}
+    (h : D.abscissa < (s.re : EReal)) :
+    IntegrableOn (fun u => (D.f u : ℂ) * Complex.exp (-s * u)) (Ici D.u₀) := by
+  have hconv : D.Converges s.re := D.converges_of_abscissa_lt h
+  have hmeas : AEStronglyMeasurable (fun u => (D.f u : ℂ) * Complex.exp (-s * u))
+      (volume.restrict (Ici D.u₀)) :=
+    (Complex.continuous_ofReal.comp_aestronglyMeasurable D.measf).mul
+      (Complex.continuous_exp.comp (by fun_prop)).aestronglyMeasurable
+  refine hconv.norm.mono' hmeas ?_
+  filter_upwards with u
+  have hre : (-s * (u : ℂ)).re = -s.re * u := by simp [Complex.mul_re]
+  rw [norm_mul, norm_mul, Complex.norm_real, Complex.norm_exp, hre, Real.norm_eq_abs,
+    Real.norm_eq_abs, abs_of_nonneg (Real.exp_pos _).le]
+
 end UnifiedTheory
