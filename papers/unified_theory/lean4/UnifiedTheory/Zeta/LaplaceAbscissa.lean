@@ -275,4 +275,20 @@ theorem LaplaceData.abscissa_mulNegU_lt {D : LaplaceData} (hu₀ : 0 ≤ D.u₀)
     sInf_le ⟨σ, hconv, rfl⟩
   exact lt_of_le_of_lt hle (by exact_mod_cast hσs)
 
+/-- **导数即"权重乘 `-u`"之变换(B1 递归步)**:`abscissa < Re s ⟹ HasDerivAt F ((mulNegU).F s) s`。
+`F'(s)=∫(-u)f e^{-su}` 恰为权重 `-u·f` 之 Laplace 变换 `(mulNegU).F s`。故 `F^{(n)}=(mulNegU^{[n]}).F`,
+逐阶复用本引理 + `abscissa_mulNegU_lt`(每阶横标仍在半平面)即得迭代导数塔——无需 n 阶参数求导。 -/
+theorem LaplaceData.hasDerivAt_F' {D : LaplaceData} (hu₀ : 0 ≤ D.u₀) {s : ℂ}
+    (hs : D.abscissa < (s.re : EReal)) : HasDerivAt D.F ((D.mulNegU).F s) s := by
+  have h := D.hasDerivAt_F hu₀ hs
+  have hval : (D.mulNegU).F s
+      = ∫ u in Ici D.u₀, (D.f u : ℂ) * (-(u : ℂ)) * Complex.exp (-s * u) := by
+    show (∫ u in Ici D.u₀, ((D.mulNegU).f u : ℂ) * Complex.exp (-s * u)) = _
+    apply setIntegral_congr_fun measurableSet_Ici
+    intro u _
+    show ((-u * D.f u : ℝ) : ℂ) * Complex.exp (-s * u)
+      = (D.f u : ℂ) * (-(u : ℂ)) * Complex.exp (-s * u)
+    push_cast; ring
+  rw [hval]; exact h
+
 end UnifiedTheory
