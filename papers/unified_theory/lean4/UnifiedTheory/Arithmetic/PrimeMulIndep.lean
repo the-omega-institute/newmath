@@ -64,4 +64,65 @@ theorem primes_mul_indep (a : ℕ →₀ ℤ) (ha : ∀ p ∈ a.support, Nat.Pri
     omega
   · exact Finsupp.notMem_support_iff.mp hq
 
+/-- the ℤ-Finsupp product of a Nat factorization equals the number (cast to ℚ). -/
+theorem intFinsupp_prod_factorization (n : ℕ) (hn : n ≠ 0) :
+    ((n.factorization.mapRange (Nat.cast : ℕ → ℤ) (by simp)).prod fun p k => (p : ℚ) ^ k)
+      = (n : ℚ) := by
+  rw [Finsupp.prod_mapRange_index (by intro i; simp)]
+  have hcong : (n.factorization.prod fun p k => (p : ℚ) ^ (k : ℤ))
+      = n.factorization.prod fun p k => ((p ^ k : ℕ) : ℚ) := by
+    apply Finsupp.prod_congr
+    intro p _
+    rw [zpow_natCast]; push_cast; ring
+  rw [hcong, Finsupp.prod, ← Nat.cast_prod]
+  congr 1
+  exact Nat.factorization_prod_pow_eq_self hn
+
+/-- support of the ℤ-Finsupp factorization = prime factors. -/
+theorem support_intFinsupp_factorization (n : ℕ) :
+    (n.factorization.mapRange (Nat.cast : ℕ → ℤ) (by simp)).support = n.primeFactors := by
+  rw [Finsupp.support_mapRange_of_injective (by simp) _ Nat.cast_injective,
+    Nat.support_factorization]
+
+/-- **素数在 ℚ₊ 中生成(源 18.10 之满射半)**:每正有理数 `q` 皆为素数幂之有限积
+`∏ p^{a_p}`(`a : ℕ →₀ ℤ` 素支撑)。取 `a = v(num) − v(den)`(既约,支撑不交);
+`a↦∏p^{a_p}` 满射。与 `primes_mul_indep`(单射/无关系)合即 18.10:`(ℚ₊,×)` 为素数轴上自由阿贝尔群。 -/
+theorem primes_generate (q : ℚ) (hq : 0 < q) :
+    ∃ a : ℕ →₀ ℤ, (∀ p ∈ a.support, p.Prime) ∧ (a.prod fun p n => (p : ℚ) ^ n) = q := by
+  have hnum : 0 < q.num := Rat.num_pos.mpr hq
+  have hnumn : q.num.toNat ≠ 0 := by omega
+  have hden : q.den ≠ 0 := q.den_nz
+  set A' : ℕ →₀ ℤ := q.num.toNat.factorization.mapRange (Nat.cast : ℕ → ℤ) (by simp) with hA'
+  set B' : ℕ →₀ ℤ := q.den.factorization.mapRange (Nat.cast : ℕ → ℤ) (by simp) with hB'
+  have hsuppA : A'.support = q.num.toNat.primeFactors := support_intFinsupp_factorization _
+  have hsuppB : B'.support = q.den.primeFactors := support_intFinsupp_factorization _
+  have hallprime : ∀ p ∈ A'.support ∪ B'.support, p.Prime := by
+    intro p hp
+    rw [Finset.mem_union, hsuppA, hsuppB] at hp
+    rcases hp with h | h <;> exact Nat.prime_of_mem_primeFactors h
+  refine ⟨A' - B', ?_, ?_⟩
+  · intro p hp
+    exact hallprime p (Finsupp.support_sub hp)
+  · have hne : ∀ p ∈ A'.support ∪ B'.support, (p : ℚ) ≠ 0 := fun p hp => by
+      exact_mod_cast (hallprime p hp).pos.ne'
+    have hmul : (A' - B' + B').prod (fun p n => (p : ℚ) ^ n)
+        = (A' - B').prod (fun p n => (p : ℚ) ^ n) * B'.prod (fun p n => (p : ℚ) ^ n) := by
+      apply Finsupp.prod_add_index (by intro p _; simp) ?_
+      intro p hp b₁ b₂
+      have hp0 : (p : ℚ) ≠ 0 := by
+        rcases Finset.mem_union.mp hp with h | h
+        · exact hne p (Finsupp.support_sub h)
+        · exact hne p (Finset.mem_union_right _ h)
+      exact zpow_add₀ hp0 b₁ b₂
+    rw [sub_add_cancel] at hmul
+    have hA : A'.prod (fun p n => (p : ℚ) ^ n) = (q.num.toNat : ℚ) :=
+      intFinsupp_prod_factorization _ hnumn
+    have hB : B'.prod (fun p n => (p : ℚ) ^ n) = (q.den : ℚ) :=
+      intFinsupp_prod_factorization _ hden
+    rw [hA, hB] at hmul
+    have hval : (A' - B').prod (fun p n => (p : ℚ) ^ n) = (q.num.toNat : ℚ) / (q.den : ℚ) := by
+      rw [eq_div_iff (by exact_mod_cast hden)]; exact hmul.symm
+    rw [hval, show ((q.num.toNat : ℚ)) = (q.num : ℚ) by exact_mod_cast Int.toNat_of_nonneg hnum.le]
+    exact Rat.num_div_den q
+
 end UnifiedTheory
