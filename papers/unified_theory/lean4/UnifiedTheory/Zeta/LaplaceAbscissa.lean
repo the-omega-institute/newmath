@@ -135,4 +135,80 @@ theorem LaplaceData.integrableOn_derivIntegrand {D : LaplaceData} {s : ℂ}
     _ = (1 / ε) * ‖D.f u * Real.exp (-σ₂ * u)‖ := by
         rw [norm_mul, Real.norm_eq_abs, Real.norm_eq_abs, abs_of_nonneg (Real.exp_pos _).le]; ring
 
+/-- **Laplace 变换于收敛半平面全纯(源 F-7 A2)**:`0 ≤ u₀` 时 `F` 于
+`{s | abscissa < Re s}` 复可微。参数积分求导(`hasDerivAt_integral_of_dominated_loc_of_deriv_le`):
+取 `abscissa < σ₂ < σ₁ < Re s₀`,邻域 `{σ₁ < Re}`;`∂_s` 被积函数 `f·(-u)·e^{-su}` 之模于
+该邻域一致受 `(1/ε)‖f·e^{-σ₂·}‖`(`ε=σ₁−σ₂`)支配,后者可积;逐点复导数由 `HasDerivAt.cexp`
+给出。此即 Landau 引擎所需之 F 全纯性。 -/
+theorem LaplaceData.differentiableOn_F {D : LaplaceData} (hu₀ : 0 ≤ D.u₀) :
+    DifferentiableOn ℂ D.F {s : ℂ | D.abscissa < (s.re : EReal)} := by
+  intro s₀ hs₀
+  simp only [Set.mem_setOf_eq] at hs₀
+  show DifferentiableWithinAt ℂ
+    (fun s => ∫ u in Ici D.u₀, (D.f u : ℂ) * Complex.exp (-s * u))
+    {s : ℂ | D.abscissa < (s.re : EReal)} s₀
+  obtain ⟨σ₁, hσ₁a, hσ₁s⟩ := D.exists_real_between hs₀
+  obtain ⟨σ₂, hσ₂a, hσ₂1⟩ := D.exists_real_between hσ₁a
+  have hconv : D.Converges σ₂ := D.converges_of_abscissa_lt hσ₂a
+  set ε : ℝ := σ₁ - σ₂ with hεdef
+  have hε : 0 < ε := by rw [hεdef]; linarith
+  have hnb_mem : {z : ℂ | σ₁ < z.re} ∈ nhds s₀ :=
+    (isOpen_lt continuous_const Complex.continuous_re).mem_nhds hσ₁s
+  have hmeasF : ∀ x : ℂ, AEStronglyMeasurable
+      (fun u => (D.f u : ℂ) * Complex.exp (-x * u)) (volume.restrict (Ici D.u₀)) := fun x =>
+    (Complex.continuous_ofReal.comp_aestronglyMeasurable D.measf).mul
+      (Complex.continuous_exp.comp (by fun_prop)).aestronglyMeasurable
+  have hmeasF' : AEStronglyMeasurable
+      (fun u => (D.f u : ℂ) * (-(u : ℂ)) * Complex.exp (-s₀ * u)) (volume.restrict (Ici D.u₀)) :=
+    ((Complex.continuous_ofReal.comp_aestronglyMeasurable D.measf).mul (by fun_prop)).mul
+      (Complex.continuous_exp.comp (by fun_prop)).aestronglyMeasurable
+  have hpoly : ∀ u : ℝ, 0 ≤ u → u ≤ (1 / ε) * Real.exp (ε * u) := by
+    intro u hu0
+    have h1 : ε * u ≤ Real.exp (ε * u) := le_trans (by linarith) (Real.add_one_le_exp (ε * u))
+    rw [one_div]
+    calc u = ε⁻¹ * (ε * u) := by rw [← mul_assoc, inv_mul_cancel₀ hε.ne', one_mul]
+      _ ≤ ε⁻¹ * Real.exp (ε * u) := mul_le_mul_of_nonneg_left h1 (by positivity)
+  refine (hasDerivAt_integral_of_dominated_loc_of_deriv_le
+    (F := fun s u => (D.f u : ℂ) * Complex.exp (-s * u))
+    (F' := fun x u => (D.f u : ℂ) * (-(u : ℂ)) * Complex.exp (-x * u))
+    (bound := fun u => (1 / ε) * ‖D.f u * Real.exp (-σ₂ * u)‖)
+    hnb_mem (Filter.Eventually.of_forall hmeasF) (D.integrableOn_integrand hs₀) hmeasF'
+    ?hbound (hconv.norm.const_mul (1 / ε)) ?hdiff).2.differentiableAt.differentiableWithinAt
+  case hbound =>
+    rw [ae_restrict_iff' measurableSet_Ici]
+    filter_upwards with u hu
+    intro x hx
+    have hu0 : 0 ≤ u := le_trans hu₀ hu
+    have hxσ₁ : σ₁ < x.re := hx
+    have hre : (-x * (u : ℂ)).re = -x.re * u := by simp [Complex.mul_re]
+    have hstep1 : Real.exp (-x.re * u) ≤ Real.exp (-σ₁ * u) :=
+      Real.exp_le_exp.mpr (by nlinarith [hxσ₁, hu0])
+    have hstep2 : |u| * Real.exp (-σ₁ * u) ≤ (1 / ε) * Real.exp (-σ₂ * u) := by
+      rw [abs_of_nonneg hu0]
+      calc u * Real.exp (-σ₁ * u)
+          ≤ ((1 / ε) * Real.exp (ε * u)) * Real.exp (-σ₁ * u) :=
+            mul_le_mul_of_nonneg_right (hpoly u hu0) (Real.exp_pos _).le
+        _ = (1 / ε) * Real.exp (-σ₂ * u) := by
+            rw [mul_assoc, ← Real.exp_add]; congr 2; rw [hεdef]; ring
+    calc ‖(D.f u : ℂ) * (-(u : ℂ)) * Complex.exp (-x * u)‖
+        = |D.f u| * |u| * Real.exp (-x.re * u) := by
+          simp only [norm_mul, norm_neg, Complex.norm_real, Complex.norm_exp, hre, Real.norm_eq_abs]
+      _ ≤ |D.f u| * (|u| * Real.exp (-σ₁ * u)) := by
+          rw [mul_assoc]
+          exact mul_le_mul_of_nonneg_left
+            (mul_le_mul_of_nonneg_left hstep1 (abs_nonneg _)) (abs_nonneg _)
+      _ ≤ |D.f u| * ((1 / ε) * Real.exp (-σ₂ * u)) :=
+          mul_le_mul_of_nonneg_left hstep2 (abs_nonneg _)
+      _ = (1 / ε) * ‖D.f u * Real.exp (-σ₂ * u)‖ := by
+          rw [norm_mul, Real.norm_eq_abs, Real.norm_eq_abs, abs_of_nonneg (Real.exp_pos _).le]; ring
+  case hdiff =>
+    rw [ae_restrict_iff' measurableSet_Ici]
+    filter_upwards with u _hu
+    intro x _hx
+    have hinner : HasDerivAt (fun s : ℂ => -s * (u : ℂ)) (-(u : ℂ)) x := by
+      simpa using ((hasDerivAt_id x).neg.mul_const (u : ℂ))
+    have hd := (hinner.cexp).const_mul (D.f u : ℂ)
+    convert hd using 1
+    ring
+
 end UnifiedTheory
