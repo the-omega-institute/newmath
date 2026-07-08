@@ -50,4 +50,33 @@ theorem tendsto_gTilde_zero :
   field_simp [hs]
   ring
 
+/-- **可听窗于右半平面不灭(源 H.7 判据之解析核心)**:`Re s > 0 ⟹ g̃(s) ≠ 0`。
+`g̃(s) = 4 sinh²(s/2)/s²` 之零点仅居 `sinh(s/2)` 之零 `s ∈ 2πiℤ`(纯虚轴,`Re = 0`),
+故凡有正实部之 `s` 皆听得见。这是心脏原生 RH 判据(H.7)反向证明的关键:每枚离线零点
+`ρ* = β+iγ*`(`β>0`)必被某只环形电极听见,因 `g̃(ρ*) ≠ 0`。 -/
+theorem gTilde_ne_zero_of_re_pos {s : ℂ} (hs : 0 < s.re) : gTilde s ≠ 0 := by
+  have hs0 : s ≠ 0 := by intro h; rw [h] at hs; simp at hs
+  rw [gTilde_eq_of_ne hs0]
+  have hsinh : Complex.sinh (s / 2) ≠ 0 := by
+    intro h
+    have hf : Complex.sinh (s / 2) = (Complex.exp (s / 2) - Complex.exp (-(s / 2))) / 2 := rfl
+    rw [hf] at h
+    have h2 : Complex.exp (s / 2) = Complex.exp (-(s / 2)) := by
+      have hz : Complex.exp (s / 2) - Complex.exp (-(s / 2)) = 0 := by
+        field_simp at h; linear_combination h
+      linear_combination hz
+    have hexp : Complex.exp s = 1 := by
+      have e1 : Complex.exp s = Complex.exp (s / 2) * Complex.exp (s / 2) := by
+        rw [← Complex.exp_add]; congr 1; ring
+      rw [e1]
+      nth_rewrite 2 [h2]
+      rw [← Complex.exp_add, show s / 2 + -(s / 2) = 0 by ring, Complex.exp_zero]
+    rw [Complex.exp_eq_one_iff] at hexp
+    obtain ⟨n, hn⟩ := hexp
+    rw [hn] at hs
+    simp at hs
+  apply div_ne_zero
+  · exact mul_ne_zero (by norm_num) (pow_ne_zero _ hsinh)
+  · exact pow_ne_zero _ hs0
+
 end UnifiedTheory
