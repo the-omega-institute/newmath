@@ -173,6 +173,8 @@ $$
 $$
 for $m,n\in\Npos$.  This is the checked content behind theorem 4.4's ``multiplication is coordinatewise addition on prime axes'' slogan.
 
+The group-ification of this free structure to the positive rationals (source theorem 18.10) is checked on its free half: \lean{UnifiedTheory.primes_mul_indep} proves that for a formal integer exponent vector $a:\mathbb{N}\to_0\mathbb{Z}$ with prime support, $\prod_p p^{a_p}=1$ in $\mathbb{Q}$ forces $a=0$.  Equivalently the map $a\mapsto\prod_p p^{a_p}$ is injective, so the primes are multiplicatively independent and $(\mathbb{Q}_{>0},\times)$ is free (no relations) on the prime axes.  The proof applies the $p$-adic valuation $v_q$ to the product, which splits as a sum of valuations (\lean{UnifiedTheory.padicValRat_prod}); distinct-prime terms vanish (\lean{UnifiedTheory.padicValRat_distinct_prime}), the $p=q$ term returns $a_q$ via the integer-power valuation (\lean{UnifiedTheory.padicValRat_zpow}), and $v_q(1)=0$ forces $a_q=0$.  The remaining surjective half of 18.10, that every positive rational is such a product, requires rational factorization and is left open.
+
 Euclid escape is represented by
 $$
   \lean{UnifiedTheory.euclidEscape}
