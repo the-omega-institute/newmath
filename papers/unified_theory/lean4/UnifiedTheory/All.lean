@@ -48,6 +48,7 @@ import UnifiedTheory.Golden.MinusWindowSigned
 import UnifiedTheory.Golden.ShiftedZeckendorfBridge
 import UnifiedTheory.Golden.TraceMap
 import UnifiedTheory.Golden.FrickeTrace
+import UnifiedTheory.Golden.ModFiveSplitting
 import UnifiedTheory.Kernel.LedgerStatus
 import UnifiedTheory.Kernel.Components
 import UnifiedTheory.Kernel.Falsifiability
