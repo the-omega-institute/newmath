@@ -20,6 +20,7 @@ import UnifiedTheory.PZG.CarryMultiset
 import UnifiedTheory.PZG.CarryMultisetTerminates
 import UnifiedTheory.PZG.ZeckNormalize
 import UnifiedTheory.Golden.PhiInt
+import UnifiedTheory.Golden.CoordinateSystem
 import UnifiedTheory.Golden.Lambda
 import UnifiedTheory.Golden.Deficit
 import UnifiedTheory.Golden.Carry
