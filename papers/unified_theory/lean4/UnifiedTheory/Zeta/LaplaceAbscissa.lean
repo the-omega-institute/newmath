@@ -20,6 +20,27 @@ def LaplaceData.Converges (D : LaplaceData) (σ : ℝ) : Prop :=
 noncomputable def LaplaceData.F (D : LaplaceData) (s : ℂ) : ℂ :=
   ∫ u in Ici D.u₀, (D.f u : ℂ) * Complex.exp (-s * u)
 
+/-- On the real axis the complex Laplace transform is the complexification of the real integral. -/
+theorem LaplaceData.F_ofReal (D : LaplaceData) (σ : ℝ) :
+    D.F (σ : ℂ) =
+      (∫ u in Ici D.u₀, D.f u * Real.exp (-σ * u) : ℝ) := by
+  unfold LaplaceData.F
+  rw [← integral_complex_ofReal]
+  apply MeasureTheory.setIntegral_congr_fun measurableSet_Ici
+  intro u _hu
+  change (D.f u : ℂ) * Complex.exp (-(σ : ℂ) * (u : ℂ)) =
+    ((D.f u * Real.exp (-σ * u) : ℝ) : ℂ)
+  have harg : -(σ : ℂ) * (u : ℂ) = ((-σ * u : ℝ) : ℂ) := by
+    push_cast
+    ring
+  rw [harg, ← Complex.ofReal_exp, ← Complex.ofReal_mul]
+
+/-- Real part form of `F_ofReal`, convenient for sign estimates. -/
+theorem LaplaceData.F_ofReal_re (D : LaplaceData) (σ : ℝ) :
+    (D.F (σ : ℂ)).re = ∫ u in Ici D.u₀, D.f u * Real.exp (-σ * u) := by
+  rw [LaplaceData.F_ofReal]
+  simp
+
 /-- **横标单调性**:σ 收敛且 `σ ≤ σ'` ⟹ σ' 收敛。于 `u ≥ u₀` 有
 `|f e^{-σ'u}| ≤ e^{-(σ'-σ)u₀} |f e^{-σu}|`(因 `(σ'-σ)(u-u₀) ≥ 0`),
 即被常数倍可积函数支配,故 σ' 之被积函数亦可积。这是横标良定义、
@@ -51,6 +72,18 @@ theorem LaplaceData.Converges.mono {D : LaplaceData} {σ σ' : ℝ}
 (镜像 `LSeries.abscissaOfAbsConv`)。 -/
 noncomputable def LaplaceData.abscissa (D : LaplaceData) : EReal :=
   sInf ((fun σ : ℝ => (σ : EReal)) '' {σ : ℝ | D.Converges σ})
+
+/-- A convergent real exponent lies to the right of the convergence abscissa. -/
+theorem LaplaceData.abscissa_le_of_converges {D : LaplaceData} {σ : ℝ}
+    (hσ : D.Converges σ) : D.abscissa ≤ (σ : EReal) := by
+  rw [LaplaceData.abscissa]
+  exact sInf_le ⟨σ, hσ, rfl⟩
+
+/-- Strictly left of the convergence abscissa, the defining absolute convergence cannot hold. -/
+theorem LaplaceData.not_converges_of_lt_abscissa {D : LaplaceData} {σ : ℝ}
+    (hσ : (σ : EReal) < D.abscissa) : ¬ D.Converges σ := by
+  intro hconv
+  exact not_lt_of_ge (D.abscissa_le_of_converges hconv) hσ
 
 /-- **半平面收敛**:`abscissa < σ ⟹ σ 收敛`。由下确界取一枚 `σ'' < σ` 且收敛,
 再经单调性抬到 σ。此即 Laplace 变换于 `Re s > σ_c` 上良定义之根据。 -/
@@ -360,5 +393,78 @@ theorem LaplaceData.iteratedDeriv_F (D : LaplaceData) (hu₀ : 0 ≤ D.u₀) {s 
             simp [Function.iterate_succ_apply']
   intro n
   exact hlocal n hs
+
+/-- 迭代乘 `-u` 后的权重闭式。 -/
+theorem LaplaceData.f_iterate (D : LaplaceData) (n : ℕ) (u : ℝ) :
+    ((LaplaceData.mulNegU^[n]) D).f u = (-u) ^ n * D.f u := by
+  induction n with
+  | zero =>
+      simp
+  | succ n ih =>
+      calc
+        ((LaplaceData.mulNegU^[n.succ]) D).f u
+            = (-u) * ((LaplaceData.mulNegU^[n]) D).f u := by
+              simp [Function.iterate_succ_apply', LaplaceData.mulNegU]
+        _ = (-u) * ((-u) ^ n * D.f u) := by rw [ih]
+        _ = (-u) ^ n.succ * D.f u := by
+              rw [pow_succ]
+              ring
+
+/-- Landau 符号记账:非负权重给出实轴上交替迭代导数积分的非负性。 -/
+theorem LaplaceData.sign_control (D : LaplaceData) (hu₀ : 0 ≤ D.u₀)
+    (hf : ∀ u, D.u₀ ≤ u → 0 ≤ D.f u) {σ : ℝ}
+    (hσ : D.abscissa < (σ : EReal)) (n : ℕ) :
+    0 ≤ (-1) ^ n * ∫ u in Ici D.u₀,
+      ((LaplaceData.mulNegU^[n]) D).f u * Real.exp (-σ * u) := by
+  have _hσn : ((LaplaceData.mulNegU^[n]) D).abscissa < (σ : EReal) := by
+    have hs : D.abscissa < (((σ : ℂ).re : ℝ) : EReal) := by
+      simpa using hσ
+    simpa using D.abscissa_iterate_lt hu₀ (s := (σ : ℂ)) hs n
+  rw [← MeasureTheory.integral_const_mul]
+  exact MeasureTheory.setIntegral_nonneg measurableSet_Ici (by
+    intro u hu
+    have huD : D.u₀ ≤ u := hu
+    have hu_nonneg : 0 ≤ u := le_trans hu₀ huD
+    have hf_nonneg : 0 ≤ D.f u := hf u huD
+    have hpow_nonneg : 0 ≤ u ^ n := pow_nonneg hu_nonneg n
+    have hexp_nonneg : 0 ≤ Real.exp (-σ * u) := Real.exp_nonneg _
+    have hsign : (-1 : ℝ) ^ n * (-u) ^ n = u ^ n := by
+      rw [← mul_pow]
+      ring
+    have hintegrand :
+        (-1 : ℝ) ^ n *
+            (((LaplaceData.mulNegU^[n]) D).f u * Real.exp (-σ * u))
+          = u ^ n * D.f u * Real.exp (-σ * u) := by
+      calc
+        (-1 : ℝ) ^ n *
+            (((LaplaceData.mulNegU^[n]) D).f u * Real.exp (-σ * u))
+            = (-1 : ℝ) ^ n * (((-u) ^ n * D.f u) * Real.exp (-σ * u)) := by
+              rw [LaplaceData.f_iterate]
+        _ = (-1 : ℝ) ^ n * ((-u) ^ n * D.f u) * Real.exp (-σ * u) := by
+              ring
+        _ = ((-1 : ℝ) ^ n * (-u) ^ n) * D.f u * Real.exp (-σ * u) := by
+              ring
+        _ = u ^ n * D.f u * Real.exp (-σ * u) := by rw [hsign]
+    rw [hintegrand]
+    exact mul_nonneg (mul_nonneg hpow_nonneg hf_nonneg) hexp_nonneg)
+
+/-- Complex-transform form of the Landau sign bookkeeping on the real axis. -/
+theorem LaplaceData.sign_control_F (D : LaplaceData) (hu₀ : 0 ≤ D.u₀)
+    (hf : ∀ u, D.u₀ ≤ u → 0 ≤ D.f u) {σ : ℝ}
+    (hσ : D.abscissa < (σ : EReal)) (n : ℕ) :
+    0 ≤ (-1) ^ n * (((LaplaceData.mulNegU^[n]) D).F (σ : ℂ)).re := by
+  rw [LaplaceData.F_ofReal_re]
+  rw [LaplaceData.u₀_iterate]
+  exact D.sign_control hu₀ hf hσ n
+
+/-- Alternating nonnegativity of the actual iterated derivatives of `F` on the real half-plane. -/
+theorem LaplaceData.sign_control_iteratedDeriv_re (D : LaplaceData) (hu₀ : 0 ≤ D.u₀)
+    (hf : ∀ u, D.u₀ ≤ u → 0 ≤ D.f u) {σ : ℝ}
+    (hσ : D.abscissa < (σ : EReal)) (n : ℕ) :
+    0 ≤ (-1) ^ n * (iteratedDeriv n D.F (σ : ℂ)).re := by
+  have hs : D.abscissa < (((σ : ℂ).re : ℝ) : EReal) := by
+    simpa using hσ
+  rw [D.iteratedDeriv_F hu₀ hs n]
+  exact D.sign_control_F hu₀ hf hσ n
 
 end UnifiedTheory
