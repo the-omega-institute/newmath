@@ -9,6 +9,7 @@ import UnifiedTheory.Arithmetic.PrimeLogIndep
 import UnifiedTheory.Arithmetic.FibTwoSquare
 import UnifiedTheory.Arithmetic.PrimeAxisCode
 import UnifiedTheory.Arithmetic.ZeckPrefixCount
+import UnifiedTheory.Arithmetic.NegOneWitness
 import UnifiedTheory.PZG.Carrier
 import UnifiedTheory.PZG.Decode
 import UnifiedTheory.PZG.Normalize
