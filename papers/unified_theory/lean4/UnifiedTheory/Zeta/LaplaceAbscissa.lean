@@ -361,4 +361,58 @@ theorem LaplaceData.iteratedDeriv_F (D : LaplaceData) (hu₀ : 0 ≤ D.u₀) {s 
   intro n
   exact hlocal n hs
 
+/-- 迭代乘 `-u` 后的权重闭式。 -/
+theorem LaplaceData.f_iterate (D : LaplaceData) (n : ℕ) (u : ℝ) :
+    ((LaplaceData.mulNegU^[n]) D).f u = (-u) ^ n * D.f u := by
+  induction n with
+  | zero =>
+      simp
+  | succ n ih =>
+      calc
+        ((LaplaceData.mulNegU^[n.succ]) D).f u
+            = (-u) * ((LaplaceData.mulNegU^[n]) D).f u := by
+              simp [Function.iterate_succ_apply', LaplaceData.mulNegU]
+        _ = (-u) * ((-u) ^ n * D.f u) := by rw [ih]
+        _ = (-u) ^ n.succ * D.f u := by
+              rw [pow_succ]
+              ring
+
+/-- Landau 符号记账:非负权重给出实轴上交替迭代导数积分的非负性。 -/
+theorem LaplaceData.sign_control (D : LaplaceData) (hu₀ : 0 ≤ D.u₀)
+    (hf : ∀ u, D.u₀ ≤ u → 0 ≤ D.f u) {σ : ℝ}
+    (hσ : D.abscissa < (σ : EReal)) (n : ℕ) :
+    0 ≤ (-1) ^ n * ∫ u in Ici D.u₀,
+      ((LaplaceData.mulNegU^[n]) D).f u * Real.exp (-σ * u) := by
+  have _hσn : ((LaplaceData.mulNegU^[n]) D).abscissa < (σ : EReal) := by
+    have hs : D.abscissa < (((σ : ℂ).re : ℝ) : EReal) := by
+      simpa using hσ
+    simpa using D.abscissa_iterate_lt hu₀ (s := (σ : ℂ)) hs n
+  rw [← MeasureTheory.integral_const_mul]
+  exact MeasureTheory.setIntegral_nonneg measurableSet_Ici (by
+    intro u hu
+    have huD : D.u₀ ≤ u := hu
+    have hu_nonneg : 0 ≤ u := le_trans hu₀ huD
+    have hf_nonneg : 0 ≤ D.f u := hf u huD
+    have hpow_nonneg : 0 ≤ u ^ n := pow_nonneg hu_nonneg n
+    have hexp_nonneg : 0 ≤ Real.exp (-σ * u) := Real.exp_nonneg _
+    have hsign : (-1 : ℝ) ^ n * (-u) ^ n = u ^ n := by
+      rw [← mul_pow]
+      ring
+    have hintegrand :
+        (-1 : ℝ) ^ n *
+            (((LaplaceData.mulNegU^[n]) D).f u * Real.exp (-σ * u))
+          = u ^ n * D.f u * Real.exp (-σ * u) := by
+      calc
+        (-1 : ℝ) ^ n *
+            (((LaplaceData.mulNegU^[n]) D).f u * Real.exp (-σ * u))
+            = (-1 : ℝ) ^ n * (((-u) ^ n * D.f u) * Real.exp (-σ * u)) := by
+              rw [LaplaceData.f_iterate]
+        _ = (-1 : ℝ) ^ n * ((-u) ^ n * D.f u) * Real.exp (-σ * u) := by
+              ring
+        _ = ((-1 : ℝ) ^ n * (-u) ^ n) * D.f u * Real.exp (-σ * u) := by
+              ring
+        _ = u ^ n * D.f u * Real.exp (-σ * u) := by rw [hsign]
+    rw [hintegrand]
+    exact mul_nonneg (mul_nonneg hpow_nonneg hf_nonneg) hexp_nonneg)
+
 end UnifiedTheory
