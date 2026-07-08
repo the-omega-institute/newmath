@@ -218,4 +218,61 @@ theorem LaplaceData.differentiableOn_F {D : LaplaceData} (hu₀ : 0 ≤ D.u₀) 
     DifferentiableOn ℂ D.F {s : ℂ | D.abscissa < (s.re : EReal)} :=
   fun _s hs => (D.hasDerivAt_F hu₀ hs).differentiableAt.differentiableWithinAt
 
+/-- **权重乘 `-u`**(供 Landau 引擎逐阶导数递归):`F^{(n+1)}` 即对权重 `(-u)^n f` 之
+Laplace 变换再乘一层 `-u`。 -/
+def LaplaceData.mulNegU (D : LaplaceData) : LaplaceData where
+  f := fun u => (-u) * D.f u
+  u₀ := D.u₀
+  measf := (continuous_neg.aestronglyMeasurable).mul D.measf
+
+/-- **乘 `-u` 保持收敛**:`0 ≤ u₀` 且 `abscissa < σ` 时 `mulNegU` 于 `σ` 收敛。
+`|(-u)f e^{-σu}| = |u||f|e^{-σu} ≤ (1/ε)|f|e^{-σ₂u}`(`abscissa<σ₂<σ`,`ε=σ−σ₂`,
+`u≤(1/ε)e^{εu}`),被实收敛被积函数(σ₂)支配——多项式因子不改横标。 -/
+theorem LaplaceData.converges_mulNegU {D : LaplaceData} (hu₀ : 0 ≤ D.u₀) {σ : ℝ}
+    (h : D.abscissa < (σ : EReal)) : (D.mulNegU).Converges σ := by
+  obtain ⟨σ₂, hσ₂a, hσ₂s⟩ := D.exists_real_between h
+  have hconv : D.Converges σ₂ := D.converges_of_abscissa_lt hσ₂a
+  set ε : ℝ := σ - σ₂ with hεdef
+  have hε : 0 < ε := by rw [hεdef]; linarith
+  show IntegrableOn (fun u => ((-u) * D.f u) * Real.exp (-σ * u)) (Ici D.u₀)
+  have hmeas : AEStronglyMeasurable (fun u => ((-u) * D.f u) * Real.exp (-σ * u))
+      (volume.restrict (Ici D.u₀)) :=
+    ((continuous_neg.aestronglyMeasurable).mul D.measf).mul
+      (Real.continuous_exp.comp (by fun_prop)).aestronglyMeasurable
+  refine (hconv.norm.const_mul (1 / ε)).mono' hmeas ?_
+  rw [ae_restrict_iff' measurableSet_Ici]
+  filter_upwards with u hu
+  have hu0 : 0 ≤ u := le_trans hu₀ hu
+  have hpoly : u ≤ (1 / ε) * Real.exp (ε * u) := by
+    have h1 : ε * u ≤ Real.exp (ε * u) := le_trans (by linarith) (Real.add_one_le_exp (ε * u))
+    rw [one_div]
+    calc u = ε⁻¹ * (ε * u) := by rw [← mul_assoc, inv_mul_cancel₀ hε.ne', one_mul]
+      _ ≤ ε⁻¹ * Real.exp (ε * u) := mul_le_mul_of_nonneg_left h1 (by positivity)
+  have hexpbound : |u| * Real.exp (-σ * u) ≤ (1 / ε) * Real.exp (-σ₂ * u) := by
+    rw [abs_of_nonneg hu0]
+    calc u * Real.exp (-σ * u)
+        ≤ ((1 / ε) * Real.exp (ε * u)) * Real.exp (-σ * u) :=
+          mul_le_mul_of_nonneg_right hpoly (Real.exp_pos _).le
+      _ = (1 / ε) * Real.exp (-σ₂ * u) := by
+          rw [mul_assoc, ← Real.exp_add]; congr 2; rw [hεdef]; ring
+  calc ‖((-u) * D.f u) * Real.exp (-σ * u)‖
+      = |u| * |D.f u| * Real.exp (-σ * u) := by
+        rw [norm_mul, norm_mul, norm_neg, Real.norm_eq_abs, Real.norm_eq_abs, Real.norm_eq_abs,
+          abs_of_nonneg (Real.exp_pos _).le]
+    _ = |D.f u| * (|u| * Real.exp (-σ * u)) := by ring
+    _ ≤ |D.f u| * ((1 / ε) * Real.exp (-σ₂ * u)) :=
+        mul_le_mul_of_nonneg_left hexpbound (abs_nonneg _)
+    _ = (1 / ε) * ‖D.f u * Real.exp (-σ₂ * u)‖ := by
+        rw [norm_mul, Real.norm_eq_abs, Real.norm_eq_abs, abs_of_nonneg (Real.exp_pos _).le]; ring
+
+/-- **乘 `-u` 后横标仍在同一半平面**:`abscissa < Re s ⟹ (mulNegU).abscissa < Re s`。
+取 `abscissa < σ < Re s`,`mulNegU` 于 σ 收敛,故其横标 `≤ σ < Re s`。 -/
+theorem LaplaceData.abscissa_mulNegU_lt {D : LaplaceData} (hu₀ : 0 ≤ D.u₀) {s : ℂ}
+    (hs : D.abscissa < (s.re : EReal)) : (D.mulNegU).abscissa < (s.re : EReal) := by
+  obtain ⟨σ, hσa, hσs⟩ := D.exists_real_between hs
+  have hconv : (D.mulNegU).Converges σ := D.converges_mulNegU hu₀ hσa
+  have hle : (D.mulNegU).abscissa ≤ (σ : EReal) :=
+    sInf_le ⟨σ, hconv, rfl⟩
+  exact lt_of_le_of_lt hle (by exact_mod_cast hσs)
+
 end UnifiedTheory
