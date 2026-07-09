@@ -26,7 +26,7 @@
 \maketitle
 
 \begin{abstract}
-We report the portion of the PZG--BEDC dynamic ontology kernel formalized in Lean 4 with mathlib.  PZG denotes prime-axis Zeckendorf coding: each prime axis carries a finite Zeckendorf word, and decoding first turns those words into prime exponents and then reconstructs a positive natural number.  The checked development covers 86 content modules plus the aggregation module: the finite generation layer, Newman normal forms, prime-axis factorization and Euclid escape, Zeckendorf and PZG bijections, finite golden-ratio algebra, deficit and golden-jump ledgers, golden double-sided and fiber-coordinate identities, Cassini--Fricke trace conservation, finite readings and two-square classifiers, Kleene/Cantor/Gödel barriers for self-coding, cost and hidden-fiber rigidity, critical-line reflection algebra, Euler products, golden-weight finite Euler factorization, Weil explicit-formula small-support prime-side reduction, concrete archimedean well-definedness, the heart-electrode residual-identity foundation, the Laplace-transform convergence abscissa and half-plane holomorphy that form the analytic base of the Landau oscillation engine, the golden coordinate ring $\mathbb{Z}[\varphi]$ with its norm, conjugation automorphism and units (the $\varphi$-coordinate system L0), no-zero-line zeta facts, completed zeta functional equations, and the RH ledger equivalence.  The generated-results section records twenty-nine machine-checked additions; together with the eight checked groups folded into the formalized-results section, the manuscript records thirty-seven such additions, including the unconditional shifted Zeckendorf--Beatty bridge, the golden double-sided/fiber identities, the heart-electrode foundation, the Laplace-transform abscissa and half-plane holomorphy, and fourteen oracle-suggested conjectures certified locally after proposal.  Every mathematical assertion labeled as machine checked below names an actual Lean declaration under \lean{papers/unified_theory/lean4/UnifiedTheory}.  Conjecture R for the GCS middle-form window is adjudicated by dimension-group and Giordano--Putnam--Skau literature, not by Lean: the golden-Sturmian case is closed on orbit-equivalence, spectrum, and topological-conjugacy layers; the broader canonicity slogan that $\mathbb{Z}[\varphi]$ coordinates all $\varphi$-self-similar mathematics is refuted by standard symbolic-dynamical witnesses; the remaining O-7 leaf is the non-$\varphi$-specific gap between decision procedures and a clean complete conjugacy invariant.  The RH result is an equivalence with mathlib's \lean{RiemannHypothesis}, not a proof of RH; quasicrystal zeta, full explicit-formula zero-side analysis, Weil archimedean positivity, unconditional small-support positivity, the analytic golden-weight Dirichlet L-series, positivity bridges, the empirical heart Sturmian shell, and open leaves such as O-5, O-6, and O-7 remain outside the checked-result column.  The Lean project is mathlib-based and isolated from the mathlib-free BEDC core; the stated reproducibility surface is the branch \lean{feat/unified-theory-mathlib}, with the full project check given by \lean{lake build}.
+We report the portion of the PZG--BEDC dynamic ontology kernel formalized in Lean 4 with mathlib.  PZG denotes prime-axis Zeckendorf coding: each prime axis carries a finite Zeckendorf word, and decoding first turns those words into prime exponents and then reconstructs a positive natural number.  The checked development covers 88 content modules plus the aggregation module: the finite generation layer, Newman normal forms, prime-axis factorization and Euclid escape, Zeckendorf and PZG bijections, finite golden-ratio algebra, deficit and golden-jump ledgers, golden double-sided and fiber-coordinate identities, Cassini--Fricke trace conservation, finite readings and two-square classifiers, Kleene/Cantor/Gödel barriers for self-coding, cost and hidden-fiber rigidity, critical-line reflection algebra, Euler products, golden-weight finite Euler factorization, Weil explicit-formula small-support prime-side reduction, concrete archimedean well-definedness, the heart-electrode residual-identity foundation, the Laplace-transform convergence abscissa and half-plane holomorphy that form the analytic base of the Landau oscillation engine, the golden coordinate ring $\mathbb{Z}[\varphi]$ with its norm, conjugation automorphism, units, and Euclidean-domain structure proving class number one (the $\varphi$-coordinate system L0), no-zero-line zeta facts, completed zeta functional equations, and the RH ledger equivalence.  The generated-results section records twenty-nine machine-checked additions; together with the eight checked groups folded into the formalized-results section, the manuscript records thirty-seven such additions, including the unconditional shifted Zeckendorf--Beatty bridge, the golden double-sided/fiber identities, the heart-electrode foundation, the Laplace-transform abscissa and half-plane holomorphy, and fourteen oracle-suggested conjectures certified locally after proposal.  Every mathematical assertion labeled as machine checked below names an actual Lean declaration under \lean{papers/unified_theory/lean4/UnifiedTheory}.  Conjecture R for the GCS middle-form window is adjudicated by dimension-group and Giordano--Putnam--Skau literature, not by Lean: the golden-Sturmian case is closed on orbit-equivalence, spectrum, and topological-conjugacy layers; the broader canonicity slogan that $\mathbb{Z}[\varphi]$ coordinates all $\varphi$-self-similar mathematics is refuted by standard symbolic-dynamical witnesses; the remaining O-7 leaf is the non-$\varphi$-specific gap between decision procedures and a clean complete conjugacy invariant.  The RH result is an equivalence with mathlib's \lean{RiemannHypothesis}, not a proof of RH; quasicrystal zeta, full explicit-formula zero-side analysis, Weil archimedean positivity, unconditional small-support positivity, the analytic golden-weight Dirichlet L-series, positivity bridges, the empirical heart Sturmian shell, and open leaves such as O-5, O-6, and O-7 remain outside the checked-result column.  The Lean project is mathlib-based and isolated from the mathlib-free BEDC core; the stated reproducibility surface is the branch \lean{feat/unified-theory-mathlib}, with the full project check given by \lean{lake build}.
 \end{abstract}
 
 \section{Introduction}
@@ -1088,7 +1088,7 @@ $$
   \qquad
   \lean{UnifiedTheory.PhiInt.geomCoord}.
 $$
-This definition gives the axis on which a three-distance theorem should live, but the three-gap theorem is not formalized here and is not available as a ready-made theorem in the imported mathlib surface.
+This definition gives the axis on which the three-distance theorem acts.  The full cyclic order and gap-count theorem is a classical external result, while the golden Fibonacci distance calculation used below is machine checked in this project.
 
 The arithmetic core currently checked for the prime-family side is the mod-$5$ splitting criterion for the discriminant:
 $$
@@ -1102,7 +1102,57 @@ $$
 $$
 Equivalently, for these primes the square classes are $p\equiv\pm1\pmod5$.  This is the discriminant-$5$ reason the golden coordinate ring naturally sees mod-$5$ residue classes rather than Fermat's mod-$4$ dichotomy.
 
-The open leaves are explicit.  The full prime-ideal splitting theorem in $\mathbb Z[\varphi]$, the class-number statement $h=1$, the L2 discrete-depth metric, the three-gap theorem for $\{n\varphi\}$, and the self-similar representation theorem are not Lean theorems in this layer.  They require the later ring-of-integers and ideal-theoretic development rather than the L0 integer-pair ring alone.
+The remaining open leaves are explicit.  The full prime-ideal splitting theorem in $\mathbb Z[\varphi]$, the L2 discrete-depth metric, and the broad self-similar representation theorem are not Lean theorems in this layer.  They require later ideal-theoretic and dynamical development beyond the L0 integer-pair ring alone.
+
+\paragraph{Class number one, machine-checked.}
+The GCS source outline asserts that $\mathcal O=\mathbb Z[\varphi]$ has class number $h=1$, equivalently unique factorization in this Dedekind integer ring.  The checked route here is concrete Euclideanity of the displayed pair model, not a heavy ring-of-integers tower.  For $x,y\in\mathcal O$ with $y\ne0$, the rounded quotient coordinates give a remainder $r=x-yq$ satisfying
+$$
+  |N(r)|\le \frac34\,|N(y)|<|N(y)|,
+  \qquad
+  \lean{UnifiedTheory.PhiInt.remainder\_norm\_bound}.
+$$
+The companion zero-norm theorem
+$$
+  N(x)=0\Longleftrightarrow x=0,
+  \qquad
+  \lean{UnifiedTheory.PhiInt.norm\_eq\_zero},
+$$
+makes the Euclidean function nondegenerate, and the resulting Euclidean-domain instance is
+$$
+  \lean{UnifiedTheory.PhiInt.instEuclideanDomain}.
+$$
+Mathlib's instance chain then supplies
+$$
+  \operatorname{UniqueFactorizationMonoid}(\mathbb Z[\varphi]),
+  \qquad
+  \lean{UnifiedTheory.PhiInt.phiInt\_ufd}.
+$$
+For a Dedekind domain, UFD, PID, and class number one are equivalent in the usual sense; since $\mathbb Z[\varphi]$ is the ring of integers of $\mathbb Q(\sqrt5)$, this records the GCS $h=1$ assertion as a local zero-sorryAx machine-checked fact through the concrete Euclidean structure of the specific ring.  Status: closed, machine-checked.
+
+\paragraph{The three-gap theorem (axis G): a classical theorem, with its golden arithmetic heart machine-checked.}
+The GCS axis-G three-gap property is not an open leaf of the mathematical background.  The three-distance theorem, or Steinhaus conjecture, is classical: for any real $\alpha$ and $N$, the points $\{k\alpha\bmod 1:0\le k<N\}$ cut the circle into arcs with at most three lengths, at least two lengths, and in the three-length case the longest length is the sum of the other two.  This is due to S\'os (1957--58), Sur\'anyi (1958), and \'{S}wierczkowski (1959), with a modern short proof in Marklof--Str\"ombergsson (2017, Amer. Math. Monthly 124).  The golden refinement for $\alpha=1/\varphi$ is also classical: van Ravenstein (1988, J. Austral. Math. Soc. Ser. A 45, 360--370) proves that exactly two interval lengths occur precisely when $N$ is a Fibonacci number, and then the lengths are consecutive negative powers of $\varphi$.  These full circle-order statements are external theorems, not Lean theorems of this project.
+
+What is machine checked here is the arithmetic heart of the golden case: the distance from the Fibonacci golden multiple to the nearest integer is exactly the corresponding negative golden power,
+$$
+  \left|\,\frac{F_{n+1}}{\varphi}-F_n\,\right|
+  =
+  \varphi^{-(n+1)},
+  \qquad
+  \lean{UnifiedTheory.fib\_dist\_to\_int}.
+$$
+The proof uses the conjugate absolute value
+$$
+  |\psi|=\varphi^{-1},
+  \qquad
+  \lean{UnifiedTheory.goldenConj\_abs},
+$$
+and checks that for $n\ge1$ the distance is below half an integer spacing,
+$$
+  \left|\,\frac{F_{n+1}}{\varphi}-F_n\,\right|<\frac12,
+  \qquad
+  \lean{UnifiedTheory.fib\_dist\_lt\_half},
+$$
+so $F_n$ is the nearest integer in the relevant Fibonacci case.  This is exactly the arithmetic root behind the two-gap Fibonacci specialization, but the complete two-interval cyclic-order theorem remains the cited classical theorem.  Mathlib and the Lean ecosystem do not contain this full formalization in this form; the known formal proof in the proof-assistant literature is the Coq development of Mayero (2000).  Status: known classical theorem by inline citation; arithmetic heart closed, machine-checked.
 
 \paragraph{Conjecture R (the middle-form window): a dimension-group adjudication.}
 The GCS source outline's Conjecture R, the representation theorem for the middle-form window, asserts that every quasiperiodic structure $X$ with discrete scale invariance at scale $\varphi$ and bounded remainder has, in GCS coordinates, a standard section $\tau_X$ such that $X\cong\tau_X$ preserving spectrum and bounded-remainder order, hence preserving the topological conjugacy class.  The literature adjudication is three-layered: orbit equivalence, spectrum, and topological conjugacy.

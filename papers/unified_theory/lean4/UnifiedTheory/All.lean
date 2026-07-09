@@ -21,6 +21,7 @@ import UnifiedTheory.PZG.CarryMultisetTerminates
 import UnifiedTheory.PZG.ZeckNormalize
 import UnifiedTheory.Golden.PhiInt
 import UnifiedTheory.Golden.CoordinateSystem
+import UnifiedTheory.Golden.EuclideanDomain
 import UnifiedTheory.Golden.CoordinateAxes
 import UnifiedTheory.Golden.Lambda
 import UnifiedTheory.Golden.Deficit
@@ -49,6 +50,7 @@ import UnifiedTheory.Golden.ShiftedZeckendorfBridge
 import UnifiedTheory.Golden.TraceMap
 import UnifiedTheory.Golden.FrickeTrace
 import UnifiedTheory.Golden.ModFiveSplitting
+import UnifiedTheory.Golden.ThreeGap
 import UnifiedTheory.Kernel.LedgerStatus
 import UnifiedTheory.Kernel.Components
 import UnifiedTheory.Kernel.Falsifiability
