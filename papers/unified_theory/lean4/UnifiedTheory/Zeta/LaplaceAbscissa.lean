@@ -467,4 +467,49 @@ theorem LaplaceData.sign_control_iteratedDeriv_re (D : LaplaceData) (hu₀ : 0 �
   rw [D.iteratedDeriv_F hu₀ hs n]
   exact D.sign_control_F hu₀ hf hσ n
 
+/-- Polynomial weights are integrable on the real half-plane. -/
+theorem LaplaceData.iter_weight_integrable (D : LaplaceData) (hu₀ : 0 ≤ D.u₀)
+    {σ₁ : ℝ} (hσ₁ : D.abscissa < (σ₁ : EReal)) (n : ℕ) :
+    IntegrableOn (fun u => u ^ n * D.f u * Real.exp (-σ₁ * u)) (Set.Ici D.u₀) := by
+  have hs : D.abscissa < (((σ₁ : ℂ).re : ℝ) : EReal) := by
+    simpa using hσ₁
+  have hiter_abs :
+      ((LaplaceData.mulNegU^[n]) D).abscissa < (σ₁ : EReal) := by
+    simpa using D.abscissa_iterate_lt hu₀ (s := (σ₁ : ℂ)) hs n
+  have hiter_conv : ((LaplaceData.mulNegU^[n]) D).Converges σ₁ :=
+    LaplaceData.converges_of_abscissa_lt hiter_abs
+  have hiter_on_D :
+      IntegrableOn
+        (fun u => ((LaplaceData.mulNegU^[n]) D).f u * Real.exp (-σ₁ * u))
+        (Set.Ici D.u₀) := by
+    simpa [LaplaceData.Converges, LaplaceData.u₀_iterate D n, neg_mul] using hiter_conv
+  have hscaled :
+      IntegrableOn
+        (fun u =>
+          (-1 : ℝ) ^ n *
+            (((LaplaceData.mulNegU^[n]) D).f u * Real.exp (-σ₁ * u)))
+        (Set.Ici D.u₀) :=
+    hiter_on_D.const_mul ((-1 : ℝ) ^ n)
+  refine hscaled.congr_fun ?_ measurableSet_Ici
+  intro u _hu
+  have hsign : (-1 : ℝ) ^ n * (-u) ^ n = u ^ n := by
+    rw [← mul_pow]
+    ring
+  calc
+    (-1 : ℝ) ^ n *
+        (((LaplaceData.mulNegU^[n]) D).f u * Real.exp (-σ₁ * u))
+        = (-1 : ℝ) ^ n * (((-u) ^ n * D.f u) * Real.exp (-σ₁ * u)) := by
+          rw [LaplaceData.f_iterate D n u]
+    _ = ((-1 : ℝ) ^ n * (-u) ^ n) * D.f u * Real.exp (-σ₁ * u) := by
+          ring
+    _ = u ^ n * D.f u * Real.exp (-σ₁ * u) := by
+          rw [hsign]
+
+/-- Each Taylor term built from the polynomial-weighted Laplace integrand is integrable. -/
+theorem LaplaceData.taylor_term_integrable (D : LaplaceData) (hu₀ : 0 ≤ D.u₀)
+    {σ₁ σ : ℝ} (hσ₁ : D.abscissa < (σ₁ : EReal)) (n : ℕ) :
+    IntegrableOn (fun u => (σ₁ - σ) ^ n / (n.factorial : ℝ) *
+      (u ^ n * D.f u * Real.exp (-σ₁ * u))) (Set.Ici D.u₀) :=
+  (D.iter_weight_integrable hu₀ hσ₁ n).const_mul ((σ₁ - σ) ^ n / (n.factorial : ℝ))
+
 end UnifiedTheory

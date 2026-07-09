@@ -984,6 +984,7 @@ $$
 $$
 
 The open leaf is the Landau $\Omega$-oscillation theorem itself: for $f\ge0$, one still has to prove that analytic continuation across the real abscissa contradicts the strict-left nonconvergence just displayed.  There is no Lean theorem \texttt{landau\_nonneg} in this layer.  The missing steps are the Taylor-radius bridge at the boundary and the Tonelli exchange that turns a nonnegative Taylor series back into absolute convergence of the original Laplace integral.
+The per-term infrastructure toward that Tonelli exchange is machine checked: each Taylor term $(\sigma_1-\sigma)^n/n!\cdot u^n f(u)e^{-\sigma_1u}$ is integrable on $[u_0,\infty)$, via \lean{UnifiedTheory.LaplaceData.iter\_weight\_integrable} and \lean{UnifiedTheory.LaplaceData.taylor\_term\_integrable}; the residual series--integral exchange \texttt{converges\_of\_summable\_taylor} itself remains open.
 
 \subsection{The \texorpdfstring{$\varphi$}{phi}-Coordinate System (Golden Coordinate Ring, L0)}
 
