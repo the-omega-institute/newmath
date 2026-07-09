@@ -538,4 +538,44 @@ theorem LaplaceData.taylor_series_pointwise (D : LaplaceData) (σ₁ σ : ℝ) (
       congr 1
       ring_nf
 
+/-- The nonnegative Taylor-term integrals are summable in norm. -/
+theorem LaplaceData.taylor_summable_norm_integral (D : LaplaceData) (hu₀ : 0 ≤ D.u₀)
+    (hf : ∀ u, D.u₀ ≤ u → 0 ≤ D.f u) {σ₁ σ : ℝ} (hσ₁ : D.abscissa < (σ₁ : EReal))
+    (hlt : σ < σ₁)
+    (hsum : Summable (fun n : ℕ => (σ₁ - σ) ^ n / (n.factorial : ℝ) *
+        ∫ u in Set.Ici D.u₀, u ^ n * D.f u * Real.exp (-σ₁ * u))) :
+    Summable (fun n : ℕ => ∫ u in Set.Ici D.u₀,
+        ‖(σ₁ - σ) ^ n / (n.factorial : ℝ) * (u ^ n * D.f u * Real.exp (-σ₁ * u))‖) := by
+  exact hsum.congr (fun n => by
+    have _htaylor_integrable := D.taylor_term_integrable hu₀ (σ := σ) hσ₁ n
+    have hc_nonneg : 0 ≤ (σ₁ - σ) ^ n / (n.factorial : ℝ) :=
+      div_nonneg (pow_nonneg (sub_nonneg.mpr hlt.le) n) (by positivity)
+    have hnorm :
+        ∫ u in Set.Ici D.u₀,
+            ‖(σ₁ - σ) ^ n / (n.factorial : ℝ) *
+              (u ^ n * D.f u * Real.exp (-σ₁ * u))‖
+          =
+        ∫ u in Set.Ici D.u₀,
+            (σ₁ - σ) ^ n / (n.factorial : ℝ) *
+              (u ^ n * D.f u * Real.exp (-σ₁ * u)) := by
+      apply MeasureTheory.setIntegral_congr_fun measurableSet_Ici
+      intro u hu
+      have hu_nonneg : 0 ≤ u := le_trans hu₀ hu
+      have hterm_nonneg :
+          0 ≤ (σ₁ - σ) ^ n / (n.factorial : ℝ) *
+              (u ^ n * D.f u * Real.exp (-σ₁ * u)) := by
+        have hweight_nonneg : 0 ≤ u ^ n * D.f u * Real.exp (-σ₁ * u) :=
+          mul_nonneg (mul_nonneg (pow_nonneg hu_nonneg n) (hf u hu)) (Real.exp_nonneg _)
+        exact mul_nonneg hc_nonneg hweight_nonneg
+      exact Real.norm_of_nonneg hterm_nonneg
+    have hconst :
+        ∫ u in Set.Ici D.u₀,
+            (σ₁ - σ) ^ n / (n.factorial : ℝ) *
+              (u ^ n * D.f u * Real.exp (-σ₁ * u))
+          =
+        (σ₁ - σ) ^ n / (n.factorial : ℝ) *
+          ∫ u in Set.Ici D.u₀, u ^ n * D.f u * Real.exp (-σ₁ * u) := by
+      rw [MeasureTheory.integral_const_mul]
+    exact (hnorm.trans hconst).symm)
+
 end UnifiedTheory
