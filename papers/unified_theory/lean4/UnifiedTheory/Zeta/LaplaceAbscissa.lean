@@ -512,4 +512,30 @@ theorem LaplaceData.taylor_term_integrable (D : LaplaceData) (hu₀ : 0 ≤ D.u�
       (u ^ n * D.f u * Real.exp (-σ₁ * u))) (Set.Ici D.u₀) :=
   (D.iter_weight_integrable hu₀ hσ₁ n).const_mul ((σ₁ - σ) ^ n / (n.factorial : ℝ))
 
+/-- The Taylor terms around `σ₁` sum pointwise to the original real Laplace integrand. -/
+theorem LaplaceData.taylor_series_pointwise (D : LaplaceData) (σ₁ σ : ℝ) (u : ℝ) :
+    ∑' n : ℕ, (σ₁ - σ) ^ n / (n.factorial : ℝ) *
+        (u ^ n * D.f u * Real.exp (-σ₁ * u))
+      = D.f u * Real.exp (-σ * u) := by
+  let C : ℝ := D.f u * Real.exp (-σ₁ * u)
+  let x : ℝ := (σ₁ - σ) * u
+  have hterm :
+      (fun n : ℕ => (σ₁ - σ) ^ n / (n.factorial : ℝ) *
+        (u ^ n * D.f u * Real.exp (-σ₁ * u))) =
+      (fun n : ℕ => C * (x ^ n / (n.factorial : ℝ))) := by
+    funext n
+    simp [C, x, mul_pow, div_eq_mul_inv]
+    ring_nf
+  have hexp_series : (∑' n : ℕ, x ^ n / (n.factorial : ℝ)) = Real.exp x := by
+    rw [Real.exp_eq_exp_ℝ, NormedSpace.exp_eq_tsum_div]
+  rw [hterm, tsum_mul_left, hexp_series]
+  calc
+    C * Real.exp x = D.f u * (Real.exp (-σ₁ * u) * Real.exp ((σ₁ - σ) * u)) := by
+      simp [C, x]
+      ring_nf
+    _ = D.f u * Real.exp (-σ * u) := by
+      rw [← Real.exp_add]
+      congr 1
+      ring_nf
+
 end UnifiedTheory
