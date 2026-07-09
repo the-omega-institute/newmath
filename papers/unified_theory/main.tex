@@ -817,13 +817,291 @@ The heart main result $D(1^-)=2$ holds modulo critical oscillation.  This qualif
 
 \subsection{Laplace-Transform Abscissa and Half-Plane Holomorphy}
 
-The analytic base of the Landau-oscillation engine of source F-7 is checked as reusable infrastructure, mirroring mathlib's Dirichlet-series \lean{LSeries.abscissaOfAbsConv} with an integral in place of the sum.  A \lean{UnifiedTheory.LaplaceData} packages a real weight $f$ on $[u_0,\infty)$ with its Laplace transform \lean{UnifiedTheory.LaplaceData.F}, $F(s)=\int_{u\ge u_0} f(u)\,e^{-su}$, and the absolute-convergence predicate \lean{UnifiedTheory.LaplaceData.Converges}.  Convergence is monotone in the real part: \lean{UnifiedTheory.LaplaceData.Converges.mono} shows that if the integral converges at $\sigma$ it converges at every $\sigma'\ge\sigma$, because on $u\ge u_0$ one has $|f(u)e^{-\sigma'u}|\le e^{-(\sigma'-\sigma)u_0}\,|f(u)e^{-\sigma u}|$.  This yields a well-defined convergence abscissa \lean{UnifiedTheory.LaplaceData.abscissa} $\sigma_c\in\overline{\mathbb{R}}$ and half-plane convergence \lean{UnifiedTheory.LaplaceData.converges_of_abscissa_lt}: $\sigma_c<\operatorname{Re}s$ forces the integrand to be integrable, so $F(s)$ is genuinely defined on $\{\operatorname{Re}s>\sigma_c\}$ (\lean{UnifiedTheory.LaplaceData.integrableOn_integrand}).
+The source F-7 Landau engine needs an integral analogue of the standard Dirichlet-series abscissa package.  Mathlib supplies the series-side benchmark
+$$
+  \lean{LSeries.abscissaOfAbsConv};
+$$
+the present layer builds the parallel Laplace infrastructure for a real weight on a right ray.  A datum
+$$
+  \lean{UnifiedTheory.LaplaceData}
+$$
+packages a function $f$, a lower endpoint $u_0$, and the measurability needed to form
+$$
+  F(s)=\int_{u\ge u_0} f(u)e^{-su}\,du,
+  \qquad
+  \lean{UnifiedTheory.LaplaceData.F}.
+$$
+The convergence predicate is
+$$
+  \operatorname{Converges}(\sigma)
+  \quad\Longleftrightarrow\quad
+  \int_{u\ge u_0} \left|f(u)e^{-\sigma u}\right|\,du<\infty,
+  \qquad
+  \lean{UnifiedTheory.LaplaceData.Converges}.
+$$
+This is only the absolute-convergence layer; no oscillation theorem is hidden in the definition.
 
-On that half-plane $F$ is holomorphic, with an explicit derivative: \lean{UnifiedTheory.LaplaceData.hasDerivAt_F} proves, for $0\le u_0$ and $\sigma_c<\operatorname{Re}s_0$, that $F$ is complex-differentiable at $s_0$ with $F'(s_0)=\int_{u\ge u_0} f(u)(-u)e^{-s_0u}$, by differentiation under the integral sign (mathlib's \lean{hasDerivAt_integral_of_dominated_loc_of_deriv_le}); holomorphy on the whole half-plane, \lean{UnifiedTheory.LaplaceData.differentiableOn_F}, is its immediate corollary.  The $\partial_s$-integrand $f(u)(-u)e^{-su}$ is itself integrable on the half-plane (\lean{UnifiedTheory.LaplaceData.integrableOn_derivIntegrand}); the domination that validates the parametric derivative absorbs the polynomial factor $|u|$ through $u\le\varepsilon^{-1}e^{\varepsilon u}$, uniformly on a neighbourhood $\{\sigma_1<\operatorname{Re}s\}$ with $\sigma_c<\sigma_2<\sigma_1<\operatorname{Re}s_0$ and $\varepsilon=\sigma_1-\sigma_2$ (extracted by \lean{UnifiedTheory.LaplaceData.exists_real_between}).  This is exactly the analytic prerequisite the oscillation argument of the heartbeat criterion would consume.  The explicit form $F'(s)=\int(-u)f(u)e^{-su}$ is the $n=1$ base of the iterated-derivative tower $F^{(n)}(s)=\int(-u)^n f(u)e^{-su}$ on which the Landau sign argument (non-negativity of $f$ forcing $(-1)^nF^{(n)}\ge0$) would run.  The step from $F^{(n)}$ to $F^{(n+1)}$ needs no $n$-th-order parametric machinery: since $F^{(n)}$ is itself the transform of the polynomial-shifted weight $(-u)^nf(u)$, one derivative multiplies the weight by $-u$, and the shift \lean{UnifiedTheory.LaplaceData.mulNegU} keeps the convergence abscissa inside the same half-plane (\lean{UnifiedTheory.LaplaceData.abscissa_mulNegU_lt}: a polynomial factor does not move it, the $|u|$ being absorbed by the same $u\le\varepsilon^{-1}e^{\varepsilon u}$ bound), a step made precise by \lean{UnifiedTheory.LaplaceData.hasDerivAt_F'}: the first derivative of $F$ is \emph{literally} the transform of the shifted weight, $F'=(\mathrm{mulNegU}).F$.  Reapplying it at every order is now machine-checked: \lean{UnifiedTheory.LaplaceData.abscissa_iterate_lt} keeps every shifted weight in the same half-plane, and the closed form $F^{(n)}=(\mathrm{mulNegU}^{[n]}).F$ is proved as \lean{UnifiedTheory.LaplaceData.iteratedDeriv_F}.  The iterated derivative tower is complete at this analytic level; the remaining open leaves are the sign bookkeeping and the Landau $\Omega$-theorem these transforms are meant to feed.  The sign bookkeeping is now machine-checked: when $f\ge0$, $(-1)^nF^{(n)}(\sigma)\ge0$ on the real half-plane (\lean{UnifiedTheory.LaplaceData.sign_control}); in complex-transform form this is \lean{UnifiedTheory.LaplaceData.sign_control_iteratedDeriv_re}, using the real-axis identity \lean{UnifiedTheory.LaplaceData.F_ofReal}.  The reverse abscissa direction needed for the final contradiction is also checked: \lean{UnifiedTheory.LaplaceData.abscissa_le_of_converges} proves that any convergent real exponent lies to the right of $\sigma_c$, and \lean{UnifiedTheory.LaplaceData.not_converges_of_lt_abscissa} gives the strict-left nonconvergence corollary.  The Landau contradiction itself remains open and is not registered as a Lean theorem; it still requires the analytic-continuation Taylor-radius argument and the Tonelli exchange turning the nonnegative Taylor series back into absolute convergence of the Laplace integral.
+The first checked theorem is monotonicity in the real exponent:
+$$
+  \operatorname{Converges}(\sigma)\ \wedge\ \sigma\le\sigma'
+  \Longrightarrow
+  \operatorname{Converges}(\sigma'),
+  \qquad
+  \lean{UnifiedTheory.LaplaceData.Converges.mono}.
+$$
+The proof is the direct right-ray comparison
+$$
+  \left|f(u)e^{-\sigma' u}\right|
+  \le
+  e^{-(\sigma'-\sigma)u_0}\left|f(u)e^{-\sigma u}\right|,
+  \qquad u\ge u_0,
+$$
+so moving right in the half-plane cannot destroy absolute convergence.
+
+The convergence abscissa is then the lower envelope
+$$
+  \sigma_c
+  =
+  \inf\{\sigma\in\mathbb R:\operatorname{Converges}(\sigma)\},
+  \qquad
+  \lean{UnifiedTheory.LaplaceData.abscissa}.
+$$
+Its half-plane implication is checked as
+$$
+  \sigma_c<\operatorname{Re}s
+  \Longrightarrow
+  \int_{u\ge u_0}\left|f(u)e^{-su}\right|\,du<\infty,
+  \qquad
+  \begin{gathered}
+  \lean{UnifiedTheory.LaplaceData.converges\_of\_abscissa\_lt},\\
+  \lean{UnifiedTheory.LaplaceData.integrableOn\_integrand}.
+  \end{gathered}
+$$
+The reverse direction used at a Landau boundary is also part of the same envelope:
+$$
+  \operatorname{Converges}(\sigma)\Longrightarrow\sigma_c\le\sigma,
+  \qquad
+  \sigma<\sigma_c\Longrightarrow\neg\operatorname{Converges}(\sigma),
+  \qquad
+  \begin{gathered}
+  \lean{UnifiedTheory.LaplaceData.abscissa\_le\_of\_converges},\\
+  \lean{UnifiedTheory.LaplaceData.not\_converges\_of\_lt\_abscissa}.
+  \end{gathered}
+$$
+
+On the open half-plane, differentiation under the integral sign is formalized with the derivative written explicitly:
+$$
+  F'(s_0)
+  =
+  \int_{u\ge u_0} f(u)(-u)e^{-s_0u}\,du,
+  \qquad
+  0\le u_0,\quad \sigma_c<\operatorname{Re}s_0,
+  \qquad
+  \lean{UnifiedTheory.LaplaceData.hasDerivAt\_F}.
+$$
+The derivative integrand is itself integrable,
+$$
+  \int_{u\ge u_0}\left|f(u)(-u)e^{-su}\right|\,du<\infty,
+  \qquad
+  \lean{UnifiedTheory.LaplaceData.integrableOn\_derivIntegrand},
+$$
+because after choosing
+$$
+  \sigma_c<\sigma_2<\sigma_1<\operatorname{Re}s_0,
+  \qquad
+  \lean{UnifiedTheory.LaplaceData.exists\_real\_between},
+$$
+the polynomial factor is absorbed by $u\le\varepsilon^{-1}e^{\varepsilon u}$ with $\varepsilon=\sigma_1-\sigma_2$.  The global holomorphy statement on the half-plane is
+$$
+  F\ \hbox{is complex-differentiable on}\ \{s:\sigma_c<\operatorname{Re}s\},
+  \qquad
+  \lean{UnifiedTheory.LaplaceData.differentiableOn\_F}.
+$$
+
+The derivative recursion is expressed by multiplying the weight by $-u$:
+$$
+  (\operatorname{mulNegU}\mathcal D).f(u)=(-u)f(u),
+  \qquad
+  \lean{UnifiedTheory.LaplaceData.mulNegU}.
+$$
+The shift preserves the relevant half-plane,
+$$
+  \sigma_c(\mathcal D)<\operatorname{Re}s
+  \Longrightarrow
+  \sigma_c(\operatorname{mulNegU}\mathcal D)<\operatorname{Re}s,
+  \qquad
+  \lean{UnifiedTheory.LaplaceData.abscissa\_mulNegU\_lt},
+$$
+and the first derivative is exactly the shifted transform:
+$$
+  F_{\mathcal D}'(s)=F_{\operatorname{mulNegU}\mathcal D}(s),
+  \qquad
+  \lean{UnifiedTheory.LaplaceData.hasDerivAt\_F'}.
+$$
+
+Iterating gives the full derivative tower:
+$$
+  F_{\mathcal D}^{(n)}(s)
+  =
+  F_{(\operatorname{mulNegU}^{[n]}\mathcal D)}(s),
+  \qquad
+  \lean{UnifiedTheory.LaplaceData.iteratedDeriv\_F}.
+$$
+The corresponding weight identity is checked separately:
+$$
+  \big(\operatorname{mulNegU}^{[n]}\mathcal D\big).f(u)
+  =
+  (-u)^n f(u),
+  \qquad
+  \lean{UnifiedTheory.LaplaceData.f\_iterate},
+$$
+with the half-plane bound at every stage recorded as
+$$
+  \sigma_c(\mathcal D)<\operatorname{Re}s
+  \Longrightarrow
+  \sigma_c(\operatorname{mulNegU}^{[n]}\mathcal D)<\operatorname{Re}s,
+  \qquad
+  \lean{UnifiedTheory.LaplaceData.abscissa\_iterate\_lt}.
+$$
+
+The sign ledger needed by Landau's argument is also checked, but only as a sign ledger.  If $f(u)\ge0$ on the ray, then on the real half-plane
+$$
+  0\le
+  (-1)^n
+  \int_{u\ge u_0}
+    \big(\operatorname{mulNegU}^{[n]}\mathcal D\big).f(u)e^{-\sigma u}\,du,
+  \qquad
+  \lean{UnifiedTheory.LaplaceData.sign\_control}.
+$$
+Equivalently, after identifying the real-axis transform,
+$$
+  0\le (-1)^n\,\operatorname{Re}\big(F^{(n)}(\sigma)\big),
+  \qquad
+  \begin{gathered}
+  \lean{UnifiedTheory.LaplaceData.sign\_control\_iteratedDeriv\_re},\\
+  \lean{UnifiedTheory.LaplaceData.F\_ofReal}.
+  \end{gathered}
+$$
+
+The open leaf is the Landau $\Omega$-oscillation theorem itself: for $f\ge0$, one still has to prove that analytic continuation across the real abscissa contradicts the strict-left nonconvergence just displayed.  There is no Lean theorem \texttt{landau\_nonneg} in this layer.  The missing steps are the Taylor-radius bridge at the boundary and the Tonelli exchange that turns a nonnegative Taylor series back into absolute convergence of the original Laplace integral.
 
 \subsection{The \texorpdfstring{$\varphi$}{phi}-Coordinate System (Golden Coordinate Ring, L0)}
 
-The kernel's golden coordinate ring is given an axiomatic front as the base layer L0 of the $\varphi$-coordinate system (GCS).  The carrier is $\mathcal{O}=\mathbb{Z}[\varphi]=\mathbb{Z}+\mathbb{Z}\varphi$ with $\varphi^2=\varphi+1$, encoded as \lean{UnifiedTheory.PhiInt} on integer pairs $(a,b)$ (this sidesteps the half-integer of $\mathbb{Z}[\sqrt5]$: $\mathcal{O}$ is the full ring of integers of $\mathbb{Q}(\sqrt5)$, not $\mathbb{Z}[\sqrt5]$).  L0 checks the four defining properties as theorems over that structure, not as Lean axioms.  Ring axiom C1 is a \lean{CommRing} instance on \lean{UnifiedTheory.PhiInt}.  The Galois conjugation $\sigma\colon a+b\varphi\mapsto(a+b)-b\varphi$ (axiom C2) is an involutive ring automorphism: \lean{UnifiedTheory.PhiInt.conj_involutive}, packaged as \lean{UnifiedTheory.PhiInt.conjHom} and \lean{UnifiedTheory.PhiInt.conjAut}.  The norm $N(a+b\varphi)=a^2+ab-b^2$ (axiom C3), \lean{UnifiedTheory.PhiInt.norm}, equals $x\,\sigma(x)$ (\lean{UnifiedTheory.PhiInt.norm_eq_mul_conj}) and is multiplicative: \lean{UnifiedTheory.PhiInt.norm_mul} proves $N(xy)=N(x)N(y)$.  For the units (axiom C4), $N(\varphi)=-1$ (\lean{UnifiedTheory.PhiInt.norm_phi}) and $\varphi$ is a unit (\lean{UnifiedTheory.PhiInt.isUnit_phi}, with inverse $\varphi-1=\langle-1,1\rangle$), and the powers carry $N(\varphi^n)=(-1)^n$ (\lean{UnifiedTheory.PhiInt.norm_phiPow}).  This is the constitutional first page of the coordinate ring.  Two of the three coordinate axes of layer L1 are also checked: the multiplicative-degree axis \lean{UnifiedTheory.PhiInt.degMul} lands the golden powers on the integer grid (\lean{UnifiedTheory.PhiInt.degMul_phiPow} proves $\deg_\times(\varphi^n)=n$), and the Zeckendorf digit axis \lean{UnifiedTheory.PhiInt.zeckDigits} round-trips through decoding (\lean{UnifiedTheory.PhiInt.decode_zeckDigits}).  The geometric axis is defined as the circle coordinate $\{n\varphi\}$ (\lean{UnifiedTheory.PhiInt.geomCoord}), but its three-distance (three-gap) theorem is absent from mathlib and left an open leaf.  The GCS prime-family arithmetic core is machine checked: for every prime $p\ne2,5$, $5$ is a square modulo $p$ exactly when $p\equiv\pm1\pmod 5$, \lean{UnifiedTheory.five_isSquare_iff}; this is the discriminant-five reason for mod-$5$ classes rather than Fermat mod-$4$ classes.  The full prime-ideal splitting in $\mathbb{Z}[\varphi]$, class number $h=1$, the discrete-depth metric, and the representation theorem for self-similar structures remain open leaves pending the ring-of-integers layer.
+The golden coordinate system starts with a concrete coordinate ring rather than an abstract field extension.  Its base carrier is the integer-pair model
+$$
+  \mathcal O=\mathbb Z[\varphi]=\mathbb Z+\mathbb Z\varphi,
+  \qquad
+  \varphi^2=\varphi+1,
+  \qquad
+  \lean{UnifiedTheory.PhiInt}.
+$$
+An element is written $a+b\varphi$ with $a,b\in\mathbb Z$.  This is the natural $\mathbb Q(\sqrt5)$ integral coordinate, not the smaller-looking $\mathbb Z[\sqrt5]$ coordinate, and the Lean layer gives it a concrete commutative ring structure by the multiplication rule forced by $\varphi^2=\varphi+1$.
+
+The L0 norm is the integer form
+$$
+  N(a+b\varphi)=a^2+ab-b^2,
+  \qquad
+  \lean{UnifiedTheory.PhiInt.norm}.
+$$
+It is tied to conjugation inside the ring by
+$$
+  N(x)=x\,\sigma(x)
+  \quad\hbox{under the integer embedding,}
+  \qquad
+  \lean{UnifiedTheory.PhiInt.norm\_eq\_mul\_conj},
+$$
+and it is multiplicative:
+$$
+  N(xy)=N(x)N(y),
+  \qquad
+  \lean{UnifiedTheory.PhiInt.norm\_mul}.
+$$
+Thus the first invariant of the coordinate ring is not a declared axiom; it is proved from the integer-pair multiplication.
+
+The Galois conjugation is the map
+$$
+  \sigma(a+b\varphi)=(a+b)-b\varphi.
+$$
+The checked algebra states that it is involutive and packages it as both a ring homomorphism and a ring automorphism:
+$$
+  \sigma^2=\operatorname{id},
+  \qquad
+  \begin{gathered}
+  \lean{UnifiedTheory.PhiInt.conj\_involutive},\\
+  \lean{UnifiedTheory.PhiInt.conjHom},\\
+  \lean{UnifiedTheory.PhiInt.conjAut}.
+  \end{gathered}
+$$
+This is the coordinate-system reason the expanding and shrinking golden faces are paired by a single algebraic operation.
+
+The basic unit calculation is also closed at L0:
+$$
+  \varphi\in\mathcal O^\times,
+  \qquad
+  \lean{UnifiedTheory.PhiInt.isUnit\_phi}.
+$$
+Together with the norm of the generator,
+$$
+  N(\varphi)=-1,
+  \qquad
+  \lean{UnifiedTheory.PhiInt.norm\_phi},
+$$
+the powers satisfy
+$$
+  N(\varphi^n)=(-1)^n,
+  \qquad
+  \lean{UnifiedTheory.PhiInt.norm\_phiPow}.
+$$
+This is the finite unit calculus needed before any ideal-theoretic splitting statement can be asked.
+
+Layer L1 adds a multiplicative coordinate axis.  The degree coordinate is
+$$
+  \deg_\times(x)=\left\lfloor\log_\varphi |x_+|\right\rfloor,
+  \qquad
+  \lean{UnifiedTheory.PhiInt.degMul},
+$$
+where $x_+$ is the expanding real embedding.  On the golden powers it lands exactly on the integer grid:
+$$
+  \deg_\times(\varphi^n)=n,
+  \qquad
+  \lean{UnifiedTheory.PhiInt.degMul\_phiPow}.
+$$
+
+The digit coordinate is delegated to the existing Zeckendorf-word API:
+$$
+  \operatorname{zeckDigits}(n)=\operatorname{encode}(n),
+  \qquad
+  \lean{UnifiedTheory.PhiInt.zeckDigits}.
+$$
+Its round-trip theorem is
+$$
+  \operatorname{decode}(\operatorname{zeckDigits}(n))=n,
+  \qquad
+  \lean{UnifiedTheory.PhiInt.decode\_zeckDigits}.
+$$
+This identifies the GCS digit axis with the finite Zeckendorf axis already used by the PZG coding.
+
+The geometric coordinate is named as the circle coordinate
+$$
+  \operatorname{geomCoord}(n)=\{n\varphi\},
+  \qquad
+  \lean{UnifiedTheory.PhiInt.geomCoord}.
+$$
+This definition gives the axis on which a three-distance theorem should live, but the three-gap theorem is not formalized here and is not available as a ready-made theorem in the imported mathlib surface.
+
+The arithmetic core currently checked for the prime-family side is the mod-$5$ splitting criterion for the discriminant:
+$$
+  \operatorname{IsSquare}(5:\mathbb Z/p\mathbb Z)
+  \Longleftrightarrow
+  p\equiv 1\ \hbox{or}\ 4\pmod 5,
+  \qquad
+  p\ \hbox{prime},\quad p\ne2,5,
+  \qquad
+  \lean{UnifiedTheory.five\_isSquare\_iff}.
+$$
+Equivalently, for these primes the square classes are $p\equiv\pm1\pmod5$.  This is the discriminant-$5$ reason the golden coordinate ring naturally sees mod-$5$ residue classes rather than Fermat's mod-$4$ dichotomy.
+
+The open leaves are explicit.  The full prime-ideal splitting theorem in $\mathbb Z[\varphi]$, the class-number statement $h=1$, the L2 discrete-depth metric, the three-gap theorem for $\{n\varphi\}$, and the self-similar representation theorem are not Lean theorems in this layer.  They require the later ring-of-integers and ideal-theoretic development rather than the L0 integer-pair ring alone.
 
 \subsection{Kernel Components and Ledger States}
 
