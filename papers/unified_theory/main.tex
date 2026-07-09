@@ -480,7 +480,34 @@ Consequently, for every $n\neq 0$ the generating function factors as the finite 
 $$
   x^{\Omega_\varphi(n)} \;=\; \prod_{p^k \,\|\, n} x^{S(k)},
 $$
-checked as \lean{UnifiedTheory.goldGenAF_euler}.  This is the algebraic Euler factorization of the golden weight over prime axes.  The golden weight is additive over coprime factors but not completely additive ($S(2)=3\neq 2\,S(1)=4$), so the generating function is multiplicative yet \emph{not} completely multiplicative: at $x=2$, $\mathrm{goldGenAF}\,2\,(2\cdot 2)=2^{S(2)}=8$ while $(\mathrm{goldGenAF}\,2\,2)^2=(2^{S(1)})^2=16$, checked as \lean{UnifiedTheory.goldGenAF_not_completelyMultiplicative}.  Hence the local Euler factor is genuinely non-geometric and the golden L-series does not reduce to a shift or power of $\zeta$.  The analytic Dirichlet series $\sum_n x^{\Omega_\varphi(n)}\,n^{-s}$---convergence on a half-plane, meromorphic continuation, and any relation to $\zeta$---is not formalized and remains an open leaf.
+checked as \lean{UnifiedTheory.goldGenAF_euler}.  This is the algebraic Euler factorization of the golden weight over prime axes.  The golden weight is additive over coprime factors but not completely additive ($S(2)=3\neq 2\,S(1)=4$), so the generating function is multiplicative yet \emph{not} completely multiplicative: at $x=2$, $\mathrm{goldGenAF}\,2\,(2\cdot 2)=2^{S(2)}=8$ while $(\mathrm{goldGenAF}\,2\,2)^2=(2^{S(1)})^2=16$, checked as \lean{UnifiedTheory.goldGenAF_not_completelyMultiplicative}.  The associated analytic Dirichlet L-series is
+$$
+  L_\varphi(x,s):=\sum_{n\ge1} x^{\Omega_\varphi(n)}\,n^{-s}
+  = \mathrm{LSeries}(\mathrm{goldGenAF}\,x)(s).
+$$
+Its first rung is recorded as two statement-level analytic targets grounded in the checked algebraic pieces above, not as formalized analysis.
+
+For $x\ge1$, the convergence-abscissa target is
+$$
+  \sigma_c\bigl(L_\varphi(x,\cdot)\bigr)\le 1+2\log_2 x.
+$$
+The proof route is comparison-based.  The coefficients satisfy $|x^{\Omega_\varphi(n)}|=x^{\Omega_\varphi(n)}$.  The checked bound $\Omega_\varphi(n)\le 2\Omega(n)$, where $\Omega(n)=\sum_p v_p(n)$, is \lean{UnifiedTheory.goldWeight_le_two_mul}; together with the elementary estimate $\Omega(n)\le\log_2 n$ and $x\ge1$, it gives
+$$
+  x^{\Omega_\varphi(n)}\le n^{2\log_2 x}.
+$$
+Thus the series is dominated by $\zeta(s-2\log_2 x)$ and is absolutely convergent for $\operatorname{Re}(s)>1+2\log_2 x$.  The analytic formalization of this abscissa statement, through mathlib's $LSeries.abscissaOfAbsConv$ and a comparison theorem, remains an open leaf.
+
+On the same statement-level layer, $L_\varphi$ has the expected Euler product in the convergence half-plane, from the multiplicativity theorem \lean{UnifiedTheory.goldGenAF_isMultiplicative} and the finite Euler decomposition \lean{UnifiedTheory.goldGenAF_euler}.  Its local factor is
+$$
+  \sum_{v\ge0} x^{S(v)}\,p^{-vs},
+$$
+where $S(v)=\Omega_\varphi(p^v)$.  This local factor is not geometric: the checked non-complete-multiplicativity witness \lean{UnifiedTheory.goldGenAF_not_completelyMultiplicative} records $S(2)=3\neq2S(1)=4$.  Therefore $L_\varphi$ does not collapse to a power or shift of $\zeta$.  The correct statement-level factor relation is
+$$
+  L_\varphi(x,s)=\zeta(s)\cdot\Delta_\varphi(x,s),
+$$
+where $\Delta_\varphi$ is the nontrivial correction obtained by dividing each local factor by the main geometric factor $(1-p^{-s})^{-1}$, equivalently a prime-zeta/Sturmian weighted correction.  The analytic construction and continuation theory of $\Delta_\varphi$ remain open.
+
+The first rung therefore has a machine-checked algebraic skeleton--multiplicativity, finite Euler decomposition, non-complete multiplicativity, and the two-sided golden-weight bounds--while the analytic layer consisting of the convergence abscissa, analytic Euler product, and continuation of $\Delta_\varphi$ remains open as a statement-level target.
 
 \subsection{Golden Weight, Squarefreeness, and Primality}
 
@@ -1493,7 +1520,7 @@ The checked self-code layer contains Cantor barriers, Kleene fixed points, and t
 
 \section{Outlook}
 
-All items in this section are outside the present checked-result column and are \textbf{not yet formalized}.  The analytic program still lacks a PZG heat-trace derivation, Mellin/theta bridge, the full Weil explicit formula with its zero side, tail-budget analysis, and a positivity or spectral argument upgrading projected zeros to ontic zeros.  The checked Weil contribution is the support-vanishing reduction of the prime side under a small-support condition; Weil archimedean positivity, unconditional small-support positivity, and RH remain open leaves.  The analytic Dirichlet series attached to the golden weight, including convergence, continuation, and any relation to $\zeta$, also remains an open leaf.  RH itself, O-5, O-6, and O-7 remain open leaves.
+All items in this section are outside the present checked-result column and are \textbf{not yet formalized}.  The analytic program still lacks a PZG heat-trace derivation, Mellin/theta bridge, the full Weil explicit formula with its zero side, tail-budget analysis, and a positivity or spectral argument upgrading projected zeros to ontic zeros.  The checked Weil contribution is the support-vanishing reduction of the prime side under a small-support condition; Weil archimedean positivity, unconditional small-support positivity, and RH remain open leaves.  The analytic Dirichlet series attached to the golden weight still has only statement-level targets for its convergence abscissa, analytic Euler product, and $\Delta_\varphi$ continuation theory.  RH itself, O-5, O-6, and O-7 remain open leaves.
 
 The source theory's quasicrystal zeta object $Z_{\mathrm{qc}}$, its Euler product or continuation theory, natural-boundary claims, diagonal feedback program, and pullback-line claim 6.32 remain outlook.  The finite trace-map declarations
 $$
