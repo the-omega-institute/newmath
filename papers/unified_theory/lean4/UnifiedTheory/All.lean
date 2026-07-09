@@ -21,6 +21,7 @@ import UnifiedTheory.PZG.CarryMultisetTerminates
 import UnifiedTheory.PZG.ZeckNormalize
 import UnifiedTheory.Golden.PhiInt
 import UnifiedTheory.Golden.CoordinateSystem
+import UnifiedTheory.Golden.EuclideanDomain
 import UnifiedTheory.Golden.CoordinateAxes
 import UnifiedTheory.Golden.Lambda
 import UnifiedTheory.Golden.Deficit
