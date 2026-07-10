@@ -141,4 +141,28 @@ theorem fib_cassini (n : ℕ) :
       rw [hc] at ih
       linear_combination -ih
 
+/-- **Fibonacci/黄金代换矩阵的 Q-矩阵幂**:`$M^{n+1}=\begin{psmallmatrix}F_{n+2}&F_{n+1}\\F_{n+1}&F_n\end{psmallmatrix}$`,
+其中 `$M=\begin{psmallmatrix}1&1\\1&0\end{psmallmatrix}$` 是黄金/Fibonacci 代换矩阵。这是代换矩阵 `$M$`
+(GPS 三角维数群的稳态归纳极限映射)与 Fibonacci 数之间的具体链:`$M$` 的迭代恰生成 Fibonacci
+序列,`$\det M=-1$` 经此给出 Cassini `\lean{UnifiedTheory.fib\_cassini}`,`$M$` 的特征多项式
+`$x^2-x-1$` 的根 `$\varphi,\psi$` 即扩张/Galois-收缩(Pisot gap `$|\psi|=1/\varphi$`)方向。 -/
+theorem fib_qmatrix_pow (n : ℕ) :
+    (!![1, 1; 1, 0] : Matrix (Fin 2) (Fin 2) ℤ) ^ (n + 1)
+      = !![(Nat.fib (n + 2) : ℤ), (Nat.fib (n + 1) : ℤ);
+           (Nat.fib (n + 1) : ℤ), (Nat.fib n : ℤ)] := by
+  induction n with
+  | zero =>
+      rw [pow_one]
+      norm_num [Nat.fib_one, Nat.fib_two]
+  | succ n ih =>
+      have hd' : (Nat.fib (n + 2) : ℤ) + (Nat.fib (n + 1) : ℤ) = (Nat.fib (n + 3) : ℤ) := by
+        have h : Nat.fib (n + 3) = Nat.fib (n + 1) + Nat.fib (n + 2) := Nat.fib_add_two
+        rw [h]; push_cast; ring
+      have hc' : (Nat.fib (n + 1) : ℤ) + (Nat.fib n : ℤ) = (Nat.fib (n + 2) : ℤ) := by
+        have h : Nat.fib (n + 2) = Nat.fib n + Nat.fib (n + 1) := Nat.fib_add_two
+        rw [h]; push_cast; ring
+      rw [pow_succ, ih, Matrix.mul_fin_two]
+      simp only [mul_one, mul_zero, add_zero]
+      rw [hd', hc']
+
 end UnifiedTheory
