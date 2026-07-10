@@ -1058,7 +1058,27 @@ $$
     \big(\operatorname{mulNegU}^{[n]}\mathcal D\big).F(\sigma_1)
   }{n!}\,y^n.
 $$
-The exact remaining analytic-continuation-to-summability work for \texttt{landau\_nonneg} is therefore only the two quantitative and real/complex leaves: (i) turn this qualitative neighborhood convergence into the quantitative lower bound $>\sigma_1-\sigma_c$ on the convergence radius, through a \texttt{FormalMultilinearSeries.radius} estimate; and (ii) pass from complex power-series \texttt{HasSum} to summability of the real Taylor integral series \texttt{hsum}, separating the real and complex sides.  Coefficient identification and complex-neighborhood \texttt{HasSum} existence are machine checked; the theorem \texttt{landau\_nonneg} itself remains open.  The mechanical reductio core remains machine checked.
+The exact remaining analytic-continuation-to-summability work for \texttt{landau\_nonneg} is therefore only the two quantitative and real/complex leaves: (i) turn this qualitative neighborhood convergence into the quantitative lower bound $>\sigma_1-\sigma_c$ on the convergence radius, through a \texttt{FormalMultilinearSeries.radius} estimate; and (ii) pass from complex power-series \texttt{HasSum} to summability of the real Taylor integral series \texttt{hsum}, separating the real and complex sides.  The coefficient-identification brick for (ii) is now machine checked:
+$$
+  \lean{UnifiedTheory.LaplaceData.mulNegU\_iterate\_F\_ofReal}.
+$$
+At a real point $\sigma$, it says
+$$
+  \big(\operatorname{mulNegU}^{[n]}\mathcal D\big).F(\sigma)
+  =
+  \left(
+    \int_{u\ge u_0}(-u)^n f(u)e^{-\sigma u}\,du
+  \right)\!\uparrow_{\mathbb C},
+$$
+so the abstract complex coefficient tower
+$$
+  \frac{\big(\operatorname{mulNegU}^{[n]}\mathcal D\big).F(\sigma_1)}{n!}
+$$
+is identified with the complexification of the real integral appearing in the \texttt{landau\_contradiction} \texttt{hsum},
+$$
+  \int u^n f(u)e^{-\sigma_1 u}\,du,
+$$
+with the $(-1)^n$ sign absorbed by the $y^n$ term for $y=\sigma-\sigma_1$.  This still does not close (ii): the only remaining step there is to take real sums from the complex \texttt{HasSum} at the concrete real point $y=\sigma-\sigma_1$, and placing that point inside the qualitative neighborhood still depends on the quantitative radius leaf (i).  Coefficient identification and complex-neighborhood \texttt{HasSum} existence are machine checked; the theorem \texttt{landau\_nonneg} itself remains open.  The mechanical reductio core remains machine checked.
 
 \subsection{The \texorpdfstring{$\varphi$}{phi}-Coordinate System (Golden Coordinate Ring, L0)}
 
