@@ -1369,13 +1369,16 @@ $$
   \bigl(\mathbb Z[\varphi],\,\mathbb Z[\varphi]\cap[0,\infty),\,1\bigr)
 $$
 are identified by the Pimsner--Voiculescu exact-sequence computation for the $\mathbb Z$-action crossed product (Pimsner--Voiculescu, 1980, J. Operator Theory 4, 93--118) and by the stationary Bratteli--Vershik model of the substitution subshift.  Under the trace, the order unit maps to $1$, the second generator maps to $\varphi$, and the trace image is $\mathbb Z+\mathbb Z\varphi$; Kellendonk (1995, Rev. Math. Phys.\ 7, 1133--1180) gives the corresponding gap labelling by the scaled ordered $K_0$ of tiling $C^\ast$-algebras.
-At the substitution-matrix level, only the unimodular algebraic input is machine checked here:
-for $M=\begin{psmallmatrix}1&1\\1&0\end{psmallmatrix}$, \lean{UnifiedTheory.fib\_cassini} proves Cassini's identity
+At the substitution-matrix level, the concrete matrix used for the stationary dimension-group inductive-limit map is now machine checked: for $M=\begin{psmallmatrix}1&1\\1&0\end{psmallmatrix}$, \lean{UnifiedTheory.fib\_qmatrix\_pow} proves
+$$
+  M^{n+1}=\begin{psmallmatrix}F_{n+2}&F_{n+1}\\F_{n+1}&F_n\end{psmallmatrix},
+$$
+so iteration of $M$ generates the Fibonacci sequence.  Its determinant input $\det M=-1$ gives Cassini; correspondingly \lean{UnifiedTheory.fib\_cassini} proves
 $$
   F_{n+2}F_n-F_{n+1}^2=(-1)^{n+1},
 $$
 equivalently $\det(M^{n+1})=(\det M)^{n+1}=(-1)^{n+1}$.
-This establishes the algebraic determinant input $\det M=-1$ for the rank-two unimodular substitution matrix.
+The characteristic polynomial $x^2-x-1$ has roots $\varphi$ and $\psi$, giving the expansion and Galois-contraction directions, with Pisot gap $|\psi|=1/\varphi$.  This establishes the Fibonacci-power and unimodular algebraic input for the rank-two substitution matrix.
 The dimension-group isomorphism, the Pimsner--Voiculescu computation, and Kellendonk's gap-labelling theorem remain the external literature inputs cited in this paragraph, not Lean theorems of this project.  Thus the coordinate ring $\mathbb Z[\varphi]$ is simultaneously the GCS coordinate object, the strong-orbit-equivalence invariant at the dimension-group layer of Conjecture R, and the spectral gap-labelling group.
 
 The scope is deliberately only the group equality
