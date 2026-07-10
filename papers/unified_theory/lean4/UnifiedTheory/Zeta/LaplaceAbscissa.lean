@@ -648,4 +648,20 @@ theorem LaplaceData.F_hasFPowerSeriesAt_mulNegU (D : LaplaceData) (hu₀ : 0 ≤
   rw [hcoeff] at h1
   exact h1
 
+/-- **系数塔的逐点收敛一环(σ₁ 邻域内 F = 其 Taylor 收敛和)**:`F` 于 `σ₁` 解析时,
+存在 `σ₁` 的邻域,其中 `F(σ₁+y)` 等于以迭代 mulNegU 变换为系数的收敛幂级数
+`∑ ((mulNegU^{[n]} D).F(σ₁)/n!) · yⁿ`。由 `F_hasFPowerSeriesAt_mulNegU` 配
+mathlib `HasFPowerSeriesAt.eventually_hasSum`(幂级数于收敛半径内逐点求和)与
+`ofScalars_apply_eq`(标量幂级数第 `n` 项 `= cₙ·yⁿ`)。这把系数塔桥到实际收敛;
+仍余的开叶子是此复邻域收敛的定量半径下界 `> σ₁-σ_c`,与实 Taylor 积分级数
+`hsum` 之实/复过渡。 -/
+theorem LaplaceData.F_eventually_hasSum_mulNegU (D : LaplaceData) (hu₀ : 0 ≤ D.u₀)
+    {σ₁ : ℝ} (hσ₁ : D.abscissa < (σ₁ : EReal)) (hA : AnalyticAt ℂ D.F (σ₁ : ℂ)) :
+    ∀ᶠ (y : ℂ) in nhds 0,
+      HasSum (fun n => (((LaplaceData.mulNegU^[n]) D).F (σ₁ : ℂ) / (n.factorial : ℂ)) • y ^ n)
+        (D.F ((σ₁ : ℂ) + y)) := by
+  have h := (D.F_hasFPowerSeriesAt_mulNegU hu₀ hσ₁ hA).eventually_hasSum
+  filter_upwards [h] with y hy
+  simpa only [FormalMultilinearSeries.ofScalars_apply_eq] using hy
+
 end UnifiedTheory
