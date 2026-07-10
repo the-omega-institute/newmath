@@ -117,4 +117,28 @@ theorem no_geometric_fib_ratio :
   norm_num [Nat.fib] at h0 h1
   linarith
 
+/-- **Cassini 恒等式(黄金/Fibonacci 代换矩阵 unimodular 之根据)**:
+`$F_{n+2}\,F_{n}-F_{n+1}^{2}=(-1)^{n+1}$`(整数)。等价于 `$\det(M^{n+1})=(\det M)^{n+1}=(-1)^{n+1}$`,
+其中 `$M=\begin{psmallmatrix}1&1\\1&0\end{psmallmatrix}$` 是黄金/Fibonacci 代换矩阵。这 ground GPS
+三角的维数群层:`$M$` unimodular(`$\det M=-1$`)⟹ 稳态 Bratteli–Vershik 维数群 `$\mathbb Z[\varphi]$`
+为秩-2 unimodular 对象,其序单位映到 `$1$`、第二生成元映到 `$\varphi$`(SOE 强轨道等价不变量,
+与谱 gap-labelling 群同一物)。 -/
+theorem fib_cassini (n : ℕ) :
+    (Nat.fib (n + 2) : ℤ) * (Nat.fib n : ℤ) - (Nat.fib (n + 1) : ℤ) ^ 2
+      = (-1) ^ (n + 1) := by
+  induction n with
+  | zero => norm_num [Nat.fib_zero, Nat.fib_one, Nat.fib_two]
+  | succ n ih =>
+      have hpow : ((-1 : ℤ)) ^ (n + 1 + 1) = -((-1) ^ (n + 1)) := by
+        rw [pow_succ]; ring
+      have hc : (Nat.fib (n + 2) : ℤ) = (Nat.fib n : ℤ) + (Nat.fib (n + 1) : ℤ) := by
+        exact_mod_cast Nat.fib_add_two (n := n)
+      have hd : (Nat.fib (n + 3) : ℤ) = (Nat.fib (n + 1) : ℤ) + (Nat.fib (n + 2) : ℤ) := by
+        exact_mod_cast Nat.fib_add_two (n := n + 1)
+      show (Nat.fib (n + 3) : ℤ) * (Nat.fib (n + 1) : ℤ) - (Nat.fib (n + 2) : ℤ) ^ 2
+        = (-1) ^ (n + 1 + 1)
+      rw [hpow, hd, hc]
+      rw [hc] at ih
+      linear_combination -ih
+
 end UnifiedTheory
