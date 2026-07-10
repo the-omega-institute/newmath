@@ -190,4 +190,12 @@ theorem goldenRatio_mul_goldenConj_eq_neg_one :
     Real.goldenRatio * Real.goldenConj = -1 := by
   simp [Real.goldenRatio, Real.goldenConj]
 
+/-- **黄金比的 Pisot 性(Galois-收缩 gap)**:`$|\psi|<1$`,`$\psi$` 是特征多项式 `$x^2-x-1$`
+的共轭根 `$=(1-\sqrt5)/2$`。配 `$\varphi>1$`(扩张)这坐实 `$\varphi$` 为 Pisot 数:唯一 `$>1$` 的
+共轭 `$\varphi$` 扩张、另一共轭 `$\psi$` 严格收缩。此收缩 gap 正是 Clark–Sadun 形变论证(拓扑共轭
+分类)中 `$|\lambda_2|=1/\varphi<1$` 的 Galois-收缩子空间之根据,GPS 三角谱层的动力核心。 -/
+theorem goldenConj_abs_lt_one : |Real.goldenConj| < 1 := by
+  rw [abs_of_neg Real.goldenConj_neg, Real.goldenConj]
+  nlinarith [Real.sq_sqrt (by norm_num : (5 : ℝ) ≥ 0), Real.sqrt_nonneg 5]
+
 end UnifiedTheory
