@@ -631,4 +631,21 @@ theorem LaplaceData.landau_contradiction (D : LaplaceData) (hu₀ : 0 ≤ D.u₀
   exact D.not_converges_of_lt_abscissa hσc
     (D.converges_of_summable_taylor hu₀ hf hσ₁ hlt hsum)
 
+/-- **Taylor-系数桥(F 的幂级数系数 = 迭代 mulNegU 变换)**:若 `F` 于实点 `σ₁ > σ_c` 解析,
+则其幂级数系数为 `(mulNegU^{[n]} D).F(σ₁)/n!`。合 mathlib `AnalyticAt.hasFPowerSeriesAt`
+(系数 = `iteratedDeriv n F σ₁ / n!`)与迭代导数塔 `iteratedDeriv_F`。这是 `landau_nonneg`
+剩余解析桥的系数一环;仍余半径 `> σ₁-σ_c` 与 `HasSum → hsum` 之实/复过渡。 -/
+theorem LaplaceData.F_hasFPowerSeriesAt_mulNegU (D : LaplaceData) (hu₀ : 0 ≤ D.u₀)
+    {σ₁ : ℝ} (hσ₁ : D.abscissa < (σ₁ : EReal)) (hA : AnalyticAt ℂ D.F (σ₁ : ℂ)) :
+    HasFPowerSeriesAt D.F
+      (FormalMultilinearSeries.ofScalars ℂ
+        (fun n => ((LaplaceData.mulNegU^[n]) D).F (σ₁ : ℂ) / (n.factorial : ℂ))) (σ₁ : ℂ) := by
+  have hcoeff : (fun n => iteratedDeriv n D.F (σ₁ : ℂ) / (n.factorial : ℂ))
+      = (fun n => ((LaplaceData.mulNegU^[n]) D).F (σ₁ : ℂ) / (n.factorial : ℂ)) := by
+    funext n
+    rw [D.iteratedDeriv_F hu₀ (s := (σ₁ : ℂ)) (by simpa using hσ₁) n]
+  have h1 := hA.hasFPowerSeriesAt
+  rw [hcoeff] at h1
+  exact h1
+
 end UnifiedTheory
