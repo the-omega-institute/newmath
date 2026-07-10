@@ -1231,7 +1231,15 @@ $$
   \qquad
   \lean{UnifiedTheory.PhiInt.degMul\_phi\_mul},
 $$
-where $\iota=\operatorname{toRealPlus}$ is the expanding real embedding.  Multiplication by $\varphi$ therefore advances the multiplicative-depth coordinate by exactly one step; this is the log-periodic self-similar core of the depth reading.  The same axis is monotone in the absolute expanding embedding:
+where $\iota=\operatorname{toRealPlus}$ is the expanding real embedding.  Multiplication by $\varphi$ therefore advances the multiplicative-depth coordinate by exactly one step; this is the log-periodic self-similar core of the depth reading.
+The multiplicative axis also has the checked integer-grading law
+$$
+  \deg_\times(\varphi^n x)=\deg_\times(x)+n,
+  \qquad
+  \lean{UnifiedTheory.PhiInt.degMul\_phiPow\_mul},
+$$
+for $n\in\mathbb Z$ and $\iota(x)\ne0$: multiplying by $\varphi^n$ shifts the multiplicative depth by exactly $n$ signed steps, so $\deg_\times$ is a $\mathbb Z$-grading compatible with the $\varphi$-scaling action, obtained by iterating the one-step ladder
+\lean{UnifiedTheory.PhiInt.degMul\_phi\_mul}.  This statement is only about the algebraic multiplicative axis; the geometric circle-distance axis $\|G\|$ and the combined three-axis separation remain the open metric layer described below.  The same axis is monotone in the absolute expanding embedding:
 $$
   \iota(x)\ne0,\qquad
   |\iota(x)|\le|\iota(y)|
