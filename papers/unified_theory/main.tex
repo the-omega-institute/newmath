@@ -1378,7 +1378,7 @@ $$
   F_{n+2}F_n-F_{n+1}^2=(-1)^{n+1},
 $$
 equivalently $\det(M^{n+1})=(\det M)^{n+1}=(-1)^{n+1}$.
-The characteristic polynomial $x^2-x-1$ has roots $\varphi$ and $\psi$, giving the expansion and Galois-contraction directions, with Pisot gap $|\psi|=1/\varphi$.  This establishes the Fibonacci-power and unimodular algebraic input for the rank-two substitution matrix.
+The substitution matrix $M$ also has machine-checked characteristic data: \lean{UnifiedTheory.qmatrix\_trace} proves $\operatorname{tr}M=1$ and \lean{UnifiedTheory.qmatrix\_det} proves $\det M=-1$, hence the characteristic polynomial is $x^2-x-1$; its two roots are $\varphi$ and $\psi$, the golden ratio and its conjugate, and Vieta's identities are checked by \lean{UnifiedTheory.goldenRatio\_add\_goldenConj\_eq\_one}, namely $\varphi+\psi=1=\operatorname{tr}M$, and \lean{UnifiedTheory.goldenRatio\_mul\_goldenConj\_eq\_neg\_one}, namely $\varphi\psi=-1=\det M$.  The expanding root $\varphi>1$ and the Galois-contraction root $|\psi|=1/\varphi$ give the Pisot gap.  This establishes the Fibonacci-power and unimodular algebraic input for the rank-two substitution matrix.
 The dimension-group isomorphism, the Pimsner--Voiculescu computation, and Kellendonk's gap-labelling theorem remain the external literature inputs cited in this paragraph, not Lean theorems of this project.  Thus the coordinate ring $\mathbb Z[\varphi]$ is simultaneously the GCS coordinate object, the strong-orbit-equivalence invariant at the dimension-group layer of Conjecture R, and the spectral gap-labelling group.
 
 The scope is deliberately only the group equality

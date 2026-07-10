@@ -165,4 +165,29 @@ theorem fib_qmatrix_pow (n : ℕ) :
       simp only [mul_one, mul_zero, add_zero]
       rw [hd', hc']
 
+/-- **代换矩阵的迹**:`$\operatorname{tr}M=1$`,`$M=\begin{psmallmatrix}1&1\\1&0\end{psmallmatrix}$`。
+即黄金特征多项式 `$x^2-x-1$` 一次项负系数,`$=\varphi+\psi$`(根和)。 -/
+theorem qmatrix_trace :
+    Matrix.trace (!![1, 1; 1, 0] : Matrix (Fin 2) (Fin 2) ℤ) = 1 := by
+  simp [Matrix.trace_fin_two]
+
+/-- **代换矩阵的行列式**:`$\det M=-1$`(unimodular),即特征多项式常数项,`$=\varphi\psi$`(根积)。
+这与 `\lean{UnifiedTheory.fib\_cassini}`(`$\det M^n=(-1)^n$`)一致,ground GPS 三角维数群层的
+unimodular 秩-2 结构。 -/
+theorem qmatrix_det :
+    Matrix.det (!![1, 1; 1, 0] : Matrix (Fin 2) (Fin 2) ℤ) = -1 := by
+  simp [Matrix.det_fin_two]
+
+/-- **黄金 Vieta(和)**:`$\varphi+\psi=1$`,恰等于 `$\operatorname{tr}M$`。黄金比与其共轭是代换矩阵
+`$M$` 的特征多项式 `$x^2-x-1$` 之二根,根和 = 迹。 -/
+theorem goldenRatio_add_goldenConj_eq_one :
+    Real.goldenRatio + Real.goldenConj = 1 := by
+  simp [Real.goldenRatio, Real.goldenConj]
+
+/-- **黄金 Vieta(积)**:`$\varphi\psi=-1$`,恰等于 `$\det M$`。根积 = 行列式;`$|\psi|=1/\varphi$`
+即 Pisot Galois-收缩 gap,`$\varphi>1$` 即扩张方向。 -/
+theorem goldenRatio_mul_goldenConj_eq_neg_one :
+    Real.goldenRatio * Real.goldenConj = -1 := by
+  simp [Real.goldenRatio, Real.goldenConj]
+
 end UnifiedTheory
