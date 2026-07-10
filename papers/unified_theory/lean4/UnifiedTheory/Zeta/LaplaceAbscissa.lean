@@ -425,6 +425,39 @@ theorem LaplaceData.mulNegU_iterate_F_ofReal (D : LaplaceData) (n : ℕ) (σ : �
   intro u _hu
   simp only [LaplaceData.f_iterate]
 
+/-- **实/复过渡的代数闭合砖**:Taylor 幂级数于实点 `y=σ-σ₁` 的复求和项,恰是
+`landau_contradiction` 之实 `hsum` 求和项的复化:
+`$(((\mathrm{mulNegU}^{[n]}D).F(\sigma_1)/n!)\cdot(\sigma-\sigma_1)^n
+   = (\sigma_1-\sigma)^n/n!\cdot\int u^n f\,e^{-\sigma_1 u})\!\uparrow_{\mathbb C}$`。
+两侧符号对消:`(σ-σ₁)ⁿ·∫(-u)ⁿf = (-1)ⁿ(σ₁-σ)ⁿ·(-1)ⁿ∫uⁿf = (σ₁-σ)ⁿ·∫uⁿf`(经
+`mulNegU_iterate_F_ofReal` 把复系数写成实积分复化 + `integral_const_mul` 抽 `(-1)ⁿ`)。
+这使 landau_nonneg 剩余的**实/复过渡叶子 (ii) 代数闭合**:整份剩余精确坍缩为唯一硬墙
+叶子 (i)——把复 `HasSum` 抬到实点 `y=σ-σ₁`(即 Pringsheim/Landau 定量半径,mathlib 无)。 -/
+theorem LaplaceData.taylor_complex_summand_eq_ofReal (D : LaplaceData) (σ₁ σ : ℝ) (n : ℕ) :
+    (((LaplaceData.mulNegU^[n]) D).F (σ₁ : ℂ) / (n.factorial : ℂ)) • (((σ - σ₁ : ℝ)) : ℂ) ^ n
+      = (((σ₁ - σ) ^ n / (n.factorial : ℝ) *
+          ∫ u in Ici D.u₀, u ^ n * D.f u * Real.exp (-σ₁ * u) : ℝ) : ℂ) := by
+  have hint : (∫ u in Ici D.u₀, (-u) ^ n * D.f u * Real.exp (-σ₁ * u))
+      = (-1) ^ n * ∫ u in Ici D.u₀, u ^ n * D.f u * Real.exp (-σ₁ * u) := by
+    rw [← integral_const_mul]
+    apply setIntegral_congr_fun measurableSet_Ici
+    intro u _hu
+    have hstep : (-u) ^ n * D.f u * Real.exp (-σ₁ * u)
+        = (-1) ^ n * (u ^ n * D.f u * Real.exp (-σ₁ * u)) := by
+      rw [show (-u) ^ n = (-1) ^ n * u ^ n from by rw [← neg_one_mul, mul_pow]]; ring
+    exact hstep
+  rw [LaplaceData.mulNegU_iterate_F_ofReal D n σ₁, smul_eq_mul,
+    ← Complex.ofReal_pow, ← Complex.ofReal_natCast n.factorial,
+    ← Complex.ofReal_div, ← Complex.ofReal_mul, Complex.ofReal_inj,
+    hint]
+  have hsgn : (σ - σ₁) ^ n = (-1) ^ n * (σ₁ - σ) ^ n := by
+    rw [← mul_pow]; congr 1; ring
+  have hs2 : ((-1 : ℝ)) ^ n * (-1) ^ n = 1 := by rw [← mul_pow]; norm_num
+  rw [hsgn]
+  linear_combination
+    ((∫ u in Ici D.u₀, u ^ n * D.f u * Real.exp (-σ₁ * u)) * (σ₁ - σ) ^ n
+      / (n.factorial : ℝ)) * hs2
+
 /-- Landau 符号记账:非负权重给出实轴上交替迭代导数积分的非负性。 -/
 theorem LaplaceData.sign_control (D : LaplaceData) (hu₀ : 0 ≤ D.u₀)
     (hf : ∀ u, D.u₀ ≤ u → 0 ≤ D.f u) {σ : ℝ}
