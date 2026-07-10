@@ -1031,11 +1031,15 @@ $$
   < \infty,
 \end{aligned}
 $$
-through \texttt{lintegral\_tsum} and the three checked inputs above.  The Landau nonnegative theorem itself remains open: there is no Lean theorem \texttt{landau\_nonneg} in this layer.  The remaining bridge is the Taylor-coefficient identification at the boundary,
+through \texttt{lintegral\_tsum} and the three checked inputs above.  The Landau nonnegative theorem itself remains open: there is no Lean theorem \texttt{landau\_nonneg} in this layer.  The checked reductio core is
+$$
+  \lean{UnifiedTheory.LaplaceData.landau\_contradiction};
+$$
+if the nonnegative Taylor-coefficient series converges at some point below the abscissa, then the Tonelli bridge gives \texttt{Converges} there while the abscissa definition gives $\neg\,\texttt{Converges}$, hence contradiction.  Thus the only open leaf for \texttt{landau\_nonneg} is the analytic-continuation-to-summability step, namely the Taylor-coefficient identification at the boundary,
 $$
   a_n=\frac{F^{(n)}(\sigma_1)}{n!},
 $$
-namely the \texttt{AnalyticAt} to \texttt{hasFPowerSeriesAt} coefficient theorem matching the analytic-extension coefficients with \texttt{iteratedDeriv}/$n!$.
+with radius larger than $\sigma_1-\sigma_c$ and the \texttt{AnalyticAt} to \texttt{hasFPowerSeriesAt} coefficient theorem matching the analytic-extension coefficients with \texttt{iteratedDeriv}/$n!$; the rest of the mechanical contradiction is machine checked.
 
 \subsection{The \texorpdfstring{$\varphi$}{phi}-Coordinate System (Golden Coordinate Ring, L0)}
 

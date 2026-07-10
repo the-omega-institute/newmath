@@ -615,4 +615,20 @@ theorem LaplaceData.converges_of_summable_taylor (D : LaplaceData) (hu₀ : 0 �
             (fun n => integral_nonneg (fun u => norm_nonneg _)) hSum).symm
   exact lt_of_le_of_lt hbound ENNReal.ofReal_lt_top
 
+/-- **Landau 反证核心**:若非负 Taylor 系数级数于某 `σ < σ_c` 收敛(`hsum`),则矛盾。
+Tonelli 桥(`converges_of_summable_taylor`)由此给出 `Converges σ`,而横标定义
+(`not_converges_of_lt_abscissa`)于 `σ < σ_c` 给出 `¬ Converges σ`。这是 Landau 振荡定理
+反证的收尾一步;剩余开叶子是从边界解析延拓导出该 `hsum`(Taylor 半径-系数桥)。 -/
+theorem LaplaceData.landau_contradiction (D : LaplaceData) (hu₀ : 0 ≤ D.u₀)
+    (hf : ∀ u, D.u₀ ≤ u → 0 ≤ D.f u) {σ₁ σ : ℝ} (hσ₁ : D.abscissa < (σ₁ : EReal))
+    (hσc : (σ : EReal) < D.abscissa)
+    (hsum : Summable (fun n : ℕ => (σ₁ - σ) ^ n / (n.factorial : ℝ) *
+        ∫ u in Set.Ici D.u₀, u ^ n * D.f u * Real.exp (-σ₁ * u))) :
+    False := by
+  have hlt : σ < σ₁ := by
+    have h : (σ : EReal) < (σ₁ : EReal) := lt_trans hσc hσ₁
+    exact_mod_cast h
+  exact D.not_converges_of_lt_abscissa hσc
+    (D.converges_of_summable_taylor hu₀ hf hσ₁ hlt hsum)
+
 end UnifiedTheory
