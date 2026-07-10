@@ -410,6 +410,21 @@ theorem LaplaceData.f_iterate (D : LaplaceData) (n : ℕ) (u : ℝ) :
               rw [pow_succ]
               ring
 
+/-- **系数-实积分辨识(实/复过渡承重砖)**:迭代 mulNegU 变换于实点 `σ` 的 Laplace 值,
+是权重 `(-u)ⁿf(u)` 之实积分的复化:`((mulNegU^{[n]}D).F(σ) = ↑∫_{u≥u₀}(-u)ⁿf(u)e^{-σu}`。
+由 `F_ofReal`(实轴上 F = 实积分复化)配 `f_iterate`(迭代权重 `= (-u)ⁿf`)与 `u₀_iterate`
+(下端不变)。这把 Taylor 系数塔的抽象复值 `(mulNegU^{[n]}D).F(σ₁)/n!` 钉到 `landau_contradiction`
+之实 `hsum` 中出现的实积分 `∫ uⁿf e^{-σ₁u}`(经 `(-1)ⁿ` 符号,由级数变元 `y=σ-σ₁` 之 `yⁿ` 吸收);
+是 landau_nonneg 剩余"实/复过渡"叶子的系数辨识一环。 -/
+theorem LaplaceData.mulNegU_iterate_F_ofReal (D : LaplaceData) (n : ℕ) (σ : ℝ) :
+    ((LaplaceData.mulNegU^[n]) D).F (σ : ℂ)
+      = ((∫ u in Ici D.u₀, (-u) ^ n * D.f u * Real.exp (-σ * u) : ℝ) : ℂ) := by
+  rw [LaplaceData.F_ofReal ((LaplaceData.mulNegU^[n]) D) σ, LaplaceData.u₀_iterate D n]
+  congr 1
+  apply setIntegral_congr_fun measurableSet_Ici
+  intro u _hu
+  simp only [LaplaceData.f_iterate]
+
 /-- Landau 符号记账:非负权重给出实轴上交替迭代导数积分的非负性。 -/
 theorem LaplaceData.sign_control (D : LaplaceData) (hu₀ : 0 ≤ D.u₀)
     (hf : ∀ u, D.u₀ ≤ u → 0 ≤ D.f u) {σ : ℝ}
