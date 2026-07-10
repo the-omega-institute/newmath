@@ -578,4 +578,41 @@ theorem LaplaceData.taylor_summable_norm_integral (D : LaplaceData) (hu₀ : 0 �
       rw [MeasureTheory.integral_const_mul]
     exact (hnorm.trans hconst).symm)
 
+/-- **Tonelli 级数-积分交换桥(F-7 Landau capstone)**:给定非负 Taylor 系数级数收敛
+(`hsum`),Laplace 积分于 `σ < σ₁` 绝对收敛。三输入(逐项可积、逐点级数和、范数积分可和)
+组装:`∫⁻‖f e^{-σu}‖ = ∫⁻‖∑ₙ Fₙ‖ ≤ ∫⁻ ∑ₙ‖Fₙ‖ = ∑ₙ∫⁻‖Fₙ‖ = ofReal(∑ₙ∫‖Fₙ‖) < ⊤`。 -/
+theorem LaplaceData.converges_of_summable_taylor (D : LaplaceData) (hu₀ : 0 ≤ D.u₀)
+    (hf : ∀ u, D.u₀ ≤ u → 0 ≤ D.f u) {σ₁ σ : ℝ} (hσ₁ : D.abscissa < (σ₁ : EReal))
+    (hlt : σ < σ₁)
+    (hsum : Summable (fun n : ℕ => (σ₁ - σ) ^ n / (n.factorial : ℝ) *
+        ∫ u in Set.Ici D.u₀, u ^ n * D.f u * Real.exp (-σ₁ * u))) :
+    D.Converges σ := by
+  set μ : Measure ℝ := volume.restrict (Set.Ici D.u₀) with hμ
+  set F : ℕ → ℝ → ℝ := fun n u =>
+    (σ₁ - σ) ^ n / (n.factorial : ℝ) * (u ^ n * D.f u * Real.exp (-σ₁ * u)) with hFdef
+  have hInt : ∀ n, Integrable (F n) μ := fun n => D.taylor_term_integrable hu₀ (σ := σ) hσ₁ n
+  have hSum : Summable (fun n => ∫ u, ‖F n u‖ ∂μ) :=
+    D.taylor_summable_norm_integral hu₀ hf hσ₁ hlt hsum
+  have hptwise : ∀ u, (∑' n, F n u) = D.f u * Real.exp (-σ * u) :=
+    fun u => D.taylor_series_pointwise σ₁ σ u
+  have hmeas : AEStronglyMeasurable (fun u => D.f u * Real.exp (-σ * u)) μ :=
+    D.measf.mul (Real.continuous_exp.comp (by fun_prop)).aestronglyMeasurable
+  refine ⟨hmeas, ?_⟩
+  rw [hasFiniteIntegral_iff_enorm]
+  have hbound : ∫⁻ u, ‖D.f u * Real.exp (-σ * u)‖ₑ ∂μ
+      ≤ ENNReal.ofReal (∑' n, ∫ u, ‖F n u‖ ∂μ) := by
+    calc ∫⁻ u, ‖D.f u * Real.exp (-σ * u)‖ₑ ∂μ
+        = ∫⁻ u, ‖∑' n, F n u‖ₑ ∂μ := by
+          refine lintegral_congr (fun u => ?_); rw [hptwise u]
+      _ ≤ ∫⁻ u, ∑' n, ‖F n u‖ₑ ∂μ := lintegral_mono (fun u => enorm_tsum_le_tsum_enorm)
+      _ = ∑' n, ∫⁻ u, ‖F n u‖ₑ ∂μ :=
+          lintegral_tsum (fun n => (hInt n).aestronglyMeasurable.enorm)
+      _ = ∑' n, ENNReal.ofReal (∫ u, ‖F n u‖ ∂μ) := by
+          refine tsum_congr (fun n => ?_)
+          rw [← ofReal_integral_norm_eq_lintegral_enorm (hInt n)]
+      _ = ENNReal.ofReal (∑' n, ∫ u, ‖F n u‖ ∂μ) :=
+          (ENNReal.ofReal_tsum_of_nonneg
+            (fun n => integral_nonneg (fun u => norm_nonneg _)) hSum).symm
+  exact lt_of_le_of_lt hbound ENNReal.ofReal_lt_top
+
 end UnifiedTheory
