@@ -26,7 +26,7 @@
 \maketitle
 
 \begin{abstract}
-We report the portion of the PZG--BEDC dynamic ontology kernel formalized in Lean 4 with mathlib.  PZG denotes prime-axis Zeckendorf coding: each prime axis carries a finite Zeckendorf word, and decoding first turns those words into prime exponents and then reconstructs a positive natural number.  The checked development covers 89 content modules plus the aggregation module: the finite generation layer, Newman normal forms, prime-axis factorization and Euclid escape, Zeckendorf and PZG bijections, finite golden-ratio algebra, deficit and golden-jump ledgers, golden double-sided and fiber-coordinate identities, Cassini--Fricke trace conservation, finite readings and two-square classifiers, Kleene/Cantor/Gödel barriers for self-coding, cost and hidden-fiber rigidity, critical-line reflection algebra, Euler products, golden-weight finite Euler factorization, the golden-weight convergence-abscissa bound, Weil explicit-formula small-support prime-side reduction, concrete archimedean well-definedness, the heart-electrode residual-identity foundation, the Laplace-transform convergence abscissa and half-plane holomorphy that form the analytic base of the Landau oscillation engine, with the Tonelli series--integral exchange, Taylor-coefficient formula, and local complex Taylor \texttt{HasSum} theorem machine checked while the Landau nonnegative theorem still awaits the quantitative radius bound and real/complex summability transfer, the golden coordinate ring $\mathbb{Z}[\varphi]$ with its norm, conjugation automorphism, units, and Euclidean-domain structure proving class number one (the $\varphi$-coordinate system L0), no-zero-line zeta facts, completed zeta functional equations, and the RH ledger equivalence.  The generated-results section records twenty-nine machine-checked additions; together with the eight checked groups folded into the formalized-results section, the manuscript records thirty-seven such additions, including the unconditional shifted Zeckendorf--Beatty bridge, the golden double-sided/fiber identities, the heart-electrode foundation, the Laplace-transform abscissa and half-plane holomorphy, and fourteen oracle-suggested conjectures certified locally after proposal.  Every mathematical assertion labeled as machine checked below names an actual Lean declaration under \lean{papers/unified_theory/lean4/UnifiedTheory}.  Conjecture R for the GCS middle-form window is adjudicated by dimension-group and Giordano--Putnam--Skau literature, not by Lean: the golden-Sturmian case is closed on orbit-equivalence, spectrum, and topological-conjugacy layers; the broader canonicity slogan that $\mathbb{Z}[\varphi]$ coordinates all $\varphi$-self-similar mathematics is refuted by standard symbolic-dynamical witnesses; the remaining O-7 leaf is the non-$\varphi$-specific gap between decision procedures and a clean complete conjugacy invariant.  The RH result is an equivalence with mathlib's \lean{RiemannHypothesis}, not a proof of RH; quasicrystal zeta, full explicit-formula zero-side analysis, Weil archimedean positivity, unconditional small-support positivity, the analytic golden-weight $\zeta$-factorization and $\Delta_\varphi$ continuation theory, positivity bridges, the empirical heart Sturmian shell, and open leaves such as O-5, O-6, and O-7 remain outside the checked-result column.  The Lean project is mathlib-based and isolated from the mathlib-free BEDC core; the stated reproducibility surface is the branch \lean{feat/unified-theory-mathlib}, with the full project check given by \lean{lake build}.
+We report the portion of the PZG--BEDC dynamic ontology kernel formalized in Lean 4 with mathlib.  PZG denotes prime-axis Zeckendorf coding: each prime axis carries a finite Zeckendorf word, and decoding first turns those words into prime exponents and then reconstructs a positive natural number.  The checked development covers 89 content modules plus the aggregation module: the finite generation layer, Newman normal forms, prime-axis factorization and Euclid escape, Zeckendorf and PZG bijections, finite golden-ratio algebra, deficit and golden-jump ledgers, golden double-sided and fiber-coordinate identities, Cassini--Fricke trace conservation, finite readings and two-square classifiers, Kleene/Cantor/Gödel barriers for self-coding, cost and hidden-fiber rigidity, critical-line reflection algebra, Euler products, golden-weight finite Euler factorization, the golden-weight convergence-abscissa bound, Weil explicit-formula small-support prime-side reduction, concrete archimedean well-definedness, the heart-electrode residual-identity foundation, the Laplace-transform convergence abscissa and half-plane holomorphy that form the analytic base of the Landau oscillation engine, with the Tonelli series--integral exchange, Taylor-coefficient formula, local complex Taylor \texttt{HasSum} theorem, and itemwise real/complex Taylor-summand algebra machine checked while the Landau nonnegative theorem still awaits the single quantitative Pringsheim--Landau radius wall, the golden coordinate ring $\mathbb{Z}[\varphi]$ with its norm, conjugation automorphism, units, and Euclidean-domain structure proving class number one (the $\varphi$-coordinate system L0), no-zero-line zeta facts, completed zeta functional equations, and the RH ledger equivalence.  The generated-results section records twenty-nine machine-checked additions; together with the eight checked groups folded into the formalized-results section, the manuscript records thirty-seven such additions, including the unconditional shifted Zeckendorf--Beatty bridge, the golden double-sided/fiber identities, the heart-electrode foundation, the Laplace-transform abscissa and half-plane holomorphy, and fourteen oracle-suggested conjectures certified locally after proposal.  Every mathematical assertion labeled as machine checked below names an actual Lean declaration under \lean{papers/unified_theory/lean4/UnifiedTheory}.  Conjecture R for the GCS middle-form window is adjudicated by dimension-group and Giordano--Putnam--Skau literature, not by Lean: the golden-Sturmian case is closed on orbit-equivalence, spectrum, and topological-conjugacy layers; the broader canonicity slogan that $\mathbb{Z}[\varphi]$ coordinates all $\varphi$-self-similar mathematics is refuted by standard symbolic-dynamical witnesses; the remaining O-7 leaf is the non-$\varphi$-specific gap between decision procedures and a clean complete conjugacy invariant.  The RH result is an equivalence with mathlib's \lean{RiemannHypothesis}, not a proof of RH; quasicrystal zeta, full explicit-formula zero-side analysis, Weil archimedean positivity, unconditional small-support positivity, the analytic golden-weight $\zeta$-factorization and $\Delta_\varphi$ continuation theory, positivity bridges, the empirical heart Sturmian shell, and open leaves such as O-5, O-6, and O-7 remain outside the checked-result column.  The Lean project is mathlib-based and isolated from the mathlib-free BEDC core; the stated reproducibility surface is the branch \lean{feat/unified-theory-mathlib}, with the full project check given by \lean{lake build}.
 \end{abstract}
 
 \section{Introduction}
@@ -1058,7 +1058,7 @@ $$
     \big(\operatorname{mulNegU}^{[n]}\mathcal D\big).F(\sigma_1)
   }{n!}\,y^n.
 $$
-The exact remaining analytic-continuation-to-summability work for \texttt{landau\_nonneg} is therefore only the two quantitative and real/complex leaves: (i) turn this qualitative neighborhood convergence into the quantitative lower bound $>\sigma_1-\sigma_c$ on the convergence radius, through a \texttt{FormalMultilinearSeries.radius} estimate; and (ii) pass from complex power-series \texttt{HasSum} to summability of the real Taylor integral series \texttt{hsum}, separating the real and complex sides.  The coefficient-identification brick for (ii) is now machine checked:
+The exact analytic-continuation-to-summability ledger for \texttt{landau\_nonneg} has two named leaves: (i) turn this qualitative neighborhood convergence into the quantitative lower bound $>\sigma_1-\sigma_c$ on the convergence radius, through a \texttt{FormalMultilinearSeries.radius} estimate; and (ii) pass from complex power-series \texttt{HasSum} to summability of the real Taylor integral series \texttt{hsum}, separating the real and complex sides.  The coefficient-identification brick for (ii) is machine checked:
 $$
   \lean{UnifiedTheory.LaplaceData.mulNegU\_iterate\_F\_ofReal}.
 $$
@@ -1078,7 +1078,41 @@ is identified with the complexification of the real integral appearing in the \t
 $$
   \int u^n f(u)e^{-\sigma_1 u}\,du,
 $$
-with the $(-1)^n$ sign absorbed by the $y^n$ term for $y=\sigma-\sigma_1$.  This still does not close (ii): the only remaining step there is to take real sums from the complex \texttt{HasSum} at the concrete real point $y=\sigma-\sigma_1$, and placing that point inside the qualitative neighborhood still depends on the quantitative radius leaf (i).  Coefficient identification and complex-neighborhood \texttt{HasSum} existence are machine checked; the theorem \texttt{landau\_nonneg} itself remains open.  The mechanical reductio core remains machine checked.
+with the $(-1)^n$ sign absorbed by the $y^n$ term for $y=\sigma-\sigma_1$.  The stronger summand-level identity closes the algebraic part of (ii).
+The real/complex passage leaf (ii) is algebraically closed:
+$$
+  \lean{UnifiedTheory.LaplaceData.taylor\_complex\_summand\_eq\_ofReal}.
+$$
+For each $n$, this theorem identifies the complex Taylor summand at $y=\sigma-\sigma_1$ with the complexification of the real \texttt{hsum} summand in \texttt{landau\_contradiction}:
+$$
+\begin{aligned}
+  &\left(
+    \frac{
+      \big(\operatorname{mulNegU}^{[n]}\mathcal D\big).F(\sigma_1)
+    }{n!}
+  \right)(\sigma-\sigma_1)^n \\
+  &\qquad =
+  \left(
+    \frac{(\sigma_1-\sigma)^n}{n!}
+    \int_{u\ge u_0}u^n f(u)e^{-\sigma_1 u}\,du
+  \right)\!\uparrow_{\mathbb C}.
+\end{aligned}
+$$
+The sign cancellation is purely algebraic:
+$$
+\begin{aligned}
+  (\sigma-\sigma_1)^n
+  &=(-1)^n(\sigma_1-\sigma)^n,\\
+  \int_{u\ge u_0}(-u)^n f(u)e^{-\sigma_1 u}\,du
+  &=(-1)^n
+    \int_{u\ge u_0}u^n f(u)e^{-\sigma_1 u}\,du.
+\end{aligned}
+$$
+The second equality is scalar extraction by \texttt{integral\_const\_mul}; the checked iterated-derivative bridge above supplies the $(-u)^n$ integral.  Thus the entire residual for \texttt{landau\_nonneg} collapses to the single hard wall leaf (i): extend the neighborhood complex \texttt{HasSum}
+$$
+  \lean{UnifiedTheory.LaplaceData.F\_eventually\_hasSum\_mulNegU}
+$$
+to the real point $y=\sigma-\sigma_1$ inside the convergence disk, namely prove the Pringsheim--Landau quantitative radius bound $>\sigma_1-\sigma_c$.  This theorem is absent from mathlib and requires proving the analytic-continuation obstruction from first principles.  Once (i) supplies the complex \texttt{HasSum} at that real point, \texttt{taylor\_complex\_summand\_eq\_ofReal} gives itemwise complexification, \texttt{Complex.ofReal} injectivity transfers summability to the real \texttt{hsum}, and \texttt{landau\_contradiction} finishes the reductio.  The algebraic skeleton--coefficient tower, neighborhood \texttt{HasSum}, coefficient-to-real-integral bridge, and Taylor-summand complexification--is machine checked; the unique open leaf is the Pringsheim--Landau quantitative radius bound.  The theorem \texttt{landau\_nonneg} itself remains open.
 
 \subsection{The \texorpdfstring{$\varphi$}{phi}-Coordinate System (Golden Coordinate Ring, L0)}
 
