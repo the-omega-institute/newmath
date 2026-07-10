@@ -38,6 +38,24 @@ theorem degMul_mono {x y : PhiInt} (hx : toRealPlus x ≠ 0)
   exact Int.floor_le_floor
     (Real.logb_le_logb_of_le Real.one_lt_goldenRatio (abs_pos.mpr hx) h)
 
+/-- **乘性轴的 `ℤ`-梯律(迭代)**:`degMul(φⁿ · x) = degMul x + n`。乘 `φⁿ` 把乘性
+深度精确抬高 `n` 级——`degMul` 是 `φ`-缩放作用相容的 `ℤ`-分级(L2 乘性轴结构核)。
+由单步梯律 `degMul_phi_mul` 逐级归纳,配 `toRealPlus_phiPow`(`toRealPlus(φⁿ)=φⁿ_ℝ`)
+维持每级非零前提。 -/
+theorem degMul_phiPow_mul (n : ℕ) {x : PhiInt} (hx : toRealPlus x ≠ 0) :
+    degMul (phiPow n * x) = degMul x + n := by
+  induction n with
+  | zero => simp [phiPow]
+  | succ n ih =>
+      have hxn : toRealPlus (phiPow n * x) ≠ 0 := by
+        rw [toRealPlus_mul, toRealPlus_phiPow]
+        exact mul_ne_zero (pow_ne_zero n Real.goldenRatio_pos.ne') hx
+      calc degMul (phiPow (n + 1) * x)
+          = degMul (phi * (phiPow n * x)) := by congr 1; rw [phiPow]; ring
+        _ = degMul (phiPow n * x) + 1 := degMul_phi_mul hxn
+        _ = degMul x + ((n : ℤ) + 1) := by rw [ih]; ring
+        _ = degMul x + ((n + 1 : ℕ) : ℤ) := by push_cast; ring
+
 /-- A Fibonacci number has a one-digit Zeckendorf word at its own index. -/
 theorem zeckDigits_fib_length {k : ℕ} (hk : 2 ≤ k) :
     (zeckDigits (Nat.fib k)).1.length = 1 := by
