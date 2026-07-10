@@ -1,7 +1,10 @@
 import UnifiedTheory.Golden.GoldenWeight
 import UnifiedTheory.Golden.GoldenWeightPrimeEdge
+import UnifiedTheory.Golden.GoldenWeightBounds
 import UnifiedTheory.Golden.DeficitSharp
 import Mathlib.NumberTheory.ArithmeticFunction
+import Mathlib.NumberTheory.LSeries.Convergence
+import Mathlib.Analysis.SpecialFunctions.Log.Base
 
 namespace UnifiedTheory
 
@@ -78,5 +81,57 @@ theorem goldGenAF_not_completelyMultiplicative :
     norm_num
   rw [hleft, hright]
   norm_num
+
+/-- `2^{Ω(n)} ≤ n`:`2^{∑_p v_p} = ∏_p 2^{v_p} ≤ ∏_p p^{v_p} = n`(各素 `p ≥ 2`)。 -/
+theorem two_pow_omega_le (n : ℕ) (hn : n ≠ 0) :
+    2 ^ (∑ p ∈ n.factorization.support, n.factorization p) ≤ n := by
+  calc 2 ^ (∑ p ∈ n.factorization.support, n.factorization p)
+      = ∏ p ∈ n.factorization.support, 2 ^ n.factorization p := by
+        rw [Finset.prod_pow_eq_pow_sum]
+    _ ≤ ∏ p ∈ n.factorization.support, p ^ n.factorization p := by
+        apply Finset.prod_le_prod'
+        intro p hp
+        exact Nat.pow_le_pow_left (Nat.prime_of_mem_primeFactors hp).two_le _
+    _ = n := Nat.factorization_prod_pow_eq_self hn
+
+/-- **金权 L-级数收敛横标界**:`x ≥ 1` 时金权生成 Dirichlet 级数 `∑ x^{Ωφ(n)} n^{-s}` 之
+绝对收敛横标 `≤ 1 + 2 log₂ x`。系数界 `x^{Ωφ(n)} ≤ n^{2 log₂ x}`,经已机检 `Ωφ ≤ 2Ω`、
+`Ω ≤ log₂ n`(`2^Ω ≤ n`)、rpow 底-指交换 `x^{2 log₂ n} = n^{2 log₂ x}`。 -/
+theorem goldGenAF_abscissaOfAbsConv_le (x : ℝ) (hx : 1 ≤ x) :
+    LSeries.abscissaOfAbsConv (fun n => (goldGen x n : ℂ))
+      ≤ (1 + 2 * Real.logb 2 x : ℝ) := by
+  have hx0 : (0 : ℝ) < x := lt_of_lt_of_le one_pos hx
+  apply LSeries.abscissaOfAbsConv_le_of_forall_lt_LSeriesSummable
+  intro y hy
+  refine LSeriesSummable_of_le_const_mul_rpow (x := 1 + 2 * Real.logb 2 x)
+    (by exact_mod_cast hy) ⟨1, fun n hn => ?_⟩
+  set Ω : ℕ := ∑ p ∈ n.factorization.support, n.factorization p with hΩ
+  have hnpos : (0 : ℝ) < (n : ℝ) := by exact_mod_cast Nat.pos_of_ne_zero hn
+  have hk2 : ((goldWeight n).toNat : ℝ) ≤ 2 * (Ω : ℝ) := by
+    have hle : goldWeight n ≤ 2 * (Ω : ℤ) := by
+      have h := goldWeight_le_two_mul n
+      simpa [hΩ, Nat.cast_sum] using h
+    have h2 : (goldWeight n).toNat ≤ 2 * Ω := by
+      have := Int.toNat_le_toNat hle
+      simpa using this
+    calc ((goldWeight n).toNat : ℝ) ≤ ((2 * Ω : ℕ) : ℝ) := by exact_mod_cast h2
+      _ = 2 * (Ω : ℝ) := by push_cast; ring
+  have hΩlog : (Ω : ℝ) ≤ Real.logb 2 (n : ℝ) := by
+    rw [Real.le_logb_iff_rpow_le (by norm_num) hnpos, Real.rpow_natCast]
+    exact_mod_cast two_pow_omega_le n hn
+  have hswap : x ^ (2 * Real.logb 2 (n : ℝ)) = (n : ℝ) ^ (2 * Real.logb 2 x) := by
+    rw [Real.rpow_def_of_pos hx0, Real.rpow_def_of_pos hnpos, Real.logb, Real.logb]
+    ring_nf
+  have hgn : ‖(goldGen x n : ℂ)‖ = x ^ (goldWeight n).toNat := by
+    rw [goldGen, Complex.norm_real, Real.norm_of_nonneg (by positivity)]
+  rw [hgn, one_mul]
+  have hexp : (1 + 2 * Real.logb 2 x) - 1 = 2 * Real.logb 2 x := by ring
+  rw [hexp]
+  calc x ^ (goldWeight n).toNat
+      = x ^ ((goldWeight n).toNat : ℝ) := (Real.rpow_natCast x _).symm
+    _ ≤ x ^ (2 * (Ω : ℝ)) := Real.rpow_le_rpow_of_exponent_le hx hk2
+    _ ≤ x ^ (2 * Real.logb 2 (n : ℝ)) :=
+        Real.rpow_le_rpow_of_exponent_le hx (by linarith)
+    _ = (n : ℝ) ^ (2 * Real.logb 2 x) := hswap
 
 end UnifiedTheory
