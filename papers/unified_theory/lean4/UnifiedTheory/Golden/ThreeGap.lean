@@ -56,4 +56,21 @@ theorem fib_dist_lt_half {n : ℕ} (hn : 1 ≤ n) :
   rw [fib_dist_to_int]
   exact goldenRatio_inv_pow_lt_half hn
 
+/-- **几何轴 ‖G‖:golden Fibonacci 倍数逼近下一 Fibonacci**。
+`|F_{k+1}·φ − F_{k+2}| = φ⁻⁽ᵏ⁺¹⁾`:golden 倍数 `F_{k+1}·φ` 到最近整数 `F_{k+2}` 之距按 φ
+负幂收缩(是三距心脏 `fib_dist_to_int` 之几何轴 `{nφ}` 读数,经 `φ−1=φ⁻¹`、`F_{k+2}=F_k+F_{k+1}`)。 -/
+theorem fib_mul_goldenRatio_sub_fib (k : ℕ) :
+    |(Nat.fib (k + 1) : ℝ) * goldenRatio - (Nat.fib (k + 2) : ℝ)|
+      = goldenRatio⁻¹ ^ (k + 1) := by
+  have hphi : goldenRatio - 1 = goldenRatio⁻¹ := by
+    rw [inv_goldenRatio]
+    simp only [Real.goldenRatio, Real.goldenConj]
+    ring
+  have hrec : (Nat.fib (k + 2) : ℝ) = (Nat.fib k : ℝ) + (Nat.fib (k + 1) : ℝ) := by
+    rw [Nat.fib_add_two]; push_cast; ring
+  have heq : (Nat.fib (k + 1) : ℝ) * goldenRatio - (Nat.fib (k + 2) : ℝ)
+      = (Nat.fib (k + 1) : ℝ) / goldenRatio - (Nat.fib k : ℝ) := by
+    rw [hrec, div_eq_mul_inv, ← hphi]; ring
+  rw [heq, fib_dist_to_int k]
+
 end UnifiedTheory
