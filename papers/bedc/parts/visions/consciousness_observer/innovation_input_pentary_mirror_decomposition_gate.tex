@@ -1,0 +1,503 @@
+\chapter{Innovation Input Pentary Mirror Decomposition Gate}
+\label{ch:visions-innovation-input-pentary-mirror-decomposition-gate}
+\origin{ai}
+
+\autoref{ch:visions-innovation-input-self-adjoint-hamiltonian-gate}
+separates Q3 compatibility, Hermitian reflection symmetry, and positive
+RP. This chapter supplies the mirror decomposition behind the pentary
+Hermitian gate. Q3 fixes the symmetric total of the self-substitution
+word, while the nonpalindromic variables are mirror-antisymmetric phase
+twists. Hermitian defects are odd under this mirror action, so after the
+finite carry-closure denominator is cleared they lie in the palindromic
+ideal.
+
+\section{Mirror Coordinates}
+\label{sec:innovation-input-pentary-mirror-coordinates}
+
+\begin{definition}[Pentary mirror]
+\label{def:innovation-input-pentary-mirror}
+For a pentary phase word $v=(v_0,\ldots,v_4)$, define
+$$
+\sigma(v)_a:=v_{4-a}.
+$$
+Equivalently,
+$$
+\sigma(v_0,v_1,v_2,v_3,v_4)
+=
+(v_4,v_3,v_2,v_1,v_0).
+$$
+The fixed points of $\sigma$ are exactly the palindromic words
+$(a,b,c,b,a)$.
+\end{definition}
+
+\begin{proposition}[Q3 is mirror invariant]
+\label{prop:innovation-input-qthree-mirror-invariant}
+If $v\in\mathcal Q_5$, then $\sigma(v)\in\mathcal Q_5$.
+\end{proposition}
+
+\begin{proof}
+The phase sum is unchanged by reversing the five entries:
+$$
+\sum_{a=0}^4\sigma(v)_a
+=
+v_4+v_3+v_2+v_1+v_0
+=
+\sum_{a=0}^4v_a.
+$$
+Thus the equation $\sum_a v_a=\sqrt5$ is preserved.
+\end{proof}
+
+\begin{definition}[Symmetric and antisymmetric coordinates]
+\label{def:innovation-input-symmetric-antisymmetric-coordinates}
+Set
+$$
+s_0:=\frac{v_0+v_4}{2},
+\qquad
+d_0:=\frac{v_0-v_4}{2},
+$$
+$$
+s_1:=\frac{v_1+v_3}{2},
+\qquad
+d_1:=\frac{v_1-v_3}{2},
+$$
+and
+$$
+c:=v_2.
+$$
+Then
+$$
+v_0=s_0+d_0,
+\qquad
+v_4=s_0-d_0,
+$$
+and
+$$
+v_1=s_1+d_1,
+\qquad
+v_3=s_1-d_1.
+$$
+The palindromic condition is $d_0=d_1=0$.
+\end{definition}
+
+\begin{theorem}[Q3 only sees the symmetric part]
+\label{thm:innovation-input-qthree-sees-symmetric-part}
+In the coordinates of
+\autoref{def:innovation-input-symmetric-antisymmetric-coordinates}, the
+Q3 equation is
+$$
+2s_0+2s_1+c=\sqrt5.
+$$
+It contains no $d_0$ or $d_1$ term.
+\end{theorem}
+
+\begin{proof}
+Adding the five entries gives
+$$
+v_0+v_1+v_2+v_3+v_4
+=
+(v_0+v_4)+(v_1+v_3)+v_2
+=
+2s_0+2s_1+c.
+$$
+\end{proof}
+
+\begin{corollary}[Nonpalindromy is not a Q3 obstruction]
+\label{cor:innovation-input-nonpalindromy-not-qthree-obstruction}
+The Q3 layer constrains the symmetric skeleton $(s_0,s_1,c)$ but does not
+directly remove the antisymmetric coordinates $(d_0,d_1)$. Any exclusion
+of nonpalindromic pentary rows must therefore come from Hermitian
+reflection symmetry, RP positivity, or a stronger bridge row.
+\end{corollary}
+
+\begin{theorem}[Unit-circle mirror coordinates]
+\label{thm:innovation-input-unit-circle-mirror-coordinates}
+The conditions
+$$
+|v_0|=|v_4|=1
+$$
+are equivalent to
+$$
+|s_0|^2+|d_0|^2=1,
+\qquad
+\operatorname{Re}(s_0\overline{d_0})=0.
+$$
+Similarly,
+$$
+|v_1|=|v_3|=1
+$$
+is equivalent to
+$$
+|s_1|^2+|d_1|^2=1,
+\qquad
+\operatorname{Re}(s_1\overline{d_1})=0.
+$$
+\end{theorem}
+
+\begin{proof}
+For the first pair,
+$$
+|s_0+d_0|^2
+=
+|s_0|^2+|d_0|^2+2\operatorname{Re}(s_0\overline{d_0}),
+$$
+and
+$$
+|s_0-d_0|^2
+=
+|s_0|^2+|d_0|^2-2\operatorname{Re}(s_0\overline{d_0}).
+$$
+If both are $1$, their sum and difference give the two displayed
+conditions. Conversely, those two conditions make both squared moduli
+equal to $1$. The second pair is identical with indices shifted from
+$0,4$ to $1,3$.
+\end{proof}
+
+\begin{principle}[Antisymmetric phase twist]
+\label{prin:innovation-input-antisymmetric-phase-twist}
+When $s_0\ne0$, the unit-circle equations force $d_0$ to be orthogonal to
+$s_0$ in the real plane underlying $\mathbb C$; equivalently
+$$
+d_0=i t_0 s_0
+$$
+for some real $t_0$, with
+$$
+|s_0|^2(1+t_0^2)=1.
+$$
+The same statement holds for $d_1$ relative to $s_1$. Thus
+nonpalindromy is a pair of mirror-antisymmetric phase twists over the
+Q3 symmetric skeleton.
+\end{principle}
+
+\section{Mirror Transport of Correlations}
+\label{sec:innovation-input-mirror-transport-correlations}
+
+\begin{theorem}[Mirror word reflects balanced correlations]
+\label{thm:innovation-input-mirror-word-reflects-correlations}
+For every pentary self-substitution row $v$ and every balanced block
+$\alpha$,
+$$
+\Gamma_{\sigma v}(\alpha)=\Gamma_v(\theta\alpha).
+$$
+\end{theorem}
+
+\begin{proof}
+At finite depth $K$, write
+$$
+n=a_0+a_1 5+\cdots+a_{K-1}5^{K-1}.
+$$
+The phase read for $v$ is
+$$
+u_v^{(K)}(n)=\prod_{\ell=0}^{K-1}v_{a_\ell},
+$$
+whereas the phase read for $\sigma v$ is
+$$
+u_{\sigma v}^{(K)}(n)
+=
+\prod_{\ell=0}^{K-1}v_{4-a_\ell}.
+$$
+Let
+$$
+R_K(n):=5^K-1-n.
+$$
+The base-$5$ digits of $R_K(n)$ are $(4-a_0,\ldots,4-a_{K-1})$, so
+$$
+u_{\sigma v}^{(K)}(n)=u_v^{(K)}(R_K(n)).
+$$
+
+For a balanced block $\alpha=\sum_j e_j\delta_j$, form the finite-depth
+average over indices for which all shifted entries lie inside the depth
+$K$ interval. Boundary omissions have density tending to zero. Since
+$$
+R_K(n+j)=R_K(n)-j,
+$$
+the substitution $m=R_K(n)$ gives, in the limit,
+$$
+\Gamma_{\sigma v}(\alpha)
+=
+\Gamma_v\left(\sum_j e_j\delta_{-j}\right).
+$$
+Balanced correlations are invariant under common translation of the
+block, hence
+$$
+\Gamma_v\left(\sum_j e_j\delta_{-j}\right)
+=
+\Gamma_v\left(\sum_j e_j\delta_{1-j}\right)
+=
+\Gamma_v(\theta\alpha).
+$$
+\end{proof}
+
+\begin{corollary}[Palindromy gives reflection evenness]
+\label{cor:innovation-input-palindromy-gives-reflection-evenness}
+If $\sigma v=v$, then
+$$
+\Gamma_v(\alpha)=\Gamma_v(\theta\alpha)
+$$
+for every balanced block $\alpha$.
+\end{corollary}
+
+\begin{proof}
+Apply
+\autoref{thm:innovation-input-mirror-word-reflects-correlations} and use
+$\sigma v=v$.
+\end{proof}
+
+\section{Mirror-Odd Hermitian Defects}
+\label{sec:innovation-input-mirror-odd-hermitian-defects}
+
+\begin{definition}[Pairwise Hermitian defect]
+\label{def:innovation-input-pairwise-hermitian-defect}
+For future balanced blocks $\alpha$ and $\beta$, define
+$$
+H_{\alpha,\beta}(v)
+:=
+\Gamma_v(\beta-\theta\alpha)
+-
+\Gamma_v(\theta\beta-\alpha).
+$$
+The anchored three-link Hermitian condition is the vanishing of these
+defects for the block pairs in $\mathcal B_3$ of
+\autoref{def:innovation-input-anchored-three-link-neutral-window}.
+\end{definition}
+
+\begin{theorem}[Hermitian defects are mirror-odd]
+\label{thm:innovation-input-hermitian-defects-mirror-odd}
+For future balanced blocks $\alpha$ and $\beta$,
+$$
+H_{\alpha,\beta}(\sigma v)=-H_{\alpha,\beta}(v).
+$$
+\end{theorem}
+
+\begin{proof}
+By
+\autoref{thm:innovation-input-mirror-word-reflects-correlations},
+$$
+H_{\alpha,\beta}(\sigma v)
+=
+\Gamma_v(\theta(\beta-\theta\alpha))
+-
+\Gamma_v(\theta(\theta\beta-\alpha)).
+$$
+The reflected blocks are
+$$
+\theta(\beta-\theta\alpha)=\theta\beta-\alpha
+$$
+and
+$$
+\theta(\theta\beta-\alpha)=\beta-\theta\alpha.
+$$
+Therefore
+$$
+H_{\alpha,\beta}(\sigma v)
+=
+\Gamma_v(\theta\beta-\alpha)
+-
+\Gamma_v(\beta-\theta\alpha)
+=
+-H_{\alpha,\beta}(v).
+$$
+\end{proof}
+
+\begin{corollary}[Hermitian defects vanish on the palindromic locus]
+\label{cor:innovation-input-hermitian-defects-vanish-palindromic}
+If $v\in\mathcal P_5$, then
+$$
+H_{\alpha,\beta}(v)=0
+$$
+for all future balanced $\alpha,\beta$.
+\end{corollary}
+
+\begin{proof}
+For a palindromic word, $\sigma v=v$. Hence
+$$
+H_{\alpha,\beta}(v)
+=
+H_{\alpha,\beta}(\sigma v)
+=
+-H_{\alpha,\beta}(v),
+$$
+so $H_{\alpha,\beta}(v)=0$.
+\end{proof}
+
+\section{Palindromic Ideal}
+\label{sec:innovation-input-palindromic-ideal}
+
+\begin{definition}[Palindromic Laurent ideal]
+\label{def:innovation-input-palindromic-laurent-ideal}
+Let
+$$
+\mathcal L_5
+:=
+\mathbb C[v_0^{\pm1},v_1^{\pm1},v_2^{\pm1},v_3^{\pm1},v_4^{\pm1}]
+$$
+and define
+$$
+I_{\mathrm{pal}}
+:=
+(v_0-v_4,\ v_1-v_3)
+\subset\mathcal L_5.
+$$
+\end{definition}
+
+\begin{proposition}[The palindromic ideal is prime]
+\label{prop:innovation-input-palindromic-ideal-prime}
+The ideal $I_{\mathrm{pal}}$ is prime.
+\end{proposition}
+
+\begin{proof}
+The quotient is
+$$
+\mathcal L_5/I_{\mathrm{pal}}
+\cong
+\mathbb C[v_0^{\pm1},v_1^{\pm1},v_2^{\pm1}],
+$$
+where $v_4$ is identified with $v_0$ and $v_3$ with $v_1$. This quotient
+is a Laurent polynomial domain, so $I_{\mathrm{pal}}$ is prime.
+\end{proof}
+
+\begin{theorem}[Cleared Hermitian defects lie in the palindromic ideal]
+\label{thm:innovation-input-cleared-hermitian-defects-palindromic-ideal}
+Let $H_{\alpha,\beta}(v)$ be a pairwise Hermitian defect whose
+correlations are computed by a finite carry-closure linear system, and let
+$$
+\Delta_{\alpha,\beta}(v)
+$$
+be a common determinant denominator for that system. Then
+$$
+\Delta_{\alpha,\beta}(v)H_{\alpha,\beta}(v)\in I_{\mathrm{pal}}.
+$$
+Equivalently, there are Laurent polynomials
+$A_{\alpha,\beta}(v)$ and $B_{\alpha,\beta}(v)$ such that
+$$
+\Delta_{\alpha,\beta}(v)H_{\alpha,\beta}(v)
+=
+A_{\alpha,\beta}(v)(v_0-v_4)
++
+B_{\alpha,\beta}(v)(v_1-v_3).
+$$
+\end{theorem}
+
+\begin{proof}
+By the finite carry-closure evaluator of
+\autoref{prop:innovation-input-finite-window-correlation-linear-system},
+the correlations in $H_{\alpha,\beta}$ are rational Laurent functions of
+$v_0,\ldots,v_4$. Multiplying by a common determinant denominator gives a
+Laurent polynomial
+$$
+F_{\alpha,\beta}(v)
+:=
+\Delta_{\alpha,\beta}(v)H_{\alpha,\beta}(v).
+$$
+By
+\autoref{cor:innovation-input-hermitian-defects-vanish-palindromic},
+this polynomial vanishes after the substitutions $v_4=v_0$ and
+$v_3=v_1$. In the Laurent polynomial quotient by $I_{\mathrm{pal}}$, that
+means the class of $F_{\alpha,\beta}$ is zero. Hence
+$F_{\alpha,\beta}\in I_{\mathrm{pal}}$, which is the displayed
+decomposition.
+\end{proof}
+
+\begin{corollary}[Basic three-link defects have nonpalindromic factors]
+\label{cor:innovation-input-basic-defects-nonpalindromic-factors}
+The defects
+$$
+H_{12,13},
+\qquad
+H_{12,23},
+\qquad
+H_{13,23}
+$$
+of
+\autoref{def:innovation-input-basic-cross-entry-defects} admit
+decompositions of the form
+$$
+H_i(v)
+=
+A_i(v)(v_0-v_4)+B_i(v)(v_1-v_3)
+$$
+on every chart where the corresponding carry-closure determinant
+denominator is nonzero.
+\end{corollary}
+
+\begin{proof}
+Apply
+\autoref{thm:innovation-input-cleared-hermitian-defects-palindromic-ideal}
+to the three defects and divide by the nonzero determinant denominator on
+the chart under consideration.
+\end{proof}
+
+\section{Rank Form of the Remaining Problem}
+\label{sec:innovation-input-rank-form-remaining-problem}
+
+\begin{definition}[Hermitian coefficient matrix]
+\label{def:innovation-input-hermitian-coefficient-matrix}
+Choose finite Hermitian defects $H_1,\ldots,H_m$ and write, on a common
+nonzero-denominator chart,
+$$
+H_\ell(v)
+=
+A_\ell(v)(v_0-v_4)+B_\ell(v)(v_1-v_3).
+$$
+Define
+$$
+K(v):=
+\begin{pmatrix}
+A_1(v)&B_1(v)\\
+\vdots&\vdots\\
+A_m(v)&B_m(v)
+\end{pmatrix}
+$$
+and
+$$
+R(v):=
+\begin{pmatrix}
+v_0-v_4\\
+v_1-v_3
+\end{pmatrix}.
+$$
+\end{definition}
+
+\begin{theorem}[Nonpalindromic Hermitian points force rank drop]
+\label{thm:innovation-input-nonpalindromic-hermitian-rank-drop}
+If a point on the chosen chart satisfies the selected Hermitian equations
+and is nonpalindromic, then
+$$
+\operatorname{rank}K(v)\le1.
+$$
+\end{theorem}
+
+\begin{proof}
+The selected Hermitian equations are
+$$
+K(v)R(v)=0.
+$$
+If the point is nonpalindromic, then $R(v)\ne0$. Hence $K(v)$ has a
+nonzero kernel vector. Since it has two columns, its rank is at most $1$.
+\end{proof}
+
+\begin{corollary}[Minor test for Hermitian rigidity]
+\label{cor:innovation-input-minor-test-hermitian-rigidity}
+If two selected Hermitian defects give a $2\times2$ minor
+$$
+J_{ij}(v):=A_i(v)B_j(v)-A_j(v)B_i(v)
+$$
+that is nonzero on $\mathcal Q_5$ in the relevant nonzero-denominator
+chart, then no nonpalindromic point of that chart satisfies the selected
+Hermitian equations.
+\end{corollary}
+
+\begin{proof}
+If such a point existed, the rank-drop theorem would force every
+$2\times2$ minor of $K(v)$ to vanish. This contradicts
+$J_{ij}(v)\ne0$.
+\end{proof}
+
+\begin{principle}[Mirror decomposition of the main line]
+\label{prin:innovation-input-mirror-decomposition-main-line}
+The pentary main line has a two-stage algebraic form. Q3 permits
+mirror-antisymmetric phase twists because it sees only the symmetric
+phase sum. Hermitian reflection symmetry makes the defect functions odd
+under the mirror, forcing their cleared carry-closure forms into
+$I_{\mathrm{pal}}$. Thus a nonpalindromic Hermitian row can exist only at
+a rank-drop point of the Hermitian coefficient matrix.
+\end{principle}

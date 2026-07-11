@@ -1,0 +1,209 @@
+\chapter{Probability Amplitude Unit Geometry}
+\label{ch:visions-rh-probability-amplitude-unit-geometry}
+\origin{ai}
+
+\autoref{ch:visions-rh-layered-prime-probability-sieve} treats each
+classifier layer as a finite probability space.  The present chapter
+records the geometric reason that such probability layers belong to the
+same BEDC triangle discipline as the prime-distribution curves: a
+probability law is the squared norm readout of a normalized amplitude.
+Consequently every sieve event is an orthogonal projection, and every
+discarded probability mass is a ledger row.
+
+\section{Amplitude Readout}
+\label{sec:rh-probability-amplitude-readout}
+
+\begin{definition}[Finite probability amplitude]
+\label{def:rh-finite-probability-amplitude}
+Let $(G,\mu)$ be a finite probability space with $\mu(a)>0$ for every
+$a\in G$.  If $\nu$ is another probability distribution on $G$ with
+$\nu\ll\mu$, write
+$$
+r(a):=\frac{d\nu}{d\mu}(a).
+$$
+A probability amplitude for $\nu$ over $\mu$ is a function
+$$
+\psi(a)=\sqrt{r(a)}e^{i\theta(a)}
+$$
+in $L^2(G,\mu)$.  It satisfies
+$$
+\|\psi\|_{L^2(\mu)}^2
+=
+\sum_{a\in G}|\psi(a)|^2\mu(a)
+=
+\sum_{a\in G}r(a)\mu(a)
+=
+1.
+$$
+\end{definition}
+
+\begin{principle}[Probability is squared amplitude readout]
+\label{prin:rh-probability-squared-amplitude-readout}
+The probability coordinates of a finite layer are not merely linear
+weights.  They are the squared-norm readout of a unit vector in a finite
+Hilbert space:
+$$
+\nu(a)=|\psi(a)|^2\mu(a),
+\qquad
+\|\psi\|^2=1.
+$$
+Thus the probability simplex has a unit-sphere lift.  The phases are
+invisible to the probability law but remain legal amplitude coordinates
+for later Fourier, character, or Frobenius readouts.
+\end{principle}
+
+\begin{corollary}[Binary probability is a unit-circle readout]
+\label{cor:rh-binary-probability-unit-circle-readout}
+For a two-type probability law $(p,1-p)$, there is
+$\theta\in[0,\pi/2]$ such that
+$$
+p=\cos^2\theta,
+\qquad
+1-p=\sin^2\theta.
+$$
+Hence
+$$
+p+(1-p)=\cos^2\theta+\sin^2\theta=1.
+$$
+With phases, the lifted amplitude is
+$$
+\psi=(e^{i\alpha}\cos\theta,e^{i\beta}\sin\theta),
+$$
+a unit vector in $\mathbb C^2$.
+\end{corollary}
+
+\begin{proof}
+Take $\theta=\arccos\sqrt p$.  The displayed identities follow from
+the Pythagorean identity.
+\end{proof}
+
+\section{Event Projection}
+\label{sec:rh-probability-event-projection}
+
+\begin{definition}[Event projection]
+\label{def:rh-probability-event-projection}
+For an event $E\subseteq G$, define
+$$
+P_E\psi:=\mathbf 1_E\psi,
+\qquad
+P_{E^c}\psi:=\mathbf 1_{E^c}\psi.
+$$
+These are the pass and excluded components of the amplitude at the
+event boundary.
+\end{definition}
+
+\begin{theorem}[Event projection Pythagorean law]
+\label{thm:rh-event-projection-pythagorean-law}
+For every finite probability amplitude $\psi$ and event $E\subseteq G$,
+$$
+\psi=P_E\psi+P_{E^c}\psi,
+\qquad
+P_E\psi\perp P_{E^c}\psi,
+$$
+and therefore
+$$
+\|\psi\|^2
+=
+\|P_E\psi\|^2+\|P_{E^c}\psi\|^2.
+$$
+In particular, if $\|\psi\|=1$, then
+$$
+1=\nu(E)+\nu(E^c).
+$$
+\end{theorem}
+
+\begin{proof}
+The supports of $\mathbf 1_E$ and $\mathbf 1_{E^c}$ are disjoint, so
+$$
+\langle P_E\psi,P_{E^c}\psi\rangle
+=
+\sum_{a\in G}
+\mathbf 1_E(a)\mathbf 1_{E^c}(a)|\psi(a)|^2\mu(a)
+=
+0.
+$$
+The norm identity is the Hilbert-space Pythagorean theorem.  Since
+$$
+\|P_E\psi\|^2=\nu(E),
+\qquad
+\|P_{E^c}\psi\|^2=\nu(E^c),
+$$
+the final identity follows.
+\end{proof}
+
+\begin{corollary}[Sieve events are orthogonal triangle splits]
+\label{cor:rh-sieve-events-orthogonal-triangle-splits}
+At a layer of $\mathsf{LayeredPrimeProbabilitySieve}$, selecting
+$E_m\subseteq G_m$ gives the orthogonal split
+$$
+1
+=
+\|P_{E_m}\psi_m\|^2+\|P_{E_m^c}\psi_m\|^2.
+$$
+Thus every probability sieve event is a triangle split in the amplitude
+space of that layer.
+\end{corollary}
+
+\section{Ledger Consequence}
+\label{sec:rh-probability-ledger-consequence}
+
+\begin{definition}[Renormalized pass amplitude]
+\label{def:rh-renormalized-pass-amplitude}
+If $\|P_E\psi\|>0$, the renormalized pass amplitude is
+$$
+\psi_E:=\frac{P_E\psi}{\|P_E\psi\|}.
+$$
+The excluded probability mass is
+$$
+\|P_{E^c}\psi\|^2=1-\nu(E).
+$$
+\end{definition}
+
+\begin{theorem}[Discarded probability mass is ledger data]
+\label{thm:rh-discarded-probability-mass-ledger-data}
+If a layer keeps only the renormalized pass amplitude $\psi_E$, then
+the excluded mass
+$$
+\|P_{E^c}\psi\|^2
+$$
+must be recorded as the excluded-mass coordinate of
+\autoref{def:rh-sieve-ledger-row}.  Otherwise the operation is not a
+BEDC legal projection.
+\end{theorem}
+
+\begin{proof}
+The full amplitude decomposes orthogonally into pass and excluded
+components.  Replacing $\psi$ by $\psi_E$ erases the excluded component
+unless its squared norm is recorded.  BEDC projection operations cannot
+discard generated coordinates without a ledger row; hence the excluded
+mass must be stored in the sieve ledger.
+\end{proof}
+
+\begin{principle}[Probability has the BEDC triangle properties]
+\label{prin:rh-probability-bedc-triangle-properties}
+Finite probability layers have the three BEDC triangle properties.
+They are unitary because their amplitudes have norm one; they are
+orthogonal because event partitions are Hilbert projections; and they
+are ledger-bound because renormalization after a sieve event exposes an
+excluded squared-norm component.  Probability is therefore a unit-sphere
+readout, not an unstructured scalar bookkeeping device.
+\end{principle}
+
+\begin{theorem}[Amplitude geometry supports cofinal sieve dissipation]
+\label{thm:rh-amplitude-geometry-supports-cofinal-sieve-dissipation}
+The detected-subspace projections used in
+\autoref{def:rh-detected-subspace-residual-update} are the residual
+counterparts of event projections in finite probability amplitude
+space.  Consequently the energy descent theorem
+\autoref{thm:rh-layer-sieve-energy-descent} is a direct application of
+the same Pythagorean law that governs probability events.
+\end{theorem}
+
+\begin{proof}
+Both constructions are orthogonal projection decompositions in a finite
+Hilbert space.  For events, the projection is multiplication by
+$\mathbf 1_E$.  For residuals, it is the orthogonal projection onto the
+detected subspace $W_m$.  In each case, the squared norm splits into the
+detected component plus its orthogonal complement.  The residual energy
+descent is therefore the iterative form of the event Pythagorean law.
+\end{proof}

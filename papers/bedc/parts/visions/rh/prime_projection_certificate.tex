@@ -1,0 +1,330 @@
+\chapter{Prime Projection Certificate}
+\label{ch:visions-rh-prime-projection-certificate}
+\origin{ai}
+
+\autoref{def:rh-prime-projection-cert} names the bridge from a fixed
+off-line spectral packet to a finite prime-power residual.  This
+chapter expands that bridge into a fixed-window certificate.  The
+argument has three parts: a nonzero differential readout is paired with
+a compact test row, the differential classifier is moved onto the test
+row by transposition, and the compact Chebyshev expansion leaves a
+finite prime-power row after the displayed main and correction
+functionals are killed.
+
+\section{Test-Row Projection}
+\label{sec:rh-prime-projection-test-row-projection}
+
+\begin{definition}[Fixed-window residual functional]
+\label{def:rh-fixed-window-residual-functional}
+Let $\Psi$ be a normalized prime-distribution curve, let $I\subset\mathbb R$
+be a compact interval, and let $P_\pm$ be a mirror-odd differential
+classifier.  The fixed-window residual functional is
+$$
+\mathcal F_{P_\pm,I}(g)
+:=
+\langle P_\pm(D)\Psi,g\rangle_I
+$$
+for test rows $g\in C_c^\infty(I)$.
+\end{definition}
+
+\begin{lemma}[Fixed-window test separation]
+\label{lem:rh-fixed-window-test-separation}
+Assume
+$$
+\inf_{u\in I}|P_\pm(D)\Psi(u)|>0.
+$$
+Then there exists $g\in C_c^\infty(I)$ such that
+$$
+\mathcal F_{P_\pm,I}(g)\ne0.
+$$
+\end{lemma}
+
+\begin{proof}
+If $\mathcal F_{P_\pm,I}$ vanished on every test row, then
+$P_\pm(D)\Psi$ would be the zero distribution on the interior of $I$.
+This contradicts the displayed positive lower bound.  Hence some
+compactly supported test row has nonzero pairing.
+\end{proof}
+
+\begin{lemma}[Differential classifier transposition]
+\label{lem:rh-differential-classifier-transposition}
+Let $P_\pm$ be a polynomial and let $g\in C_c^\infty(I)$.  Define
+$$
+h:=P_\pm(-D)g.
+$$
+Then $h\in C_c^\infty(I)$ and
+$$
+\langle P_\pm(D)\Psi,g\rangle_I
+=
+\langle \Psi,h\rangle_I.
+$$
+\end{lemma}
+
+\begin{proof}
+Compact support removes boundary terms.  Each monomial $D^m$ moves
+from $\Psi$ to $g$ with the sign $(-1)^m$ under integration by parts.
+Linearity over the polynomial $P_\pm$ gives the displayed identity, and
+differentiating a compactly supported smooth test row preserves compact
+support in $I$.
+\end{proof}
+
+\begin{theorem}[Dominance supplies a compact nonzero prime-distribution test]
+\label{thm:rh-dominance-supplies-compact-nonzero-test}
+If an off-critical mirror pair has a fixed window dominance certificate,
+then there exists $h\in C_c^\infty(I)$ such that
+$$
+\langle\Psi,h\rangle_I\ne0.
+$$
+\end{theorem}
+
+\begin{proof}
+By
+\autoref{thm:rh-dominance-certificate-audited-radial-readout}, the full
+curve has a nonzero classifier readout on the fixed interval.  Apply
+\autoref{lem:rh-fixed-window-test-separation} to choose $g$ with
+nonzero pairing against $P_\pm(D)\Psi$.  Then apply
+\autoref{lem:rh-differential-classifier-transposition} and set
+$h=P_\pm(-D)g$.
+\end{proof}
+
+\section{Main and Correction Null Rows}
+\label{sec:rh-prime-projection-main-correction-null-rows}
+
+\begin{definition}[Chebyshev main functional]
+\label{def:rh-chebyshev-main-functional}
+For $h\in C_c^\infty([A,B])$, define the Chebyshev main functional by
+$$
+M(h):=\int_A^B h(u)e^{u/2}\,du.
+$$
+\end{definition}
+
+\begin{definition}[MainArchNullCert]
+\label{def:rh-main-arch-null-cert}
+For a fixed-window residual functional $\mathcal F_{P_\pm,I}$, the
+certificate
+$$
+\mathsf{MainArchNullCert}(P_\pm,I)
+$$
+asserts that there are finitely many displayed correction functionals
+$$
+C_1,\ldots,C_N:C_c^\infty(I)\to\mathbb C
+$$
+containing the main row and the archimedean, trivial-zero, and pole
+rows relevant to the chosen explicit-formula ledger, and that the
+prime-distribution functional
+$$
+h\longmapsto\langle\Psi,h\rangle_I
+$$
+does not belong to their linear span on the admissible compact test
+space.
+\end{definition}
+
+\begin{lemma}[Finite-constraint separation]
+\label{lem:rh-finite-constraint-separation}
+Let $V$ be a complex vector space, let $F:V\to\mathbb C$ be a linear
+functional, and let $L_1,\ldots,L_N:V\to\mathbb C$ be linear
+functionals.  If
+$$
+F\notin\operatorname{span}(L_1,\ldots,L_N),
+$$
+then there exists $v\in V$ such that
+$$
+L_j(v)=0
+\qquad
+(1\le j\le N)
+$$
+and
+$$
+F(v)\ne0.
+$$
+\end{lemma}
+
+\begin{proof}
+Let
+$$
+K:=\bigcap_{j=1}^{N}\ker L_j.
+$$
+If $F$ vanished on $K$, then $F$ would factor through the finite
+quotient determined by the map
+$$
+v\longmapsto (L_1(v),\ldots,L_N(v)).
+$$
+Hence $F$ would be a linear combination of the $L_j$, contrary to the
+hypothesis.  Therefore $F$ is nonzero on $K$, giving the required
+vector $v$.
+\end{proof}
+
+\begin{theorem}[MainArchNullCert gives a nonzero null-corrected test]
+\label{thm:rh-main-arch-null-cert-gives-nonzero-test}
+Assume $\mathsf{MainArchNullCert}(P_\pm,I)$ and suppose the
+fixed-window dominance certificate supplies a nonzero compact
+prime-distribution test row as in
+\autoref{thm:rh-dominance-supplies-compact-nonzero-test}.  Then there
+exists $h\in C_c^\infty(I)$ such that
+$$
+\langle\Psi,h\rangle_I\ne0
+$$
+and every displayed main, archimedean, trivial-zero, and pole
+correction functional in the certificate vanishes on $h$.
+\end{theorem}
+
+\begin{proof}
+Use \autoref{lem:rh-finite-constraint-separation} on the admissible
+compact test space with
+$$
+F(h)=\langle\Psi,h\rangle_I
+$$
+and with $L_1,\ldots,L_N$ equal to the displayed correction
+functionals of \autoref{def:rh-main-arch-null-cert}.  The nonspan row in
+that definition is exactly the hypothesis needed by the separation
+lemma.
+\end{proof}
+
+\section{Finite Prime Projection}
+\label{sec:rh-prime-projection-finite-prime-projection}
+
+\begin{definition}[Compact Chebyshev prime projection]
+\label{def:rh-compact-chebyshev-prime-projection}
+Let
+$$
+\Psi(u)=e^{-u/2}\bigl(\psi(e^u)-e^u\bigr)
+$$
+and let $h\in C_c^\infty([A,B])$.  The compact Chebyshev prime
+projection is the finite expansion
+$$
+\langle\Psi,h\rangle
+=
+\sum_{p^k\le e^B}c_{p,k}(h)-M(h),
+$$
+where
+$$
+c_{p,k}(h)
+:=
+\log p
+\int_{\max(A,\log p^k)}^{B}h(u)e^{-u/2}\,du
+$$
+and $M(h)$ is the functional of
+\autoref{def:rh-chebyshev-main-functional}.
+\end{definition}
+
+\begin{lemma}[Compact support makes the prime side finite]
+\label{lem:rh-compact-support-prime-side-finite}
+For $h\in C_c^\infty([A,B])$, the prime side of
+\autoref{def:rh-compact-chebyshev-prime-projection} is supported on
+the finite set
+$$
+S_B:=\{p^k:p^k\le e^B\}.
+$$
+\end{lemma}
+
+\begin{proof}
+The Chebyshev row
+$$
+\psi(e^u)=\sum_{p^k\le e^u}\log p
+$$
+contains no prime power larger than $e^B$ on the interval $[A,B]$.
+There are only finitely many prime powers bounded by $e^B$, so the
+displayed support is finite.
+\end{proof}
+
+\begin{theorem}[Null-corrected compact test gives finite prime residual]
+\label{thm:rh-null-corrected-compact-test-finite-prime-residual}
+Let $h\in C_c^\infty([A,B])$ satisfy
+$$
+\langle\Psi,h\rangle\ne0
+$$
+and
+$$
+M(h)=0.
+$$
+Then
+$$
+R_S(h):=\sum_{q\in S_B}c_q(h)[q]
+$$
+is a nonzero finite prime-power residual.
+\end{theorem}
+
+\begin{proof}
+By
+\autoref{def:rh-compact-chebyshev-prime-projection}, the main-null
+condition gives
+$$
+\langle\Psi,h\rangle
+=
+\sum_{p^k\le e^B}c_{p,k}(h).
+$$
+The left side is nonzero, so the finite prime-power sum is nonzero.
+By
+\autoref{lem:rh-compact-support-prime-side-finite}, its support is
+finite.
+\end{proof}
+
+\begin{theorem}[MainArchNullCert realizes PrimeProjectionCert]
+\label{thm:rh-main-arch-null-cert-realizes-prime-projection-cert}
+Assume an off-critical mirror pair has a fixed window dominance
+certificate and assume
+$$
+\mathsf{MainArchNullCert}(P_\pm,I)
+$$
+for its mirror-odd classifier and fixed interval.  Then
+$$
+\mathsf{PrimeProjectionCert}(\rho_+,\rho_-)
+$$
+holds in the sense of \autoref{def:rh-prime-projection-cert}.
+\end{theorem}
+
+\begin{proof}
+The fixed-window dominance certificate supplies a compact test row with
+nonzero prime-distribution pairing by
+\autoref{thm:rh-dominance-supplies-compact-nonzero-test}.  The
+main-arch-null certificate refines the choice, through
+\autoref{thm:rh-main-arch-null-cert-gives-nonzero-test}, so that the
+main and displayed correction functionals vanish while the
+prime-distribution pairing remains nonzero.  Applying
+\autoref{thm:rh-null-corrected-compact-test-finite-prime-residual}
+produces a nonzero finite prime-power residual.  This is exactly the
+compact explicit-formula projection required by
+\autoref{def:rh-prime-projection-cert}.
+\end{proof}
+
+\section{Detection Interface}
+\label{sec:rh-prime-projection-detection-interface}
+
+\begin{theorem}[PrimeProjectionCert supplies a prime-generated detector]
+\label{thm:rh-prime-projection-cert-supplies-prime-generated-detector}
+Assume
+$$
+\mathsf{PrimeProjectionCert}(\rho_+,\rho_-)
+$$
+and $\mathsf{PrimeGeneratedRecursiveSieve}$.  Then the finite residual
+produced by the projection certificate is detected by some local sieve
+generated by a prime.
+\end{theorem}
+
+\begin{proof}
+Unpack \autoref{def:rh-prime-projection-cert}.  It supplies a nonzero
+finite prime-power residual
+$$
+R_S(g)=\sum_{q\in S}c_q(g)[q].
+$$
+Apply
+\autoref{thm:rh-finite-residual-enters-prime-generated-sieve}.  The
+resulting prime and character give the required local
+prime-generated detector.
+\end{proof}
+
+\begin{principle}[Prime projection audit boundary]
+\label{prin:rh-prime-projection-audit-boundary}
+The finite arithmetic side of
+$$
+\mathsf{PrimeProjectionCert}
+$$
+is closed by compact support and character orthogonality.  The analytic
+content is the nonspan row of
+$$
+\mathsf{MainArchNullCert}(P_\pm,I),
+$$
+which asserts that the fixed-window radial readout is not a linear
+combination of the main, archimedean, trivial-zero, and pole correction
+rows on the admissible compact test space.
+\end{principle}

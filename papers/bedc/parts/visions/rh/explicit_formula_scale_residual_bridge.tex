@@ -1,0 +1,426 @@
+\chapter{Explicit Formula Scale Residual Bridge}
+\label{ch:visions-rh-explicit-formula-scale-residual-bridge}
+\origin{ai}
+
+\autoref{ch:visions-rh-smooth-prime-classifier-tower} reduces the
+scale-to-classifier problem to an explicit-formula bridge: a nonzero
+radial zero-packet coordinate must leave a finite prime-side residual.
+The present chapter records that bridge as a test-function obligation.
+It separates the formal part, where finite prime residuals are detected
+by Dirichlet characters, from the analytic part, where a compactly
+supported test row must isolate an off-critical zero orbit while
+accounting for archimedean, trivial-zero, and pole correction rows.
+
+\section{Compact Test Rows}
+\label{sec:rh-explicit-formula-compact-test-rows}
+
+\begin{definition}[Compact explicit-formula test row]
+\label{def:rh-compact-explicit-formula-test-row}
+An admissible compact explicit-formula test row is a function
+$$
+g\in C_c^\infty(-A,A)
+$$
+for some $A>0$, together with the Laplace--Fourier readout
+$$
+\widehat g(s)
+:=
+\int_{-A}^{A}g(x)e^{(s-\frac12)x}\,dx.
+$$
+The row is admissible when $\widehat g$ is entire and has the vertical
+decay required by the zeta explicit formula.  Its compact support makes
+the prime-power side finite:
+$$
+\operatorname{PrimeSide}(g)
+=
+\sum_{p^k\le e^A}c_{p,k}(g).
+$$
+\end{definition}
+
+\begin{definition}[Abstract explicit-formula ledger]
+\label{def:rh-abstract-explicit-formula-ledger}
+For an admissible compact test row $g$, the abstract explicit-formula
+ledger is the identity
+$$
+\mathcal Z(g)=\mathcal P(g)+\mathcal A(g),
+$$
+where
+$$
+\mathcal Z(g)=\sum_{\rho}\widehat g(\rho)
+$$
+is the completed nontrivial-zero ledger,
+$$
+\mathcal P(g)=\sum_{p,k}c_{p,k}(g)
+$$
+is the prime-power ledger, and $\mathcal A(g)$ contains the
+archimedean, trivial-zero, and pole correction rows.  For compact
+support the sum defining $\mathcal P(g)$ is the finite sum over
+$p^k\le e^A$.
+\end{definition}
+
+\begin{lemma}[Finite exponential moment interpolation]
+\label{lem:rh-finite-exponential-moment-interpolation}
+Let $\lambda_1,\ldots,\lambda_N$ be pairwise distinct complex numbers,
+and let $a_1,\ldots,a_N\in\ComplexUp$.  For every $A>0$ there exists
+$$
+g\in C_c^\infty(-A,A)
+$$
+such that
+$$
+\int_{-A}^{A}g(x)e^{\lambda_j x}\,dx=a_j
+\qquad
+(1\le j\le N).
+$$
+\end{lemma}
+
+\begin{proof}
+Consider the linear map
+$$
+T:C_c^\infty(-A,A)\to{\ComplexUp}^N
+$$
+given by
+$$
+T(g)=
+\left(
+\int g(x)e^{\lambda_1x}\,dx,\ldots,
+\int g(x)e^{\lambda_Nx}\,dx
+\right).
+$$
+If $T$ were not onto, some nonzero vector
+$(c_1,\ldots,c_N)$ would annihilate its image.  Then
+$$
+\int g(x)\left(\sum_{j=1}^{N}c_je^{\lambda_jx}\right)\,dx=0
+$$
+for all $g\in C_c^\infty(-A,A)$.  Test-function separation gives
+$$
+\sum_{j=1}^{N}c_je^{\lambda_jx}=0
+$$
+on $(-A,A)$.  Distinct exponentials are linearly independent on an
+interval, so every $c_j$ is zero, a contradiction.  Thus $T$ is onto.
+\end{proof}
+
+\begin{corollary}[Finite zero readout interpolation]
+\label{cor:rh-finite-zero-readout-interpolation}
+Let $F=\{\rho_1,\ldots,\rho_N\}$ be a finite set of distinct zero
+positions and let $a_1,\ldots,a_N\in\ComplexUp$.  For every $A>0$ there
+is $g\in C_c^\infty(-A,A)$ such that
+$$
+\widehat g(\rho_j)=a_j
+\qquad
+(1\le j\le N).
+$$
+\end{corollary}
+
+\begin{proof}
+Apply \autoref{lem:rh-finite-exponential-moment-interpolation} to
+$$
+\lambda_j=\rho_j-\frac12.
+$$
+\end{proof}
+
+\section{Zero-Orbit Isolation}
+\label{sec:rh-explicit-formula-zero-orbit-isolation}
+
+\begin{definition}[Off-critical zero orbit]
+\label{def:rh-off-critical-zero-orbit}
+For an off-critical zero
+$$
+\rho_0=\frac12+r+i\gamma,
+\qquad
+r\ne0,
+$$
+the symmetry orbit is
+$$
+\mathcal O(\rho_0)
+=
+\{\rho_0,\overline{\rho_0},1-\rho_0,1-\overline{\rho_0}\},
+$$
+read with the multiplicity convention of the completed zeta zero ledger.
+\end{definition}
+
+\begin{lemma}[Finite orbit isolation]
+\label{lem:rh-finite-orbit-isolation}
+Let $F$ be a finite zero-position set containing
+$\mathcal O(\rho_0)$.  For every $A>0$ there is
+$g\in C_c^\infty(-A,A)$ such that
+$$
+\widehat g(\rho)=1
+\qquad
+(\rho\in\mathcal O(\rho_0))
+$$
+and
+$$
+\widehat g(\rho)=0
+\qquad
+(\rho\in F\setminus\mathcal O(\rho_0)).
+$$
+\end{lemma}
+
+\begin{proof}
+Use \autoref{cor:rh-finite-zero-readout-interpolation} with the displayed
+values on the finite set $F$.
+\end{proof}
+
+\begin{definition}[ArchNullZeroIsolation]
+\label{def:rh-arch-null-zero-isolation}
+The obligation
+$$
+\mathsf{ArchNullZeroIsolation}
+$$
+asserts that for every off-critical zero orbit
+$\mathcal O(\rho_0)$ there exists an admissible compact test row $g$ such
+that
+$$
+\mathcal A(g)=0
+$$
+and
+$$
+\mathcal Z(g)\ne0.
+$$
+Equivalently, the test row isolates a nonzero zero-side contribution
+while the archimedean, trivial-zero, and pole correction rows are null.
+\end{definition}
+
+\begin{principle}[Analytic content of arch-null isolation]
+\label{prin:rh-analytic-content-of-arch-null-isolation}
+The finite interpolation lemmas only control finitely many zero readouts.
+The analytic content of $\mathsf{ArchNullZeroIsolation}$ is the stronger
+claim that the same test row can be chosen with vertical tail control and
+with $\mathcal A(g)=0$.  This is a function-space separation problem:
+finite zero-orbit evaluation is a point-evaluation functional, while
+$\mathcal A$ is the fixed correction functional from the explicit
+formula.  The obligation asserts that these rows do not collapse into a
+single one-dimensional correction direction on the admissible compact
+test space.
+\end{principle}
+
+\section{Finite Prime Residual}
+\label{sec:rh-explicit-formula-finite-prime-residual}
+
+\begin{theorem}[ExplicitFormulaScaleResidual from arch-null isolation]
+\label{thm:rh-explicit-formula-scale-residual-from-arch-null-isolation}
+Assume the abstract explicit-formula ledger of
+\autoref{def:rh-abstract-explicit-formula-ledger} and
+$\mathsf{ArchNullZeroIsolation}$.  If $\rho_0$ is off the critical line,
+then there is a nonzero finite explicit-formula prime residual
+$$
+R_S(g)=\sum_{q\in S}c_q(g)[q].
+$$
+\end{theorem}
+
+\begin{proof}
+By $\mathsf{ArchNullZeroIsolation}$, choose an admissible compact test
+row $g$ with
+$$
+\mathcal A(g)=0,
+\qquad
+\mathcal Z(g)\ne0.
+$$
+The explicit-formula ledger gives
+$$
+\mathcal Z(g)=\mathcal P(g)+\mathcal A(g),
+$$
+hence
+$$
+\mathcal P(g)=\mathcal Z(g)\ne0.
+$$
+Since $g$ is supported in $[-A,A]$, the prime side is the finite
+prime-power sum over $p^k\le e^A$.  Taking $S$ to be that finite support
+gives the displayed nonzero finite prime residual.
+\end{proof}
+
+\begin{theorem}[Off-line zero produces a finite prime-classifier defect]
+\label{thm:rh-offline-zero-produces-finite-prime-classifier-defect}
+Assume the hypotheses of
+\autoref{thm:rh-explicit-formula-scale-residual-from-arch-null-isolation}
+and the finite residual separation theorem
+\autoref{thm:rh-finite-dirichlet-classifiers-separate-residuals}.  If
+$\rho_0$ is an off-critical zero, then there are a finite prime residual
+$R_S(g)$ and a finite Dirichlet classifier $\chi$ such that
+$$
+\chi(R_S(g))\ne0.
+$$
+\end{theorem}
+
+\begin{proof}
+\autoref{thm:rh-explicit-formula-scale-residual-from-arch-null-isolation}
+produces a nonzero finite prime residual.  Applying
+\autoref{thm:rh-finite-dirichlet-classifiers-separate-residuals} to that
+residual gives the displayed finite classifier.
+\end{proof}
+
+\begin{corollary}[Explicit formula bridge supplies the PFZ classifier input]
+\label{cor:rh-explicit-formula-bridge-supplies-pfz-classifier-input}
+Under $\mathsf{ArchNullZeroIsolation}$ and the explicit-formula ledger, an
+off-critical zeta zero supplies the finite prime-classifier input needed
+by \autoref{cor:rh-explicit-formula-supplies-scale-to-classifier-faithfulness}.
+\end{corollary}
+
+\begin{proof}
+The preceding theorem gives a finite prime residual with nonzero
+Dirichlet classifier readout.  This is exactly the finite
+prime-classifier footprint required by
+\autoref{cor:rh-explicit-formula-supplies-scale-to-classifier-faithfulness}.
+\end{proof}
+
+\section{Signed Prime Energy}
+\label{sec:rh-explicit-formula-signed-prime-energy}
+
+\begin{definition}[Weil mirror pairing ledger]
+\label{def:rh-weil-mirror-pairing-ledger}
+For an admissible compact test row $g$, the zero-side mirror pairing is
+the quadratic readout
+$$
+\mathcal W_Z(g)
+:=
+\sum_{\rho}\widehat g(\rho)\,
+\overline{\widehat g(1-\overline{\rho})}.
+$$
+The paired explicit-formula ledger writes
+$$
+\mathcal W_Z(g)=\mathcal W_P(g)+\mathcal W_A(g),
+$$
+where $\mathcal W_P(g)$ is the prime-side quadratic residual and
+$\mathcal W_A(g)$ is the archimedean, trivial-zero, and pole correction
+row.  This is the signed-energy form of
+\autoref{def:rh-abstract-explicit-formula-ledger}.
+\end{definition}
+
+\begin{definition}[WeilNegativeIsolator]
+\label{def:rh-weil-negative-isolator}
+The obligation
+$$
+\mathsf{WeilNegativeIsolator}
+$$
+asserts that every off-critical mirror pair of
+\autoref{def:rh-off-critical-zero-orbit} admits an admissible compact
+test row $g$ with
+$$
+\mathcal W_Z(g)<0.
+$$
+It is the compact-test version of the diagonal negative probe mechanism
+of \autoref{def:rh-diagonal-negative-probe}.
+\end{definition}
+
+\begin{definition}[ArchNullWeilIsolator]
+\label{def:rh-arch-null-weil-isolator}
+The obligation
+$$
+\mathsf{ArchNullWeilIsolator}
+$$
+asserts that the test row in $\mathsf{WeilNegativeIsolator}$ can be chosen
+with
+$$
+\mathcal W_A(g)=0.
+$$
+Thus it supplies an admissible compact test row satisfying
+$$
+\mathcal W_Z(g)<0,
+\qquad
+\mathcal W_A(g)=0.
+$$
+\end{definition}
+
+\begin{theorem}[Arch-null negative isolation gives prime-side negative energy]
+\label{thm:rh-arch-null-negative-isolation-prime-side-negative-energy}
+Assume the paired explicit-formula ledger of
+\autoref{def:rh-weil-mirror-pairing-ledger} and
+$\mathsf{ArchNullWeilIsolator}$.  If an off-critical mirror pair exists,
+then the prime-side quadratic residual has a finite negative readout:
+$$
+\mathcal W_P(g)<0
+$$
+for some admissible compact test row $g$.
+\end{theorem}
+
+\begin{proof}
+By $\mathsf{ArchNullWeilIsolator}$ choose $g$ such that
+$$
+\mathcal W_Z(g)<0,
+\qquad
+\mathcal W_A(g)=0.
+$$
+The paired explicit-formula ledger gives
+$$
+\mathcal W_Z(g)=\mathcal W_P(g)+\mathcal W_A(g).
+$$
+Hence
+$$
+\mathcal W_P(g)=\mathcal W_Z(g)<0.
+$$
+Since $g$ has compact support, this prime-side quadratic residual is
+supported on finitely many prime powers.
+\end{proof}
+
+\begin{definition}[Finite prime negative residual]
+\label{def:rh-finite-prime-negative-residual}
+A finite prime negative residual is a finite prime-power support
+$S$ together with a quadratic prime-side readout
+$$
+\mathcal W_{P,S}(g)=\sum_{q\in S}b_q(g)[q]
+$$
+such that
+$$
+\mathcal W_{P,S}(g)<0.
+$$
+It is a signed residual rather than merely a nonzero linear residual:
+the sign records a negative direction for the explicit-formula energy.
+\end{definition}
+
+\begin{corollary}[Off-line zero gives finite prime negative residual]
+\label{cor:rh-offline-zero-gives-finite-prime-negative-residual}
+Under the hypotheses of
+\autoref{thm:rh-arch-null-negative-isolation-prime-side-negative-energy},
+an off-critical zero gives a finite prime negative residual.
+\end{corollary}
+
+\begin{proof}
+The preceding theorem gives $\mathcal W_P(g)<0$.  Compact support of
+$g$ makes the prime side a finite prime-power sum, so the finite support
+of that sum is the required finite prime negative residual.
+\end{proof}
+
+\begin{theorem}[Prime negative residual gives classifier obstruction]
+\label{thm:rh-prime-negative-residual-gives-classifier-obstruction}
+Every finite prime negative residual supplies a nonzero finite
+prime-classifier residual.
+\end{theorem}
+
+\begin{proof}
+A negative finite quadratic readout is nonzero as a finite residual.
+Applying
+\autoref{thm:rh-finite-dirichlet-classifiers-separate-residuals} to its
+finite prime-power support gives a finite Dirichlet classifier with
+nonzero readout.  The sign is additional information: it records that
+the residual is a negative energy direction, not merely a nonzero
+prime-side row.
+\end{proof}
+
+\begin{principle}[Signed residuals cannot be hidden by PFZ smoothing]
+\label{prin:rh-signed-residuals-cannot-hide-by-pfz-smoothing}
+A finite prime negative residual is a finite obstruction in the sense of
+\autoref{prin:rh-pfz-finite-obstruction-not-scale-noise}.  If it is
+ledgered, it remains visible as scale or energy data and cannot be a
+gap-free unit-phase closure.  If it is unledgered, the PFZ NameCert
+surface of \autoref{def:rh-zeta-pfz-namecert-admission} is incomplete.
+The scale-obstruction bridge of
+\autoref{ch:visions-rh-prime-fiber-zoom-scale-obstruction-bridge}
+therefore treats such a residual as a persistent obstruction rather than
+as a smooth zoom artefact.
+\end{principle}
+
+\begin{corollary}[Signed explicit-formula bridge strengthens scale faithfulness]
+\label{cor:rh-signed-explicit-formula-bridge-strengthens-scale-faithfulness}
+Under $\mathsf{ArchNullWeilIsolator}$ and the paired explicit-formula
+ledger, an off-critical zero supplies the PFZ classifier input of
+\autoref{cor:rh-explicit-formula-bridge-supplies-pfz-classifier-input}
+with a signed negative-energy witness.
+\end{corollary}
+
+\begin{proof}
+\autoref{cor:rh-offline-zero-gives-finite-prime-negative-residual} gives
+the finite signed residual, and
+\autoref{thm:rh-prime-negative-residual-gives-classifier-obstruction}
+gives the finite classifier readout.  The final sign information is the
+negative-energy witness consumed by
+\autoref{prin:rh-signed-residuals-cannot-hide-by-pfz-smoothing}.
+\end{proof}

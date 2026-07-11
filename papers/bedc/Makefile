@@ -1,5 +1,6 @@
-.PHONY: all clean precheck check warn
+.PHONY: all core clean clean-core precheck check warn
 all: main.pdf
+core: main_core.pdf
 precheck: warn
 	@bash scripts/check_tex_size.sh
 	@bash scripts/check_math_env.sh
@@ -26,9 +27,13 @@ warn:
 # so parallel paper rounds don't dogpile the CPU and start timing out.
 main.pdf: precheck main.tex preamble.tex $(wildcard frontmatter/*.tex parts/**/*.tex appendices/*.tex)
 	python3 scripts/with_pdf_slot.py -- bash -c 'export pool_size=300000000 max_strings=12000000 hash_extra=4000000 string_vacancies=200000 pool_free=200000 extra_mem_bot=150000000 extra_mem_top=24000000; pdflatex -draftmode -interaction=batchmode main.tex; pdflatex -interaction=batchmode main.tex'
+main_core.pdf: main_core.tex preamble.tex $(wildcard frontmatter/*.tex parts/**/*.tex appendices/*.tex)
+	python3 scripts/with_pdf_slot.py -- bash -c 'export pool_size=300000000 max_strings=12000000 hash_extra=4000000 string_vacancies=200000 pool_free=200000 extra_mem_bot=150000000 extra_mem_top=24000000; pdflatex -draftmode -interaction=batchmode main_core.tex; pdflatex -interaction=batchmode main_core.tex'
 # Compatibility alias: `check` is `precheck`. Worker-premerge uses the
 # static gate and records full PDF verification as a deferred envelope;
 # `make` / main.pdf remains the full PDF build.
 check: precheck
+clean-core:
+	rm -f main_core.pdf main_core.log main_core.aux main_core.toc main_core.out *.bbl *.blg
 clean:
-	rm -f main.pdf main.log main.aux main.toc main.out *.bbl *.blg
+	rm -f main.pdf main.log main.aux main.toc main.out main_core.pdf main_core.log main_core.aux main_core.toc main_core.out *.bbl *.blg

@@ -1,0 +1,11 @@
+\begin{theorem}[MetaCIC residual-join seed-status record]
+\label{thm:metacic-parallel-diamond-frontier-residual-join-seed-status}
+The residual-join seed status of $\MetaCICParallelDiamondFrontierUp$ is available to a confluence-facing consumer only after the consumer has read the critical-pair envelope, candidate-normalization scope, finite residual witness, and retained-premise rows of the displayed frontier packet. Equivalently, the route passes through \autoref{thm:metacic-parallel-diamond-frontier-critical-pair-envelope}, \autoref{thm:metacic-parallel-diamond-frontier-candidate-normalization-scope}, \autoref{thm:metacic-parallel-diamond-frontier-finite-residual-witness-consumption}, and \autoref{thm:metacic-parallel-diamond-frontier-retained-premise-scope} before any confluence consumer may inspect the residual-join seed record. The record exports only this bounded seed route; it does not supply premise-free confluence, global normalization, subject reduction, evaluator equality, quotient term equality, or kernel consistency.
+\end{theorem}
+\begin{proof}
+Read the critical-pair envelope first. It keeps the frontier rows visible before any residual-join request is interpreted as a seed-status claim.
+
+Next apply the candidate-normalization scope and finite residual witness. These rows confine the candidate read and the residual read to the same finite frontier packet.
+
+Finally read the retained-premise residual-join scope. Since that row remains present until the seed record is consumed, the exported status is a bounded residual-join route rather than a detached confluence theorem.
+\end{proof}

@@ -1,0 +1,323 @@
+\section{BEDC--Langlands Compact Discrete Spectrum Core}
+\label{sec:unified-reality-bedc-langlands-compact-discrete-spectrum-core}
+
+The cleanest analytic existence setting is the compact quotient, or more
+generally a scope where the automorphic spectrum under consideration is
+purely discrete with finite multiplicities. In that setting the spectral
+side of a fixed Hecke window is an honest Hilbert direct sum, and a
+nonzero value of the finite-window projector cannot be hidden in
+continuous spectrum, Eisenstein boundary, or endoscopic transfer terms.
+
+\begin{definition}[Compact discrete automorphic Hilbert row]
+\label{def:unified-reality-compact-discrete-automorphic-hilbert-row}
+Fix a global field $F$ and a connected reductive group $G$. A compact
+discrete automorphic Hilbert row consists of a closed central-character
+scope for which
+$$
+G(F)\backslash G(\mathbb A_F)
+$$
+is compact after the declared central reduction, or else a certified
+subscope whose relevant automorphic spectrum is purely discrete. The
+Hilbert object is
+$$
+\mathcal H_{\mathrm{aut}}
+:=
+L^2_{\mathrm{disc}}\bigl(G(F)\backslash G(\mathbb A_F)\bigr),
+$$
+and, away from a finite bad set $S_0$, the unramified Hecke algebra is
+$$
+\mathcal H^{S_0}
+:=
+\bigotimes_{v\notin S_0}'\mathcal H_v(G,K_v).
+$$
+The discrete spectral decomposition on the unramified fixed-vector scope
+has the form
+$$
+\mathcal H_{\mathrm{aut}}^{K^{S_0}}
+\cong
+\widehat{\bigoplus}_{\Pi}m(\Pi)\Pi^{K^{S_0}},
+$$
+with finite multiplicities $m(\Pi)$ on the displayed scope.
+\end{definition}
+
+\begin{definition}[Compact discrete ledger]
+\label{def:unified-reality-compact-discrete-ledger}
+The compact discrete ledger records every term excluded from the clean
+Hilbert row:
+$$
+\mathsf{ContinuousSpectrum},\quad
+\mathsf{EisensteinBoundary},\quad
+\mathsf{ResidualBoundary},\quad
+\mathsf{EndoscopicTransfer},
+$$
+$$
+\mathsf{RamifiedLocalRow},\quad
+\mathsf{ArchimedeanRow},\quad
+\mathsf{NormalizationRow}.
+$$
+The compact discrete core is closed only on scopes where these rows are
+absent, separated by the test function, or explicitly carried as ledger
+obligations outside the claim.
+\end{definition}
+
+\begin{definition}[Hecke spectral fingerprint]
+\label{def:unified-reality-hecke-spectral-fingerprint}
+For a discrete automorphic packet $\Pi$ unramified outside $S_0$, its
+unramified Hecke fingerprint is
+$$
+x_{\Pi}
+:=
+\bigl(s_v(\Pi)\bigr)_{v\notin S_0}.
+$$
+For an allowed parameter packet $\phi^{\uparrow}$, its Frobenius
+fingerprint is
+$$
+x_{\phi}
+:=
+\bigl(\phi(\operatorname{Frob}_v)\bigr)_{v\notin S_0}.
+$$
+On a finite Hecke window $\mathcal W=(S,R,\mathcal B)$, write
+$x_{\Pi,\mathcal W}$ and $x_{\phi,\mathcal W}$ for the corresponding
+finite restrictions.
+\end{definition}
+
+\begin{definition}[Compact finite spectral packet]
+\label{def:unified-reality-compact-finite-spectral-packet}
+For a finite Hecke window $\mathcal W$ and a finite complexity bound
+$B$, let
+$$
+\mathsf{Aut}_{\mathcal W,B}^{\mathrm{disc}}
+=
+\{\Pi_1,\ldots,\Pi_M\}
+$$
+be the finite list of discrete automorphic packets admitted by the
+window and the bound. The bounded finiteness row records that this list
+is finite up to the closed automorphic equivalence relation.
+\end{definition}
+
+The parameter state row used below is the certificate of
+\autoref{sec:unified-reality-bedc-langlands-parameter-state-cert},
+specialized to the compact discrete window. In the unramified part it is
+evaluation at $x_{\phi,\mathcal W}$; ramified and archimedean state
+choices remain ParameterLedger rows.
+
+\begin{theorem}[Fixed-window spectral realization]
+\label{thm:unified-reality-fixed-window-spectral-realization}
+Let $f_{\phi,\mathcal W,B}$ be the finite Hecke projector supplied by
+\autoref{thm:unified-reality-finite-hecke-projector-cert} on a compact
+finite spectral packet. If
+$$
+I_{\mathrm{spec}}(f_{\phi,\mathcal W,B})\ne0
+$$
+and the compact discrete ledger rows outside the target packet are absent
+or separated, then some
+$$
+\Pi\in\mathsf{Aut}_{\mathcal W,B}^{\mathrm{disc}}
+$$
+satisfies
+$$
+x_{\Pi,\mathcal W}=x_{\phi,\mathcal W}.
+$$
+\end{theorem}
+\begin{proof}
+On the compact discrete scope the spectral side is the finite window
+sum
+$$
+I_{\mathrm{spec}}(f_{\phi,\mathcal W,B})
+=
+\sum_{i=1}^{M}
+m(\Pi_i)\operatorname{tr}\Pi_i(f_{\phi,\mathcal W,B})
++\operatorname{LedgerTerms}.
+$$
+The non-target ledger terms are absent or separated by hypothesis.
+Hence the displayed discrete packet sum is nonzero. If no
+$\Pi_i$ matched $x_{\phi,\mathcal W}$, then the projector property would
+give
+$$
+\operatorname{tr}\Pi_i(f_{\phi,\mathcal W,B})=0
+$$
+for every $i$, forcing the spectral value to vanish. This contradicts
+the nonzero spectral readout. Therefore at least one packet matches the
+parameter on the fixed window.
+\end{proof}
+
+\begin{theorem}[Parameter state and trace give fixed-window realization]
+\label{thm:unified-reality-parameter-state-trace-fixed-window}
+Assume a parameter state certificate for $\phi^{\uparrow}$ on
+$\mathcal W$, the stable trace-window equality
+$$
+I_{\mathrm{spec}}^{\mathrm{st}}(f)
+=
+I_{\mathrm{geom}}^{\mathrm{st}}(f),
+$$
+and the geometric-side identification
+$$
+I_{\mathrm{geom}}^{\mathrm{st}}(f_{\phi,\mathcal W,B})
+=
+\Theta_{\phi,\mathcal W}^{\mathrm{st}}(f_{\phi,\mathcal W,B}).
+$$
+If the compact discrete ledger rows outside the target packet are absent
+or separated, then $\phi^{\uparrow}$ has a fixed-window automorphic
+realization on $\mathcal W$.
+\end{theorem}
+\begin{proof}
+The parameter state certificate gives
+$$
+\Theta_{\phi,\mathcal W}^{\mathrm{st}}(f_{\phi,\mathcal W,B})=1,
+$$
+so the geometric side is nonzero on the projector. The stable
+trace-window equality transfers this nonzero value to the spectral
+side. The fixed-window spectral realization theorem then supplies a
+discrete automorphic packet with
+$$
+x_{\Pi,\mathcal W}=x_{\phi,\mathcal W}.
+$$
+\end{proof}
+
+\begin{definition}[Compact cofinal realization sequence]
+\label{def:unified-reality-compact-cofinal-realization-sequence}
+Let
+$$
+\mathcal W_1\subset\mathcal W_2\subset\cdots
+$$
+be a cofinal Hecke window tower. A compact cofinal realization sequence
+is a sequence of discrete automorphic packets $(\Pi_n)$ such that
+$$
+x_{\Pi_n,\mathcal W_n}=x_{\phi,\mathcal W_n}
+$$
+for every $n$.
+\end{definition}
+
+\begin{theorem}[Compact bounded subsequence globalization]
+\label{thm:unified-reality-compact-bounded-subsequence-globalization}
+Let $(\Pi_n)$ be a compact cofinal realization sequence. If bounded
+automorphic finiteness holds and some infinite subsequence has bounded
+complexity, then there is a global automorphic packet $\Pi_{\phi}$
+matching $\phi$ on every certified unramified finite detector.
+\end{theorem}
+\begin{proof}
+This is the compact discrete instance of
+\autoref{thm:unified-reality-bounded-subsequence-global-realization}.
+Bounded finiteness gives only finitely many closed packet classes below
+the chosen complexity bound, so one class occurs infinitely often. Every
+fixed detector eventually lies in the cofinal tower, and a sufficiently
+late occurrence of the recurring packet matches the parameter on that
+detector. Thus the recurring packet matches all certified unramified
+finite detectors.
+\end{proof}
+
+\begin{theorem}[Compact unbounded sequence is a tail row]
+\label{thm:unified-reality-compact-unbounded-sequence-tail}
+If a compact cofinal realization sequence has no bounded-complexity
+infinite subsequence, then it enters the automorphic tail ledger.
+\end{theorem}
+\begin{proof}
+For every finite complexity bound $B$, only finitely many terms of the
+sequence lie below $B$. Hence complexity escapes along the cofinal
+tower. In the compact discrete scope, such escape can only appear as
+level or conductor growth, archimedean type growth, ramified local type
+growth, multiplicity bookkeeping growth, or departure from the compact
+discrete scope into a ledgered endoscopic, boundary, or continuous row.
+These are exactly the automorphic tail rows.
+\end{proof}
+
+\begin{theorem}[Compact cofinal window closure]
+\label{thm:unified-reality-compact-cofinal-window-closure}
+Assume every window of a cofinal tower has a compact fixed-window
+realization, bounded automorphic finiteness holds, the automorphic tail
+ledger is complete, and closed accepted packets cannot carry unresolved
+tail rows. Then $\phi^{\uparrow}$ has a global automorphic realization.
+\end{theorem}
+\begin{proof}
+Choose a compact cofinal realization sequence. If it has a bounded
+infinite subsequence, the compact bounded subsequence globalization
+theorem produces the global packet. If it has no such subsequence, the
+compact unbounded sequence theorem places it in the automorphic tail
+ledger. An unrecorded tail violates ledger discipline, and an unresolved
+recorded tail violates closedness. Hence the tail alternative is
+unavailable for a closed accepted packet, and the global realization
+alternative remains.
+\end{proof}
+
+\begin{theorem}[Compact discrete BEDC--Langlands existence core]
+\label{thm:unified-reality-compact-discrete-langlands-existence-core}
+On a compact discrete automorphic scope, assume:
+\begin{itemize}
+\item parameter state certificates on a cofinal Hecke window tower;
+\item stable trace-window equality on each window;
+\item finite Hecke projector certificates;
+\item bounded automorphic finiteness;
+\item a complete automorphic tail ledger;
+\item no-hidden Langlands residual and closedness against unresolved
+ledger rows.
+\end{itemize}
+Then there is a closed automorphic packet $\Pi_{\phi}$ such that
+$$
+\lambda_{v,r}(\Pi_{\phi})
+=
+\operatorname{tr}r(\phi(\operatorname{Frob}_v))
+$$
+for every certified unramified finite detector $(v,r)$.
+\end{theorem}
+\begin{proof}
+The parameter state and trace theorem gives a fixed-window realization
+on every window of the cofinal tower. The compact cofinal window closure
+theorem globalizes these realizations to a packet $\Pi_{\phi}$. If a
+Hecke--Frobenius mismatch remains, the no-hidden residual condition
+makes it either a finite detector residual or a ledger residual. A finite
+detector residual contradicts the cofinal matching unless it is an
+unresolved row; carrying such a row violates closedness, while omitting
+it violates ledger discipline. The same argument applies to ramified,
+endoscopic, continuous, boundary, archimedean, and normalization ledger
+residuals. Hence the closed packet has no remaining mismatch.
+\end{proof}
+
+\begin{theorem}[Compact discrete functorial core]
+\label{thm:unified-reality-compact-discrete-functorial-core}
+Let
+$$
+\eta:{}^LH\to{}^LG
+$$
+be an $L$-group homomorphism. If the target parameter
+$$
+\phi_G:=\eta\circ\phi_H
+$$
+satisfies the compact discrete existence core on the $G$-side, then
+there is a $G$-side automorphic packet $\Pi_G$ with
+$$
+\lambda_{v,r}(\Pi_G)
+=
+\operatorname{tr}r(\eta(\phi_H(\operatorname{Frob}_v)))
+$$
+for every certified unramified finite detector on the target scope.
+\end{theorem}
+\begin{proof}
+Apply
+\autoref{thm:unified-reality-compact-discrete-langlands-existence-core}
+to $\phi_G$. The resulting packet satisfies
+$$
+\lambda_{v,r}(\Pi_G)
+=
+\operatorname{tr}r(\phi_G(\operatorname{Frob}_v)).
+$$
+Substituting $\phi_G=\eta\circ\phi_H$ gives the displayed formula.
+\end{proof}
+
+\begin{theorem}[Compact discrete boundary]
+\label{thm:unified-reality-compact-discrete-boundary}
+The compact discrete core closes the passage from nonzero fixed-window
+spectral readout to global automorphic realization only on scopes where
+the spectral side is purely discrete or where all non-discrete terms are
+separated into ledger rows. It does not prove the stable trace formula,
+construct parameter state certificates, or settle the general
+continuous, Eisenstein, endoscopic, ramified, archimedean, or boundary
+case.
+\end{theorem}
+\begin{proof}
+The argument uses the Hilbert direct-sum spectral decomposition and the
+finite Hecke projector. If continuous spectrum, Eisenstein series,
+endoscopy, ramification, or boundary terms are present, they are outside
+the compact discrete row and must be handled by the ledger mechanisms of
+the general trace-window bridge. The compact result therefore supplies a
+closed core case, not the full analytic trace formula.
+\end{proof}

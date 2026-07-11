@@ -1,0 +1,325 @@
+\chapter{Analytic Continuation Ontological Triple}
+\label{ch:visions-rh-analytic-continuation-ont-triple}
+\origin{ai}
+
+\autoref{ch:visions-rh-zeta-certified-inverse-limit} requires every
+zeta-route tool to expose an ontological triple.  The analytic
+continuation operation of
+\autoref{ch:concrete-instances-analytic-continuation} and the zeta
+continuation application of \autoref{ch:concrete-instances-zeta-continuation}
+therefore cannot function as bare analytic shortcuts inside the RH
+route.  They must preserve source history, unit or phase structure, and
+ledger visibility.  This chapter records that requirement as a
+proof-engineering interface for the prime-generated recursive sieve.
+
+\section{Continuation Certificate}
+\label{sec:rh-analytic-continuation-ont-triple-certificate}
+
+\begin{definition}[Analytic continuation certificate]
+\label{def:rh-analytic-continuation-certificate}
+Let $f_0:\Omega_0\to\mathbb C$ be a licensed analytic object and let
+$\Omega_0\subseteq\Omega_1$.  An analytic continuation certificate for
+an extension
+$$
+f_0\leadsto f_1:\Omega_1\to\mathbb C
+$$
+is a packet
+$$
+\operatorname{ACCert}(f_0\leadsto f_1)
+:=
+(\operatorname{SourceSpec},
+\operatorname{PatternSpec},
+\operatorname{ClassifierSpec},
+\operatorname{StabilityCert},
+\operatorname{LedgerPolicy}).
+$$
+Here $\operatorname{SourceSpec}$ records $f_0$, $\Omega_0$, and the
+history of $f_0$; $\operatorname{PatternSpec}$ records equality of
+holomorphic germs on overlaps; $\operatorname{ClassifierSpec}$ records
+the branch, monodromy, and same-germ classifier used by the extension;
+$\operatorname{StabilityCert}$ records identity-theorem and local
+holomorphy witnesses; and $\operatorname{LedgerPolicy}$ records branch
+cuts, singularities, tails, poles, zeros, and residual rows.
+\end{definition}
+
+\begin{definition}[Continuation ontological triple]
+\label{def:rh-continuation-ontological-triple}
+For a certified continuation $f_0\leadsto f_1$, its ontological triple
+is
+$$
+\operatorname{Ont}(f_0\leadsto f_1)
+:=
+(\mathsf T_{\mathrm{AC}},\mathsf U_{\mathrm{AC}},\mathsf L_{\mathrm{AC}}),
+$$
+where
+$$
+\mathsf T_{\mathrm{AC}}:
+\quad
+f_1|_{\Omega_0}=f_0
+$$
+is the source-history row,
+$$
+\mathsf U_{\mathrm{AC}}
+$$
+is the row saying that unit phase, positivity, or orthogonal energy
+readouts are preserved unless a displayed residual row is produced, and
+$$
+\mathsf L_{\mathrm{AC}}
+$$
+is the continuation ledger for branches, tails, singularities,
+monodromy, zero and pole rows, and residual projections.
+\end{definition}
+
+\begin{principle}[No uncertified analytic continuation]
+\label{prin:rh-no-uncertified-analytic-continuation}
+An analytic continuation used by the RH route is not available as a
+primitive operation merely because an analytic formula can be written.
+It is available only through an operation or application certificate
+whose source, overlap pattern, classifier, stability, and ledger rows
+are displayed.  Otherwise the continued object has no BEDC license.
+\end{principle}
+
+\begin{theorem}[Certified continuation preserves the ontological triple]
+\label{thm:rh-certified-continuation-preserves-ontological-triple}
+Let $f_0$ be a BEDC-licensed analytic object with
+$\operatorname{Ont}(f_0)$.  If $f_0\leadsto f_1$ has an analytic
+continuation certificate, then $f_1$ has an ontological triple.
+\end{theorem}
+
+\begin{proof}
+The source row of $\operatorname{ACCert}$ gives the history extension
+from $f_0$ to $f_1$, so $\mathsf T_{f_1}$ is defined by appending the
+continuation bridge to $\mathsf T_{f_0}$.  The pattern and stability
+rows say that $f_1$ agrees with $f_0$ as the same analytic germ on the
+overlap and is uniquely determined by the continuation witnesses; hence
+unit or phase data from the source cannot be silently changed.  If a
+nonunit radial or branch-dependent row appears, it is not part of the
+unit row and must be recorded by the ledger policy.  The ledger row of
+$\operatorname{ACCert}$ records branch, tail, singular, zero, pole,
+monodromy, and residual data.  These three rows define
+$\operatorname{Ont}(f_1)$.
+\end{proof}
+
+\section{Conservative Zeta Continuation}
+\label{sec:rh-conservative-zeta-continuation}
+
+\begin{definition}[Conservative zeta continuation certificate]
+\label{def:rh-conservative-zeta-continuation-certificate}
+A conservative zeta continuation certificate is an analytic continuation
+certificate
+$$
+\operatorname{ACCert}(\zeta_0\leadsto\zeta_1)
+$$
+from the right-half-plane PZG zeta source to a continued zeta object,
+together with three transport rows:
+$$
+(\mathsf{PZGSource},\mathsf{UnitPhase},\mathsf{NoScaleRegister}).
+$$
+The row $\mathsf{PZGSource}$ says that the continued object is the same
+germ as the tagged PZG zeta family and its forgetful scalar readout of
+\autoref{def:rh-tagged-pzg-zeta-family} and
+\autoref{def:rh-forgetful-zeta-scalar-readout}.  The row
+$\mathsf{UnitPhase}$ says that the PZG phase readout remains a unit
+phase row under continuation unless a displayed residual ledger records
+otherwise.  The row $\mathsf{NoScaleRegister}$ says that the continuation
+does not supply an independent positive-real scale register capable of
+paying the instruction-scale residual of
+\autoref{def:rh-zeta-instruction-scale-residual}.
+\end{definition}
+
+\begin{principle}[Completion factors are ledger rows]
+\label{prin:rh-completion-factors-are-ledger-rows}
+The archimedean and pole factors in the completed xi execution trace are
+visible completion rows.  They may provide the functional equation,
+reflection, pole cancellation, and archimedean boundary data recorded in
+\autoref{def:rh-completed-xi-execution-trace}; they are not free
+per-prime scale registers inside the original zeta source.  Any use of a
+completion factor as a scale-balancing mechanism must therefore appear
+as a named completion or residual ledger row, not as an unrecorded
+internal cancellation of the PZG source.
+\end{principle}
+
+\begin{theorem}[Conservative continuation forbids scale-register payment]
+\label{thm:rh-conservative-continuation-forbids-scale-register-payment}
+Assume a conservative zeta continuation certificate for the continued
+zeta object.  Then an off-half instruction-scale residual cannot be
+closed by analytic continuation itself.  It must either remain in the
+continuation ledger or be closed by a displayed same-packet zeta ledger
+row.
+\end{theorem}
+
+\begin{proof}
+By \autoref{def:rh-conservative-zeta-continuation-certificate}, the
+continued object transports the right-half-plane PZG source and its
+forgetful scalar readout; it does not replace that source by a different
+register system.  The unit-phase row transports the fact that phase
+instructions have modulus $1$.  By
+\autoref{thm:rh-offhalf-scaling-cancellation-not-zeta-instruction}, such
+instructions cannot cancel a nonzero instruction-scale residual.  The
+$\mathsf{NoScaleRegister}$ row forbids analytic continuation from
+supplying an independent positive-real scale register.  Hence any
+off-half scale residual is not paid by the continuation operation itself.
+By the ledger policy in
+\autoref{def:rh-analytic-continuation-certificate}, it must be recorded
+as residual data unless a displayed same-packet zeta ledger row closes it.
+\end{proof}
+
+\begin{corollary}[Conservative single-ledger continuation gives fixed-half]
+\label{cor:rh-conservative-single-ledger-continuation-fixed-half}
+If a continued non-trivial zero packet is accepted through a conservative
+zeta continuation certificate and is closed by the single-ledger zero
+principle, then it has fixed-half readout.
+\end{corollary}
+
+\begin{proof}
+Conservative continuation forbids scale-register payment by
+\autoref{thm:rh-conservative-continuation-forbids-scale-register-payment}.
+The remaining same-packet closure condition is exactly the hypothesis
+consumed by
+\autoref{thm:rh-single-ledger-zeta-closure-excludes-offhalf-scale}.
+Therefore the zero packet has fixed-half readout.
+\end{proof}
+
+\section{Eta Parity Bridge}
+\label{sec:rh-analytic-continuation-eta-parity-bridge}
+
+\begin{definition}[Eta parity sieve bridge]
+\label{def:rh-eta-parity-sieve-bridge}
+The eta parity sieve bridge is the $p=2$ classifier
+$$
+n\longmapsto n\bmod2
+$$
+together with the unit character
+$$
+\varepsilon_2(n):=(-1)^{n-1}.
+$$
+It produces the Dirichlet eta series
+$$
+\eta(s):=\sum_{n\ge1}\varepsilon_2(n)n^{-s}.
+$$
+\end{definition}
+
+\begin{theorem}[Eta bridge preserves BEDC rows]
+\label{thm:rh-eta-bridge-preserves-bedc-rows}
+The eta parity sieve bridge preserves the time, unit, and ledger rows
+of the right-half-plane zeta source.
+\end{theorem}
+
+\begin{proof}
+The time row is the appended parity classifier
+$n\mapsto n\bmod2$.  The unit row is the character identity
+$$
+|\varepsilon_2(n)|=1.
+$$
+Thus the bridge changes the phase readout but does not add an
+unledgered radial scale.  The ledger row is the displayed correction
+factor in
+\autoref{thm:eta-relation-zeta}:
+$$
+\eta(s)=(1-2^{1-s})\zeta(s)
+$$
+on the overlap where the relation is derived from the absolutely
+convergent source.  The parity classifier, the factor $1-2^{1-s}$, and
+the denominator-zero and pole rows of the continuation application are
+therefore visible ledger data.
+\end{proof}
+
+\begin{theorem}[Eta continuation supplies a certified critical-strip zeta object]
+\label{thm:rh-eta-continuation-certified-critical-strip-zeta}
+On the strip
+$$
+0<\operatorname{Re}(s)<1,
+$$
+the eta quotient
+$$
+\zeta_{\eta}(s):=\frac{\eta(s)}{1-2^{1-s}}
+$$
+is a certified continuation of the right-half-plane zeta source
+whenever the eta continuation application certificate is supplied.
+\end{theorem}
+
+\begin{proof}
+The eta function is holomorphic on $\operatorname{Re}(s)>0$ by
+\autoref{thm:eta-well-defined}.  The eta-zeta relation of
+\autoref{thm:eta-relation-zeta} gives equality with the right-half-plane
+zeta source on the overlap $\operatorname{Re}(s)>1$.  On
+$0<\operatorname{Re}(s)<1$, the denominator $1-2^{1-s}$ has no zero, so
+the eta quotient defines the displayed analytic object.  The certificate
+rows are precisely the eta relation, overlap identity, denominator and
+pole ledger, and continuation law recorded in
+\autoref{def:zeta-cont-app-cert} and
+\autoref{thm:zeta-continuation-application}.  Therefore the object is a
+certified continuation in the sense of
+\autoref{def:rh-analytic-continuation-certificate}.
+\end{proof}
+
+\section{Sieve Ledger Preservation}
+\label{sec:rh-analytic-continuation-sieve-ledger-preservation}
+
+\begin{definition}[AnalyticContinuationPreservesOntTriple]
+\label{def:rh-analytic-continuation-preserves-ont-triple}
+The row
+$$
+\mathsf{AnalyticContinuationPreservesOntTriple}
+$$
+asserts that every analytic continuation used by the zeta route carries
+an analytic continuation certificate and therefore transports
+ontological triples from source objects to continued objects.
+\end{definition}
+
+\begin{theorem}[Ontological continuation preserves prime-sieve ledger]
+\label{thm:rh-ontological-continuation-preserves-prime-sieve-ledger}
+Assume $\mathsf{AnalyticContinuationPreservesOntTriple}$ for the
+continuation from the right-half-plane prime-generated phase limit to
+the critical-strip zeta object.  Then
+$$
+\mathsf{AnalyticContinuationPreservesPrimeSieveLedger}
+$$
+holds for the prime-generated recursive sieve route.
+\end{theorem}
+
+\begin{proof}
+By
+\autoref{prin:rh-right-half-plane-zeta-prime-generated-phase-limit}, the
+right-half-plane normalized zeta phase is an inverse limit of
+prime-generated local probability sieves.  Its source rows are finite
+prime windows, local valuation distributions, phase readouts, and
+tail-ledger entries.  By
+\autoref{thm:rh-certified-continuation-preserves-ontological-triple},
+the certified continuation transports source history, unit rows, and
+ledger policy into the continued object.  Hence the finite prime
+windows, local valuation rows, unit phase readouts, residual
+projections, and excluded-mass ledger entries remain available as
+continued certified rows, which is exactly the row defined in
+\autoref{def:rh-analytic-continuation-preserves-prime-sieve-ledger}.
+\end{proof}
+
+\begin{theorem}[Continuation cannot hide a radial residual]
+\label{thm:rh-continuation-cannot-hide-radial-residual}
+Assume $\mathsf{AnalyticContinuationPreservesOntTriple}$.  If an
+off-critical zero contributes a nonzero radial residual to the
+continued zeta object, then the residual must appear as a ledgered
+continuation row or as a finite prime-side residual row.
+\end{theorem}
+
+\begin{proof}
+A nonzero radial mode is not a unit phase row.  Under
+\autoref{def:rh-continuation-ontological-triple}, such a nonunit row
+cannot be absorbed into $\mathsf U_{\mathrm{AC}}$ unless it is recorded
+as visible residual data.  The ledger policy of
+\autoref{def:rh-analytic-continuation-certificate} records residuals,
+zeros, poles, branch data, and tails.  Therefore the radial residual
+either appears in the continuation ledger or is transported into the
+finite prime-side residual rows whose preservation is given by
+\autoref{thm:rh-ontological-continuation-preserves-prime-sieve-ledger}.
+\end{proof}
+
+\begin{principle}[Continuation audit boundary]
+\label{prin:rh-analytic-continuation-ont-triple-audit-boundary}
+The eta bridge and the general analytic-continuation operation remove
+analytic continuation as a hiding place for radial scale.  They do not
+prove that an off-critical zero produces a finite prime residual.  They
+only certify that, once such a residual is present in the continued
+zeta object, it must be preserved as source, unit, or ledger data rather
+than treated as an unlicensed feature of the continuation.
+\end{principle}

@@ -1,0 +1,510 @@
+\chapter{Innovation Input Pentary Hermitian Link Boundary}
+\label{ch:visions-innovation-input-pentary-lthree-hermitian-boundary}
+\origin{ai}
+
+\autoref{ch:visions-innovation-input-pentary-anchored-window-boundary}
+separates anchored $L=2$ passage from anchored $L=3$ failure for one
+pentary Q3 row. This chapter isolates the first $L=3$ algebraic filters:
+the three anchored link diagonals, the endpoint gate carried by the
+middle link, and the correlation inequality forced by the second link.
+
+\section{Pentary Edge Ratios}
+\label{sec:innovation-input-pentary-edge-ratios}
+
+\begin{definition}[Pentary edge ratios]
+\label{def:innovation-input-pentary-edge-ratios}
+Let
+$$
+v=(v_0,v_1,v_2,v_3,v_4)\in\mathbb T^5.
+$$
+Define the cyclic edge ratios
+$$
+x_a:=v_a\overline{v_{a+1}},
+\qquad
+a=0,1,2,3,4,
+$$
+where indices are read modulo $5$. Thus
+$$
+x_4=v_4\overline{v_0}.
+$$
+Then
+$$
+|x_a|=1
+$$
+and
+$$
+x_0x_1x_2x_3x_4=1.
+$$
+\end{definition}
+
+\begin{definition}[First and second ordinary correlations]
+\label{def:innovation-input-pentary-first-second-correlations}
+For the self-substitution row $v$, write
+$$
+\mu:=\Gamma(\delta_0-\delta_1)
+$$
+and
+$$
+\nu:=\Gamma(\delta_0-\delta_2).
+$$
+Equivalently, $\mu$ is the ordinary distance-one average
+$\langle u_n\overline{u_{n+1}}\rangle$, while $\nu$ is the ordinary
+distance-two average $\langle u_n\overline{u_{n+2}}\rangle$.
+\end{definition}
+
+\begin{theorem}[Pentary first correlation formula]
+\label{thm:innovation-input-pentary-first-correlation-formula}
+For every pentary self-substitution row,
+$$
+\mu
+=
+\frac{x_0+x_1+x_2+x_3}{5-x_4}.
+$$
+\end{theorem}
+
+\begin{proof}
+Split the average defining $\Gamma(\delta_0-\delta_1)$ by $n=5q+a$.
+For $a=0,1,2,3$ there is no carry, and the contribution is $x_a$. For
+$a=4$ the carry leaves the same distance-one block and contributes
+$x_4\mu$. Hence
+$$
+\mu
+=
+\frac15
+\left(
+x_0+x_1+x_2+x_3+x_4\mu
+\right),
+$$
+which is the stated formula.
+\end{proof}
+
+\begin{theorem}[Pentary second correlation formula]
+\label{thm:innovation-input-pentary-second-correlation-formula}
+For every pentary self-substitution row,
+$$
+\nu
+=
+\frac15
+\left[
+x_0x_1+x_1x_2+x_2x_3+(x_3x_4+x_4x_0)\mu
+\right].
+$$
+\end{theorem}
+
+\begin{proof}
+Split the average defining $\Gamma(\delta_0-\delta_2)$ by $n=5q+a$.
+For $a=0,1,2$ the residues do not cross the next pentary block, giving
+the factors $x_0x_1$, $x_1x_2$, and $x_2x_3$. For $a=3$ the carry leaves
+the branch block $\delta_0-\delta_1$ and contributes $x_3x_4\mu$. For
+$a=4$ it contributes $x_4x_0\mu$. Averaging gives the formula.
+\end{proof}
+
+\section{Anchored $L=3$ Link Diagonals}
+\label{sec:innovation-input-pentary-lthree-link-diagonals}
+
+\begin{definition}[Forward anchored links]
+\label{def:innovation-input-forward-anchored-links}
+Use the forward neutral links
+$$
+F_{ij}:=u_{n+i}\overline{u_{n+j}},
+\qquad
+1\le i<j\le3,
+$$
+and define
+$$
+D_{ij}:=\langle\theta F_{ij},F_{ij}\rangle.
+$$
+After the common translation normalization, the three link diagonals are
+$$
+D_{12}
+=
+\Gamma(\delta_0-\delta_1+\delta_2-\delta_3),
+$$
+$$
+D_{13}
+=
+\Gamma(\delta_0-\delta_2+\delta_3-\delta_5),
+$$
+and
+$$
+D_{23}
+=
+\Gamma(\delta_0-\delta_1+\delta_4-\delta_5).
+$$
+The opposite orientation of a link conjugates the displayed block; for
+real diagonal obstructions the numerical sign information is unchanged.
+\end{definition}
+
+\begin{theorem}[Pentary $D_{12}$ formula]
+\label{thm:innovation-input-pentary-dtwelve-formula}
+For every pentary self-substitution row,
+$$
+D_{12}
+=
+\frac15
+\left[
+x_0x_2+x_1x_3+x_3x_0+(x_2x_4+x_4x_1)\mu
+\right].
+$$
+\end{theorem}
+
+\begin{proof}
+Apply the pentary carry split to
+$\delta_0-\delta_1+\delta_2-\delta_3$. The five residues give
+$$
+a=0:\ x_0x_2,
+\qquad
+a=1:\ x_1x_3,
+$$
+$$
+a=2:\ x_2x_4\,\mu,
+\qquad
+a=3:\ x_3x_0,
+$$
+and
+$$
+a=4:\ x_4x_1\,\mu.
+$$
+Averaging gives the formula.
+\end{proof}
+
+\begin{theorem}[Pentary $D_{13}$ formula]
+\label{thm:innovation-input-pentary-dthirteen-formula}
+For every pentary self-substitution row,
+$$
+D_{13}
+=
+\frac15
+\left[
+\overline{x_4}
++(\overline{x_0}+\overline{x_1}+\overline{x_2}+\overline{x_3})\mu
+\right].
+$$
+\end{theorem}
+
+\begin{proof}
+Apply the carry split to
+$\delta_0-\delta_2+\delta_3-\delta_5$. The residues $a=0,1,3,4$ leave
+the branch block $\delta_0-\delta_1$ with coefficients
+$\overline{x_2}$, $\overline{x_3}$, $\overline{x_0}$, and
+$\overline{x_1}$ respectively. The residue $a=2$ collapses to the zero
+block with coefficient $\overline{x_4}$. Since the four nonzero branch
+coefficients are the same cyclic set
+$\overline{x_0},\overline{x_1},\overline{x_2},\overline{x_3}$, averaging
+gives the stated expression.
+\end{proof}
+
+\begin{theorem}[Pentary $D_{23}$ correlation meeting]
+\label{thm:innovation-input-pentary-dtwentythree-correlation-meeting}
+For every pentary self-substitution row,
+$$
+D_{23}=\nu.
+$$
+Equivalently,
+$$
+D_{23}
+=
+\frac15
+\left[
+x_0x_1+x_1x_2+x_2x_3+(x_3x_4+x_4x_0)\mu
+\right].
+$$
+\end{theorem}
+
+\begin{proof}
+Apply the carry split to
+$\delta_0-\delta_1+\delta_4-\delta_5$. The five residues give
+$$
+a=0:\ x_4x_0\,\mu,
+\qquad
+a=1:\ x_0x_1,
+$$
+$$
+a=2:\ x_1x_2,
+\qquad
+a=3:\ x_2x_3,
+$$
+and
+$$
+a=4:\ x_3x_4\,\mu.
+$$
+The resulting average is exactly the formula for $\nu$ in
+\autoref{thm:innovation-input-pentary-second-correlation-formula}.
+\end{proof}
+
+\begin{theorem}[Three-link necessary condition]
+\label{thm:innovation-input-pentary-three-link-necessary-condition}
+If a pentary row passes the anchored $L=3$ neutral RP window, then
+$$
+D_{12}\in\mathbb R_{\ge0},
+\qquad
+D_{13}\in\mathbb R_{\ge0},
+\qquad
+D_{23}\in\mathbb R_{\ge0},
+$$
+and
+$$
+D_{12}\ge|\mu|^2,
+\qquad
+D_{13}\ge|\nu|^2,
+\qquad
+D_{23}\ge|\mu|^2.
+$$
+In particular,
+$$
+\nu\in\mathbb R,
+\qquad
+\nu\ge|\mu|^2.
+$$
+\end{theorem}
+
+\begin{proof}
+For each link $F_{ij}$, take the $2\times2$ principal RP matrix on
+$1,F_{ij}$. Positivity forces the lower-right entry to be real
+nonnegative and forces the determinant inequality. For $F_{12}$ and
+$F_{23}$ the ordinary mean is $\mu$, while for $F_{13}$ it is $\nu$.
+The displayed inequalities follow. The final statement uses
+\autoref{thm:innovation-input-pentary-dtwentythree-correlation-meeting}.
+\end{proof}
+
+\section{Endpoint Gate}
+\label{sec:innovation-input-pentary-endpoint-gate}
+
+\begin{theorem}[Endpoint form of the middle link]
+\label{thm:innovation-input-pentary-dthirteen-endpoint-form}
+For every pentary self-substitution row,
+$$
+D_{13}
+=
+|\mu|^2+\frac{1-|\mu|^2}{5}\overline{x_4}.
+$$
+\end{theorem}
+
+\begin{proof}
+By
+\autoref{thm:innovation-input-pentary-first-correlation-formula},
+$$
+x_0+x_1+x_2+x_3=(5-x_4)\mu.
+$$
+Taking conjugates gives
+$$
+\overline{x_0}+\overline{x_1}+\overline{x_2}+\overline{x_3}
+=
+(5-\overline{x_4})\overline\mu.
+$$
+Substitute this identity into
+\autoref{thm:innovation-input-pentary-dthirteen-formula}:
+$$
+D_{13}
+=
+\frac15
+\left[
+\overline{x_4}
++
+(5-\overline{x_4})|\mu|^2
+\right].
+$$
+Rearranging gives the displayed formula.
+\end{proof}
+
+\begin{lemma}[Q3 excludes unit first correlation]
+\label{lem:innovation-input-pentary-qthree-excludes-unit-first-correlation}
+If $v\in\mathcal Q_5$, then
+$$
+|\mu|<1.
+$$
+\end{lemma}
+
+\begin{proof}
+Assume $|\mu|=1$. The recursion in the proof of
+\autoref{thm:innovation-input-pentary-first-correlation-formula} writes
+$\mu$ as the average of the five unit complex numbers
+$$
+x_0,\quad x_1,\quad x_2,\quad x_3,\quad x_4\mu.
+$$
+An average of unit complex numbers has unit modulus only when all terms
+are equal. Hence
+$$
+x_0=x_1=x_2=x_3=\mu,
+\qquad
+x_4\mu=\mu.
+$$
+Since $\mu\ne0$, this gives $x_4=1$. The cyclic product relation then
+gives
+$$
+\mu^4=x_0x_1x_2x_3x_4=1.
+$$
+Writing $\rho:=\mu$, the edge-ratio equations force
+$$
+v
+=
+v_0(1,\overline\rho,\overline\rho^{\,2},
+\overline\rho^{\,3},\overline\rho^{\,4}),
+\qquad
+\rho^4=1.
+$$
+If $\rho=1$, the row sum has modulus $5$. If
+$\rho\in\{-1,i,-i\}$, the row sum has modulus $1$. None of these moduli
+is $\sqrt5$, contradicting $v\in\mathcal Q_5$. Therefore $|\mu|<1$.
+\end{proof}
+
+\begin{theorem}[Pentary endpoint gate]
+\label{thm:innovation-input-pentary-endpoint-gate}
+If a row $v\in\mathcal Q_5$ passes the anchored $L=3$ neutral RP window,
+then
+$$
+x_4\in\{1,-1\}.
+$$
+Equivalently,
+$$
+v_4=v_0
+\qquad
+\text{or}
+\qquad
+v_4=-v_0.
+$$
+\end{theorem}
+
+\begin{proof}
+Reflection positivity forces the diagonal entry $D_{13}$ to be real
+nonnegative by
+\autoref{thm:innovation-input-pentary-three-link-necessary-condition}.
+By
+\autoref{thm:innovation-input-pentary-dthirteen-endpoint-form},
+$$
+D_{13}
+=
+|\mu|^2+\frac{1-|\mu|^2}{5}\overline{x_4}.
+$$
+The first term is real, and
+\autoref{lem:innovation-input-pentary-qthree-excludes-unit-first-correlation}
+gives
+$$
+1-|\mu|^2>0.
+$$
+Thus $D_{13}$ is real only if $\overline{x_4}$ is real. Since
+$|x_4|=1$, this means $x_4=\pm1$. The identity
+$x_4=v_4\overline{v_0}$ is then equivalent to $v_4=\pm v_0$.
+\end{proof}
+
+\begin{definition}[Endpoint branches]
+\label{def:innovation-input-pentary-endpoint-branches}
+The even endpoint branch is the sublocus of $\mathcal Q_5$ on which
+$$
+v_4=v_0,
+$$
+equivalently $x_4=1$. On this branch the Q3 equation reads
+$$
+2v_0+v_1+v_2+v_3=\sqrt5.
+$$
+The odd endpoint branch is the sublocus of $\mathcal Q_5$ on which
+$$
+v_4=-v_0,
+$$
+equivalently $x_4=-1$. On this branch the Q3 equation reads
+$$
+v_1+v_2+v_3=\sqrt5.
+$$
+\end{definition}
+
+\begin{corollary}[Endpoint branch form of candidates]
+\label{cor:innovation-input-endpoint-branch-form-candidates}
+Every anchored $L=3$ neutral RP candidate in $\mathcal Q_5$ lies in one
+of the two endpoint forms
+$$
+v=(v_0,v_1,v_2,v_3,v_0)
+$$
+or
+$$
+v=(v_0,v_1,v_2,v_3,-v_0).
+$$
+The palindromic locus is the sublocus of the even endpoint branch where
+$v_1=v_3$.
+\end{corollary}
+
+\begin{proof}
+This is exactly
+\autoref{thm:innovation-input-pentary-endpoint-gate}, with the
+palindromic condition read from
+\autoref{def:innovation-input-palindromic-phase-word}.
+\end{proof}
+
+\begin{corollary}[Middle-link values on endpoint branches]
+\label{cor:innovation-input-middle-link-values-endpoint-branches}
+On the even endpoint branch,
+$$
+D_{13}=\frac{1+4|\mu|^2}{5}.
+$$
+On the odd endpoint branch,
+$$
+D_{13}=\frac{6|\mu|^2-1}{5}.
+$$
+Consequently, an anchored $L=3$ neutral RP candidate on the odd endpoint
+branch must satisfy
+$$
+|\mu|^2\ge\frac16.
+$$
+\end{corollary}
+
+\begin{proof}
+Substitute $x_4=1$ and $x_4=-1$ respectively into
+\autoref{thm:innovation-input-pentary-dthirteen-endpoint-form}. The odd
+endpoint lower bound is the condition $D_{13}\ge0$ from
+\autoref{thm:innovation-input-pentary-three-link-necessary-condition}.
+\end{proof}
+
+\begin{principle}[Endpoint-first pentary search]
+\label{prin:innovation-input-endpoint-first-pentary-search}
+The first scalar diagonal gate for the anchored $L=3$ neutral RP problem
+does not inspect the full $7\times7$ matrix. It already confines every
+candidate to the even or odd endpoint branch. The even endpoint branch
+still contains the palindromic rows, while the odd endpoint branch leaves
+the endpoint phase outside the Q3 equation; any candidate there must have
+that phase fixed by the Hermitian and positive-semidefinite gates rather
+than by Q3 alone.
+\end{principle}
+
+\begin{corollary}[Algebraic form of the anchor effect]
+\label{cor:innovation-input-pentary-anchor-effect-algebraic-form}
+The two links $F_{12}$ and $F_{23}$ have the same ordinary distance-one
+mean $\mu$, but their RP diagonals need not agree. In the pentary
+$L=3$ window,
+$$
+D_{23}=\Gamma(\delta_0-\delta_2),
+$$
+so reflection positivity forces the concrete inequality
+$$
+\Gamma(\delta_0-\delta_2)
+\ge
+\left|\Gamma(\delta_0-\delta_1)\right|^2.
+$$
+\end{corollary}
+
+\section{Pythagorean Link Recheck}
+\label{sec:innovation-input-pentary-pythagorean-link-recheck}
+
+\begin{corollary}[Pythagorean row violates the second link]
+\label{cor:innovation-input-pythagorean-second-link-violation}
+For the Pythagorean row $v_\star=(a,b,-a,b,a)$ from
+\autoref{def:innovation-input-pythagorean-pentary-phase-word},
+$$
+\mu=0,
+\qquad
+D_{12}=\frac35,
+\qquad
+D_{23}=\nu=-\frac15.
+$$
+Thus the anchored $L=3$ obstruction is the negative ordinary
+distance-two correlation.
+\end{corollary}
+
+\begin{proof}
+The values $\mu=0$ and $D_{12}=3/5$ are
+\autoref{thm:innovation-input-pythagorean-ltwo-structure}. The value
+$D_{23}=-1/5$ is
+\autoref{thm:innovation-input-pythagorean-lthree-failure}, conjugated to
+the forward-link convention of
+\autoref{def:innovation-input-forward-anchored-links}. Since the value is
+real, the obstruction is unchanged. The identity $D_{23}=\nu$ then
+identifies the failing scalar with the ordinary distance-two correlation.
+\end{proof}

@@ -1,0 +1,135 @@
+\chapter{The Golden-Mean Parry Residue: A Cylinder-Resolved Finite RPF Certificate}
+\label{ch:concrete-instances-window6-golden-mean-parry-residue}
+\origin{ai}
+
+The golden-mean subshift has a second finite certificate beyond the scalar determinant and beyond the primitive-orbit Euler product direction. This chapter records the cylinder-resolved Parry / Ruelle-Perron-Frobenius data carried by the weighted transfer matrix
+$$
+T_y=\begin{pmatrix}1&y\\1&0\end{pmatrix}.
+$$
+It keeps the entrywise cylinder counts, the Perron residue projector at $y=1$, the exact secondary $\psi^n$ error, and the formal pressure derivative. This is a finite Parry / Ruelle-Perron-Frobenius certificate for the golden-mean subshift; it is not a proof of the Riemann Hypothesis, not about the Riemann xi, and not a new Euler product.
+
+\section{Cylinder-Resolved Transfer Powers}
+\label{sec:window6-parry-residue-cylinder-powers}
+
+Let $F_0(y)=0$, $F_1(y)=1$, and
+$$
+F_{n+2}(y)=F_{n+1}(y)+yF_n(y).
+$$
+For $n\ge1$, the finite matrix-power identity is
+$$
+T_y^n=
+\begin{pmatrix}
+F_{n+1}(y)&yF_n(y)\\
+F_n(y)&yF_{n-1}(y)
+\end{pmatrix}.
+$$
+Thus the scalar trace is only the sum of two cylinder channels,
+$$
+C_n(y)=\operatorname{tr}(T_y^n)=F_{n+1}(y)+yF_{n-1}(y),
+$$
+while the two diagonal cylinders are retained separately as
+$$
+N_0(n,y)=(T_y^n)_{00}=F_{n+1}(y),
+\qquad
+N_1(n,y)=(T_y^n)_{11}=yF_{n-1}(y).
+$$
+The Lean certificate checks the order-eight window by direct polynomial matrix multiplication, including the entrywise data through the same recursive polynomial arithmetic used by the finite zeta packet.
+
+\begin{theorem}[Cylinder-resolved finite transfer window]
+\label{thm:window6-parry-residue-cylinder-window}
+The weighted golden-mean transfer matrix has a checked order-eight entrywise cylinder certificate. In the list representation used by Lean, the bottom-left entry carries a trailing zero representative, while the mathematical polynomial is $F_8(y)=1+6y+10y^2+4y^3$.
+\end{theorem}
+\leanchecked{BEDC.Derived.Window6GoldenMeanParryResidue.Ty\_pow\_cylinder\_8}
+
+\section{Adjugate and Pressure Shadow}
+\label{sec:window6-parry-residue-adjugate-pressure}
+
+The finite resolvent identity is the adjugate calculation
+$$
+(I-tT_y)
+\begin{pmatrix}
+1&yt\\
+t&1-t
+\end{pmatrix}
+=(1-t-yt^2)I_2.
+$$
+This is more refined than the determinant alone: the adjugate remembers how the two cylinder coordinates propagate before taking the scalar determinant.
+
+The same finite transfer data also carries the pressure derivative shadow. Differentiating the trace polynomial formally in $y$ gives
+$$
+\frac{d}{dy}C_n(y)=nF_{n-1}(y),
+$$
+and therefore
+$$
+y\,C_n'(y)=n(T_y^n)_{11}.
+$$
+In the checked window, the identities include
+$$
+C_4'(y)=4(1+y),\qquad
+C_5'(y)=5(1+2y),\qquad
+C_6'(y)=6(1+3y+y^2),
+$$
+and continue through the order-eight finite certificate.
+
+\begin{theorem}[Adjugate and pressure derivative window]
+\label{thm:window6-parry-residue-adjugate-pressure}
+The adjugate identity for $I-tT_y$ and the formal derivative identities $C_n'(y)=nF_{n-1}(y)$ for $2\le n\le8$ are checked as exact finite polynomial computations.
+\end{theorem}
+\leanchecked{BEDC.Derived.Window6GoldenMeanParryResidue.resolvent\_adjugate\_identity}
+\leanvariant{BEDC.Derived.Window6GoldenMeanParryResidue.pressure\_derivative\_8}
+
+\section{Golden Parry Residue}
+\label{sec:window6-parry-residue-golden-projector}
+
+At $y=1$, work in $\mathbb Z[\varphi]$ with $\varphi^2=\varphi+1$, put
+$$
+\psi=1-\varphi,\qquad s=2\varphi-1,
+$$
+and define
+$$
+P=
+\begin{pmatrix}
+\varphi&1\\
+1&\varphi-1
+\end{pmatrix},
+\qquad
+Q=
+\begin{pmatrix}
+1-\varphi&1\\
+1&-\varphi
+\end{pmatrix}.
+$$
+The denominator-cleared spectral projector statement is
+$$
+sT^n=\varphi^nP-\psi^nQ.
+$$
+On diagonal entries this gives the exact finite Parry-equidistribution error, with $L_n=C_n(1)=\varphi^n+\psi^n$,
+$$
+s(T^n)_{00}=\varphi L_n-\psi^n,
+\qquad
+s(T^n)_{11}=(\varphi-1)L_n+\psi^n.
+$$
+The Lean certificate checks the golden spectral projector window through $n=6$ and the two diagonal error formulas through the same window over the concrete ring $\mathbb Z[\varphi]$.
+
+\begin{theorem}[Finite golden Parry residue]
+\label{thm:window6-parry-residue-golden}
+The order-six golden specialization verifies the denominator-cleared projector $sT^n=\varphi^nP-\psi^nQ$ and its diagonal $\pm\psi^n$ Parry-error formulas in $\mathbb Z[\varphi]$.
+\end{theorem}
+\leanchecked{BEDC.Derived.Window6GoldenMeanParryResidue.golden\_mean\_parry\_residue\_certificate}
+\leanvariant{BEDC.Derived.Window6GoldenMeanParryResidue.golden\_parry\_spectral\_6}
+\leanvariant{BEDC.Derived.Window6GoldenMeanParryResidue.golden\_parry\_error\_6\_00}
+\leanvariant{BEDC.Derived.Window6GoldenMeanParryResidue.golden\_parry\_error\_6\_11}
+
+\falsifiablePrediction{A recomputation of the finite polynomial matrix powers that changes the checked cylinder entries, the adjugate identity $(I-tT_y)\operatorname{adj}(I-tT_y)=(1-t-yt^2)I_2$, the pressure derivative window $C_n'=nF_{n-1}$, or the golden diagonal Parry-error formulas refutes this packet.}
+
+\independenceWitness{determinant-side, primitive-orbit-side, riemann-hypothesis-roadmap: this packet is not reducible to the determinant side, because the scalar trace and determinant forget the Perron projector and the cylinder distribution; it is not reducible to the primitive-orbit side, because that side is the Euler product direction. This packet is a finite Parry / Ruelle-Perron-Frobenius cylinder-residue certificate for the golden-mean subshift only, not a proof of RH, not about the Riemann $\xi$, and not a new Euler product.}
+
+\begin{closurestatus}{Window6GoldenMeanParryResidue}
+  \theoryclosure{\scopedClosure}
+  \scopeclosed{The chapter closes the finite golden-mean cylinder-power window, the adjugate resolvent identity, the pressure derivative window $C_n'=nF_{n-1}$ through $n=8$, and the golden Parry residue diagonal error window through $n=6$.}
+  \formalstatus{\theoremCheckedV}
+  \leantarget{BEDC.Derived.Window6GoldenMeanParryResidue.golden\_mean\_parry\_residue\_certificate}
+  \bridgestatus{none}
+  \notclaimed{not a proof of RH; finite Parry/RPF cylinder-residue certificate for the golden-mean SFT only}
+  \upgradepath{lift the finite cylinder/residue identities to the general weighted RPF operator and connect the pressure derivative to the analytic golden-mean equilibrium state}
+\end{closurestatus}

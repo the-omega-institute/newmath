@@ -1,0 +1,251 @@
+\subsection{Yang--Mills RG scale-tail closure}
+\label{subsec:philosophy-yang-mills-rg-scale-tail-closure}
+
+The fixed block tube certificates locate failures inside one declared
+physical block surface. The remaining renormalization question is whether a
+positive block gap can disappear only in the limit of the RG tower. In BEDC
+form this disappearance is not allowed to be silent: it must be a finite
+block tube defect, a finite Wilson or spin-network residual, or a scale-tail
+ledger row.
+
+\begin{definition}[Yang--Mills RG tower]
+\label{def:philosophy-yang-mills-rg-tower}
+A Yang--Mills RG tower at physical block scale $\ell_{\ast}>0$ is a sequence
+of bridge packets
+$$
+\mathcal Y_n=
+(\Lambda_n,\ell_{\ast},G,\mathcal H_n,\Omega_n,H_n,
+\mathcal W_{n,\mathrm{fin}},L_n)
+$$
+together with blocking rows
+$$
+B_{n+1,n}:\mathcal Y_{n+1}\longrightarrow\mathcal Y_n
+$$
+and a continuum target $\mathcal Y_{\infty}$. The displayed tower has the
+scale direction
+$$
+\mathcal Y_0\leftarrow\mathcal Y_1\leftarrow\mathcal Y_2
+\leftarrow\cdots\longrightarrow\mathcal Y_{\infty}.
+$$
+Every $\mathcal W_{n,\mathrm{fin}}$ is a finite Wilson-loop or spin-network
+packet surface, and every $L_n$ contains the ultraviolet, infrared,
+topological, gauge, packet-complexity, and scale-tail ledger rows visible at
+that layer.
+\end{definition}
+
+\begin{definition}[RG tube gap row]
+\label{def:philosophy-rg-tube-gap-row}
+For a tower layer $\mathcal Y_n$, an RG tube gap row consists of displayed
+constants
+$$
+\sigma_n,\qquad \kappa_n,\qquad c_n
+$$
+where $\sigma_n$ is the tube weight area-decay exponent, $\kappa_n$ is the
+tube entropy exponent, and $c_n$ is the tube area lower-bound constant at
+the fixed physical block scale. When $\sigma_n>\kappa_n$ and $c_n>0$, the
+corresponding physical decay rate is
+$$
+m_n=\frac{(\sigma_n-\kappa_n)c_n}{\ell_{\ast}}.
+$$
+The row is interpreted only at the displayed layer and block scale; changing
+the scale, packet window, or tower index is a ledgered operation.
+\end{definition}
+
+\begin{definition}[Uniform RG gap certificate]
+\label{def:philosophy-uniform-rg-gap-certificate}
+A uniform RG gap certificate for
+\autoref{def:philosophy-yang-mills-rg-tower} consists of a number
+$m_{\ast}>0$ and an index $N$ such that every layer $n\ge N$ has an RG tube
+gap row with
+$$
+m_n\ge m_{\ast}.
+$$
+Equivalently, on the displayed tail of the tower,
+$$
+\frac{(\sigma_n-\kappa_n)c_n}{\ell_{\ast}}\ge m_{\ast}>0.
+$$
+\end{definition}
+
+\begin{definition}[RG scale-tail defect]
+\label{def:philosophy-rg-scale-tail-defect}
+An RG scale-tail defect is a tower tail for which every sufficiently late
+finite layer still has a positive displayed rate $m_n>0$, but no uniform
+positive lower bound exists:
+$$
+\inf_{n\ge N}m_n=0
+$$
+for every $N$. A scale-tail ledger row records a subsequence and the
+degrading certificate data
+$$
+n_j\to\infty,\qquad
+m_{n_j}\to0,\qquad
+(\sigma_{n_j},\kappa_{n_j},c_{n_j},L_{n_j}).
+$$
+This row says that the loss of gap is not visible inside any one fixed
+finite block layer, but appears only as the tower index escapes every fixed
+tail cutoff.
+\end{definition}
+
+\begin{theorem}[Finite RG tube defect is visible or ledgered]
+\label{thm:philosophy-finite-rg-tube-defect-visible-or-ledgered}
+If a finite layer of a Yang--Mills RG tower fails to supply a positive tube
+gap row, then the failure has a finite Wilson or spin-network packet address
+or a tube tail ledger address inside that same finite layer.
+\end{theorem}
+\begin{proof}
+At a fixed tower layer, the block scale, packet class, plaquette adjacency,
+and tube complexity surface are fixed data. If $\sigma_n\le\kappa_n$, then
+the tube weight decay cannot dominate the tube entropy on that surface. If
+$c_n=0$, the tube area lower-bound row does not force linear separation in
+block time. In either case the block tube area-law certificate fails at a
+finite layer. Applying
+\autoref{thm:philosophy-tube-defect-localization} at that layer gives the
+two permitted addresses: a bounded tube-complexity defect detected by a
+finite Wilson or spin-network packet read, or a tube tail row recorded in
+the layer ledger.
+\end{proof}
+
+\begin{theorem}[RG scale-tail localization]
+\label{thm:philosophy-rg-scale-tail-localization}
+If a Yang--Mills RG tower has no uniform RG gap certificate, then either
+some finite layer has a finite RG tube defect, or the tower has an RG
+scale-tail defect.
+\end{theorem}
+\begin{proof}
+The absence of a uniform certificate means that no $m_{\ast}>0$ bounds the
+displayed rates on all sufficiently late layers. If infinitely many late
+layers fail the positivity conditions $\sigma_n>\kappa_n$ and $c_n>0$, then
+one of those layers is a finite RG tube defect.
+
+Otherwise there is an index $N$ such that every $n\ge N$ has $m_n>0$.
+Since no uniform lower bound exists, for every $j$ there is $n_j\ge N$ with
+$m_{n_j}<1/j$. Passing to an increasing subsequence gives
+$$
+n_j\to\infty,\qquad m_{n_j}\to0.
+$$
+This is exactly the RG scale-tail defect of
+\autoref{def:philosophy-rg-scale-tail-defect}. These alternatives exhaust
+the failure of uniform positivity.
+\end{proof}
+
+\begin{definition}[RG scale-tail closure certificate]
+\label{def:philosophy-rg-scale-tail-closure-certificate}
+An RG scale-tail closure certificate for a Yang--Mills RG tower consists of
+three rows:
+\begin{itemize}
+\item a finite-layer row saying that every finite RG tube defect is handled
+by the tube closure certificate of that layer;
+\item a scale-tail row saying that every sequence $n_j\to\infty$ with
+$m_{n_j}\to0$ enters the scale-tail ledger;
+\item a closedness row saying that the accepted continuum Yang--Mills packet
+carries no unresolved finite-layer or scale-tail defect as hidden content.
+\end{itemize}
+\end{definition}
+
+\begin{theorem}[RG scale-tail closure]
+\label{thm:philosophy-rg-scale-tail-closure}
+Let a Yang--Mills RG tower have three-properties ledger discipline on every
+finite layer, tube closure certificates on finite layers, and an RG
+scale-tail closure certificate. If the continuum Yang--Mills packet is
+accepted as closed, then the tower has a uniform RG gap certificate.
+\end{theorem}
+\begin{proof}
+Assume that no uniform RG gap certificate exists. By
+\autoref{thm:philosophy-rg-scale-tail-localization}, either there is a
+finite RG tube defect or there is an RG scale-tail defect.
+
+In the finite-layer case,
+\autoref{thm:philosophy-finite-rg-tube-defect-visible-or-ledgered} gives a
+finite Wilson or spin-network packet address or a finite-layer tube tail
+address. The finite-layer row of
+\autoref{def:philosophy-rg-scale-tail-closure-certificate} sends this
+defect to the corresponding tube closure ledger. Omitting that ledger
+violates ledger discipline; carrying it unresolved contradicts closedness.
+
+In the scale-tail case, the scale-tail row records the sequence
+$n_j\to\infty$ with $m_{n_j}\to0$. Omitting that row violates ledger
+discipline, while carrying it unresolved contradicts the closedness row.
+Both alternatives contradict the stated assumptions. Therefore a uniform
+$m_{\ast}>0$ and a tail index $N$ must exist.
+\end{proof}
+
+\begin{definition}[Spectral convergence certificate]
+\label{def:philosophy-spectral-convergence-certificate}
+A spectral convergence certificate from an RG tower to
+$\mathcal Y_{\infty}$ consists of comparison rows $J_n$ for the physical
+Hilbert carriers and a vacuum row $J_n\Omega_n\to\Omega_{\infty}$ such that
+for every $f\in C_c((0,\infty))$,
+$$
+J_n f(H_n)J_n^{\ast}\longrightarrow f(H_{\infty})
+$$
+strongly on the displayed continuum Hilbert surface. Any failure of this
+strong convergence is a spectral-convergence defect and must enter the
+renormalization ledger.
+\end{definition}
+
+\begin{theorem}[Uniform RG gap passes to the continuum]
+\label{thm:philosophy-uniform-rg-gap-passes-to-continuum}
+Assume a Yang--Mills RG tower has a uniform RG gap certificate with constant
+$m_{\ast}>0$ and has a spectral convergence certificate with no open
+spectral-convergence defect. Then the continuum physical Hilbert spectrum on
+$\Omega_{\infty}^{\perp}$ is disjoint from $(0,m_{\ast})$.
+\end{theorem}
+\begin{proof}
+Let $f\in C_c((0,m_{\ast}))$. On every sufficiently late finite layer, the
+vacuum-orthogonal spectrum of $H_n$ is contained in $[m_{\ast},\infty)$.
+Since $f$ is supported below $m_{\ast}$ and away from the vacuum point, the
+operator $f(H_n)$ vanishes on the displayed physical surface after the
+vacuum row is removed. The spectral convergence certificate gives
+$$
+J_n f(H_n)J_n^{\ast}\longrightarrow f(H_{\infty}).
+$$
+The left side is eventually zero on the vacuum-orthogonal surface, hence
+$f(H_{\infty})$ vanishes there. If the continuum vacuum-orthogonal spectrum
+met $(0,m_{\ast})$, functional calculus would supply such an $f$ with
+$f(H_{\infty})\ne0$ on that spectral subspace. This contradiction proves the
+claim.
+\end{proof}
+
+\begin{corollary}[RG scale-tail closure gives the continuum gap route]
+\label{cor:philosophy-rg-scale-tail-closure-continuum-gap-route}
+For a Yang--Mills bridge packet with Wilson--Peter--Weyl completeness,
+finite-layer tube closure, RG scale-tail closure, spectral convergence, and
+closed tail ledgers, the continuum vacuum-orthogonal spectrum is bounded
+away from zero by some $m_{\ast}>0$.
+\end{corollary}
+\begin{proof}
+\autoref{thm:philosophy-rg-scale-tail-closure} supplies a uniform RG gap
+certificate. By
+\autoref{thm:philosophy-uniform-rg-gap-passes-to-continuum}, spectral
+convergence transfers that uniform lower bound to the continuum Hilbert
+surface. Wilson--Peter--Weyl completeness identifies the finite packet
+surface with the declared dense gauge-invariant vacuum-orthogonal sector.
+Any residual outside that sector is an ultraviolet, infrared,
+renormalization, topological, gauge, packet-complexity, or scale-tail ledger
+row; closedness rejects it as hidden unfinished content. Hence the accepted
+continuum packet has a positive physical mass gap on the declared sector.
+\end{proof}
+
+\begin{theorem}[Yang--Mills RG closure boundary]
+\label{thm:philosophy-yang-mills-rg-closure-boundary}
+The RG side of the Yang--Mills mass-gap route is closed exactly by the
+combination of finite-layer tube closure, RG scale-tail closure, spectral
+convergence, Wilson--Peter--Weyl completeness, and closed tail ledgers. If a
+continuum gap failed under those hypotheses, the failure would have to be a
+finite Wilson packet residual, a finite tube domination defect, an RG
+scale-tail defect, an ultraviolet, infrared, topological, gauge, or
+packet-complexity tail defect, or a spectral-convergence defect.
+\end{theorem}
+\begin{proof}
+Finite-layer tube defects are localized by
+\autoref{thm:philosophy-finite-rg-tube-defect-visible-or-ledgered}. Loss of
+uniform positivity along the RG tower is localized by
+\autoref{thm:philosophy-rg-scale-tail-localization}. Once uniform positivity
+is present, the passage to the continuum is exactly the content of
+\autoref{thm:philosophy-uniform-rg-gap-passes-to-continuum}; any failure of
+that passage is, by definition, a spectral-convergence defect. All other
+ways for a residual to escape the fixed packet surface are precisely the
+physical and packet-complexity tail ledgers already named in the
+Yang--Mills bridge packet. Thus a closed accepted object cannot let the mass
+gap vanish without producing one of the displayed addresses.
+\end{proof}

@@ -4,13 +4,19 @@ import BEDC.FKernel.Cont.Cancellation
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Cont
 import BEDC.FKernel.Bundle
+import BEDC.FKernel.Ask
+import BEDC.FKernel.NameCert
+import BEDC.FKernel.Package
 
 namespace BEDC.Derived.RandomVarUp
 
+open BEDC.FKernel.Ask
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Cont
 open BEDC.FKernel.Unary
 open BEDC.FKernel.Bundle
+open BEDC.FKernel.NameCert
+open BEDC.FKernel.Package
 
 def RandomVarTotalDefectEvent (sourceTotal chosenPreimage defect : BHist) : Prop :=
   Cont chosenPreimage defect sourceTotal
@@ -341,5 +347,180 @@ theorem RandomVarCountablePreimageIntersection_exactness
   have witnessSource : hsame witness source :=
     cont_deterministic displayedTotalReadback cert.carried_total_bridge
   exact ⟨unary_transport sourceUnary (hsame_symm witnessSource), witnessSource⟩
+
+theorem RandomVarCountablePreimageIntersection_witness_determinacy
+    {source target intersection witness witnessPrime : BHist} :
+    UnaryHistory source ->
+      Cont target intersection witness ->
+        Cont target intersection witnessPrime ->
+          RandomVarTotalReadbackCertificate target source witness ->
+            RandomVarTotalReadbackCertificate target source witnessPrime ->
+              hsame witness witnessPrime := by
+  -- BEDC touchpoint anchor: BHist Cont hsame RandomVarTotalReadbackCertificate
+  intro _sourceUnary targetIntersectionReadback targetIntersectionReadbackPrime cert certPrime
+  have intersectionEmpty : hsame intersection BHist.Empty :=
+    cont_left_cancel targetIntersectionReadback cert.chosen_readback
+  have displayedReadback : Cont target BHist.Empty witness :=
+    cont_hsame_transport (hsame_refl target) intersectionEmpty (hsame_refl witness)
+      targetIntersectionReadback
+  have witnessSource : hsame witness source :=
+    cont_deterministic displayedReadback cert.carried_total_bridge
+  have intersectionEmptyPrime : hsame intersection BHist.Empty :=
+    cont_left_cancel targetIntersectionReadbackPrime certPrime.chosen_readback
+  have displayedReadbackPrime : Cont target BHist.Empty witnessPrime :=
+    cont_hsame_transport (hsame_refl target) intersectionEmptyPrime
+      (hsame_refl witnessPrime) targetIntersectionReadbackPrime
+  have witnessPrimeSource : hsame witnessPrime source :=
+    cont_deterministic displayedReadbackPrime certPrime.carried_total_bridge
+  exact hsame_trans witnessSource (hsame_symm witnessPrimeSource)
+
+theorem RandomVarMartingaleFiltration_handoff [AskSetup] [PackageSetup]
+    {sourceProb preimage totalReadback filtration transport replay provenance localName
+      preimageRead totalEndpoint filtrationRead namedRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    UnaryHistory sourceProb -> UnaryHistory preimage -> UnaryHistory totalReadback ->
+      UnaryHistory filtration -> UnaryHistory localName ->
+        Cont sourceProb preimage preimageRead ->
+          Cont preimageRead totalReadback totalEndpoint ->
+            Cont totalEndpoint filtration filtrationRead ->
+              Cont filtrationRead localName namedRead ->
+                PkgSig bundle provenance pkg ->
+                  SemanticNameCert
+                      (fun row : BHist => hsame row namedRead ∧ UnaryHistory row)
+                      (fun row : BHist =>
+                        hsame row sourceProb ∨ hsame row preimage ∨
+                          hsame row totalReadback ∨ hsame row filtration ∨
+                            hsame row transport ∨ hsame row replay ∨
+                              hsame row provenance ∨ hsame row localName ∨
+                                hsame row namedRead)
+                      (fun row : BHist =>
+                        UnaryHistory row ∧ Cont sourceProb preimage preimageRead ∧
+                          Cont preimageRead totalReadback totalEndpoint ∧
+                            Cont totalEndpoint filtration filtrationRead ∧
+                              Cont filtrationRead localName namedRead ∧
+                                PkgSig bundle provenance pkg)
+                      hsame ∧
+                    UnaryHistory namedRead := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont PkgSig hsame SemanticNameCert UnaryHistory
+  intro unarySource unaryPreimage unaryTotal unaryFiltration unaryLocal preimageRoute
+    totalRoute filtrationRoute namedRoute provenanceSig
+  have preimageReadUnary : UnaryHistory preimageRead :=
+    unary_cont_closed unarySource unaryPreimage preimageRoute
+  have totalEndpointUnary : UnaryHistory totalEndpoint :=
+    unary_cont_closed preimageReadUnary unaryTotal totalRoute
+  have filtrationReadUnary : UnaryHistory filtrationRead :=
+    unary_cont_closed totalEndpointUnary unaryFiltration filtrationRoute
+  have namedUnary : UnaryHistory namedRead :=
+    unary_cont_closed filtrationReadUnary unaryLocal namedRoute
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => hsame row namedRead ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row sourceProb ∨ hsame row preimage ∨ hsame row totalReadback ∨
+              hsame row filtration ∨ hsame row transport ∨ hsame row replay ∨
+                hsame row provenance ∨ hsame row localName ∨ hsame row namedRead)
+          (fun row : BHist =>
+            UnaryHistory row ∧ Cont sourceProb preimage preimageRead ∧
+              Cont preimageRead totalReadback totalEndpoint ∧
+                Cont totalEndpoint filtration filtrationRead ∧
+                  Cont filtrationRead localName namedRead ∧ PkgSig bundle provenance pkg)
+          hsame := {
+    core := {
+      carrier_inhabited :=
+        Exists.intro namedRead ⟨hsame_refl namedRead, namedUnary⟩
+      equiv_refl := by intro row _source; exact hsame_refl row
+      equiv_symm := by intro _row _other sameRows; exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        exact ⟨hsame_trans (hsame_symm sameRows) source.left,
+          unary_transport source.right sameRows⟩
+    }
+    pattern_sound := by
+      intro _row source
+      right; right; right; right; right; right; right; right
+      exact source.left
+    ledger_sound := by
+      intro _row source
+      exact
+        ⟨source.right, preimageRoute, totalRoute, filtrationRoute, namedRoute,
+          provenanceSig⟩
+  }
+  exact ⟨cert, namedUnary⟩
+
+theorem RandomVarProbSpaceDistribution_sibling_route [AskSetup] [PackageSetup]
+    {probSource measurableTarget preimage classifier transport replay provenance localName
+      distributionRead namedRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    UnaryHistory probSource -> UnaryHistory measurableTarget -> UnaryHistory preimage ->
+      UnaryHistory classifier -> UnaryHistory distributionRead -> UnaryHistory localName ->
+        Cont probSource measurableTarget preimage ->
+          Cont preimage classifier distributionRead ->
+            Cont distributionRead localName namedRead ->
+              PkgSig bundle provenance pkg ->
+                SemanticNameCert
+                    (fun row : BHist => hsame row distributionRead ∧ UnaryHistory row)
+                    (fun row : BHist =>
+                      hsame row probSource ∨ hsame row measurableTarget ∨
+                        hsame row preimage ∨ hsame row classifier ∨
+                          hsame row transport ∨ hsame row replay ∨
+                            hsame row provenance ∨ hsame row localName ∨
+                              hsame row distributionRead ∨ hsame row namedRead)
+                    (fun row : BHist =>
+                      UnaryHistory row ∧ Cont probSource measurableTarget preimage ∧
+                        Cont preimage classifier distributionRead ∧
+                          Cont distributionRead localName namedRead ∧
+                            PkgSig bundle provenance pkg)
+                    hsame ∧
+                  UnaryHistory namedRead := by
+  -- BEDC touchpoint anchor: BHist ProbeBundle Pkg Cont PkgSig hsame SemanticNameCert UnaryHistory
+  intro unaryProb unaryMeasurable _unaryPreimage unaryClassifier unaryDistribution
+    unaryLocal probPreimageRoute distributionRoute namedRoute provenanceSig
+  have preimageUnary : UnaryHistory preimage :=
+    unary_cont_closed unaryProb unaryMeasurable probPreimageRoute
+  have distributionUnary : UnaryHistory distributionRead :=
+    unary_cont_closed preimageUnary unaryClassifier distributionRoute
+  have namedUnary : UnaryHistory namedRead :=
+    unary_cont_closed distributionUnary unaryLocal namedRoute
+  have cert :
+      SemanticNameCert
+          (fun row : BHist => hsame row distributionRead ∧ UnaryHistory row)
+          (fun row : BHist =>
+            hsame row probSource ∨ hsame row measurableTarget ∨ hsame row preimage ∨
+              hsame row classifier ∨ hsame row transport ∨ hsame row replay ∨
+                hsame row provenance ∨ hsame row localName ∨ hsame row distributionRead ∨
+                  hsame row namedRead)
+          (fun row : BHist =>
+            UnaryHistory row ∧ Cont probSource measurableTarget preimage ∧
+              Cont preimage classifier distributionRead ∧
+                Cont distributionRead localName namedRead ∧
+                  PkgSig bundle provenance pkg)
+          hsame := {
+    core := {
+      carrier_inhabited :=
+        Exists.intro distributionRead ⟨hsame_refl distributionRead, distributionUnary⟩
+      equiv_refl := by intro row _source; exact hsame_refl row
+      equiv_symm := by intro _row _other sameRows; exact hsame_symm sameRows
+      equiv_trans := by
+        intro _row _middle _other sameLeft sameRight
+        exact hsame_trans sameLeft sameRight
+      carrier_respects_equiv := by
+        intro _row _other sameRows source
+        exact ⟨hsame_trans (hsame_symm sameRows) source.left,
+          unary_transport source.right sameRows⟩
+    }
+    pattern_sound := by
+      intro _row source
+      right; right; right; right; right; right; right; right; left
+      exact source.left
+    ledger_sound := by
+      intro _row source
+      exact
+        ⟨source.right, probPreimageRoute, distributionRoute, namedRoute,
+          provenanceSig⟩
+  }
+  exact ⟨cert, namedUnary⟩
 
 end BEDC.Derived.RandomVarUp

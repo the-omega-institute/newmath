@@ -20,19 +20,19 @@ date-modified: today
 
 ## 当前观察 (auto-refresh)
 
-> 最后刷新: 2026-07-02T06:55:43Z
+> 最后刷新: 2026-07-02T14:23:09Z
 
-**Daemon 状态**: monitor (monitor cycle 250, adjust_since_research 2, round_counter 35117, last_adjust rule_evolution_completed)
+**Daemon 状态**: monitor (monitor cycle 256, adjust_since_research 2, round_counter 35779, last_adjust rule_evolution_completed)
 
-**待处理 queue** (1128 条 finding):
-- isolated_theorem: 810 条; 代表样本 `derived`, `derived`, `derived`
+**待处理 queue** (1155 条 finding):
+- isolated_theorem: 836 条; 代表样本 `derived`, `derived`, `derived`
 - unauthorized_capstone: 253 条; 代表样本 `cauchy`, `helly_theorem`, `metacic_candidate_strong_normalization`
-- low_entropy_template: 65 条; 代表样本 `variation_norm`, `kernelinductiveacceptance`, `polishspace`
+- low_entropy_template: 66 条; 代表样本 `variation_norm`, `kernelinductiveacceptance`, `polishspace`
 
 **最近 alert 概览** (24h 内):
-- TASTE ALERT category=isolated_theorem: 81 次
-- TASTE ALERT category=low_entropy_template: 27 次
-- TASTE ALERT category=cycle_exception: 8 次
+- TASTE ALERT category=isolated_theorem: 72 次
+- TASTE ALERT category=low_entropy_template: 13 次
+- TASTE ALERT category=cycle_exception: 2 次
 - TASTE ALERT category=resolution_gate_failed: 1 次
 
 **RESEARCH 候选 (尚未 ship)**: 本周期无新候选
@@ -494,6 +494,18 @@ error: build failed, audit=skipped, phase_d_lint=skipped.
 - 2026-07-02T05:33:46Z: `resolved` `delete_theorem` for `BEDC.Derived.StepIndexedTotalHostUp.StepIndexedTotalHostCarrier_sibling_boundary` (flag `isolated_theorem`, finding `isolated_theorem:stepindexedtotalhost:BEDC.Derived.StepIndexedTotalHostUp.StepIndexedTotalHostCarrier_sibling_boundary:b8986066`). Rationale: The target had no Lean downstream users and only a removable paper marker. Its proof merely repackaged existing StepIndexedTotalHostCarrier projections together with externally supplied sibling UnaryHistory and Cont premises, while the same file already retains the more substantive public sibling boundary theorem that ties the carrier through the public interface and SemanticNameCert surface. Gate results: lake_build=ok, audit=ok, phase_d_lint=ok, axiom_purity=ok.
 
 - 2026-07-02T06:55:12Z: `resolved` `add_downstream_user` for `BEDC.Derived.SylowUp.SylowCarrier_prime_power_coverage` (flag `isolated_theorem`, finding `isolated_theorem:derived:BEDC.Derived.SylowUp.SylowCarrier_prime_power_coverage:43e3a8b4`). Rationale: The target is structurally meaningful: it isolates the Sylow packet's prime row, exponent row, coverage row, coverage Cont route, and provenance package, and the paper treats it as a named component of the Sylow obligation surface. It was isolated only because the later closure theorem re-projected the same carrier fields directly. I made SylowCarrier_obligation_closure_surface consume BEDC.Derived.SylowUp.SylowCarrier_prime_power_coverage and reuse its extracted coverage surface before assembling the broader NameCert closure. Gate results: lake_build=ok, audit=ok, phase_d_lint=ok, axiom_purity=ok.
+
+- 2026-07-02T08:05:47Z: `resolved` `add_downstream_user` for `BEDC.Derived.SylowUp.SylowCarrier_namecert_obligations` (flag `isolated_theorem`, finding `isolated_theorem:derived:BEDC.Derived.SylowUp.SylowCarrier_namecert_obligations:43e3a8b4`). Rationale: The target is not a disposable wrapper: it is the paper's primary checked NameCert-obligation theorem for the Sylow carrier, and the surrounding chapter uses it as the local carrier-admission surface. Repo search showed no Lean downstream consumer, so I added SylowCarrier_public_readback_consumes_namecert_obligations in the same Sylow row family. The new theorem substantively consumes SylowCarrier_namecert_obligations and combines its SemanticNameCert/provenance output with the public scope dependency lock and Cont/PkgSig consumer route. Gate results: lake_build=ok, audit=ok, phase_d_lint=ok, axiom_purity=ok.
+
+- 2026-07-02T09:15:31Z: `resolved` `add_downstream_user` for `BEDC.Derived.SylowUp.SylowCarrier_conjugacy_transport` (flag `isolated_theorem`, finding `isolated_theorem:derived:BEDC.Derived.SylowUp.SylowCarrier_conjugacy_transport:43e3a8b4`). Rationale: The theorem has meaningful BEDC content: it transports conjugacy data between two accepted Sylow carriers via coverage/action hsame rows and exposes both transport Cont routes. It was paper-marked but had no Lean downstream consumer, so I added SylowCarrier_conjugacy_transport_public_scope, which uses the target together with both sides of SylowCarrier_scope_dependency_lock to bind conjugacy transport to public-read NameCert scope certificates. Gate results: lake_build=ok, audit=ok, phase_d_lint=ok, axiom_purity=ok.
+
+- 2026-07-02T10:30:32Z: `resolved` `add_downstream_user` for `BEDC.Derived.ClosurePreservationAuditWitnessUp.ClosurePreservationAuditWitness_substitution_row` (flag `isolated_theorem`, finding `isolated_theorem:derived:BEDC.Derived.ClosurePreservationAuditWitnessUp.ClosurePreservationAuditWitness_substitution_row:3c7e3bf5`). Rationale: The target theorem carries real BEDC content: it extracts the shift, variable-substitution, and full-substitution closedness rows from the ClosurePreservationAuditWitness carrier, rather than merely restating another theorem. It was isolated in source use, so I added a downstream consumer in the MetaCICClosurePreservationWitness sibling that invokes this substitution row and hands the resulting full-substitution audit read into the witness carrier's audit row and continuation route. Gate results: lake_build=ok, audit=ok, phase_d_lint=ok, axiom_purity=ok.
+
+- 2026-07-02T12:00:41Z: `resolved` `add_downstream_user` for `BEDC.Derived.ClosurePreservationAuditWitnessUp.ClosurePreservationAuditWitness_beta_star_row` (flag `isolated_theorem`, finding `isolated_theorem:derived:BEDC.Derived.ClosurePreservationAuditWitnessUp.ClosurePreservationAuditWitness_beta_star_row:3c7e3bf5`). Rationale: The theorem carries real BEDC content: it extracts the beta-step route and derives a beta-star read as a closed UnaryHistory row from the ClosurePreservationAuditWitness carrier, rather than restating an existing theorem. It was isolated in downstream Lean use, so I added a sibling consumer in MetaCICClosurePreservationWitnessUp that invokes the beta-star row, transports it into the witness audit row through hsame, and then consumes it through the witness continuation route. Gate results: lake_build=ok, audit=ok, phase_d_lint=ok, axiom_purity=ok.
+
+- 2026-07-02T13:12:37Z: `resolved` `add_downstream_user` for `BEDC.Derived.ExtremeValueUp.ExtremeValueCarrier_finite_net_attainment` (flag `isolated_theorem`, finding `isolated_theorem:extremevalue:BEDC.Derived.ExtremeValueUp.ExtremeValueCarrier_finite_net_attainment:637258a5`). Rationale: The target has real BEDC content: it extracts the finite-net carrier field equality, unary closure for the value read, and the Cont route from an accepted ExtremeValuePacket, and the paper uses it as the finite-net attainment claim. It was isolated only because the later Real-seal boundary theorem rebuilt adjacent facts without calling it. I added a sibling consumer theorem in RealSealBoundary.lean that uses the target together with ExtremeValueRealSealBoundary to export both the SemanticNameCert seal boundary and the finite-net carrier/read route. Gate results: lake_build=ok, audit=ok, phase_d_lint=ok, axiom_purity=ok.
+
+- 2026-07-02T14:22:35Z: `resolved` `delete_theorem` for `BEDC.Derived.UniformCauchyCompletionRealizerUp.UniformCauchyCompletionRealizerCarrier_modulus_stability` (flag `isolated_theorem`, finding `isolated_theorem:derived:BEDC.Derived.UniformCauchyCompletionRealizerUp.UniformCauchyCompletionRealizerCarrier_modulus_stability:1758c981`). Rationale: The target had no Lean downstream users and only one removable paper marker. Its actual Lean content was a direct carrier-field projection, while the sibling theorem UniformCauchyCompletionRealizerCarrier_real_seal_handoff already projects a strictly stronger field surface including the same dyadic/window/readback/modulus/seal route plus the source row. The paper's informal modulus-stability theorem remains as seed-level text, but it no longer claims this weak projection as a checked realization. Gate results: lake_build=ok, audit=ok, phase_d_lint=ok, axiom_purity=ok.
 
 ## 注解
 

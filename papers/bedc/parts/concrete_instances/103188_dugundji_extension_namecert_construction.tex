@@ -82,6 +82,38 @@ The target handoff is $V$ followed by $L$. The row $V$ supplies the $\ConvexSetU
 Only after these rows are displayed does the graph row $G$ export a $\ContinuousMapUp$ read. Componentwise transport, replay, provenance, and the local row $N$ preserve this order, so every extension read reaches the local NameCert through the stated factorization and through no excluded host principle.
 \end{proof}
 
+\begin{theorem}[Dugundji extension closed-subspace exposure]
+\label{thm:dugundji-extension-closed-subspace-exposure}
+Let
+$$
+D=(A,S,T,V,L,G,R,H,C,P,N)
+$$
+be an accepted $\DugundjiExtensionUp$ carrier, written in source-first order for the exposure read. Before the extension graph $G$ is public, the packet must display the ambient source row $A$, the closed subspace row $S$, the Tietze seed row $T$, and the convex target row $V$. Thus every accepted extension read exposes the source, domain restriction, scalar seed, and convex target before it can compare or export the graph row.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:dugundji-extension-carrier}. Its displayed rows include the ambient metric/topology source, closed subspace, convex target, Tietze seed, affine ledger, graph, real seal, transport, replay, provenance, and local name.
+
+Apply the NameCert obligations of \autoref{thm:dugundji-extension-namecert-obligations}. Closed-subspace exposure passes through $S$ inside $A$, Tietze seed compatibility passes through $T$, and the convex affine handoff passes through $V$ before the graph row is exposed.
+
+The remaining rows $L,R,H,C,P,N$ preserve and name the same route. They do not supply a second source, a hidden closed-domain comparison, or a detached graph export, so $G$ becomes public only after $A,S,T,V$ have been displayed.
+\end{proof}
+
+\begin{theorem}[Dugundji extension convex affine non-escape]
+\label{thm:dugundji-extension-convex-affine-nonescape}
+For every accepted $\DugundjiExtensionUp$ carrier
+$$
+D=(A,S,T,V,L,G,R,H,C,P,N),
+$$
+the affine ledger $L$ and the $\RealUp$ seal $R$ keep the extension graph $G$ inside displayed convex affine combinations over the target row $V$. The accepted route excludes host choice, selected covers, quotient map equality, and function extensionality as sources for the graph or for its value comparison.
+\end{theorem}
+\begin{proof}
+Use the affine handoff of \autoref{thm:dugundji-extension-affine-handoff}. It forces every extension read to pass from the ambient and closed-domain rows through the Tietze seed, convex target, affine ledger, and real seal before reaching the exported graph.
+
+Now apply the closed-subspace exposure theorem \autoref{thm:dugundji-extension-closed-subspace-exposure}. Since $A,S,T,V$ are already displayed before $G$ is public, the ledger $L$ can only assemble values from the exposed convex target and the scalar data sealed by $R$.
+
+No excluded principle is a carrier coordinate. The rows $H,C,P,N$ transport, replay, source, and name the finite packet, but they do not add host choice, selected covers, quotient map equality, or function extensionality to the accepted graph route.
+\end{proof}
+
 \closureat{DugundjiExtensionUp}{seedStr}
 
 \begin{closurestatus}{\DugundjiExtensionUp}

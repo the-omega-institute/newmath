@@ -1,11 +1,14 @@
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
+import BEDC.FKernel.Unary.History
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.RegularCauchyTailScheduleUp
 
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
+open BEDC.FKernel.Cont
+open BEDC.FKernel.Unary
 open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
@@ -424,5 +427,43 @@ theorem RegularCauchyTailScheduleTasteGate_single_carrier_alignment :
       · intro x y heq
         exact regularCauchyTailScheduleToEventFlow_injective heq
       · rfl
+
+theorem RegularCauchyTailSchedule_seal_facing_route_determinacy
+    {Q R W D K T M F E E' H C P N route tailRead meetRead fusionRead sealRead sealRead' :
+      BHist} :
+    UnaryHistory Q ->
+      UnaryHistory R ->
+        UnaryHistory W ->
+          UnaryHistory M ->
+            UnaryHistory F ->
+              Cont Q R route ->
+                Cont route W tailRead ->
+                  Cont tailRead M meetRead ->
+                    Cont meetRead F fusionRead ->
+                      Cont fusionRead E sealRead ->
+                        Cont fusionRead E' sealRead' ->
+                          hsame E E' ->
+                            hsame sealRead sealRead' ∧
+                              regularCauchyTailScheduleFromEventFlow
+                                  (regularCauchyTailScheduleToEventFlow
+                                    (RegularCauchyTailScheduleUp.mk Q R W D K T M F E H C P N)) =
+                                some
+                                  (RegularCauchyTailScheduleUp.mk Q R W D K T M F E H C P N) := by
+  -- BEDC touchpoint anchor: BHist BMark Cont UnaryHistory hsame
+  intro unaryQ unaryR unaryW unaryM unaryF routeQR routeTail routeMeet routeFusion sealRoute
+    sealRoute' sameEndpoint
+  have unaryRoute : UnaryHistory route := unary_cont_closed unaryQ unaryR routeQR
+  have unaryTailRead : UnaryHistory tailRead :=
+    unary_cont_closed unaryRoute unaryW routeTail
+  have unaryMeetRead : UnaryHistory meetRead :=
+    unary_cont_closed unaryTailRead unaryM routeMeet
+  have unaryFusionRead : UnaryHistory fusionRead :=
+    unary_cont_closed unaryMeetRead unaryF routeFusion
+  constructor
+  · exact
+      cont_respects_hsame (hsame_refl fusionRead) sameEndpoint sealRoute sealRoute'
+  · exact
+      regularCauchyTailSchedule_round_trip
+        (RegularCauchyTailScheduleUp.mk Q R W D K T M F E H C P N)
 
 end BEDC.Derived.RegularCauchyTailScheduleUp

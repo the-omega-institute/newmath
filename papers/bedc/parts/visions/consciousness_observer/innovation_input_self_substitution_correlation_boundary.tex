@@ -1,0 +1,431 @@
+\chapter{Innovation Input Self-Substitution Correlation Boundary}
+\label{ch:visions-innovation-input-self-substitution-correlation-boundary}
+\origin{ai}
+
+\autoref{ch:visions-innovation-input-lineage-self-reference-boundary}
+isolates the Q3 phase-polygon equation for self-substitution rows and
+exhibits the binary, ternary, and square-alphabet boundary cases. This
+chapter records the correlation machine behind those examples. The
+two-point arrow is not carried by Q3 itself; it is carried by the imaginary
+part of the word-level correlation coefficients that enter the carry
+recursion. The constructions below are stated for an arbitrary phase word;
+the Q3 equation
+$$
+\sum_{a=0}^{N-1}v_a=\sqrt N
+$$
+then selects the self-substitution rows compatible with the innovation
+input projection.
+
+\section{Layered Phase Correlations}
+\label{sec:innovation-input-correlation-layered-phases}
+
+\begin{definition}[Layered phase sequence]
+\label{def:innovation-input-layered-phase-sequence}
+Let $v=(v_0,\ldots,v_{N-1})\in\mathbb T^N$ be a self-substitution phase
+word as in
+\autoref{def:innovation-input-self-substitution-phase-word}. For
+$$
+n=a_0+a_1N+\cdots+a_{K-1}N^{K-1},
+\qquad
+a_j\in\{0,\ldots,N-1\},
+$$
+define the level-$K$ phase by
+$$
+u_n^{(K)}
+:=
+v_{a_0}v_{a_1}\cdots v_{a_{K-1}}.
+$$
+Equivalently,
+$$
+u_{Nq+a}^{(K)}=v_a u_q^{(K-1)}.
+$$
+This is the one-index form of the parent-cell rule $u_{ca}=v_a u_c$.
+\end{definition}
+
+\begin{definition}[Level correlation and two-point weak reversibility]
+\label{def:innovation-input-two-point-weak-reversibility}
+For $m\ge0$, set
+$$
+\gamma_K(m)
+:=
+\frac1{N^K}
+\sum_{n=0}^{N^K-1-m}
+u_{n+m}^{(K)}\overline{u_n^{(K)}}.
+$$
+When the limit exists, write
+$$
+\gamma(m):=\lim_{K\to\infty}\gamma_K(m).
+$$
+The phase word is two-point weakly reversible when
+$$
+\gamma(m)\in\mathbb R
+\qquad
+\text{for all }m\ge0.
+$$
+Equivalently, after extending the row by
+$$
+\gamma(-m):=\overline{\gamma(m)},
+$$
+the two-point row satisfies $\gamma(-m)=\gamma(m)$. Thus the row is
+invisible to reversal at the level of two-point phase correlations.
+This condition is weaker than reflection positivity. It only states that
+the two-point phase correlations do not by themselves distinguish a time
+orientation.
+\end{definition}
+
+\section{Carry Recursion}
+\label{sec:innovation-input-correlation-carry-recursion}
+
+\begin{definition}[Word-level correlation coefficients]
+\label{def:innovation-input-word-level-correlation-coefficients}
+For $0\le r<N$, define
+$$
+s_r(v)
+:=
+\sum_{a=0}^{N-1-r}v_{a+r}\overline{v_a},
+$$
+and
+$$
+t_r(v)
+:=
+\sum_{a=N-r}^{N-1}v_{a+r-N}\overline{v_a}.
+$$
+For $r=0$ this means $s_0=N$ and $t_0=0$. For $r\ge1$,
+$$
+t_r(v)=\overline{s_{N-r}(v)}.
+$$
+\end{definition}
+
+\begin{lemma}[Carry-complement identity]
+\label{lem:innovation-input-carry-complement-identity}
+For $1\le r<N$, the carry coefficient satisfies
+$$
+t_r(v)=\overline{s_{N-r}(v)}.
+$$
+\end{lemma}
+
+\begin{proof}
+Starting from the carry part and setting $b=a+r-N$ gives
+$$
+t_r(v)
+=
+\sum_{a=N-r}^{N-1}v_{a+r-N}\overline{v_a}
+=
+\sum_{b=0}^{r-1}v_b\overline{v_{b+N-r}}.
+$$
+Taking complex conjugates gives
+$$
+\sum_{b=0}^{r-1}v_b\overline{v_{b+N-r}}
+=
+\overline{
+\sum_{b=0}^{r-1}v_{b+N-r}\overline{v_b}
+}
+=
+\overline{s_{N-r}(v)}.
+$$
+\end{proof}
+
+\begin{theorem}[Carry recursion for self-substitution correlations]
+\label{thm:innovation-input-correlation-carry-recursion}
+Let $m=Nq+r$ with $0\le r<N$. Then
+$$
+\gamma(Nq+r)
+=
+\frac1N
+\bigl(
+s_r(v)\gamma(q)+t_r(v)\gamma(q+1)
+\bigr).
+$$
+In particular,
+$$
+\gamma(Nq)=\gamma(q).
+$$
+\end{theorem}
+
+\begin{proof}
+Write $n=Nb+a$. If $a+r<N$, then
+$$
+n+m=N(b+q)+(a+r),
+$$
+and the local coefficient is
+$v_{a+r}\overline{v_a}$. If $a+r\ge N$, then
+$$
+n+m=N(b+q+1)+(a+r-N),
+$$
+and the local coefficient is
+$v_{a+r-N}\overline{v_a}$. Summing first over the child index $a$ gives
+the coefficients $s_r$ and $t_r$. At finite level this has the form
+$$
+\gamma_K(Nq+r)
+=
+\frac1N
+\bigl(
+s_r(v)\gamma_{K-1}(q)+t_r(v)\gamma_{K-1}(q+1)
+\bigr)
++
+O(N^{-K}).
+$$
+The boundary terms in the finite level average have relative size
+$O(N^{-K})$ and vanish as
+$K\to\infty$.
+\end{proof}
+
+\begin{theorem}[Existence and first correlation]
+\label{thm:innovation-input-correlation-existence}
+For every phase word $v\in\mathbb T^N$, the limit $\gamma(m)$ exists for
+each fixed $m\ge0$ and is uniquely determined by
+\autoref{thm:innovation-input-correlation-carry-recursion}. Moreover
+$$
+\gamma(1)=\frac{s_1(v)}{N-t_1(v)}.
+$$
+\end{theorem}
+
+\begin{proof}
+The value $\gamma(0)=1$ is immediate. For $m=1$, the finite-level recursion
+has the form
+$$
+\gamma_K(1)
+=
+\frac{s_1}{N}
++
+\frac{t_1}{N}\gamma_{K-1}(1)
++
+O(N^{-K}).
+$$
+Since $|t_1|\le1<N$, this is a contraction and gives the displayed fixed
+point. For $m>1$, write $m=Nq+r$. If $r=0$, the value is $\gamma(q)$ with
+$q<m$. If $r>0$, the recursion uses only $\gamma(q)$ and $\gamma(q+1)$,
+and these have smaller indices except in the already treated case
+$m=1$. Induction gives existence and uniqueness.
+\end{proof}
+
+\section{Weak Reversibility Criterion}
+\label{sec:innovation-input-correlation-weak-reversibility}
+
+\begin{definition}[Real word-level correlation condition]
+\label{def:innovation-input-real-word-level-correlation-condition}
+A phase word satisfies the real word-level correlation condition when
+$$
+s_r(v)\in\mathbb R
+\qquad
+1\le r<N.
+$$
+By \autoref{lem:innovation-input-carry-complement-identity}, this is
+equivalent to requiring all coefficients $s_r(v)$ and $t_r(v)$ in the
+carry recursion to be real.
+\end{definition}
+
+\begin{theorem}[Real word-level criterion]
+\label{thm:innovation-input-real-word-level-criterion}
+If
+$$
+s_r(v)\in\mathbb R
+\qquad
+1\le r<N,
+$$
+then
+$$
+\gamma(m)\in\mathbb R
+\qquad
+\text{for all }m\ge0.
+$$
+\end{theorem}
+
+\begin{proof}
+The condition implies $t_r(v)\in\mathbb R$ for all $r$. The first
+correlation is real by
+\autoref{thm:innovation-input-correlation-existence}. For general $m$,
+use induction in the carry recursion: when $m=Nq+r$, the right side is a
+real linear combination of already real correlations.
+\end{proof}
+
+\begin{corollary}[Real-sign words]
+\label{cor:innovation-input-real-sign-weak-reversible}
+If $v_a\in\{+1,-1\}$ for every $a$, then the self-substitution phase word
+is two-point weakly reversible. In particular, the square-alphabet Q3
+construction of
+\autoref{thm:innovation-input-higher-alphabet-reversible-self-substitution}
+has no two-point phase arrow.
+\end{corollary}
+
+\begin{proof}
+For a real-sign word each product $v_{a+r}\overline{v_a}$ is $\pm1$.
+Hence every $s_r(v)$ is an integer, and
+\autoref{thm:innovation-input-real-word-level-criterion} applies.
+\end{proof}
+
+\begin{theorem}[Square-alphabet real-sign Q3 rows]
+\label{thm:innovation-input-square-alphabet-real-sign-correlation-boundary}
+Let $N=k^2$. Choose
+$$
+P=\frac{k^2+k}{2}
+\qquad
+\text{and}
+\qquad
+M=\frac{k^2-k}{2}
+$$
+entries equal to $+1$ and $-1$, respectively. The resulting phase word is
+Q3-compatible and two-point weakly reversible.
+\end{theorem}
+
+\begin{proof}
+The cardinalities are integers because $k(k+1)$ and $k(k-1)$ are even,
+and $P+M=k^2=N$. The phase sum is
+$$
+\sum_a v_a=P-M=k=\sqrt N,
+$$
+so the Q3 phase-polygon equation holds. Since all entries are real signs,
+\autoref{cor:innovation-input-real-sign-weak-reversible} gives two-point
+weak reversibility.
+\end{proof}
+
+\section{Boundary Examples}
+\label{sec:innovation-input-correlation-boundary-examples}
+
+\begin{principle}[Binary coefficient source of the arrow]
+\label{prin:innovation-input-binary-coefficient-source-arrow}
+For the binary Q3 word
+$$
+v=(e^{i\pi/4},e^{-i\pi/4}),
+$$
+one has
+$$
+s_1=-i,
+\qquad
+t_1=i.
+$$
+Thus
+$$
+\gamma(1)=\frac{s_1}{2-t_1}=\frac{1-2i}{5}.
+$$
+Hence
+$$
+\operatorname{Im}\gamma(1)=-\frac25\ne0.
+$$
+The binary arrow is therefore read at the word-level coefficient
+$s_1$, before any long-range limit is taken. In particular the binary Q3
+self-substitution row is not two-point weakly reversible.
+\end{principle}
+
+\begin{principle}[Ternary weakly reversible word]
+\label{prin:innovation-input-ternary-weakly-reversible-word}
+For the ternary Q3 word
+$$
+v=(e^{i\pi/6},e^{-i\pi/2},e^{i\pi/6}),
+$$
+the Q3 sum is
+$$
+2e^{i\pi/6}-i=\sqrt3.
+$$
+The word-level coefficients are
+$$
+s_1=-1,
+\qquad
+s_2=1.
+$$
+The real word-level criterion therefore gives
+$\gamma(m)\in\mathbb R$ for all $m$. The explicit recursion is
+$$
+\gamma(3q)=\gamma(q),
+$$
+$$
+\gamma(3q+1)=\frac13\bigl(-\gamma(q)+\gamma(q+1)\bigr),
+$$
+and
+$$
+\gamma(3q+2)=\frac13\bigl(\gamma(q)-\gamma(q+1)\bigr),
+$$
+matching
+\autoref{thm:innovation-input-ternary-real-correlation-recursion}. The
+first values are
+$$
+\gamma(1)=-\frac12,
+\qquad
+\gamma(2)=\frac12.
+$$
+\end{principle}
+
+\begin{principle}[Quartic real-sign word]
+\label{prin:innovation-input-quartic-real-sign-word}
+For the real-sign Q3 word
+$$
+v=(1,1,1,-1),
+$$
+one has
+$$
+1+1+1-1=2=\sqrt4.
+$$
+The coefficients are
+$$
+s_1=1,
+\qquad
+s_2=0,
+\qquad
+s_3=-1.
+$$
+The carry coefficients are therefore
+$$
+t_1=-1,
+\qquad
+t_2=0,
+\qquad
+t_3=1.
+$$
+Hence
+$$
+\gamma(4q)=\gamma(q),
+$$
+$$
+\gamma(4q+1)=\frac14\bigl(\gamma(q)-\gamma(q+1)\bigr),
+$$
+$$
+\gamma(4q+2)=0,
+$$
+and
+$$
+\gamma(4q+3)=\frac14\bigl(-\gamma(q)+\gamma(q+1)\bigr).
+$$
+In particular $\gamma(1)=1/5$, $\gamma(2)=0$, and $\gamma(3)=-1/5$.
+\end{principle}
+
+\begin{principle}[Location of the two-point arrow]
+\label{prin:innovation-input-two-point-arrow-location}
+The two-point phase arrow is not forced by the Q3 phase-polygon equation
+alone. It is carried by the imaginary parts of the word-level coefficients
+$s_r(v)$. The binary Q3 equation has no freedom to make those coefficients
+real, while the ternary and real-sign square-alphabet rows do.
+\end{principle}
+
+\begin{principle}[Coefficient readout]
+\label{prin:innovation-input-coefficient-readout}
+The boundary between the basic examples is already visible in the first
+word-level coefficients:
+$$
+\begin{array}{c|c|c|c}
+N & \text{Q3 row} & \text{word-level readout} & \text{two-point row}\\
+\hline
+2 & (e^{i\pi/4},e^{-i\pi/4}) &
+s_1=-i &
+\gamma(1)=\frac{1-2i}{5}\\
+3 & (e^{i\pi/6},e^{-i\pi/2},e^{i\pi/6}) &
+s_1=-1,\ s_2=1 &
+\gamma(m)\in\mathbb R\\
+4 & (1,1,1,-1) &
+s_1=1,\ s_2=0,\ s_3=-1 &
+\gamma(m)\in\mathbb R\\
+k^2 & \pm1\text{ with } \#(+)-\#(-)=k &
+s_r\in\mathbb R &
+\gamma(m)\in\mathbb R
+\end{array}
+$$
+Thus two-point weak reversibility is controlled by the realness of the
+coefficients $s_r(v)$, not by Q3 compatibility alone.
+\end{principle}
+
+\begin{principle}[Finite-block boundary]
+\label{prin:innovation-input-finite-block-reversibility-boundary}
+Two-point weak reversibility is only the level detected by the pair
+correlations $\gamma(m)$. The finite-block layer is separated in
+\autoref{ch:visions-innovation-input-finite-block-reversibility-boundary}.
+The present chapter closes only the two-point criterion.
+\end{principle}

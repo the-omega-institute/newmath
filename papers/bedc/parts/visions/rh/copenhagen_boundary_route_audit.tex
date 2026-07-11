@@ -1,0 +1,482 @@
+\chapter{Copenhagen Boundary Route Audit}
+\label{ch:visions-rh-copenhagen-boundary-route-audit}
+\origin{ai}
+
+The Copenhagen no-scale route is a route-audit chapter, not a proof of
+$\mathsf{RH}$.  Its purpose is to keep three attractive reformulations on
+the honest side of the boundary.  A completed-xi route may speak in
+Copenhagen tower energy, in diagonal Jensen hyperbolicity, or in
+Gomboc--Stieltjes positivity; none of these languages supplies the missing
+source-side positivity by being renamed.  A closed proof still needs an
+independent global row that is cofinal in all visible cutoffs and is
+constructed before the zero divisor is read.
+
+\section{Faithful Reformulations and Leverage}
+\label{sec:rh-copenhagen-faithful-reformulations}
+
+\begin{principle}[Faithful reformulations are not leverage]
+\label{prin:rh-faithful-reformulations-not-leverage}
+The following rows are faithful reformulations of the same completed-xi
+barrier unless an independent source-side positivity or uniform-estimate
+row is supplied:
+$$
+\begin{gathered}
+\mathsf{NoFarEndAbsorption},\qquad
+\mathsf{LiPositivity},\qquad
+\mathsf{WeilPositivity},\\
+\mathsf{StieltjesHerglotzPositivity},\qquad
+\mathsf{FullJensenHyperbolicity}.
+\end{gathered}
+$$
+They may be excellent coordinates for the proof obligation.  They do not
+decrease the proof obligation merely by translating it into a positivity,
+moment, hyperbolicity, or no-scale dialect.
+\end{principle}
+
+The distinction is between a source row and a posterior readback.  If a
+positive spectral measure is built from an already fixed-half divisor, it
+records what $\mathsf{RH}$ would make visible; it does not generate
+$\mathsf{RH}$.  If Li, Weil, Herglotz, Stieltjes, or Jensen data are proved
+from prime-side or operator-side rows without consuming the zero-placement
+conclusion, then the route has leverage.  The audit question is therefore
+not whether these formulations are equivalent to the target.  The question
+is whether their positive object is produced on the source side.
+
+\section{The Three Projections of the Same Wall}
+\label{sec:rh-copenhagen-three-projections}
+
+\begin{principle}[Copenhagen boundary]
+\label{prin:rh-copenhagen-boundary}
+At the completed-xi level, the Copenhagen energy tower, the
+diagonal-Jensen row, and the Gomboc row are three projections of the same
+global positivity wall.  In schematic form the closed target is
+$$
+\begin{gathered}
+\forall D,n\; \mathsf{JensenHyperbolic}(D,n)\\
+\Longleftrightarrow\quad
+\exists \nu\ge0\; \mathsf{StieltjesXi}(\nu)\\
+\Longleftrightarrow\quad
+\forall \varphi\; \mathsf{WeilPSD}(\varphi).
+\end{gathered}
+$$
+The Copenhagen energy expression is the no-scale face of the same wall:
+an off-half real scale $r$ creates a positive factor $r^2$ multiplying a
+cofinal weight.  Bounded energy can then rule out positive apartness of
+$r^2$, but only after the cofinal bounded-energy capture has been supplied.
+\end{principle}
+
+The bridge just stated is a boundary principle, not a new theorem of this
+chapter.  Its force is negative: it prevents a proof from treating one
+projection as a free source for another.  A finite table of Jensen
+polynomials, a finite Weil Gram table, a finite spectral measure
+approximation, or a finite Copenhagen tower prefix sees only a bounded
+window.  A global result must be cofinal in degree, truncation, support,
+height, and packet depth.
+
+\begin{principle}[Finite visibility is incomplete]
+\label{prin:rh-finite-visibility-incomplete}
+Finite phase data, finite Jensen radius data, finite spectral data, and
+finite positive-semidefinite tables do not determine the complete zero
+set.  A finite window may be matched while additional zeros are inserted
+outside the visible radius by a Blaschke-type outer-window modification.
+Therefore finite success cannot be promoted to completed-xi closure unless
+there is a cofinal uniform theorem or an independent source-side
+construction that controls every later window.
+\end{principle}
+
+The consequence is operational.  If the argument asks to check all
+degrees $D$, all Jensen levels $n$, all spectral cutoffs $K$, or all
+compact supports one by one, then it has become an enumeration protocol
+rather than a proof.  A proof needs a row whose statement is uniform
+before the enumeration starts.
+
+\section{Checked Finite Brick}
+\label{sec:rh-copenhagen-checked-finite-brick}
+
+\begin{theorem}[Bounded energy excludes positive scale apartness]
+\label{thm:rh-copenhagen-bounded-energy-excludes-positive-scale-apartness}
+Let $r$ be a rational scale parameter, let
+$W:\mathbb N\to\mathbb Q$ be nonnegative and unbounded, and let $B$ be a
+rational bound.  If
+$$
+\forall n,\qquad r^2 W_n\le B,
+$$
+then $0<r^2$ is impossible.
+\leanchecked{BEDC.Derived.RHRoute.CopenhagenNoScale.boundedEnergy\_apart\_absurd}
+\end{theorem}
+
+\begin{proof}
+The formal proof chooses, by unboundedness of $W$, an index $n$ with
+$$
+W_n>B/r^2
+$$
+under the temporary assumption $0<r^2$.  Multiplication by the positive
+rational $r^2$ gives
+$$
+B<r^2W_n,
+$$
+contradicting the assumed bound $r^2W_n\le B$.  This is the abstract
+Archimedean no-scale brick.  It is checked in Lean with no additional
+axiom.
+\end{proof}
+
+\begin{theorem}[Finite normal-defect ledger]
+\label{thm:rh-normal-defect-ledger}
+Let $h_1,\dots,h_m$ be rational heights and $r$ a rational normal
+parameter, with per-height defect $d_a=-rh_a$, total reading
+$D=\sum_a d_a$, and energy $E=\sum_a d_a^{2}$.  Then
+$$
+D=-r\sum_a h_a,\qquad E=r^{2}\sum_a h_a^{2},
+$$
+the mirror $r\mapsto-r$ flips each first-order defect and fixes the
+second-order energy, and if $\sum_a h_a^{2}>0$ then $E>0$ for $r^{2}>0$
+while $E=0$ forces $r=0$.
+\leanchecked{BEDC.Derived.RHRoute.NormalDefectLedger.ledgerE\_identity}
+\leanvariant{BEDC.Derived.RHRoute.NormalDefectLedger.ledgerD\_identity}
+\leanvariant{BEDC.Derived.RHRoute.NormalDefectLedger.ledgerE\_neg\_parameter}
+\leanvariant{BEDC.Derived.RHRoute.NormalDefectLedger.ledgerE\_positive\_of\_square\_positive}
+\leanvariant{BEDC.Derived.RHRoute.NormalDefectLedger.ledgerE\_zero\_forces\_parameter\_zero}
+\end{theorem}
+
+\begin{proof}
+The first-order defect changes sign under the function-equation mirror,
+while the second-order energy survives the mirror.  Thus a finite
+window's energy reading is a faithful detector of an off-line normal
+offset at the level of rational ledger data.  This ledger supplies
+per-level readings for the Copenhagen tower of
+\autoref{thm:rh-copenhagen-bounded-energy-excludes-positive-scale-apartness},
+whereas the tower supplies the bounded-energy contradiction.
+
+The ledger does not say that a zeta zero rejects a nonzero normal
+parameter.  That rejection principle, whether named as no extra zero
+sheet, defect-zero incompatibility, or boundary stability, is the same
+$\mathsf{RH}$-equivalent wall as the Copenhagen tower capture obligation.
+An independent oracle route, treating an off-line zero as a new type and
+expecting boundary-information contradiction, audits to that same wall.
+The extractable value before the wall is precisely this finite ledger.
+\end{proof}
+
+\begin{theorem}[Finite jets underdetermine the polynomial]
+\label{thm:rh-finite-visibility-additive-jet-underdetermination}
+For every polynomial $p$ over the rationals and every $N$, there is an
+infinite injective family of polynomials, each sharing the first $N+1$
+coefficients, the degree-$N$ jet, with $p$, obtained by adding a single
+high-degree monomial beyond the visible window.  Hence a finite jet does
+not determine the polynomial.
+\leanchecked{BEDC.Derived.RHRoute.FiniteVisibility.fvFamily\_injective}
+\leanvariant{BEDC.Derived.RHRoute.FiniteVisibility.fvFamily\_shares\_jet}
+\leanvariant{BEDC.Derived.RHRoute.FiniteVisibility.jet\_extendAt\_invisible}
+\end{theorem}
+
+\begin{proof}
+This checked brick is the additive core of
+\autoref{prin:rh-finite-visibility-incomplete}.  The family changes only a
+coefficient beyond the visible degree-$N$ jet, so the finite window still
+reads the same polynomial data while the resulting polynomials are pairwise
+different.  The Blaschke-type outer-window modification in
+\autoref{prin:rh-finite-visibility-incomplete}, where one keeps the disk
+window fixed while inserting a zero outside it, is the multiplicative and
+geometric version of the same boundary principle.  That version remains a
+paper-level principle here and is not claimed as Lean checked.
+\end{proof}
+
+\begin{theorem}[Degree-two Turan certificate for Jensen positivity]
+\label{thm:rh-jensen-turan-degree2}
+Let $P(X)=a+2bX+cX^{2}$ be the degree-two Jensen polynomial with
+$c>0$.  Then $P$ takes a nonpositive value for some rational $X$ if and
+only if the Turan inequality $b^{2}\ge ac$ holds.  The proof completes
+the square,
+$$
+c\,P(X)=(cX+b)^{2}+(ac-b^{2}),
+$$
+and uses the witness $X=-b/c$.
+\leanchecked{BEDC.Derived.RHRoute.JensenTuranDegree2.jensen2\_dips\_iff\_turan}
+\leanvariant{BEDC.Derived.RHRoute.JensenTuranDegree2.jensen2\_complete\_square}
+\leanvariant{BEDC.Derived.RHRoute.JensenTuranDegree2.jensen2\_nonpos\_forces\_turan}
+\end{theorem}
+
+\begin{proof}
+This is an unconditional finite algebraic certificate over the rational
+carrier used by the Lean packet.  It isolates the structural core of the
+Turan inequality
+$$
+\gamma_{n+1}^{2}\ge \gamma_n\gamma_{n+2}
+$$
+for the Taylor coefficients that would feed the degree-two Jensen
+polynomial of $\xi$.  The certificate is strictly weaker than
+$\mathsf{RH}$: only Jensen hyperbolicity for all degrees $d$ and all
+levels $n$ is the P\'olya--$\mathsf{RH}$ equivalent statement.  It does
+not constrain $\xi$ zeros without the coefficient-enclosure obligation;
+turning the rational certificate into a statement about $\xi$ would also
+require certified rational enclosures for the relevant Taylor
+coefficients $\gamma_0,\gamma_1,\gamma_2$.
+\end{proof}
+
+\begin{theorem}[Cubic discriminant identity and the higher-Turan condition]
+\label{thm:rh-jensen-turan-degree3}
+Let $J(X)=g_0+3g_1X+3g_2X^2+g_3X^3$ be the degree-three Jensen
+polynomial and set $A=g_1^2-g_0g_2$, $B=g_2^2-g_1g_3$,
+$C=g_1g_2-g_0g_3$, and $T_3=4AB-C^2$.  Then the discriminant of $J$
+satisfies the pure ring identity
+$$
+\Delta(J)=27\,T_3,
+$$
+and, over the ordered rationals, $T_3\ge 0$ if and only if $A\ge 0$,
+$B\ge 0$, and $C^2\le 4AB$.
+\leanchecked{BEDC.Derived.RHRoute.JensenTuranDegree3.cubic\_discriminant\_eq\_27\_T3}
+\leanvariant{BEDC.Derived.RHRoute.JensenTuranDegree3.T3\_nonneg\_iff}
+\leanvariant{BEDC.Derived.RHRoute.JensenTuranDegree3.subdiscriminant\_A}
+\end{theorem}
+
+\begin{proof}
+The Lean certificate is finite, unconditional, and algebraic over the
+rational carrier.  The discriminant formula is a pure ring identity, and
+the subdiscriminant layer supplies the SOS-type identity
+$$
+4A^3=H_A^2+g_0^2T_3
+$$
+with the corresponding $B$-side relation used by the ordered-rational
+corollary.  Thus the nontrivial direction from $T_3\ge0$ to $A\ge0$ and
+$B\ge0$ is obtained without real closure.
+
+This is not the real-root bridge.  The implication
+$$
+\Delta\ge0\Longleftrightarrow J \hbox{ has three real roots}
+$$
+is a separate real-closure or Sturm obligation, and is not part of this
+certificate.  Over the ordered rationals, nonnegative discriminant does
+not even supply rational roots: $X^3-3X+1$ has discriminant $81>0$ and no
+rational root.  Nor is $T_3$ an unconditional coefficient-SOS polynomial:
+at $(g_0,g_1,g_2,g_3)=(1,0,0,1)$ one has $T_3=-1$.
+
+The fixed degree-three certificate is strictly weaker than
+$\mathsf{RH}$ and is not $\mathsf{RH}$-equivalent.  P\'olya equivalence
+requires Jensen hyperbolicity in every degree and every level.  Applying
+this finite algebraic brick to $\xi$ would still require certified
+enclosures for $\gamma_0,\gamma_1,\gamma_2,\gamma_3$, and the brick alone
+does not constrain the zero set of $\xi$.
+\end{proof}
+
+The conditional tower interface is also encoded:
+\leandef{BEDC.Derived.RHRoute.CopenhagenNoScale.CopenhagenTowerData}
+and
+\leandef{BEDC.Derived.RHRoute.CopenhagenNoScale.CopenhagenCaptureObligation}.
+The field
+$$
+\mathsf{energy\_bounded}:
+\exists B,\ \forall n,\ r^2W_n\le B
+$$
+inside $\mathsf{CopenhagenTowerData}$ is a capture input.  It is not
+inhabited here for completed zeta zeros.  The checked conditional theorem
+$$
+\mathsf{CopenhagenTowerData}(r)
+\Longrightarrow
+\neg(0<r^2)
+$$
+is recorded as
+\leanchecked{BEDC.Derived.RHRoute.CopenhagenNoScale.copenhagenTower\_forces\_not\_apart}.
+Thus the Lean contribution is a true finite brick plus a conditional
+handoff.  It does not assert $r=0$ by trichotomy, does not construct the
+xi tower, and does not prove $\mathsf{RH}$.
+
+\section{GAG One-Step Certificate}
+\label{sec:rh-copenhagen-gag-one-step-certificate}
+
+The GAG one-step packet is another finite brick in the same audit
+discipline.  For a fixed degree parameter $D$, a certificate records
+rational root isolation intervals $[r_i^-,r_i^+]$, a rational level
+interval $[\lambda^-,\lambda^+]$, and rational signed-lobe intervals
+$[S_i^-,S_i^+]$.  Its overshoot interval is computed by the finite
+recursion
+$$
+\begin{gathered}
+m_0^-=\lambda^-,
+\qquad
+m_0^+=\lambda^+,\\
+m_{i+1}^- = S_i^- - m_i^+,
+\qquad
+m_{i+1}^+ = S_i^+ - m_i^-.
+\end{gathered}
+$$
+The checked part is entirely finite and rational: if the true level and
+true signed-lobe values lie in the recorded intervals, then the true
+overshoot lies in the computed overshoot interval at every step.  If in
+addition $\lambda^->0$ and every lower overshoot bound $m_i^-$ is
+positive through the finite range, the true overshoots are positive.
+\leanchecked{BEDC.Derived.RHRoute.GAGCertificate.GAGCert.gag\_true\_overshoot\_in\_interval}
+\leanchecked{BEDC.Derived.RHRoute.GAGCertificate.GAGCert.gag\_true\_overshoot\_pos}
+
+\begin{theorem}[Finite GAG alternation soundness]
+\label{thm:rh-gag-finite-alternation-soundness}
+For one fixed finite GAG certificate, positive true overshoot at a
+signed-lobe step forces the signed-lobe value to cross the level
+$\lambda$ in the parity prescribed by the certificate: odd lobes are
+strictly above $\lambda$, and even lobes are strictly below $\lambda$.
+\leanchecked{BEDC.Derived.RHRoute.GAGCertificate.GAGCert.gag\_signed\_lobe\_alternation}
+\end{theorem}
+
+\begin{proof}
+The formal statement is the rational one-step calculation.  In odd
+parity the signed-lobe relation is $v=\lambda+m$; in even parity it is
+$\lambda=v+m$.  The hypothesis $m>0$ gives the corresponding strict
+inequality.  The interval theorem above supplies the positive overshoot
+input when the recorded finite certificate passes its lower-bound tests.
+\end{proof}
+
+This theorem is not a root-count theorem.  The root intervals are
+included in the packet because they are the intended handoff surface for
+a later constructive located-IVT bridge.  The finite Lean theorem checks
+the rational alternation soundness only: interval inclusion gives
+positive overshoot, and positive overshoot gives strict alternation
+across the level.
+
+\begin{principle}[Nonvacuous one-step witness]
+\label{prin:rh-gag-nonvacuous-one-step-witness}
+The certificate layer is not an empty shell.  The encoded $D=1$ instance
+uses $\lambda=1/2$, a root ledger at $-1$, and the single signed-lobe
+value $1$.  It passes because $1/2>0$ and $1-1/2=1/2>0$.
+\leanchecked{BEDC.Derived.RHRoute.GAGCertificate.GAGCert.gagCert\_D1\_passes}
+\end{principle}
+
+This is the formal analogue of the hand calculation behind
+$I_1=1+X$ and the one-step hyperbolic successor $I_2$ in the toy oracle
+case.  It shows that the certificate format has an inhabited finite
+example.  It does not by itself prove a general Jensen--P\'olya step.
+
+\begin{principle}[Located-IVT root count is an obligation]
+\label{prin:rh-gag-located-ivt-obligation}
+Passing finite GAG alternation is not yet the assertion that
+$I_{D+1}$ has $D+1$ located negative real roots.  That conclusion needs a
+constructive located-IVT root-count bridge: monotone crossing, located
+root existence, and endpoint sign crossing have to be supplied as
+located-real witnesses.  In Lean this bridge is deliberately recorded as
+an obligation structure, not as an inhabited theorem:
+\leandef{BEDC.Derived.RHRoute.GAGCertificate.GAGCert.GAGRootCountObligation}.
+The conditional handoff
+\leandef{BEDC.Derived.RHRoute.GAGCertificate.GAGCert.gag\_onestep\_hyperbolic\_of\_rootcount}
+only packages the conclusion after those obligation witnesses and the
+root-count function have already been supplied.
+\end{principle}
+
+Thus the checked GAG contribution is exactly the finite rational
+certificate soundness plus a nonvacuous $D=1$ witness.  It does not prove
+the located-IVT bridge, does not count roots of $I_{D+1}$, and does not
+assert unconditional hyperbolicity for any completed Jensen--P\'olya
+family.
+
+\begin{principle}[Uniform GAG generator is the frontier]
+\label{prin:rh-gag-uniform-generator-frontier}
+For each fixed $D$, the GAG format gives a finite certificate target:
+one may provide rational isolating intervals, a rational level interval,
+signed-lobe bounds, and finite lower-bound checks for the overshoot
+recursion.  Closing all degrees would require a
+$\mathsf{UniformGAGCertificateGenerator}$ producing the certificates
+uniformly in $D$ and proving
+$$
+\forall D\;\forall i\le D,\qquad m_i^-(D)>0.
+$$
+The natural decomposition is a finite-part lower-bound proof, a tail
+upper-bound proof such as a prolate or Hilbert--Schmidt estimate, and a
+stability proof for the overshoot recursion.  If such a uniform generator
+were attached to the full Jensen--P\'olya family, it would cross the
+$\mathsf{RH}$ boundary.  It is therefore recorded here as an
+$\mathsf{RH}$-level frontier, not as a theorem and not as evidence that
+the all-$D$ problem is already closed.
+\end{principle}
+
+\section{Gomboc Conditional Comparison}
+\label{sec:rh-copenhagen-gomboc-conditional-comparison}
+
+The Gomboc route has the same logical shape.  Its encoded xi-facing
+container
+\leandef{BEDC.Derived.RHRoute.AnalyticGombocForXi.AnalyticGombocForXi}
+contains Pick, Herglotz, Stieltjes, equivalence, handoff, and
+no-hidden-ballast data.  The handoff theorem
+\leanchecked{BEDC.Derived.RHRoute.AnalyticGombocForXi.rh\_via\_analytic\_gomboc}
+is conditional on such a container.  The source-side spectral positivity
+field
+\leandef{BEDC.Derived.RHRoute.AnalyticGombocForXi.StieltjesPositiveSpectral.positive\_spectral\_measure}
+is part of the supplied structure, not a theorem generated in this paper
+chapter.
+
+This is the intended comparison.  Copenhagen says that bounded cofinal
+energy plus unbounded weights forbid positive scale apartness.  Gomboc
+says that a supplied Pick--Herglotz--Stieltjes positive package gives the
+constructive RH readout.  Both routes are useful boundary normal forms.
+Neither route claims that the required xi-facing package has been
+constructed.
+
+\section{Bad Examples as First-Class Boundary Data}
+\label{sec:rh-copenhagen-bad-examples}
+
+\begin{principle}[Two-term resonance is off-line]
+\label{prin:rh-bad-example-two-term-resonance}
+For two exponential terms with distinct heights $h_1\ne h_2$ and
+coefficients $a\ne b$, phase cancellation occurs at a shifted line
+$$
+\delta=\frac{\log(b/a)}{h_2-h_1}\ne0
+$$
+in general.  Verdict: phase cancellation alone is not enough; exact
+balance or a Lee--Yang stability row is required before a resonance may
+be used as fixed-half evidence.
+\end{principle}
+
+\begin{principle}[Positive kernels do not imply Laguerre--Polya]
+\label{prin:rh-bad-example-positive-kernel-not-lp}
+Let
+$$
+\mu=\delta_{-1}+a\delta_0+\delta_1
+\qquad (a>2).
+$$
+The Fourier transform is
+$$
+\widehat{\mu}(z)=a+2\cos z.
+$$
+Its zeros need not be real.  Verdict: positivity of a kernel or measure
+row does not by itself place an entire function in the
+Laguerre--Polya class; a separate real-rootedness-preserving mechanism is
+needed.
+\end{principle}
+
+\begin{principle}[Mellin projection need not preserve Lee--Yang]
+\label{prin:rh-bad-example-mellin-projection}
+The finite Mellin projection
+$$
+P_2(s)=1-2^{-s}
+$$
+has zeros on $\operatorname{Re}(s)=0$, not on the line
+$\operatorname{Re}(s)=1/2$.  Verdict: a projection that is natural for
+Mellin or prime-window bookkeeping need not preserve the Lee--Yang unit
+circle or the fixed-half target.
+\end{principle}
+
+\begin{principle}[All-cutoff dyadic LP is not a reliable premise]
+\label{prin:rh-bad-example-all-cutoff-dyadic-lp}
+The all-$K$ dyadic Laguerre--Polya premise is not a stable bridge.  Low
+corrected Jensen levels for small cutoffs such as $K=2,3$ already exhibit
+non-hyperbolic behaviour in the intended finite tests.  Verdict: a
+cutoff-by-cutoff Laguerre--Polya route should be treated as a refuted or
+unreliable premise unless it supplies a separate uniform preservation
+theorem.
+\end{principle}
+
+\begin{principle}[Finite visibility cannot certify the tail]
+\label{prin:rh-bad-example-finite-visibility}
+Any finite table of phases, Jensen coefficients, spectral atoms, Gram
+entries, or Copenhagen tower levels leaves an outer region unseen.
+Additional zeros or defects may be placed beyond that region without
+changing the visible data.  Verdict: finite visibility is evidence about
+a window, not a certificate for the completed zero set.
+\end{principle}
+
+\begin{principle}[Boundary verdict]
+\label{prin:rh-copenhagen-boundary-verdict}
+The honest output of the Copenhagen audit is the following separation.
+The checked no-scale brick is real: bounded cofinal energy contradicts
+positive rational scale apartness.  The capture rows that would attach
+that brick to completed zeta zeros are not inhabited here.  The diagonal
+Jensen, Weil, Stieltjes--Herglotz, and Gomboc formulations describe the
+same global wall.  A proof must add source-side positivity or a cofinal
+uniform theorem; otherwise the route remains a boundary normal form and
+does not become a proof of $\mathsf{RH}$.
+\end{principle}

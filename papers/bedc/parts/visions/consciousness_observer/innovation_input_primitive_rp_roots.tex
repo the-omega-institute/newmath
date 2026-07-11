@@ -1,0 +1,402 @@
+\chapter{Innovation Input Primitive RP Roots}
+\label{ch:visions-innovation-input-primitive-rp-roots}
+\origin{ai}
+
+\autoref{ch:visions-innovation-input-self-similar-rp-scaling} shows that,
+for odd substitution length, reflection-centered dilations do not change
+the neutral RP matrix. This chapter turns that scale invariance into a
+finite pruning rule. Every finite block and every finite window has a
+unique primitive root under reflection-centered dilation. Nonprimitive
+windows therefore carry no additional RP condition.
+
+\section{Scale Root}
+\label{sec:innovation-input-scale-root}
+
+\begin{definition}[Single-site scale order]
+\label{def:innovation-input-single-site-scale-order}
+Let $N$ be odd. For an integer site $j$, define
+$$
+\nu_N(j)
+:=
+\max\left\{
+k\ge0:
+j-\frac{N^k+1}{2}\in N^k\mathbb Z
+\right\}.
+$$
+Equivalently, $\nu_N(j)$ is the largest $k$ for which $j$ can be written
+as
+$$
+j=(\mathcal D_N^\theta)^k(i)
+$$
+with $i\in\mathbb Z$.
+\end{definition}
+
+\begin{definition}[Block scale order and root]
+\label{def:innovation-input-block-scale-order-root}
+For a nonzero signed block
+$$
+\alpha=\sum_j e_j\delta_j,
+$$
+define
+$$
+\nu_N(\alpha)
+:=
+\min_{j:e_j\ne0}\nu_N(j).
+$$
+The block is $N$-primitive when $\nu_N(\alpha)=0$. If
+$\nu_N(\alpha)=k>0$, define its scale root by
+$$
+\operatorname{root}_N(\alpha)
+:=
+(\mathcal D_N^\theta)^{-k}\alpha.
+$$
+On sites this inverse is
+$$
+(\mathcal D_N^\theta)^{-k}(j)
+=
+\frac{j+\frac{N^k-1}{2}}{N^k}.
+$$
+\end{definition}
+
+\begin{theorem}[Unique primitive block root]
+\label{thm:innovation-input-unique-primitive-block-root}
+Let $N$ be odd. Every nonzero signed block $\alpha$ has a unique
+decomposition
+$$
+\alpha=(\mathcal D_N^\theta)^k\alpha_0,
+$$
+where
+$$
+k=\nu_N(\alpha)
+$$
+and $\alpha_0$ is $N$-primitive.
+\end{theorem}
+
+\begin{proof}
+By the definition of $k=\nu_N(\alpha)$, every support point of $\alpha$
+can be inverse-dilated $k$ times through
+$(\mathcal D_N^\theta)^{-k}$. This produces a signed block
+$$
+\alpha_0:=(\mathcal D_N^\theta)^{-k}\alpha
+$$
+with integer support. Since $k$ is the minimum of the site scale orders
+over the support, at least one support point has scale order exactly $k$.
+Its inverse image has scale order $0$, so $\alpha_0$ is primitive.
+
+The value $k$ is determined by $\nu_N(\alpha)$, and
+$(\mathcal D_N^\theta)^k$ is injective on the integer lattice. Hence the
+primitive root is unique.
+\end{proof}
+
+\section{Window Roots}
+\label{sec:innovation-input-window-roots}
+
+\begin{definition}[Future neutral window root]
+\label{def:innovation-input-future-neutral-window-root}
+Let
+$$
+\mathcal B=\{\alpha_0,\ldots,\alpha_m\}
+$$
+be a finite future neutral RP window, with each nonzero $\alpha_i$
+balanced. Define
+$$
+\nu_N(\mathcal B)
+:=
+\min_{\alpha_i\ne0}\nu_N(\alpha_i).
+$$
+The window is $N$-primitive when $\nu_N(\mathcal B)=0$. If
+$\nu_N(\mathcal B)=k>0$, define
+$$
+\operatorname{root}_N(\mathcal B)
+:=
+\{(\mathcal D_N^\theta)^{-k}\alpha_i\}_i.
+$$
+\end{definition}
+
+\begin{theorem}[RP matrix depends only on the primitive root]
+\label{thm:innovation-input-rp-matrix-depends-on-primitive-root}
+Let $N$ be odd and let $\mathcal B$ be a finite neutral RP window. Then
+$$
+M_{\mathcal B}
+=
+M_{\operatorname{root}_N(\mathcal B)}.
+$$
+\end{theorem}
+
+\begin{proof}
+By the definition of the window root, there is a finite neutral window
+$\mathcal C=\operatorname{root}_N(\mathcal B)$ and an integer $k\ge0$ with
+$$
+\mathcal B=(\mathcal D_N^\theta)^k\mathcal C.
+$$
+The equality of RP matrices is exactly
+\autoref{thm:innovation-input-odd-rp-window-self-similarity}.
+\end{proof}
+
+\begin{corollary}[Primitive-window pruning]
+\label{cor:innovation-input-primitive-window-pruning}
+For odd $N$, it is enough to test primitive neutral RP windows. If a
+nonprimitive window passes or fails, its primitive root has the identical
+RP matrix and the same spectrum.
+\end{corollary}
+
+\begin{proof}
+This follows from
+\autoref{thm:innovation-input-rp-matrix-depends-on-primitive-root}.
+\end{proof}
+
+\section{Pentary Scale Test}
+\label{sec:innovation-input-pentary-scale-test}
+
+\begin{definition}[Pentary reflection-centered address]
+\label{def:innovation-input-pentary-reflection-centered-address}
+For a future site $j\ge1$, define its pentary reflection-centered address
+by
+$$
+\rho_5(j):=2j-1.
+$$
+The reflection-centered dilation $j\mapsto5j-2$ sends
+$$
+\rho_5(j)\mapsto5\rho_5(j).
+$$
+\end{definition}
+
+\begin{theorem}[Pentary site scale order]
+\label{thm:innovation-input-pentary-site-scale-order}
+For $j\ge1$,
+$$
+\nu_5(j)=v_5(2j-1),
+$$
+where $v_5$ is the ordinary $5$-adic valuation.
+\end{theorem}
+
+\begin{proof}
+The equality
+$$
+j=(\mathcal D_5^\theta)^k(i)
+$$
+is equivalent to
+$$
+j-\frac12=5^k\left(i-\frac12\right).
+$$
+Multiplying by $2$ gives
+$$
+2j-1=5^k(2i-1).
+$$
+Since $2i-1$ is an odd integer, the largest possible $k$ is exactly
+$v_5(2j-1)$.
+\end{proof}
+
+\begin{corollary}[Pentary block scale order]
+\label{cor:innovation-input-pentary-block-scale-order}
+For a nonzero signed block $\alpha=\sum_j e_j\delta_j$,
+$$
+\nu_5(\alpha)
+=
+\min_{j:e_j\ne0}v_5(2j-1).
+$$
+The block is $5$-primitive if and only if at least one support point
+satisfies
+$$
+5\nmid(2j-1).
+$$
+\end{corollary}
+
+\begin{corollary}[Pentary window root formula]
+\label{cor:innovation-input-pentary-window-root-formula}
+Let
+$$
+k=\min_{j\in\operatorname{supp}\mathcal B}v_5(2j-1).
+$$
+Then the root of the window is obtained sitewise by
+$$
+j\mapsto
+\frac{1+\frac{2j-1}{5^k}}2.
+$$
+\end{corollary}
+
+\begin{proof}
+Apply the inverse formula in
+\autoref{def:innovation-input-block-scale-order-root} and simplify using
+$2j-1$.
+\end{proof}
+
+\section{Small Pentary Windows}
+\label{sec:innovation-input-small-pentary-windows}
+
+\begin{proposition}[Small pentary windows are primitive]
+\label{prop:innovation-input-small-pentary-windows-primitive}
+For $N=5$, every nonzero neutral future window whose support is contained
+in
+$$
+\{1,2,3,4,5,6,7\}
+$$
+is $5$-primitive.
+\end{proposition}
+
+\begin{proof}
+A support point can be inverse-dilated once precisely when $j$ is
+congruent to $3$ modulo $5$.
+Inside $\{1,2,3,4,5,6,7\}$, the only such site is $3$. If a nonzero
+balanced block were supported only at $3$, it would have the form
+$e\delta_3$, and balancedness would force $e=0$. Hence every nonzero
+neutral block in such a window has at least one primitive support point,
+and the window is primitive.
+\end{proof}
+
+\begin{corollary}[Early pentary failures are primitive]
+\label{cor:innovation-input-early-pentary-failures-primitive}
+The pentary anchored $L=2$ and $L=3$ windows studied in the preceding
+chapters are primitive windows. In particular, the Pythagorean obstruction
+$$
+D_{23}=-\frac15
+$$
+is a primitive obstruction, not a dilation copy of a smaller RP failure.
+\end{corollary}
+
+\begin{proof}
+Their supports lie in $\{1,2,3\}$, so
+\autoref{prop:innovation-input-small-pentary-windows-primitive} applies.
+The value $D_{23}=-1/5$ is
+\autoref{thm:innovation-input-pythagorean-lthree-failure}.
+\end{proof}
+
+\section{Pentary Link Roots}
+\label{sec:innovation-input-pentary-link-roots}
+
+\begin{definition}[Link block]
+\label{def:innovation-input-link-block}
+For $1\le i<j$, define
+$$
+\alpha_{ij}:=\delta_i-\delta_j.
+$$
+It corresponds to the link observable
+$$
+F_{ij}=u_{n+i}\overline{u_{n+j}}.
+$$
+\end{definition}
+
+\begin{proposition}[Pentary link primitive criterion]
+\label{prop:innovation-input-pentary-link-primitive-criterion}
+The link block $\alpha_{ij}$ is nonprimitive if and only if
+$i$ and $j$ are both congruent to $3$ modulo $5$.
+When
+$$
+i=5i'-2,
+\qquad
+j=5j'-2,
+$$
+one has
+$$
+\alpha_{ij}
+=
+\mathcal D_5^\theta(\alpha_{i'j'}).
+$$
+\end{proposition}
+
+\begin{proof}
+The support of $\alpha_{ij}$ is $\{i,j\}$. It can be inverse-dilated once
+exactly when both support points can be inverse-dilated once, which is the
+congruence condition that $i$ and $j$ are both congruent to $3$ modulo
+$5$. In that case
+$$
+i'=\frac{i+2}{5},
+\qquad
+j'=\frac{j+2}{5}
+$$
+are integers, and the displayed identity follows from
+$\mathcal D_5^\theta(t)=5t-2$.
+\end{proof}
+
+\begin{example}[First nonprimitive pentary links]
+\label{ex:innovation-input-first-nonprimitive-pentary-links}
+The first nonprimitive pentary links are
+$$
+\alpha_{3,8}
+=
+\mathcal D_5^\theta(\alpha_{1,2}),
+$$
+$$
+\alpha_{3,13}
+=
+\mathcal D_5^\theta(\alpha_{1,3}),
+$$
+and
+$$
+\alpha_{8,13}
+=
+\mathcal D_5^\theta(\alpha_{2,3}).
+$$
+Therefore the corresponding two-link neutral windows have exactly the
+same RP matrices as their roots.
+\end{example}
+
+\begin{principle}[Reflection-centered address rather than distance]
+\label{prin:innovation-input-reflection-centered-address-not-distance}
+Ordinary link distance does not determine an RP diagonal. The relevant
+scale datum is the reflection-centered address $2j-1$ of every support
+point. Thus $F_{12}$ and $F_{23}$ are both distance-one links, but they
+occupy different positions relative to the reflection center. This is why
+the Pythagorean row can have
+$$
+D_{12}=\frac35
+$$
+and
+$$
+D_{23}=-\frac15.
+$$
+\end{principle}
+
+\section{Odd-Length Address Formula}
+\label{sec:innovation-input-odd-length-address-formula}
+
+\begin{definition}[Reflection-centered $N$-address]
+\label{def:innovation-input-reflection-centered-n-address}
+For odd $N$ and $j\ge1$, set
+$$
+\rho_N(j):=2j-1.
+$$
+\end{definition}
+
+\begin{theorem}[Odd-length scale order]
+\label{thm:innovation-input-odd-length-scale-order}
+For odd $N$,
+$$
+\nu_N(j)=\max\{k\ge0:N^k\mid(2j-1)\}.
+$$
+If
+$$
+N=\prod_{p\mid N}p^{e_p},
+$$
+then
+$$
+\nu_N(j)
+=
+\min_{p\mid N}
+\left\lfloor
+\frac{v_p(2j-1)}{e_p}
+\right\rfloor.
+$$
+\end{theorem}
+
+\begin{proof}
+The equality $j=(\mathcal D_N^\theta)^k(i)$ is equivalent to
+$$
+2j-1=N^k(2i-1).
+$$
+Thus $N^k$ must divide $2j-1$, and the largest such $k$ is the first
+displayed formula. The prime-factor expression follows because
+$N^k\mid m$ holds exactly when $ke_p\le v_p(m)$ for every prime
+$p\mid N$.
+\end{proof}
+
+\begin{principle}[Solenoid address reading]
+\label{prin:innovation-input-solenoid-address-reading}
+The primitive RP shape test is an $S$-adic address test. For a refinement
+length $N$ with prime set $S$, the visible site $j$ carries the
+reflection-centered address $2j-1$; the number of times a window is a
+scale copy is the number of times those addresses are divisible by $N$.
+Thus finite RP constraints are indexed by primitive residues in the
+hidden $S$-adic fibre, while nonprimitive windows are repetitions along
+the same solenoidal scale direction.
+\end{principle}

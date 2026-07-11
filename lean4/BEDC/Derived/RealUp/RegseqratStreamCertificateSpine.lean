@@ -43,4 +43,27 @@ theorem RegseqratStreamCertificateSpine_carrier_projection [AskSetup] [PackageSe
     ⟨streamUnary, observationUnary, endpointUnary, observationReadUnary, streamRoute,
       sealPkg⟩
 
+theorem RegseqratRealupSealConsumesStreamSpine [AskSetup] [PackageSetup]
+    {streamCarrier regularityLedger observationIndex ratEndpoint tolerance provenance sealRow
+      observationRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    RegseqratStreamCertificateSpine streamCarrier regularityLedger observationIndex ratEndpoint
+        tolerance provenance sealRow bundle pkg →
+      Cont observationIndex ratEndpoint observationRead →
+        UnaryHistory streamCarrier ∧ UnaryHistory regularityLedger ∧
+          UnaryHistory observationIndex ∧ UnaryHistory ratEndpoint ∧
+            UnaryHistory observationRead ∧ Cont streamCarrier observationIndex ratEndpoint ∧
+              Cont observationIndex ratEndpoint observationRead ∧
+                Cont ratEndpoint tolerance regularityLedger ∧
+                  Cont regularityLedger provenance sealRow ∧ PkgSig bundle sealRow pkg := by
+  -- BEDC touchpoint anchor: BHist Cont UnaryHistory ProbeBundle Pkg PkgSig
+  intro spine observationRoute
+  obtain ⟨streamUnary, regularityUnary, observationUnary, endpointUnary, streamRoute,
+    regularityRoute, sealRoute, sealPkg⟩ := spine
+  have observationReadUnary : UnaryHistory observationRead :=
+    unary_cont_closed observationUnary endpointUnary observationRoute
+  exact
+    ⟨streamUnary, regularityUnary, observationUnary, endpointUnary, observationReadUnary,
+      streamRoute, observationRoute, regularityRoute, sealRoute, sealPkg⟩
+
 end BEDC.Derived.RealUp

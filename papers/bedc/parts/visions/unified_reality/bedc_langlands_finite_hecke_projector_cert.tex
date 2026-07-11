@@ -1,0 +1,299 @@
+\section{BEDC--Langlands Finite Hecke Projector Certificate}
+\label{sec:unified-reality-bedc-langlands-finite-hecke-projector-cert}
+
+The existence bridge of
+\autoref{sec:unified-reality-bedc-langlands-existence-bridge} requires
+a local isolation step before the trace formula is used. A parameter
+readout on a fixed finite Hecke window must be converted into a test
+function that kills all displayed nonmatching spectral rows. The
+construction is purely finite: the places, the representations, the
+complexity bound, and the candidate packet list are fixed before the
+interpolation is performed.
+
+\begin{definition}[Satake coordinate window]
+\label{def:unified-reality-satake-coordinate-window}
+Let $S=\{v_1,\ldots,v_m\}$ be a finite set of certified unramified
+places for $G$. The spherical Hecke algebra at $v$ is denoted
+$$
+\mathcal H_v(G,K_v),
+$$
+and the finite window algebra is
+$$
+\mathcal H_S
+:=
+\bigotimes_{v\in S}\mathcal H_v(G,K_v).
+$$
+The Satake coordinate certificate identifies this algebra with regular
+functions on the finite product of semisimple conjugacy quotients,
+$$
+\mathcal H_S
+\simeq
+\mathbb C\bigl[({}^LG/\!/\mathrm{conj})^S\bigr].
+$$
+\end{definition}
+
+\begin{definition}[Finite Frobenius and Satake fingerprints]
+\label{def:unified-reality-frobenius-satake-fingerprint}
+For an allowed parameter packet $\phi^{\uparrow}$, its Frobenius
+fingerprint on $S$ is
+$$
+x_{\phi,S}
+:=
+\bigl(\phi(\operatorname{Frob}_v)\bigr)_{v\in S}
+\in
+({}^LG/\!/\mathrm{conj})^S.
+$$
+For an automorphic packet $\Pi$ unramified at every place of $S$, its
+Satake fingerprint is
+$$
+x_{\Pi,S}
+:=
+\bigl(s_v(\Pi)\bigr)_{v\in S}
+\in
+({}^LG/\!/\mathrm{conj})^S.
+$$
+The packet $\Pi$ matches $\phi^{\uparrow}$ on the window $S$ when
+$$
+x_{\Pi,S}=x_{\phi,S}.
+$$
+\end{definition}
+
+\begin{definition}[Bounded window candidate packet]
+\label{def:unified-reality-bounded-window-candidate-packet}
+For a finite window $S$ and a finite complexity bound $B$, let
+$$
+\mathsf{Aut}_{S,B}(G)
+$$
+be the displayed automorphic packet list whose level, conductor,
+archimedean type, ramified local type, central character, and
+endoscopic label are bounded by $B$. A bounded window finiteness
+certificate says that
+$$
+\mathsf{Aut}_{S,B}(G)=\{\Pi_1,\ldots,\Pi_M\}
+$$
+is finite up to the closed automorphic equivalence relation and that
+the Satake fingerprints $x_{\Pi_i,S}$ are readable in the Satake
+coordinate window.
+\end{definition}
+
+\begin{theorem}[Finite Hecke projector certificate]
+\label{thm:unified-reality-finite-hecke-projector-cert}
+Assume the Satake coordinate certificate and bounded window finiteness
+for $(S,B)$. For every allowed parameter packet $\phi^{\uparrow}$ there
+is a test function
+$$
+f_{\phi,S,B}\in\mathcal H_S
+$$
+such that for every $\Pi_i\in\mathsf{Aut}_{S,B}(G)$,
+$$
+x_{\Pi_i,S}\ne x_{\phi,S}
+\quad\Longrightarrow\quad
+\operatorname{tr}\Pi_i(f_{\phi,S,B})=0,
+$$
+while every matching packet satisfies
+$$
+x_{\Pi_i,S}=x_{\phi,S}
+\quad\Longrightarrow\quad
+\operatorname{tr}\Pi_i(f_{\phi,S,B})\ne0
+$$
+unless its contribution is cancelled by an explicitly declared local
+ledger row.
+\end{theorem}
+\begin{proof}
+Under the Satake coordinate certificate, constructing
+$f_{\phi,S,B}$ is equivalent to constructing a regular function on the
+affine variety
+$$
+({}^LG/\!/\mathrm{conj})^S.
+$$
+Write
+$$
+X_i:=x_{\Pi_i,S}.
+$$
+For each nonmatching point $X_i\ne x_{\phi,S}$, the affine coordinate
+ring separates the two closed points. Hence there is
+$$
+F_i\in\mathbb C\bigl[({}^LG/\!/\mathrm{conj})^S\bigr]
+$$
+with
+$$
+F_i(x_{\phi,S})=1,
+\qquad
+F_i(X_i)=0.
+$$
+Define
+$$
+F_{\phi,S,B}
+:=
+\prod_{X_i\ne x_{\phi,S}}F_i.
+$$
+Then
+$$
+F_{\phi,S,B}(x_{\phi,S})=1
+$$
+and $F_{\phi,S,B}(X_i)=0$ for every displayed nonmatching packet. The
+Satake coordinate certificate reads $F_{\phi,S,B}$ as a Hecke test
+function $f_{\phi,S,B}\in\mathcal H_S$. On an unramified joint
+eigenpacket, the Hecke algebra acts through evaluation at its Satake
+fingerprint, so all nonmatching rows are killed and all displayed
+matching rows receive the nonzero scalar $1$, except for cancellations
+that the local ledger names separately.
+\end{proof}
+
+\begin{definition}[Parameter evaluation distribution]
+\label{def:unified-reality-parameter-evaluation-distribution}
+On an unramified finite Satake window, the parameter evaluation
+distribution attached to $\phi^{\uparrow}$ is the functional
+$$
+\Theta_{\phi,S}^{\mathrm{st}}:\mathcal H_S\to\mathbb C
+$$
+defined on Satake functions by
+$$
+\Theta_{\phi,S}^{\mathrm{st}}(f)=f(x_{\phi,S}).
+$$
+In ramified, archimedean, endoscopic, or transfer-factor settings this
+functional is accompanied by the corresponding local ledger rows.
+\end{definition}
+
+\begin{theorem}[Parameter nonzero readout]
+\label{thm:unified-reality-parameter-nonzero-readout}
+For the finite Hecke projector of
+\autoref{thm:unified-reality-finite-hecke-projector-cert},
+$$
+\Theta_{\phi,S}^{\mathrm{st}}(f_{\phi,S,B})=1.
+$$
+In particular,
+$$
+\Theta_{\phi,S}^{\mathrm{st}}(f_{\phi,S,B})\ne0.
+$$
+\end{theorem}
+\begin{proof}
+The projector is represented under Satake by the interpolation function
+$F_{\phi,S,B}$ constructed in the proof of
+\autoref{thm:unified-reality-finite-hecke-projector-cert}. That function
+satisfies
+$$
+F_{\phi,S,B}(x_{\phi,S})=1.
+$$
+The parameter evaluation distribution is evaluation at $x_{\phi,S}$,
+so the displayed equality follows.
+\end{proof}
+
+\begin{corollary}[Spectral nonzero forces a matching packet]
+\label{cor:unified-reality-spectral-nonzero-forces-matching-packet}
+Let $f_{\phi,S,B}$ be the finite Hecke projector. Suppose the spectral
+side of the fixed window has the form
+$$
+I_{\mathrm{spec}}^{\mathrm{st}}(f_{\phi,S,B})
+=
+\sum_{i=1}^{M}
+m(\Pi_i)\operatorname{tr}\Pi_i(f_{\phi,S,B})
++\operatorname{LedgerTerms},
+$$
+and all continuous, endoscopic, boundary, ramified, normalization, and
+multiplicity terms outside the target window have been separated or
+cancelled by declared ledger rows. If
+$$
+I_{\mathrm{spec}}^{\mathrm{st}}(f_{\phi,S,B})\ne0,
+$$
+then some $\Pi_i\in\mathsf{Aut}_{S,B}(G)$ satisfies
+$$
+x_{\Pi_i,S}=x_{\phi,S}.
+$$
+\end{corollary}
+\begin{proof}
+If no displayed packet matched $x_{\phi,S}$, then
+\autoref{thm:unified-reality-finite-hecke-projector-cert} would give
+$$
+\operatorname{tr}\Pi_i(f_{\phi,S,B})=0
+$$
+for every $i$. After the non-target ledger terms are separated or
+cancelled, the spectral value would be zero, contradicting the assumed
+nonzero spectral value.
+\end{proof}
+
+\begin{theorem}[Fixed-window trace realization]
+\label{thm:unified-reality-fixed-window-trace-realization}
+Assume the finite Hecke projector certificate, parameter nonzero
+readout, stable trace-window equality, and separation of all non-target
+ledger terms for the fixed pair $(S,B)$. Then the fixed window contains
+an automorphic packet $\Pi$ such that
+$$
+x_{\Pi,S}=x_{\phi,S}.
+$$
+\end{theorem}
+\begin{proof}
+By
+\autoref{thm:unified-reality-parameter-nonzero-readout}, the parameter
+side gives
+$$
+\Theta_{\phi,S}^{\mathrm{st}}(f_{\phi,S,B})\ne0.
+$$
+The stable trace-window equality transports this nonzero value to
+$I_{\mathrm{spec}}^{\mathrm{st}}(f_{\phi,S,B})$. The non-target ledger
+terms have been separated, so
+\autoref{cor:unified-reality-spectral-nonzero-forces-matching-packet}
+supplies a displayed packet with the same finite Satake fingerprint as
+the parameter.
+\end{proof}
+
+\begin{theorem}[No missing fixed-window realization]
+\label{thm:unified-reality-no-missing-fixed-window-realization}
+Under the hypotheses of
+\autoref{thm:unified-reality-fixed-window-trace-realization}, it is
+impossible for $\phi^{\uparrow}$ to have no automorphic realization on
+the fixed window $(S,B)$.
+\end{theorem}
+\begin{proof}
+Assume that no $\Pi_i\in\mathsf{Aut}_{S,B}(G)$ satisfies
+$x_{\Pi_i,S}=x_{\phi,S}$. The finite Hecke projector kills every
+displayed spectral row, and the non-target ledger rows have been
+separated or cancelled. Hence
+$$
+I_{\mathrm{spec}}^{\mathrm{st}}(f_{\phi,S,B})=0.
+$$
+On the parameter side,
+\autoref{thm:unified-reality-parameter-nonzero-readout} gives
+$$
+I_{\mathrm{geom}}^{\mathrm{st}}(f_{\phi,S,B})
+=
+\Theta_{\phi,S}^{\mathrm{st}}(f_{\phi,S,B})
+=1.
+$$
+The stable trace-window equality would force these two values to be
+equal, a contradiction.
+\end{proof}
+
+\begin{corollary}[Projector input for the cofinal bridge]
+\label{cor:unified-reality-projector-input-cofinal-bridge}
+If the hypotheses of
+\autoref{thm:unified-reality-no-missing-fixed-window-realization} hold
+for every window in a cofinal Hecke window tower, then every tower
+window has an automorphic realization of $\phi^{\uparrow}$. Consequently
+the window-to-global alternative of
+\autoref{thm:unified-reality-window-global-alternative} applies once
+bounded automorphic finiteness and the automorphic tail ledger are
+available.
+\end{corollary}
+\begin{proof}
+Apply the fixed-window theorem to each displayed window. The resulting
+sequence of finite-window packets is precisely the input required by
+\autoref{thm:unified-reality-window-global-alternative}.
+\end{proof}
+
+\begin{theorem}[Finite projector boundary]
+\label{thm:unified-reality-finite-projector-boundary}
+The finite Hecke projector certificate is a fixed-window interpolation
+statement. It does not assert growing-window compactness, the stable
+trace formula, bounded automorphic finiteness outside the displayed
+window, endoscopic transfer, or global automorphic realization.
+\end{theorem}
+\begin{proof}
+The construction uses only a finite candidate packet list, Satake
+coordinates on a finite set of unramified places, and interpolation in
+an affine coordinate ring. The passage from fixed windows to a global
+packet is supplied separately by
+\autoref{sec:unified-reality-bedc-langlands-window-global-bridge}; the
+analytic equality that makes the spectral side nonzero is supplied
+separately by the stable trace-window certificate.
+\end{proof}

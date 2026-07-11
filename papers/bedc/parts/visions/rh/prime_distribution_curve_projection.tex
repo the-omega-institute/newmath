@@ -1,0 +1,293 @@
+\chapter{Prime Distribution Curve Projection}
+\label{ch:visions-rh-prime-distribution-curve-projection}
+\origin{ai}
+
+\autoref{ch:visions-rh-smooth-prime-classifier-tower} records the
+finite and profinite classifier surfaces that detect prime-register
+residuals.  The distribution-curve projection is the analytic surface
+read from the same tower: each classifier does not erase primes, but
+projects the prime register into a unit, orthogonal, splitting, or
+Frobenius readout, and the explicit formula turns that readout into a
+normalized prime-distribution curve.  The RH-facing obstruction is then
+visible as a nonunit radial mode on at least one such curve.
+
+\section{Classifier Projections}
+\label{sec:rh-prime-distribution-classifier-projections}
+
+\begin{definition}[Finite prime projection classifier]
+\label{def:rh-finite-prime-projection-classifier}
+A finite prime projection classifier is a pair
+$$
+\mathcal C_m=(G_m,\pi_m)
+$$
+where $G_m$ is a finite group or finite abelian quotient and
+$$
+\pi_m(p)\in G_m
+$$
+is the displayed type of a prime $p$ at level $m$.  Typical reads include
+residue classes, quadratic characters, Dirichlet or Hecke character
+values, Frobenius conjugacy classes, and finite Satake-parameter
+approximations.  The classifier is a projection of prime-register data,
+not a deletion of primes from the ledger.
+\end{definition}
+
+\begin{definition}[Recursive prime projection tower]
+\label{def:rh-recursive-prime-projection-tower}
+A recursive prime projection tower is a refinement chain
+$$
+\mathcal C_0\prec\mathcal C_1\prec\mathcal C_2\prec\cdots
+$$
+whose finite readouts refine the previous prime-register surface.  The
+passage from one level to the next is licensed by a displayed residual,
+splitting distinction, character row, or Frobenius row in the sense of
+\autoref{prin:rh-smooth-prime-classifiers-refine-visible-residues}.
+The tower is cofinal when its finite quotients form the Hausdorff
+profinite system of
+\autoref{def:rh-cofinal-prime-classifier-tower}.
+\end{definition}
+
+\begin{definition}[Filtered Chebyshev curve]
+\label{def:rh-filtered-chebyshev-curve}
+Let $\mathcal C_m=(G_m,\pi_m)$ be a finite prime projection classifier
+and let
+$$
+\chi:G_m\to S^1
+$$
+be a character or a displayed class-function readout.  The filtered
+Chebyshev curve is
+$$
+\psi_{m,\chi}(x)
+:=
+\sum_{p^k\le x}\chi(\pi_m(p^k))\log p.
+$$
+Its critical normalization is
+$$
+\Psi_{m,\chi}(u)
+:=
+e^{-u/2}
+\left(
+\psi_{m,\chi}(e^u)-\delta_{\chi,1}e^u
+\right),
+\qquad
+x=e^u.
+$$
+\end{definition}
+
+\begin{principle}[Prime filtering is projection]
+\label{prin:rh-prime-filtering-is-projection}
+The family $\Psi_{m,\chi}$ is the continuous projection of the recursive
+prime classifier tower.  At the discrete level the tower reads prime
+types such as split, inert, ramified, character value, Frobenius class,
+or local parameter.  At the continuous level the same reads become
+weighted prime-distribution curves.  Thus the phrase ``sieving primes''
+denotes a sequence of classifier projections, not a loss of arithmetic
+mass.
+\end{principle}
+
+\section{Unit and Radial Modes}
+\label{sec:rh-prime-distribution-unit-radial-modes}
+
+\begin{definition}[Prime-distribution spectral mode]
+\label{def:rh-prime-distribution-spectral-mode}
+A spectral mode of a normalized prime-distribution curve is a term of
+the form
+$$
+c\,e^{ru}e^{i\gamma u}.
+$$
+It is a unit phase mode when $r=0$ and a radial mode when $r\ne0$.
+\end{definition}
+
+\begin{theorem}[Off-critical zero produces a radial distribution mode]
+\label{thm:rh-offcritical-zero-produces-radial-distribution-mode}
+Assume the explicit formula for a filtered curve
+$\Psi_{m,\chi}$.  If a zero contributing to that filtered explicit
+formula has
+$$
+\rho_0=\frac12+r+i\gamma,
+\qquad
+r\ne0,
+$$
+then the normalized curve contains the radial mode
+$$
+c_{\rho_0}\,e^{ru}e^{i\gamma u}
+$$
+for the corresponding nonzero explicit-formula coefficient
+$c_{\rho_0}$.
+\end{theorem}
+
+\begin{proof}
+The zero contribution before normalization has the form
+$$
+c_{\rho_0}e^{\rho_0u}.
+$$
+Multiplying by $e^{-u/2}$ gives
+$$
+c_{\rho_0}e^{(\rho_0-\frac12)u}
+=
+c_{\rho_0}e^{ru}e^{i\gamma u}.
+$$
+Since $r\ne0$, the mode has a positive-real radial factor rather than a
+unit-circle phase alone.
+\end{proof}
+
+\begin{corollary}[Fixed-half readout is unit-mode readout]
+\label{cor:rh-fixed-half-readout-unit-mode-readout}
+For a completed zeta zero contributing to a normalized
+prime-distribution curve, fixed-half readout is equivalent to the
+absence of radial exponential growth in that zero's spectral mode.
+\end{corollary}
+
+\begin{proof}
+If $\rho=1/2+i\gamma$, the normalized mode is $e^{i\gamma u}$, a unit
+phase mode.  Conversely, a mode attached to $\rho=1/2+r+i\gamma$ has no
+radial factor exactly when $r=0$.
+\end{proof}
+
+\section{Completeness}
+\label{sec:rh-prime-distribution-completeness}
+
+\begin{definition}[PrimeDistributionCurveCompleteness]
+\label{def:rh-prime-distribution-curve-completeness}
+The row
+$$
+\mathsf{PrimeDistributionCurveCompleteness}
+$$
+asserts that every nonzero radial residual of a zeta-facing PFZ packet
+has a visible filtered prime-distribution curve.  Equivalently, if
+$$
+z(\rho)=1-\frac1\rho=e^{\ell+i\theta}
+$$
+has $\ell\ne0$, then some level $m$ and some readout $\chi$ of the
+recursive prime projection tower produce a normalized curve
+$\Psi_{m,\chi}$ containing a radial mode
+$$
+c\,e^{ru}e^{i\gamma u},
+\qquad
+r\ne0.
+$$
+\end{definition}
+
+\begin{theorem}[Finite residual detection supplies a filtered curve]
+\label{thm:rh-finite-residual-detection-supplies-filtered-curve}
+Every finite prime residual detected by a finite Dirichlet classifier
+has a corresponding filtered prime-distribution curve with nonzero
+classifier readout.
+\end{theorem}
+
+\begin{proof}
+Let
+$$
+R=\sum_j c_j[q_j]
+$$
+be the finite residual and let $\chi$ be the finite Dirichlet classifier
+with $\chi(R)\ne0$ supplied by
+\autoref{thm:rh-finite-dirichlet-classifiers-separate-residuals}.  Use
+the finite classifier $\mathcal C_m$ carrying the residue classes modulo
+the chosen modulus and define $\psi_{m,\chi}$ as in
+\autoref{def:rh-filtered-chebyshev-curve}.  The finite support of $R$
+contributes
+$$
+\sum_j c_j\chi(q_j)
+$$
+to that filtered readout, which is nonzero by the choice of $\chi$.
+\end{proof}
+
+\begin{theorem}[Profinite residual detection supplies a finite filtered curve]
+\label{thm:rh-profinite-residual-detection-supplies-finite-filtered-curve}
+In a cofinal prime projection tower, every non-identity profinite
+residual has a finite filtered prime-distribution curve that detects it.
+\end{theorem}
+
+\begin{proof}
+By \autoref{thm:rh-profinite-residual-separation}, a non-identity
+residual has non-identity image in a finite quotient.  By
+\autoref{thm:rh-finite-character-separation}, a finite character
+separates that image from the identity.  The corresponding filtered
+Chebyshev curve of
+\autoref{def:rh-filtered-chebyshev-curve} is the continuous
+prime-distribution readout of the same finite classifier.
+\end{proof}
+
+\begin{principle}[Distribution curves are the macroscopic PFZ readout]
+\label{prin:rh-distribution-curves-macroscopic-pfz-readout}
+In a prime-fiber zoom tower, a finite address step appends prime-register
+data and contributes orthogonal log-energy as in
+\autoref{thm:rh-prime-fiber-zoom-history-similarity-orthogonality}.  The
+identity
+$$
+\log n=\sum_p v_p(n)\log p
+$$
+is the bridge from discrete prime-register coordinates to continuous
+exponential reads.  The curves $\Psi_{m,\chi}(u)$ are therefore the
+macroscopic continuous projections of the same append-only tower.
+\end{principle}
+
+\section{Conditional Fixed-Half Consequence}
+\label{sec:rh-prime-distribution-conditional-fixed-half}
+
+\begin{theorem}[Distribution-curve completeness gives radial residual visibility]
+\label{thm:rh-distribution-curve-completeness-radial-residual-visibility}
+Assume $\mathsf{PrimeDistributionCurveCompleteness}$.  If a zeta-facing
+PFZ packet has $\ell\ne0$, then some filtered prime-distribution curve
+contains a radial mode, and the associated finite or profinite
+classifier row detects a nonunit residual.
+\end{theorem}
+
+\begin{proof}
+By \autoref{def:rh-prime-distribution-curve-completeness}, the nonzero
+radial coordinate is visible on some $\Psi_{m,\chi}$ as a mode
+$$
+c\,e^{ru}e^{i\gamma u},
+\qquad
+r\ne0.
+$$
+The curve is attached to a finite classifier level or to a finite
+quotient of the cofinal profinite classifier tower.  Finite detection is
+given by \autoref{thm:rh-finite-residual-detection-supplies-filtered-curve};
+profinite detection is given by
+\autoref{thm:rh-profinite-residual-detection-supplies-finite-filtered-curve}.
+In both cases the radial mode is a nonunit residual read by a displayed
+classifier.
+\end{proof}
+
+\begin{corollary}[Prime distribution curve conditional fixed-half readout]
+\label{cor:rh-prime-distribution-curve-conditional-fixed-half-readout}
+Assume zeta-facing PFZ zero packets are legal closure objects,
+$\mathsf{PrimeDistributionCurveCompleteness}$ holds, and finite radial
+modes cannot be hidden as legal closure data.  Then every admitted
+nontrivial zero has fixed-half readout.
+\end{corollary}
+
+\begin{proof}
+Let $\rho$ be an admitted nontrivial zero and write
+$$
+z(\rho)=1-\frac1\rho=e^{\ell+i\theta}.
+$$
+If $\ell\ne0$, then
+\autoref{thm:rh-distribution-curve-completeness-radial-residual-visibility}
+produces a filtered prime-distribution curve with a nonunit radial mode.
+By \autoref{prin:rh-negative-residuals-pfz-visible-obstructions}, a
+classifier-visible nonunit residual cannot be hidden in a legal PFZ
+closure object.  Thus $\ell=0$.  By
+\autoref{thm:rh-li-coordinate-fixed-half-circle}, this is equivalent to
+$\operatorname{Re}(\rho)=1/2$.
+\end{proof}
+
+\begin{principle}[Final distribution-curve target]
+\label{prin:rh-final-distribution-curve-target}
+The prime-classifier route ends at the family of normalized curves
+$$
+\{\Psi_{m,\chi}(u)\}_{m,\chi}.
+$$
+The RH-facing condition is that these curves carry only unit phase modes
+after critical normalization.  A radial mode
+$$
+e^{ru}e^{i\gamma u},
+\qquad
+r\ne0,
+$$
+is the distribution-curve form of an unclosed positive-real scale row.
+The remaining completeness target is to show that any hidden radial
+scale in the zero packet appears on at least one filtered
+prime-distribution curve.
+\end{principle}

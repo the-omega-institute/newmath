@@ -1,11 +1,14 @@
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
+import BEDC.FKernel.Unary.History
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.MetaCICIdentityUp
 
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
+open BEDC.FKernel.Cont
+open BEDC.FKernel.Unary
 open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
@@ -215,5 +218,38 @@ theorem MetaCICIdentityTasteGate_single_carrier_alignment :
       · intro x y heq
         exact metaCICIdentityToEventFlow_injective heq
       · rfl
+
+theorem MetaCICIdentity_namecert_obligations
+    {generators equality recursors purity boundary transport routes provenance nameCert consumer
+      readback : BHist} :
+    UnaryHistory boundary ->
+      UnaryHistory consumer ->
+        Cont boundary consumer readback ->
+          metaCICIdentityFields
+              (MetaCICIdentityUp.mk generators equality recursors purity boundary transport routes
+                provenance nameCert) =
+            [generators, equality, recursors, purity, boundary, transport, routes, provenance,
+              nameCert] ∧
+            UnaryHistory readback ∧
+              Cont boundary consumer readback ∧
+                metaCICIdentityFromEventFlow
+                    (metaCICIdentityToEventFlow
+                      (MetaCICIdentityUp.mk generators equality recursors purity boundary transport
+                        routes provenance nameCert)) =
+                  some
+                    (MetaCICIdentityUp.mk generators equality recursors purity boundary transport
+                      routes provenance nameCert) := by
+  -- BEDC touchpoint anchor: BHist BMark Cont UnaryHistory
+  intro unaryBoundary unaryConsumer boundaryRead
+  constructor
+  · rfl
+  · constructor
+    · exact unary_cont_closed unaryBoundary unaryConsumer boundaryRead
+    · constructor
+      · exact boundaryRead
+      · exact
+          metaCICIdentity_round_trip
+            (MetaCICIdentityUp.mk generators equality recursors purity boundary transport routes
+              provenance nameCert)
 
 end BEDC.Derived.MetaCICIdentityUp

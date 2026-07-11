@@ -1,0 +1,338 @@
+\chapter{Innovation Input Self-Adjoint Hamiltonian Gate}
+\label{ch:visions-innovation-input-self-adjoint-hamiltonian-gate}
+\origin{ai}
+
+\autoref{ch:visions-innovation-input-primitive-rp-roots} reduces odd-length
+neutral RP checks to primitive reflection-centered windows. The present
+chapter records what those checks are allowed to mean. They are input-side
+tests for the existence of an Osterwalder--Schrader Hamiltonian. They are
+not, by themselves, a construction of a Riemann-zero spectral operator.
+
+\section{Three Operator Rows}
+\label{sec:innovation-input-three-operator-rows}
+
+\begin{definition}[Hilbert--Polya zero target]
+\label{def:innovation-input-hilbert-polya-zero-target}
+A Hilbert--Polya zero target for the completed Riemann function is a
+self-adjoint operator $A_{\xi}^{\mathrm{HP}}$ whose spectral row satisfies
+an identification of the form
+$$
+\operatorname{Spec}(A_{\xi}^{\mathrm{HP}})
+=
+\{\gamma:\xi(1/2+i\gamma)=0\}.
+$$
+Such a row is an RH-strength target: if the operator is genuinely
+self-adjoint and the displayed identification is complete, the spectral
+values on the right are real ordinates on the critical line.
+\end{definition}
+
+\begin{definition}[Input-side OS/RP Hamiltonian]
+\label{def:innovation-input-os-rp-hamiltonian}
+Let $v\in\mathcal Q_N$ be a Q3-compatible constant-length
+self-substitution row, and suppose its complete future reflection form is
+realized by a positive contraction transition row $P_v$ on the OS Hilbert
+space of the input process. The associated input Hamiltonian is
+$$
+H_v:=-\frac1{\ln N}\log P_v
+$$
+on the nonzero spectral subspace of $P_v$.
+\end{definition}
+
+\begin{definition}[Riemann scattering row]
+\label{def:innovation-input-riemann-scattering-row}
+At the modular cusp, the Eisenstein constant term has scattering
+coefficient
+$$
+\varphi(s)=\frac{\Lambda(2s-1)}{\Lambda(2s)}.
+$$
+Thus the completed zeta function enters the modular input interface as a
+scattering coefficient. Its zeros are reached there as scattering poles or
+resonances, as in
+\autoref{thm:innovation-input-modular-zeta-scattering}, not as an already
+identified self-adjoint spectrum.
+\end{definition}
+
+\begin{principle}[Operator rows are not interchangeable]
+\label{prin:innovation-input-operator-rows-not-interchangeable}
+The rows
+$$
+A_{\xi}^{\mathrm{HP}},
+\qquad
+H_v=-\frac1{\ln N}\log P_v,
+\qquad
+\varphi(s)=\frac{\Lambda(2s-1)}{\Lambda(2s)}
+$$
+have different meanings. The first is the desired zero-spectrum row. The
+second is the input Hamiltonian produced by reflection positivity. The
+third is the scattering entry through which Riemann zeta reaches the
+modular boundary. A proof route may compare these rows only after it
+exhibits explicit bridge data between the corresponding interfaces.
+\end{principle}
+
+\section{RP as the Input Source of Self-Adjointness}
+\label{sec:innovation-input-rp-source-self-adjointness}
+
+\begin{theorem}[Positive transition row gives an input Hamiltonian]
+\label{thm:innovation-input-positive-transition-gives-hamiltonian}
+Assume $0\preceq P_v\preceq I$ on the OS Hilbert space associated to a
+Q3-compatible self-substitution input. Then
+$$
+H_v:=-\frac1{\ln N}\log P_v
+$$
+is self-adjoint and nonnegative on the nonzero spectral subspace, and
+$$
+e^{-(\ln N)H_v}=P_v.
+$$
+\end{theorem}
+
+\begin{proof}
+The operator $P_v$ is a positive contraction, hence its spectrum lies in
+$[0,1]$. On the nonzero spectral subspace, the scalar function
+$$
+x\mapsto -\frac1{\ln N}\log x
+$$
+is real-valued and nonnegative. The spectral calculus therefore defines a
+self-adjoint nonnegative operator $H_v$, and the exponential identity is
+the same scalar identity applied through the functional calculus.
+\end{proof}
+
+\begin{corollary}[Finite-window failure blocks the Hamiltonian gate]
+\label{cor:innovation-input-finite-window-failure-blocks-hamiltonian-gate}
+If a finite future window has a vector $F$ with
+$$
+\langle\theta F,F\rangle<0,
+$$
+then the corresponding self-substitution row cannot pass complete RP, and
+therefore cannot supply an input Hamiltonian through the OS/RP gate of
+\autoref{def:innovation-input-os-rp-hamiltonian}.
+\end{corollary}
+
+\begin{proof}
+Complete RP requires every finite-window reflection form to be
+nonnegative. A negative finite-window vector is already a contradiction to
+that requirement, so no positive contraction $P_v$ representing the
+complete reflection form can be present.
+\end{proof}
+
+\begin{principle}[Hilbert--Polya prefilter]
+\label{prin:innovation-input-hilbert-polya-prefilter}
+Finite-window RP is a prefilter for any Hilbert--Polya style route that
+starts from self-similar input. A row failing a finite RP window cannot
+generate the input Hamiltonian $H_v$; hence it cannot serve as the
+positive input layer of a later construction of
+$A_{\xi}^{\mathrm{HP}}$. This is a necessary-condition statement only. A
+row passing all input RP tests would still need an independent spectral
+bridge from $H_v$ to the completed zeta zero row.
+\end{principle}
+
+\begin{principle}[Known small Q3 obstructions]
+\label{prin:innovation-input-known-small-qthree-obstructions}
+The small Q3 rows already isolated in
+\autoref{prin:innovation-input-finite-window-rp-audit-table},
+\autoref{prin:innovation-input-pentary-anchored-status-table}, and
+\autoref{cor:innovation-input-palindromic-rp-exclusion} are therefore
+input-Hamiltonian exclusions. The binary representative fails the charged
+one-site gate, the ternary and quartic representatives fail neutral
+finite-window RP, the Pythagorean pentary row passes the anchored $L=2$
+neutral gate but fails at anchored $L=3$, and the pentary palindromic Q3
+locus has empty intersection with the anchored $L=3$ neutral RP class.
+These are not statements about the truth value of RH; they remove
+self-similar input rows from the OS/RP source side.
+\end{principle}
+
+\section{Zeta Upgrade Obligation}
+\label{sec:innovation-input-zeta-upgrade-obligation}
+
+\begin{definition}[Zeta Hilbert--Polya upgrade]
+\label{def:innovation-input-zeta-hilbert-polya-upgrade}
+A Q3-compatible self-substitution row $v$ admits a zeta Hilbert--Polya
+upgrade when it supplies an input Hamiltonian $H_v$ and there is a
+natural self-adjoint operator $\mathcal A_v$ built from the same input,
+boundary, or scattering data such that its spectral row satisfies
+$$
+\gamma\in\operatorname{Spec}(\mathcal A_v)
+\quad\Longleftrightarrow\quad
+\xi(1/2+i\gamma)=0.
+$$
+The construction of $H_v$ is only the input-side part of this definition.
+\end{definition}
+
+\begin{principle}[Two independent bridge obligations]
+\label{prin:innovation-input-two-hp-bridge-obligations}
+Two bridge obligations are separated. The input bridge must pass from a
+self-similar RP row to a positive self-adjoint Hamiltonian $H_v$. The zeta
+bridge must identify a self-adjoint spectral row with the completed zeta
+zeros, or else convert the scattering pole row of
+\autoref{def:innovation-input-riemann-scattering-row} into a
+self-adjoint spectral row. Lax--Phillips, de Branges, and
+Hermite--Biehler style interfaces belong to the second obligation, not to
+the finite-window RP computation itself.
+\end{principle}
+
+\begin{principle}[Three-level zeta interface]
+\label{prin:innovation-input-three-level-zeta-interface}
+The input programme has three distinct zeta-facing levels:
+$$
+\begin{array}{c|c|c}
+\text{level} & \text{row} & \text{output}\\
+\hline
+\text{self-substitution RP} & v\in\mathcal Q_N,\ M_{\mathcal B}(v)\succeq0
+& H_v\\
+\text{boundary transfer} & \text{Gauss/Mayer transfer row}
+& Z_{\rm Selberg}(s)\\
+\text{modular scattering} & \varphi(s)=\Lambda(2s-1)/\Lambda(2s)
+& \text{Riemann scattering poles}
+\end{array}
+$$
+The first level is where the finite-window Q3 search lives. The second is
+the boundary determinant interface of
+\autoref{thm:innovation-input-boundary-selberg-determinant-row}. The
+third is the cusp scattering interface of
+\autoref{thm:innovation-input-modular-zeta-scattering}. Moving from one
+level to another is not automatic.
+\end{principle}
+
+\begin{theorem}[Complete RP is necessary for OS-source upgrade]
+\label{thm:innovation-input-complete-rp-necessary-for-os-source-upgrade}
+If a Q3-compatible self-substitution row is to yield a Hilbert--Polya
+upgrade through the OS/RP input source, then it must satisfy complete RP
+on all finite future windows used by that source.
+\end{theorem}
+
+\begin{proof}
+The OS/RP source requires a positive Hilbert quotient for future
+observables and a positive contraction transition row before
+\autoref{thm:innovation-input-positive-transition-gives-hamiltonian} can
+define $H_v$. A negative finite-window reflection form prevents the
+positive quotient and hence prevents the positive transition row. Thus
+complete RP is a necessary condition for this source route.
+\end{proof}
+
+\section{Pentary Hermitian Locus}
+\label{sec:innovation-input-pentary-hermitian-locus}
+
+\begin{definition}[Anchored three-link neutral window]
+\label{def:innovation-input-anchored-three-link-neutral-window}
+For the anchored $L=3$ neutral audit, set
+$$
+e_{12}:=\delta_1-\delta_2,
+\qquad
+e_{13}:=\delta_1-\delta_3,
+\qquad
+e_{23}:=\delta_2-\delta_3,
+$$
+and use the future block family
+$$
+\mathcal B_3
+:=
+\{0,e_{12},-e_{12},e_{13},-e_{13},e_{23},-e_{23}\}.
+$$
+Its RP matrix is
+$$
+M_3(v)_{\alpha,\beta}
+:=
+\Gamma(\beta-\theta\alpha),
+\qquad
+\alpha,\beta\in\mathcal B_3.
+$$
+\end{definition}
+
+\begin{definition}[Pentary Hermitian and RP loci]
+\label{def:innovation-input-pentary-hermitian-rp-loci}
+Inside $\mathcal Q_5$, define
+$$
+\mathcal H_{5,3,1}^{\mathrm{neu}}
+:=
+\{v\in\mathcal Q_5:M_3(v)=M_3(v)^*\}
+$$
+and
+$$
+\mathcal R_{5,3,1}^{\mathrm{neu}}
+:=
+\{v\in\mathcal H_{5,3,1}^{\mathrm{neu}}:M_3(v)\succeq0\}.
+$$
+\end{definition}
+
+\begin{theorem}[Hermitian condition as reflected correlation equality]
+\label{thm:innovation-input-hermitian-reflected-correlation-equality}
+For $v\in\mathcal Q_5$, the anchored three-link matrix is Hermitian if
+and only if, for all $\alpha,\beta\in\mathcal B_3$,
+$$
+\Gamma(\beta-\theta\alpha)
+=
+\Gamma(\theta\beta-\alpha).
+$$
+\end{theorem}
+
+\begin{proof}
+The matrix entry is
+$$
+M_{\alpha,\beta}=\Gamma(\beta-\theta\alpha).
+$$
+Hermitian symmetry asks for
+$$
+M_{\alpha,\beta}=\overline{M_{\beta,\alpha}}.
+$$
+Since complex conjugation reverses a balanced correlation block,
+$$
+\overline{M_{\beta,\alpha}}
+=
+\overline{\Gamma(\alpha-\theta\beta)}
+=
+\Gamma(\theta\beta-\alpha).
+$$
+This is exactly the displayed equality.
+\end{proof}
+
+\begin{corollary}[Reflection-even rows are Hermitian]
+\label{cor:innovation-input-reflection-even-rows-hermitian}
+If the balanced correlation function of $v$ is reflection-even in the
+sense of
+\autoref{def:innovation-input-reflection-even-balanced-correlations}, then
+$v\in\mathcal H_{5,3,1}^{\mathrm{neu}}$.
+\end{corollary}
+
+\begin{proof}
+Apply
+\autoref{thm:innovation-input-reflection-even-implies-hermitian-rp} to
+the finite window $\mathcal B_3$.
+\end{proof}
+
+\begin{principle}[Nonpalindromic feasibility surface]
+\label{prin:innovation-input-nonpalindromic-feasibility-surface}
+Palindromic rows lie in the Hermitian locus by
+\autoref{cor:innovation-input-palindromic-hermitian-neutral-rp}, but
+\autoref{cor:innovation-input-palindromic-rp-exclusion} gives
+$$
+\mathcal P_5\cap\mathcal R_{5,3,1}^{\mathrm{neu}}=\varnothing
+$$
+for the anchored three-link class. Therefore the remaining pentary
+input-Hamiltonian surface is
+$$
+(\mathcal Q_5\setminus\mathcal P_5)
+\cap
+\mathcal R_{5,3,1}^{\mathrm{neu}}.
+$$
+A point on this surface would still be only an OS/RP input candidate: it
+would provide the finite-window shadow of $H_v$, not the zeta
+Hilbert--Polya operator.
+\end{principle}
+
+\begin{principle}[Hermitian before positivity]
+\label{prin:innovation-input-hermitian-before-positivity}
+For the nonpalindromic pentary search, the finite-window gates occur in a
+fixed order:
+$$
+\text{Q3 phase-sum compatibility},
+\qquad
+M_3(v)=M_3(v)^*,
+\qquad
+M_3(v)\succeq0.
+$$
+The golden symmetric row of
+\autoref{thm:innovation-input-golden-symmetric-hermitian-obstruction}
+passes the scalar link-diagonal filter but fails the Hermitian gate. Thus
+the Hermitian equations are not cosmetic symmetry conditions; they are the
+finite-window expression of self-adjointness before the PSD gate can be
+read as reflection positivity.
+\end{principle}

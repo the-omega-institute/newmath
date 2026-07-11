@@ -1,0 +1,368 @@
+\chapter{Innovation Input Pentary Hermitian Rigidity Gate}
+\label{ch:visions-innovation-input-pentary-hermitian-rigidity-gate}
+\origin{ai}
+
+\autoref{ch:visions-innovation-input-pentary-mirror-decomposition-gate}
+shows that cleared Hermitian defects lie in the palindromic ideal and
+that nonpalindromic Hermitian points must occur at rank-drop points of a
+coefficient matrix. This chapter isolates the stronger certificate that
+would close the pentary three-link gate outright: enough coefficient rows
+must be nondegenerate on $\mathcal Q_5$ to force palindromy before the PSD
+condition is reached.
+
+\section{Hermitian Defect Row}
+\label{sec:innovation-input-pentary-hermitian-defect-row}
+
+\begin{definition}[Three-link Hermitian defect]
+\label{def:innovation-input-three-link-hermitian-defect}
+For $v\in\mathcal Q_5$, let $M_3(v)$ be the anchored three-link matrix of
+\autoref{def:innovation-input-anchored-three-link-neutral-window}. Define
+the Hermitian defect row by
+$$
+\mathcal D_3(v):=M_3(v)-M_3(v)^*.
+$$
+Thus
+$$
+v\in\mathcal H_{5,3,1}^{\mathrm{neu}}
+\quad\Longleftrightarrow\quad
+\mathcal D_3(v)=0.
+$$
+\end{definition}
+
+\begin{definition}[Nonpalindromic defect coordinates]
+\label{def:innovation-input-nonpalindromic-defect-coordinates}
+For a pentary phase word $v=(v_0,\ldots,v_4)$, define
+$$
+R_0(v):=v_0-v_4,
+\qquad
+R_1(v):=v_1-v_3.
+$$
+The equalities
+$$
+R_0(v)=0,
+\qquad
+R_1(v)=0
+$$
+are exactly the condition that $v$ has the palindromic shape
+$(a,b,c,b,a)$.
+\end{definition}
+
+\begin{principle}[Pentary Hermitian rigidity target]
+\label{prin:innovation-input-pentary-hermitian-rigidity-target}
+The active algebraic target is the implication
+$$
+v\in\mathcal H_{5,3,1}^{\mathrm{neu}}
+\quad\Longrightarrow\quad
+R_0(v)=R_1(v)=0.
+$$
+Equivalently, the anchored $L=3$ Hermitian locus inside $\mathcal Q_5$ is
+the palindromic locus, up to the evident conjugation and reflection
+symmetries that preserve the finite-window RP spectrum.
+\end{principle}
+
+\begin{theorem}[Hermitian rigidity empties the pentary RP locus]
+\label{thm:innovation-input-hermitian-rigidity-empties-pentary-rp-locus}
+Assume the implication of
+\autoref{prin:innovation-input-pentary-hermitian-rigidity-target}. Then
+$$
+\mathcal R_{5,3,1}^{\mathrm{neu}}=\varnothing.
+$$
+\end{theorem}
+
+\begin{proof}
+If $v\in\mathcal R_{5,3,1}^{\mathrm{neu}}$, then by definition
+$v\in\mathcal H_{5,3,1}^{\mathrm{neu}}$. The rigidity implication gives
+$v\in\mathcal P_5$. But
+\autoref{cor:innovation-input-palindromic-rp-exclusion} gives
+$$
+\mathcal P_5\cap\mathcal R_{5,3,1}^{\mathrm{neu}}=\varnothing.
+$$
+Hence no such $v$ exists.
+\end{proof}
+
+\section{Cross-Entry Equations}
+\label{sec:innovation-input-cross-entry-equations}
+
+\begin{definition}[Basic cross-entry defects]
+\label{def:innovation-input-basic-cross-entry-defects}
+With
+$$
+e_{12}:=\delta_1-\delta_2,
+\qquad
+e_{13}:=\delta_1-\delta_3,
+\qquad
+e_{23}:=\delta_2-\delta_3,
+$$
+define
+$$
+H_{12,13}(v)
+:=
+\Gamma(e_{13}-\theta e_{12})
+-
+\Gamma(\theta e_{13}-e_{12}),
+$$
+$$
+H_{12,23}(v)
+:=
+\Gamma(e_{23}-\theta e_{12})
+-
+\Gamma(\theta e_{23}-e_{12}),
+$$
+and
+$$
+H_{13,23}(v)
+:=
+\Gamma(e_{23}-\theta e_{13})
+-
+\Gamma(\theta e_{23}-e_{13}).
+$$
+They are entries of the Hermitian defect matrix
+$\mathcal D_3(v)$.
+\end{definition}
+
+\begin{proposition}[Cross-entry normalized blocks]
+\label{prop:innovation-input-cross-entry-normalized-blocks}
+The three basic cross-entry defects can be written as
+$$
+H_{12,13}(v)
+=
+\Gamma(\delta_0-\delta_1+\delta_2-\delta_4)
+-
+\Gamma(-\delta_0+\delta_2-\delta_3+\delta_4),
+$$
+$$
+H_{12,23}(v)
+=
+\Gamma(\delta_0-\delta_1+\delta_3-\delta_4)
+-
+\Gamma(-\delta_0+\delta_1-\delta_3+\delta_4),
+$$
+and
+$$
+H_{13,23}(v)
+=
+\Gamma(\delta_0-\delta_2+\delta_4-\delta_5)
+-
+\Gamma(-\delta_0+\delta_1-\delta_3+\delta_5).
+$$
+\end{proposition}
+
+\begin{proof}
+For $H_{12,13}$,
+$$
+e_{13}-\theta e_{12}
+=
+(\delta_1-\delta_3)-(\delta_0-\delta_{-1}).
+$$
+After translating all sites by $1$, this becomes
+$\delta_0-\delta_1+\delta_2-\delta_4$. Also
+$$
+\theta e_{13}-e_{12}
+=
+(\delta_0-\delta_{-2})-(\delta_1-\delta_2),
+$$
+which translates by $2$ to
+$-\delta_0+\delta_2-\delta_3+\delta_4$.
+
+For $H_{12,23}$,
+$$
+e_{23}-\theta e_{12}
+=
+(\delta_2-\delta_3)-(\delta_0-\delta_{-1}),
+$$
+which translates by $1$ to
+$\delta_0-\delta_1+\delta_3-\delta_4$. Similarly
+$$
+\theta e_{23}-e_{12}
+=
+(\delta_{-1}-\delta_{-2})-(\delta_1-\delta_2),
+$$
+which translates by $2$ to
+$-\delta_0+\delta_1-\delta_3+\delta_4$.
+
+For $H_{13,23}$,
+$$
+e_{23}-\theta e_{13}
+=
+(\delta_2-\delta_3)-(\delta_0-\delta_{-2}),
+$$
+which translates by $2$ to
+$\delta_0-\delta_2+\delta_4-\delta_5$. Finally
+$$
+\theta e_{23}-e_{13}
+=
+(\delta_{-1}-\delta_{-2})-(\delta_1-\delta_3),
+$$
+which translates by $2$ to
+$-\delta_0+\delta_1-\delta_3+\delta_5$.
+\end{proof}
+
+\begin{principle}[Golden obstruction entry]
+\label{prin:innovation-input-golden-obstruction-entry}
+The first displayed difference is the crossed entry where
+\autoref{thm:innovation-input-golden-symmetric-hermitian-obstruction}
+detects non-Hermitian behaviour of the golden symmetric row. Thus the
+same local defect that refutes diagonal sufficiency is also the first
+candidate equation for proving nonpalindromic rigidity.
+\end{principle}
+
+\section{Finite Algebraic Evaluator}
+\label{sec:innovation-input-hermitian-finite-algebraic-evaluator}
+
+\begin{proposition}[Cross-entry defects have finite carry-closure form]
+\label{prop:innovation-input-cross-entry-defects-finite-carry-form}
+For each basic cross-entry defect in
+\autoref{def:innovation-input-basic-cross-entry-defects}, there is a
+finite carry-closure linear system
+$$
+X=A(v)X+b(v)
+$$
+whose entries are Laurent polynomials in $v_0,\ldots,v_4$ and whose
+solution gives the two correlation values appearing in that defect.
+\end{proposition}
+
+\begin{proof}
+Each displayed block in
+\autoref{prop:innovation-input-cross-entry-normalized-blocks} is a finite
+balanced block. Apply the carry-closure construction of
+\autoref{def:innovation-input-carry-closure} and the finite linear system
+of
+\autoref{prop:innovation-input-finite-window-correlation-linear-system}
+to the finite set consisting of these blocks. The resulting unknown vector
+contains the required correlations, and all coefficients are the residue
+branch Laurent monomials supplied by the self-substitution rule.
+\end{proof}
+
+\begin{corollary}[Hermitian locus is an explicit algebraic-trigonometric set]
+\label{cor:innovation-input-hermitian-locus-explicit}
+After imposing the exact Q3 constraint
+$$
+v\in\mathcal Q_5,
+$$
+the equations
+$$
+\mathcal D_3(v)=0
+$$
+are finite algebraic-trigonometric equations obtained from carry-closure
+linear systems. In particular, the Hermitian rigidity target can be
+attacked without sampling long finite words.
+\end{corollary}
+
+\begin{proof}
+The entries of $M_3(v)$ are finite-window correlations. By
+\autoref{prop:innovation-input-finite-window-correlation-linear-system},
+each is obtained from a finite carry-closure system. Hermitian symmetry is
+the finite list of equalities of
+\autoref{thm:innovation-input-hermitian-reflected-correlation-equality}.
+\end{proof}
+
+\section{Factor Extraction Gate}
+\label{sec:innovation-input-factor-extraction-gate}
+
+\begin{definition}[Rigidity factor certificate]
+\label{def:innovation-input-rigidity-factor-certificate}
+A rigidity factor certificate for the anchored pentary three-link window
+consists of two functions $A_0(v)$ and $A_1(v)$, obtained from the
+carry-closure algebraic evaluator, such that on $\mathcal Q_5$
+$$
+H_{12,13}(v)=A_0(v)R_0(v),
+$$
+$$
+H_{12,23}(v)=A_1(v)R_1(v),
+$$
+and
+$$
+A_0(v)\ne0,
+\qquad
+A_1(v)\ne0
+$$
+on the Q3 locus under consideration.
+\end{definition}
+
+\begin{theorem}[Factor certificate gives Hermitian rigidity]
+\label{thm:innovation-input-factor-certificate-gives-hermitian-rigidity}
+If a rigidity factor certificate exists, then
+$$
+v\in\mathcal H_{5,3,1}^{\mathrm{neu}}
+\quad\Longrightarrow\quad
+v\in\mathcal P_5.
+$$
+\end{theorem}
+
+\begin{proof}
+If $v$ is Hermitian, then every entry of the defect matrix vanishes, in
+particular
+$$
+H_{12,13}(v)=0,
+\qquad
+H_{12,23}(v)=0.
+$$
+The factor certificate gives
+$$
+A_0(v)R_0(v)=0,
+\qquad
+A_1(v)R_1(v)=0.
+$$
+Since $A_0(v)$ and $A_1(v)$ are nonzero, $R_0(v)=R_1(v)=0$. By
+\autoref{def:innovation-input-nonpalindromic-defect-coordinates}, this is
+exactly $v\in\mathcal P_5$.
+\end{proof}
+
+\begin{corollary}[Factor certificate closes the pentary three-link gate]
+\label{cor:innovation-input-factor-certificate-closes-pentary-three-link-gate}
+If a rigidity factor certificate exists, then
+$$
+\mathcal R_{5,3,1}^{\mathrm{neu}}=\varnothing.
+$$
+\end{corollary}
+
+\begin{proof}
+Combine
+\autoref{thm:innovation-input-factor-certificate-gives-hermitian-rigidity}
+with
+\autoref{thm:innovation-input-hermitian-rigidity-empties-pentary-rp-locus}.
+\end{proof}
+
+\begin{principle}[Algebraic extraction over blind search]
+\label{prin:innovation-input-algebraic-extraction-over-search}
+The pentary nonpalindromic problem should be treated as a factor
+extraction problem, not as an unconstrained numerical search. The
+carry-closure evaluator gives exact algebraic functions for the
+cross-entry defects, and the decisive question is whether the
+nonpalindromic defects $R_0$ and $R_1$ divide the basic Hermitian defects
+with nonvanishing cofactors on $\mathcal Q_5$.
+\end{principle}
+
+\section{Audit Pattern}
+\label{sec:innovation-input-hermitian-audit-pattern}
+
+\begin{principle}[Hermitian audit pattern]
+\label{prin:innovation-input-hermitian-audit-pattern}
+Constrained numerical audits of the Q3 surface using the exact
+carry-closure evaluator have a consistent pattern: drives toward small
+anchored $L=3$ Hermitian defect return to the palindromic equalities
+$$
+v_0=v_4,
+\qquad
+v_1=v_3,
+$$
+while the Hermitian part still has a negative least eigenvalue on the
+observed palindromic limits. This pattern is not a proof of rigidity. It
+is evidence for the factor-extraction gate of
+\autoref{def:innovation-input-rigidity-factor-certificate}.
+\end{principle}
+
+\begin{principle}[Pentary three-link boundary]
+\label{prin:innovation-input-pentary-three-link-boundary}
+The anchored pentary $L=3$ neutral RP question is reduced to one of two
+outcomes. A rigidity factor certificate proves that no pentary Q3 row
+survives the three-link gate. A nonpalindromic point in
+$$
+(\mathcal Q_5\setminus\mathcal P_5)
+\cap
+\mathcal R_{5,3,1}^{\mathrm{neu}}
+$$
+would be the first genuinely nonpalindromic OS/RP input candidate at this
+window. In both outcomes, the statement remains an input-Hamiltonian
+statement and does not identify the Riemann zero spectrum.
+\end{principle}

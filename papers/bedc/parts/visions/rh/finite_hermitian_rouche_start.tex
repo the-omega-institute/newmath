@@ -1,0 +1,358 @@
+\chapter{Finite Hermitian Rouche Start for \texorpdfstring{$\xi$}{xi}}
+\label{ch:visions-rh-finite-hermitian-rouche-start}
+\origin{ai}
+
+This chapter records the finite self-adjoint starting object for the RH route.
+It is deliberately phrased as a certificate interface.  The construction of
+$O_N$ uses only finite prime-power data through $\Lambda(n)$, a finite
+archimedean $\Gamma$-kernel quadrature, and finite Hilbert data.  No zeta-zero
+list, zero-count table, or inverse spectral datum is an input.  The chapter
+also separates two statements that must not be conflated: Rouche domination on
+the outer rectangle gives equality of zero counts in that rectangle, while
+zero localization on the critical line requires Rouche domination on the
+off-line components where the self-adjoint determinant is zero-free.
+
+\section{Prime--Gamma finite packet}
+\label{sec:rh-prime-gamma-finite-packet}
+
+\begin{definition}[Prime--Gamma truncation packet]
+\label{def:rh-prime-gamma-truncation-packet}
+A prime--Gamma truncation packet at level $N$ is the finite datum
+$$
+\mathsf{PGamma}_{N}
+:=
+\bigl(
+\mathcal P_N,
+(w_{n,N})_{n\in\mathcal P_N},
+\mathcal Q_N,
+(a_{q,N},\omega_{q,N})_{q\in\mathcal Q_N},
+\mathcal H_N,
+(e_1,\ldots,e_{m_N})
+\bigr),
+$$
+where:
+\begin{enumerate}
+\item $\mathcal P_N\subset\{n\le N:\Lambda(n)\ne0\}$ is a finite prime-power
+window;
+\item $w_{n,N}\in\RatUp$ are displayed finite weights attached to the
+$\Lambda(n)$ rows;
+\item $\mathcal Q_N$ is a finite quadrature window for the archimedean
+$\Gamma$-kernel, with real weights $a_{q,N}$ and frequencies $\omega_{q,N}$;
+\item $\mathcal H_N$ is a finite-dimensional Hermitian carrier with displayed
+basis $(e_1,\ldots,e_{m_N})$.
+\end{enumerate}
+The packet is a source-side object.  It contains primes, $\Lambda(n)$, and
+archimedean $\Gamma$ data, but it contains no zero of $\xi$ or $\zeta$.
+\end{definition}
+
+\begin{definition}[Completed finite explicit-formula form]
+\label{def:rh-completed-finite-explicit-formula-form}
+Given $\mathsf{PGamma}_{N}$, define the finite sesquilinear form
+$\mathcal B_N$ on $\mathcal H_N$ by
+$$
+\mathcal B_N(f,g)
+:=
+ b_N\langle f,g\rangle
+ +\sum_{n\in\mathcal P_N}
+ w_{n,N}{\Lambda(n)\over\sqrt n}
+ \widehat f(\log n)\overline{\widehat g(\log n)}
+ +\sum_{q\in\mathcal Q_N}
+ a_{q,N}
+ \widehat f(\omega_{q,N})\overline{\widehat g(\omega_{q,N})}.
+$$
+The scalar $b_N$ is a displayed real counterterm.  The last sum is the finite
+archimedean row; its quadrature target is the logarithmic derivative of the
+completion factor $\pi^{-s/2}\Gamma(s/2)$ on the chosen height window.  The
+hats denote the finite readout functionals carried by the packet.
+\end{definition}
+
+\begin{lemma}[Hermitian symmetry of the finite form]
+\label{lem:rh-prime-gamma-form-hermitian}
+If all displayed coefficients $b_N$, $w_{n,N}$, and $a_{q,N}$ are real, then
+$$
+\mathcal B_N(g,f)=\overline{\mathcal B_N(f,g)}
+$$
+for all $f,g\in\mathcal H_N$.
+\end{lemma}
+
+\begin{proof}
+Each summand has the form
+$c\,\ell(f)\overline{\ell(g)}$ with $c\in\mathbb R$, or the Hermitian inner
+product term $b_N\langle f,g\rangle$.  Interchanging $f$ and $g$ complex
+conjugates every summand.  Finite summation preserves the identity.
+\end{proof}
+
+\begin{definition}[Finite Hermitian operator]
+\label{def:rh-finite-hermitian-operator}
+The finite operator $O_N$ is the unique matrix on $\mathcal H_N$ satisfying
+$$
+\langle O_N f,g\rangle=\mathcal B_N(f,g)
+\qquad(f,g\in\mathcal H_N).
+$$
+Equivalently, in the displayed basis,
+$$
+(O_N)_{ab}=\mathcal B_N(e_b,e_a).
+$$
+\end{definition}
+
+\begin{theorem}[Self-adjointness is source-side]
+\label{thm:rh-finite-operator-self-adjoint}
+The operator $O_N$ of \autoref{def:rh-finite-hermitian-operator} is Hermitian:
+$$
+O_N=O_N^*.
+$$
+Consequently its eigenvalues $\lambda_1,\ldots,\lambda_{m_N}$ are real.
+\end{theorem}
+
+\begin{proof}
+The matrix identity $(O_N)_{ab}=\overline{(O_N)_{ba}}$ is exactly
+\autoref{lem:rh-prime-gamma-form-hermitian} applied to $e_a,e_b$.  A finite
+Hermitian matrix has real spectrum by the finite-dimensional spectral theorem.
+This proof uses only the finite prime--Gamma packet and does not mention any
+zero of $\xi$.
+\end{proof}
+
+\section{Determinant approximant}
+\label{sec:rh-determinant-approximant}
+
+\begin{definition}[Zero-free amplitude]
+\label{def:rh-zero-free-amplitude}
+A zero-free amplitude attached to $\mathsf{PGamma}_N$ is an entire function
+$$
+A_N(s)=\exp(B_N(s)),
+$$
+where $B_N$ is a finite completed Euler--Gamma counterterm built from the same
+prime-power truncation, archimedean quadrature, and normalization rows.  The
+important structural property is
+$$
+A_N(s)\ne0
+\qquad(s\in\mathbb C).
+$$
+\end{definition}
+
+\begin{definition}[Finite Hermitian determinant model]
+\label{def:rh-finite-hermitian-determinant-model}
+The determinant model associated to $(O_N,A_N)$ is
+$$
+D_N(s)
+:=
+\det\bigl((s-\tfrac12)I-iO_N\bigr)\,A_N(s).
+$$
+\end{definition}
+
+\begin{theorem}[Zeros of the model lie on the critical line]
+\label{thm:rh-model-zeros-on-critical-line}
+Assume $A_N$ is zero-free.  Then every zero of $D_N$ is of the form
+$$
+s={1\over2}+i\lambda_j
+$$
+for a real eigenvalue $\lambda_j$ of $O_N$.
+\end{theorem}
+
+\begin{proof}
+By \autoref{thm:rh-finite-operator-self-adjoint}, the spectrum of $O_N$ is
+real.  Hence
+$$
+\det\bigl((s-\tfrac12)I-iO_N\bigr)
+=
+\prod_{j=1}^{m_N}\bigl((s-\tfrac12)-i\lambda_j\bigr).
+$$
+The determinant factor therefore vanishes only at
+$s=1/2+i\lambda_j$.  The amplitude contributes no zeros by
+\autoref{def:rh-zero-free-amplitude}.
+\end{proof}
+
+\section{Outer-rectangle Rouche certificate}
+\label{sec:rh-outer-rectangle-rouche-certificate}
+
+\begin{definition}[Spectrally admissible height]
+\label{def:rh-spectrally-admissible-height}
+For
+$$
+R_T:=\{\,s\in\mathbb C:0\le\Re(s)\le1,\ |\Im(s)|\le T\,\},
+$$
+a height $T$ is spectrally admissible for $D_N$ when
+$\lambda_j\ne\pm T$ for every eigenvalue $\lambda_j$ of $O_N$.  Equivalently,
+the determinant factor has no zero on $\partial R_T$.
+\end{definition}
+
+\begin{definition}[Finite boundary domination certificate]
+\label{def:rh-finite-boundary-domination-certificate}
+A finite boundary domination certificate for $(N,T)$ consists of explicit
+positive rational bounds
+$$
+E_{N,T}^{\rm cert}
+\quad\hbox{and}\quad
+M_{N,T}^{\rm cert}
+$$
+such that
+$$
+\sup_{s\in\partial R_T}|\xi(s)-D_N(s)|\le E_{N,T}^{\rm cert},
+$$
+$$
+0<M_{N,T}^{\rm cert}\le \inf_{s\in\partial R_T}|D_N(s)|,
+$$
+and
+$$
+E_{N,T}^{\rm cert}<M_{N,T}^{\rm cert}.
+$$
+The upper bound is decomposed into the prime tail, the $\Lambda(n)$ smoothing
+error, the archimedean $\Gamma$-quadrature error, and the zero-free amplitude
+normalization error:
+$$
+E_{N,T}^{\rm cert}
+=
+E^{\rm pr}_{N,T}+E^{\Lambda}_{N,T}+E^{\Gamma}_{N,T}+E^{A}_{N,T}.
+$$
+The lower bound may be certified from
+$$
+|A_N(s)|\ge \alpha_{N,T}>0
+$$
+on $\partial R_T$ and the spectral product
+$$
+\inf_{s\in\partial R_T}
+\prod_{j=1}^{m_N}|(s-\tfrac12)-i\lambda_j|.
+$$
+\end{definition}
+
+\begin{theorem}[The boxed boundary inequality]
+\label{thm:rh-boxed-boundary-inequality}
+If a finite boundary domination certificate for $(N,T)$ is supplied, then
+$$
+\boxed{
+\ |\xi(s)-D_N(s)|<|D_N(s)|\quad(s\in\partial R_T).
+\ }
+$$
+\end{theorem}
+
+\begin{proof}
+For $s\in\partial R_T$,
+$$
+|\xi(s)-D_N(s)|
+\le E_{N,T}^{\rm cert}
+<M_{N,T}^{\rm cert}
+\le |D_N(s)|.
+$$
+This is the displayed inequality.
+\end{proof}
+
+\begin{theorem}[Outer-rectangle Rouche count]
+\label{thm:rh-outer-rectangle-rouche-count}
+Assume $T$ is spectrally admissible and
+\autoref{def:rh-finite-boundary-domination-certificate} holds.  Then $\xi$ and
+$D_N$ have the same number of zeros in $R_T$, counted with multiplicity.
+\end{theorem}
+
+\begin{proof}
+The functions $\xi$ and $D_N$ are holomorphic on a neighbourhood of $R_T$ and
+$D_N$ has no zero on $\partial R_T$.  The strict inequality of
+\autoref{thm:rh-boxed-boundary-inequality} is exactly the hypothesis of
+Rouche's theorem.  Hence $\xi$ and $D_N$ have the same zero count inside
+$R_T$.
+\end{proof}
+
+\begin{principle}[The full rectangle gives count, not location]
+\label{prin:rh-full-rectangle-rouche-count-only}
+The implication
+$$
+|\xi-D_N|<|D_N|\hbox{ on }\partial R_T
+\quad\Longrightarrow\quad
+N_{R_T}(\xi)=N_{R_T}(D_N)
+$$
+is a zero-count statement only.  It does not, by itself, imply that the zeros
+of $\xi$ occupy the same locations as the zeros of $D_N$, nor that the zeros
+of $\xi$ lie on the critical line.  The self-adjointness of $O_N$ places the
+model zeros on the line; localization of the actual zeros requires Rouche
+control on zero-free off-line components.
+\end{principle}
+
+\section{Off-line Rouche localization}
+\label{sec:rh-offline-rouche-localization}
+
+\begin{definition}[Off-line rectangles]
+\label{def:rh-offline-rectangles}
+For $0<\eta<1/2$ define
+$$
+R^-_{T,\eta}:=\{\,s:0\le\Re(s)\le1/2-\eta,\ |\Im(s)|\le T\,\},
+$$
+$$
+R^+_{T,\eta}:=\{\,s:1/2+\eta\le\Re(s)\le1,\ |\Im(s)|\le T\,\}.
+$$
+These rectangles are separated from the critical line by a positive rational
+margin $\eta$.
+\end{definition}
+
+\begin{definition}[Off-line domination certificate]
+\label{def:rh-offline-domination-certificate}
+An off-line domination certificate for $(N,T,\eta,\pm)$ is the same finite
+prime--$\Lambda$--$\Gamma$ error package as
+\autoref{def:rh-finite-boundary-domination-certificate}, but computed on
+$\partial R^{\pm}_{T,\eta}$:
+$$
+\sup_{s\in\partial R^{\pm}_{T,\eta}}|\xi(s)-D_N(s)|
+<
+\inf_{s\in\partial R^{\pm}_{T,\eta}}|D_N(s)|.
+$$
+Because $A_N$ is zero-free and the determinant zeros of $D_N$ lie on
+$\Re(s)=1/2$, the lower bound is a genuine zero-free lower bound on each
+off-line component.
+\end{definition}
+
+\begin{theorem}[Off-line Rouche exclusion]
+\label{thm:rh-offline-rouche-exclusion}
+Assume $A_N$ is zero-free and $O_N=O_N^*$.  If the off-line domination
+certificate holds for $R^-_{T,\eta}$, then $\xi$ has no zero in
+$R^-_{T,\eta}$.  If it holds for $R^+_{T,\eta}$, then $\xi$ has no zero in
+$R^+_{T,\eta}$.
+\end{theorem}
+
+\begin{proof}
+By \autoref{thm:rh-model-zeros-on-critical-line}, all zeros of $D_N$ lie on
+$\Re(s)=1/2$.  Thus $D_N$ has no zero in either off-line rectangle.  Applying
+Rouche's theorem on the chosen off-line rectangle gives equality of zero
+counts there.  The model count is zero, so the $\xi$ count is zero.
+\end{proof}
+
+\begin{corollary}[Finite-height critical-line conclusion]
+\label{cor:rh-finite-height-critical-line-from-offline-rouche}
+Fix $T$.  Suppose that for every positive rational $\eta<1/2$ there is some
+finite level $N=N(T,\eta)$ whose off-line domination certificates hold on both
+$R^-_{T,\eta}$ and $R^+_{T,\eta}$.  Then every zero of $\xi$ in $R_T$ lies on
+$\Re(s)=1/2$.
+\end{corollary}
+
+\begin{proof}
+Let $\rho$ be a zero of $\xi$ in $R_T$.  If $\Re(\rho)<1/2$, choose a positive
+rational $\eta<1/2-\Re(\rho)$; then $\rho\in R^-_{T,\eta}$, contradicting
+\autoref{thm:rh-offline-rouche-exclusion}.  The case $\Re(\rho)>1/2$ is the
+same using $R^+_{T,\eta}$.  Therefore $\Re(\rho)=1/2$.
+\end{proof}
+
+\section{Non-circularity ledger}
+\label{sec:rh-finite-hermitian-noncircularity-ledger}
+
+\begin{principle}[What self-adjointness proves]
+\label{prin:rh-what-self-adjointness-proves}
+The self-adjoint step proves exactly this: the zeros of the finite model
+$D_N$ contributed by the determinant factor are line-supported because
+$O_N=O_N^*$.  This is non-circular because the spectrum of $O_N$ is produced
+from the finite prime--$\Lambda$--$\Gamma$ kernel, not from the zero set of
+$\xi$.
+\end{principle}
+
+\begin{principle}[What remains analytic]
+\label{prin:rh-what-remains-analytic}
+The remaining RH-facing obligation is not self-adjointness.  It is the finite,
+checkable domination package
+$$
+\sup_{\partial R^{\pm}_{T,\eta}}|\xi-D_N|
+<
+\inf_{\partial R^{\pm}_{T,\eta}}|D_N|
+$$
+with explicit prime tail, $\Lambda(n)$ smoothing, archimedean $\Gamma$-kernel,
+and amplitude lower-bound ledgers.  Once these off-line inequalities are
+proved without zero input, \autoref{thm:rh-offline-rouche-exclusion} gives
+$r=0$ on the corresponding height window.
+\end{principle}
+
+\concretizedIn{ch:visions-rh-local-global-zero-exclusion-target}{The finite Hermitian Rouche start supplies a spectral version of the local--global zero-exclusion hinge: line-supported model zeros come from self-adjointness, while the actual zeta-zero exclusion is carried by explicit off-line boundary-domination ledgers.}

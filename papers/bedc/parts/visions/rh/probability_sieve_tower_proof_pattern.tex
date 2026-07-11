@@ -1,0 +1,268 @@
+\chapter{Probability Sieve Tower Proof Pattern}
+\label{ch:visions-rh-probability-sieve-tower-proof-pattern}
+\origin{ai}
+
+\autoref{ch:visions-rh-probability-amplitude-unit-geometry},
+\autoref{ch:visions-rh-layered-prime-probability-sieve}, and
+\autoref{ch:visions-rh-zeta-certified-inverse-limit} provide the
+finite Hilbert geometry, the probability classifier tower, and the
+certified limiting object used by the RH route.  The present chapter
+records the proof pattern that binds these pieces together.  The
+pattern is modeled on a tower argument: isolate a fixed local resource,
+place it in a growing classifier tower, use finite pigeonhole or
+orthogonal projection to produce many legal reads, and project the
+resulting tower data into the final geometric object.
+
+\section{Local Mechanism}
+\label{sec:rh-probability-sieve-tower-local-mechanism}
+
+\begin{definition}[Unit-phase local mechanism]
+\label{def:rh-unit-phase-local-mechanism}
+The local legal resource for the probability sieve tower is a unit
+phase mode
+$$
+u\longmapsto e^{i\gamma u}.
+$$
+A radial packet is a mode of the form
+$$
+u\longmapsto e^{ru}e^{i\gamma u},
+\qquad
+r\ne0.
+$$
+The local mechanism is legal at a classifier layer only when its
+observable readout is carried by unit character data, probability
+amplitude data of norm $1$, and a sieve ledger row.  A radial factor is
+therefore not a unit resource; it is a residual coordinate that must be
+detected, ledgered, or excluded.
+\end{definition}
+
+\begin{principle}[Fixed local mechanism]
+\label{prin:rh-fixed-local-sieve-mechanism}
+The probability sieve route does not begin with the global zeta object.
+It begins with finite layer resources: a finite prime classifier, a
+probability law on its types, unit character or amplitude readouts, and
+orthogonal event projections.  These are the RH-facing analogues of a
+fixed local unit resource in a tower construction.  Their role is to
+provide a reusable finite detection mechanism before the limiting
+object is admitted.
+\end{principle}
+
+\begin{definition}[Amplifiable classifier mechanism]
+\label{def:rh-amplifiable-classifier-mechanism}
+An amplifiable classifier mechanism is a finite probability classifier
+$(G_m,\mu_m)$ together with a family of legal tests
+$$
+\mathcal T_m\subseteq L^2_0(G_m,\mu_m)
+$$
+such that every nonzero finite residual visible at layer $m$ has a
+nonzero pairing with some test in $\mathcal T_m$.  In a refinement tower
+$$
+(G_0,\mu_0)\leftarrow(G_1,\mu_1)\leftarrow(G_2,\mu_2)\leftarrow\cdots,
+$$
+the mechanism is amplified when the pullback of a detected residual
+remains visible to later legal tests and the excluded probability mass
+continues to be recorded by \autoref{def:rh-sieve-ledger-row}.
+\end{definition}
+
+\section{Finite Projection Pigeonhole}
+\label{sec:rh-probability-sieve-tower-finite-pigeonhole}
+
+\begin{theorem}[Finite probability pigeonhole]
+\label{thm:rh-finite-probability-pigeonhole}
+Let $(G,\mu)$ be a finite probability space with full support and let
+$$
+R\in L^2_0(G,\mu)
+$$
+be nonzero.  Then there is an event $E\subseteq G$ such that
+$$
+\left\langle R,\mathbf 1_E-\mu(E)\right\rangle\ne0.
+$$
+Equivalently, some legal event projection detects the residual.
+\end{theorem}
+
+\begin{proof}
+If every centered event indicator were orthogonal to $R$, then every
+linear combination of centered event indicators would be orthogonal to
+$R$.  These centered indicators span $L^2_0(G,\mu)$: for any
+$a,b\in G$, the difference
+$$
+\mathbf 1_a-\frac{\mu(a)}{\mu(b)}\mathbf 1_b
+$$
+is a scalar combination of centered indicators and separates the
+$a$-coordinate from the $b$-coordinate.  Hence $R$ would be orthogonal
+to all of $L^2_0(G,\mu)$, including itself.  This gives
+$$
+\|R\|^2=0,
+$$
+contradicting $R\ne0$.
+\end{proof}
+
+\begin{theorem}[Classifier pigeonhole supplies probability detection]
+\label{thm:rh-classifier-pigeonhole-supplies-probability-detection}
+Every finite prime-power residual detected by
+\autoref{thm:rh-finite-residuals-detected-by-probability-tests} is also
+detected by an event projection in the finite probability space of a
+prime probability classifier.
+\end{theorem}
+
+\begin{proof}
+The finite probability test produced by
+\autoref{thm:rh-finite-residuals-detected-by-probability-tests} gives a
+nonzero element of the mean-zero layer Hilbert space
+$L^2_0(G_m,\mu_m)$.  Applying
+\autoref{thm:rh-finite-probability-pigeonhole} to that element gives a
+centered event indicator with nonzero pairing.  By
+\autoref{thm:rh-event-projection-pythagorean-law}, the event is an
+orthogonal probability split, so the detected component and its
+complement are legal triangle readouts at the layer.
+\end{proof}
+
+\begin{principle}[Classifier pigeonhole is a ledger operation]
+\label{prin:rh-classifier-pigeonhole-ledger-operation}
+The finite pigeonhole step is not an unrecorded choice of a favorable
+event.  It selects a displayed event in a finite classifier, reads a
+nonzero projection of the residual, and records the excluded component
+as probability mass.  Thus the pigeonhole argument produces legal
+BEDC data only together with the sieve ledger of
+\autoref{def:rh-sieve-ledger-row}.
+\end{principle}
+
+\section{Tower Amplification}
+\label{sec:rh-probability-sieve-tower-amplification}
+
+\begin{definition}[Tower-amplified detection]
+\label{def:rh-tower-amplified-detection}
+A layered prime probability sieve has tower-amplified detection for a
+residual $R_0$ when, after transporting residuals through the
+refinement maps, there are detected subspaces $W_m$ and constants
+$\eta_m\in(0,1]$ with
+$$
+\|\Pi_mR_{m-1}\|_m^2
+\ge
+\eta_m\|R_{m-1}\|_m^2
+$$
+and
+$$
+\sum_m\eta_m=\infty.
+$$
+\end{definition}
+
+\begin{theorem}[Tower amplification gives complete residual exhaustion]
+\label{thm:rh-tower-amplification-complete-residual-exhaustion}
+If a residual has tower-amplified detection, then its surviving norm in
+the layered probability sieve tends to zero:
+$$
+\|R_m\|_m\to0.
+$$
+\end{theorem}
+
+\begin{proof}
+This is exactly the energy descent of
+\autoref{thm:rh-layer-sieve-energy-descent}.  The displayed lower bound
+on the detected component gives
+$$
+\|R_m\|_m^2
+\le
+\left(\prod_{j=1}^{m}(1-\eta_j)\right)\|R_0\|_0^2.
+$$
+The divergence of $\sum_j\eta_j$ forces the product to vanish.
+\end{proof}
+
+\begin{corollary}[Amplified detection implies cofinal dissipation]
+\label{cor:rh-amplified-detection-implies-cofinal-dissipation}
+If every nonzero radial residual of a zeta-facing packet has
+tower-amplified detection, then
+$$
+\mathsf{CofinalSieveDissipation}
+$$
+holds for the layered prime probability sieve.
+\end{corollary}
+
+\begin{proof}
+The definition of tower-amplified detection supplies precisely the
+detected subspaces and divergent detection strengths required by
+\autoref{def:rh-cofinal-sieve-dissipation}.
+\end{proof}
+
+\section{Certified Limit Projection}
+\label{sec:rh-probability-sieve-tower-certified-limit}
+
+\begin{definition}[Layered zeta proof package]
+\label{def:rh-layered-zeta-proof-package}
+A layered zeta proof package consists of the certified inverse system of
+\autoref{def:rh-certified-zeta-inverse-system} together with:
+$$
+\begin{gathered}
+\mathsf{LayeredProbabilitySieveCompleteness},\quad
+\mathsf{PrimeDistributionCurveCompleteness},\\
+\mathsf{CofinalSieveDissipation},\quad
+\mathsf{CriticalProbabilityStability},\quad
+\mathsf{FiniteWitnessCompleteness}.
+\end{gathered}
+$$
+The package is a proof-engineering object.  It does not treat
+$\zeta(s)$ as a seed primitive; it admits the zeta-facing object only as
+the certified inverse limit of finite classifier, probability, analytic
+window, gap, and ledger rows.
+\end{definition}
+
+\begin{theorem}[Layered package projects radial residuals to illegal closure]
+\label{thm:rh-layered-package-projects-radial-residuals-to-illegal-closure}
+Assume a layered zeta proof package and assume every completed
+nontrivial zero packet admitted by the package is a legal BEDC closure
+object.  If such a zero had
+$$
+z(\rho)=1-\frac1\rho=e^{\ell+i\theta},
+\qquad
+\ell\ne0,
+$$
+then the package would expose a nonzero radial residual that cannot be
+carried by a closed legal packet.
+\end{theorem}
+
+\begin{proof}
+By $\mathsf{LayeredProbabilitySieveCompleteness}$, the nonzero radial
+coordinate is visible on a probability-filtered curve.  By
+\autoref{thm:rh-layered-probability-supplies-distribution-curve-completeness},
+this supplies the distribution-curve visibility demanded by
+$\mathsf{PrimeDistributionCurveCompleteness}$.  By
+\autoref{thm:rh-distribution-curve-completeness-radial-residual-visibility},
+the radial coordinate becomes a finite or profinite classifier-visible
+residual.  By $\mathsf{CofinalSieveDissipation}$ and
+\autoref{thm:rh-cofinal-probability-sieve-excludes-hidden-radial-residuals},
+that residual cannot be hidden in a legal closed packet: if the
+exhausted mass is recorded, the packet has an append ledger; if it is
+not recorded, the sieve ledger row is violated.  The assumed closed
+legal zero packet is therefore incompatible with $\ell\ne0$.
+\end{proof}
+
+\begin{theorem}[Probability sieve tower route gives conditional fixed-half readout]
+\label{thm:rh-probability-sieve-tower-route-conditional-fixed-half}
+Assume a layered zeta proof package and that every completed
+nontrivial zero packet admitted by the package is a legal BEDC closure
+object.  Then every admitted nontrivial zero has fixed-half readout.
+\end{theorem}
+
+\begin{proof}
+Let $\rho$ be an admitted nontrivial zero.  If
+$$
+z(\rho)=1-\frac1\rho=e^{\ell+i\theta}
+$$
+had $\ell\ne0$, then
+\autoref{thm:rh-layered-package-projects-radial-residuals-to-illegal-closure}
+would contradict legality of the closed packet.  Hence $\ell=0$, and
+\autoref{thm:rh-li-coordinate-fixed-half-circle} gives fixed-half
+readout.
+\end{proof}
+
+\begin{principle}[Proof pattern audit boundary]
+\label{prin:rh-probability-sieve-tower-proof-pattern-audit-boundary}
+The tower proof pattern concentrates the RH-facing burden in two
+certificate rows.  The finite visibility row says that an off-critical
+zero cannot remain purely global; it must create a finite classifier,
+probability, fixed-window, or distribution-curve witness.  The cofinal
+amplification row says that every such witness is repeatedly detected
+with divergent total energy.  Once these rows are supplied, the
+certified inverse-limit projection turns radial scale into an illegal
+closure coordinate rather than a legal zeta zero.
+\end{principle}

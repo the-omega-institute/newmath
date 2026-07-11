@@ -426,4 +426,44 @@ theorem gallery_sanity_all_typed_witnesses :
   · intro h
     cases h
 
+theorem gallery_checker_route_factorization :
+    (HasType [] churchTrueTm churchBoolTy ∧
+      inferTypeCtx [] churchTrueTm = some churchBoolTy) ∧
+      (HasType [] churchZeroTm churchNatTy ∧
+        inferTypeCtx [] churchZeroTm = some churchNatTy) ∧
+        (HasType [] churchMkPairTm churchMkPairTy ∧
+          inferTypeCtx [] churchMkPairTm = some churchMkPairTy) := by
+  -- BEDC touchpoint anchor: BEDC.MetaCIC.Term BEDC.MetaCIC.Typing
+  have boolTyped : HasType [] churchTrueTm churchBoolTy := church_true
+  have natTyped : HasType [] churchZeroTm churchNatTy := church_zero
+  have pairTyped : HasType [] churchMkPairTm churchMkPairTy := church_mk_pair
+  have boolChecked :
+      inferTypeCtx [] churchTrueTm = some churchBoolTy :=
+    CheckCompleteness.inferTypeCtx_complete_raw [] churchTrueTm churchBoolTy boolTyped
+  have natChecked :
+      inferTypeCtx [] churchZeroTm = some churchNatTy :=
+    CheckCompleteness.inferTypeCtx_complete_raw [] churchZeroTm churchNatTy natTyped
+  have pairChecked :
+      inferTypeCtx [] churchMkPairTm = some churchMkPairTy :=
+    CheckCompleteness.inferTypeCtx_complete_raw [] churchMkPairTm churchMkPairTy pairTyped
+  exact
+    ⟨⟨boolTyped, boolChecked⟩,
+      ⟨⟨natTyped, natChecked⟩, ⟨pairTyped, pairChecked⟩⟩⟩
+
+theorem gallery_kernel_scope :
+    (HasType [] churchTrueTm churchBoolTy ∧
+      inferTypeCtx [] churchTrueTm = some churchBoolTy) ∧
+      (HasType [] churchZeroTm churchNatTy ∧
+        inferTypeCtx [] churchZeroTm = some churchNatTy) ∧
+        (HasType [] churchMkPairTm churchMkPairTy ∧
+          inferTypeCtx [] churchMkPairTm = some churchMkPairTy) ∧
+          inferTypeCtx [] churchFalseTm = some churchBoolTy := by
+  -- BEDC touchpoint anchor: BEDC.MetaCIC.Term BEDC.MetaCIC.Typing
+  have route := gallery_checker_route_factorization
+  have falseTyped : HasType [] churchFalseTm churchBoolTy := church_false
+  have falseChecked :
+      inferTypeCtx [] churchFalseTm = some churchBoolTy :=
+    CheckCompleteness.inferTypeCtx_complete_raw [] churchFalseTm churchBoolTy falseTyped
+  exact ⟨route.left, ⟨route.right.left, ⟨route.right.right, falseChecked⟩⟩⟩
+
 end BEDC.MetaCIC

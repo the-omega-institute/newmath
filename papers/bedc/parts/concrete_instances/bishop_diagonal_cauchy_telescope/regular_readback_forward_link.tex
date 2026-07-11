@@ -1,0 +1,11 @@
+\begin{theorem}[Bishop diagonal Cauchy telescope regular readback forward link]
+\label{thm:bishop-diagonal-cauchy-telescope-regular-readback-forward-link}
+Every accepted $\BishopDiagonalCauchyTelescopeUp$ packet reads its regular rational component through \autoref{ch:concrete-instances-regseqrat-namecert} before the terminal $\RealUp$ seal is available. Consequently every downstream Real or Completion consumer inherits the dependency on the displayed $\RegSeqRatUp$ readback row $G$ inside the carrier $T=(R,D,W,G,M,L,E,H,C,P,N)$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:bishop-diagonal-cauchy-telescope-carrier}. The row $G$ is explicitly the $\RegSeqRatUp$ readback row, and the seal row $E$ is listed only after the rational telescope, dyadic budget, finite windows, readback, diagonal modulus, and tail-link ledger.
+
+Apply \autoref{thm:bishop-diagonal-cauchy-telescope-regseqrat-route}. It forces Real and Completion consumers to read $R,D,W,G,E$ in order, with the remaining rows preserving that same route.
+
+Thus the regular rational component is not an optional sibling citation. It is a forward dependency carried by every accepted diagonal-tail packet before any terminal $\RealUp$ seal or Completion-facing consequence may be consumed.
+\end{proof}

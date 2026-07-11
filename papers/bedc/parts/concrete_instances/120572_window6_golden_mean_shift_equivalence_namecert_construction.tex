@@ -1,0 +1,87 @@
+\chapter{The Golden-Mean Shift Equivalence: A Finite Presentation-Invariance Certificate}
+\label{ch:concrete-instances-window6-golden-mean-shift-equivalence}
+\origin{ai}
+
+This chapter records a finite strong-shift-equivalence certificate for the golden-mean subshift zeta. The certificate does not change the dynamical system; it changes the finite presentation from the two-state transfer matrix to a three-state edge-expansion matrix and verifies that the reciprocal zeta denominator and the periodic trace window are unchanged.
+
+\section{The Rectangular Factors}
+\label{sec:window6-golden-mean-shift-equivalence-factors}
+
+Let
+$$
+R=\begin{pmatrix}
+1&y&0\\
+0&0&1
+\end{pmatrix},
+\qquad
+S=\begin{pmatrix}
+1&0\\
+0&1\\
+1&0
+\end{pmatrix}.
+$$
+Then the two rectangular products are
+$$
+RS=
+\begin{pmatrix}
+1&y\\
+1&0
+\end{pmatrix}
+=T_y,
+\qquad
+SR=
+\begin{pmatrix}
+1&y&0\\
+0&0&1\\
+1&y&0
+\end{pmatrix}
+=E_y.
+$$
+Thus $R$ and $S$ exhibit the two-state golden-mean transfer presentation $T_y$ and the three-state edge-expansion presentation $E_y$ as the two sides of an elementary strong-shift-equivalence datum.
+
+\section{The Presentation-Invariance Certificate}
+\label{sec:window6-golden-mean-shift-equivalence-certificate}
+
+The determinant side gives the same reciprocal zeta polynomial in both finite presentations:
+$$
+\det(I_2-tT_y)=\det(I_3-tE_y)=1-t-yt^2.
+$$
+The trace side gives the same weighted periodic-point window. For $1\le n\le 8$, the Lean certificate computes the powers of $E_y$ by genuine $3\times3$ matrix multiplication over $\mathbb Z[y]$ and verifies
+$$
+\operatorname{tr}(E_y^n)=C_n(y),
+$$
+where
+$$
+\begin{aligned}
+C_1(y)&=1,\\
+C_2(y)&=1+2y,\\
+C_3(y)&=1+3y,\\
+C_4(y)&=1+4y+2y^2,\\
+C_5(y)&=1+5y+5y^2,\\
+C_6(y)&=1+6y+9y^2+2y^3,\\
+C_7(y)&=1+7y+14y^2+7y^3,\\
+C_8(y)&=1+8y+20y^2+16y^3+2y^4.
+\end{aligned}
+$$
+
+\begin{theorem}[Golden-mean strong-shift-equivalence certificate]
+\label{thm:window6-golden-mean-shift-equivalence-certificate}
+The rectangular matrices $R$ and $S$ satisfy $RS=T_y$ and $SR=E_y$; the two finite presentations have the common reciprocal zeta denominator $1-t-yt^2$; and the trace window $\operatorname{tr}(E_y^n)=C_n(y)$ is checked for $1\le n\le 8$ by explicit polynomial matrix multiplication.
+\end{theorem}
+\leanchecked{BEDC.Derived.Window6GoldenMeanShiftEquivalence.golden\_mean\_shift\_equivalence\_certificate}
+
+This is a finite presentation-invariance (strong shift equivalence) certificate for the golden-mean SFT zeta; it is not a proof of the Riemann Hypothesis and not about the Riemann xi. The point is local and finite: the determinant and trace data of the golden-mean SFT zeta survive the elementary presentation change from $T_y$ to its edge-expansion presentation $E_y$. In this sense it is a finite witness for the Williams presentation-invariance principle, while remaining independent content from the determinant calculation itself.
+
+\falsifiablePrediction{A recomputation of the Lean rectangular products, determinant polynomials, or $3\times3$ trace powers that violates $RS=T_y$, $SR=E_y$, $\det(I_3-tE_y)=1-t-yt^2$, or $\operatorname{tr}(E_y^n)=C_n(y)$ for the checked window refutes this packet.}
+
+\independenceWitness{riemann-hypothesis-roadmap, riemann-xi: this packet is only a finite strong-shift-equivalence presentation-invariance certificate for the golden-mean SFT zeta; it is not a proof of the Riemann Hypothesis and it is not about the Riemann xi.}
+
+\begin{closurestatus}{Window6GoldenMeanShiftEquivalence}
+  \theoryclosure{\scopedClosure}
+  \scopeclosed{The rectangular products $RS=T_y$ and $SR=E_y$, the common denominator $\det(I_2-tT_y)=\det(I_3-tE_y)=1-t-yt^2$, and the checked trace window $\operatorname{tr}(E_y^n)=C_n(y)$ for $1\le n\le 8$ close the finite presentation-invariance certificate for the golden-mean SFT zeta.}
+  \formalstatus{\theoremCheckedV}
+  \leantarget{BEDC.Derived.Window6GoldenMeanShiftEquivalence.golden\_mean\_shift\_equivalence\_certificate}
+  \bridgestatus{none}
+  \notclaimed{not a proof of RH; finite strong-shift-equivalence presentation invariance for the golden-mean SFT zeta only}
+  \upgradepath{extend to a general strong-shift-equivalence chain and connect to Williams classification of the golden-mean SFT}
+\end{closurestatus}

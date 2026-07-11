@@ -1,0 +1,11 @@
+\begin{theorem}[MetaCIC parallel diamond frontier seed-status child current]
+\label{thm:metacic-parallel-diamond-frontier-seed-status-child-current}
+The hub-level seed status for $\MetaCICParallelDiamondFrontierUp$ is readable only through the current child closurestatus and status records together with the finite residual-join packet. It is not a claim of global confluence, subject reduction, evaluator equality, quotient term equality, or kernel consistency.
+\end{theorem}
+\begin{proof}
+Read the seed-status current-axis, canonical-reader, and block-sync routes of \autoref{thm:metacic-parallel-diamond-frontier-seed-status-current-axis}, \autoref{thm:metacic-parallel-diamond-frontier-seed-status-canonical}, and \autoref{thm:metacic-parallel-diamond-frontier-seed-status-block-sync}. These child records are the only public route by which the hub can report the current seed-status row.
+
+Apply the closurestatus guard route \autoref{thm:metacic-parallel-diamond-frontier-closurestatus-guard}. It keeps the hub read tied to recorded child closurestatus evidence rather than to an ambient metatheorem.
+
+Finally use the residual-join obligation surface \autoref{thm:metacic-parallel-diamond-frontier-residual-join-obligations}. The finite residual-join packet supplies the local critical-pair and residual-join rows consumed by the seed-status record, while the excluded global claims are not fields of that packet.
+\end{proof}

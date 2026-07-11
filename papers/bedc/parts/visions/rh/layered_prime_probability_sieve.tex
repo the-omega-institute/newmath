@@ -1,0 +1,461 @@
+\chapter{Layered Prime Probability Sieve}
+\label{ch:visions-rh-layered-prime-probability-sieve}
+\origin{ai}
+
+\autoref{ch:visions-rh-smooth-prime-classifier-tower} records the finite
+and profinite classifier tower that detects prime-register residuals.
+The present chapter records the probability ledger carried by that tower.
+Each layer classifies primes, assigns Chebyshev-weighted probability
+mass to the displayed types, and exports normalized distribution curves.
+Thus a sieve step is not deletion of primes.  It is conditional
+projection of prime-register mass, with the excluded mass recorded as
+ledger data.
+
+\section{Probability Layers}
+\label{sec:rh-layered-prime-probability-layers}
+
+\begin{definition}[Prime probability classifier]
+\label{def:rh-prime-probability-classifier}
+A prime probability classifier is a finite prime projection classifier
+$$
+\mathcal C_m=(G_m,\pi_m)
+$$
+together with a Chebyshev-weighted probability distribution $\mu_m$ on
+$G_m$.  For a displayed type $a\in G_m$, the intended readout is
+$$
+\mu_m(a)
+:=
+\lim_{x\to\infty}
+\frac1x
+\sum_{\substack{p^k\le x\\ \pi_m(p^k)=a}}
+\log p
+$$
+when the limit exists.  In Chebotarev layers, $\mu_m$ is the
+conjugacy-class density; in Dirichlet layers, it is the residue-class
+or character density supplied by the relevant equidistribution theorem.
+\end{definition}
+
+\begin{definition}[LayeredPrimeProbabilitySieve]
+\label{def:rh-layered-prime-probability-sieve}
+The row
+$$
+\mathsf{LayeredPrimeProbabilitySieve}
+$$
+is an inverse system
+$$
+(G_0,\mu_0)
+\leftarrow
+(G_1,\mu_1)
+\leftarrow
+(G_2,\mu_2)
+\leftarrow\cdots
+$$
+of prime probability classifiers.  If
+$$
+\pi_{m+1,m}:G_{m+1}\to G_m
+$$
+is the refinement map, compatibility means
+$$
+\mu_m(a)
+=
+\sum_{\pi_{m+1,m}(b)=a}\mu_{m+1}(b)
+$$
+for every displayed type $a\in G_m$.
+\end{definition}
+
+\begin{definition}[Sieve ledger row]
+\label{def:rh-sieve-ledger-row}
+Let $E_m\subseteq G_m$ be the set of types allowed by a layer.  The
+sieve ledger row is
+$$
+\operatorname{SieveLedger}_m
+:=
+\left(E_m,\mu_m(E_m),G_m\setminus E_m,1-\mu_m(E_m),\operatorname{reason}_m\right).
+$$
+The conditional layer distribution is
+$$
+\mu_m(a\mid E_m)
+:=
+\frac{\mu_m(a)}{\mu_m(E_m)}
+\qquad
+(a\in E_m,\ \mu_m(E_m)>0).
+$$
+Thus a layer exposes the allowed mass and the excluded mass as finite
+ledger coordinates.
+\end{definition}
+
+\begin{principle}[Sieve steps are probability projections]
+\label{prin:rh-sieve-steps-are-probability-projections}
+A layer of $\mathsf{LayeredPrimeProbabilitySieve}$ does not remove
+primes from the arithmetic source.  It records a classifier, a
+probability measure on classifier types, a selected admissible type
+region, and the mass outside that region.  The operation is therefore a
+BEDC ledger projection, not an untracked modification of the Euler
+source.
+\end{principle}
+
+\section{Probability Distribution Curves}
+\label{sec:rh-layered-prime-probability-curves}
+
+\begin{definition}[Probability-filtered Chebyshev curve]
+\label{def:rh-probability-filtered-chebyshev-curve}
+Let $(G_m,\pi_m,\mu_m)$ be a prime probability classifier and let
+$$
+\varphi:G_m\to\mathbb C
+$$
+be a displayed test function.  Define
+$$
+\psi_{m,\varphi}(x)
+:=
+\sum_{p^k\le x}\varphi(\pi_m(p^k))\log p.
+$$
+The layer mean is
+$$
+\mathbb E_{\mu_m}[\varphi]
+:=
+\sum_{a\in G_m}\varphi(a)\mu_m(a),
+$$
+and the critically normalized probability curve is
+$$
+\Psi_{m,\varphi}(u)
+:=
+e^{-u/2}
+\left(
+\psi_{m,\varphi}(e^u)
+-
+\mathbb E_{\mu_m}[\varphi]e^u
+\right).
+$$
+\end{definition}
+
+\begin{definition}[Critical probability stability]
+\label{def:rh-critical-probability-stability}
+A probability-filtered curve $\Psi_{m,\varphi}$ is critically stable
+when its local energy
+$$
+\mathcal E_{m,\varphi}(U)
+:=
+\int_U^{U+1}|\Psi_{m,\varphi}(u)|^2\,du
+$$
+satisfies
+$$
+\limsup_{U\to\infty}
+\frac1U\log \mathcal E_{m,\varphi}(U)
+\le0.
+$$
+\end{definition}
+
+\begin{theorem}[Critical probability stability excludes radial modes]
+\label{thm:rh-critical-probability-stability-excludes-radial-modes}
+If every legal probability-filtered curve in a layered prime
+probability sieve is critically stable, then no such curve contains a
+radial spectral mode
+$$
+c\,e^{ru}e^{i\gamma u},
+\qquad
+c\ne0,\quad r\ne0.
+$$
+\end{theorem}
+
+\begin{proof}
+If $r>0$, the displayed mode contributes exponential energy on unit
+windows:
+$$
+\mathcal E_{m,\varphi}(U)\ge C e^{2rU}
+$$
+after lower-order oscillatory terms are absorbed on a subwindow where
+the selected mode remains separated.  Hence
+$$
+\limsup_{U\to\infty}
+\frac1U\log\mathcal E_{m,\varphi}(U)
+\ge 2r>0,
+$$
+contradicting critical probability stability.  If $r<0$, the mirror
+zero packet carries the corresponding positive radial leg with
+exponent $-r>0$, so the same argument applies to the mirror readout.
+\end{proof}
+
+\section{Completeness and Detection}
+\label{sec:rh-layered-prime-probability-completeness}
+
+\begin{definition}[Layered probability sieve completeness]
+\label{def:rh-layered-probability-sieve-completeness}
+The row
+$$
+\mathsf{LayeredProbabilitySieveCompleteness}
+$$
+asserts that every nonzero radial residual of a zeta-facing PFZ packet
+is visible on some probability-filtered curve.  Equivalently, if
+$$
+z(\rho)=1-\frac1\rho=e^{\ell+i\theta}
+$$
+has $\ell\ne0$, then there are a layer $m$ and a mean-zero test function
+$$
+\varphi:G_m\to\mathbb C,
+\qquad
+\mathbb E_{\mu_m}[\varphi]=0,
+$$
+such that $\Psi_{m,\varphi}$ contains the corresponding radial mode.
+\end{definition}
+
+\begin{theorem}[Finite residuals are detected by probability tests]
+\label{thm:rh-finite-residuals-detected-by-probability-tests}
+Let
+$$
+R=\sum_{j=1}^{N}c_j[q_j]\ne0
+$$
+be a finite prime-power residual with distinct $q_j$.  Then there are a
+finite probability classifier and a mean-zero test function $\varphi$
+whose readout on $R$ is nonzero:
+$$
+\sum_{j=1}^{N}c_j\varphi(q_j)\ne0.
+$$
+\end{theorem}
+
+\begin{proof}
+Choose a prime modulus $M$ so that all $q_j$ are nonzero and pairwise
+distinct in
+$$
+G=(\mathbb Z/M\mathbb Z)^\times.
+$$
+Take $M$ large enough that some residue class $b\in G$ is not among the
+classes of the $q_j$.  If every mean-zero test function on $G$
+annihilated $R$, then for the class $a_j$ of any $q_j$ the function
+$$
+\varphi_j
+:=
+\mathbf 1_{a_j}
+-
+\frac{\mu_m(a_j)}{\mu_m(b)}\mathbf 1_b
+$$
+would also annihilate $R$.  It has mean zero, while its readout on $R$
+is exactly $c_j$, because no residual term lies in the class $b$.  Hence
+every $c_j$ would vanish, contradicting $R\ne0$.
+\end{proof}
+
+\begin{theorem}[Profinite probability residuals descend to finite layers]
+\label{thm:rh-profinite-probability-residuals-descend}
+In a Hausdorff profinite probability classifier tower, every nonzero
+profinite residual has a nonzero finite-layer probability test readout.
+\end{theorem}
+
+\begin{proof}
+By \autoref{thm:rh-profinite-residual-separation}, the residual has a
+nonzero image in some finite quotient.  Apply
+\autoref{thm:rh-finite-residuals-detected-by-probability-tests} at that
+finite layer.
+\end{proof}
+
+\begin{theorem}[Layered probability completeness supplies distribution-curve completeness]
+\label{thm:rh-layered-probability-supplies-distribution-curve-completeness}
+If $\mathsf{LayeredProbabilitySieveCompleteness}$ holds, then the
+visible curve required by
+$$
+\mathsf{PrimeDistributionCurveCompleteness}
+$$
+is available as a probability-filtered curve.
+\end{theorem}
+
+\begin{proof}
+The probability-filtered curve of
+\autoref{def:rh-layered-probability-sieve-completeness} is a filtered
+prime-distribution curve in the sense of
+\autoref{def:rh-filtered-chebyshev-curve}, with the layer mean replacing
+the trivial-character main term.  Thus it supplies the visible radial
+mode demanded by
+\autoref{def:rh-prime-distribution-curve-completeness}.
+\end{proof}
+
+\section{Cofinal Dissipation}
+\label{sec:rh-layered-prime-probability-cofinal-dissipation}
+
+\begin{definition}[Layer residual Hilbert space]
+\label{def:rh-layer-residual-hilbert-space}
+For a prime probability classifier $(G_m,\mu_m)$, define
+$$
+H_m:=L^2_0(G_m,\mu_m)
+$$
+to be the finite-dimensional Hilbert space of mean-zero functions on
+$G_m$, with inner product
+$$
+\langle f,g\rangle_m
+:=
+\sum_{a\in G_m}f(a)\overline{g(a)}\mu_m(a).
+$$
+A layer residual is an element $R_m\in H_m$.
+\end{definition}
+
+\begin{definition}[Detected subspace and residual update]
+\label{def:rh-detected-subspace-residual-update}
+At layer $m$, let $W_m\subseteq H_m$ be the subspace detected by the
+legal sieve tests of that layer, and let
+$$
+\Pi_m:H_m\to W_m
+$$
+be the orthogonal projection.  The residual update is
+$$
+R_m:=(I-\Pi_m)R_{m-1},
+$$
+after transporting $R_{m-1}$ to the current layer through the displayed
+refinement map.
+\end{definition}
+
+\begin{theorem}[Layer sieve energy descent]
+\label{thm:rh-layer-sieve-energy-descent}
+Assume
+$$
+\|\Pi_m R_{m-1}\|_m^2
+\ge
+\eta_m\|R_{m-1}\|_m^2
+$$
+for some $\eta_m\in(0,1]$.  Then
+$$
+\|R_m\|_m^2
+\le
+(1-\eta_m)\|R_{m-1}\|_m^2.
+$$
+Consequently,
+$$
+\|R_m\|_m^2
+\le
+\left(\prod_{j=1}^{m}(1-\eta_j)\right)\|R_0\|_0^2.
+$$
+If
+$$
+\sum_{j=1}^{\infty}\eta_j=\infty,
+$$
+then $\|R_m\|_m\to0$.
+\end{theorem}
+
+\begin{proof}
+The projection decomposition is orthogonal:
+$$
+R_{m-1}
+=
+\Pi_mR_{m-1}
++
+(I-\Pi_m)R_{m-1}.
+$$
+Thus
+$$
+\|R_{m-1}\|_m^2
+=
+\|\Pi_mR_{m-1}\|_m^2+\|R_m\|_m^2.
+$$
+The displayed lower bound on the detected part gives
+$$
+\|R_m\|_m^2
+\le
+(1-\eta_m)\|R_{m-1}\|_m^2.
+$$
+Iteration gives the product estimate.  Finally,
+$$
+\log(1-\eta_j)\le-\eta_j
+$$
+for $\eta_j\in(0,1]$, so the product tends to $0$ when
+$\sum_j\eta_j$ diverges.
+\end{proof}
+
+\begin{definition}[CofinalSieveDissipation]
+\label{def:rh-cofinal-sieve-dissipation}
+The row
+$$
+\mathsf{CofinalSieveDissipation}
+$$
+asserts that every nonzero radial residual $R_0$ admits a legal
+sequence of detected subspaces $W_m$ and constants $\eta_m\in(0,1]$
+such that
+$$
+\sum_m\eta_m=\infty.
+$$
+Equivalently, the layered probability sieve has enough cumulative
+detection mass to force the residual norm to vanish along the tower.
+\end{definition}
+
+\begin{theorem}[Cofinal sieve dissipates radial residuals]
+\label{thm:rh-cofinal-sieve-dissipates-radial-residuals}
+If $\mathsf{CofinalSieveDissipation}$ holds, then every nonzero radial
+residual is exhausted by the layered probability sieve:
+$$
+\|R_m\|_m\to0.
+$$
+\end{theorem}
+
+\begin{proof}
+Apply \autoref{def:rh-cofinal-sieve-dissipation} to the initial
+residual and then use \autoref{thm:rh-layer-sieve-energy-descent}.
+\end{proof}
+
+\begin{theorem}[Cofinal probability sieve excludes hidden radial residuals]
+\label{thm:rh-cofinal-probability-sieve-excludes-hidden-radial-residuals}
+Assume every nonzero radial mode supplies a nonzero initial residual,
+$\mathsf{CofinalSieveDissipation}$ holds, and every layer records its
+sieve ledger row.  Then a legal closed BEDC/PFZ zero packet cannot
+carry a hidden radial residual.
+\end{theorem}
+
+\begin{proof}
+Let $R_0\ne0$ be the residual attached to a radial mode.  By
+\autoref{thm:rh-cofinal-sieve-dissipates-radial-residuals}, the sieve
+tower exhausts this residual.  If the exhausted mass is recorded in the
+ledger, the history continues through displayed append rows and the
+packet is not closed.  If it is not recorded, the sieve ledger row of
+\autoref{def:rh-sieve-ledger-row} is violated.  Hence the residual
+cannot be hidden inside a legal closed packet.
+\end{proof}
+
+\section{Conditional RH Interface}
+\label{sec:rh-layered-prime-probability-rh-interface}
+
+\begin{theorem}[Layered probability sieve conditional fixed-half readout]
+\label{thm:rh-layered-probability-sieve-conditional-fixed-half-readout}
+Assume zeta-facing PFZ zero packets are legal closure objects,
+$\mathsf{LayeredProbabilitySieveCompleteness}$ holds, every legal
+probability-filtered curve is critically stable, and all sieve ledger
+rows record their allowed mass, excluded mass, and residual readouts.
+Then every admitted nontrivial zero has fixed-half readout.
+\end{theorem}
+
+\begin{proof}
+If an admitted nontrivial zero had $\ell\ne0$, layered probability
+sieve completeness would provide a legal probability-filtered curve
+with a radial mode.  By
+\autoref{thm:rh-critical-probability-stability-excludes-radial-modes},
+that curve would not be critically stable.  This contradicts the
+stability hypothesis for legal filtered curves.  Hence $\ell=0$, and
+\autoref{thm:rh-li-coordinate-fixed-half-circle} gives fixed-half
+readout.
+\end{proof}
+
+\begin{theorem}[Cofinal probability sieve conditional fixed-half readout]
+\label{thm:rh-cofinal-probability-sieve-conditional-fixed-half-readout}
+Assume zeta-facing PFZ zero packets are legal closure objects, every
+off-critical zero supplies a nonzero radial residual,
+$\mathsf{CofinalSieveDissipation}$ holds, all sieve ledger rows are
+recorded, and every legal probability-filtered curve is critically
+stable.  Then every admitted nontrivial zero has fixed-half readout.
+\end{theorem}
+
+\begin{proof}
+An off-critical admitted zero would supply a nonzero radial residual.
+By
+\autoref{thm:rh-cofinal-probability-sieve-excludes-hidden-radial-residuals},
+that residual cannot be hidden inside a legal closed BEDC/PFZ zero
+packet.  If the residual remains visible on a legal filtered curve, then
+\autoref{thm:rh-critical-probability-stability-excludes-radial-modes}
+contradicts critical probability stability.  Thus the off-critical case
+is excluded, and \autoref{thm:rh-li-coordinate-fixed-half-circle} gives
+fixed-half readout.
+\end{proof}
+
+\begin{principle}[Probability sieve audit boundary]
+\label{prin:rh-probability-sieve-audit-boundary}
+The probability-sieve formulation concentrates the RH-facing burden in
+three rows.  The completeness row says every nonzero radial residual is
+visible on some finite or profinite probability-filtered prime curve;
+the dissipation row says cofinal layer projections exhaust every
+nonzero residual with divergent detected energy; the stability row says
+every legal filtered curve has no exponential radial energy growth
+after critical normalization.  Together they make an off-critical zero
+incompatible with a closed BEDC/PFZ zero packet.
+\end{principle}

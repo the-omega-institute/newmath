@@ -1,0 +1,273 @@
+\chapter{Zeta Zero Readout Faithfulness}
+\label{ch:visions-rh-zeta-zero-readout-faithfulness}
+\origin{ai}
+
+\autoref{ch:visions-rh-zeta-virtual-machine-execution-trace} separates
+scalar readout-kernel events from source-ledger closure, while
+\autoref{ch:visions-rh-zeta-mirror-cancellation-local-closure} shows that
+single-ledger closure on the pure zeta instruction surface forces
+fixed-half readout.  The remaining interface is the faithfulness of zero
+readout: whether a scalar completed zero is licensed as a closed
+PZG-ledger zero packet rather than merely as cancellation after a
+forgetful scalar projection.
+
+\begin{definition}[Closed-ledger zeta zero]
+\label{def:rh-closed-ledger-zeta-zero}
+A closed-ledger zeta zero packet at a parameter $\rho$ is a completed xi
+execution trace together with the scalar zero row
+$$
+\mathsf{XiRead}(\rho)=0
+$$
+and a displayed closure row
+$$
+\mathsf{OpenLedger}_{\xi}(\rho)=\varnothing.
+$$
+The open-ledger row includes source, branch, pole, tail, completion,
+prime-register, and scale-residual entries.  Thus a closed-ledger zero is
+not merely a scalar readout-kernel event; it is a zero packet whose
+residual ledgers have been closed in the same completed zeta object.
+\end{definition}
+
+\begin{definition}[Zero readout faithfulness]
+\label{def:rh-zero-readout-faithfulness}
+Zero readout faithfulness for the completed zeta route is the row
+$$
+\mathsf{ZeroReadoutFaithful}_{\xi}
+$$
+asserting that every accepted non-trivial scalar zero read
+$$
+\mathsf{XiRead}(\rho)=0
+$$
+comes equipped with a closed-ledger zeta zero packet in the sense of
+\autoref{def:rh-closed-ledger-zeta-zero}.  Equivalently, the completed
+scalar readout may certify zero status only when the underlying source,
+tail, branch, completion, and scale ledgers are closed or explicitly
+transported into the same zero packet.
+\end{definition}
+
+\begin{principle}[Zero visibility]
+\label{prin:rh-zero-visibility}
+The ontic zero set of the completed zeta route is not the scalar kernel
+of $\mathsf{XiRead}$ alone.  It is the closed-ledger visibility locus
+$$
+\rho\in Z_{\mathrm{ontic}}(\xi)
+\Longleftrightarrow
+\mathsf{XiRead}(\rho)=0
+\quad\text{and}\quad
+\mathsf{OpenLedger}_{\xi}(\rho)=\varnothing.
+$$
+Thus the zero packet visible to the ontology kernel is a completed
+PZG-ledger zero.  A scalar vanishing row with an open ledger remains a
+zero candidate, a finite-read zero-like event, or an incomplete
+cancellation row; it is not an ontic zeta zero.
+\end{principle}
+
+\begin{theorem}[Open ledger blocks ontic zero]
+\label{thm:rh-open-ledger-blocks-ontic-zero}
+For any parameter $\rho$,
+$$
+\mathsf{OpenLedger}_{\xi}(\rho)\ne\varnothing
+\Longrightarrow
+\rho\notin Z_{\mathrm{ontic}}(\xi).
+$$
+\end{theorem}
+
+\begin{proof}
+If $\rho$ belonged to $Z_{\mathrm{ontic}}(\xi)$, then
+\autoref{prin:rh-zero-visibility} would give the closure row
+$$
+\mathsf{OpenLedger}_{\xi}(\rho)=\varnothing.
+$$
+This contradicts the displayed nonempty ledger row.  Hence the parameter
+is not visible as an ontic zeta zero.
+\end{proof}
+
+\begin{principle}[Unclosed zero reads are projection cancellation]
+\label{prin:rh-unclosed-zero-reads-projection-cancellation}
+Suppose the completed scalar readout displays
+$$
+\mathsf{XiRead}(\rho)=0
+$$
+while
+$$
+\mathsf{OpenLedger}_{\xi}(\rho)\ne\varnothing.
+$$
+Then the route has only a projection-cancellation row.  Its zeta source
+side is the forgetful kernel event of
+\autoref{thm:rh-zeta-zeros-forgetful-kernel-events}, not a vanishing of
+the tagged PZG family, since
+\autoref{thm:rh-tagged-zeta-family-not-zero} keeps the empty-ledger tag
+visible.  By
+\autoref{prin:rh-projection-cancellation-not-source-ledger-closure}, the
+complex-plane cancellation after forgetting tags does not pay source,
+branch, tail, prime-register, or scale residuals.  Therefore an
+unclosed scalar zero read is at most projection cancellation; by
+\autoref{thm:rh-open-ledger-blocks-ontic-zero}, it is not an ontic zeta
+zero.
+\end{principle}
+
+\begin{principle}[Scalar zero is not automatically ledger closure]
+\label{prin:rh-scalar-zero-not-automatically-ledger-closure}
+The implication
+$$
+\mathsf{XiRead}(\rho)=0
+\Longrightarrow
+\mathsf{OpenLedger}_{\xi}(\rho)=\varnothing
+$$
+is not a definitional consequence of scalar arithmetic.  By
+\autoref{thm:rh-zeta-zeros-forgetful-kernel-events}, a scalar zero is a
+kernel event after the forgetful readout.  By
+\autoref{prin:rh-projection-cancellation-not-source-ledger-closure}, such
+projection cancellation does not by itself identify prime ledger tags or
+pay residuals.  Therefore the implication is a faithfulness row to be
+displayed by the route.
+\end{principle}
+
+\begin{theorem}[Faithful zero readout gives same-packet closure]
+\label{thm:rh-faithful-zero-readout-gives-same-packet-closure}
+Assume $\mathsf{ZeroReadoutFaithful}_{\xi}$.  Then every accepted
+non-trivial scalar zero read of the completed xi trace satisfies the
+single-ledger zero principle.
+\end{theorem}
+
+\begin{proof}
+Let $\rho$ be an accepted non-trivial scalar zero read.  By
+\autoref{def:rh-zero-readout-faithfulness}, the read comes with a
+closed-ledger zeta zero packet.  Its closure row records that source,
+branch, pole, tail, completion, prime-register, and scale-residual
+entries are closed inside the same completed zeta object.  This is exactly
+the same-packet closure requirement of
+\autoref{prin:rh-single-ledger-zero-principle}: the scalar zero read is
+accepted as zeta-local only when the same packet carries the ledgers
+needed to close the cancellation.
+\end{proof}
+
+\begin{theorem}[Faithful conservative zero readout gives fixed-half]
+\label{thm:rh-faithful-conservative-zero-readout-fixed-half}
+Assume a conservative zeta continuation certificate and
+$\mathsf{ZeroReadoutFaithful}_{\xi}$.  Then every accepted non-trivial
+scalar zero read of the completed xi trace has fixed-half readout.
+\end{theorem}
+
+\begin{proof}
+By
+\autoref{thm:rh-faithful-zero-readout-gives-same-packet-closure}, the zero
+read satisfies the single-ledger zero principle.  Conservative
+continuation forbids scale-register payment by
+\autoref{thm:rh-conservative-continuation-forbids-scale-register-payment}.
+The fixed-half conclusion is therefore
+\autoref{thm:rh-single-ledger-zeta-closure-excludes-offhalf-scale}, or
+equivalently the conservative continuation form
+\autoref{cor:rh-conservative-single-ledger-continuation-fixed-half}.
+\end{proof}
+
+\begin{principle}[Mirror orbit is conditional visibility]
+\label{prin:rh-mirror-orbit-conditional-visibility}
+Functional-equation symmetry may transport a scalar zero read from
+$\rho$ to its mirror position $J(\rho)$, but the transport row does not
+license $\rho$ as an ontic zero before $\rho$ itself satisfies
+\autoref{prin:rh-zero-visibility}.  In the terminology of
+\autoref{def:rh-weak-strong-mirror-closure}, a non-fixed orbit supplies
+weak mirror closure.  By
+\autoref{prin:rh-global-cancellation-not-local-closure}, that orbit
+balance is not the same as local ledger closure for either endpoint.
+Thus an off-half mirror pair is only a conditional scalar symmetry
+unless each endpoint is already a closed-ledger zero packet.
+\end{principle}
+
+\begin{theorem}[Only same-position mirror closure can close an ontic zero]
+\label{thm:rh-same-position-mirror-closure-ontic-zero}
+Assume a completed zero packet has no positive-real scale inverse outside
+the pure zeta instruction surface, and its prime-ledger residual can be
+paid only by an inverse row in the ledger group.  If the packet is visible
+as an ontic zeta zero, then its mirror closure is same-position closure:
+$$
+\rho=J(\rho).
+$$
+\end{theorem}
+
+\begin{proof}
+By \autoref{prin:rh-zero-visibility}, an ontic zero packet has no open
+ledger.  By
+\autoref{cor:rh-nonzero-prime-ledger-cancellation-uses-group-completion},
+a nonzero prime-ledger residual can be cancelled only by the inverse row
+in the group-completion ledger.  If that inverse is supplied by a
+distinct mirror position, then the packet has weak mirror closure in the
+sense of \autoref{def:rh-weak-strong-mirror-closure}.  By
+\autoref{prin:rh-global-cancellation-not-local-closure}, weak mirror
+closure does not close the ledger of either endpoint as a local object.
+The no-extra-scale hypothesis rules out a separate positive-real payment.
+Thus the ledger can be closed for the single ontic zero packet only when
+the mirror inverse is same-position, namely $\rho=J(\rho)$.
+\end{proof}
+
+\begin{theorem}[PZG closed zeros have fixed-half readout]
+\label{thm:rh-pzg-closed-zero-fixed-half}
+Let
+$$
+\rho=\frac12+a+it
+$$
+be a parameter on the pure PZG zeta instruction surface.  Assume a
+conservative zeta continuation certificate and
+$$
+\rho\in Z_{\mathrm{ontic}}(\xi).
+$$
+Then $a=0$.
+\end{theorem}
+
+\begin{proof}
+By \autoref{prin:rh-zero-visibility}, the membership row
+$\rho\in Z_{\mathrm{ontic}}(\xi)$ gives a closed-ledger zeta zero packet.
+By \autoref{def:rh-closed-ledger-zeta-zero}, its scale-residual row is
+among the rows closed inside the same completed zeta object.  On the pure
+PZG zeta surface, a positive-real scale payment cannot be hidden: by
+\autoref{cor:rh-scale-inverse-changes-identity-or-ledger}, such a scale
+inverse changes the PZG identity code, appears in the ledger, or is not
+part of the object.  The conservative continuation certificate also
+forbids analytic continuation from paying the residual by an independent
+scale register, by
+\autoref{thm:rh-conservative-continuation-forbids-scale-register-payment}.
+
+Hence the zero packet must close its scale-residual row by the
+same-packet discipline of \autoref{prin:rh-single-ledger-zero-principle}
+on the pure zeta instruction surface.  Applying
+\autoref{thm:rh-single-ledger-zeta-closure-excludes-offhalf-scale} gives
+$$
+\Re(\rho)=\frac12.
+$$
+Since $\Re(\rho)=1/2+a$, it follows that $a=0$.
+\end{proof}
+
+\begin{corollary}[Ontic zeta zeros lie on the fixed-half line]
+\label{cor:rh-ontic-zeta-zeros-fixed-half-line}
+Under the pure PZG zeta source and conservative continuation hypotheses,
+$$
+Z_{\mathrm{ontic}}(\xi)
+\subseteq
+\left\{\frac12+it:t\in\RealUp\right\}.
+$$
+\end{corollary}
+
+\begin{proof}
+Apply \autoref{thm:rh-pzg-closed-zero-fixed-half} to each displayed
+ontic zero packet.
+\end{proof}
+
+\begin{principle}[Faithfulness is the remaining zero interface]
+\label{prin:rh-zero-readout-faithfulness-remaining-interface}
+After PZG identity, conservative continuation, and no scale-register
+payment have been fixed, the remaining interface is not the uniqueness of
+PZG coding.  It is the passage from scalar zero readout to closed-ledger
+zero packet:
+$$
+\mathsf{XiRead}(\rho)=0
+\Longrightarrow
+\mathsf{ZeroReadoutFaithful}_{\xi}(\rho).
+$$
+Without that row the route has a scalar kernel event.  With that row the
+route has a closed zeta zero packet, and the fixed-half argument becomes
+the local ledger argument of
+\autoref{thm:rh-faithful-conservative-zero-readout-fixed-half}; in
+ontic notation this is the passage from a scalar kernel event to
+$\rho\in Z_{\mathrm{ontic}}(\xi)$.
+\end{principle}

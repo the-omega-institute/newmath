@@ -1,0 +1,72 @@
+\chapter{A Concrete Naming Certificate for $\LebesgueNumberMeshUp$}
+\label{ch:concrete-instances-lebesgue-number-mesh-namecert}
+\origin{human}
+
+The $\LebesgueNumberMeshUp$ packet is grounded in the Lebesgue number lemma for compact metric spaces: a finite cover of a compact metric source yields a positive mesh radius whose balls refine the cover. In BEDC form the packet records only finite cover mesh, compact-net, local-radius, rational lower-bound, and uniform-modulus handoff data. It realizes the compact-uniform-continuity route of \autoref{ch:visions-compact-uniform-continuity} after the compact metric source of \autoref{ch:concrete-instances-compactmetric-namecert}, the continuous-map local-radius source of \autoref{ch:concrete-instances-continuousmap-namecert}, the uniform-modulus consumer of \autoref{ch:concrete-instances-uniformmodulus-namecert}, and the rational lower-bound fold surface of \autoref{ch:concrete-instances-rat-namecert}. The packet is not a host compactness theorem, a chosen open-cover subcover, a least radius, quotient map equality, countable choice, or ambient metric completion.
+
+\begin{definition}[Lebesgue number mesh carrier]
+\label{def:lebesgue-number-mesh-carrier}
+A $\LebesgueNumberMeshUp$ carrier is a finite $\BHist$ packet
+$$
+L=(K,V,G,O,B,Q,U,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $K$ is the $\CompactMetricUp$ source row whose finite net is being inspected.
+\item $V$ is the finite cover mesh row, recording the cover cells and the mesh-to-cover incidence data.
+\item $G$ is the compact-net $\ProbeBundle$ row whose probes name the finite centers used to test the cover.
+\item $O$ is the local radius ledger, assigning to each displayed probe the cover radius admitted by the local continuity or cover-membership read.
+\item $B$ is the $\RatUp$ lower-bound fold over the finitely many positive local radii.
+\item $Q$ is the mesh-refinement witness saying that the folded rational bound refines the cover mesh.
+\item $U$ is the $\UniformModulusUp$ handoff row exposed only after $K,V,G,O,B,Q$ have been displayed.
+\item $H$ records componentwise $\hsame$ transport for compact source, cover mesh, compact net, local radii, rational fold, refinement, uniform handoff, replay, provenance, and local name.
+\item $C$ records displayed $\Cont$ replay from compact-net exposure through local-radius reads, rational lower-bound folding, mesh refinement, and uniform-modulus handoff.
+\item $P$ is the $\Pkg$ provenance over $\LebesgueNumberMeshUp$, $\CompactMetricUp$, $\ContinuousMapUp$, $\UniformModulusUp$, $\RatUp$, $\ProbeBundle$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\LebesgueNumberMeshUp}$ row.
+\end{enumerate}
+The classifier compares accepted carriers only through this finite mesh and lower-bound surface.
+\end{definition}
+\leanstmt{BEDC.Derived.LebesgueNumberMeshUp}
+
+\begin{theorem}[Lebesgue number mesh NameCert obligations]
+\label{thm:lebesgue-number-mesh-namecert-obligations}
+For every accepted $\LebesgueNumberMeshUp$ carrier $L=(K,V,G,O,B,Q,U,H,C,P,N)$, the local $\NameCert_{\LebesgueNumberMeshUp}$ surface consists exactly of compact-metric source admission through $K$, finite cover mesh exposure through $V$, compact-net $\ProbeBundle$ exposure through $G$, local radius ledger exposure through $O$, $\RatUp$ lower-bound folding through $B$, mesh-refinement exposure through $Q$, $\UniformModulusUp$ handoff through $U$, componentwise transport through $H$, displayed replay through $C$, provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:lebesgue-number-mesh-carrier}. The compact source $K$, finite cover mesh $V$, and compact-net row $G$ are displayed before any lower-bound or uniform-modulus row is available.
+
+Read the radius data next. The local radius ledger $O$ attaches one positive rational radius to each displayed probe, and the $\RatUp$ fold $B$ produces the common lower bound from that finite family. The mesh-refinement row $Q$ records that this bound makes each inspected mesh ball land inside a cover cell.
+
+The handoff row $U$ is therefore downstream of finite cover, compact-net, local-radius, and rational-fold data. Transport, replay, provenance, and local naming through $H,C,P,N$ preserve the same route, so the packet exports no host compactness theorem, selected subcover, least-radius principle, quotient map equality, choice functional, or ambient completion.
+\end{proof}
+
+\begin{theorem}[Lebesgue number mesh uniform-modulus extraction]
+\label{thm:lebesgue-number-mesh-uniform-modulus-extraction}
+Every compact-uniform-continuity consumer of an accepted $\LebesgueNumberMeshUp$ packet must read the finite route
+$$
+K,V,G,O,B,Q,U,H,C,P,N
+$$
+before consuming the exported $\UniformModulusUp$ row. The extracted modulus is the tolerance-only handoff obtained from finite cover mesh data, compact-net probes, local radii, and a rational lower-bound fold.
+\end{theorem}
+\begin{proof}
+Apply \autoref{thm:lebesgue-number-mesh-namecert-obligations}. It places $U$ after the compact source, finite cover mesh, compact net, local radii, rational fold, and mesh-refinement witness.
+
+The extraction is a finite fold. Each probe in $G$ contributes one radius row in $O$, and the $\RatUp$ row $B$ folds these finitely many positive radii into a common lower bound. Row $Q$ then records that this bound refines the finite cover mesh.
+
+Only after those rows are exposed may a compact-uniform-continuity consumer read $U$ as a $\UniformModulusUp$ handoff. Since the carrier contains no host compactness, cover selector, least-radius operator, quotient equality, choice, or ambient completion coordinate, the exported modulus is exactly the finite mesh route described above.
+\end{proof}
+
+\falsifiablePrediction{A $\LebesgueNumberMeshUp$ consumer is refuted whenever a UniformModulusUp handoff is read before the compact-metric source, finite cover mesh, compact-net ProbeBundle, local radius ledger, RatUp lower-bound fold, mesh-refinement witness, transport, replay, provenance, and local NameCert row are displayed.}
+
+\closureat{LebesgueNumberMeshUp}{seedStr}
+
+\begin{closurestatus}{\LebesgueNumberMeshUp}
+  \constructivestory{A $\LebesgueNumberMeshUp$ packet is generated from CompactMetric source rows, finite cover mesh rows, compact-net ProbeBundle data, local radius ledgers, RatUp lower-bound folds, mesh-refinement witnesses, UniformModulus handoff data, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:lebesgue-number-mesh-carrier}, \autoref{thm:lebesgue-number-mesh-namecert-obligations}, and \autoref{thm:lebesgue-number-mesh-uniform-modulus-extraction} seed the finite Lebesgue-number mesh route for compact-uniform-continuity consumers.}
+  \formalstatus{\unformalizedV}
+  \leantarget{BEDC.Derived.LebesgueNumberMeshUp}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close host compactness, selected finite subcovers, least Lebesgue numbers, quotient equality of maps, countable choice, ambient completion, theorem-level Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked compact-source admission, finite cover mesh exposure, compact-net exposure, local radius ledger exactness, rational lower-bound folding, mesh-refinement nonescape, UniformModulus handoff, transport, replay, provenance, and local naming for BEDC.Derived.LebesgueNumberMeshUp.}
+\end{closurestatus}

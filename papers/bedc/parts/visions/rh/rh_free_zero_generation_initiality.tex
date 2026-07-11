@@ -595,4 +595,119 @@ None of these failures is a route-closure decider or an independence
 theorem for the fixed proposition $\mathsf{RH}$.
 \end{principle}
 
+\begin{theorem}[Completeness bridge to constructive RH]
+\label{thm:rh-generation-completeness-bridge}
+\leanchecked{BEDC.Derived.RHRoute.GenerativeZeroCompletion.constructiveRH\_of\_completion}
+\leanvariant{BEDC.Derived.RHRoute.GenerativeZeroCompletion.symmetryReadbackRH\_of\_completion}
+Let $\varepsilon:Z\to\mathcal Z_{\zeta}$ be a generated realization whose
+fixed-half closure is displayed, as in \autoref{def:rh-generated-zero-carrier}.
+Package the completeness datum as the record whose rows are $\varepsilon$, the
+fixed-half closure witness, and the coverage row
+$$
+\prod_{u:\mathcal Z_{\zeta}}\mathsf{NontrivZero}(u)\to
+\sum_{z:Z}\varepsilon(z)\sim u.
+$$
+From this record, together with the located readback row
+$$
+\mathsf{OnCritLineReadback}(u)\to\mathsf{OnCritLine}(u),
+$$
+the fixed-half closure supplies $\mathsf{CritLine}(\varepsilon(z))$ for the
+covering generator, and critical-line transport along $\sim$ yields
+$\mathsf{OnCritLine}(u)$. This is the constructive Riemann hypothesis of
+\autoref{ch:visions-rh-layered-translation}, read off the generation side. The
+theorem is conditional: it consumes the coverage record and the readback row as
+hypotheses and constructs neither. The coverage row is the completeness
+obligation of \autoref{def:rh-generated-zero-carrier}; it is not discharged
+here, and no inhabitant of the completeness record is exhibited.
+\end{theorem}
+
+\begin{principle}[Zero-free forward dynamics and the obligation firewall]
+\label{prin:rh-generation-forward-firewall}
+\leandef{BEDC.Derived.RHRoute.LocatedGenerationTower.ZetaBridgeObligations}
+\leandef{BEDC.Derived.RHRoute.LocatedGenerationTower.generated\_true\_zero\_twoWay}
+The generation side is presented as a forward dynamics that never inspects a
+zeta value. A tick carries a radial log-scale row, an angular rotation row, and
+a fresh orthogonal residual, gated by a no-adjacent Zeckendorf certificate. A
+state stores only its generated syntax; its located point is the fold of that
+syntax, never a stored coordinate, so no tick can fit a zero backwards. The
+analytic content is quarantined behind an evaluator interface whose binding,
+completeness, and soundness rows are the only bridge to the true zero set, and
+the forward dynamics constructs none of them. Under the packaged bridge the
+generated orbit and the true zero set stand in a displayed two-way
+correspondence.
+\end{principle}
+
+\begin{remark}[Non-vacuity of the forward dynamics]
+\label{rem:rh-generation-nonvacuity}
+\leandef{BEDC.Derived.RHRoute.LocatedGenerationTowerExample.toyPoint1\_generated}
+A toy instance fills every abstract row of the forward dynamics with concrete
+data: a prime-local seed at $p=2$, a constant located-complex algebra, and a
+tick whose register advances. It exhibits an inhabitant of the generated-point
+type at tick depth one, so the dynamics and its membership predicate are not
+vacuous. The instance carries no zeta semantics; it certifies only that the
+generation types are inhabited and that the dynamics runs.
+\end{remark}
+
+\section{Spectral reformulation and the Hilbert--P\'olya wall}
+\label{sec:rh-generation-spectral-reformulation}
+
+The completeness obligation of \autoref{def:rh-generated-zero-carrier} can be
+carried by a single spectral statement rather than a pointwise zeta binding. The
+generation side supplies, $\zeta$-free, a formal phase register, a self-adjoint height
+operator, and the coupling that removes every internal bookkeeping obligation; the
+only surviving analytic content is that the generated spectrum is the true zero
+spectrum.
+
+\begin{principle}[Prime-phase character factorization]
+\label{prin:rh-generation-prime-phase}
+\leandef{BEDC.Derived.RHRoute.OCLSDPhaseAlgebra.readPZGPhase}
+\leanchecked{BEDC.Derived.RHRoute.OCLSDPhaseAlgebra.readPZGPhase\_tick}
+The prime register reads back into a formal phase algebra by multiplying one atom
+phase per activated Zeckendorf bit,
+$$
+\chi_t(n)=\prod_{(p,k)}\mathsf{primePhase}(p,k),
+$$
+multiplicatively over register concatenation. The atom phase depends on the prime
+and Fibonacci index alone, so it is prime-locked: no free angle enters, and the
+phase cannot be tuned to a target height.
+\end{principle}
+
+\begin{definition}[Spectral zero identity]
+\label{def:rh-generation-spectral-identity}
+\leandef{BEDC.Derived.RHRoute.OCLSDSpectral.SpectralZeroIdentity}
+\leandef{BEDC.Derived.RHRoute.OCLSDSpectral.zetaBridge\_from\_spectral}
+Let $H_{\mathrm{OCLSD}}$ be the diagonal operator whose orthonormal basis is the
+forward orbits and whose eigenvalue on an orbit is its cumulative angular height.
+The spectral zero identity is the pair of readings
+$$
+\gamma\in\operatorname{Spec}(H_{\mathrm{OCLSD}})\ \Longleftrightarrow\ \zeta(\tfrac12+i\gamma)=0.
+$$
+It is strictly weaker than pointwise evaluator binding, and it suffices: with a
+binding stub and the located readback it assembles the full zero-bridge record.
+\end{definition}
+
+\begin{principle}[Self-adjoint generator, prime-locked spectrum]
+\label{prin:rh-generation-self-adjoint}
+\leandef{BEDC.Derived.RHRoute.OCLSDHamiltonian.hamiltonian\_selfAdjoint}
+\leanchecked{BEDC.Derived.RHRoute.OCLSDPrimeLock.primeLocked\_angle\_independent}
+Because the orbit heights are located-real, $H_{\mathrm{OCLSD}}$ is self-adjoint and
+generates a unitary phase flow. Because the per-tick height factors through the
+prime register only, equal prime data forces equal height: the spectrum is
+determined by prime arithmetic, not by the free angle row.
+\end{principle}
+
+\begin{principle}[Critical coupling closes the internal obligations]
+\label{prin:rh-generation-critical-coupling}
+\leandef{BEDC.Derived.RHRoute.OCLSDCriticalCoupling.orbitCriticalReadback\_from\_stateHeight}
+\leandef{BEDC.Derived.RHRoute.OCLSDCriticalCoupling.zetaBridge\_from\_spectral\_coupled}
+The orbit-to-critical-line readback is not an analytic wall but a coupling gap
+between the syntactic point readback and the accumulated height. A state-level
+height that commutes with both discharges it by induction over the orbit recursor.
+After this the entire zero-bridge record follows from the spectral zero identity and
+a binding stub alone. The one remaining obligation is the spectral zero identity
+itself --- that the prime-generated spectrum is the true zeta zero spectrum. That is
+the Hilbert--P\'olya content; it is not discharged here, and nothing in this chapter
+constructs it.
+\end{principle}
+
 \concretizedIn{ch:concrete-instances-rh-free-zero-initiality-namecert}{The RH-free zero-generation initiality route is represented as a finite NameCert packet with an explicit no-circularity audit.}

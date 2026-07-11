@@ -1,0 +1,220 @@
+\chapter{Prime-Fiber Zoom NameCert Interface}
+\label{ch:visions-rh-prime-fiber-zoom-namecert-interface}
+\origin{ai}
+
+\autoref{ch:visions-rh-prime-fiber-zoom-renormalization-tower} records the
+local zoom step, and
+\autoref{ch:visions-rh-prime-fiber-zoom-scale-obstruction-bridge} records the
+scale-obstruction rows that must persist through the zoom tower.  The present
+chapter records the BEDC admission surface for that package.  A PFZ object is
+not licensed by the visible equation of a zoom step alone; it is licensed only
+as a five-field $\NameCert$ interface whose ledger policy keeps the unselected
+cell exterior, tail data, and radial-scale residuals auditable.
+
+\section{NameCert Surface}
+\label{sec:rh-pfz-namecert-surface}
+
+\begin{definition}[PFZ NameCert surface]
+\label{def:rh-pfz-namecert-surface}
+For an object $B$ in the PFZ closure envelope of
+\autoref{def:rh-pfz-closure-envelope}, the PFZ naming surface is the
+five-field packet
+$$
+\NameCert_{\mathsf{PFZ}}(B)
+:=
+(\SourceSpec_B,\PatternSpec_B,\ClassifierSpec_B,\StabilityCert_B,\LedgerPolicy_B).
+$$
+The fields are read as follows:
+$$
+\SourceSpec_B
+=
+(\mathbf e,\mathcal F_{\mathbf e},h),
+$$
+where $\mathbf e$ is the endpoint fibre, $\mathcal F_{\mathbf e}$ is the
+unexpanded prime-fiber source, and $h$ is the displayed address history;
+$$
+\PatternSpec_B
+=
+\text{the legal prime-fiber zoom refinement rule};
+$$
+$$
+\ClassifierSpec_B
+=
+\text{history, address, RP, Hermitian, phase, and radial classifiers};
+$$
+$$
+\StabilityCert_B
+=
+\text{history containment, exponential similarity, orthogonal residuals,}
+$$
+together with balanced-correlation persistence, RP-window persistence, and
+smooth-branch rigidity; and
+$$
+\LedgerPolicy_B
+=
+\text{prime-address, gap, tail, phase, radial-scale, and branch ledgers}.
+$$
+\end{definition}
+
+\begin{theorem}[PFZ objects enter BEDC only through NameCert]
+\label{thm:rh-pfz-objects-enter-bedc-through-namecert}
+If a PFZ closure-envelope object $B$ is used as a BEDC public object
+$B^{\uparrow}$, then its use factors through
+$\NameCert_{\mathsf{PFZ}}(B)$.
+\end{theorem}
+
+\begin{proof}
+By \autoref{thm:ask-sig-spine-derived-interface-admission}, a derived
+interface is admitted only through a naming certificate with source,
+pattern, classifier, stability, and ledger fields.  The PFZ closure
+envelope is a derived interface: it hides selected-cell provenance,
+unselected-cell exterior data, residual addresses, tail data, and phase
+or radial readouts behind a visible zoom surface.  Therefore object-layer
+use of $B^{\uparrow}$ requires the five fields displayed in
+\autoref{def:rh-pfz-namecert-surface}.
+\end{proof}
+
+\begin{principle}[PFZ ledger policy is part of the object]
+\label{prin:rh-pfz-ledger-policy-part-of-object}
+The PFZ ledger policy is not an optional annotation after the zoom step.
+It is one of the fields that licenses the public name.  Omitting it would
+turn the selected cell into an apparent whole, erase the exterior gap,
+and leave no audit path for later questions about phase, branch, tail, or
+radial scale.  Thus a PFZ object without $\LedgerPolicy_B$ is not a
+BEDC-derived object in the sense of
+\autoref{def:ask-sig-spine-namecert-fields}.
+\end{principle}
+
+\section{Ledger-Complete Limits}
+\label{sec:rh-pfz-ledger-complete-limits}
+
+\begin{definition}[PFZ tower ledger]
+\label{def:rh-pfz-tower-ledger}
+For a PFZ tower
+$$
+B_0\to B_1\to\cdots\to B_m\to\cdots,
+$$
+the PFZ tower ledger is the composite ledger obtained by recording at
+each step the selected address, the cell exterior gap, the residual
+orthogonal address, the phase readout, and any radial, branch, or tail
+row exposed by the step.  The ledger of a composite tower is not the last
+step ledger alone; each later ledger is pulled back along the already
+visible interface, as in
+\autoref{thm:tower-ledger-is-composite}.
+\end{definition}
+
+\begin{definition}[PFZ limit admission]
+\label{def:rh-pfz-limit-admission}
+A limit or tail object
+$$
+B_{\infty}
+=
+\lim_m B_m
+$$
+is admitted as a PFZ public object only when the tower carries a PFZ
+tower ledger in the sense of \autoref{def:rh-pfz-tower-ledger}, together
+with the convergence, branch, and tail rows required by the analytic
+consumer.  The visible endpoint alone is not an admitted PFZ object.
+\end{definition}
+
+\begin{theorem}[PFZ limit admission requires the tower ledger]
+\label{thm:rh-pfz-limit-admission-requires-tower-ledger}
+If $B_{\infty}$ is admitted as a PFZ public object, then its
+$\LedgerPolicy_{B_{\infty}}$ contains the PFZ tower ledger.
+\end{theorem}
+
+\begin{proof}
+By \autoref{def:rh-pfz-limit-admission}, an admitted PFZ limit must carry
+the composite tower ledger.  The general ledger rule is
+\autoref{thm:tower-ledger-is-composite}: an endpoint ledger is not merely
+the final arrow's ledger, because the endpoint hides the preceding
+source histories and intermediate visible interfaces.  Since
+$\LedgerPolicy_{B_{\infty}}$ is the ledger field of the PFZ NameCert
+surface, it must contain this composite tower ledger.
+\end{proof}
+
+\begin{principle}[No gap-free PFZ tail]
+\label{prin:rh-no-gap-free-pfz-tail}
+A PFZ tail cannot be used as a place where exterior-cell information,
+branch changes, or radial scale disappear.  If such data are relevant to
+a later zeta-facing readout, they must be present in the tower ledger.
+If they are absent, the public PFZ object has not been admitted for that
+readout.
+\end{principle}
+
+\section{Zeta-Facing Admission}
+\label{sec:rh-pfz-zeta-facing-admission}
+
+\begin{definition}[Zeta PFZ NameCert admission]
+\label{def:rh-zeta-pfz-namecert-admission}
+The zeta PFZ admission row is the strengthening of
+$\mathsf{ZetaPFZEmbedding}$ in which every zeta-facing PFZ object carries
+the NameCert surface of \autoref{def:rh-pfz-namecert-surface}.  Its
+source field contains Dirichlet monomial and PZG data; its pattern field
+contains Euler-product, continuation, zero, and Li--Weil--Nyman readouts;
+its classifier field contains zero, strip, phase, radial, and
+prime-register classifiers; its stability field contains analytic
+compatibility and the scale-obstruction bridge; and its ledger policy
+contains gap, branch, tail, phase, radial, and tower ledgers.
+\end{definition}
+
+\begin{definition}[NameCert-level radial refusal]
+\label{def:rh-namecert-level-radial-refusal}
+The NameCert-level radial refusal is the PFZ admission form of
+$\mathsf{NoHiddenRadialPFZ}$.  For a centered zero packet with
+$$
+z(\rho)=1-\frac1\rho=e^{\ell+i\theta},
+$$
+the coordinate $\ell$ is accepted only as one of the following:
+$$
+\ell=0,
+\qquad
+\text{a displayed radial-scale ledger row},
+\qquad
+\text{or a refused unledgered residual}.
+$$
+It is not accepted as unit phase, prime-address gauge, Zeckendorf carry,
+gap-free tail, or analytic-continuation branch artefact.
+\end{definition}
+
+\begin{theorem}[PFZ NameCert package gives the radial-obstruction input]
+\label{thm:rh-pfz-namecert-package-gives-radial-obstruction-input}
+Assume the zeta PFZ admission row of
+\autoref{def:rh-zeta-pfz-namecert-admission} and the NameCert-level
+radial refusal of \autoref{def:rh-namecert-level-radial-refusal}.  Then
+every completed zeta zero packet admitted through this package supplies
+the PFZ radial-obstruction input required by
+\autoref{prin:rh-pfz-obstruction-bridge-rh-role}.
+\end{theorem}
+
+\begin{proof}
+The zeta PFZ admission row supplies the zero packet as a PFZ public
+object with source, pattern, classifier, stability, and ledger fields.
+In particular, the radial coordinate is not an external diagnostic but a
+readout in the admitted packet, and the phase, radial, branch, tail, and
+gap ledgers are present in the ledger policy.  The NameCert-level radial
+refusal then classifies a nonzero $\ell$ as a displayed scale row or as
+an unledgered residual that is not admitted.  This is precisely the
+radial-obstruction input used by
+\autoref{prin:rh-pfz-obstruction-bridge-rh-role}.
+\end{proof}
+
+\begin{theorem}[PFZ NameCert conditional fixed-half readout]
+\label{thm:rh-pfz-namecert-conditional-fixed-half-readout}
+Assume the zeta PFZ admission row, the NameCert-level radial refusal, and
+the radial-obstruction package sufficient for the RH route.  Then every
+completed zero packet admitted by the package has fixed-half readout.
+\end{theorem}
+
+\begin{proof}
+By
+\autoref{thm:rh-pfz-namecert-package-gives-radial-obstruction-input},
+the admitted zero packet supplies the PFZ radial-obstruction input.  The
+radial-obstruction package then applies exactly as in
+\autoref{prin:rh-pfz-obstruction-bridge-rh-role}: if
+$z(\rho)=e^{\ell+i\theta}$ had $\ell\ne0$, that radial coordinate would
+be a displayed positive-real scale row or an unadmitted residual, not a
+unit-phase or prime-fiber row.  The sufficient radial package rules out
+such a legal zero packet.  Hence $\ell=0$, and therefore the zero has
+fixed-half readout.
+\end{proof}

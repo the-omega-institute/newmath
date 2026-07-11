@@ -1,0 +1,1660 @@
+\documentclass[11pt]{article}
+
+\usepackage[a4paper,margin=1in]{geometry}
+\usepackage{amsmath,amssymb,amsthm,mathtools}
+\usepackage{booktabs}
+\usepackage{enumitem}
+\usepackage{xcolor}
+\usepackage[colorlinks=true,linkcolor=blue!55!black,citecolor=blue!55!black,urlcolor=blue!55!black]{hyperref}
+
+\newcommand{\lean}[1]{\relax\ifmmode\hbox{\scriptsize\ttfamily\detokenize{#1}}\else{\small\texttt{\detokenize{#1}}}\fi}
+\newcommand{\PZG}{\mathrm{PZG}}
+\newcommand{\BEDC}{\mathrm{BEDC}}
+\newcommand{\K}{\mathcal{K}}
+\newcommand{\Npos}{\mathbb{N}_{>0}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\phiG}{\varphi}
+\newcommand{\psiG}{\psi}
+
+\title{A Faithful Lean Account of the PZG--BEDC Kernel}
+\author{Unified Theory Working Line}
+\date{}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+We report the portion of the PZG--BEDC dynamic ontology kernel formalized in Lean 4 with mathlib.  PZG denotes prime-axis Zeckendorf coding: each prime axis carries a finite Zeckendorf word, and decoding first turns those words into prime exponents and then reconstructs a positive natural number.  The checked development covers 89 content modules plus the aggregation module: the finite generation layer, Newman normal forms, prime-axis factorization and Euclid escape, Zeckendorf and PZG bijections, finite golden-ratio algebra, deficit and golden-jump ledgers, golden double-sided and fiber-coordinate identities, Cassini--Fricke trace conservation, finite readings and two-square classifiers, Kleene/Cantor/Gödel barriers for self-coding, cost and hidden-fiber rigidity, critical-line reflection algebra, Euler products, golden-weight finite Euler factorization, the golden-weight convergence-abscissa bound, Weil explicit-formula small-support prime-side reduction, concrete archimedean well-definedness, the heart-electrode residual-identity foundation, the Laplace-transform convergence abscissa and half-plane holomorphy that form the analytic base of the Landau oscillation engine, with the Tonelli series--integral exchange, Taylor-coefficient formula, local complex Taylor \texttt{HasSum} theorem, and itemwise real/complex Taylor-summand algebra machine checked while the Landau nonnegative theorem still awaits the single quantitative Pringsheim--Landau radius wall, the golden coordinate ring $\mathbb{Z}[\varphi]$ with its norm, conjugation automorphism, units, and Euclidean-domain structure proving class number one (the $\varphi$-coordinate system L0), no-zero-line zeta facts, completed zeta functional equations, and the RH ledger equivalence.  The generated-results section records twenty-nine machine-checked additions; together with the eight checked groups folded into the formalized-results section, the manuscript records thirty-seven such additions, including the unconditional shifted Zeckendorf--Beatty bridge, the golden double-sided/fiber identities, the heart-electrode foundation, the Laplace-transform abscissa and half-plane holomorphy, and fourteen oracle-suggested conjectures certified locally after proposal.  Every mathematical assertion labeled as machine checked below names an actual Lean declaration under \lean{papers/unified_theory/lean4/UnifiedTheory}.  Conjecture R for the GCS middle-form window is adjudicated by dimension-group and Giordano--Putnam--Skau literature, not by Lean: the golden-Sturmian case is closed on orbit-equivalence, spectrum, and topological-conjugacy layers; the broader canonicity slogan that $\mathbb{Z}[\varphi]$ coordinates all $\varphi$-self-similar mathematics is refuted by standard symbolic-dynamical witnesses; the remaining O-7 leaf is the non-$\varphi$-specific gap between decision procedures and a clean complete conjugacy invariant.  The RH result is an equivalence with mathlib's \lean{RiemannHypothesis}, not a proof of RH; quasicrystal zeta, full explicit-formula zero-side analysis, Weil archimedean positivity, unconditional small-support positivity, the analytic golden-weight $\zeta$-factorization and $\Delta_\varphi$ continuation theory, positivity bridges, the empirical heart Sturmian shell, and open leaves such as O-5, O-6, and O-7 remain outside the checked-result column.  The Lean project is mathlib-based and isolated from the mathlib-free BEDC core; the stated reproducibility surface is the branch \lean{feat/unified-theory-mathlib}, with the full project check given by \lean{lake build}.
+\end{abstract}
+
+\section{Introduction}
+
+The source theory proposes a dynamic mathematical ontology kernel
+$$
+  \K_{\PZG}
+$$
+whose objects are not only static data, but generated histories, standard codes, decoders, normalizers, finite readings, and ledger states.  The PZG part of the name is literal: \emph{prime axes} provide the coordinate directions, while \emph{Zeckendorf words} provide the per-axis digit system.  In the formalized carrier, a PZG table is a finite-support map
+$$
+  p \longmapsto w_p
+$$
+where the support is restricted to primes and each $w_p$ is a legal Zeckendorf representation.  Decoding maps each $w_p$ to a natural exponent and then uses unique factorization to recover an element of $\Npos$.
+
+The goal of this Lean line is not to certify the full speculative reach of the source document.  It is narrower and more valuable as a logical audit: identify the finite and algebraic claims that can be stated cleanly, prove them in Lean, and keep analytic or self-referential frontier claims outside the checked-result column until they have genuine declarations and proofs.  This paper therefore distinguishes three classes.
+
+\begin{enumerate}[label=(\roman*)]
+  \item \textbf{Checked theorem or definition}: a declaration in \lean{UnifiedTheory/**.lean} that can be referenced by name.
+  \item \textbf{Encoded statement}: a Lean \lean{Prop} used to record a target without pretending that it is proved.
+  \item \textbf{Outlook}: mathematical plans or analytic programs that are not yet formalized.
+\end{enumerate}
+
+The development is deliberately mathlib-based.  It uses mathlib's APIs for natural-number factorization, Zeckendorf representations, golden-ratio identities, pigeonhole arguments, and Fermat's theorem on sums of two squares.  This is separate from the mathlib-free BEDC core in the main repository: no file under the BEDC core imports this Lean project, and this project does not alter the BEDC no-mathlib invariant.
+
+\section{Formalized Results}
+
+This section lists the checked content by layer.  Each item gives an informal statement, the precise Lean declaration name, and the reason it captures the corresponding part of the source theory.
+
+\subsection{Generation, Mark Exchange, and Histories}
+
+\paragraph{Two marks and exchange.}
+The finite basis of the generation layer is the inductive type
+$$
+  \lean{UnifiedTheory.Mark}.
+$$
+It has exactly two constructors, \lean{zero} and \lean{one}.  The exchange operation is
+$$
+  \lean{UnifiedTheory.Mark.sigma : Mark -> Mark},
+$$
+with checked facts
+$$
+  \lean{UnifiedTheory.Mark.sigma_involutive}
+$$
+and
+$$
+  \lean{UnifiedTheory.Mark.sigma_nontrivial}.
+$$
+Informally, the first theorem says $\sigma(\sigma(x))=x$ for both marks, and the second records that $\sigma$ really swaps the two constructors.  This is the formal core of the source definitions 1.1--1.2: the minimal binary marker and its nontrivial exchange are not axioms, but a two-constructor inductive type and a case split.
+
+\paragraph{Finite histories.}
+The history carrier is
+$$
+  \lean{UnifiedTheory.MarkHist},
+$$
+with constructors \lean{empty} and \lean{ext}.  The formal append operation satisfies
+$$
+  \begin{gathered}
+  \lean{UnifiedTheory.MarkHist.empty_append},\\
+  \lean{UnifiedTheory.MarkHist.append_empty},\\
+  \lean{UnifiedTheory.MarkHist.append_assoc},
+  \end{gathered}
+$$
+and its length satisfies
+$$
+  \lean{UnifiedTheory.MarkHist.length_append}.
+$$
+These are the checked version of the finite-history monoid laws in proposition 2.4.  The source document describes generation induction and event finiteness as axiomatic principles; the Lean line does not add such axioms.  It realizes the finite layer by ordinary inductive recursion and lists.
+
+\paragraph{Events and generation.}
+Events are structures
+$$
+  \lean{UnifiedTheory.Event}
+$$
+with fields for source history, opcode, argument, and output tag.  Event histories are lists, and generation is list extension:
+$$
+  \lean{UnifiedTheory.EventHist.generate}.
+$$
+The checked statement
+$$
+  \lean{UnifiedTheory.EventHist.generate_length}
+$$
+says that appending one event increases the list length by one.  This is the finite operational shadow of the source idea that a generated event extends a history.
+
+\subsection{Uniticity by Abstract Rewriting}
+
+The formal rewriting module is generic in a type $\alpha$ and a relation $r:\alpha\to\alpha\to\mathrm{Prop}$.  It defines the reflexive-transitive closure
+$$
+  \lean{UnifiedTheory.Rewriting.Star},
+$$
+normal forms
+$$
+  \lean{UnifiedTheory.Rewriting.Normal},
+$$
+joinability, local confluence, confluence, and termination:
+$$
+  \begin{gathered}
+  \lean{UnifiedTheory.Rewriting.Joinable},\\
+  \lean{UnifiedTheory.Rewriting.LocallyConfluent},\\
+  \lean{UnifiedTheory.Rewriting.Confluent},\\
+  \lean{UnifiedTheory.Rewriting.Terminates}.
+  \end{gathered}
+$$
+The checked Newman theorem is
+$$
+  \lean{UnifiedTheory.Rewriting.newman_confluent}.
+$$
+Its type is:
+$$
+  \mathrm{Terminates}(r)\to \mathrm{LocallyConfluent}(r)\to \mathrm{Confluent}(r).
+$$
+The normal-form theorem is
+$$
+  \lean{UnifiedTheory.Rewriting.exists_unique_normal_form},
+$$
+which states that under the same hypotheses every element has a unique normal form.  This exactly formalizes the source theorem 3.2 at the abstract rewriting level.  It does not assert that every future normalizer in the theory has already been given a terminating rewrite system; it supplies the reusable criterion.
+
+\subsection{Prime Axes and Euclid Escape}
+
+The prime-axis state space is
+$$
+  \lean{UnifiedTheory.PrimeExp},
+$$
+a finite-support natural exponent vector whose support consists of primes.  The declaration
+$$
+  \lean{UnifiedTheory.PrimeExp.equivPNat}
+$$
+has type
+$$
+  \Npos \simeq \lean{UnifiedTheory.PrimeExp}.
+$$
+This is the formalized prime-axis statement: positive natural numbers are equivalent to finite prime exponent vectors.  The proof is a mathlib wrapper around \lean{Nat.factorizationEquiv}, so the paper should not claim that this Lean file rederives the full elementary proof of unique factorization from scratch.
+
+The exponent reading is
+$$
+  \lean{UnifiedTheory.vp},
+$$
+and the multiplicative additivity theorem is
+$$
+  \lean{UnifiedTheory.vp_mul}.
+$$
+It says
+$$
+  v_p(mn)=v_p(m)+v_p(n)
+$$
+for $m,n\in\Npos$.  This is the checked content behind theorem 4.4's ``multiplication is coordinatewise addition on prime axes'' slogan.
+
+The group-ification of this free structure to the positive rationals (source theorem 18.10) is checked on its free half: \lean{UnifiedTheory.primes_mul_indep} proves that for a formal integer exponent vector $a:\mathbb{N}\to_0\mathbb{Z}$ with prime support, $\prod_p p^{a_p}=1$ in $\mathbb{Q}$ forces $a=0$.  Equivalently the map $a\mapsto\prod_p p^{a_p}$ is injective, so the primes are multiplicatively independent and $(\mathbb{Q}_{>0},\times)$ is free (no relations) on the prime axes.  The proof applies the $p$-adic valuation $v_q$ to the product, which splits as a sum of valuations (\lean{UnifiedTheory.padicValRat_prod}); distinct-prime terms vanish (\lean{UnifiedTheory.padicValRat_distinct_prime}), the $p=q$ term returns $a_q$ via the integer-power valuation (\lean{UnifiedTheory.padicValRat_zpow}), and $v_q(1)=0$ forces $a_q=0$.  The surjective half is also checked: \lean{UnifiedTheory.primes_generate} proves that every positive rational is such a product, taking the exponent vector $a=v(\mathrm{num})-v(\mathrm{den})$ from the factorizations of the coprime numerator and denominator and splitting the product by \lean{Finsupp.prod_add_index} into $\mathrm{num}/\mathrm{den}=q$.  Together these two halves are source theorem 18.10: $(\mathbb{Q}_{>0},\times)$ is the free abelian group on the prime axes, the group-ification of theorem 4.4.
+
+Euclid escape is represented by
+$$
+  \lean{UnifiedTheory.euclidEscape}
+$$
+and proved by
+$$
+  \lean{UnifiedTheory.exists_prime_not_mem}.
+$$
+For every finite set $S$ of primes, the theorem produces a prime divisor of
+$$
+  \prod_{p\in S}p+1
+$$
+that is not in $S$.  This is the formalized version of theorem 4.5: no finite window of prime axes exhausts the prime directions.
+
+\subsection{Zeckendorf Words and the PZG Bijection}
+
+On a single axis, the Zeckendorf carrier is
+$$
+  \lean{UnifiedTheory.AxisWord},
+$$
+a subtype of lists satisfying mathlib's \lean{List.IsZeckendorfRep}.  The equivalence
+$$
+  \lean{UnifiedTheory.AxisWord.equivNat}
+$$
+has type
+$$
+  \N\simeq\lean{UnifiedTheory.AxisWord}.
+$$
+The encode-decode inverse theorems
+$$
+  \lean{UnifiedTheory.AxisWord.decode_encode},\quad
+  \lean{UnifiedTheory.AxisWord.encode_decode}
+$$
+state the existence and uniqueness directions of Zeckendorf representation.  This is the checked theorem 5.3, again using mathlib's Zeckendorf API rather than a handwritten proof.
+
+The PZG table carrier is
+$$
+  \lean{UnifiedTheory.PZGTable}.
+$$
+It is not merely an exponent vector: it keeps the per-prime Zeckendorf word.  The axis-level equivalence
+$$
+  \lean{UnifiedTheory.PZGTable.equivPrimeExp}
+$$
+decodes each axis word to an exponent and preserves prime support.  Composing this with prime factorization gives
+$$
+  \lean{UnifiedTheory.PZGTable.decode : PZGTable \simeq \Npos}.
+$$
+The checked inverse laws
+$$
+  \lean{UnifiedTheory.PZGTable.decode_encode},\quad
+  \lean{UnifiedTheory.PZGTable.encode_decode}
+$$
+are the formal statement of theorem 5.5: PZG tables and positive natural numbers are in bijection.
+
+Normalization is defined canonically:
+$$
+  \lean{UnifiedTheory.PZGTable.normAdd z w}
+  =
+  \lean{encode (decode z * decode w)}.
+$$
+The theorem
+$$
+  \lean{UnifiedTheory.PZGTable.decode_normAdd}
+$$
+says
+$$
+  \mathrm{decode}(\mathrm{normAdd}(z,w))
+  =
+  \mathrm{decode}(z)\,\mathrm{decode}(w),
+$$
+and
+$$
+  \lean{UnifiedTheory.PZGTable.vp_decode_normAdd}
+$$
+says the same thing coordinatewise as prime-exponent addition.  This captures theorem 5.6 as a canonical normalization theorem.  It is not a proof of a step-by-step carry algorithm or carry termination; it defines the normalized result by the uniqueness of the PZG bijection.
+
+\subsection{Golden Double-Sided Algebra}
+
+The golden algebra carrier is
+$$
+  \lean{UnifiedTheory.PhiInt}.
+$$
+An element is an integer pair representing $a+b\phiG$ with $\phiG^2=\phiG+1$.  Multiplication, conjugation, and real embeddings are defined by
+$$
+  \begin{gathered}
+  \lean{UnifiedTheory.PhiInt.conj},\\
+  \lean{UnifiedTheory.PhiInt.toRealPlus},\\
+  \lean{UnifiedTheory.PhiInt.toRealMinus}.
+  \end{gathered}
+$$
+The theorem
+$$
+  \lean{UnifiedTheory.PhiInt.fixed_conj_iff}
+$$
+says that a \lean{PhiInt} is fixed by conjugation exactly when its $\phiG$-coefficient is zero.  This is the algebraic reason the deficit integrality proof works.
+
+The embedding compatibility theorem
+$$
+  \lean{UnifiedTheory.PhiInt.toRealMinus_eq_toRealPlus_conj}
+$$
+identifies the shrinking real face with the expanding real face after conjugation, while
+$$
+  \lean{UnifiedTheory.PhiInt.toRealPlus_mul}
+$$
+states that the expanding embedding is multiplicative.  The Fibonacci decomposition of powers is
+$$
+  \lean{UnifiedTheory.PhiInt.phiPow_ab},
+$$
+which says that the $b$-coordinate of $\phiG^n$ is the Fibonacci number $F_n$.
+
+The kernel's cascade cancellation rests on a one-page golden algebra, checked in Lean.  From $\phiG^2=\phiG+1$ one gets $\phiG^3=2\phiG+1$, $\phiG^4=3\phiG+2$, the identity $\phiG^4+\phiG^2-1=2\phiG^3$, \lean{UnifiedTheory.goldenRatio_pow4_add_sq_sub_one}, the second-order golden cancellation $\phiG^2+\phiG^3=\phiG^4$, \lean{UnifiedTheory.goldenRatio_sq_add_cube}, and the Zeckendorf $11\to100$ analytic shadow $\phiG^4-\phiG^3-\phiG^2=0$, \lean{UnifiedTheory.goldenRatio_pow4_sub_cube_sub_sq}.  The conjugate satisfies $\psiG=-1/\phiG$, \lean{UnifiedTheory.goldenConj_eq_neg_inv}, and the constant $C_0$ splits into two half-goldens $\phiG/2=\sqrt5/2-1/(2\phiG)$, \lean{UnifiedTheory.goldenRatio_half_eq_sqrt5_half_sub}.  The one-line Binet identity seeding the $\bar r$-chain, $F_{k+1}/\phiG=F_k-\psiG^{k+1}$, is \lean{UnifiedTheory.fib_succ_div_goldenRatio}.
+
+The two-dimensional lift is forced at the outset: \lean{UnifiedTheory.no_geometric_fib_ratio} proves there is no constant ratio $\Lambda$ with $F_{k+2}=\Lambda\,F_{k+1}$ for all $k$ (the consecutive-Fibonacci ratios $1,2,3/2,\dots$ are non-constant), so no single geometric weight reproduces the Zeckendorf decode --- this is source theorem 6.2, the structural no-go that motivates the double-sided eigenline lift.  The double-sided scalar identities are then explicit.  The constant $c^\ast$ from source 6.145 is \lean{UnifiedTheory.cstar_eq_sqrt5_phi}, namely $\phiG^2+1=\sqrt{5}\,\phiG$; Binet's difference formula \lean{UnifiedTheory.goldenPow_sub_goldenConjPow} proves $\phiG^n-\psiG^n=\sqrt{5}\,F_n$, so the source definition 6.4 length $\ell(z)=(\lambda_+-\lambda_-)/\sqrt{5}$ is an integer Fibonacci-weighted quantity, not an irrational golden-weighted one.  The product formula \lean{UnifiedTheory.goldenPow_mul_goldenConjPow}, $\phiG^n\psiG^n=(-1)^n$, is the double-sided orientation sign of the alternating $\bar r$-chain.  The sum completes the triple of symmetric functions of the golden-rotation eigenvalues: \lean{UnifiedTheory.goldenPow_add_goldenConjPow} proves the integer Lucas trace $\phiG^n+\psiG^n=2F_{n+1}-F_n$.  Finally, \lean{UnifiedTheory.floorPhiMul_eq} proves $\lfloor(v+1)\phiG\rfloor=(v+1)+\lfloor(v+1)/\phiG\rfloor$, and \lean{UnifiedTheory.beattyShiftRead_eq_add_floor} proves $S(v)=v+\lfloor(v+1)/\phiG\rfloor$; hence shift decode and the fiber coordinate $a+b=\lfloor(v+1)/\phiG\rfloor$ are floors of one golden rotation, as in source Corollary~6.48$'$.
+
+For axis words, the double-sided reading is
+$$
+  \lean{UnifiedTheory.AxisWord.betaPhi}.
+$$
+The checked gap identity
+$$
+  \lean{UnifiedTheory.AxisWord.betaPhi_gap}
+$$
+says that the difference between the expanding and shrinking real readings is $\sqrt{5}$ times the ordinary decoded value.  At the PZG-table level, the two real readings are
+$$
+  \lean{UnifiedTheory.PZGTable.lambdaPlus},\quad
+  \lean{UnifiedTheory.PZGTable.lambdaMinus}.
+$$
+These declarations formalize definition 6.4 as a finite sum over the finite support of a PZG table.
+
+\paragraph{Carry ledger identities.}
+The finite golden carry identities are checked as
+$$
+  \lean{UnifiedTheory.Golden.gold_carry_plus},\quad
+  \lean{UnifiedTheory.Golden.gold_carry_minus},
+$$
+and the bottom-rule identities as
+$$
+  \lean{UnifiedTheory.Golden.gold_bottom_plus},\quad
+  \lean{UnifiedTheory.Golden.gold_bottom_minus}.
+$$
+The exact \lean{PhiInt} version is
+$$
+  \lean{UnifiedTheory.Golden.phiPow_carry}.
+$$
+These are the formal finite algebra behind proposition 6.21: adjacent Fibonacci carries preserve the double-sided account, while the bottom identity records the unit deficit equation $2\phiG^2-\phiG^3=1$.
+
+\paragraph{Deficit integrality.}
+The normalization deficit is defined by
+$$
+  \lean{UnifiedTheory.deficitPhi}.
+$$
+The theorem
+$$
+  \lean{UnifiedTheory.deficitPhi_integer}
+$$
+states that for all $v,w:\N$ there exists $k:\Z$ such that
+$$
+  \mathrm{deficitPhi}(v,w)=\mathrm{ofInt}(k).
+$$
+The equivalent conjugation-fixed statement is
+$$
+  \lean{UnifiedTheory.deficitPhi_conj_fixed}.
+$$
+This is the checked theorem 6.22: the deficit is an integer because its $\phiG$-coordinate cancels.
+
+\paragraph{Deficit trichotomy and the shrinking window.}
+The stronger three-value statement is checked unconditionally.  The theorem
+$$
+  \lean{UnifiedTheory.abs_betaMinus_le}
+$$
+proves the shrinking-face window bound
+$$
+  |\beta_-(\mathrm{encode}(n))|\le 1/\phiG
+$$
+for every natural number $n$.  The proof uses the gap condition in Zeckendorf words and a finite geometric estimate
+$$
+  \lean{UnifiedTheory.geomBound}.
+$$
+Combined with deficit integrality, this gives
+$$
+  \lean{UnifiedTheory.deficitTrichotomy_holds},
+$$
+the checked theorem 6.25: the integer deficit lies in
+$$
+  \{-1,0,1\}.
+$$
+This is the first window-length bearing theorem in the Lean development and proves the target
+$$
+  \lean{UnifiedTheory.DeficitTrichotomy}
+$$
+into a proved theorem.
+
+\paragraph{Beatty-floor deficit and carry conservation.}
+The Beatty deficit module gives an independent floor-arithmetic route to the same three-value phenomenon.  It defines the shifted Beatty reading
+$$
+  \lean{UnifiedTheory.S}
+$$
+and the binary carry deficit
+$$
+  \lean{UnifiedTheory.cDef}.
+$$
+The theorem
+$$
+  \lean{UnifiedTheory.cDef_mem}
+$$
+proves directly that \lean{cDef a b} is always $-1$, $0$, or $1$.  The checked cocycle identity
+$$
+  \lean{UnifiedTheory.carry_conservation}
+$$
+states
+$$
+  c(a,b)+c(a+b,c)=c(a,b+c)+c(b,c),
+$$
+which is the formal carry-conservation law 6.62, or $\delta^2=0$, for the Beatty deficit ledger.  The bridge from this Beatty reading to shifted Zeckendorf sums is now closed:
+$$
+  \lean{UnifiedTheory.S_eq_shifted_zeck}
+$$
+is now an unconditional theorem.  The asymmetric shrinking-window bound
+$$
+  \lean{UnifiedTheory.minusWindow_holds}
+$$
+is proved without hypotheses by splitting the signed Zeckendorf chain into its parity components and applying the strict geometric estimate
+$$
+  \lean{UnifiedTheory.geomBoundStrict}
+$$
+together with the signed window theorem
+$$
+  \lean{UnifiedTheory.signedGeom_window}.
+$$
+The algebraic bridge
+$$
+  \lean{UnifiedTheory.betaMinus_encode_eq}
+$$
+identifies the Beatty deficit with the shifted Zeckendorf sum, and
+$$
+  \lean{UnifiedTheory.shiftedZeckendorf_of_minusWindow}
+$$
+turns the window bound into the bridge.  Thus theorem 6.44 is checked as the unconditional identity
+$$
+  S(v)=\sum_{i\in\mathrm{encode}\,v}\mathrm{fib}(i+1).
+$$
+
+\paragraph{$n$-ary deficit.}
+The list-valued Beatty deficit is
+$$
+  \lean{UnifiedTheory.Cn}.
+$$
+The decomposition theorem
+$$
+  \lean{UnifiedTheory.Cn_cons}
+$$
+says that adjoining an entry decomposes the list deficit into one binary deficit plus the tail deficit.  The checked trapezoid estimate
+$$
+  \lean{UnifiedTheory.Cn_abs_le}
+$$
+states
+$$
+  |C_n(v_1,\ldots,v_m)|\le m-1.
+$$
+This is the symmetric part of theorem 6.60.  The sharper asymmetric endpoint count is not claimed here.
+
+\paragraph{Finite Fibonacci core.}
+The finite recurrence
+$$
+  \lean{UnifiedTheory.Golden.finiteW_recurrence}
+$$
+and Cassini identity
+$$
+  \lean{UnifiedTheory.Golden.cassini}
+$$
+formalize the finite algebraic core behind the trace-map and generating-function discussion.  The traced logarithmic coordinate
+$$
+  \lean{UnifiedTheory.uCoord}
+$$
+and quadratic form
+$$
+  \lean{UnifiedTheory.qForm}
+$$
+support the Cassini--Fricke conservation law
+$$
+  \lean{UnifiedTheory.cassini_fricke}.
+$$
+It states that
+$$
+  Q(u_{K+1},u_K)=5xy(-1)^{K+1}
+$$
+for
+$$
+  u_K=-x\phiG^{K+1}+y\psiG^{K+1}.
+$$
+This is the checked theorem 6.36 at the finite trace-map level.  These theorems do not formalize the infinite function $W(x,y)$, the quasicrystal zeta object, its Euler-product or continuation theory, or zero transport.
+
+\subsection{Golden-Weight Generating Function and Finite Euler Product}
+
+The golden weight $\Omega_\varphi$ is additive over coprime factors, so its generating function $n\mapsto x^{\Omega_\varphi(n)}$ is a multiplicative arithmetic function \lean{UnifiedTheory.goldGenAF}, checked in \lean{UnifiedTheory.goldGenAF_isMultiplicative}.  Its local factor at a prime power is $x^{S(v)}$, because $\Omega_\varphi(p^v)=S(v)$:
+$$
+  \begin{gathered}
+  \lean{UnifiedTheory.goldWeight_prime_pow}\\
+  \lean{UnifiedTheory.goldGenAF_prime_pow}.
+  \end{gathered}
+$$
+Consequently, for every $n\neq 0$ the generating function factors as the finite Euler product
+$$
+  x^{\Omega_\varphi(n)} \;=\; \prod_{p^k \,\|\, n} x^{S(k)},
+$$
+checked as \lean{UnifiedTheory.goldGenAF_euler}.  This is the algebraic Euler factorization of the golden weight over prime axes.  The golden weight is additive over coprime factors but not completely additive ($S(2)=3\neq 2\,S(1)=4$), so the generating function is multiplicative yet \emph{not} completely multiplicative: at $x=2$, $\mathrm{goldGenAF}\,2\,(2\cdot 2)=2^{S(2)}=8$ while $(\mathrm{goldGenAF}\,2\,2)^2=(2^{S(1)})^2=16$, checked as \lean{UnifiedTheory.goldGenAF_not_completelyMultiplicative}.  The associated analytic Dirichlet L-series is
+$$
+  L_\varphi(x,s):=\sum_{n\ge1} x^{\Omega_\varphi(n)}\,n^{-s}
+  = \mathrm{LSeries}(\mathrm{goldGenAF}\,x)(s).
+$$
+Its first rung separates the checked convergence-abscissa bound from the statement-level $\zeta$-factorization and $\Delta_\varphi$ continuation targets.
+
+For $x\ge1$, the absolute-convergence abscissa is machine checked:
+$$
+  \sigma_c\bigl(L_\varphi(x,\cdot)\bigr)\le 1+2\log_2 x\qquad(x\ge1),
+$$
+as \lean{UnifiedTheory.goldGenAF\_abscissaOfAbsConv\_le}.  The proof route is comparison-based.  The coefficients satisfy $|x^{\Omega_\varphi(n)}|=x^{\Omega_\varphi(n)}$.  The checked bound $\Omega_\varphi(n)\le 2\Omega(n)$, where $\Omega(n)=\sum_p v_p(n)$, is \lean{UnifiedTheory.goldWeight_le_two_mul}; the estimate $\Omega(n)\le\log_2 n$ is carried by $2^\Omega\le n$, \lean{UnifiedTheory.two\_pow\_omega\_le}.  Together with $x\ge1$, these bounds give
+$$
+  x^{\Omega_\varphi(n)}\le n^{2\log_2 x}.
+$$
+The formal proof uses the real-power base--exponent exchange $x^{2\log_2 n}=n^{2\log_2 x}$ and mathlib's comparison theorem $LSeries.abscissaOfAbsConv_le_of_forall_lt_LSeriesSummable$ to conclude the displayed bound for $LSeries.abscissaOfAbsConv$.
+
+The remaining analytic L-series layer is statement-level.  In the convergence half-plane, $L_\varphi$ is expected to have an Euler product from the multiplicativity theorem \lean{UnifiedTheory.goldGenAF_isMultiplicative} and the finite Euler decomposition \lean{UnifiedTheory.goldGenAF_euler}.  Its local factor is
+$$
+  \sum_{v\ge0} x^{S(v)}\,p^{-vs},
+$$
+where $S(v)=\Omega_\varphi(p^v)$.  This local factor is not geometric: the checked non-complete-multiplicativity witness \lean{UnifiedTheory.goldGenAF_not_completelyMultiplicative} records $S(2)=3\neq2S(1)=4$.  Therefore $L_\varphi$ does not collapse to a power or shift of $\zeta$.  The correct statement-level factor relation is
+$$
+  L_\varphi(x,s)=\zeta(s)\cdot\Delta_\varphi(x,s),
+$$
+where $\Delta_\varphi$ is the nontrivial correction obtained by dividing each local factor by the main geometric factor $(1-p^{-s})^{-1}$, equivalently a prime-zeta/Sturmian weighted correction.  The analytic construction of this factorization, the continuation theory of $\Delta_\varphi$, and the analytic Euler product remain open.
+
+Status: the convergence-abscissa bound is closed and machine checked; the $\zeta$-factorization, $\Delta_\varphi$ continuation, and analytic Euler product remain open statement-level targets.
+
+\subsection{Golden Weight, Squarefreeness, and Primality}
+
+Because $S(v)\ge 2$ for $v\ge 1$ (with $S(1)=2$ and $S$ monotone), the golden weight is bounded below by twice the number of distinct prime factors, $2\,\omega(n)\le\Omega_\varphi(n)$, checked as \lean{UnifiedTheory.two_mul_primeFactors_card_le_goldWeight}.  Equality holds exactly for squarefree $n$, since $\Omega_\varphi(n)=2\,\omega(n)$ forces every prime exponent to equal $1$:
+$$
+  \Omega_\varphi(n) = 2\,\omega(n) \iff n\ \text{squarefree},
+$$
+checked as \lean{UnifiedTheory.goldWeight_eq_two_mul_primeFactors_card_iff_squarefree}.  On the prime-power axis the golden weight reads primality: for $n$ a prime power, $\Omega_\varphi(n)=2$ iff $n$ is prime, checked as \lean{UnifiedTheory.isPrimePow_goldWeight_eq_two_iff_prime} (as $S(v)=2\iff v=1$).  Thus weight $2$ is the first-order prime channel of the golden weight.
+
+The next weight value detects prime squares: for nonzero $n$, $\Omega_\varphi(n)=3$ iff $n=p^2$ for some prime $p$, checked as \lean{UnifiedTheory.goldWeight_eq_three_iff_prime_sq}.  The bound $2\,\omega(n)\le\Omega_\varphi(n)$ forces $\omega(n)=1$ (a prime power), and then $S(v)=3\iff v=2$ pins the exponent to $2$; this rules out semiprimes ($\omega=2$, so $\Omega_\varphi\ge 4$), cubes ($S(3)=5$), and non-prime squares.  The golden weight also evaluates cleanly on factorials: by Legendre's factorial factorization,
+$$
+  \Omega_\varphi(N!) = \sum_{p\,\mid\,N!} S\!\Big(\sum_{i\ge 1}\big\lfloor N/p^{\,i}\big\rfloor\Big),
+$$
+checked as \lean{UnifiedTheory.goldWeight_factorial}, the inner sum being the $p$-adic valuation of $N!$.
+
+\subsection{Finite Readings and Two-Square Classification}
+
+The finite-reading pigeonhole theorem is
+$$
+  \lean{UnifiedTheory.Reading.reading_has_fiber}.
+$$
+Given a finite carrier, a finite class set, and a map into that class set, if the class set has smaller cardinality than the carrier, two distinct elements share the same reading.  This proves theorem 8.5 at the level of finite sets: a finite reading with too few values has a nontrivial fiber.
+
+The two-square classifier includes the prime-level theorem
+$$
+  \lean{UnifiedTheory.Reading.prime_sq_add_sq_iff}.
+$$
+For a prime $p$, it states
+$$
+  (\exists a\,b:\N,\ a^2+b^2=p)\quad\Longleftrightarrow\quad p\bmod 4\ne 3.
+$$
+The easy obstruction is proved in the file from the fact that squares modulo $4$ are $0$ or $1$, and the existence direction uses mathlib's theorem for primes that are sums of two squares.  This captures the prime-classifier part of chapter 9.
+
+The general classifier is checked:
+$$
+  \lean{UnifiedTheory.Reading.sq_add_sq_iff_factorization}.
+$$
+It states that a natural number $n$ is a sum of two squares exactly when every prime factor $p\equiv3\pmod4$ appears in the factorization of $n$ with even exponent.  This is theorem 9.10 in its ordinary arithmetic form.  The proof is a mathlib-based wrapper around the standard sum-of-two-squares factorization theorem; the Lean file records the kernel-facing reading theorem, not an elementary reproof of Fermat's theorem.
+
+The constructive input behind the $p\equiv1\pmod4$ branch is source theorem 9.5, checked here as an \emph{explicit} certificate rather than a mere existence claim.  The factorial pairing \lean{UnifiedTheory.factorial_pairing} proves $(p-1)!\equiv(-1)^{m}(m!)^2$ in $\mathbb{Z}/p$ for odd prime $p$ and $m=(p-1)/2$, by reflecting the upper half $\{m{+}1,\dots,p{-}1\}$ onto the lower half via $k\mapsto p-k$ and using $\overline{p-k}=-\bar k$ to extract $(-1)^{m}$.  Combined with Wilson's lemma and $m$ even for $p\equiv1\pmod4$, this yields \lean{UnifiedTheory.neg_one_sq_witness}: the element $m!$ is an \emph{explicit} square root of $-1$ modulo $p$.  This strengthens mathlib's existence-only \lean{ZMod.exists_sq_eq_neg_one_iff} to a named witness, in keeping with the kernel's certificate discipline.
+
+\subsection{Self-Coding and Diagonal Barriers}
+
+The self-code layer contains Cantor diagonal theorems for arbitrary types.  The declaration
+$$
+  \lean{UnifiedTheory.SelfCode.no_classifier_surjective}
+$$
+says that no classifier
+$$
+  X\to\mathrm{Set}(X)
+$$
+is surjective.  The declaration
+$$
+  \lean{UnifiedTheory.SelfCode.diagonal_not_classified}
+$$
+exhibits the diagonal property $\{y\mid y\notin \mathrm{classify}(y)\}$ and proves it is not hit by any index.  The dual declaration
+$$
+  \lean{UnifiedTheory.SelfCode.no_decoder_injective}
+$$
+says that no decoder $\mathrm{Set}(X)\to X$ is injective.
+
+These are theorem 16.2--16.3 in their pure diagonal form.
+
+The same layer contains the Kleene fixed-point theorem in mathlib's partial-recursive-code semantics:
+$$
+  \lean{UnifiedTheory.SelfCode.kleene_fixed_point}.
+$$
+For every computable transformation on \lean{Nat.Partrec.Code}, it produces a code whose partial-function behavior agrees with the transformed code.
+The bundled chapter statement
+$$
+  \lean{UnifiedTheory.SelfCode.sc1_chapter16_unconditional}
+$$
+combines Kleene fixed points with the Cantor classifier and decoder barriers.  This discharges the machine axiom U at the self-code level by moving to partial-function semantics: no total-termination assumption is needed for theorem 16.1'.  It still does not formalize the later internalization tower, same-layer closure predicate, verified substitution evaluator, or Gödel-style arithmeticized residual.
+
+The arithmetic sequence encoder
+$$
+  \lean{UnifiedTheory.SelfCode.godelEncode}
+$$
+maps a finite list $(l_0,\ldots,l_{m-1})$ to the prime product $\prod_i p_i^{l_i+1}$.  Its injectivity theorem
+$$
+  \lean{UnifiedTheory.SelfCode.godelEncode_injective}
+$$
+is theorem 14.1: two encoded lists with the same Gödel product are equal.  This supplies the checked arithmetic infrastructure for self-code separation; the full syntax tower and substitution evaluator remain outside the checked column.
+
+For the fixed-length Gödel-vector code $\mathrm{Gvec}(x)=\prod_i p_i^{\,x_i+1}$, perfect-power collapse is coordinatewise.  The checked criterion
+$$
+  \lean{UnifiedTheory.SelfCode.gvec_isPow_iff_coord_dvd}
+$$
+says that $\mathrm{Gvec}(x)$ is a perfect $e$-th power exactly when every shifted coordinate exponent $x_i+1$ is divisible by $e$; in particular it is a square exactly when every $x_i+1$ is even.  The golden weight of the same code is read by
+$$
+  \Omega_\varphi(\mathrm{Gvec}(x))=\sum_i S(x_i+1),
+$$
+and
+$$
+  \lean{UnifiedTheory.SelfCode.gvec_Omega_first_shell}
+$$
+identifies the first non-base golden shell: $\Omega_\varphi(\mathrm{Gvec}(x))=2k+1$ exactly when some $x_i=1$ and every other $x_j=0$.  These are elementary finite-code facts: they rule out hidden perfect-power collapse of the code and pin the first golden shell to single unit perturbations.
+
+\subsection{Dynamics and the Cost Arrow}
+
+For event histories, the checked cost theorem is
+$$
+  \lean{UnifiedTheory.EventHist.cost_lt_generate}.
+$$
+It states that generating one event strictly increases the length of the event history.  The theorem
+$$
+  \lean{UnifiedTheory.EventHist.generate_ne}
+$$
+then says that the generated history is not equal to the original history.
+
+This is the formal content of theorem 18.11--18.12 represented in Lean: irreversibility is expressed as strict growth of the event ledger.  It is not the full prime-address dynamics with logarithmic cost over signed exponent states.
+
+The prime-axis logarithmic length is formalized as
+$$
+  \lean{UnifiedTheory.L}.
+$$
+The checked positivity theorem
+$$
+  \lean{UnifiedTheory.L_pos}
+$$
+says that every nonzero prime-exponent state has strictly positive logarithmic length.  This is theorem 18.7 for the prime-axis state carrier.  It supplies the length input for the phase and critical-line ledger, but it does not by itself define a completed heat trace or analytic continuation.
+
+The Fibonacci--Fricke trace map $T(a,b,c)=(b,c,bc-a)$ also has a finite quotient-dynamics constraint under the three even-sign flips $(a,b,c)\mapsto(-a,-b,c)$, $(-a,b,-c)$, and $(a,-b,-c)$.  It does not commute with the individual flips; instead it cyclically permutes them:
+$$
+  T\circ\mathrm{flipAB}=\mathrm{flipAC}\circ T
+$$
+and cyclically, checked as
+$$
+  \lean{UnifiedTheory.traceMap_evenSign_cycle}.
+$$
+Consequently only $T^3$ descends through the even-sign quotient by commuting with each flip, checked for $\mathrm{flipAB}$ as
+$$
+  \lean{UnifiedTheory.traceMap_iterate_three_comm_flipAB}
+$$
+and by the two cyclic variants.  This is a finite algebraic invariant of the trace dynamics, not an analytic positivity or RH statement and not a consequence of periodicity alone.
+
+The topology component checks hidden-direction rigidity.  The theorem
+$$
+  \lean{UnifiedTheory.Dynamics.hidden_rigidity}
+$$
+states that a continuous map from a preconnected space into a totally disconnected hidden fiber is constant on that connected input.  Its profinite specialization
+$$
+  \lean{UnifiedTheory.Dynamics.profinite_fiber_rigid}
+$$
+is theorem 20.12: profinite hidden fibers admit no nonconstant continuous path from a preconnected source.  This formalizes the rigidity part of the solenoid intuition, not the full solenoid transport or pullback-line program.
+
+\subsection{Critical-Line Ledger and Completed Zeta}
+
+The phase reading is
+$$
+  \lean{UnifiedTheory.phase},
+$$
+with scaling ledger
+$$
+  \lean{UnifiedTheory.Lambda}
+$$
+and normalized modulus
+$$
+  \lean{UnifiedTheory.normModulus}.
+$$
+For a nontrivial prime-axis state, the theorem
+$$
+  \lean{UnifiedTheory.unitarity_line_iff}
+$$
+states that
+$$
+  \mathrm{Re}(s)=1/2
+  \quad\Longleftrightarrow\quad
+  \mathrm{normModulus}(s,a)=1.
+$$
+Equivalently, the normalized phase is unitary exactly on the critical line.  The reflection
+$$
+  \lean{UnifiedTheory.J}
+$$
+is defined by $J(s)=1-\overline{s}$, and the checked theorem
+$$
+  \lean{UnifiedTheory.J_fixed_iff}
+$$
+states that its fixed line is exactly $\mathrm{Re}(s)=1/2$.  The scaling ledger changes sign under reflection:
+$$
+  \lean{UnifiedTheory.Lambda_mirror}.
+$$
+The sign criteria are also checked:
+$$
+  \lean{UnifiedTheory.Lambda_pos_iff},\quad
+  \lean{UnifiedTheory.Lambda_neg_iff}.
+$$
+For a nontrivial state, the local scaling ledger is positive exactly on the side $\operatorname{Re}(s)>1/2$ and negative exactly on the side $\operatorname{Re}(s)<1/2$.
+Finally,
+$$
+  \lean{UnifiedTheory.ontic_balance_on_critical_line}
+$$
+proves that a zero local scaling balance on a nontrivial state forces $\mathrm{Re}(s)=1/2$.  This is theorem 24.8 in its phase-ledger form: the implication from ontic balance to the critical line is unconditional.
+
+The zeta bridge introduces
+$$
+  \lean{UnifiedTheory.ProjectedZero}
+$$
+for nontrivial zeros of \lean{riemannZeta} and
+$$
+  \lean{UnifiedTheory.OnticZero}
+$$
+for projected zeros whose local scaling ledger is balanced on every nontrivial prime-axis state.  The theorem
+$$
+  \lean{UnifiedTheory.onticZero_re}
+$$
+proves that every ontic zero lies on the critical line.  The bridge theorem
+$$
+  \lean{UnifiedTheory.rh_iff_all_projected_ontic}
+$$
+states
+$$
+  \lean{RiemannHypothesis}
+  \quad\Longleftrightarrow\quad
+  \text{every projected zero is an ontic zero}.
+$$
+This is theorem 24.10 as a ledger restatement of mathlib's \lean{RiemannHypothesis}.  It is not a proof of RH, because neither side of the equivalence is discharged unconditionally.
+
+The ordinary zeta side contains the Euler product
+$$
+  \lean{UnifiedTheory.zeta_eulerProduct},
+$$
+which states that for $\operatorname{Re}(s)>1$,
+$$
+  \prod\nolimits'_p (1-p^{-s})^{-1}=\zeta(s).
+$$
+This is theorem 22.3: the analytic avatar of the free prime-axis monoid from theorem 4.4.
+
+The no-zero-line facts are
+$$
+  \lean{UnifiedTheory.zeta_ne_zero_of_one_le_re},\quad
+  \lean{UnifiedTheory.projectedZero_re_lt_one}.
+$$
+They say that $\zeta(s)\ne0$ when $\operatorname{Re}(s)\ge1$, and that every projected nontrivial zeta zero has $\operatorname{Re}(s)<1$.  This tightens the zero ledger to the critical strip boundary; it does not place those zeros on the critical line.
+
+The completed-zeta interface is also checked.  The theorem
+$$
+  \lean{UnifiedTheory.completed_functional_equation}
+$$
+states
+$$
+  \Lambda(1-s)=\Lambda(s)
+$$
+for mathlib's \lean{completedRiemannZeta}.  The explicit \lean{riemannZeta} functional equation with Gamma and cosine factors is
+$$
+  \lean{UnifiedTheory.riemannZeta_explicit_functional_equation}.
+$$
+The zero-reflection theorem
+$$
+  \lean{UnifiedTheory.completed_zero_reflect}
+$$
+states that a zero of \lean{completedRiemannZeta} at $s$ gives a zero at $1-s$.  This is one half of the reflected-zero pairing.  It gives symmetry about the critical line, not location on the critical line.
+
+\subsection{Weil Explicit-Formula Small-Support Reduction}
+
+We formalize the support-vanishing mechanism of the Weil explicit formula abstractly, not the full explicit formula.  An explicit-formula functional is modeled by \lean{UnifiedTheory.WeilFunctional}: an archimedean carrier together with the explicit prime-power side
+$$
+  \operatorname{primeSide}(g) \;=\; \sum_{p}\ \sum_{k\ge 0}\ (\log p)\,\bigl(g((k{+}1)\log p) + g(-(k{+}1)\log p)\bigr),
+$$
+which is \lean{UnifiedTheory.primeSide}.  When the test function $g$ is supported in the open window $(-\log 2,\ \log 2)$, every prime-power frequency satisfies $(k{+}1)\log p \ge \log 2$ and so falls outside the window; hence the prime side vanishes term by term, \lean{UnifiedTheory.primeSide_eq_zero_of_smallSupport} (unconditional).  On such test functions the functional therefore reduces to its archimedean part, \lean{UnifiedTheory.WeilFunctional.eval_smallSupport}, and is nonnegative whenever the archimedean part is, \lean{UnifiedTheory.WeilFunctional.eval_nonneg_of_smallSupport}.  The archimedean positivity is supplied as an explicit hypothesis: it is the Connes--Consani archimedean positivity, an open leaf that this development does not prove.
+
+The reduction is non-vacuous: the single-point witness $g=\mathbf 1_{\{\log 2\}}$ gives $\operatorname{primeSide}(g)=\log 2$, checked as \lean{UnifiedTheory.primeSide_witness} and \lean{UnifiedTheory.primeSide_not_identically_zero}, so the prime side genuinely detects prime-power logarithms and $\log 2$ is the exact lower boundary of detectable frequencies.
+
+Widening the window by one arithmetic threshold makes the finite-packet structure explicit.  Since $2$ is the only prime power below $3$, a test function supported in $(-\log 3,\ \log 3)$ leaves exactly one surviving prime term:
+$$
+  \operatorname{primeSide}(g) = \log 2\,\bigl(g(\log 2)+g(-\log 2)\bigr),
+$$
+checked as \lean{UnifiedTheory.primeSide_eq_single_of_support_log3}.  On this chamber the functional equals its archimedean part plus a single explicit prime shift, \lean{UnifiedTheory.WeilFunctional.eval_log3_chamber}---the first nonzero finite prime side (the window $(-\log 2,\log 2)$ had none), and the semi-local finite-packet shape.  Positivity is still not asserted: the archimedean term stays an open leaf.
+
+The chamber structure extends to every window width.  For a test function supported in the open window $(-\log N,\ \log N)$ with $N\ge 2$, every prime $p\ge N$ has smallest frequency $\log p\ge\log N$ outside the window, so it contributes nothing to the prime side, \lean{UnifiedTheory.primeSide_inner_vanishes_of_ge}.  Consequently the outer sum collapses to a finite sum over the primes below $N$:
+$$
+  \operatorname{primeSide}(g) =
+  \sum_{\substack{p<N\\ p\ \mathrm{prime}}}\ \sum_{k\ge 0}
+  (\log p)\,\bigl(g((k{+}1)\log p)+g(-(k{+}1)\log p)\bigr),
+$$
+checked as \lean{UnifiedTheory.primeSide_eq_sum_of_support}.  On bounded support the Weil prime side is therefore a genuine finite object---the finite-packet cutoff---with the arithmetic thresholds $\log 2,\log 3,\log 4,\dots$ marking where each new prime power enters.  This is the geometric prime side only; positivity is not asserted and the archimedean term remains an open leaf.
+
+The prime-side frequencies connect the two layers.  Under the canonical indexing $(p,k)\mapsto p^{k+1}$ of prime powers, the Weil frequency $\log(p^{k+1})=(k{+}1)\log p$ carries the golden label $\Omega_\varphi(p^{k+1})=S(k+1)$, checked as \lean{UnifiedTheory.primePower_frequency_goldLabel}, so the explicit-formula and golden-weight layers meet on prime powers.  Moreover the frequency map $(p,k)\mapsto (k{+}1)\log p$ is injective, checked as \lean{UnifiedTheory.weilFreq_injective}: the prime side is indexed by distinct prime powers with no frequency collisions and no duplicate $(p,k)$ data.
+
+The count of surviving frequencies is a step function of the window.  Writing $\mathrm{ppChamber}(N)=\{q<N: q\ \text{a prime power}\}$ for the prime powers below $N$, the set is monotone in $N$, \lean{UnifiedTheory.ppChamber_mono}, and its cardinality increases by exactly one precisely at prime-power boundaries, \lean{UnifiedTheory.ppChamber_card_succ} and \lean{UnifiedTheory.ppChamber_gains_iff}: the finite prime side acquires a new frequency exactly at each prime power, never between them and never two at once.
+
+This formalizes the support-vanishing reduction only; unconditional Weil positivity, the explicit formula's zero side, and RH are not claimed.
+
+\subsection{Concrete Archimedean Weil Functional}
+
+The archimedean term of the zeta explicit formula, in source ledger form 26.3/26.4, is made concrete in the Connes--Consani positivity sign.  With $C_\infty=\gamma+\log(4\pi)$, \lean{UnifiedTheory.archConst}, and the desingularized kernel
+$$
+  K_g(t)=\frac{e^{t/2}\bigl(g(t)+g(-t)\bigr)-2g(0)}{e^{t}-e^{-t}}\qquad(t\neq 0),\quad K_g(0):=g(0)/2,
+$$
+\lean{UnifiedTheory.archKernel}, the compact-cutoff functional on support in $(-\log 2,\log 2)$ is
+$$
+  \mathrm{archSmall}(g)=-C_\infty\,g(0)-\int_0^{\log 2}K_g(t)\,dt-g(0)\,\log\frac{e^{\log 2}-1}{e^{\log 2}+1},
+$$
+\lean{UnifiedTheory.archSmall_def}.  The kernel's singularity at the origin is removable: for $g$ differentiable at $0$, $K_g(t)\to g(0)/2$ as $t\to0^+$, \lean{UnifiedTheory.tendsto_archKernel_zero}.  Pairing this with the standard weighted prime side $\sum_p\sum_{m\ge1}\log p\cdot p^{-m/2}\bigl(g(m\log p)+g(-m\log p)\bigr)$, \lean{UnifiedTheory.primeSideZeta}, which also vanishes on small support, \lean{UnifiedTheory.primeSideZeta_eq_zero_of_smallSupport}, realizes the kernel-internal form of the explicit formula: on small support the functional reduces to its archimedean part, \lean{UnifiedTheory.concreteW_eq_arch_of_smallSupport}.
+
+The well-definedness side is now complete: \lean{UnifiedTheory.archKernel_intervalIntegrable} gives integrability on $[0,\log 2]$, \lean{UnifiedTheory.archTail_log2} evaluates the cutoff tail as $-\log 3$, and \lean{UnifiedTheory.convSquare_even} checks that convolution squares are even.
+
+Positivity itself remains open.  The target is registered precisely: the archimedean positivity on convolution squares, \lean{UnifiedTheory.ArchimedeanPositivity}, is the Connes--Consani small-support archimedean positivity, source 26.9(iii), a month-scale analytic core that this development does not prove and that does \emph{not} imply RH.  The prime-side positivity limit is the RH wall.  The equivalence of the spectral digamma form and the real-integral form, \lean{UnifiedTheory.ArchSpectralMatchesReal}, is likewise registered as an open leaf, blocked on the digamma Gauss-integral representation.  These are precise open propositions, not theorems; RH remains a ledger restatement.
+
+\subsection{Heart-Electrode Residual-Identity Foundation}
+
+The elementary closed foundation of the heart-chapter residual spectral identity is now separated from the analytic frontier.  The audible-window Mellin transform is \lean{UnifiedTheory.gTilde}; in source H.2 it is
+$$
+  \tilde g(s)=\frac{4\sinh^2(s/2)}{s^2},
+$$
+with removable center \lean{UnifiedTheory.gTilde_zero}, $\tilde g(0)=1$, and limit theorem \lean{UnifiedTheory.tendsto_gTilde_zero}.  The window is moreover entire: \lean{UnifiedTheory.gTilde_entire} proves $\tilde g$ analytic on all of $\mathbb{C}$, the removable singularity at $s=0$ discharged by Riemann's theorem because the punctured-neighbourhood limit equals the defined value $1$, so the closed Mellin window carries no pole to obstruct the spectral sum.  This is the closed Mellin-window part of the slogan ``station two empty, station three fully audible.''
+
+The audible window is also nonvanishing on the open right half-plane: \lean{UnifiedTheory.gTilde_ne_zero_of_re_pos} proves $\tilde g(s)\ne0$ whenever $\operatorname{Re}s>0$, since the only zeros of $4\sinh^2(s/2)/s^2$ are those of $\sinh(s/2)$ at $s\in2\pi i\mathbb{Z}$ (the imaginary axis).  This is the analytic core of the heart-native RH criterion of the source heart-electrode volume (H.7): because $\tilde g(\rho^\ast)\ne0$ for any off-line zero $\rho^\ast=\beta+i\gamma^\ast$ with $\beta>0$, some annular electrode in the family $\{g(t/\tau)\,R(e^{-t})\}$ hears it, and Landau's oscillation theorem then forces the windowed sum to grow like $\delta^{-\beta}$.  On the critical line the window decays: \lean{UnifiedTheory.gTilde_critical_line_decay} proves $\lVert\tilde g(\tfrac12+i\gamma)\rVert\le4\cosh^2(\tfrac14)/\gamma^2$, an $O(\gamma^{-2})$ bound that makes the spectral (station-three) sum termwise controlled, via $\lVert\sinh(s/2)\rVert\le\cosh(\operatorname{Re}(s/2))=\cosh(\tfrac14)$ (helper \lean{UnifiedTheory.norm_sinh_le_cosh_re}) and $\lVert s\rVert^2\ge(\operatorname{Im}s)^2$.  A subsequent literature-review round of the source volume corrects the lineage of the two headline statements, and we record that attribution honestly.  The full criterion H.7 ($\mathrm{RH}\iff$ every electrode sum is $O_\varepsilon(\delta^{-1/2-\varepsilon})$) is the spectral-window-family form of the Gerhold--Littlewood criterion: Gerhold (2009, arXiv:0905.2070, Prop.~2) already gives $\mathrm{RH}\iff\sum_n\mu(n)z^n=O((1-z)^{-1/2-\varepsilon})$, which is the Abel-window special case; and the unconditional heartbeat lower bound H.8 ($S_G(\delta)=\Omega(\delta^{-1/2})$) is a quantified window reproof of Delange (2000, Acta Arith.\ 92, 59--70), who proved the unconditional $\Omega_\pm((1-z)^{-1/2})$.  What is genuinely new to the volume, and not a re-labelling of these classics, is the window-\emph{family} refinement with per-window computable constants and, checked here, the ``no-miss'' mechanism: the right-half-plane nonvanishing \lean{UnifiedTheory.gTilde_ne_zero_of_re_pos} is exactly what guarantees no off-line zero can hide from the electrode family, a step with no counterpart in the cited literature.  The full criterion and lower bound themselves require Landau's oscillation ($\Omega$) theorem, which is not in mathlib (a candidate contribution in its own right), so they remain open leaves; the numerical certificate behind H.8, the double-contour value $\hat R(\rho_1)\approx3.35\times10^{-8}\ne0$, is empirical, and the ``tax-reduction'' claim H.9 (that the window family needs only a polynomial shadow of the Gonek--Hejhal bound $\sum_{\gamma\le T}|\zeta'(\rho)|^{-2}\ll T$ for absolute convergence) depends on that zero-moment input and stays open.  These sharpen the ``modulo critical oscillation'' qualifier on $D(1^-)=2$ from a footnote toward a load-bearing statement: the constant $2$ is the bone, the oscillation is the signal.
+
+The concrete arithmetic left side of source H.1 is the windowed Möbius sum
+$$
+  S_g(N,\delta)=\sum_{k<N}\mu(k+1)\,g((k+1)\delta),
+$$
+encoded as \lean{UnifiedTheory.heartMobiusSum}.  Its linearity in the window is checked by \lean{UnifiedTheory.heartMobiusSum_add} and \lean{UnifiedTheory.heartMobiusSum_smul}.  The analytic station-two input is \lean{UnifiedTheory.one_div_riemannZeta_zero_at_one}: as $s\to1$, $1/\zeta(s)\to0$, so the zeta pole gives the reciprocal zeta factor a zero at the pole.
+
+The source-6.147 one-page algebra of the $\bar r$-chain is now closed in Lean.  The heart $\delta$-table term is $\delta_k=\mathrm{fib}(k{+}1)\,\phiG^{-(k+2)}$, \lean{UnifiedTheory.heartDelta}, with $\delta_0=1/\phiG^2$, \lean{UnifiedTheory.heartDelta_zero}.  Its geometric $\psiG$-weighted sum has the closed value
+$$
+  \sum_{k}\psiG^{k}\delta_k=\frac{1}{2\phiG},\qquad \bar r=-\frac{1}{2\phiG},
+$$
+proven as \lean{UnifiedTheory.rbar_series_eq} (with \lean{UnifiedTheory.rbar_eq_neg}) by splitting the series through Binet into two geometric series, both of norm below one, the closing step being $\sqrt5=2\phiG-1$.  The dual-seal constant is $C_0=\sqrt5/2-1/(2\phiG)=\phiG/2$, \lean{UnifiedTheory.heartC0_eq}, i.e.\ $C_0=c^\ast\kappa+\bar r$ with $c^\ast=\sqrt5\,\phiG$ and $\kappa=1/(2\phiG)$.  These are the elementary constants of the heart chapter; they do not close $D(1^-)=2$, whose full statement stays open below.
+
+What is proven here is only this elementary closed foundation: the Mellin window, the windowed Möbius sum and its linearity, the zero of $1/\zeta$ at the pole, the $\delta$-table constants $\bar r$ and $C_0$, and the golden/fiber/Binet identities recorded above.  The deep heart pieces are not closed algebra and are not formalized: the full residual spectral identity
+$$
+  S_g(\delta)=\mathrm{station\ 2}+\sum_\rho
+  \frac{\tilde g(\rho)\delta^{-\rho}}{\zeta'(\rho)}+O(\delta^2),
+$$
+the oscillation-growth statement H.4, the wall-coefficient identity H.6, and the shell positivity $F_d>0$ on $(0,1)$ all depend on the empirical Sturmian budget shell.  That shell consists of frontier numerical facts: $F_d$ is Sturmian-type, the deepest zero is $x_0\approx0.592093$, the oscillation is $B_n\sim3.14\,(-1)^n x_0^{-n}$ with $R^2\approx1.0000$, the identity $F_d\equiv P$ holds to 80 digits, and the Lambert net form is
+$$
+  H=\sum_n \frac{B_n x^n}{1-x^n}.
+$$
+These are registered as precise open propositions, not theorems.
+
+The heart main result $D(1^-)=2$ holds modulo critical oscillation.  This qualifier is a discovery about the structure of the problem: the residual sits in the same room as RH-type oscillation.  It is not a dent in the problem itself, and it must not be dropped.  RH remains a ledger restatement; the archimedean positivity leaf O-6 remains a month-scale open leaf.
+
+\subsection{Laplace-Transform Abscissa and Half-Plane Holomorphy}
+
+The source F-7 Landau engine needs an integral analogue of the standard Dirichlet-series abscissa package.  Mathlib supplies the series-side benchmark
+$$
+  \lean{LSeries.abscissaOfAbsConv};
+$$
+the present layer builds the parallel Laplace infrastructure for a real weight on a right ray.  A datum
+$$
+  \lean{UnifiedTheory.LaplaceData}
+$$
+packages a function $f$, a lower endpoint $u_0$, and the measurability needed to form
+$$
+  F(s)=\int_{u\ge u_0} f(u)e^{-su}\,du,
+  \qquad
+  \lean{UnifiedTheory.LaplaceData.F}.
+$$
+The convergence predicate is
+$$
+  \operatorname{Converges}(\sigma)
+  \quad\Longleftrightarrow\quad
+  \int_{u\ge u_0} \left|f(u)e^{-\sigma u}\right|\,du<\infty,
+  \qquad
+  \lean{UnifiedTheory.LaplaceData.Converges}.
+$$
+This is only the absolute-convergence layer; no oscillation theorem is hidden in the definition.
+
+The first checked theorem is monotonicity in the real exponent:
+$$
+  \operatorname{Converges}(\sigma)\ \wedge\ \sigma\le\sigma'
+  \Longrightarrow
+  \operatorname{Converges}(\sigma'),
+  \qquad
+  \lean{UnifiedTheory.LaplaceData.Converges.mono}.
+$$
+The proof is the direct right-ray comparison
+$$
+  \left|f(u)e^{-\sigma' u}\right|
+  \le
+  e^{-(\sigma'-\sigma)u_0}\left|f(u)e^{-\sigma u}\right|,
+  \qquad u\ge u_0,
+$$
+so moving right in the half-plane cannot destroy absolute convergence.
+
+The convergence abscissa is then the lower envelope
+$$
+  \sigma_c
+  =
+  \inf\{\sigma\in\mathbb R:\operatorname{Converges}(\sigma)\},
+  \qquad
+  \lean{UnifiedTheory.LaplaceData.abscissa}.
+$$
+Its half-plane implication is checked as
+$$
+  \sigma_c<\operatorname{Re}s
+  \Longrightarrow
+  \int_{u\ge u_0}\left|f(u)e^{-su}\right|\,du<\infty,
+  \qquad
+  \begin{gathered}
+  \lean{UnifiedTheory.LaplaceData.converges\_of\_abscissa\_lt},\\
+  \lean{UnifiedTheory.LaplaceData.integrableOn\_integrand}.
+  \end{gathered}
+$$
+The reverse direction used at a Landau boundary is also part of the same envelope:
+$$
+  \operatorname{Converges}(\sigma)\Longrightarrow\sigma_c\le\sigma,
+  \qquad
+  \sigma<\sigma_c\Longrightarrow\neg\operatorname{Converges}(\sigma),
+  \qquad
+  \begin{gathered}
+  \lean{UnifiedTheory.LaplaceData.abscissa\_le\_of\_converges},\\
+  \lean{UnifiedTheory.LaplaceData.not\_converges\_of\_lt\_abscissa}.
+  \end{gathered}
+$$
+
+On the open half-plane, differentiation under the integral sign is formalized with the derivative written explicitly:
+$$
+  F'(s_0)
+  =
+  \int_{u\ge u_0} f(u)(-u)e^{-s_0u}\,du,
+  \qquad
+  0\le u_0,\quad \sigma_c<\operatorname{Re}s_0,
+  \qquad
+  \lean{UnifiedTheory.LaplaceData.hasDerivAt\_F}.
+$$
+The derivative integrand is itself integrable,
+$$
+  \int_{u\ge u_0}\left|f(u)(-u)e^{-su}\right|\,du<\infty,
+  \qquad
+  \lean{UnifiedTheory.LaplaceData.integrableOn\_derivIntegrand},
+$$
+because after choosing
+$$
+  \sigma_c<\sigma_2<\sigma_1<\operatorname{Re}s_0,
+  \qquad
+  \lean{UnifiedTheory.LaplaceData.exists\_real\_between},
+$$
+the polynomial factor is absorbed by $u\le\varepsilon^{-1}e^{\varepsilon u}$ with $\varepsilon=\sigma_1-\sigma_2$.  The global holomorphy statement on the half-plane is
+$$
+  F\ \hbox{is complex-differentiable on}\ \{s:\sigma_c<\operatorname{Re}s\},
+  \qquad
+  \lean{UnifiedTheory.LaplaceData.differentiableOn\_F}.
+$$
+
+The derivative recursion is expressed by multiplying the weight by $-u$:
+$$
+  (\operatorname{mulNegU}\mathcal D).f(u)=(-u)f(u),
+  \qquad
+  \lean{UnifiedTheory.LaplaceData.mulNegU}.
+$$
+The shift preserves the relevant half-plane,
+$$
+  \sigma_c(\mathcal D)<\operatorname{Re}s
+  \Longrightarrow
+  \sigma_c(\operatorname{mulNegU}\mathcal D)<\operatorname{Re}s,
+  \qquad
+  \lean{UnifiedTheory.LaplaceData.abscissa\_mulNegU\_lt},
+$$
+and the first derivative is exactly the shifted transform:
+$$
+  F_{\mathcal D}'(s)=F_{\operatorname{mulNegU}\mathcal D}(s),
+  \qquad
+  \lean{UnifiedTheory.LaplaceData.hasDerivAt\_F'}.
+$$
+
+Iterating gives the full derivative tower:
+$$
+  F_{\mathcal D}^{(n)}(s)
+  =
+  F_{(\operatorname{mulNegU}^{[n]}\mathcal D)}(s),
+  \qquad
+  \lean{UnifiedTheory.LaplaceData.iteratedDeriv\_F}.
+$$
+The corresponding weight identity is checked separately:
+$$
+  \big(\operatorname{mulNegU}^{[n]}\mathcal D\big).f(u)
+  =
+  (-u)^n f(u),
+  \qquad
+  \lean{UnifiedTheory.LaplaceData.f\_iterate},
+$$
+with the half-plane bound at every stage recorded as
+$$
+  \sigma_c(\mathcal D)<\operatorname{Re}s
+  \Longrightarrow
+  \sigma_c(\operatorname{mulNegU}^{[n]}\mathcal D)<\operatorname{Re}s,
+  \qquad
+  \lean{UnifiedTheory.LaplaceData.abscissa\_iterate\_lt}.
+$$
+
+The sign ledger needed by Landau's argument is also checked, but only as a sign ledger.  If $f(u)\ge0$ on the ray, then on the real half-plane
+$$
+  0\le
+  (-1)^n
+  \int_{u\ge u_0}
+    \big(\operatorname{mulNegU}^{[n]}\mathcal D\big).f(u)e^{-\sigma u}\,du,
+  \qquad
+  \lean{UnifiedTheory.LaplaceData.sign\_control}.
+$$
+Equivalently, after identifying the real-axis transform,
+$$
+  0\le (-1)^n\,\operatorname{Re}\big(F^{(n)}(\sigma)\big),
+  \qquad
+  \begin{gathered}
+  \lean{UnifiedTheory.LaplaceData.sign\_control\_iteratedDeriv\_re},\\
+  \lean{UnifiedTheory.LaplaceData.F\_ofReal}.
+  \end{gathered}
+$$
+
+The Tonelli series--integral exchange bridge is machine checked:
+$$
+  \lean{UnifiedTheory.LaplaceData.converges\_of\_summable\_taylor}.
+$$
+Given $f(u)\ge0$ on the ray, $\sigma<\sigma_1$, convergence of the nonnegative Taylor-coefficient series
+$$
+  \sum_n
+    \frac{(\sigma_1-\sigma)^n}{n!}
+    \int_{u\ge u_0} u^n f(u)e^{-\sigma_1u}\,du
+$$
+and the half-plane hypothesis already used by the derivative tower, the theorem proves absolute convergence of the original Laplace integral at $\sigma$.  In the Landau contradiction, boundary analytic continuation supplies this summability condition; the checked bridge packages the per-term integrability \lean{UnifiedTheory.LaplaceData.iter\_weight\_integrable} and \lean{UnifiedTheory.LaplaceData.taylor\_term\_integrable}, the pointwise sum identity \lean{UnifiedTheory.LaplaceData.taylor\_series\_pointwise}, and the Tonelli step:
+$$
+\begin{aligned}
+  \int^-\!\lVert f(u)e^{-\sigma u}\rVert_e\,du
+  &= \int^-\!\left\lVert\sum_n F_n(u)\right\rVert_e\,du \\
+  &\le \int^-\!\sum_n\lVert F_n(u)\rVert_e\,du \\
+  &= \sum_n\int^-\!\lVert F_n(u)\rVert_e\,du \\
+  &= \operatorname{ofReal}\!\left(\sum_n\int\lVert F_n(u)\rVert\,du\right)
+  < \infty,
+\end{aligned}
+$$
+through \texttt{lintegral\_tsum} and the three checked inputs above.  The Landau nonnegative theorem itself remains open: there is no Lean theorem \texttt{landau\_nonneg} in this layer.  The checked reductio core is
+$$
+  \lean{UnifiedTheory.LaplaceData.landau\_contradiction};
+$$
+if the nonnegative Taylor-coefficient series converges at some point below the abscissa, then the Tonelli bridge gives \texttt{Converges} there while the abscissa definition gives $\neg\,\texttt{Converges}$, hence contradiction.  For \texttt{landau\_nonneg}, the Taylor-coefficient formula needed for the analytic branch is machine checked:
+$$
+  \lean{UnifiedTheory.LaplaceData.F\_hasFPowerSeriesAt\_mulNegU}.
+$$
+Under \texttt{AnalyticAt} for $F$ at the real point $\sigma_1$, the coefficients of its power series are
+$$
+  a_n=
+  \frac{
+    \big(\operatorname{mulNegU}^{[n]}\mathcal D\big).F(\sigma_1)
+  }{n!},
+$$
+using mathlib's \texttt{AnalyticAt.hasFPowerSeriesAt} coefficient theorem together with the checked iterated-derivative tower.  The corresponding neighborhood convergence statement is also machine checked:
+$$
+  \lean{UnifiedTheory.LaplaceData.F\_eventually\_hasSum\_mulNegU}.
+$$
+If $F$ is analytic at $\sigma_1$, then $\forall^{\!f}\,y\in\mathrm{nhds}\,0$ the complex Taylor series has pointwise \texttt{HasSum} convergence
+$$
+  F(\sigma_1+y)=
+  \sum_n
+  \frac{
+    \big(\operatorname{mulNegU}^{[n]}\mathcal D\big).F(\sigma_1)
+  }{n!}\,y^n.
+$$
+The exact analytic-continuation-to-summability ledger for \texttt{landau\_nonneg} has two named leaves: (i) turn this qualitative neighborhood convergence into the quantitative lower bound $>\sigma_1-\sigma_c$ on the convergence radius, through a \texttt{FormalMultilinearSeries.radius} estimate; and (ii) pass from complex power-series \texttt{HasSum} to summability of the real Taylor integral series \texttt{hsum}, separating the real and complex sides.  The coefficient-identification brick for (ii) is machine checked:
+$$
+  \lean{UnifiedTheory.LaplaceData.mulNegU\_iterate\_F\_ofReal}.
+$$
+At a real point $\sigma$, it says
+$$
+  \big(\operatorname{mulNegU}^{[n]}\mathcal D\big).F(\sigma)
+  =
+  \left(
+    \int_{u\ge u_0}(-u)^n f(u)e^{-\sigma u}\,du
+  \right)\!\uparrow_{\mathbb C},
+$$
+so the abstract complex coefficient tower
+$$
+  \frac{\big(\operatorname{mulNegU}^{[n]}\mathcal D\big).F(\sigma_1)}{n!}
+$$
+is identified with the complexification of the real integral appearing in the \texttt{landau\_contradiction} \texttt{hsum},
+$$
+  \int u^n f(u)e^{-\sigma_1 u}\,du,
+$$
+with the $(-1)^n$ sign absorbed by the $y^n$ term for $y=\sigma-\sigma_1$.  The stronger summand-level identity closes the algebraic part of (ii).
+The real/complex passage leaf (ii) is algebraically closed:
+$$
+  \lean{UnifiedTheory.LaplaceData.taylor\_complex\_summand\_eq\_ofReal}.
+$$
+For each $n$, this theorem identifies the complex Taylor summand at $y=\sigma-\sigma_1$ with the complexification of the real \texttt{hsum} summand in \texttt{landau\_contradiction}:
+$$
+\begin{aligned}
+  &\left(
+    \frac{
+      \big(\operatorname{mulNegU}^{[n]}\mathcal D\big).F(\sigma_1)
+    }{n!}
+  \right)(\sigma-\sigma_1)^n \\
+  &\qquad =
+  \left(
+    \frac{(\sigma_1-\sigma)^n}{n!}
+    \int_{u\ge u_0}u^n f(u)e^{-\sigma_1 u}\,du
+  \right)\!\uparrow_{\mathbb C}.
+\end{aligned}
+$$
+The sign cancellation is purely algebraic:
+$$
+\begin{aligned}
+  (\sigma-\sigma_1)^n
+  &=(-1)^n(\sigma_1-\sigma)^n,\\
+  \int_{u\ge u_0}(-u)^n f(u)e^{-\sigma_1 u}\,du
+  &=(-1)^n
+    \int_{u\ge u_0}u^n f(u)e^{-\sigma_1 u}\,du.
+\end{aligned}
+$$
+The second equality is scalar extraction by \texttt{integral\_const\_mul}; the checked iterated-derivative bridge above supplies the $(-u)^n$ integral.  Thus the entire residual for \texttt{landau\_nonneg} collapses to the single hard wall leaf (i): extend the neighborhood complex \texttt{HasSum}
+$$
+  \lean{UnifiedTheory.LaplaceData.F\_eventually\_hasSum\_mulNegU}
+$$
+to the real point $y=\sigma-\sigma_1$ inside the convergence disk, namely prove the Pringsheim--Landau quantitative radius bound $>\sigma_1-\sigma_c$.  This theorem is absent from mathlib and requires proving the analytic-continuation obstruction from first principles.  Once (i) supplies the complex \texttt{HasSum} at that real point, \texttt{taylor\_complex\_summand\_eq\_ofReal} gives itemwise complexification, \texttt{Complex.ofReal} injectivity transfers summability to the real \texttt{hsum}, and \texttt{landau\_contradiction} finishes the reductio.  The algebraic skeleton--coefficient tower, neighborhood \texttt{HasSum}, coefficient-to-real-integral bridge, and Taylor-summand complexification--is machine checked; the unique open leaf is the Pringsheim--Landau quantitative radius bound.  The theorem \texttt{landau\_nonneg} itself remains open.
+
+\subsection{The \texorpdfstring{$\varphi$}{phi}-Coordinate System (Golden Coordinate Ring, L0)}
+
+The golden coordinate system starts with a concrete coordinate ring rather than an abstract field extension.  Its base carrier is the integer-pair model
+$$
+  \mathcal O=\mathbb Z[\varphi]=\mathbb Z+\mathbb Z\varphi,
+  \qquad
+  \varphi^2=\varphi+1,
+  \qquad
+  \lean{UnifiedTheory.PhiInt}.
+$$
+An element is written $a+b\varphi$ with $a,b\in\mathbb Z$.  This is the natural $\mathbb Q(\sqrt5)$ integral coordinate, not the smaller-looking $\mathbb Z[\sqrt5]$ coordinate, and the Lean layer gives it a concrete commutative ring structure by the multiplication rule forced by $\varphi^2=\varphi+1$.
+
+The L0 norm is the integer form
+$$
+  N(a+b\varphi)=a^2+ab-b^2,
+  \qquad
+  \lean{UnifiedTheory.PhiInt.norm}.
+$$
+It is tied to conjugation inside the ring by
+$$
+  N(x)=x\,\sigma(x)
+  \quad\hbox{under the integer embedding,}
+  \qquad
+  \lean{UnifiedTheory.PhiInt.norm\_eq\_mul\_conj},
+$$
+and it is multiplicative:
+$$
+  N(xy)=N(x)N(y),
+  \qquad
+  \lean{UnifiedTheory.PhiInt.norm\_mul}.
+$$
+Thus the first invariant of the coordinate ring is not a declared axiom; it is proved from the integer-pair multiplication.
+
+The Galois conjugation is the map
+$$
+  \sigma(a+b\varphi)=(a+b)-b\varphi.
+$$
+The checked algebra states that it is involutive and packages it as both a ring homomorphism and a ring automorphism:
+$$
+  \sigma^2=\operatorname{id},
+  \qquad
+  \begin{gathered}
+  \lean{UnifiedTheory.PhiInt.conj\_involutive},\\
+  \lean{UnifiedTheory.PhiInt.conjHom},\\
+  \lean{UnifiedTheory.PhiInt.conjAut}.
+  \end{gathered}
+$$
+This is the coordinate-system reason the expanding and shrinking golden faces are paired by a single algebraic operation.
+
+The basic unit calculation is also closed at L0:
+$$
+  \varphi\in\mathcal O^\times,
+  \qquad
+  \lean{UnifiedTheory.PhiInt.isUnit\_phi}.
+$$
+Together with the norm of the generator,
+$$
+  N(\varphi)=-1,
+  \qquad
+  \lean{UnifiedTheory.PhiInt.norm\_phi},
+$$
+the powers satisfy
+$$
+  N(\varphi^n)=(-1)^n,
+  \qquad
+  \lean{UnifiedTheory.PhiInt.norm\_phiPow}.
+$$
+This is the finite unit calculus needed before any ideal-theoretic splitting statement can be asked.
+
+Layer L1 adds a multiplicative coordinate axis.  The degree coordinate is
+$$
+  \deg_\times(x)=\left\lfloor\log_\varphi |x_+|\right\rfloor,
+  \qquad
+  \lean{UnifiedTheory.PhiInt.degMul},
+$$
+where $x_+$ is the expanding real embedding.  On the golden powers it lands exactly on the integer grid:
+$$
+  \deg_\times(\varphi^n)=n,
+  \qquad
+  \lean{UnifiedTheory.PhiInt.degMul\_phiPow}.
+$$
+
+The digit coordinate is delegated to the existing Zeckendorf-word API:
+$$
+  \operatorname{zeckDigits}(n)=\operatorname{encode}(n),
+  \qquad
+  \lean{UnifiedTheory.PhiInt.zeckDigits}.
+$$
+Its round-trip theorem is
+$$
+  \operatorname{decode}(\operatorname{zeckDigits}(n))=n,
+  \qquad
+  \lean{UnifiedTheory.PhiInt.decode\_zeckDigits}.
+$$
+This identifies the GCS digit axis with the finite Zeckendorf axis already used by the PZG coding.
+
+The geometric coordinate is named as the circle coordinate
+$$
+  \operatorname{geomCoord}(n)=\{n\varphi\},
+  \qquad
+  \lean{UnifiedTheory.PhiInt.geomCoord}.
+$$
+This definition gives the axis on which the three-distance theorem acts.  The full cyclic order and gap-count theorem is a classical external result, while the golden Fibonacci distance calculation used below is machine checked in this project.
+
+\paragraph{The depth metric (L2): self-similar increment of the multiplicative axis.}
+GCS outline Section 3 packages the discrete depth reading as
+$$
+  \operatorname{depth}(x)=\bigl(\deg_\times(x),\,|Z(x)|,\,\|G(x)\|\bigr).
+$$
+The checked axiomatic behavior is precisely the multiplicative axis and the digit axis.  The self-similar ladder law is
+$$
+  \deg_\times(\varphi\cdot x)=\deg_\times(x)+1
+  \qquad
+  (\iota(x)\ne0),
+  \qquad
+  \lean{UnifiedTheory.PhiInt.degMul\_phi\_mul},
+$$
+where $\iota=\operatorname{toRealPlus}$ is the expanding real embedding.  Multiplication by $\varphi$ therefore advances the multiplicative-depth coordinate by exactly one step; this is the log-periodic self-similar core of the depth reading.  The same axis is monotone in the absolute expanding embedding:
+$$
+  \iota(x)\ne0,\qquad
+  |\iota(x)|\le|\iota(y)|
+  \Longrightarrow
+  \deg_\times(x)\le\deg_\times(y),
+  \qquad
+  \lean{UnifiedTheory.PhiInt.degMul\_mono}.
+$$
+On the digit axis, Fibonacci numbers have one-digit Zeckendorf depth at their own index:
+$$
+  |Z(F_k)|=1
+  \qquad
+  (k\ge2),
+  \qquad
+  \lean{UnifiedTheory.PhiInt.zeckDigits\_fib\_length}.
+$$
+Thus the multiplicative and digital parts of the L2 depth package are machine checked, while the geometric axis remains outside the checked-result column.  The full metric properties of
+$$
+  \|G(x)\|=\|\{x\varphi\}\|
+$$
+as a circle-distance coordinate, including separation and triangle-inequality variants, and the separation of the three-axis depth map as a combined invariant, are open.  They require the real-analysis circle-distance layer together with the cyclic order from the three-distance theorem.  The arithmetic heart is already checked in the three-gap paragraph below as
+$$
+  \lean{UnifiedTheory.fib\_dist\_to\_int},
+$$
+but the complete $\|G\|$ metric layer is not claimed here.  Status: multiplicative axis and digit axis closed, machine-checked; geometric full metric open.
+
+The arithmetic core currently checked for the prime-family side is the mod-$5$ splitting criterion for the discriminant:
+$$
+  \operatorname{IsSquare}(5:\mathbb Z/p\mathbb Z)
+  \Longleftrightarrow
+  p\equiv 1\ \hbox{or}\ 4\pmod 5,
+  \qquad
+  p\ \hbox{prime},\quad p\ne2,5,
+  \qquad
+  \lean{UnifiedTheory.five\_isSquare\_iff}.
+$$
+Equivalently, for these primes the square classes are $p\equiv\pm1\pmod5$.  This is the discriminant-$5$ reason the golden coordinate ring naturally sees mod-$5$ residue classes rather than Fermat's mod-$4$ dichotomy.
+
+The remaining open leaves are explicit.  The full prime-ideal splitting theorem in $\mathbb Z[\varphi]$, the L2 discrete-depth metric, and the broad self-similar representation theorem are not Lean theorems in this layer.  They require later ideal-theoretic and dynamical development beyond the L0 integer-pair ring alone.
+
+\paragraph{Class number one, machine-checked.}
+The GCS source outline asserts that $\mathcal O=\mathbb Z[\varphi]$ has class number $h=1$, equivalently unique factorization in this Dedekind integer ring.  The checked route here is concrete Euclideanity of the displayed pair model, not a heavy ring-of-integers tower.  For $x,y\in\mathcal O$ with $y\ne0$, the rounded quotient coordinates give a remainder $r=x-yq$ satisfying
+$$
+  |N(r)|\le \frac34\,|N(y)|<|N(y)|,
+  \qquad
+  \lean{UnifiedTheory.PhiInt.remainder\_norm\_bound}.
+$$
+The companion zero-norm theorem
+$$
+  N(x)=0\Longleftrightarrow x=0,
+  \qquad
+  \lean{UnifiedTheory.PhiInt.norm\_eq\_zero},
+$$
+makes the Euclidean function nondegenerate, and the resulting Euclidean-domain instance is
+$$
+  \lean{UnifiedTheory.PhiInt.instEuclideanDomain}.
+$$
+Mathlib's instance chain then supplies
+$$
+  \operatorname{UniqueFactorizationMonoid}(\mathbb Z[\varphi]),
+  \qquad
+  \lean{UnifiedTheory.PhiInt.phiInt\_ufd}.
+$$
+For a Dedekind domain, UFD, PID, and class number one are equivalent in the usual sense; since $\mathbb Z[\varphi]$ is the ring of integers of $\mathbb Q(\sqrt5)$, this records the GCS $h=1$ assertion as a local zero-sorryAx machine-checked fact through the concrete Euclidean structure of the specific ring.  Status: closed, machine-checked.
+
+\paragraph{The three-gap theorem (axis G): a classical theorem, with its golden arithmetic heart machine-checked.}
+The GCS axis-G three-gap property is not an open leaf of the mathematical background.  The three-distance theorem, or Steinhaus conjecture, is classical: for any real $\alpha$ and $N$, the points $\{k\alpha\bmod 1:0\le k<N\}$ cut the circle into arcs with at most three lengths, at least two lengths, and in the three-length case the longest length is the sum of the other two.  This is due to S\'os (1957--58), Sur\'anyi (1958), and \'{S}wierczkowski (1959), with a modern short proof in Marklof--Str\"ombergsson (2017, Amer. Math. Monthly 124).  The golden refinement for $\alpha=1/\varphi$ is also classical: van Ravenstein (1988, J. Austral. Math. Soc. Ser. A 45, 360--370) proves that exactly two interval lengths occur precisely when $N$ is a Fibonacci number, and then the lengths are consecutive negative powers of $\varphi$.  These full circle-order statements are external theorems, not Lean theorems of this project.
+
+What is machine checked here is the arithmetic heart of the golden case: the distance from the Fibonacci golden multiple to the nearest integer is exactly the corresponding negative golden power,
+$$
+  \left|\,\frac{F_{n+1}}{\varphi}-F_n\,\right|
+  =
+  \varphi^{-(n+1)},
+  \qquad
+  \lean{UnifiedTheory.fib\_dist\_to\_int}.
+$$
+The proof uses the conjugate absolute value
+$$
+  |\psi|=\varphi^{-1},
+  \qquad
+  \lean{UnifiedTheory.goldenConj\_abs},
+$$
+and checks that for $n\ge1$ the distance is below half an integer spacing,
+$$
+  \left|\,\frac{F_{n+1}}{\varphi}-F_n\,\right|<\frac12,
+  \qquad
+  \lean{UnifiedTheory.fib\_dist\_lt\_half},
+$$
+so $F_n$ is the nearest integer in the relevant Fibonacci case.  This is exactly the arithmetic root behind the two-gap Fibonacci specialization, but the complete two-interval cyclic-order theorem remains the cited classical theorem.  Mathlib and the Lean ecosystem do not contain this full formalization in this form; the known formal proof in the proof-assistant literature is the Coq development of Mayero (2000).  Status: known classical theorem by inline citation; arithmetic heart closed, machine-checked.
+
+\paragraph{Conjecture R (the middle-form window): a dimension-group adjudication.}
+The GCS source outline's Conjecture R, the representation theorem for the middle-form window, asserts that every quasiperiodic structure $X$ with discrete scale invariance at scale $\varphi$ and bounded remainder has, in GCS coordinates, a standard section $\tau_X$ such that $X\cong\tau_X$ preserving spectrum and bounded-remainder order, hence preserving the topological conjugacy class.  The literature adjudication is three-layered: orbit equivalence, spectrum, and topological conjugacy.
+
+The anchor is that the GCS coordinate ring
+$$
+  \bigl(\mathbb Z[\varphi],\,\mathbb Z[\varphi]\cap[0,\infty),\,1\bigr)
+$$
+is precisely the ordered group called the Fibonacci dimension group in the Cortez--Durand--Petite orbit-equivalence framework (Cortez, Durand and Petite, 2014, arXiv:1408.2112).  It is the stationary dimension group of the Fibonacci substitution, computed as the inductive limit
+$$
+  \varinjlim\bigl(\mathbb Z^2\xrightarrow{M}\mathbb Z^2\xrightarrow{M}\cdots\bigr),
+  \qquad
+  M=\begin{psmallmatrix}1&1\\1&0\end{psmallmatrix}.
+$$
+Durand--Host--Skau (1999, Ergodic Theory Dynam.\ Systems 19, 953--993) place primitive substitution minimal systems in the stationary Bratteli--Vershik and dimension-group setting.  For Fibonacci, the substitution is left-proper and unimodular with $\det(M)=-1$, so the inductive limit is the integral group $\mathbb Z[\varphi]$ itself, with no localization.  The canonical unit is the image of $(1,1)$, namely $\varphi^2$ under the Perron--Frobenius coordinate; multiplication by the positive unit $\varphi^{-2}\in\mathbb Z[\varphi]^\times$ is an order automorphism and normalizes the distinguished unit to $1$.
+
+\textbf{Orbit-equivalence layer: CLOSED.}  Giordano--Putnam--Skau (1995, J. reine angew. Math.\ 469, 51--111) prove that two minimal Cantor systems are strongly orbit equivalent exactly when their ordered dimension groups with order unit are isomorphic.  Therefore
+$$
+  \bigl(\mathbb Z[\varphi],\,\mathbb Z[\varphi]\cap[0,\infty),\,1\bigr)
+$$
+is the complete invariant of the strong orbit-equivalence class containing the golden-Sturmian system.  The bridge is concrete: $\varphi=[1;1,1,\dots]$, so the continued-fraction tail is all $1$; bounded partial quotients give linear recurrence in the sense of Durand (2000, Ergodic Theory Dynam.\ Systems 20, 1061--1078); and self-similarity here is the stronger single-substitution source of the stationary Bratteli--Vershik model, not merely linear recurrence.  The exact Sturmian scope is the noble-slope class: the slope is $\operatorname{GL}(2,\mathbb Z)$-equivalent to $\varphi$ exactly when its continued-fraction expansion is eventually all $1$, by the Effros--Shen rank-two continued-fraction classification (Effros and Shen, 1980, Indiana Univ. Math. J.\ 29, 191--204) together with Serret's continued-fraction theorem (Serret, 1877, \emph{Cours d'algebre superieure}).
+
+\textbf{Spectrum layer: CLOSED for the concrete golden system, by independent input.}  The golden system is a two-letter unimodular Pisot substitution, hence has pure discrete spectrum by Hollander--Solomyak (2003, Ergodic Theory Dynam.\ Systems 23, 533--540).  In the geometric tiling model, Baake--Gahler (2024, arXiv:2311.05387) identify the Fibonacci chain as a regular model set with unique ergodicity; the geometric tiling flow has eigenvalue group $\mathbb Z[\tau]/\sqrt5$, with $\tau=\varphi$, hence a $\mathbb Z[\varphi]$-module.  This spectral closure is not a consequence of the coordinate ring alone.  Strong orbit equivalence preserves only rational eigenvalues; irrational $\varphi$-spectrum can vary inside a strong orbit-equivalence class, as shown by Ormes (1997, J. Anal. Math.\ 71, 103--133) and by Cortez--Durand--Petite (2014, arXiv:1408.2112).  The spectrum lives in the infinitesimal and eigenvalue data, $\mathrm{Inf}(K^0)$ and $E(X,T)$, and the pure-point conclusion for the golden case comes separately from Pisot theory.  The real failure mode is randomization, where random Fibonacci systems can acquire mixed spectrum, not the symbolic-versus-geometric choice of tile lengths; the symbolic and geometric Fibonacci systems are both pure point.
+
+\textbf{Topological-conjugacy layer: CLOSED for the golden case.}  Three convergence theorems close the golden conjugacy classification.  First, Durand--Leroy (2022, Discrete Analysis, Paper No.\ 7; arXiv:1806.04891) prove that topological conjugacy of minimal substitution subshifts is decidable, with Fibonacci as a running example.  Second, Sturmian rigidity makes the golden-slope class a single rigid point up to the standard flip: for Sturmian systems, the slope is the complete conjugacy invariant, so $\Omega_\alpha\cong\Omega_\beta$ only for $\alpha=\beta$ or $\alpha=1-\beta$ in the two-letter coding convention.  This is the classical Morse--Hedlund/Sturmian rotation classification (Morse and Hedlund, 1940, Amer. J. Math.\ 62, 1--42) specialized to the golden slope.  Third, Clark--Sadun (2006, Ergodic Theory Dynam.\ Systems 26, 69--86; arXiv:math/0306214) prove for tiling spaces that asymptotically negligible shape change is exactly the deformation direction producing topological conjugacy; in the Pisot substitution case, the conjugacy-preserving shape deformations form the finite-dimensional Galois-contraction subspace $|\lambda|<1$, the same Pisot gap $|\lambda_2|=1/\varphi$ seen above.  The golden-ratio Pisot input in this sentence is now machine checked at the algebraic level: \lean{UnifiedTheory.goldenConj\_abs\_lt\_one} proves $|\psi|<1$ for $\psi=(1-\sqrt5)/2$, the only other conjugate root of $x^2-x-1$; together with $\varphi>1$, this says that $\varphi$ is a Pisot number, and the contraction gap $|\psi|=1/\varphi$ supplies the algebraic basis for Clark--Sadun's Galois-contraction subspace $|\lambda_2|<1$.  Clark--Sadun's deformation theorem itself remains an external cited theorem, not a Lean theorem of this project.  Thus Conjecture R, stated honestly as $X\cong\tau_X$ preserving spectrum and bounded-remainder order, is a theorem for the golden-Sturmian case, not an open problem.
+
+The verdict is two-sided.  For the golden-Sturmian class, all three layers are closed: the GCS ring coordinatizes that world completely.  But once the correct scope is stated, this closure is close to tautological, since the two-letter $\varphi$-self-similar basic object is precisely the Fibonacci system.  The title-level canonicity slogan that $\mathbb Z[\varphi]$ is the coordinate system for all $\varphi$-self-similar mathematics is false.  The golden-mean shift of finite type, forbidding $11$, has entropy $\log\varphi>0$ and is not minimal, yet Krieger's dimension-group construction for shifts of finite type (Lind and Marcus, 1995, \emph{An Introduction to Symbolic Dynamics and Coding}, Cambridge Univ.\ Press, Ch.\ 7) gives the same ordered inductive-limit group from the matrix $M$; $\mathbb Z[\varphi]$ cannot separate that heterogeneous SFT object from the Fibonacci substitution world.  Conversely, rank greater than two golden-inflation systems, including three-or-more-letter and higher-dimensional cut-and-project systems with Perron--Frobenius eigenvalue $\varphi$, have dimension-group rank greater than $2$ and are not $\mathbb Z[\varphi]$.  This matches the strong-form boundary of the GCS outline itself: GCS is not the unique self-similar coordinate system and not a universal substrate; it is the native coordinate at the golden lattice origin, not an exclusive foundation for all self-similar mathematics.
+
+The genuine open residue is not golden and not $\varphi$-specific.  \textbf{Open proposition O-7}: in the general minimal-Cantor conjugacy problem, even in effectively presented substitutive regimes where Durand--Leroy give a decision procedure, there is no known single clean complete algebraic invariant with the elegance of the Giordano--Putnam--Skau dimension group for strong orbit equivalence.  This is a gap between a decision procedure and a compact complete conjugacy invariant; it is registered as a precise open proposition, not a theorem, and it is not an openness claim about the golden-Sturmian case.
+
+\paragraph{Gap labelling: the coordinate ring is the spectral label group of the golden quasicrystal.}
+Section 5 of the GCS source outline asserts that the GCS coordinate ring is the spectral label group.  In the golden case this is a known theorem, and the precise adjudication is as follows.  Bellissard's gap-labelling theorem says that for Schr\"odinger or tight-binding operators attached to a minimal uniquely ergodic dynamical system, or to the corresponding non-periodic tiling system, the integrated density of states on each spectral gap satisfies
+$$
+  \mathcal N(E)\in \tau_*\bigl(K_0(\mathcal A)\bigr)\cap[0,1],
+$$
+where $\tau_*:K_0(\mathcal A)\to\mathbb R$ is the trace induced by the invariant measure.  The gap-labelling group is $\tau_*(K_0(\mathcal A))$ (Bellissard, 1992, in \emph{From Number Theory to Physics}, Les Houches, Springer; Bellissard--Bovier--Ghez, 1992, Rev. Math. Phys.\ 4, 1--37).
+
+For the Fibonacci Hamiltonian, in the Kohmoto tight-binding model, the gap-labelling group is exactly
+$$
+  \tau_*\bigl(K_0(\mathcal A)\bigr)=\mathbb Z+\mathbb Z\varphi=\mathbb Z[\varphi],
+$$
+which is the GCS coordinate ring (Bellissard--Iochum--Scoppola--Testard, 1989, Comm. Math. Phys.\ 125, 527--543).  This is a group equality, coming from the $K$-theoretic trace computation, and it is unconditional.
+
+This is the same ordered object already used in the Conjecture R adjudication.  The $K_0$ group above and the Fibonacci Bratteli--Vershik dimension group
+$$
+  \bigl(\mathbb Z[\varphi],\,\mathbb Z[\varphi]\cap[0,\infty),\,1\bigr)
+$$
+are identified by the Pimsner--Voiculescu exact-sequence computation for the $\mathbb Z$-action crossed product (Pimsner--Voiculescu, 1980, J. Operator Theory 4, 93--118) and by the stationary Bratteli--Vershik model of the substitution subshift.  Under the trace, the order unit maps to $1$, the second generator maps to $\varphi$, and the trace image is $\mathbb Z+\mathbb Z\varphi$; Kellendonk (1995, Rev. Math. Phys.\ 7, 1133--1180) gives the corresponding gap labelling by the scaled ordered $K_0$ of tiling $C^\ast$-algebras.
+At the substitution-matrix level, the concrete matrix used for the stationary dimension-group inductive-limit map is now machine checked: for $M=\begin{psmallmatrix}1&1\\1&0\end{psmallmatrix}$, \lean{UnifiedTheory.fib\_qmatrix\_pow} proves
+$$
+  M^{n+1}=\begin{psmallmatrix}F_{n+2}&F_{n+1}\\F_{n+1}&F_n\end{psmallmatrix},
+$$
+so iteration of $M$ generates the Fibonacci sequence.  Its determinant input $\det M=-1$ gives Cassini; correspondingly \lean{UnifiedTheory.fib\_cassini} proves
+$$
+  F_{n+2}F_n-F_{n+1}^2=(-1)^{n+1},
+$$
+equivalently $\det(M^{n+1})=(\det M)^{n+1}=(-1)^{n+1}$.
+The substitution matrix $M$ also has machine-checked characteristic data: \lean{UnifiedTheory.qmatrix\_trace} proves $\operatorname{tr}M=1$ and \lean{UnifiedTheory.qmatrix\_det} proves $\det M=-1$, hence the characteristic polynomial is $x^2-x-1$; its two roots are $\varphi$ and $\psi$, the golden ratio and its conjugate, and Vieta's identities are checked by \lean{UnifiedTheory.goldenRatio\_add\_goldenConj\_eq\_one}, namely $\varphi+\psi=1=\operatorname{tr}M$, and \lean{UnifiedTheory.goldenRatio\_mul\_goldenConj\_eq\_neg\_one}, namely $\varphi\psi=-1=\det M$.  The expanding root $\varphi>1$ and the Galois-contraction root $|\psi|=1/\varphi$ give the Pisot gap.  This establishes the Fibonacci-power and unimodular algebraic input for the rank-two substitution matrix.
+The dimension-group isomorphism, the Pimsner--Voiculescu computation, and Kellendonk's gap-labelling theorem remain the external literature inputs cited in this paragraph, not Lean theorems of this project.  Thus the coordinate ring $\mathbb Z[\varphi]$ is simultaneously the GCS coordinate object, the strong-orbit-equivalence invariant at the dimension-group layer of Conjecture R, and the spectral gap-labelling group.
+
+The scope is deliberately only the group equality
+$$
+  \tau_*\bigl(K_0(\mathcal A)\bigr)=\mathbb Z[\varphi].
+$$
+It does not say that the actual open spectral gaps of a chosen Fibonacci Hamiltonian realize every allowed label in $\mathbb Z[\varphi]\cap[0,1]$.  Bellissard's theorem gives the containment
+$$
+  \{\mathcal N_\lambda(E):E\ \hbox{lies in a spectral gap}\}
+  \subseteq
+  (\mathbb Z+\mathbb Z\varphi)\cap[0,1],
+$$
+which is a constraint, not a gap-opening theorem.  The assertion that every allowed label is realized by an open gap, turning this containment into equality for the actual gap labels, is a separate finer theorem: Damanik--Gorodetski--Yessen (2016, Invent. Math.\ 206, 629--692) prove it for all $\lambda>0$, after earlier large-coupling work of Raymond (1997, preprint, \emph{A constructive gap labelling for the discrete Schr\"odinger operator on a quasiperiodic chain}) and small-coupling work of Damanik--Gorodetski (2011, Commun. Math. Phys.\ 305, 221--277).  This registration therefore claims only the unconditional gap-labelling group equality, with completeness of the opened gaps recorded as an independent literature theorem, not as part of Bellissard's theorem.  Status: known classical citation; group equality unconditional, completeness separate.
+
+\subsection{Kernel Components and Ledger States}
+
+The kernel aggregate is intentionally thin.  The status enum
+$$
+  \lean{UnifiedTheory.Kernel.LedgerStatus}
+$$
+has four constructors:
+$$
+  \lean{open},\quad \lean{closed},\quad \lean{tail},\quad \lean{semantic}.
+$$
+The component module supplies aliases such as
+$$
+  \begin{gathered}
+  \lean{UnifiedTheory.Kernel.History},\quad
+  \lean{UnifiedTheory.Kernel.ExponentState},\\
+  \lean{UnifiedTheory.Kernel.CodeRegister},\quad
+  \lean{UnifiedTheory.Kernel.decode},\quad
+  \lean{UnifiedTheory.Kernel.normalize}.
+  \end{gathered}
+$$
+These names stabilize the formalized slots of $\K_{\PZG}$.  They do not constitute a theorem that every component of the full source-theory kernel has been built as one closed record.
+
+Two ledger utilities are checked under \lean{UnifiedTheory.Kernel}.  The falsifiability theorem
+$$
+  \lean{UnifiedTheory.Kernel.least_counterexample}
+$$
+states that a false decidable universal claim over $\N$ has a least counterexample, with all smaller values satisfying the predicate.  This is theorem 13.2 as a level-0 finite certificate.  The tail-control predicate
+$$
+  \lean{UnifiedTheory.Kernel.TailControlled}
+$$
+is closed under addition by
+$$
+  \lean{UnifiedTheory.Kernel.tailControlled_add},
+$$
+and a residual bounded by a tail budget tending to zero itself tends to zero by
+$$
+  \lean{UnifiedTheory.Kernel.tendsto_zero_of_tailControlled}.
+$$
+These are the checked tail-additivity and squeeze facts 12.4--12.5.
+
+\section{\texorpdfstring{Generated Results (intuition$\to$formalization loop)}{Generated Results (intuition to formalization loop)}}
+
+The formalization cycle did more than ingest source-document theorems.  It now has two idea sources: the local intuition$\to$formalization loop, and a side-channel oracle loop in which ChatGPT Pro via omega-oracle proposes candidate statements.  The oracle is only a conjecture source; a result enters this paper only after local Lean certification, so the workflow is multi-model assistance at the research-search layer rather than a replacement for kernel checking.
+
+\subsection*{Own-intuition results}
+
+\begin{enumerate}[label=(G\arabic*)]
+  \item \textbf{Sharp Beatty deficit range.}  \lean{UnifiedTheory.deficit_trichotomy_sharp} gives witnesses for all three values: $cDef(0,0)=0$, $cDef(1,1)=1$, and $cDef(2,2)=-1$.  With \lean{UnifiedTheory.cDef_mem}, the range is exactly $\{-1,0,1\}$.
+  \item \textbf{Cassini--Fricke nondegeneracy.}  \lean{UnifiedTheory.cassini_fricke_ne_zero} proves that the invariant is nonzero exactly when $x\ne0$ and $y\ne0$, separating nontrivial Fibonacci-Hamiltonian parameters from the degenerate track $xy=0$.
+  \item \textbf{$n$-ary ledger composition.}  \lean{UnifiedTheory.Cn_append} states $C_n(as{+}{+}bs)=C_n(as)+C_n(bs)+cDef(as.sum,bs.sum)$, the coboundary composition law for concatenated finite ledgers.
+  \item \textbf{Gödel-code growth.}  The theorem $\lean{UnifiedTheory.SelfCode.godelEncode_ge}$ proves $2^{\mathrm{length}(l)}\le \mathrm{godelEncode}(l)$, an exponential lower bound for arithmeticized self-code registers.
+  \item \textbf{Critical-side sign test.}  The declarations
+  $$
+    \begin{gathered}
+    \lean{UnifiedTheory.Lambda_pos_iff}\\
+    \lean{UnifiedTheory.Lambda_neg_iff}
+    \end{gathered}
+  $$
+  prove $0<\Lambda_s(a)\Longleftrightarrow \operatorname{Re}(s)>1/2$ and $\Lambda_s(a)<0\Longleftrightarrow \operatorname{Re}(s)<1/2$ for nontrivial states, without asserting that zeta zeros lie on the line.
+  \item \textbf{Critical reflection is involutive.}  \lean{UnifiedTheory.J_involutive} proves $J(J(s))=s$ for the reflection $J(s)=1-\overline{s}$, giving the structural involution behind the zero-quartet symmetry ledger.
+  \item \textbf{Normalized PZG addition laws.}  The declarations
+  $$
+    \begin{gathered}
+    \lean{UnifiedTheory.PZGTable.normAdd_comm}\\
+    \lean{UnifiedTheory.PZGTable.normAdd_assoc}
+    \end{gathered}
+  $$
+  certify commutativity and associativity through the decode equivalence, matching the free commutative prime-axis monoid behavior of theorem 4.4.
+  \item \textbf{Phase readings never vanish.}  $\lean{UnifiedTheory.phase_ne_zero}$ proves $\Phi_s(a)=\exp(-sL(a))\ne0$.  In this formal layer, a zero is a projected cancellation phenomenon, not disappearance of the underlying phase vector.
+  \item \textbf{Golden weight ranks the divisibility lattice.}  Writing $\Omega_\phi(n)=\sum_{p\mid n}S(v_p(n))$ for the golden weight, the declarations
+  $$
+    \begin{gathered}
+    \lean{UnifiedTheory.goldWeight_mono_of_dvd}\\
+    \lean{UnifiedTheory.goldWeight_strictMono_of_dvd}
+    \end{gathered}
+  $$
+  prove $m\mid n\Rightarrow\Omega_\phi(m)\le\Omega_\phi(n)$ and, for a proper divisor $m\mid n$ with $m\ne n$ (and $n\ne0$), the strict $\Omega_\phi(m)<\Omega_\phi(n)$.  Since $S$ is nonnegative and strictly monotone, golden weight is an order-embedding of the divisibility lattice $(\mathbb{N}^+,\mid)$ into $(\mathbb{Z},\le)$, strictly into $(\mathbb{Z},<)$, matching the lattice reading of the fixed-length self-code below.
+  \item \textbf{Golden weight is a quasimorphism.}  With the cross-layer obstruction $\kappa_\phi$, $\lean{UnifiedTheory.goldWeight_defect_bound}$ proves $|\Omega_\phi(mn)-\Omega_\phi(m)-\Omega_\phi(n)|\le|\mathrm{supp}(m)\cap\mathrm{supp}(n)|$: the additivity defect is bounded by the number of shared prime axes, via the deficit trichotomy $cDef\in\{-1,0,1\}$.  Coprime arguments give defect $0$.
+  \item \textbf{Golden-jump sequence is binary.}  $\lean{UnifiedTheory.goldJump_mem}$ proves $goldJump(n)\in\{0,1\}$: since $\tau=\phiG-1\in(0,1)$, the floor difference $\lfloor(n+2)\tau\rfloor-\lfloor(n+1)\tau\rfloor$ is $0$ or $1$, so $S$ grows by exactly $1$ or $2$ at each step---the golden Sturmian $0$--$1$ word, companion to the window telescope (O2).
+  \item \textbf{Shifted Zeckendorf--Beatty bridge is unconditional.}  The declarations
+  $$
+    \begin{gathered}
+    \lean{UnifiedTheory.minusWindow_holds}\\
+    \lean{UnifiedTheory.shiftedZeckendorf_of_minusWindow}\\
+    \lean{UnifiedTheory.S_eq_shifted_zeck}
+    \end{gathered}
+  $$
+  discharge the former front-line bridge hypothesis: the asymmetric window is proved directly, then converted into the identity $S(v)=\sum_{i\in\mathrm{encode}\,v}\mathrm{fib}(i+1)$.  This closes the roadmap P0 item without changing the analytic frontier.
+  \item \textbf{Two-sided linear framing of the shift reading.}  $\lean{UnifiedTheory.S_le_two_mul}$ proves $S(v)\le 2v$ (from $\phiG<2$) and $\lean{UnifiedTheory.succ_le_S}$ proves $v+1\le S(v)$ for $v\ge1$ (from $\phiG>3/2$), so $v+1\le S(v)\le 2v$ is the arithmetic shadow of $1<\phiG<2$.  Summing over prime axes, $\lean{UnifiedTheory.goldWeight_le_two_mul}$ and $\lean{UnifiedTheory.sum_succ_le_goldWeight}$ pin the golden weight between the total-with-multiplicity and total-plus-distinct prime counts: $\Omega+\omega\le\Omega_\phi\le 2\Omega$, where $\Omega=\sum_p v_p$ and $\omega$ is the number of distinct prime axes.
+  \item \textbf{Algorithmic Zeckendorf normalization (theorem 5.7).}  The multiset carry rewriting $\lean{UnifiedTheory.CarryFull}$ (rules $0\mapsto\varnothing$, $1\mapsto2$, $\{i,i{+}1\}\mapsto\{i{+}2\}$, $\{i{+}2,i{+}2\}\mapsto\{i{+}3,i\}$) is value-preserving ($\lean{UnifiedTheory.CarryFull.fibVal_preserving}$) and terminating ($\lean{UnifiedTheory.CarryFull.terminates}$) via a weighted potential $\mu=\sum\mathrm{ixWt}$ under which even the index-raising rule $1\mapsto2$ strictly decreases.  It is confluent: $\lean{UnifiedTheory.exists_normal}$ reduces every multiset to a normal form and $\lean{UnifiedTheory.normal_form_unique}$ makes that form unique.  Normal forms are exactly Zeckendorf sets ($\lean{UnifiedTheory.normal_isZeckMS}$), so uniqueness follows from the uniqueness of Zeckendorf representations ($\lean{UnifiedTheory.normal_unique_of_same_value}$) rather than critical-pair analysis: the rewriting strongly normalizes each multiset to the canonical Zeckendorf representation of its Fibonacci value.
+  \item \textbf{Prime logarithms are $\mathbb{Q}$-linearly independent.}  The declaration
+  $$
+    \lean{UnifiedTheory.prime_log_linearIndependent}
+  $$
+  proves that for a finite set of distinct primes and integer coefficients, $\sum_p k_p\log p=0$ forces every $k_p=0$: the relation becomes equality of two natural prime-power products, and unique factorization reads off the exponents.  This is the arithmetic root of the dense winding of the zeta phase line (the Brillouin picture of chapter~25)---the multiplicative independence of primes in logarithmic form.
+\end{enumerate}
+
+\subsection*{Oracle-suggested results}
+
+\begin{enumerate}[label=(O\arabic*)]
+  \item \textbf{Beatty deficit as a $\tau$-floor cocycle.}  $\lean{UnifiedTheory.cDef_eq_floor_tau}$ proves $cDef(a,b)=\lfloor(a+1)\tau\rfloor+\lfloor(b+1)\tau\rfloor-\lfloor(a+b+1)\tau\rfloor$, with $\tau=\phiG-1=1/\phiG$.  Using $S(n)=n+\lfloor(n+1)\tau\rfloor$, the integer parts cancel and the deficit is controlled by the fractional rotation.
+  \item \textbf{Exact golden-jump window telescope.}  \lean{UnifiedTheory.goldJump_window_exact} proves that $goldJump(n)=S(n+1)-S(n)-1=\lfloor(n+2)\tau\rfloor-\lfloor(n+1)\tau\rfloor$ has length-$N$ window sum $\lfloor(m+N+1)\tau\rfloor-\lfloor(m+1)\tau\rfloor$.  This is the finite Sturmian balance-word telescope suggested by the oracle and then certified locally.
+  \item \textbf{Fixed-length G\"odel coding is a lattice embedding.}  For $k$ distinct primes $p:\mathrm{Fin}\,k\to\mathbb{N}$ and $Gvec(x)=\prod_i (p_i)^{x_i+1}$, the declarations
+  $$
+    \begin{gathered}
+    \lean{UnifiedTheory.SelfCode.Gvec_dvd_iff}\\
+    \lean{UnifiedTheory.SelfCode.Gvec_gcd}\qquad\lean{UnifiedTheory.SelfCode.Gvec_lcm}
+    \end{gathered}
+  $$
+  prove $Gvec(x)\mid Gvec(y)\Longleftrightarrow \forall i,\,x_i\le y_i$, and that gcd and lcm are computed coordinatewise by $\min$ and $\max$.  The oracle proposed lifting injectivity of the fixed-length code to a full lattice embedding of $(\mathrm{Fin}\,k\to\mathbb{N},\le)$ into $(\mathbb{N}^+,\mid)$; it was certified locally.
+  \item \textbf{Cross-layer golden-weight quasi-homomorphism.}  With obstruction $\kappa_\phi(m,n)=\sum_p cDef(v_p(m),v_p(n))$, the declarations
+  $$
+    \begin{gathered}
+    \lean{UnifiedTheory.goldWeight_mul}\\
+    \lean{UnifiedTheory.goldWeight_mul_of_coprime}
+    \end{gathered}
+  $$
+  prove $\Omega_\phi(mn)=\Omega_\phi(m)+\Omega_\phi(n)-\kappa_\phi(m,n)$, and that on coprime arguments the obstruction vanishes, so $\Omega_\phi$ is strictly additive.  This bridges the golden/deficit layer to the prime-factorization layer: the failure of $\Omega_\phi$ to be a homomorphism is exactly the sum of pairwise Beatty deficits on shared prime axes.  Proposed by the oracle and certified locally.
+  \item \textbf{Golden weight is a lattice valuation.}  $\lean{UnifiedTheory.goldWeight_gcd_lcm_modular}$ proves $\Omega_\phi(\gcd(m,n))+\Omega_\phi(\mathrm{lcm}(m,n))=\Omega_\phi(m)+\Omega_\phi(n)$, the exact modular law on the divisibility lattice.  Where the product carries an obstruction $\kappa_\phi$, meet and join carry none.  Proposed by the oracle and certified locally.
+  \item \textbf{Golden weight of a G\"odel code is coordinate-local.}  $\lean{UnifiedTheory.SelfCode.goldWeight_Gvec}$ proves $\Omega_\phi(Gvec(P,x))=\sum_i S(x_i+1)$ for a fixed-length code over injective primes $P$: the golden rank depends only on the coordinate exponents, not on the concrete prime values.  Proposed by the oracle and certified locally.
+  \item \textbf{Prime-axis edge jump is Sturmian.}  $\lean{UnifiedTheory.goldWeight_mul_prime}$ proves $\Omega_\phi(pn)=\Omega_\phi(n)+1+goldJump(v_p(n))$, with $\lean{UnifiedTheory.goldWeight_mul_prime_pow}$ the $p^N$ window form $\Omega_\phi(p^Nn)-\Omega_\phi(n)=S(v_p(n)+N)-S(v_p(n))$.  Multiplying by a prime raises golden weight by exactly $1$ or $2$, governed by the golden Sturmian word---sharpening strict divisor monotonicity.  Proposed by the oracle and certified locally.
+  \item \textbf{Primitive two-square Zeckendorf atoms.}  $\lean{UnifiedTheory.fib_odd_atom}$ proves that the odd Fibonacci number $\mathrm{fib}(2k{+}3)$ is simultaneously a single-symbol Zeckendorf representation $[2k{+}3]$ and a primitive sum of two squares
+  $$
+    \mathrm{fib}(k{+}2)^2+\mathrm{fib}(k{+}1)^2
+  $$
+  with consecutive Fibonacci numbers coprime.  This gives an infinite certified family of atomic kernel objects with a quadratic witness.  Proposed by the oracle and certified locally.
+  \item \textbf{Squarefree prime-axis Zeckendorf codes.}\par
+  For an injective prime stream $p$, $\lean{UnifiedTheory.AxisCode}$ sends $A$ to
+  $$
+    \prod_{i\in A}p_i.
+  $$
+  Its prime factors are $A.\mathrm{image}\,p$; it is injective and squarefree, with
+  $$
+    \begin{gathered}
+    \lean{UnifiedTheory.axisCode_injective}\\
+    \lean{UnifiedTheory.axisCode_squarefree}\\
+    \lean{UnifiedTheory.axisCode_zeck_dvd_iff}
+    \end{gathered}
+  $$
+  proving $p_i\mid \mathrm{AxisCode}\,A\iff i\in A$.  This is an arithmetic G\"odel coding of Zeckendorf index sets as squarefree integers with no adjacent occupied prime axes.  Proposed by the oracle and certified locally.
+  \item \textbf{The Fibonacci trace map is reversible and purely periodic.}\par
+  $\lean{UnifiedTheory.TraceStepEquiv}$ makes $(a,b,c)\mapsto(b,c,bc-a)$ a bijection with inverse $(a,b,c)\mapsto(ab-c,a,b)$.  Hence
+  $$
+    \lean{UnifiedTheory.traceStep_zmod_pure_periodic}
+  $$
+  shows that modulo every $q$, each state is purely periodic: there are no preperiodic tails and no state merging.  The trace dynamics loses no information.  Proposed by the oracle and certified locally.
+  \item \textbf{Fricke trace complement.}  The theorem
+  $$
+    \lean{UnifiedTheory.trace_mul_add_trace_adjugate_mul}
+  $$
+  proves
+  $$
+    \mathrm{tr}(AB)+\mathrm{tr}(\mathrm{adj}(A)\,B)=\mathrm{tr}\,A\cdot\mathrm{tr}\,B
+  $$
+  for $2\times2$ matrices, and $\lean{UnifiedTheory.SL2_trace_inv_mul}$ gives
+  $$
+    \mathrm{tr}(A^{-1}B)=\mathrm{tr}\,A\cdot\mathrm{tr}\,B-\mathrm{tr}(AB)
+  $$
+  in $\mathrm{SL}_2$.  Thus three trace coordinates determine the fourth.  Proposed by the oracle and certified locally.
+  \item \textbf{G\"odel-code divisor count.}  The declarations
+  $$
+    \begin{gathered}
+    \lean{UnifiedTheory.SelfCode.Gvec_divisors_card}\\
+    \lean{UnifiedTheory.SelfCode.Gvec_primeFactors}
+    \end{gathered}
+  $$
+  prove that the fixed-length G\"odel code
+  $$
+    \mathrm{Gvec}\,p\,x=\prod_i p_i^{\,x_i+1}
+  $$
+  has exactly $\prod_i(x_i+2)$ divisors and pins its prime factors to $\mathrm{image}\,p$.  Divisors are exactly bounded coordinatewise exponent choices, with no off-axis divisors.  Proposed by the oracle and certified locally.
+  \item \textbf{G\"odel codes have no infinite antichain (Dickson).}  $\lean{UnifiedTheory.SelfCode.finiteAxis_dickson}$ shows $\mathrm{Fin}\,k\to\mathbb{N}$ is well-quasi-ordered, and $\lean{UnifiedTheory.SelfCode.Gvec_fixedAxis_dividing_pair}$ transports this through the divisibility embedding: in any infinite sequence of fixed $k$-axis G\"odel codes, some earlier code divides a later one.  There is no infinite divisibility antichain inside a fixed prime-axis block.
+  \item \textbf{Bounded Zeckendorf words have Fibonacci cardinality.}  $\lean{UnifiedTheory.card_zeckPrefix}$ proves that the Zeckendorf words with all indices below $n{+}2$ number exactly $\mathrm{fib}(n{+}2)$, via an explicit equivalence to $\mathrm{Fin}(\mathrm{fib}(n{+}2))$ ($\lean{UnifiedTheory.zeckPrefixEquivFin}$); the key lemma $\lean{UnifiedTheory.zeck_sum_lt_fib_iff_bounded}$ identifies the initial interval $[0,\mathrm{fib}(n{+}2))$ with the naturals whose Zeckendorf support is bounded by $n{+}1$: a finite counting theorem, not another uniqueness statement.
+\end{enumerate}
+
+\section{Scope and Honesty}
+\label{sec:scope}
+
+The checked column has precise boundaries.  The Zeckendorf shrinking-window and Beatty-floor routes are
+$$
+  \begin{gathered}
+  \lean{UnifiedTheory.deficitTrichotomy_holds}\\
+  \lean{UnifiedTheory.cDef_mem}.
+  \end{gathered}
+$$
+They are independent mechanisms; the bridge
+$$
+  \lean{UnifiedTheory.S_eq_shifted_zeck}
+$$
+is no longer a checked theorem under a separate bridge hypothesis.  The assumption
+$$
+  \lean{UnifiedTheory.ShiftedZeckendorfBeattyBridge}.
+$$
+has been discharged by \lean{UnifiedTheory.minusWindow_holds}, so the Zeckendorf shrinking-window and Beatty-floor routes now meet in one unconditional theorem.  At the project-ledger level, the front-line conditional count is now zero; this does not promote any analytic outlook item into the checked column.
+The $n$-ary theorem \lean{UnifiedTheory.Cn_abs_le} is the symmetric estimate $|C_n|\le m-1$; sharper asymmetric endpoint counts are not claimed.  The normalization theorem
+$$
+  \lean{UnifiedTheory.PZGTable.decode_normAdd}
+$$
+is canonical normalization through the PZG bijection, not termination of a concrete carry-rewrite algorithm.
+
+The zeta results include
+$$
+  \begin{gathered}
+  \lean{UnifiedTheory.zeta_eulerProduct}\\
+  \lean{UnifiedTheory.zeta_ne_zero_of_one_le_re}\\
+  \lean{UnifiedTheory.projectedZero_re_lt_one},
+  \end{gathered}
+$$
+along with completed functional equations and reflected completed-zeta zeros.  These facts give prime-axis analyticity in $\operatorname{Re}(s)>1$, symmetry about the critical line, and exclusion of projected nontrivial zeros from $\operatorname{Re}(s)\ge1$.  They do not prove RH.
+
+The golden-weight layer contains the finite Euler factorization
+$$
+  \lean{UnifiedTheory.goldGenAF_euler}.
+$$
+This is an algebraic product over the finite set of prime axes dividing one natural number.  The convergence-abscissa bound for the analytic Dirichlet series $\sum_n x^{\Omega_\varphi(n)}n^{-s}$ is checked as \lean{UnifiedTheory.goldGenAF\_abscissaOfAbsConv\_le}; the analytic Euler product, continuation, and $\zeta$-relation are not formalized.
+
+The explicit-formula layer contains the small-support prime-side vanishing theorem
+$$
+  \lean{UnifiedTheory.primeSide_eq_zero_of_smallSupport}
+$$
+and the corresponding reduction and conditional nonnegativity declarations
+$$
+  \begin{gathered}
+  \lean{UnifiedTheory.WeilFunctional.eval_smallSupport}\\
+  \lean{UnifiedTheory.WeilFunctional.eval_nonneg_of_smallSupport}.
+  \end{gathered}
+$$
+The last statement assumes archimedean positivity; it does not prove the Connes--Consani archimedean positivity leaf, unconditional small-support positivity, the zero side of the explicit formula, or RH.
+
+The declaration
+$$
+  \lean{UnifiedTheory.rh_iff_all_projected_ontic}
+$$
+is an equivalence with \lean{RiemannHypothesis}.  The theorem \lean{UnifiedTheory.onticZero_re} proves that an already ontic zero lies on the critical line.  The missing RH-strength step is still the universal upgrade from projected zeros to ontic zeros; there is no unconditional declaration of type \lean{RiemannHypothesis}.
+
+The checked self-code layer contains Cantor barriers, Kleene fixed points, and the Gödel sequence encoder.  It still does not provide a verified instruction set, substitution evaluator, same-layer closure-decider contradiction, or full internalization tower.  The checked dynamics layer contains cost growth and profinite hidden-fiber rigidity, not full solenoid transport.
+
+\section{Outlook}
+
+The outlook items in this section are outside the present checked-result column and are \textbf{not yet formalized}.  The analytic program still lacks a PZG heat-trace derivation, Mellin/theta bridge, the full Weil explicit formula with its zero side, tail-budget analysis, and a positivity or spectral argument upgrading projected zeros to ontic zeros.  The checked Weil contribution is the support-vanishing reduction of the prime side under a small-support condition; Weil archimedean positivity, unconditional small-support positivity, and RH remain open leaves.  For the analytic Dirichlet series attached to the golden weight, after the checked convergence-abscissa bound, the analytic Euler product, $\zeta$-factorization, and $\Delta_\varphi$ continuation theory remain statement-level targets.  RH itself, O-5, O-6, and O-7 remain open leaves.
+
+The source theory's quasicrystal zeta object $Z_{\mathrm{qc}}$, its Euler product or continuation theory, natural-boundary claims, diagonal feedback program, and pullback-line claim 6.32 remain outlook.  The finite trace-map declarations
+$$
+  \begin{gathered}
+  \lean{UnifiedTheory.cassini_fricke}\\
+  \lean{UnifiedTheory.cassini_fricke_ne_zero}
+  \end{gathered}
+$$
+supply algebraic input for such a program, but they do not build $Z_{\mathrm{qc}}$.
+
+The intended research workflow is correspondence search followed by theorem extraction: prime-axis exponent vectors with Euler products, Beatty--Wythoff and Zeckendorf coding, $\mathbb{Q}(i)$ two-square norms with $\mathbb{Q}(\sqrt5)$ deficit traces, Hecke--Mahler series with golden word factors, and hidden profinite fibers with rigidity.  This manuscript reports only the correspondences backed by actual Lean declarations.
+
+\section{Reproducibility}
+
+The checked source lives under
+$$
+  \lean{papers/unified_theory/lean4/UnifiedTheory}.
+$$
+It is a mathlib project, separate from the mathlib-free BEDC core.  The full verification command for the Lean project is
+$$
+  \lean{cd papers/unified_theory/lean4 && lake build}.
+$$
+The branch described here is intended to have that check green, with no \lean{sorry} and no \lean{axiom} in the \lean{UnifiedTheory} sources; individual claims reduce to Lean type-checking of the declarations named above.
+
+\end{document}

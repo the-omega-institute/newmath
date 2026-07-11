@@ -1,0 +1,453 @@
+\chapter{Negative Weil Isolator}
+\label{ch:visions-rh-negative-weil-isolator}
+\origin{ai}
+
+\autoref{ch:visions-rh-explicit-formula-scale-residual-bridge} records a
+signed explicit-formula bridge under the arch-null isolator.  The
+negative-Weil package uses a sharper separation surface: an
+off-critical mirror pair is required to produce a negative direction for
+the full Weil form, not merely a nonzero prime-side residual.  The
+remaining analytic content is thereby localized in two obligations:
+Paley--Wiener tail control for the selected zero pair, and independence
+of the fixed archimedean, trivial-zero, and pole correction rows from
+that negative mirror direction.
+
+\section{Mirror Pair Geometry}
+\label{sec:rh-negative-weil-mirror-pair-geometry}
+
+\begin{definition}[Weil mirror involution]
+\label{def:rh-weil-mirror-involution}
+The Weil mirror involution on the completed zeta zero ledger is
+$$
+\iota(\rho):=1-\overline{\rho}.
+$$
+An off-critical mirror pair is a pair
+$$
+\rho_+=\frac12+r+i\gamma,
+\qquad
+\rho_-=\iota(\rho_+)=\frac12-r+i\gamma,
+$$
+with $r\ne0$.
+\end{definition}
+
+\begin{lemma}[Li radius reverses across the mirror]
+\label{lem:rh-li-radius-reverses-across-mirror}
+Let
+$$
+z(\rho):=1-\frac1\rho.
+$$
+If $z(\rho_+)=e^{\ell+i\theta}$ for an off-critical mirror pair, then
+$$
+z(\rho_-)=e^{-\ell+i\theta}.
+$$
+In particular, $r\ne0$ is equivalent to $\ell\ne0$.
+\end{lemma}
+
+\begin{proof}
+For $\rho_-=\iota(\rho_+)=1-\overline{\rho_+}$,
+$$
+z(\rho_-)
+=
+1-\frac1{1-\overline{\rho_+}}
+=
+\frac{\overline{\rho_+}}{\overline{\rho_+}-1}
+=
+\frac1{\overline{z(\rho_+)}}.
+$$
+Thus $z(\rho_+)=e^{\ell+i\theta}$ gives
+$$
+z(\rho_-)=e^{-\ell+i\theta}.
+$$
+The equivalence between $\ell=0$ and the fixed-half condition follows
+from \autoref{thm:rh-li-coordinate-fixed-half-circle}; hence
+$r\ne0$ is equivalent to $\ell\ne0$.
+\end{proof}
+
+\begin{principle}[Mirror scale is quadratic residual data]
+\label{prin:rh-mirror-scale-quadratic-residual-data}
+The linear radial coordinates of an off-critical mirror pair are
+$\ell$ and $-\ell$.  Their signed sum can disappear from a first-order
+scale ledger, but their quadratic energy cannot:
+$$
+\ell^2+(-\ell)^2=2\ell^2>0.
+$$
+The mirror pair is therefore not a harmless cancellation.  It is a
+displayed scale-energy row, and any zeta-facing PFZ packet that admits
+the pair must either ledger this row or violate the no-hidden-radial
+surface of \autoref{def:rh-no-hidden-radial-pfz}.
+\end{principle}
+
+\section{Zero-Side Negative Direction}
+\label{sec:rh-negative-weil-zero-side-direction}
+
+\begin{definition}[Mirror quadratic zero readout]
+\label{def:rh-mirror-quadratic-zero-readout}
+For an admissible compact test row $g$, the mirror quadratic zero
+readout is
+$$
+\mathcal W_Z(g)
+:=
+\sum_{\rho}
+\widehat g(\rho)\,
+\overline{\widehat g(\iota(\rho))}.
+$$
+This is the zero-side row of the paired explicit-formula ledger of
+\autoref{def:rh-weil-mirror-pairing-ledger}.
+\end{definition}
+
+\begin{definition}[Finite mirror negative interpolation]
+\label{def:rh-finite-mirror-negative-interpolation}
+Let $F$ be a finite zero-position set containing an off-critical mirror
+pair $\rho_+,\rho_-$.  A finite mirror negative interpolation row for
+$F$ is an admissible compact test row $g$ satisfying
+$$
+\widehat g(\rho_+)=1,
+\qquad
+\widehat g(\rho_-)=-1,
+$$
+and
+$$
+\widehat g(\rho)=0
+\qquad
+(\rho\in F\setminus\{\rho_+,\rho_-\}).
+$$
+\end{definition}
+
+\begin{lemma}[Finite mirror negative interpolation exists]
+\label{lem:rh-finite-mirror-negative-interpolation-exists}
+For every finite zero-position set $F$ containing an off-critical mirror
+pair and every $A>0$, a finite mirror negative interpolation row exists
+in $C_c^\infty(-A,A)$.
+\end{lemma}
+
+\begin{proof}
+Apply \autoref{cor:rh-finite-zero-readout-interpolation} to the finite
+set $F$, assigning the values $1$ and $-1$ to the mirror pair and $0$ to
+all other entries of $F$.
+\end{proof}
+
+\begin{lemma}[Mirror interpolation gives local negative contribution]
+\label{lem:rh-mirror-interpolation-local-negative-contribution}
+For a finite mirror negative interpolation row, the contribution of the
+selected mirror pair to $\mathcal W_Z(g)$ is
+$$
+-2.
+$$
+\end{lemma}
+
+\begin{proof}
+The two ordered mirror terms are
+$$
+\widehat g(\rho_+)\overline{\widehat g(\rho_-)}
++
+\widehat g(\rho_-)\overline{\widehat g(\rho_+)}
+=
+1\cdot(-1)+(-1)\cdot1
+=
+-2.
+$$
+\end{proof}
+
+\begin{definition}[PWZeroPairTailControl]
+\label{def:rh-pw-zero-pair-tail-control}
+The obligation
+$$
+\mathsf{PWZeroPairTailControl}
+$$
+asserts that for every off-critical mirror pair
+$\rho_+,\rho_-$ there is an admissible compact test row $g$ with
+$$
+\widehat g(\rho_+)=1,
+\qquad
+\widehat g(\rho_-)=-1,
+$$
+such that the remaining zero-side mirror contribution satisfies
+$$
+\left|
+\sum_{\rho\notin\{\rho_+,\rho_-\}}
+\widehat g(\rho)\,
+\overline{\widehat g(\iota(\rho))}
+\right|
+<
+\frac12.
+$$
+\end{definition}
+
+\begin{principle}[Tail-control analytic content]
+\label{prin:rh-tail-control-analytic-content}
+\autoref{lem:rh-finite-mirror-negative-interpolation-exists} supplies the
+finite interpolation part of
+$\mathsf{PWZeroPairTailControl}$.  The analytic part is the simultaneous
+choice of interpolation row and vertical decay.  In Paley--Wiener
+terms, one must retain the two prescribed point values while making the
+zero tail small against the standard zero-counting ledger.  This is a
+test-function construction problem, not a BEDC ledger convention.
+\end{principle}
+
+\begin{theorem}[Tail-controlled mirror pair gives negative zero-side readout]
+\label{thm:rh-tail-controlled-mirror-pair-negative-zero-side-readout}
+Assume $\mathsf{PWZeroPairTailControl}$.  Every off-critical mirror pair
+admits an admissible compact test row $g$ such that
+$$
+\mathcal W_Z(g)<-\frac32.
+$$
+\end{theorem}
+
+\begin{proof}
+Choose $g$ by \autoref{def:rh-pw-zero-pair-tail-control}.  The selected
+mirror pair contributes $-2$ by
+\autoref{lem:rh-mirror-interpolation-local-negative-contribution}.  The
+remaining zero-side contribution has absolute value less than $1/2$.
+Therefore
+$$
+\mathcal W_Z(g)<-2+\frac12=-\frac32.
+$$
+\end{proof}
+
+\section{Archimedean Independence}
+\label{sec:rh-negative-weil-archimedean-independence}
+
+\begin{definition}[Admissible Weil test Hilbert space]
+\label{def:rh-admissible-weil-test-hilbert-space}
+An admissible Weil test Hilbert space is a completion $\mathcal H$ of
+the compact explicit-formula test rows with the following structure.
+For every zero row $\rho$, the evaluation
+$$
+E_\rho(g):=\widehat g(\rho)
+$$
+extends to a continuous linear functional on $\mathcal H$.  Finite zero
+readout interpolation rows remain represented in $\mathcal H$.  The
+archimedean, trivial-zero, and pole correction row of the paired
+explicit formula extends to a continuous quadratic form
+$$
+\mathcal W_A:\mathcal H\to\RealUp.
+$$
+\end{definition}
+
+\begin{definition}[Mirror affine interpolation plane]
+\label{def:rh-mirror-affine-interpolation-plane}
+For an off-critical mirror pair, the mirror affine interpolation plane
+is
+$$
+\mathcal I_{\rho_\pm}
+:=
+\left\{
+g\in\mathcal H:
+E_{\rho_+}(g)=1,\;
+E_{\rho_-}(g)=-1
+\right\}.
+$$
+\end{definition}
+
+\begin{definition}[ArchIndependence]
+\label{def:rh-arch-independence}
+The obligation
+$$
+\mathsf{ArchIndependence}
+$$
+asserts that for every off-critical mirror pair, the fixed correction
+quadratic form does not dominate the negative mirror direction on
+$\mathcal I_{\rho_\pm}$.  In the normalized form used here, this means
+that the test row supplied by
+$\mathsf{PWZeroPairTailControl}$ may be chosen so that
+$$
+|\mathcal W_A(g)|<\frac12.
+$$
+Equivalently, the off-critical point-evaluation direction is not in the
+closure of the archimedean, trivial-zero, and pole correction directions.
+\end{definition}
+
+\begin{principle}[Arch independence is weaker than arch-null isolation]
+\label{prin:rh-arch-independence-weaker-than-arch-null}
+The obligation $\mathsf{ArchNullWeilIsolator}$ of
+\autoref{def:rh-arch-null-weil-isolator} asks for
+$$
+\mathcal W_A(g)=0.
+$$
+\autoref{def:rh-arch-independence} asks only that the fixed correction
+row cannot force cancellation of the negative mirror direction.  It is
+therefore a separation statement about the admissible test space, rather
+than a nulling statement for every archimedean correction component.
+\end{principle}
+
+\begin{theorem}[NegativeWeilIsolator]
+\label{thm:rh-negative-weil-isolator}
+Assume $\mathsf{PWZeroPairTailControl}$ and
+$\mathsf{ArchIndependence}$.  If an off-critical mirror pair exists,
+then there is an admissible compact test row $g$ for which the full
+paired Weil form satisfies
+$$
+\mathcal W(g)<0.
+$$
+\end{theorem}
+
+\begin{proof}
+By $\mathsf{PWZeroPairTailControl}$ and $\mathsf{ArchIndependence}$,
+choose an admissible compact row $g$ satisfying both the tail-controlled
+mirror interpolation and the correction bound.  The tail-controlled
+estimate is
+$$
+\mathcal W_Z(g)<-\frac32.
+$$
+The correction estimate is
+$$
+|\mathcal W_A(g)|<\frac12.
+$$
+For the full paired Weil form
+$$
+\mathcal W(g)=\mathcal W_Z(g)-\mathcal W_A(g),
+$$
+one has
+$$
+\mathcal W(g)
+<
+-\frac32+\frac12
+=
+-1
+<
+0.
+$$
+\end{proof}
+
+\section{Prime-Side Negative Residual}
+\label{sec:rh-negative-weil-prime-side-residual}
+
+\begin{theorem}[Negative Weil direction gives finite prime negative residual]
+\label{thm:rh-negative-weil-direction-gives-finite-prime-negative-residual}
+Assume the paired explicit-formula ledger of
+\autoref{def:rh-weil-mirror-pairing-ledger}.  If an admissible compact
+test row satisfies
+$$
+\mathcal W(g)<0,
+$$
+then it supplies a finite prime negative residual in the sense of
+\autoref{def:rh-finite-prime-negative-residual}.
+\end{theorem}
+
+\begin{proof}
+The paired explicit formula identifies the full Weil form with the
+prime-side quadratic residual after the archimedean, trivial-zero, and
+pole correction rows have been accounted for:
+$$
+\mathcal W(g)=\mathcal W_P(g).
+$$
+Thus $\mathcal W_P(g)<0$.  If $g$ is supported in $[-A,A]$, the
+prime-power side is supported on
+$$
+p^k\le e^A.
+$$
+Hence the negative prime-side readout is a finite prime negative
+residual.
+\end{proof}
+
+\begin{corollary}[Negative isolator gives classifier-visible residual]
+\label{cor:rh-negative-isolator-gives-classifier-visible-residual}
+Assume $\mathsf{PWZeroPairTailControl}$,
+$\mathsf{ArchIndependence}$, and the paired explicit-formula ledger.  If
+an off-critical mirror pair exists, then there is a finite Dirichlet
+classifier with nonzero readout on the associated prime-side residual.
+\end{corollary}
+
+\begin{proof}
+\autoref{thm:rh-negative-weil-isolator} supplies $g$ with
+$\mathcal W(g)<0$.  By
+\autoref{thm:rh-negative-weil-direction-gives-finite-prime-negative-residual}
+this gives a finite prime negative residual.  A negative residual is
+nonzero, so
+\autoref{thm:rh-finite-dirichlet-classifiers-separate-residuals} supplies
+a finite Dirichlet classifier with nonzero readout.
+\end{proof}
+
+\begin{principle}[Negative residuals are PFZ-visible obstructions]
+\label{prin:rh-negative-residuals-pfz-visible-obstructions}
+The classifier-visible residual of
+\autoref{cor:rh-negative-isolator-gives-classifier-visible-residual} is
+a finite obstruction in the sense of
+\autoref{prin:rh-pfz-finite-obstruction-not-scale-noise}.  If it is
+entered into the PFZ ledger, the packet is still carrying a negative
+energy row and is not a unit-phase triangle closure.  If it is omitted,
+the zeta-facing NameCert admission surface is incomplete.  If a zoom
+step attempts to dilute it across scales, the self-substitution and
+reflection-positive persistence rows of
+\autoref{thm:rh-pfz-balanced-obstruction-dilation-persistence} and
+\autoref{thm:rh-pfz-rp-obstruction-dilation-persistence} preserve the
+finite defect as scale-stable data.
+\end{principle}
+
+\section{Fixed-Half Consequence}
+\label{sec:rh-negative-weil-fixed-half-consequence}
+
+\begin{theorem}[Off-critical zero gives unhideable negative residual]
+\label{thm:rh-offcritical-zero-gives-unhideable-negative-residual}
+Assume the paired explicit-formula ledger,
+$\mathsf{PWZeroPairTailControl}$,
+$\mathsf{ArchIndependence}$, and the PFZ obstruction bridge of
+\autoref{prin:rh-negative-residuals-pfz-visible-obstructions}.  Then
+every off-critical zero produces a classifier-visible finite prime
+negative residual that cannot be hidden by legal PFZ zoom, smoothing, or
+branch selection.
+\end{theorem}
+
+\begin{proof}
+An off-critical zero supplies the mirror pair of
+\autoref{def:rh-weil-mirror-involution}.  The two analytic obligations
+and \autoref{thm:rh-negative-weil-isolator} give an admissible compact
+test row with negative full Weil form.  The paired explicit formula and
+\autoref{thm:rh-negative-weil-direction-gives-finite-prime-negative-residual}
+turn this into a finite prime negative residual.  The finite Dirichlet
+classifier of
+\autoref{cor:rh-negative-isolator-gives-classifier-visible-residual}
+detects the residual, while
+\autoref{prin:rh-negative-residuals-pfz-visible-obstructions} prevents
+the detected finite obstruction from being hidden as zoom noise,
+solenoid phase, or a smooth branch artefact.
+\end{proof}
+
+\begin{corollary}[Negative-Weil conditional fixed-half readout]
+\label{cor:rh-negative-weil-conditional-fixed-half-readout}
+Assume that every completed zeta zero packet admitted by the
+zeta-facing PFZ surface is a legal closure object, and assume the
+hypotheses of
+\autoref{thm:rh-offcritical-zero-gives-unhideable-negative-residual}.
+Then every admitted nontrivial zero has fixed-half readout.
+\end{corollary}
+
+\begin{proof}
+Let $\rho$ be an admitted nontrivial zero and write
+$$
+z(\rho)=1-\frac1\rho=e^{\ell+i\theta}.
+$$
+If $\ell\ne0$, then \autoref{lem:rh-li-radius-reverses-across-mirror}
+places $\rho$ in an off-critical mirror pair.  By
+\autoref{thm:rh-offcritical-zero-gives-unhideable-negative-residual},
+that pair produces a classifier-visible finite prime negative residual
+that legal PFZ closure cannot hide.  This contradicts the assumption
+that the admitted zero packet is a legal closure object.  Therefore
+$$
+\ell=0.
+$$
+By \autoref{thm:rh-li-coordinate-fixed-half-circle}, this is equivalent
+to
+$$
+\Re(\rho)=\frac12.
+$$
+\end{proof}
+
+\begin{principle}[Remaining analytic frontier]
+\label{prin:rh-negative-weil-remaining-analytic-frontier}
+The negative-Weil route concentrates the remaining analytic frontier in
+the two obligations
+$$
+\mathsf{PWZeroPairTailControl}
+\qquad
+\text{and}
+\qquad
+\mathsf{ArchIndependence}.
+$$
+The finite interpolation, the sign calculation, the finite prime
+residual passage, the Dirichlet classifier detection, and the PFZ
+visibility consequence are separated from these analytic obligations.
+Thus the route is not a general appeal to explicit-formula positivity;
+it is a precise request for a compact test row that isolates an
+off-critical mirror pair as a negative full Weil direction.
+\end{principle}

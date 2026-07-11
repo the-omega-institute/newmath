@@ -1,0 +1,297 @@
+\section{BEDC--Langlands Main Closure Theorem}
+\label{sec:unified-reality-bedc-langlands-main-closure-theorem}
+
+The preceding Langlands modules isolate the local packet rows,
+parameter-state rows, trace and multiplicity bridges, endoscopic
+transfer, Tannakian readouts, and no-hidden residual discipline. This
+section records the combined closure theorem. No additional analytic
+input is introduced here; the statement is a composition of the
+certificates already displayed.
+
+\begin{definition}[Certified Langlands parameter object]
+\label{def:unified-reality-certified-langlands-parameter-object}
+Let $F$ be a global field and let $G/F$ be a connected reductive group.
+A certified parameter object is a row
+$$
+\psi^\uparrow
+:=
+(\psi,\mathsf T_\psi,\mathsf U_\psi,\mathsf L_\psi)
+$$
+where
+$$
+\psi:L_F\times SL_2(\mathbb C)\to{}^LG
+$$
+is an Arthur-type parameter, with ordinary Langlands parameters included
+by a trivial $SL_2$ factor. Its ledger contains
+$$
+\Lambda_\psi
+:=
+(S_{\mathrm{ram}},N_v,\epsilon_v,\gamma_v,\mathcal S_\psi,
+\mathsf{Endoscopy},\mathsf{ContinuousSpectrum},\mathsf{Boundary},
+\mathsf{Normalization}).
+$$
+\end{definition}
+
+\begin{definition}[Main detector system]
+\label{def:unified-reality-main-langlands-detector-system}
+The finite detector system for a certified $G$-parameter consists of
+four finite detector types.
+
+The unramified Hecke--Frobenius detector is
+$$
+(v,r),
+$$
+where $v$ is unramified and $r:{}^LG\to GL(V_r)$ is
+finite-dimensional. Its residual is
+$$
+D_{v,r}(\pi,\psi)
+:=
+\lambda_{v,r}(\pi)
+-
+\operatorname{tr}r(\psi(\operatorname{Frob}_v)).
+$$
+
+The ramified local detector is
+$$
+(v,\mathfrak b,f_v),
+$$
+where $\mathfrak b$ is a Bernstein or packet window and
+$f_v\in C_c^\infty(G(F_v))$. Its residual compares
+$$
+\Theta_{\pi_v}(f_v)
+\qquad\text{and}\qquad
+S\Theta_{\psi_v}(f_v).
+$$
+
+The component-group Fourier detector is an element
+$$
+s\in\mathcal S_\psi,
+$$
+reading the Fourier-twisted packet distribution
+$$
+\Theta_{\psi,s}(f)
+=
+\sum_{\pi\in\Pi_\psi(G)}
+\chi_\pi(s)\Theta_\pi(f).
+$$
+
+The endoscopic transfer detector is a matching test pair
+$$
+f^G\leftrightarrow f^H
+$$
+for an endoscopic embedding $\xi:{}^LH\to{}^LG$, reading the difference
+between the $H$-stable distribution and its $G$-transfer.
+\end{definition}
+
+\begin{definition}[Main residual ledger]
+\label{def:unified-reality-main-langlands-residual-ledger}
+The total Langlands residual of a candidate pair $(\pi,\psi)$ is
+classified into six rows:
+$$
+R_{\mathrm{unr}},\quad
+R_{\mathrm{ram}},\quad
+R_{\mathrm{mult}},\quad
+R_{\mathrm{endo}},\quad
+R_{\mathrm{cont}},\quad
+R_{\mathrm{tail}}.
+$$
+They denote, respectively, unramified Hecke--Frobenius mismatch,
+ramified local packet mismatch, component-group or multiplicity
+mismatch, endoscopic transfer mismatch, continuous/Eisenstein/boundary
+residual, and cofinal-window or representation-complexity tail.
+\end{definition}
+
+\begin{definition}[Master no-hidden residual]
+\label{def:unified-reality-master-no-hidden-langlands-residual}
+The master no-hidden Langlands residual condition says that every
+nonzero row of
+$$
+R_{\mathrm{Langlands}}(\pi,\psi)
+$$
+is detected by one of the finite detectors of
+\autoref{def:unified-reality-main-langlands-detector-system}, or is
+recorded in the corresponding ramified, endoscopic, continuous,
+boundary, multiplicity, representation-tail, or automorphic-tail ledger.
+\end{definition}
+
+\begin{theorem}[No hidden residual excludes wrong closed packets]
+\label{thm:unified-reality-main-no-hidden-excludes-wrong-packets}
+Let $(\pi,\psi)$ be a closed BEDC--Langlands object with the
+three-properties ledger and the master no-hidden residual condition.
+Then
+$$
+R_{\mathrm{Langlands}}(\pi,\psi)=0.
+$$
+\end{theorem}
+\begin{proof}
+Assume a nonzero residual remains. By the master no-hidden condition,
+it is finite-detected or ledgered. In the finite-detected case, one of
+the detectors
+$$
+(v,r),\qquad (v,\mathfrak b,f_v),\qquad
+s\in\mathcal S_\psi,\qquad f^G\leftrightarrow f^H
+$$
+has a nonzero readout residual. Ledger discipline then requires that
+residual to be recorded; carrying it unresolved contradicts closedness,
+and omitting it violates the ledger property. In the ledger case, the
+residual is ramified, endoscopic, continuous, boundary, automorphic
+tail, or representation tail data. The same closedness and ledger
+argument applies. Hence no residual remains.
+\end{proof}
+
+\begin{theorem}[Main existence bridge]
+\label{thm:unified-reality-main-existence-bridge}
+Assume a certified parameter $\psi^\uparrow$ carries local packet
+certificates, parameter state certificates, stabilized trace formula
+certificates, stable multiplicity formula certificates, endoscopic
+transfer certificates, endoscopic induction, trace-tail ledger
+discipline, and closedness. Then
+$$
+\Pi_\psi(G)\ne\varnothing.
+$$
+\end{theorem}
+\begin{proof}
+The parameter state certificate gives a fixed-window test function
+$f_{\psi,\mathcal W}$ with nonzero stable parameter readout. By the
+stabilized trace formula certificate, the nonzero readout appears on
+the spectral side. The spectral contribution has three possible
+addresses.
+
+If it is a primitive $G$-discrete contribution, the stable multiplicity
+formula certificate and
+\autoref{thm:unified-reality-stable-distribution-nonzero-packet-nonempty}
+force a nonempty packet. If it comes from a proper endoscopic group,
+endoscopic induction and
+\autoref{thm:unified-reality-endoscopic-induction-with-multiplicity}
+carry the packet to the $G$-side unless a transfer residual occurs; such
+a residual is finite-detected or ledgered, hence incompatible with
+closedness while unresolved. If the contribution is neither primitive
+nor proper-endoscopic, it lies in continuous spectrum, Eisenstein
+boundary, singular orbital, normalization, or tail data, all of which
+are ledger rows and are excluded in the closed case. Therefore the
+$G$-packet is nonempty.
+\end{proof}
+
+\begin{theorem}[BEDC--Langlands reciprocity]
+\label{thm:unified-reality-main-bedc-langlands-reciprocity}
+Assume the hypotheses of
+\autoref{thm:unified-reality-main-existence-bridge}, together with
+Tannakian separation, Chebotarev uniqueness, the master no-hidden
+residual condition, and closedness. Then every certified closed
+parameter $\psi^\uparrow$ has $\pi\in\Pi_\psi(G)$ such that, for almost
+all certified unramified places $v$ and every finite-dimensional
+$r:{}^LG\to GL(V_r)$ in the readout scope,
+$$
+\lambda_{v,r}(\pi)
+=
+\operatorname{tr}r(\psi(\operatorname{Frob}_v)).
+$$
+\end{theorem}
+\begin{proof}
+By
+\autoref{thm:unified-reality-main-existence-bridge}, the packet is
+nonempty. Choose $\pi\in\Pi_\psi(G)$. If any finite readout mismatch
+remains, it is part of
+$R_{\mathrm{Langlands}}(\pi,\psi)$ and is excluded by
+\autoref{thm:unified-reality-main-no-hidden-excludes-wrong-packets}.
+Thus all unramified finite detectors agree. Tannakian separation and
+Chebotarev uniqueness then identify the semisimplified parameter readout
+on the certified scope. Any remaining ramified, endoscopic, continuous,
+boundary, or tail discrepancy is a ledger row and is likewise excluded
+by closedness.
+\end{proof}
+
+\begin{theorem}[BEDC--Langlands functoriality]
+\label{thm:unified-reality-main-bedc-langlands-functoriality}
+Let
+$$
+\eta:{}^LH\to{}^LG
+$$
+be an $L$-group homomorphism and let $(\pi_H,\psi_H)$ be a closed
+$H$-side packet. Put
+$$
+\psi_G:=\eta\circ\psi_H.
+$$
+If $\psi_G$ satisfies the hypotheses of
+\autoref{thm:unified-reality-main-bedc-langlands-reciprocity}, then
+there is a $G$-side packet $\Pi_{\psi_G}(G)$ with a member $\pi_G$ such
+that
+$$
+\lambda_{v,r}(\pi_G)
+=
+\operatorname{tr}r(\eta(\psi_H(\operatorname{Frob}_v)))
+$$
+on the certified unramified readout scope.
+\end{theorem}
+\begin{proof}
+Apply
+\autoref{thm:unified-reality-main-bedc-langlands-reciprocity} to the
+target parameter $\psi_G=\eta\circ\psi_H$. The resulting packet has
+readouts
+$$
+\lambda_{v,r}(\pi_G)
+=
+\operatorname{tr}r(\psi_G(\operatorname{Frob}_v)).
+$$
+Substituting $\psi_G=\eta\circ\psi_H$ gives the formula.
+\end{proof}
+
+\begin{theorem}[BEDC--Langlands main closure theorem]
+\label{thm:unified-reality-bedc-langlands-main-closure-theorem}
+On any reductive-group scope carrying local packet certificates,
+parameter state certificates, stabilized trace formula certificates,
+stable multiplicity formula certificates, endoscopic transfer
+certificates, endoscopic induction, Tannakian separation, Chebotarev
+uniqueness, the master no-hidden Langlands residual condition, complete
+ledger discipline, and closedness, Langlands reciprocity and
+functoriality hold on the certified scope.
+\end{theorem}
+\begin{proof}
+Reciprocity is exactly
+\autoref{thm:unified-reality-main-bedc-langlands-reciprocity}.
+Functoriality is exactly
+\autoref{thm:unified-reality-main-bedc-langlands-functoriality}. The
+existence input used by reciprocity is supplied by
+\autoref{thm:unified-reality-main-existence-bridge}; the absence of
+wrong closed packets is supplied by
+\autoref{thm:unified-reality-main-no-hidden-excludes-wrong-packets}.
+\end{proof}
+
+\begin{corollary}[$GL_1$ detector shadow]
+\label{cor:unified-reality-main-gl1-detector-shadow}
+For $G=GL_1$ and the quadratic character attached to
+$\mathbb Q(i)/\mathbb Q$, the general finite readout condition reduces
+at odd primes to
+$$
+\chi_{-4}(\operatorname{Frob}_p)=1,
+$$
+equivalently
+$$
+p=a^2+b^2.
+$$
+\end{corollary}
+\begin{proof}
+For $GL_1$, the $L$-group is $\mathbb C^\times$, packets are
+singletons, component groups and endoscopy disappear on this scope, and
+class field theory identifies the parameter with a Hecke character. The
+splitting condition for odd primes in $\mathbb Q(i)$ is
+$\chi_{-4}(\operatorname{Frob}_p)=1$, which is equivalent to the
+two-square criterion.
+\end{proof}
+
+\begin{theorem}[Main closure boundary]
+\label{thm:unified-reality-main-closure-boundary}
+The main closure theorem is conditional on the named local, trace,
+multiplicity, endoscopic, Tannakian, Chebotarev, and ledger
+certificates. It does not construct the traditional analytic,
+endoscopic, or geometric Langlands inputs; it states that once those
+inputs are present as BEDC certificates, no residual can remain hidden
+in a closed object.
+\end{theorem}
+\begin{proof}
+Every step above invokes a named certificate established or isolated in
+the preceding modules. The argument is the BEDC composition principle:
+finite-visible residuals are detected, non-finite residuals are
+ledgered, and closedness rejects unresolved ledgers. It is not a
+substitute for constructing the input certificates.
+\end{proof}

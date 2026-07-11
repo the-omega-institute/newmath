@@ -1,0 +1,367 @@
+\chapter{Damped Spectral Packet Certificate}
+\label{ch:visions-rh-damped-spectral-packet-certificate}
+\origin{ai}
+
+\autoref{ch:visions-rh-fixed-window-dominance-certificate} isolates the
+remaining fixed-window burden as a spectral packet certificate with
+tail dominance.  The damped packet route keeps the same local pair and
+finite Lagrange projector, but appends an entire damping factor.  The
+resulting filter is exact on the selected off-critical mirror pair,
+vanishes on the displayed finite local packet, and suppresses remote
+zero rows by vertical exponential decay rather than by a growing
+interpolation window.
+
+\section{Damped Mirror Filter}
+\label{sec:rh-damped-spectral-mirror-filter}
+
+\begin{definition}[Local mirror spectral packet]
+\label{def:rh-local-mirror-spectral-packet}
+Let
+$$
+\rho_+=\frac12+r+i\gamma,
+\qquad
+\rho_-=\frac12-r+i\gamma,
+\qquad
+r\ne0
+$$
+be an off-critical mirror zero pair, and set
+$$
+\lambda_\pm=\rho_\pm-\frac12=\pm r+i\gamma.
+$$
+A local mirror spectral packet is a finite set
+$$
+\Lambda=\{\lambda_+,\lambda_-\}\cup\Lambda^\circ
+$$
+of zero exponents.  The finite subset $\Lambda^\circ$ records the local
+zero rows to be killed exactly by the packet projector.
+\end{definition}
+
+\begin{definition}[Mirror Lagrange packet projector]
+\label{def:rh-mirror-lagrange-packet-projector}
+For a local mirror spectral packet $\Lambda$, define the Lagrange basis
+polynomials
+$$
+L_+(z)
+:=
+\prod_{\lambda\in\Lambda,\lambda\ne\lambda_+}
+\frac{z-\lambda}{\lambda_+-\lambda},
+$$
+and
+$$
+L_-(z)
+:=
+\prod_{\lambda\in\Lambda,\lambda\ne\lambda_-}
+\frac{z-\lambda}{\lambda_--\lambda}.
+$$
+The mirror Lagrange packet projector is
+$$
+P_\pm(z):=L_+(z)-L_-(z).
+$$
+It satisfies
+$$
+P_\pm(\lambda_+)=1,
+\qquad
+P_\pm(\lambda_-)=-1,
+$$
+and
+$$
+P_\pm(\lambda)=0
+\qquad
+(\lambda\in\Lambda^\circ).
+$$
+\end{definition}
+
+\begin{definition}[Damped mirror packet filter]
+\label{def:rh-damped-mirror-packet-filter}
+For $\mu>0$, define
+$$
+G_\mu(z)
+:=
+\exp\left(
+-\mu\left((z-i\gamma)^2-r^2\right)^2
+\right),
+$$
+and
+$$
+\Phi_\mu(z):=P_\pm(z)G_\mu(z).
+$$
+The factor $G_\mu$ is normalized on the selected mirror pair:
+$$
+G_\mu(\lambda_+)=G_\mu(\lambda_-)=1.
+$$
+Therefore
+$$
+\Phi_\mu(\lambda_+)=1,
+\qquad
+\Phi_\mu(\lambda_-)=-1,
+$$
+and
+$$
+\Phi_\mu(\lambda)=0
+\qquad
+(\lambda\in\Lambda^\circ).
+$$
+\end{definition}
+
+\begin{theorem}[Damped packet filter has vertical decay]
+\label{thm:rh-damped-packet-filter-vertical-decay}
+Fix $C>0$.  On the strip
+$$
+|\operatorname{Re} z|\le C
+$$
+there are constants $c>0$ and $C_{\mu,P}>0$ such that, for sufficiently
+large $|\operatorname{Im}z-\gamma|$,
+$$
+|\Phi_\mu(z)|
+\le
+C_{\mu,P}(1+|z|)^{\deg P_\pm}
+\exp\left(-c\mu|\operatorname{Im}z-\gamma|^4\right).
+$$
+\end{theorem}
+
+\begin{proof}
+Write
+$$
+w=z-i\gamma=a+it,
+\qquad
+t=\operatorname{Im}z-\gamma,
+$$
+with $a$ bounded on the fixed strip.  Then
+$$
+w^2-r^2=(a^2-t^2-r^2)+2iat.
+$$
+The real part of $(w^2-r^2)^2$ is
+$$
+(a^2-t^2-r^2)^2-(2at)^2.
+$$
+For large $|t|$, the leading term is $t^4$, while the negative part is
+quadratic in $t$ with bounded coefficient.  Hence
+$$
+\operatorname{Re}\left((w^2-r^2)^2\right)\ge c|t|^4
+$$
+outside a compact set.  Thus
+$$
+|G_\mu(z)|
+\le
+\exp(-c\mu|t|^4).
+$$
+Since $P_\pm$ is a fixed polynomial,
+$$
+|P_\pm(z)|
+\le
+C_P(1+|z|)^{\deg P_\pm}.
+$$
+Multiplying these estimates gives the claimed bound.
+\end{proof}
+
+\section{Negative Zero-Side Packet}
+\label{sec:rh-damped-spectral-negative-packet}
+
+\begin{definition}[Exponent mirror quadratic readout]
+\label{def:rh-exponent-mirror-quadratic-readout}
+For a spectral filter $\Phi$ on the zero-exponent ledger, define
+$$
+\mathcal W_Z^\lambda(\Phi)
+:=
+\sum_{\lambda_\rho}
+\Phi(\lambda_\rho)
+\overline{\Phi(-\overline{\lambda_\rho})},
+$$
+where $\lambda_\rho=\rho-1/2$ and the completed zeta multiplicity
+convention is used.
+\end{definition}
+
+\begin{definition}[DampedSpectralPacketCert]
+\label{def:rh-damped-spectral-packet-cert}
+For an off-critical mirror zero pair $\rho_+,\rho_-$, the certificate
+$$
+\mathsf{DampedSpectralPacketCert}(\rho_+,\rho_-)
+$$
+asserts that there are a local mirror spectral packet $\Lambda$ and a
+parameter $\mu>0$ such that the damped mirror packet filter
+$\Phi_\mu$ of \autoref{def:rh-damped-mirror-packet-filter} is
+admissible for the zero-side quadratic readout and satisfies
+$$
+\mathcal W_Z^\lambda(\Phi_\mu)<0.
+$$
+\end{definition}
+
+\begin{theorem}[Damped packet gives a negative zero-side readout]
+\label{thm:rh-damped-packet-negative-zero-side-readout}
+Assume the zero-exponent ledger satisfies the standard zero-counting
+bound
+$$
+N(T)=O(T\log T)
+$$
+in vertical strips and that the local packet $\Lambda$ contains every
+zero exponent in a fixed bounded height window centered at
+$\lambda_+,\lambda_-$ except the selected pair.  Then, for sufficiently
+large $\mu$,
+$$
+\mathcal W_Z^\lambda(\Phi_\mu)<0.
+$$
+\end{theorem}
+
+\begin{proof}
+The selected mirror pair contributes
+$$
+\Phi_\mu(\lambda_+)\overline{\Phi_\mu(\lambda_-)}
++
+\Phi_\mu(\lambda_-)\overline{\Phi_\mu(\lambda_+)}
+=
+-2.
+$$
+Every other zero exponent in the displayed local packet is killed by
+the Lagrange projector.  The remaining contribution is the remote tail
+$$
+\operatorname{Tail}_\mu
+:=
+\sum_{\lambda_\rho\notin\Lambda}
+\Phi_\mu(\lambda_\rho)
+\overline{\Phi_\mu(-\overline{\lambda_\rho})}.
+$$
+By \autoref{thm:rh-damped-packet-filter-vertical-decay}, the summands
+have quartic exponential decay in vertical height, up to a fixed
+polynomial factor.  The zero-counting bound makes the tail absolutely
+convergent and gives
+$$
+\operatorname{Tail}_\mu\to0
+$$
+as $\mu\to\infty$ by dominated convergence on the dyadic zero ledger.
+Choose $\mu$ so that
+$$
+|\operatorname{Tail}_\mu|<1.
+$$
+Then
+$$
+\mathcal W_Z^\lambda(\Phi_\mu)
+=
+-2+\operatorname{Tail}_\mu
+<
+0.
+$$
+\end{proof}
+
+\begin{corollary}[Off-critical mirrors supply damped spectral packets]
+\label{cor:rh-offcritical-mirrors-supply-damped-spectral-packets}
+Under the hypotheses of
+\autoref{thm:rh-damped-packet-negative-zero-side-readout}, every
+off-critical mirror zero pair admits
+$$
+\mathsf{DampedSpectralPacketCert}(\rho_+,\rho_-).
+$$
+\end{corollary}
+
+\begin{proof}
+Use the local packet and the parameter $\mu$ supplied by
+\autoref{thm:rh-damped-packet-negative-zero-side-readout}.  The
+resulting filter is admissible for the zero-side quadratic readout and
+has negative value, which is precisely
+\autoref{def:rh-damped-spectral-packet-cert}.
+\end{proof}
+
+\section{Prime Residual Interface}
+\label{sec:rh-damped-spectral-prime-residual-interface}
+
+\begin{definition}[AdmissibleDampedPacketApproximation]
+\label{def:rh-admissible-damped-packet-approximation}
+The row
+$$
+\mathsf{AdmissibleDampedPacketApproximation}
+$$
+asserts that the damped filters $\Phi_\mu$ can be represented by, or
+approximated by, admissible Weil explicit-formula test rows while
+preserving the strict negative zero-side inequality
+$$
+\mathcal W_Z^\lambda(\Phi_\mu)<0.
+$$
+\end{definition}
+
+\begin{definition}[Damped arch non-cancellation]
+\label{def:rh-damped-arch-noncancellation}
+The row
+$$
+\mathsf{DampedArchNonCancellation}
+$$
+asserts that, for at least one admissible damped packet associated to
+an off-critical mirror pair, the archimedean, trivial-zero, and pole
+correction terms do not cancel the negative zero-side readout.  In the
+paired explicit-formula notation of
+\autoref{def:rh-weil-mirror-pairing-ledger}, the resulting full prime
+side is nonzero.
+\end{definition}
+
+\begin{theorem}[Damped packet gives a finite prime residual]
+\label{thm:rh-damped-packet-gives-finite-prime-residual}
+Assume
+$$
+\mathsf{DampedSpectralPacketCert}(\rho_+,\rho_-),
+\qquad
+\mathsf{AdmissibleDampedPacketApproximation},
+\qquad
+\mathsf{DampedArchNonCancellation}.
+$$
+Then there is a nonzero finite prime-power residual
+$$
+R_S=\sum_{q\in S}a_q[q].
+$$
+\end{theorem}
+
+\begin{proof}
+The damped packet supplies a negative zero-side readout.  The
+admissibility row transfers it to the paired explicit-formula test
+space, and the arch non-cancellation row makes the corresponding
+prime-side readout nonzero.  If the prime-side expansion is finite, take
+its support.  If it is an absolutely convergent weighted prime-power
+series, choose a finite subset whose partial sum is nonzero; otherwise
+all finite partial sums would force the total readout to vanish.  This
+gives the displayed finite residual.
+\end{proof}
+
+\begin{theorem}[Damped packet supplies filtered prime detection]
+\label{thm:rh-damped-packet-supplies-filtered-prime-detection}
+Under the hypotheses of
+\autoref{thm:rh-damped-packet-gives-finite-prime-residual}, some finite
+Dirichlet classifier detects the damped packet residual on a filtered
+prime-distribution curve.
+\end{theorem}
+
+\begin{proof}
+\autoref{thm:rh-damped-packet-gives-finite-prime-residual} supplies a
+nonzero finite prime-power residual.  Apply the finite Dirichlet
+separation theorem
+\autoref{thm:rh-finite-dirichlet-classifiers-separate-residuals} and
+then the filtered-curve realization of
+\autoref{thm:rh-finite-residual-detection-supplies-filtered-curve}.
+\end{proof}
+
+\begin{theorem}[Damped packet route gives conditional fixed-half readout]
+\label{thm:rh-damped-packet-route-conditional-fixed-half-readout}
+Assume every off-critical mirror pair admits a damped spectral packet,
+the admissible approximation and arch non-cancellation rows hold for
+those packets, zeta-facing PFZ zero packets are legal closure objects,
+and classifier-visible nonunit residuals cannot be hidden in legal
+PFZ closure data.  Then every admitted nontrivial zero has fixed-half
+readout.
+\end{theorem}
+
+\begin{proof}
+If an admitted zero were off the critical line, it would determine an
+off-critical mirror pair.  By the damped packet hypothesis and
+\autoref{thm:rh-damped-packet-supplies-filtered-prime-detection}, some
+filtered prime-distribution curve would detect a nonunit residual.  The
+no-hidden-residual hypothesis excludes such a residual from a legal PFZ
+closure object.  Therefore the radial coordinate is zero, and
+\autoref{thm:rh-li-coordinate-fixed-half-circle} gives fixed-half
+readout.
+\end{proof}
+
+\begin{principle}[Damped packet audit boundary]
+\label{prin:rh-damped-packet-audit-boundary}
+The damped packet route uses a local exact projector plus a vertical
+damping estimate.  The spectral side supplies a negative mirror
+direction once zero-counting controls the remote tail.  The remaining
+analytic interfaces are admissibility for the Weil explicit formula and
+non-cancellation by the archimedean, trivial-zero, and pole correction
+ledger.
+\end{principle}

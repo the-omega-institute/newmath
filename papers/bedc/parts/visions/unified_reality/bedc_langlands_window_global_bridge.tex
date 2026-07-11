@@ -1,0 +1,295 @@
+\section{BEDC--Langlands Window-to-Global Bridge}
+\label{sec:unified-reality-bedc-langlands-window-global-bridge}
+
+The trace-window closure of
+\autoref{sec:unified-reality-bedc-langlands-trace-window-closure}
+uses a compactness row. This section separates that row into a finite
+complexity certificate and an explicit automorphic tail ledger. The
+point is to prevent a fixed-window realization theorem from being read
+as a growing-window theorem without an intervening stability witness.
+
+\begin{definition}[Automorphic complexity]
+\label{def:unified-reality-automorphic-complexity}
+An automorphic packet $\Pi$ has automorphic complexity
+$$
+\kappa(\Pi)
+:=
+\kappa_{\mathrm{level}}(\Pi)
++\kappa_{\mathrm{cond}}(\Pi)
++\kappa_{\infty}(\Pi)
++\kappa_{\mathrm{ram}}(\Pi)
++\kappa_{\mathrm{endo}}(\Pi)
++\kappa_{\mathrm{mult}}(\Pi).
+$$
+The six summands record, respectively, compact-open or level
+complexity, conductor complexity, archimedean infinitesimal-character or
+weight complexity, ramified local type complexity, endoscopic or Arthur
+packet label complexity, and multiplicity or packet bookkeeping
+complexity. The expression is a ledgered height: changing the
+automorphic category may change its implementation, but not the
+obligation that every escape mode represented by a hidden name be
+addressable.
+\end{definition}
+
+\begin{definition}[Bounded automorphic finiteness certificate]
+\label{def:unified-reality-bounded-automorphic-finiteness-certificate}
+For $B<\infty$ set
+$$
+\mathsf{Aut}_{\le B}(G)
+:=
+\{\Pi:\kappa(\Pi)\le B\}.
+$$
+A bounded automorphic finiteness certificate says that
+$\mathsf{Aut}_{\le B}(G)$ is finite up to the declared closed
+automorphic equivalence relation for every finite $B$.
+\end{definition}
+
+\begin{definition}[Cofinal window realization]
+\label{def:unified-reality-cofinal-window-realization}
+Let
+$$
+\mathcal W_1\subset \mathcal W_2\subset \cdots
+$$
+be a cofinal Hecke window tower in the sense of
+\autoref{def:unified-reality-cofinal-hecke-window-tower}. A cofinal
+window realization of an allowed parameter packet $\phi^{\uparrow}$ is a
+sequence of automorphic packets $(\Pi_n)$ such that
+$$
+\lambda_{\mathcal W_n}(\Pi_n)=a_{\mathcal W_n}(\phi)
+$$
+for every $n$. Equivalently, for every detector $(v,r)$ lying in
+$\mathcal W_n$,
+$$
+\lambda_{v,r}(\Pi_n)
+=
+\operatorname{tr}r(\phi(\operatorname{Frob}_v)).
+$$
+\end{definition}
+
+\begin{definition}[Automorphic tail ledger]
+\label{def:unified-reality-automorphic-tail-ledger}
+The automorphic tail ledger is the refinement of
+\autoref{def:unified-reality-automorphic-compactness-ledger} that names
+the concrete ways a cofinal window realization can fail to stabilize:
+$$
+\mathsf{LevelConductorEscape},\quad
+\mathsf{ArchimedeanParameterEscape},\quad
+\mathsf{RamifiedLocalTypeEscape},
+$$
+$$
+\mathsf{ContinuousSpectrumEscape},\quad
+\mathsf{EndoscopicSwitching},\quad
+\mathsf{BoundaryEisensteinResidualEscape}.
+$$
+A complete automorphic tail ledger says that every unbounded realization
+sequence has at least one of these rows, or a declared refinement of one
+of them, as its obstruction to global stabilization.
+\end{definition}
+
+\begin{theorem}[Bounded subsequence gives global realization]
+\label{thm:unified-reality-bounded-subsequence-global-realization}
+Let $(\Pi_n)$ be a cofinal window realization of
+$\phi^{\uparrow}$. Assume the bounded automorphic finiteness
+certificate. If there are $B<\infty$ and an infinite subsequence
+$n_j\to\infty$ such that
+$$
+\kappa(\Pi_{n_j})\le B
+$$
+for all $j$, then there is an automorphic packet $\Pi_{\phi}$ satisfying
+$$
+\lambda_{v,r}(\Pi_{\phi})
+=
+\operatorname{tr}r(\phi(\operatorname{Frob}_v))
+$$
+for every certified unramified finite Hecke--Frobenius detector
+$(v,r)$.
+\end{theorem}
+\begin{proof}
+By bounded automorphic finiteness, the packets of complexity at most
+$B$ represent only finitely many closed automorphic equivalence classes.
+Hence one class occurs for infinitely many terms of the subsequence.
+Choose a representative $\Pi_{\phi}$ of that recurring class.
+
+Let $(v,r)$ be any certified unramified finite detector. Cofinality of
+the tower gives $N(v,r)$ such that $(v,r)\in\mathcal W_n$ for all
+$n\ge N(v,r)$. Since the recurring class appears along infinitely many
+$n_j$, choose one with $n_j\ge N(v,r)$. The packet $\Pi_{n_j}$ realizes
+$\phi$ on $\mathcal W_{n_j}$, so
+$$
+\lambda_{v,r}(\Pi_{n_j})
+=
+\operatorname{tr}r(\phi(\operatorname{Frob}_v)).
+$$
+Closed automorphic equivalence preserves the declared Hecke readouts, so
+the same equality holds for $\Pi_{\phi}$. Since $(v,r)$ was arbitrary,
+$\Pi_{\phi}$ matches the parameter on the full cofinal detector scope.
+\end{proof}
+
+\begin{theorem}[Unbounded realization sequence enters the tail ledger]
+\label{thm:unified-reality-unbounded-realization-tail-ledger}
+Let $(\Pi_n)$ be a cofinal window realization of
+$\phi^{\uparrow}$. If no infinite subsequence has bounded automorphic
+complexity, then the realization sequence enters the automorphic tail
+ledger.
+\end{theorem}
+\begin{proof}
+The absence of a bounded-complexity infinite subsequence means that for
+every finite $B$, only finitely many $n$ satisfy
+$$
+\kappa(\Pi_n)\le B.
+$$
+Thus the realization sequence escapes every finite complexity sublevel.
+By the definition of $\kappa$, this escape must occur through level or
+conductor growth, archimedean parameter growth, ramified local type
+growth, endoscopic or Arthur packet switching, multiplicity bookkeeping
+growth, or movement of mass into continuous, boundary, Eisenstein, or
+residual spectrum. These are exactly the rows named by
+\autoref{def:unified-reality-automorphic-tail-ledger}. Completeness of
+the ledger records the observed escape as an automorphic tail row.
+\end{proof}
+
+\begin{theorem}[Window-to-global alternative]
+\label{thm:unified-reality-window-global-alternative}
+Assume that every window in a cofinal Hecke window tower has an
+automorphic realization of $\phi^{\uparrow}$, that bounded automorphic
+finiteness holds, and that the automorphic tail ledger is complete.
+Then either $\phi^{\uparrow}$ has a global automorphic realization on
+the certified unramified finite detector scope, or a cofinal realization
+sequence enters the automorphic tail ledger.
+\end{theorem}
+\begin{proof}
+Choose one realizing packet $\Pi_n$ for each window $\mathcal W_n$. If
+some infinite subsequence of $(\Pi_n)$ has bounded automorphic
+complexity, then
+\autoref{thm:unified-reality-bounded-subsequence-global-realization}
+produces a global automorphic packet $\Pi_{\phi}$ matching all certified
+unramified finite detectors. If no such subsequence exists, then
+\autoref{thm:unified-reality-unbounded-realization-tail-ledger} places
+the sequence in the automorphic tail ledger. These two cases exhaust the
+sequence.
+\end{proof}
+
+\begin{theorem}[Closed window-to-global realization]
+\label{thm:unified-reality-closed-window-global-realization}
+Assume the hypotheses of
+\autoref{thm:unified-reality-window-global-alternative}. If closed
+accepted Langlands packets cannot carry unresolved automorphic tail
+ledger rows, then $\phi^{\uparrow}$ has a global automorphic realization
+on the certified unramified finite detector scope.
+\end{theorem}
+\begin{proof}
+By the window-to-global alternative, either the global realization is
+already present or the chosen cofinal realization sequence enters the
+automorphic tail ledger. In the second case, the tail row is either
+unrecorded, which violates ledger discipline, or recorded but
+unresolved, which violates closedness. Hence the tail alternative is
+not available for a closed accepted packet. The global realization
+alternative remains.
+\end{proof}
+
+\begin{corollary}[Trace-window existence gives global realization]
+\label{cor:unified-reality-trace-window-global-realization}
+Let $\phi^{\uparrow}$ have parameter stable distribution certificates,
+finite-window projector certificates, and stable trace-window
+certificates on a cofinal Hecke window tower. Assume bounded automorphic
+finiteness, a complete automorphic tail ledger, and closedness against
+unresolved automorphic tail rows. Then $\phi^{\uparrow}$ has a global
+automorphic realization.
+\end{corollary}
+\begin{proof}
+The fixed-window certificates give an automorphic realization on every
+window by
+\autoref{cor:unified-reality-fixed-window-automorphic-realization}. The
+closed window-to-global realization theorem applies to the resulting
+cofinal realization sequence.
+\end{proof}
+
+\begin{corollary}[Global reciprocity after no-hidden residuals]
+\label{cor:unified-reality-window-global-reciprocity}
+Under the hypotheses of
+\autoref{cor:unified-reality-trace-window-global-realization}, assume
+also the no-hidden Langlands residual condition of
+\autoref{def:unified-reality-no-hidden-langlands-residual}. Then the
+global automorphic packet $\Pi_{\phi}$ satisfies
+$$
+\lambda_{v,r}(\Pi_{\phi})
+=
+\operatorname{tr}r(\phi(\operatorname{Frob}_v))
+$$
+on the certified unramified finite detector scope, and every residual
+mismatch is either detected or rejected by closedness.
+\end{corollary}
+\begin{proof}
+The preceding corollary supplies the global automorphic packet. If a
+Hecke--Frobenius mismatch remained on the certified scope, the
+no-hidden residual condition would make it a finite detector residual or
+a ramified, endoscopic, continuous-spectrum, boundary, or normalization
+ledger residual. A finite detector residual contradicts the cofinal
+matching; an unresolved ledger residual contradicts closedness. Hence no
+residual mismatch remains in a closed accepted packet.
+\end{proof}
+
+\begin{theorem}[Functorial window-to-global transfer]
+\label{thm:unified-reality-functorial-window-global-transfer}
+Let $(\Pi_H,\phi_H)$ be a closed $H$-side packet, and let
+$$
+\eta:{}^LH\to{}^LG
+$$
+preserve the declared Langlands packet rows. Put
+$$
+\phi_G:=\eta\circ\phi_H.
+$$
+If $\phi_G$ satisfies the hypotheses of
+\autoref{cor:unified-reality-window-global-reciprocity} on the $G$-side,
+then there is a $G$-side automorphic packet $\Pi_G$ with
+$$
+\lambda_{v,r}(\Pi_G)
+=
+\operatorname{tr}r(\eta(\phi_H(\operatorname{Frob}_v)))
+$$
+on the certified unramified finite detector scope.
+\end{theorem}
+\begin{proof}
+Apply
+\autoref{cor:unified-reality-window-global-reciprocity} to
+$\phi_G$. The resulting packet $\Pi_G$ matches the Frobenius readout of
+$\phi_G$ on the certified detector scope. Substituting
+$\phi_G=\eta\circ\phi_H$ gives the displayed equality. Any remaining
+failure would be a no-hidden residual or an unresolved automorphic tail
+row, both incompatible with the closed hypotheses.
+\end{proof}
+
+\begin{theorem}[Categorical analogue]
+\label{thm:unified-reality-categorical-window-global-analogue}
+In a geometric Langlands setting, the same bridge has the following
+categorical form. If a certified Langlands functor sends every finite
+Hecke modification window of a spectral object into the automorphic
+category, and if the functor is essentially surjective modulo a complete
+categorical boundary ledger, then the spectral object has an
+automorphic realization unless it enters that boundary ledger.
+\end{theorem}
+\begin{proof}
+Finite Hecke modification windows play the role of the tower
+$\mathcal W_n$. Essential surjectivity replaces bounded automorphic
+finiteness, and the categorical boundary ledger replaces the
+automorphic tail ledger. The same dichotomy applies: a cofinally stable
+image gives an automorphic realization, while failure of stability is a
+declared boundary row. Closedness excludes unresolved boundary rows.
+\end{proof}
+
+\begin{theorem}[Window-to-global boundary]
+\label{thm:unified-reality-window-global-boundary}
+The window-to-global bridge proves only a conditional passage from
+finite Hecke windows to a global automorphic packet. It does not prove
+bounded automorphic finiteness, stable trace-window formulae, parameter
+stable distributions, or geometric essential surjectivity.
+\end{theorem}
+\begin{proof}
+Each step consumes one displayed certificate. Fixed-window existence
+comes from the trace-window machinery; repetition inside a finite
+complexity sublevel comes from bounded automorphic finiteness; exclusion
+of unbounded escape comes from the automorphic tail ledger and
+closedness. The bridge therefore identifies the precise obstruction to
+globalization: missing finite-window realization, missing bounded
+finiteness, or an unresolved automorphic tail row.
+\end{proof}

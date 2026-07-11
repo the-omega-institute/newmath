@@ -1,0 +1,305 @@
+\section{BEDC--Langlands No-Hidden Residual Master Lemma}
+\label{sec:unified-reality-bedc-langlands-no-hidden-residual-master-lemma}
+
+The master no-hidden residual condition used by the Langlands closure
+theorem is not an independent oracle. It is the finite coproduct of the
+detector-completeness certificates already isolated for the unramified,
+ramified, component-group, endoscopic, continuous, and cofinal-tail
+faces of the Langlands object.
+
+\begin{definition}[Total Langlands residual decomposition]
+\label{def:unified-reality-total-langlands-residual-decomposition}
+For a candidate Langlands row
+$$
+\mathcal O^\uparrow=(\pi,\psi),
+$$
+the total residual is the formal sum
+$$
+R_{\mathrm{Lan}}(\pi,\psi)
+=
+R_{\mathrm{unr}}
+\oplus
+R_{\mathrm{ram}}
+\oplus
+R_{\mathrm{mult}}
+\oplus
+R_{\mathrm{endo}}
+\oplus
+R_{\mathrm{cont}}
+\oplus
+R_{\mathrm{tail}}.
+$$
+The summands denote, respectively, unramified Hecke--Frobenius
+mismatch, ramified local packet or character mismatch, packet
+multiplicity or component-label mismatch, endoscopic transfer mismatch,
+continuous/Eisenstein/boundary residual, and cofinal-window or
+representation-complexity tail.
+\end{definition}
+
+\begin{definition}[Completeness certificates for no-hidden residual]
+\label{def:unified-reality-no-hidden-residual-completeness-certificates}
+A no-hidden residual certificate for
+$\mathcal O^\uparrow=(\pi,\psi)$ consists of the following data on the
+declared Langlands scope:
+\begin{itemize}
+\item unramified Satake and Tannakian separation for finite
+Hecke--Frobenius detectors;
+\item ramified local character separation and complete local parameter
+ledger discipline;
+\item component-group Fourier completeness for packet labels and
+multiplicities;
+\item endoscopic transfer finite-window or tail-ledger dichotomy;
+\item continuous-spectrum and boundary ledger completeness;
+\item cofinal automorphic tail closure;
+\item a ledger policy requiring every finite-visible or tail-visible
+residual to be recorded, discharged, or declared outside the claim.
+\end{itemize}
+\end{definition}
+
+\begin{theorem}[Unramified residual is finite-detected]
+\label{thm:unified-reality-unramified-residual-finite-detected}
+If
+$$
+R_{\mathrm{unr}}\ne0,
+$$
+then there is an unramified place $v$ and a finite-dimensional
+representation
+$$
+r:{}^LG\to GL(V_r)
+$$
+such that
+$$
+\lambda_{v,r}(\pi)
+\ne
+\operatorname{tr}r(\psi(\operatorname{Frob}_v)).
+$$
+\end{theorem}
+\begin{proof}
+The unramified residual says that the Satake semisimple class attached
+to $\pi$ at some unramified place differs from the Frobenius
+semisimple class attached to $\psi$. If every finite-dimensional
+representation $r$ had equal trace on these two classes, then
+\autoref{thm:unified-reality-tannakian-detectors-separate-classes}
+would identify the two semisimple conjugacy classes. This contradicts
+the asserted residual. Hence some finite detector $(v,r)$ has nonzero
+Hecke--Frobenius residual.
+\end{proof}
+
+\begin{theorem}[Ramified residual is finite-detected or local-ledgered]
+\label{thm:unified-reality-ramified-residual-finite-detected-or-ledgered}
+If
+$$
+R_{\mathrm{ram}}\ne0,
+$$
+then some ramified finite local detector
+$$
+(v,\mathfrak b,f_v)
+$$
+has
+$$
+\Theta_{\pi_v}(f_v)\ne S\Theta_{\psi_v}(f_v),
+$$
+or the residual is a local parameter ledger row.
+\end{theorem}
+\begin{proof}
+Inside a fixed Bernstein or packet window, a ramified mismatch is the
+nonzero distribution
+$$
+\Theta_{\pi_v}-S\Theta_{\psi_v}.
+$$
+A nonzero linear functional on the local test-function space is
+nonzero on some $f_v$, and
+\autoref{thm:unified-reality-local-character-separation} supplies the
+finite-window separation used to isolate the mismatch. If no fixed
+local window detects it, then
+\autoref{thm:unified-reality-ramified-local-no-hidden-residual} places
+the remaining alternatives in the local ledger: monodromy,
+normalization, wild ramification, transfer factors, depth, or local
+packet labels.
+\end{proof}
+
+\begin{theorem}[Component residual is Fourier-detected]
+\label{thm:unified-reality-component-residual-fourier-detected}
+If $R_{\mathrm{mult}}\ne0$, then a component-group Fourier detector
+detects it, or the obstruction is a packet ledger row.
+\end{theorem}
+\begin{proof}
+A multiplicity or packet-label residual is a difference between two
+finite coefficient functions on the character group
+$$
+\widehat{\mathcal S_\psi}.
+$$
+When both functions are defined and differ,
+\autoref{thm:unified-reality-component-group-fourier-detection}
+provides an element
+$$
+s\in\mathcal S_\psi
+$$
+whose Fourier readout distinguishes them. Equivalently, the
+Fourier-twisted packet distribution changes at $s$. If the packet
+labels, coefficients, or comparison scope needed for this finite
+Fourier transform are absent, then
+\autoref{cor:unified-reality-packet-multiplicity-mismatch-detected}
+classifies the failure as a packet ledger row.
+\end{proof}
+
+\begin{theorem}[Endoscopic residual is fixed-window visible or tail-ledgered]
+\label{thm:unified-reality-endoscopic-residual-fixed-window-or-ledgered}
+If
+$$
+R_{\mathrm{endo}}\ne0,
+$$
+then some matching endoscopic test pair
+$$
+f^H\leftrightarrow f^G
+$$
+has nonzero transfer residual, or the residual belongs to the
+endoscopic tail ledger.
+\end{theorem}
+\begin{proof}
+This is exactly the finite/tail dichotomy of
+\autoref{thm:unified-reality-endoscopic-transfer-residual-detection}.
+If a fixed matching pair witnesses the mismatch, the residual is
+finite-visible. If all fixed matching windows agree while a transfer
+failure remains, the failure has left the finite transfer window and is
+therefore a transfer-factor, ramification, singular-orbital,
+normalization, boundary, or continuous-spectrum tail row.
+\end{proof}
+
+\begin{theorem}[Continuous and boundary residuals are ledger rows]
+\label{thm:unified-reality-continuous-boundary-residual-ledgered}
+If $R_{\mathrm{cont}}\ne0$, then the residual belongs to the
+continuous-spectrum, Eisenstein, residual-spectrum, truncation,
+intertwining, scattering, or boundary ledger.
+\end{theorem}
+\begin{proof}
+Continuous and boundary terms are not isolated discrete packet
+characters. They arise from parabolic induction, Eisenstein families,
+constant terms, truncation boundaries, scattering matrices, poles of
+intertwining operators, or limiting trace-formula rows. If one of these
+terms is already visible on a fixed trace window, then it is visible as
+a trace residual and is recorded by the trace ledger. If it appears
+only through a limiting window, it is a trace tail defect. The
+dichotomy is the one recorded in
+\autoref{thm:unified-reality-trace-defect-dichotomy}, and the ledger
+requirement is the trace-tail certificate of
+\autoref{def:unified-reality-trace-tail-ledger-certificate}.
+\end{proof}
+
+\begin{theorem}[Cofinal tail residual dichotomy]
+\label{thm:unified-reality-cofinal-tail-residual-dichotomy}
+If every finite Hecke window has a realization but the cofinal tower
+does not stabilize to a global packet, then the residual belongs to the
+automorphic compactness ledger.
+\end{theorem}
+\begin{proof}
+Choose a realization on each window of a cofinal Hecke tower. The
+cofinal automorphic compactness certificate used in
+\autoref{thm:unified-reality-cofinal-trace-realization} says that such
+a tower either has a cofinally stable global packet or enters the
+automorphic compactness ledger of
+\autoref{def:unified-reality-automorphic-compactness-ledger}. The
+failure of stabilization is exactly the second alternative.
+\end{proof}
+
+\begin{theorem}[NoHiddenLanglandsResidual master lemma]
+\label{thm:unified-reality-no-hidden-langlands-residual-master-lemma}
+Assume a candidate Langlands row
+$$
+\mathcal O^\uparrow=(\pi,\psi)
+$$
+carries the completeness certificates of
+\autoref{def:unified-reality-no-hidden-residual-completeness-certificates}.
+If
+$$
+R_{\mathrm{Lan}}(\pi,\psi)\ne0,
+$$
+then some residual summand is visible to a finite Langlands detector, or
+the residual is recorded in the ramified, packet, endoscopic,
+continuous, boundary, representation-tail, or automorphic-tail ledger.
+\end{theorem}
+\begin{proof}
+By
+\autoref{def:unified-reality-total-langlands-residual-decomposition},
+a nonzero total residual has a nonzero summand.
+
+If $R_{\mathrm{unr}}\ne0$, then
+\autoref{thm:unified-reality-unramified-residual-finite-detected}
+gives a finite Hecke--Frobenius detector. If
+$R_{\mathrm{ram}}\ne0$, then
+\autoref{thm:unified-reality-ramified-residual-finite-detected-or-ledgered}
+gives a ramified local detector or a local ledger row. If
+$R_{\mathrm{mult}}\ne0$, then
+\autoref{thm:unified-reality-component-residual-fourier-detected}
+gives a component-group Fourier detector or a packet ledger row. If
+$R_{\mathrm{endo}}\ne0$, then
+\autoref{thm:unified-reality-endoscopic-residual-fixed-window-or-ledgered}
+gives a fixed matching test pair or an endoscopic tail row. If
+$R_{\mathrm{cont}}\ne0$, then
+\autoref{thm:unified-reality-continuous-boundary-residual-ledgered}
+places the residual in the continuous or boundary ledger. If
+$R_{\mathrm{tail}}\ne0$, then
+\autoref{thm:unified-reality-cofinal-tail-residual-dichotomy}
+places the residual in the automorphic compactness or representation
+tail ledger.
+
+These cases exhaust the displayed decomposition. Therefore no nonzero
+Langlands residual is unaddressed: it is finite-visible or ledgered.
+\end{proof}
+
+\begin{corollary}[Closed Langlands rows have zero total residual]
+\label{cor:unified-reality-closed-langlands-rows-zero-total-residual}
+Let $\mathcal O^\uparrow=(\pi,\psi)$ be a closed BEDC--Langlands row
+with the three-properties ledger and the no-hidden residual
+certificates above. Then
+$$
+R_{\mathrm{Lan}}(\pi,\psi)=0.
+$$
+\end{corollary}
+\begin{proof}
+If the total residual were nonzero, the master lemma would make it
+finite-visible or ledgered. A finite-visible residual must be recorded
+by ledger discipline; carrying it unresolved contradicts closedness,
+and omitting it violates the ledger property. A ledger residual is
+excluded by the same closedness requirement. Hence no total residual
+remains.
+\end{proof}
+
+\begin{corollary}[Reciprocity from existence and no-hidden residual]
+\label{cor:unified-reality-reciprocity-from-existence-and-no-hidden-residual}
+Assume $\Pi_\psi(G)\ne\varnothing$ and let
+$\pi\in\Pi_\psi(G)$ be a closed packet member satisfying the
+certificates above. Then for every certified unramified finite detector
+$(v,r)$,
+$$
+\lambda_{v,r}(\pi)
+=
+\operatorname{tr}r(\psi(\operatorname{Frob}_v)).
+$$
+\end{corollary}
+\begin{proof}
+The displayed equality is the vanishing of the unramified summand
+$R_{\mathrm{unr}}$ at the detector $(v,r)$. By
+\autoref{cor:unified-reality-closed-langlands-rows-zero-total-residual},
+the whole total residual vanishes, so the unramified component vanishes
+on the certified detector scope.
+\end{proof}
+
+\begin{theorem}[Boundary of the master lemma]
+\label{thm:unified-reality-no-hidden-residual-master-lemma-boundary}
+The master lemma is conditional on the named completeness certificates.
+It does not construct local Langlands packets, stable trace formulae,
+endoscopic transfer, component-group labels, automorphic compactness, or
+continuous-spectrum analysis. It proves that, once those certificates
+and the ledger policy are present, the phrase no-hidden Langlands
+residual has a finite decomposition proof.
+\end{theorem}
+\begin{proof}
+Each branch of the proof invokes one named completeness input:
+Tannakian separation for unramified readouts, local character
+separation for ramified readouts, finite Fourier inversion for
+component data, endoscopic finite/tail separation, trace-tail ledger
+discipline for continuous and boundary terms, and cofinal compactness
+for automorphic escape. The proof is therefore a composition theorem,
+not a construction of those inputs.
+\end{proof}

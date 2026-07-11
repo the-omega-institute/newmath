@@ -1,0 +1,80 @@
+\chapter{A Concrete Naming Certificate for $\CauchyFilterTelescopeUp$}
+\label{ch:concrete-instances-cauchy-filter-telescope-namecert}
+\origin{human}
+
+Following Bishop and Bridges, \emph{Constructive Analysis}, and the Bourbaki--Kelley language of filters and filter bases, the $\CauchyFilterTelescopeUp$ packet records the finite telescope that reads a Cauchy-filter presentation back as regular Cauchy sequence data before a Real or Completion consumer inspects it. It sits between the Cauchy-filter source of \autoref{ch:concrete-instances-cauchyfilter-namecert}, the finite basis generator of \autoref{ch:concrete-instances-cauchy-filter-basis-namecert}, the regular-filter handoff of \autoref{ch:concrete-instances-regularcauchyfilter-namecert}, the stream windows of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational readback of \autoref{ch:concrete-instances-regseqrat-namecert}, the dyadic tolerance ledger of \autoref{ch:concrete-instances-dyadicratcore-namecert}, and the terminal Real seal of \autoref{ch:concrete-instances-real-namecert}. The packet is a finite bridge from displayed filter data to regular sequence readback; it is not a quotient of filters, not a selected limit, not host equality of reals, not countable choice, and not ambient completeness.
+
+\begin{definition}[Cauchy filter telescope carrier]
+\label{def:cauchy-filter-telescope-carrier}
+A $\CauchyFilterTelescopeUp$ carrier is a finite $\BHist$ packet
+$$
+T=(F,B,G,S,R,D,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $F$ is the source $\CauchyFilterUp$ row, exposing only displayed finite filterbase requests and Cauchy-window evidence.
+\item $B$ is the $\CauchyFilterBasisUp$ basis row that lists the finite generator windows read from $F$.
+\item $G$ is the $\RegularCauchyFilterUp$ handoff row, retaining the directed tail-meet data that regularizes the basis.
+\item $S$ is the $\StreamNameUp$ window schedule used by the readback.
+\item $R$ is the $\RegSeqRatUp$ readback row obtained from the displayed stream windows.
+\item $D$ is the $\DyadicRatCoreUp$ tolerance ledger used to compare the readback windows and radii.
+\item $E$ is the terminal $\RealUp$ seal row, available only after $F,B,G,S,R,D$ have been replayed.
+\item $H$ records componentwise $\hsame$ transport for all displayed source, basis, handoff, stream, readback, dyadic, Real-seal, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from the filter source through basis generation, regular-filter handoff, stream windows, regular rational readback, dyadic tolerances, and the Real seal.
+\item $P$ is the $\Pkg$ provenance over $\CauchyFilterUp$, $\CauchyFilterBasisUp$, $\RegularCauchyFilterUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\RealUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\CauchyFilterTelescopeUp}$ row.
+\end{enumerate}
+The carrier has no coordinate for quotient filters, selected limits, countable-choice schedules, host real equality, or ambient Real completeness.
+\end{definition}
+
+\begin{theorem}[Cauchy filter telescope NameCert obligations]
+\label{thm:cauchy-filter-telescope-namecert-obligations}
+For every accepted $\CauchyFilterTelescopeUp$ carrier $T=(F,B,G,S,R,D,E,H,C,P,N)$, the local $\NameCert_{\CauchyFilterTelescopeUp}$ surface consists exactly of source Cauchy-filter admission, basis exposure, regular-filter handoff, stream-window exposure, regular rational readback, dyadic tolerance exposure, Real-seal handoff, componentwise transport, displayed replay, provenance, and local naming.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:cauchy-filter-telescope-carrier}. The displayed tuple contains precisely the CauchyFilter source row, CauchyFilterBasis row, RegularCauchyFilter handoff, StreamName schedule, RegSeqRat readback, DyadicRatCore tolerance ledger, Real seal, and structural rows.
+
+The replay row $C$ orders those rows. A consumer must first inspect the filter source $F$, then the basis row $B$, then the regular-filter handoff $G$ before it can read stream windows, rational readback, dyadic tolerances, or the Real seal.
+
+Transport, provenance, and local naming add no further mathematical coordinates. Since the carrier contains no quotient-filter, selected-limit, choice, host-equality, or ambient-completeness row, the listed rows exhaust the NameCert obligations.
+\end{proof}
+
+\begin{theorem}[Cauchy filter telescope regular-sequence handoff]
+\label{thm:cauchy-filter-telescope-regular-sequence-handoff}
+Every accepted $\CauchyFilterTelescopeUp$ read from a Cauchy-filter presentation to a regular Cauchy sequence factors through the finite route
+$$
+\CauchyFilterUp \longmapsto \CauchyFilterBasisUp \longmapsto \RegularCauchyFilterUp \longmapsto \StreamNameUp \longmapsto \RegSeqRatUp \longmapsto \DyadicRatCoreUp \longmapsto \RealUp .
+$$
+The handoff exposes the same rows $F,B,G,S,R,D,E,H,C,P,N$ to downstream Real and Completion consumers and exports no selected limit, quotient-filter equality, countable-choice selector, host equality, or ambient completeness principle.
+\end{theorem}
+\begin{proof}
+Start with the NameCert obligations of \autoref{thm:cauchy-filter-telescope-namecert-obligations}. They force the source filter row, basis row, regular-filter handoff, stream schedule, rational readback, and dyadic tolerance ledger to remain visible before the Real seal can be consumed.
+
+The basis row $B$ supplies only displayed generator windows from $F$. The regular-filter row $G$ then keeps the directed tail-meet data attached to those windows, so the readback cannot skip directly from a filter presentation to a Real endpoint.
+
+Finally $S,R,D,E$ provide the regular sequence readback and seal. The structural rows $H,C,P,N$ preserve the same order, and no carrier coordinate provides any of the refused quotient, choice, equality, or completeness endpoints.
+\end{proof}
+
+\begin{theorem}[Cauchy filter telescope completion boundary]
+\label{thm:cauchy-filter-telescope-completion-boundary}
+A downstream Completion or Real consumer of an accepted $\CauchyFilterTelescopeUp$ packet may read only the displayed telescope rows $F,B,G,S,R,D,E,H,C,P,N$. The packet therefore supplies a finite boundary between Cauchy-filter presentations and regular Cauchy sequence readback; it does not assert that every filter has a selected limit, that filters are quotiented by host equality, that countable choices of basis elements exist, or that the ambient Real object is complete.
+\end{theorem}
+\begin{proof}
+Apply the regular-sequence handoff. It places every Real or Completion read behind the finite telescope route from $F$ through $E$.
+
+The completion-facing consumer then receives only the rows named by the carrier. The source filter, basis, regular handoff, stream windows, regular rational readback, dyadic ledger, and Real seal are all displayed before the structural rows transport and name them.
+
+Because the carrier inventory has no selected-limit, quotient-filter, countable-choice, host-equality, or ambient-completeness coordinate, the boundary is a finite readback interface and not a completion theorem.
+\end{proof}
+
+\closureat{CauchyFilterTelescopeUp}{seedStr}
+
+\begin{closurestatus}{\CauchyFilterTelescopeUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:cauchy-filter-telescope-carrier}, \autoref{thm:cauchy-filter-telescope-namecert-obligations}, \autoref{thm:cauchy-filter-telescope-regular-sequence-handoff}, and \autoref{thm:cauchy-filter-telescope-completion-boundary} seed the finite telescope from CauchyFilter and CauchyFilterBasis rows through RegularCauchyFilter, StreamName, RegSeqRat, DyadicRatCore, Real, transport, replay, provenance, and local naming rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close quotient filters, selected limits, countable choice, host real equality, ambient $\RealUp$ completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, basis exposure, regular-filter handoff, stream-window readback, dyadic tolerance exactness, Real-seal handoff, transport, replay, provenance, and local naming for BEDC.Derived.CauchyFilterTelescopeUp.}
+  \constructivestory{A $\CauchyFilterTelescopeUp$ packet is generated from a CauchyFilter source row, a CauchyFilterBasis row, a RegularCauchyFilter handoff, StreamName windows, RegSeqRat readback, a DyadicRatCore tolerance ledger, a Real seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+\end{closurestatus}

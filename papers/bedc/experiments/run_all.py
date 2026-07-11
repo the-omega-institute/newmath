@@ -84,6 +84,8 @@ def main() -> int:
     scripts = [
         ROOT / "codon_window_spectra.py",
         ROOT / "dyadic_truncation_lp_refutation.py",
+        ROOT / "nine_real_sign_rp_screen.py",
+        ROOT / "square_real_sign_rp_screen.py",
     ]
     for script in scripts:
         returncode = run_script(script)

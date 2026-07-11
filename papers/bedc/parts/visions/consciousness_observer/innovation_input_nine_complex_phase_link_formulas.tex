@@ -1,0 +1,437 @@
+\chapter{Innovation Input Nine-ary Complex Phase Link Formulas}
+\label{ch:visions-innovation-input-nine-complex-phase-link-formulas}
+\origin{ai}
+
+\autoref{ch:visions-innovation-input-nine-real-sign-rp-screen} excludes
+the real-sign subfamily of the nine-ary Q3 locus from the anchored
+$L=3$ real neutral RP screen. That exclusion is a sublocus statement. The
+complex phase locus still requires the reflection-positive tests to be
+read on the full phase torus. This chapter records the first scalar
+link formulas for that locus: the ordinary distance-one and distance-two
+correlations, the three anchored $L=3$ link diagonals, and the principal
+minor inequalities forced by reflection positivity.
+
+\section{Nine-ary Phase Locus}
+\label{sec:innovation-input-nine-complex-phase-locus}
+
+\begin{definition}[Nine-ary complex Q3 phase row]
+\label{def:innovation-input-nine-complex-qthree-phase-row}
+The nine-ary complex Q3 phase locus is
+$$
+\mathcal Q_9
+:=
+\left\{
+v=(v_0,\ldots,v_8)\in\mathbb T^9:
+\sum_{a=0}^{8}v_a=3
+\right\}.
+$$
+For $v\in\mathcal Q_9$, the associated self-substitution phase sequence
+is determined by
+$$
+u_{9n+a}=v_a u_n,
+\qquad
+a=0,\ldots,8.
+$$
+The equality $3=\sqrt9$ makes this the $N=9$ instance of the Q3
+phase-polygon equation in
+\autoref{thm:innovation-input-qthree-phase-polygon}.
+\end{definition}
+
+\begin{definition}[Nine-ary cyclic edge ratios]
+\label{def:innovation-input-nine-complex-edge-ratios}
+For a nine-ary phase row, define
+$$
+x_a:=v_a\overline{v_{a+1}},
+\qquad
+a=0,\ldots,8,
+$$
+where indices are read modulo $9$, so that
+$$
+x_8=v_8\overline{v_0}.
+$$
+Then
+$$
+|x_a|=1
+$$
+for every $a$, and the cyclic product satisfies
+$$
+x_0x_1\cdots x_8=1.
+$$
+\end{definition}
+
+\section{Ordinary Link Correlations}
+\label{sec:innovation-input-nine-complex-ordinary-link-correlations}
+
+\begin{definition}[First and second nine-ary correlations]
+\label{def:innovation-input-nine-complex-first-second-correlations}
+For the self-substitution sequence associated to a nine-ary phase row,
+write
+$$
+\mu:=\Gamma(\delta_0-\delta_1)
+=
+\left\langle u_n\overline{u_{n+1}}\right\rangle
+$$
+and
+$$
+\nu:=\Gamma(\delta_0-\delta_2)
+=
+\left\langle u_n\overline{u_{n+2}}\right\rangle.
+$$
+\end{definition}
+
+\begin{theorem}[Nine-ary first correlation formula]
+\label{thm:innovation-input-nine-complex-first-correlation-formula}
+For every nine-ary self-substitution phase row,
+$$
+\mu
+=
+\frac{x_0+x_1+\cdots+x_7}{9-x_8}.
+$$
+\end{theorem}
+
+\begin{proof}
+Split the average defining $\Gamma(\delta_0-\delta_1)$ by
+$n=9q+a$. For $a=0,\ldots,7$, the two sites $n$ and $n+1$ lie in the
+same nine-ary cell and contribute $x_a$. For $a=8$, the second site
+crosses to the next cell and contributes $x_8\mu$. Hence
+$$
+\mu
+=
+\frac19
+\left(
+x_0+\cdots+x_7+x_8\mu
+\right).
+$$
+Since $|x_8|=1$, the denominator $9-x_8$ is nonzero, and the displayed
+formula follows.
+\end{proof}
+
+\begin{theorem}[Nine-ary second correlation formula]
+\label{thm:innovation-input-nine-complex-second-correlation-formula}
+For every nine-ary self-substitution phase row,
+$$
+\nu
+=
+\frac19
+\left[
+\sum_{a=0}^{6}x_ax_{a+1}
++
+(x_7x_8+x_8x_0)\mu
+\right].
+$$
+\end{theorem}
+
+\begin{proof}
+Split $\Gamma(\delta_0-\delta_2)$ by $n=9q+a$. For
+$a=0,\ldots,6$, no carry occurs and the coefficient is
+$$
+v_a\overline{v_{a+2}}=x_ax_{a+1}.
+$$
+For $a=7$, the second site crosses to residue $0$ in the next cell, and
+the branch block is $\delta_0-\delta_1$ with coefficient $x_7x_8$. For
+$a=8$, the second site crosses to residue $1$ in the next cell, and the
+same branch block has coefficient $x_8x_0$. Averaging over the nine
+residues gives the formula.
+\end{proof}
+
+\section{Anchored Link Diagonals}
+\label{sec:innovation-input-nine-complex-anchored-link-diagonals}
+
+\begin{definition}[Nine-ary forward link diagonals]
+\label{def:innovation-input-nine-complex-forward-link-diagonals}
+Use the forward neutral links
+$$
+F_{12}:=u_{n+1}\overline{u_{n+2}},
+\qquad
+F_{13}:=u_{n+1}\overline{u_{n+3}},
+\qquad
+F_{23}:=u_{n+2}\overline{u_{n+3}}.
+$$
+By translation invariance,
+$$
+\langle F_{12}\rangle=\mu,
+\qquad
+\langle F_{13}\rangle=\nu,
+\qquad
+\langle F_{23}\rangle=\mu.
+$$
+With the discrete reflection $\theta(j)=1-j$ from
+\autoref{def:innovation-input-discrete-reflection}, define
+$$
+D_{ij}:=\langle\theta F_{ij},F_{ij}\rangle.
+$$
+After common translation of the reflected signed block, the three
+diagonals are
+$$
+D_{12}
+=
+\Gamma(\delta_0-\delta_1+\delta_2-\delta_3),
+$$
+$$
+D_{13}
+=
+\Gamma(\delta_0-\delta_2+\delta_3-\delta_5),
+$$
+and
+$$
+D_{23}
+=
+\Gamma(\delta_0-\delta_1+\delta_4-\delta_5).
+$$
+\end{definition}
+
+\begin{theorem}[Nine-ary $D_{12}$ formula]
+\label{thm:innovation-input-nine-complex-dtwelve-formula}
+For every nine-ary self-substitution phase row,
+$$
+D_{12}
+=
+\frac19
+\left[
+\sum_{a=0}^{5}x_ax_{a+2}
++
+x_7x_0
++
+(x_6x_8+x_8x_1)\mu
+\right].
+$$
+\end{theorem}
+
+\begin{proof}
+Apply the residue split to
+$\delta_0-\delta_1+\delta_2-\delta_3$. The branch data are
+$$
+\begin{array}{c|c|c}
+\text{residue} & \text{coefficient} & \text{branch block}\\
+\hline
+0\le a\le5 & x_ax_{a+2} & \varnothing\\
+6 & x_6x_8 & \delta_0-\delta_1\\
+7 & x_7x_0 & \varnothing\\
+8 & x_8x_1 & \delta_0-\delta_1
+\end{array}
+$$
+The empty branch contributes $1$, and the branch
+$\delta_0-\delta_1$ contributes $\mu$. Averaging over all residues gives
+the displayed formula.
+\end{proof}
+
+\begin{theorem}[Nine-ary $D_{13}$ formula]
+\label{thm:innovation-input-nine-complex-dthirteen-formula}
+For every nine-ary self-substitution phase row,
+$$
+\begin{aligned}
+D_{13}
+=
+\frac19\Big[
+&\sum_{a=0}^{3}x_ax_{a+1}x_{a+3}x_{a+4}
++
+x_6x_7x_0x_1\\
+&+
+\left(
+x_4x_5x_7x_8
++
+x_5x_6x_8x_0
++
+x_7x_8x_1x_2
++
+x_8x_0x_2x_3
+\right)\mu
+\Big].
+\end{aligned}
+$$
+\end{theorem}
+
+\begin{proof}
+Apply the residue split to
+$\delta_0-\delta_2+\delta_3-\delta_5$. The branch data are
+$$
+\begin{array}{c|c|c}
+\text{residue} & \text{coefficient} & \text{branch block}\\
+\hline
+0\le a\le3 & x_ax_{a+1}x_{a+3}x_{a+4} & \varnothing\\
+4 & x_4x_5x_7x_8 & \delta_0-\delta_1\\
+5 & x_5x_6x_8x_0 & \delta_0-\delta_1\\
+6 & x_6x_7x_0x_1 & \varnothing\\
+7 & x_7x_8x_1x_2 & \delta_0-\delta_1\\
+8 & x_8x_0x_2x_3 & \delta_0-\delta_1
+\end{array}
+$$
+Again the empty branch contributes $1$, while
+$\delta_0-\delta_1$ contributes $\mu$. The nine-residue average is the
+claimed identity.
+\end{proof}
+
+\begin{theorem}[Nine-ary $D_{23}$ formula]
+\label{thm:innovation-input-nine-complex-dtwentythree-formula}
+For every nine-ary self-substitution phase row,
+$$
+D_{23}
+=
+\frac19
+\left[
+\sum_{a=0}^{3}x_ax_{a+4}
++
+x_5x_0+x_6x_1+x_7x_2
++
+(x_4x_8+x_8x_3)\mu
+\right].
+$$
+\end{theorem}
+
+\begin{proof}
+Apply the residue split to
+$\delta_0-\delta_1+\delta_4-\delta_5$. The branch data are
+$$
+\begin{array}{c|c|c}
+\text{residue} & \text{coefficient} & \text{branch block}\\
+\hline
+0\le a\le3 & x_ax_{a+4} & \varnothing\\
+4 & x_4x_8 & \delta_0-\delta_1\\
+5 & x_5x_0 & \varnothing\\
+6 & x_6x_1 & \varnothing\\
+7 & x_7x_2 & \varnothing\\
+8 & x_8x_3 & \delta_0-\delta_1
+\end{array}
+$$
+Averaging the empty branches and the two
+$\delta_0-\delta_1$ branches gives the displayed formula.
+\end{proof}
+
+\section{Principal Reflection-Positive Conditions}
+\label{sec:innovation-input-nine-complex-principal-rp-conditions}
+
+\begin{theorem}[Nine-ary three-link RP necessary condition]
+\label{thm:innovation-input-nine-complex-three-link-necessary-condition}
+If a nine-ary Q3 phase row passes the anchored $L=3$ neutral RP window,
+then
+$$
+D_{12}\in\mathbb R_{\ge0},
+\qquad
+D_{13}\in\mathbb R_{\ge0},
+\qquad
+D_{23}\in\mathbb R_{\ge0},
+$$
+and
+$$
+D_{12}\ge|\mu|^2,
+\qquad
+D_{13}\ge|\nu|^2,
+\qquad
+D_{23}\ge|\mu|^2.
+$$
+\end{theorem}
+
+\begin{proof}
+For each future link $F_{ij}$, restrict the RP Gram matrix to the
+two-dimensional span of $1$ and $F_{ij}$. The corresponding principal
+matrix has the form
+$$
+\begin{pmatrix}
+1 & \langle F_{ij}\rangle\\
+\overline{\langle F_{ij}\rangle} & D_{ij}
+\end{pmatrix}.
+$$
+Hermitian positive semidefiniteness forces the lower-right entry to be a
+nonnegative real number and forces the determinant inequality. The means
+of $F_{12}$ and $F_{23}$ are $\mu$, while the mean of $F_{13}$ is $\nu$.
+This gives the displayed conditions.
+\end{proof}
+
+\begin{definition}[Nine-ary link deficits]
+\label{def:innovation-input-nine-complex-link-deficits}
+Define the three scalar link deficits by
+$$
+\Delta_{12}:=D_{12}-|\mu|^2,
+\qquad
+\Delta_{13}:=D_{13}-|\nu|^2,
+\qquad
+\Delta_{23}:=D_{23}-|\mu|^2.
+$$
+\end{definition}
+
+\begin{corollary}[Scalar deficit obstruction]
+\label{cor:innovation-input-nine-complex-scalar-deficit-obstruction}
+A nine-ary Q3 phase row fails the anchored $L=3$ neutral RP window if any
+of the following conditions holds:
+$$
+D_{12}\notin\mathbb R_{\ge0},
+\qquad
+D_{13}\notin\mathbb R_{\ge0},
+\qquad
+D_{23}\notin\mathbb R_{\ge0},
+$$
+or
+$$
+\Delta_{12}<0,
+\qquad
+\Delta_{13}<0,
+\qquad
+\Delta_{23}<0
+$$
+for at least one displayed deficit.
+\end{corollary}
+
+\begin{proof}
+This is the contrapositive of
+\autoref{thm:innovation-input-nine-complex-three-link-necessary-condition}.
+\end{proof}
+
+\section{Pentary Contrast}
+\label{sec:innovation-input-nine-complex-pentary-contrast}
+
+\begin{principle}[Nine-ary links are multi-edge readouts]
+\label{prin:innovation-input-nine-complex-multiedge-readout}
+The pentary middle link has the endpoint form
+$$
+D_{13}
+=
+|\mu|^2+\frac{1-|\mu|^2}{5}\overline{x_4}
+$$
+from
+\autoref{thm:innovation-input-pentary-dthirteen-endpoint-form}. Together
+with the Q3 exclusion of $|\mu|=1$, this yields the pentary endpoint gate
+$x_4=\pm1$ in
+\autoref{thm:innovation-input-pentary-endpoint-gate}.
+
+The nine-ary middle link does not collapse to a single endpoint edge in
+the same residue computation. Its diagonal contains four interior
+four-edge products, one carry-cancelling boundary product, and four
+carry terms multiplied by $\mu$:
+$$
+\begin{aligned}
+D_{13}
+=
+\frac19\Big[
+&\sum_{a=0}^{3}x_ax_{a+1}x_{a+3}x_{a+4}
++
+x_6x_7x_0x_1\\
+&+
+\left(
+x_4x_5x_7x_8
++
+x_5x_6x_8x_0
++
+x_7x_8x_1x_2
++
+x_8x_0x_2x_3
+\right)\mu
+\Big].
+\end{aligned}
+$$
+Thus the scalar $L=3$ readout for $N=9$ is governed by several local
+phase paths rather than by a single endpoint ratio. The real-sign
+exclusion of
+\autoref{thm:innovation-input-nine-real-no-lthree-rp-row} therefore does
+not exclude the complex phase locus $\mathcal Q_9$.
+\end{principle}
+
+\begin{principle}[Cell-scale interpretation]
+\label{prin:innovation-input-nine-complex-cell-scale-interpretation}
+For $N=5$, the anchored $L=3$ middle link reaches the digit boundary
+strongly enough that the scalar diagonal reduces to an endpoint gate. For
+$N=9$, the same window is shorter relative to the digit cell. Several
+residue branches remain inside the cell, and boundary crossings enter as
+distributed carry corrections. Reflection positivity at this scale is
+therefore a coupled condition on interior four-edge paths and carry
+terms, not an endpoint-only condition.
+\end{principle}

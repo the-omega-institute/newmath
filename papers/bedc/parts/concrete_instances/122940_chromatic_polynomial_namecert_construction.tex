@@ -1,0 +1,73 @@
+\chapter{A Concrete Naming Certificate for $\ChromaticPolynomialUp$}
+\label{ch:concrete-instances-chromatic-polynomial-namecert}
+\origin{human}
+
+Following Birkhoff and Whitney, the $\ChromaticPolynomialUp$ packet records the finite graph-colouring data used to compute the chromatic polynomial through deletion and contraction. It sits over the finite graph carrier of \autoref{ch:concrete-instances-graph-namecert}, the finite-set rows of \autoref{ch:concrete-instances-finset-namecert}, the spanning-tree witness surface of \autoref{ch:concrete-instances-spanningtree-namecert}, the deletion-contraction neighbour \autoref{ch:concrete-instances-tutte-polynomial-namecert}, and the matroid boundary of \autoref{ch:concrete-instances-matroid-namecert}. The packet names only finite colour palettes, proper-colouring ledgers, and deletion-contraction rows; it does not import an infinite colouring principle, a host graph isomorphism oracle, an unrestricted polynomial ring, or a Tutte-polynomial theorem outside the displayed packet.
+
+\begin{definition}[ChromaticPolynomial carrier]
+\label{def:chromatic-polynomial-carrier}
+A $\ChromaticPolynomialUp$ carrier is a finite $\BHist$ packet
+$$
+X=(G,Q,C,D,H,R,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $G$ is the finite $\GraphUp$ row naming the vertex list, edge list, incidence readback, loop refusal, and simple-graph boundary used by the packet.
+\item $Q$ is the $\FinSetUp$ colour-palette row, including the finite colour list and membership ledger visible to the colouring read.
+\item $C$ is the proper-colouring ledger, listing the accepted vertex-to-colour rows and the edgewise inequality checks for adjacent vertices.
+\item $D$ is the deletion-contraction row for a displayed edge, exposing the deletion graph, contraction graph, and the boundary cases for loops and empty edge lists.
+\item $H$ records componentwise $\hsame$ transport for the graph, colour palette, colouring ledger, deletion-contraction row, replay, provenance, and local name.
+\item $R$ records displayed $\Cont$ replay from graph admission through palette lookup, proper-colouring verification, deletion-contraction comparison, and local naming.
+\item $P$ is the $\Pkg$ provenance over $\ChromaticPolynomialUp$, $\GraphUp$, $\FinSetUp$, $\SpanningTreeUp$, $\TuttePolynomialUp$, $\MatroidUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\ChromaticPolynomialUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $G,Q,C,D,H,R,P,N$. It has no coordinate for an infinite colour set, host graph equality, unrestricted polynomial algebra, a hidden deletion-contraction oracle, or a matroid/Tutte theorem not displayed as finite sibling data.
+\end{definition}
+
+\begin{theorem}[ChromaticPolynomial NameCert obligations]
+\label{thm:chromatic-polynomial-namecert-obligations}
+For every accepted $\ChromaticPolynomialUp$ carrier $X=(G,Q,C,D,H,R,P,N)$, the local $\NameCert_{\ChromaticPolynomialUp}$ surface consists exactly of carrier admission for the finite graph row, finite colour-palette exposure, proper-colouring ledger exactness, deletion-contraction boundary exposure, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:chromatic-polynomial-carrier}. The row $G$ is the only graph source, and $Q$ is the only colour-palette source.
+
+Read the colouring data through $C$. Properness is checked edge by edge against the finite graph row, so the ledger records only displayed vertex-colour assignments and displayed adjacency refusals.
+
+Read deletion and contraction through $D$. The row names the selected edge, the deletion graph, the contraction graph, and the loop or empty-edge boundary cases before any recurrence-style comparison is exposed.
+
+Finally use $H,R,P,N$. These rows transport, replay, source, and name the same finite packet. Since the carrier contains no infinite palette, host graph equality, unrestricted polynomial algebra, or hidden Tutte/matroid theorem, the listed rows exhaust the local NameCert obligations.
+\end{proof}
+
+\begin{theorem}[ChromaticPolynomial deletion-contraction boundary]
+\label{thm:chromatic-polynomial-deletion-contraction-boundary}
+Every deletion-contraction read accepted by a $\ChromaticPolynomialUp$ carrier factors through the displayed route
+$$
+G \longmapsto D \longmapsto C \longmapsto Q \longmapsto H,R,P,N .
+$$
+The deletion graph and contraction graph are read as finite graph rows tied to the same colour-palette and proper-colouring ledger. Boundary cases for loops, empty edge lists, and palette exhaustion remain ledger rows, not external polynomial identities.
+\end{theorem}
+\begin{proof}
+Start with the graph row $G$. It supplies the finite vertices, finite edges, and incidence readback used by the selected edge in $D$.
+
+The deletion-contraction row $D$ keeps both derived graphs inside the same packet. Their colouring reads are not independent host graphs; each is compared through the palette row $Q$ and the proper-colouring ledger $C$.
+
+The structural rows $H,R,P,N$ preserve the same finite route and record its provenance through the graph, finite-set, spanning-tree, Tutte-polynomial, and matroid neighbours. They do not introduce an unrestricted polynomial identity or a hidden recurrence theorem.
+
+Thus deletion-contraction is a boundary of the displayed NameCert packet: a downstream consumer may read the finite comparison route, but not an ambient chromatic-polynomial algebra beyond it.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\ChromaticPolynomialUp$ read exposes a finite graph row, finite colour-palette row, proper-colouring ledger, deletion-contraction row, componentwise hsame transport, displayed Cont replay, Pkg provenance, and local NameCert row.}
+
+\independenceWitness{graph, finset, spanningtree, tutte-polynomial, matroid: none is bijective to $\ChromaticPolynomialUp$ because none jointly carries the finite colour palette, proper-colouring ledger, deletion-contraction row, transport, replay, provenance, and local naming rows for one chromatic-polynomial packet.}
+
+\closureat{ChromaticPolynomialUp}{seedStr}
+
+\begin{closurestatus}{\ChromaticPolynomialUp}
+  \constructivestory{A $\ChromaticPolynomialUp$ packet is generated from a finite graph row, a finite colour-palette row, a proper-colouring ledger, a deletion-contraction row, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:chromatic-polynomial-carrier}, \autoref{thm:chromatic-polynomial-namecert-obligations}, and \autoref{thm:chromatic-polynomial-deletion-contraction-boundary} seed the finite graph-colouring carrier, NameCert obligation surface, and deletion-contraction boundary.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close Lean verification, bridge checking, unrestricted polynomial algebra, infinite colour palettes, host graph equality, a Tutte-polynomial theorem, or a matroid theorem for $\ChromaticPolynomialUp$.}
+  \upgradepath{Obligation closure requires checked carrier admission, palette exposure, proper-colouring ledger exactness, deletion-contraction boundary exactness, transport stability, replay, provenance, and local naming for BEDC.Derived.ChromaticPolynomialUp.}
+\end{closurestatus}

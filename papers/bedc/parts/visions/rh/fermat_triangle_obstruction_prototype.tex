@@ -1,0 +1,294 @@
+\chapter{Fermat Triangle Obstruction Prototype}
+\label{ch:visions-rh-fermat-triangle-obstruction-prototype}
+\origin{ai}
+
+\autoref{ch:visions-rh-triadic-pythagorean-obstruction} isolates the
+RH-facing scale defect as a quadratic residual, and
+\autoref{ch:visions-rh-circle-triangle-hidden-scale-generation} records the
+prime-register boundary behind triangle closure.  The present chapter records
+the Fermat-shaped prototype for that obstruction.  The purpose is not to
+import Fermat's Last Theorem as a BEDC theorem.  It is to separate the legal
+quadratic triangle row from higher-power displays that require a separate
+branch, scale, ideal, or arithmetic ledger before they can be consumed.
+
+\section{Quadratic Triangle Closure}
+\label{sec:rh-fermat-prototype-quadratic-triangle-closure}
+
+\begin{definition}[Primitive orthogonal triangle closure]
+\label{def:rh-primitive-orthogonal-triangle-closure}
+A primitive orthogonal triangle closure is a displayed packet
+$$
+X\perp Y,
+\qquad
+Z=X\oplus Y,
+$$
+together with the quadratic readout
+$$
+E(V):=\|V\|^2
+$$
+and the energy ledger
+$$
+E(Z)=E(X)+E(Y).
+$$
+In BEDC terms, the packet is legal only when the source rows carrying
+$X$, $Y$, the orthogonality witness, the direct-sum readout, and the
+quadratic energy readback all remain visible in the ledger.
+\end{definition}
+
+The residual identities of
+\autoref{thm:rh-residual-pythagorean-identity} and
+\autoref{thm:rh-observation-vector-pythagorean-identity} are instances of
+\autoref{def:rh-primitive-orthogonal-triangle-closure}.  They are the formal
+reason why the observation route naturally produces square energy:
+orthogonal residuals add through the norm square, not through an arbitrary
+power.
+
+\begin{principle}[Square energy as orthogonal information readout]
+\label{prin:rh-square-energy-orthogonal-information-readout}
+The square in a Pythagorean row is not a decorative exponent.  It is the
+energy readout of an orthogonal decomposition.  When a generated object has
+the form
+$$
+B_{m+1}=B_m\oplus R_{m+1},
+\qquad
+R_{m+1}\perp B_m,
+$$
+the ledgered invariant is
+$$
+\|B_{m+1}\|^2
+=
+\|B_m\|^2+\|R_{m+1}\|^2.
+$$
+This is the quadratic surface on which a circle readout, a right-triangle
+readout, and a residual scale audit can be compared.
+\end{principle}
+
+\begin{theorem}[Displayed $L^q$ parallelogram obstruction]
+\label{thm:rh-lq-parallelogram-obstruction}
+Let $q>0$ and let
+$$
+\|(a,b)\|_q=(|a|^q+|b|^q)^{1/q}
+$$
+on the displayed two-coordinate row.  If this readout satisfies the
+parallelogram identity on
+$$
+x=(1,1),
+\qquad
+y=(1,-1),
+$$
+then $q=2$.
+\end{theorem}
+
+\begin{proof}
+For these two displayed vectors,
+$$
+x+y=(2,0),
+\qquad
+x-y=(0,2).
+$$
+Hence
+$$
+\|x+y\|_q^2+\|x-y\|_q^2
+=
+4+4
+=
+8.
+$$
+Also
+$$
+\|x\|_q^2=\|y\|_q^2=2^{2/q},
+$$
+so the right side of the parallelogram identity is
+$$
+2\|x\|_q^2+2\|y\|_q^2
+=
+4\cdot 2^{2/q}.
+$$
+The parallelogram identity therefore gives
+$$
+8=4\cdot 2^{2/q},
+$$
+equivalently
+$$
+2=2^{2/q}.
+$$
+Since the displayed exponential base is greater than $1$, the exponent
+comparison gives $2/q=1$, hence $q=2$.
+\end{proof}
+
+\begin{principle}[Quadratic-only primitive triangle]
+\label{prin:rh-quadratic-only-primitive-triangle}
+A primitive orthogonal triangle closure must pass through the
+parallelogram-compatible norm-square row.  A higher-power display may be a
+valid arithmetic, algebraic, or analytic object, but it is not a primitive
+orthogonal triangle closure unless its proof ledger supplies a quadratic
+inner-product carrier from which the display is derived.
+\end{principle}
+
+\section{Fermat Classifiers}
+\label{sec:rh-fermat-prototype-fermat-classifiers}
+
+\begin{definition}[Gaussian two-square classifier row]
+\label{def:rh-gaussian-two-square-classifier-row}
+The Gaussian two-square classifier is the specialization of the
+prime-classifier container of
+\autoref{def:rh-prime-classifier-container} to the norm
+$$
+N(a+bi)=a^2+b^2.
+$$
+Its inert boundary is the family of rational primes
+$$
+p\equiv3\pmod4,
+$$
+and its finite boundary readout is
+$$
+\partial_{\square}(n)
+:=
+\bigl(v_p(n)\bmod2\bigr)_{p\equiv3\pmod4}.
+$$
+The displayed closure row
+$$
+\partial_{\square}(n)=0
+$$
+states that every inert prime class occurs with even multiplicity.
+\end{definition}
+
+\begin{principle}[Fermat two-square theorem as quadratic classifier]
+\label{prin:rh-fermat-two-square-quadratic-classifier}
+The classical two-square theorem is the positive quadratic prototype:
+an integer $n$ is a sum of two squares exactly when the inert boundary
+of \autoref{def:rh-gaussian-two-square-classifier-row} vanishes.  For
+primes this says that $p=a^2+b^2$ exactly for $p=2$ or
+$p\equiv1\pmod4$.  BEDC reads this not merely as an equation, but as a
+prime-register classification of when a quadratic norm packet has no
+unpaired inert boundary.
+\end{principle}
+
+\begin{definition}[Higher-power pseudo-triangle row]
+\label{def:rh-higher-power-pseudo-triangle-row}
+For $n>2$, a displayed equation
+$$
+x^n+y^n=z^n
+$$
+is a higher-power pseudo-triangle row when it is offered as if it were the
+primitive triangle closure of
+\autoref{def:rh-primitive-orthogonal-triangle-closure}.  The row is
+accepted as a BEDC object only after its actual source ledger is exposed:
+cyclotomic branches, ideal factors, unit rows, class-group data, elliptic
+or Galois carriers, or any other arithmetic structure needed by the
+display.  Without such a ledger it is not a primitive triangle row.
+\end{definition}
+
+\begin{principle}[Fermat last theorem as high-power closure refusal]
+\label{prin:rh-fermat-last-theorem-high-power-refusal}
+In this vocabulary, Fermat's Last Theorem says that the integer prime
+register has no non-trivial high-power pseudo-triangle closure:
+$$
+x^n+y^n=z^n,
+\qquad
+n>2,
+$$
+has no nonzero integer solution.  The BEDC reading is narrower than the
+historical theorem and does not replace its proof: a higher exponent
+cannot silently assume the role carried by square energy in a primitive
+orthogonal triangle packet.
+\end{principle}
+
+For an odd prime exponent $\ell$, the algebraic display already shows the
+difference in carrier:
+$$
+x^\ell+y^\ell
+=
+\prod_{k=0}^{\ell-1}(x+\zeta_\ell^k y).
+$$
+This is a many-branch cyclotomic ledger, not the two-factor norm row
+$$
+(a+bi)(a-bi)=a^2+b^2.
+$$
+The higher-power display therefore belongs to a richer arithmetic
+container before it belongs to any triangle-facing consumer.
+
+\section{RH Radial Scale as Fermat-Type Defect}
+\label{sec:rh-fermat-prototype-rh-radial-scale}
+
+\begin{definition}[Fermat-type triangle obstruction]
+\label{def:rh-fermat-type-triangle-obstruction}
+A Fermat-type triangle obstruction is a displayed closure attempt in
+which a non-quadratic or non-unit component is presented as if it were a
+primitive orthogonal triangle row.  Its BEDC audit asks for the missing
+ledger:
+$$
+\mathsf{quadratic\ carrier}
+\quad\text{or}\quad
+\mathsf{external\ residual\ row}.
+$$
+If the quadratic carrier is absent and the residual row is omitted, the
+closure is not generated.
+\end{definition}
+
+The RH route has the same shape after the Li coordinate is introduced.
+For a zero row $\rho$, write
+$$
+z(\rho)=1-\frac1\rho=e^{\ell+i\theta}.
+$$
+By \autoref{thm:rh-li-coordinate-pythagorean-decomposition},
+$$
+|1-z(\rho)^n|^2
+=
+(e^{n\ell}-1)^2
++
+2e^{n\ell}(1-\cos(n\theta)).
+$$
+The second summand is the phase-facing term.  The first summand is a
+radial scale leg.  If $\ell\ne0$, this leg is positive along suitable
+displayed times and is not a unit-circle phase coordinate.
+
+\begin{principle}[Radial scale is not phase closure]
+\label{prin:rh-radial-scale-not-phase-closure}
+The off-fixed-half condition $\ell\ne0$ is the RH-facing analogue of a
+higher-power pseudo-triangle row.  It is a syntactically visible closure
+attempt, but the radial factor cannot be consumed as unit phase or as a
+quadratic triangle invariant without displaying a scale ledger.  Thus the
+route from \autoref{def:rh-radial-no-hidden-radial-register} to
+\autoref{def:rh-fermat-type-triangle-obstruction} is:
+$$
+\ell\ne0
+\quad\Longrightarrow\quad
+\mathsf{radial\ residual}
+\quad\Longrightarrow\quad
+\mathsf{not\ pure\ unit\ triangle\ closure}.
+$$
+\end{principle}
+
+\begin{definition}[NoFakeTriangleClosure target]
+\label{def:rh-no-fake-triangle-closure-target}
+The target row
+$$
+\mathsf{NoFakeTriangleClosure}
+$$
+has four clauses.
+\begin{itemize}
+  \item Every primitive orthogonal triangle closure factors through
+  square energy and a parallelogram-compatible carrier.
+  \item Every higher-power arithmetic display is either accounted for by
+  its own branch and prime-register ledger or refused as a primitive
+  triangle closure.
+  \item Every zeta Li packet with $\ell\ne0$ displays a radial scale row
+  rather than a pure unit phase row.
+  \item A cofinal prime classifier detects any unpaired inert boundary,
+  radial residual, or scale ledger that a finite visible phase readout
+  cannot erase.
+\end{itemize}
+\end{definition}
+
+\begin{principle}[Fermat prototype for the RH proof-engineering route]
+\label{prin:rh-fermat-prototype-proof-engineering-route}
+The proof-engineering lesson is that the target is not a bare analogy
+between Fermat's Last Theorem and RH.  The shared BEDC shape is the
+refusal of unledgered closure.  In the Fermat prototype, square norms
+have a prime classifier and higher powers cannot impersonate primitive
+triangles.  In the RH route, unit phases have triangle readouts and an
+off-fixed-half zero carries a radial scale leg.  The common target is to
+turn that scale leg into a classifier-visible obstruction rather than a
+hidden coordinate.
+\end{principle}

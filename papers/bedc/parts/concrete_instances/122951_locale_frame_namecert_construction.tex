@@ -1,0 +1,79 @@
+\chapter{A Concrete Naming Certificate for $\LocaleFrameUp$}
+\label{ch:concrete-instances-locale-frame-namecert}
+\origin{human}
+
+Following Johnstone and constructive locale theory, the $\LocaleFrameUp$ packet records the point-free topology interface as finite frame operations and finite cover-refinement data. It sits after the open-index topology of \autoref{ch:concrete-instances-topology-namecert}, the meet--join order surface of \autoref{ch:concrete-instances-lattice-namecert}, the implication boundary of \autoref{ch:concrete-instances-heyting-algebra-namecert}, and the locale-space handoff of \autoref{ch:concrete-instances-locale-space-namecert}; it also supplies a point-free input surface for compact-open consumers such as \autoref{ch:concrete-instances-compact-open-topology-namecert}. The packet names finite generators, finite meets and joins, cover refinement, topology handoff, Heyting/frame boundary, transport, replay, provenance, and local naming without importing host powersets, selected points, quotient spaces, choice-indexed covers, or spatiality.
+
+\begin{definition}[Locale frame carrier]
+\label{def:locale-frame-carrier}
+A $\LocaleFrameUp$ carrier is a finite $\BHist$ packet
+$$
+F=(G,M,J,C,T,B,H,R,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $G$ is the finite open-generator row, naming the basic point-free observations available to the frame.
+\item $M$ is the finite-meet row, recording displayed finite intersections of generators and generated opens.
+\item $J$ is the finite-join row, recording displayed finite unions of generators and generated opens.
+\item $C$ is the cover-refinement row, recording finite cover requests and finite refinement witnesses between generated-open families.
+\item $T$ is the topology handoff row, exposing generated-open reads to $\TopologyUp$ without replacing the frame by a host open-set powerset.
+\item $B$ is the Heyting/frame boundary row, exposing implication-shaped or complemented finite fragments through $\HeytingAlgebraUp$ only when those fragments are displayed.
+\item $H$ records componentwise $\hsame$ transport for generator, meet, join, cover-refinement, topology handoff, Heyting/frame boundary, replay, provenance, and local naming rows.
+\item $R$ records displayed $\Cont$ replay from a frame request through generators, finite meets, finite joins, cover refinement, topology handoff, Heyting/frame boundary, transport, provenance, and local naming.
+\item $P$ is the $\Pkg$ provenance over $\LocaleFrameUp$, $\LocaleSpaceUp$, $\TopologyUp$, $\LatticeUp$, $\HeytingAlgebraUp$, $\CompactOpenTopologyUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\LocaleFrameUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through $G,M,J,C,T,B,H,R,P,N$. It has no coordinate for host powersets of opens, selected points, quotient spatial presentations, arbitrary joins, choice-indexed covers, ambient completeness, or a global Boolean algebra of all opens.
+\end{definition}
+
+\begin{theorem}[Locale frame NameCert obligations]
+\label{thm:locale-frame-namecert-obligations}
+For every accepted $\LocaleFrameUp$ carrier
+$$
+F=(G,M,J,C,T,B,H,R,P,N),
+$$
+the local $\NameCert_{\LocaleFrameUp}$ surface consists exactly of finite open-generator admission through $G$, finite-meet exposure through $M$, finite-join exposure through $J$, cover-refinement exactness through $C$, topology handoff through $T$, Heyting/frame boundary exposure through $B$, componentwise $\hsame$ transport through $H$, displayed $\Cont$ replay through $R$, $\Pkg$ provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:locale-frame-carrier}. The rows $G,M,J,C$ display the point-free frame data before any topology-facing or implication-facing consumer is allowed to read the packet.
+
+The topology handoff is exactly the row $T$. It sends generated-open reads to $\TopologyUp$ but does not create a host powerset of all opens, a selected point carrier, or a quotient spatial presentation.
+
+The Heyting/frame boundary is exactly the row $B$. It may expose implication-shaped or complemented finite fragments through $\HeytingAlgebraUp$, but only for fragments already displayed by the generator, meet, join, and cover-refinement rows.
+
+Finally $H,R,P,N$ transport, replay, source, and name the same finite packet. Since the carrier has no coordinate for arbitrary joins, choice-indexed covers, ambient completeness, or global Boolean openness, the listed rows exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[Locale frame finite-meet cover route]
+\label{thm:locale-frame-finite-meet-cover-route}
+Every accepted $\LocaleFrameUp$ read that compares a finite meet against a cover-refinement request factors through the finite route
+$$
+G \longmapsto M \longmapsto J \longmapsto C \longmapsto T \longmapsto B \longmapsto H \longmapsto R \longmapsto P \longmapsto N .
+$$
+A $\LocaleSpaceUp$, $\TopologyUp$, $\LatticeUp$, $\HeytingAlgebraUp$, or $\CompactOpenTopologyUp$ consumer may inherit only the displayed generator, finite-meet, finite-join, cover-refinement, topology handoff, Heyting/frame boundary, transport, replay, provenance, and local naming rows. The route exports no host powerset, selected point, quotient spatial carrier, arbitrary cover choice, ambient compactness theorem, or global Boolean algebra of opens.
+\end{theorem}
+\begin{proof}
+Start with the generator row $G$. A finite-meet comparison has no accepted source until the basic open observations are displayed and the finite-meet row $M$ records the intersection being inspected.
+
+Add the finite-join and cover-refinement rows. The row $J$ keeps generated finite unions in the same point-free ledger, and $C$ records the finite cover family and its refinement witness before any topology-facing consumer may use the comparison.
+
+Only after those rows are fixed may the handoff rows be read. The topology handoff $T$ exposes generated-open data to $\TopologyUp$, while the Heyting/frame boundary $B$ exposes implication-shaped or complemented finite fragments without turning the whole packet into a Boolean algebra of opens.
+
+The structural rows $H,R,P,N$ preserve the same route by transport, replay, provenance, and local naming. Thus every finite-meet cover read is point-free and finite before any sibling consumer receives it.
+\end{proof}
+
+\falsifiablePrediction{Every accepted $\LocaleFrameUp$ read exposes finite open generators, finite meets, finite joins, cover-refinement, topology handoff, Heyting/frame boundary, componentwise hsame transport, displayed Cont replay, Pkg provenance, and local NameCert rows before a topology, lattice, Heyting, locale-space, or compact-open consumer may use the frame.}
+
+\independenceWitness{topology, lattice, heytingalgebra, localespace, compactopentopology: $\LocaleFrameUp$ is not bijective to any listed sibling because it binds generators, finite frame operations, cover-refinement, topology handoff, Heyting/frame boundary, transport, replay, provenance, and local NameCert rows in one point-free packet.}
+
+\closureat{LocaleFrameUp}{seedStr}
+
+\begin{closurestatus}{\LocaleFrameUp}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:locale-frame-carrier}, \autoref{thm:locale-frame-namecert-obligations}, and \autoref{thm:locale-frame-finite-meet-cover-route} seed the point-free finite-frame packet over generator, meet, join, cover-refinement, topology handoff, Heyting/frame boundary, transport, replay, provenance, and local naming rows.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not claim host powersets of opens, selected points, quotient spatial presentations, arbitrary joins, choice-indexed covers, spatiality, ambient compactness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, finite meet and join exactness, cover-refinement stability, topology handoff, Heyting/frame boundary restriction, transport, replay, provenance, and local naming for BEDC.Derived.LocaleFrameUp.}
+  \constructivestory{A $\LocaleFrameUp$ packet is generated from finite open generators, finite meet rows, finite join rows, cover-refinement rows, topology handoff rows, Heyting/frame boundary rows, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+\end{closurestatus}

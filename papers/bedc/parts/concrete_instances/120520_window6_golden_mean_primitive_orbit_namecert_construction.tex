@@ -1,0 +1,75 @@
+\chapter{The Golden-Mean Primitive-Orbit Mobius Certificate}
+\label{ch:concrete-instances-window6-golden-mean-primitive-orbit}
+\origin{ai}
+
+The golden-mean subshift has a primitive-orbit Euler product behind its dynamical zeta. This chapter records the finite weighted Mobius certificate for that Euler-product side: after the divisor substitution $y\mapsto y^d$, the primitive-orbit Mobius transform is divisible by the period and has a nonnegative integral quotient through period $12$.
+
+\section{The Weighted Primitive-Orbit Transform}
+\label{sec:window6-primitive-orbit-transform}
+
+Let $T_y=\begin{pmatrix}1&y\\1&0\end{pmatrix}$ be the weighted golden-mean transfer matrix and let
+$$
+C_n(y)=\operatorname{tr}(T_y^n)
+$$
+be the weighted cyclic period-count polynomial. The primitive-orbit Mobius transform is
+$$
+A_n(y)=\sum_{d\mid n}\mu(d)\,C_{n/d}(y^d).
+$$
+The substitution $y\mapsto y^d$ is part of the object: an orbit with a weight contribution in the shorter quotient period is repeated $d$ times in the length-$n$ orbit, so its weight exponent is multiplied by $d$.
+
+\begin{theorem}[Finite primitive-orbit integrality and positivity]
+\label{thm:window6-primitive-orbit-positivity}
+For each $1\le n\le12$, the weighted primitive-orbit Mobius transform satisfies
+$$
+A_n(y)=n\,P_n(y)
+$$
+for a polynomial $P_n(y)\in\mathbb N[y]$. The certified quotients are
+$$
+\begin{aligned}
+P_1&=1,\\
+P_2&=y,\\
+P_3&=y,\\
+P_4&=y,\\
+P_5&=y+y^2,\\
+P_6&=y+y^2,\\
+P_7&=y+2y^2+y^3,\\
+P_8&=y+2y^2+2y^3,\\
+P_9&=y+3y^2+3y^3+y^4,\\
+P_{10}&=y+3y^2+5y^3+2y^4,\\
+P_{11}&=y+4y^2+7y^3+5y^4+y^5,\\
+P_{12}&=y+4y^2+9y^3+8y^4+3y^5.
+\end{aligned}
+$$
+Thus the Euler-product exponents in this finite window are integral and nonnegative after division by the period.
+\end{theorem}
+\leanchecked{BEDC.Derived.Window6GoldenMeanPrimitiveOrbit.golden\_mean\_primitive\_orbit\_mobius\_positivity}
+
+At $y=1$, the values $p_n=A_n(1)/n$ are the primitive golden-mean orbit counts of exact period $n$ in the certified window:
+$$
+1,\ 1,\ 1,\ 1,\ 2,\ 2,\ 4,\ 5,\ 8,\ 11,\ 18,\ 25.
+$$
+Equivalently, the corresponding Mobius numerators are
+$$
+A_1(1),\ldots,A_{12}(1)=1,2,3,4,10,12,28,40,72,110,198,300.
+$$
+
+\section{What This Certificate Claims}
+\label{sec:window6-primitive-orbit-scope}
+
+This is the finite Euler-product / primitive-orbit positivity side of the golden-mean subshift zeta; it is not a proof of the Riemann Hypothesis and not about the Riemann xi. The determinant side and the trace-Hankel positivity side certify spectral polynomial identities and finite square-sum positivity. The Mobius certificate here is different finite content: it certifies the integrality and positivity of the Euler-product exponents after the primitive-orbit divisor transform, with the essential substitution $y\mapsto y^d$.
+
+This certificate is therefore not reducible to the determinant identity. The determinant records a reciprocal zeta polynomial and its spectral transfer reading. The primitive-orbit Mobius transform records how periodic weighted words decompose into primitive cycles and checks that the quotient exponents are actual nonnegative orbit counts in the finite window $1\le n\le12$.
+
+\falsifiablePrediction{A recomputation of the weighted cyclic polynomials $C_n(y)$, the Mobius values $\mu(d)$ for $d\le12$, or the divisor substitution $y\mapsto y^d$ that changes any equality $A_n(y)=nP_n(y)$ for $1\le n\le12$ refutes this packet.}
+
+\independenceWitness{riemann-hypothesis-roadmap, riemann-zeta: this packet is the finite Euler-product primitive-orbit integrality and positivity certificate for the golden-mean subshift only; it is not a proof of the Riemann Hypothesis, not about the Riemann $\xi$, and it asserts no analytic transport to the critical line or to prime-channel zeta phenomena.}
+
+\begin{closurestatus}{Window6GoldenMeanPrimitiveOrbit}
+  \theoryclosure{\scopedClosure}
+  \scopeclosed{\autoref{thm:window6-primitive-orbit-positivity} closes the finite weighted primitive-orbit Mobius integrality and nonnegative quotient certificate for $1\le n\le12$, using the divisor substitution $y\mapsto y^d$.}
+  \formalstatus{\theoremCheckedV}
+  \leantarget{BEDC.Derived.Window6GoldenMeanPrimitiveOrbit.golden\_mean\_primitive\_orbit\_mobius\_positivity}
+  \bridgestatus{none}
+  \notclaimed{not a proof of RH; finite Euler-product primitive-orbit integrality/positivity for the golden-mean SFT only}
+  \upgradepath{lift the finite $n\le12$ integrality to all $n$ via a general Mobius-inversion argument, and connect the primitive-orbit exponents to the analytic golden-mean pressure}
+\end{closurestatus}

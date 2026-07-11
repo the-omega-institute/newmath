@@ -1,0 +1,17 @@
+\begin{theorem}[HausdorffUniformityCompletion sibling lattice]
+\label{thm:hausdorff-uniformity-completion-sibling-lattice}
+Every accepted $\HausdorffUniformityCompletionUp$ read that is consumed as a separated uniform completion must pass through the sibling lattice
+$$
+\UniformSpaceUp\longmapsto\HausdorffCompletionUp\longmapsto\CompletionUp\longmapsto(\CauchyFilterUp,\StreamNameUp,\RegSeqRatUp,\RealUp)
+$$
+before any separated-uniform completion consumer reads the packet. The $\UniformSpaceUp$ row supplies the finite entourage basis, $\HausdorffCompletionUp$ supplies the separated completion row, $\CompletionUp$ supplies the completion boundary, and the $\CauchyFilterUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$ rows supply the observable filter, window, regular-readback, and seal handoff surfaces.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:hausdorff-uniformity-completion-carrier}. Its uniform source, separated classifier, completion rows, finite windows, regular readback, and real seal are displayed as rows of one finite packet.
+
+The first lattice edge is the $\UniformSpaceUp$ source row. A separated completion consumer cannot read a completion endpoint before the finite entourage basis and refinement ledger have been exposed.
+
+The next edges are the separated completion and completion-boundary rows. The Hausdorff side records the separated completion constraint, and the completion row records the boundary at which a completion consumer is allowed to ask for an endpoint read.
+
+Finally the observable side passes through $\CauchyFilterUp$, $\StreamNameUp$, $\RegSeqRatUp$, and $\RealUp$ rows. These rows provide the finite filter observation, window schedule, regular rational readback, and real seal consumed by the downstream packet. Since the carrier has no bypass coordinate, every separated-uniform completion read follows this sibling lattice.
+\end{proof}

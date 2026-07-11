@@ -1,0 +1,66 @@
+\chapter{A Concrete Naming Certificate for $\RegularRealMorphismUp$}
+\label{ch:concrete-instances-regular-real-morphism-namecert}
+\origin{human}
+
+Following the Bishop--Bridges treatment of constructive real functions by regular Cauchy names and explicit moduli, the $\RegularRealMorphismUp$ packet records a finite BEDC surface for a morphism between regular real names. It sits after the dyadic rational core of \autoref{ch:concrete-instances-dyadicratcore-namecert}, the stream-name interface of \autoref{ch:concrete-instances-streamname-namecert}, the regular rational sequence carrier of \autoref{ch:concrete-instances-regseqrat-namecert}, the real-name certificate of \autoref{ch:concrete-instances-real-namecert}, and the continuity certificate of \autoref{ch:concrete-instances-continuousmap-namecert}. The packet names only the displayed source name, target name, dyadic modulus, transport, continuity replay, provenance, and local certificate; it is not a host function, quotient-real equality principle, completeness theorem, or choice operator.
+
+\begin{definition}[Regular real morphism carrier]
+\label{def:regular-real-morphism-carrier}
+A $\RegularRealMorphismUp$ carrier is a finite $\BHist$ packet
+$$
+R=(S,T,M,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $S$ is the source $\RealUp$ row, exposed as a regular Cauchy real name through the $\RegSeqRatUp$ and $\StreamNameUp$ sibling surfaces.
+\item $T$ is the target $\RealUp$ row, exposed as a regular Cauchy real name with the same sibling interfaces available for inspection.
+\item $M$ is the dyadic modulus row over $\DyadicRatCoreUp$, recording how a requested target precision is converted into the source precision that the morphism reads.
+\item $H$ records componentwise $\hsame$ transport for source name, target name, dyadic modulus, continuity replay, provenance, and local name.
+\item $C$ records displayed $\Cont$ replay from the source regular name, through the dyadic modulus read, to the target regular name.
+\item $P$ is the $\Pkg$ provenance over $\RegularRealMorphismUp$, $\RealUp$, $\RegSeqRatUp$, $\StreamNameUp$, $\DyadicRatCoreUp$, $\ContinuousMapUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\RegularRealMorphismUp}$ row.
+\end{enumerate}
+The classifier compares accepted carriers only through this finite morphism surface.
+\end{definition}
+
+\begin{theorem}[Regular real morphism NameCert surface]
+\label{thm:regular-real-morphism-namecert-surface}
+For every accepted $\RegularRealMorphismUp$ carrier $R=(S,T,M,H,C,P,N)$, the local $\NameCert_{\RegularRealMorphismUp}$ surface consists exactly of source regular-name admission through $S$, target regular-name admission through $T$, dyadic-modulus exposure through $M$, componentwise transport through $H$, displayed continuity replay through $C$, provenance through $P$, and local naming through $N$.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:regular-real-morphism-carrier}. Rows $S$ and $T$ display the source and target real names before any morphism certificate is consumed.
+
+The dyadic modulus row $M$ is the only precision transformer in the packet. It records the source precision required for each displayed target precision, using the dyadic rational core rather than a host real function or quotient-real representative.
+
+Transport, continuity replay, provenance, and local naming are then read through $H,C,P,N$. These rows preserve the same finite route, so the exported certificate contains no host function graph, extensional quotient equality of reals, completeness construction, or choice functional.
+\end{proof}
+
+\begin{theorem}[Regular real morphism sibling anchors]
+\label{thm:regular-real-morphism-sibling-anchors}
+Every consumer of an accepted $\RegularRealMorphismUp$ packet must read the sibling route
+$$
+\DyadicRatCoreUp,\ \StreamNameUp,\ \RegSeqRatUp,\ \RealUp,\ \ContinuousMapUp
+$$
+through the displayed rows $S,T,M,H,C,P,N$. The morphism surface is determined by regular source and target names, a dyadic modulus, $\hsame$ transport, $\Cont$ replay, $\Pkg$ provenance, and the local $\NameCert$ row.
+\end{theorem}
+\begin{proof}
+The source and target rows $S,T$ anchor the packet in the regular real-name surface. Their available inspections pass through the stream-name and regular rational sequence siblings, so a consumer cannot read a target-name claim without the corresponding regular-name witnesses.
+
+The modulus row $M$ anchors the precision handoff in $\DyadicRatCoreUp$. The replay row $C$ then exposes the continuous-map route, while $H$ transports the displayed data and $P,N$ package the provenance and local name.
+
+Thus the sibling anchors are exactly the five named surfaces together with the morphism rows $S,T,M,H,C,P,N$. Nothing in the packet adds host-function extensionality, quotient-real equality, a completion theorem, or a choice principle.
+\end{proof}
+
+\falsifiablePrediction{A $\RegularRealMorphismUp$ consumer is refuted whenever it reads a morphism between regular real names before the source row, target row, dyadic modulus, hsame transport, Cont replay, Pkg provenance, and local NameCert row are displayed.}
+
+\closureat{RegularRealMorphismUp}{seedStr}
+
+\begin{closurestatus}{\RegularRealMorphismUp}
+  \constructivestory{A $\RegularRealMorphismUp$ packet is generated from source and target regular Cauchy real names, a DyadicRatCore modulus, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:regular-real-morphism-carrier}, \autoref{thm:regular-real-morphism-namecert-surface}, and \autoref{thm:regular-real-morphism-sibling-anchors} seed the finite morphism route between regular Cauchy real names.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close host functions, quotient reals, completeness, choice, theorem-level Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked source admission, target admission, dyadic modulus exposure, transport, continuity replay, provenance, and local naming for BEDC.Derived.RegularRealMorphismUp.}
+\end{closurestatus}

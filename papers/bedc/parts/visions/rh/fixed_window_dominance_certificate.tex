@@ -1,0 +1,527 @@
+\chapter{Fixed Window Dominance Certificate}
+\label{ch:visions-rh-fixed-window-dominance-certificate}
+\origin{ai}
+
+\autoref{ch:visions-rh-prime-distribution-curve-projection} records the
+macroscopic statement that an off-critical zero contributes a radial
+mode to a normalized prime-distribution curve.  The present chapter
+turns that statement into a local certificate shape.  The certificate
+does not assert the Riemann hypothesis.  It names the finite spectral
+window, the differential classifier, the bounded observation interval,
+and the tail inequality that would make the radial mode visible as a
+BEDC-auditable row.
+
+\section{Finite Spectral Windows}
+\label{sec:rh-fixed-window-finite-spectral-windows}
+
+\begin{definition}[Finite spectral window]
+\label{def:rh-finite-spectral-window}
+A finite spectral window for a normalized prime-distribution curve is a
+finite set
+$$
+\Lambda=\{\lambda_1,\ldots,\lambda_N\}\subset\mathbb C
+$$
+of pairwise distinct exponents, together with a truncated spectral
+curve
+$$
+\Psi_\Lambda(u)
+:=
+\sum_{\lambda\in\Lambda}c_\lambda e^{\lambda u}.
+$$
+For a zeta zero $\rho$, the corresponding exponent is
+$$
+\lambda=\rho-\frac12.
+$$
+\end{definition}
+
+\begin{theorem}[Finite exponential modes admit exact classifiers]
+\label{thm:rh-finite-exponential-modes-exact-classifiers}
+Let $\Lambda=\{\lambda_1,\ldots,\lambda_N\}$ be a finite spectral
+window and let $a_1,\ldots,a_N\in\mathbb C$.  There is a polynomial
+$P\in\mathbb C[z]$ such that
+$$
+P(\lambda_j)=a_j
+\qquad
+(1\le j\le N).
+$$
+Consequently, for
+$$
+D=\frac{d}{du},
+$$
+one has
+$$
+P(D)e^{\lambda_j u}=a_j e^{\lambda_j u}.
+$$
+\end{theorem}
+
+\begin{proof}
+Use the Lagrange polynomial
+$$
+P(z)
+:=
+\sum_{j=1}^{N}
+a_j
+\prod_{k\ne j}
+\frac{z-\lambda_k}{\lambda_j-\lambda_k}.
+$$
+Then $P(\lambda_j)=a_j$ for every $j$.  Since
+$$
+D e^{\lambda_j u}=\lambda_j e^{\lambda_j u},
+$$
+polynomial functional calculus gives the displayed identity for
+$P(D)$.
+\end{proof}
+
+\begin{definition}[Off-critical mirror exponent pair]
+\label{def:rh-off-critical-mirror-exponent-pair}
+An off-critical mirror exponent pair is a pair
+$$
+\lambda_+=r+i\gamma,
+\qquad
+\lambda_-=-r+i\gamma,
+\qquad
+r\ne0,
+$$
+arising from the mirror zero pair
+$$
+\rho_+=\frac12+r+i\gamma,
+\qquad
+\rho_-=\frac12-r+i\gamma.
+$$
+\end{definition}
+
+\begin{definition}[Mirror-odd differential classifier]
+\label{def:rh-mirror-odd-differential-classifier}
+Let $\Lambda$ contain an off-critical mirror exponent pair
+$\lambda_+,\lambda_-$.  A mirror-odd differential classifier for that
+pair in $\Lambda$ is a polynomial $P_\pm\in\mathbb C[z]$ satisfying
+$$
+P_\pm(\lambda_+)=1,
+\qquad
+P_\pm(\lambda_-)=-1,
+$$
+and
+$$
+P_\pm(\lambda)=0
+\qquad
+(\lambda\in\Lambda\setminus\{\lambda_+,\lambda_-\}).
+$$
+\end{definition}
+
+\begin{theorem}[Mirror-odd classifier extracts the radial pair]
+\label{thm:rh-mirror-odd-classifier-extracts-radial-pair}
+Let
+$$
+\Psi_\Lambda(u)
+=
+c_+e^{\lambda_+u}
++
+c_-e^{\lambda_-u}
++
+\sum_{\lambda\in\Lambda^\circ}c_\lambda e^{\lambda u},
+$$
+where
+$$
+\Lambda^\circ=\Lambda\setminus\{\lambda_+,\lambda_-\}.
+$$
+If $P_\pm$ is the mirror-odd differential classifier of
+\autoref{def:rh-mirror-odd-differential-classifier}, then
+$$
+P_\pm(D)\Psi_\Lambda(u)
+=
+c_+e^{(r+i\gamma)u}
+-
+c_-e^{(-r+i\gamma)u}.
+$$
+\end{theorem}
+
+\begin{proof}
+Apply \autoref{thm:rh-finite-exponential-modes-exact-classifiers} to
+each exponential term.  The classifier has values $1$ and $-1$ on the
+mirror pair and value $0$ on every other exponent in the finite window.
+\end{proof}
+
+\begin{lemma}[A radial mirror pair is not a unit-phase packet]
+\label{lem:rh-radial-mirror-pair-not-unit-phase-packet}
+Let $r\ne0$.  If
+$$
+F(u)
+=
+c_+e^{(r+i\gamma)u}
+-
+c_-e^{(-r+i\gamma)u}
+$$
+with $(c_+,c_-)\ne(0,0)$, then $F$ is not a finite sum of unit-phase
+modes
+$$
+\sum_{j=1}^{M}b_j e^{i\eta_j u}.
+$$
+\end{lemma}
+
+\begin{proof}
+Distinct exponentials $e^{\lambda u}$ are linearly independent on every
+nonempty interval.  The exponents $r+i\gamma$ and $-r+i\gamma$ have
+nonzero real parts, while every unit-phase exponent $i\eta_j$ has real
+part $0$.  Equality with a finite unit-phase sum would force the
+coefficients of the nonunit exponents to vanish, contrary to the
+hypothesis.
+\end{proof}
+
+\section{Dominance Certificates}
+\label{sec:rh-fixed-window-dominance-certificates}
+
+\begin{definition}[Fixed window dominance certificate]
+\label{def:rh-fixed-window-dominance-certificate}
+Let
+$$
+\Psi(u)=\Psi_\Lambda(u)+E_\Lambda(u)
+$$
+be the split of a normalized prime-distribution curve into a finite
+spectral window and its complement.  A fixed window dominance
+certificate for an off-critical mirror exponent pair is a tuple
+$$
+\mathsf{DomCert}(\Lambda,P_\pm,I,\delta)
+$$
+such that $I\subset\mathbb R$ is a compact interval, $\delta>0$,
+$P_\pm$ is the mirror-odd differential classifier for the pair, and
+$$
+\inf_{u\in I}
+\left|
+P_\pm(D)\Psi_\Lambda(u)
+\right|
+\ge\delta,
+$$
+while
+$$
+\sup_{u\in I}
+\left|
+P_\pm(D)E_\Lambda(u)
+\right|
+<
+\frac{\delta}{2}.
+$$
+\end{definition}
+
+\begin{theorem}[Dominance certificate gives an audited radial readout]
+\label{thm:rh-dominance-certificate-audited-radial-readout}
+Assume $\mathsf{DomCert}(\Lambda,P_\pm,I,\delta)$ for an off-critical
+mirror exponent pair.  Then the full curve has a nonzero classifier
+readout on the fixed interval:
+$$
+\inf_{u\in I}
+\left|
+P_\pm(D)\Psi(u)
+\right|
+>
+0.
+$$
+Moreover the certified main component is a nonunit radial row, and the
+tail inequality records that this component is not cancelled on the
+displayed interval.
+\end{theorem}
+
+\begin{proof}
+For $u\in I$,
+$$
+P_\pm(D)\Psi(u)
+=
+P_\pm(D)\Psi_\Lambda(u)
++
+P_\pm(D)E_\Lambda(u).
+$$
+The triangle inequality and the two certificate bounds give
+$$
+\left|
+P_\pm(D)\Psi(u)
+\right|
+\ge
+\delta-\frac{\delta}{2}
+=
+\frac{\delta}{2}.
+$$
+By \autoref{thm:rh-mirror-odd-classifier-extracts-radial-pair}, the
+finite-window main readout is the mirror radial pair.  By
+\autoref{lem:rh-radial-mirror-pair-not-unit-phase-packet}, that
+finite-window component is not a finite unit-phase packet.  The strict
+tail inequality shows that this component is not cancelled on the
+displayed interval.
+\end{proof}
+
+\begin{principle}[Dominance is the fixed-window audit row]
+\label{prin:rh-dominance-fixed-window-audit-row}
+The certificate of
+\autoref{def:rh-fixed-window-dominance-certificate} is the BEDC form of a
+dominant-branch argument.  The finite window carries the selected
+branch pair, the polynomial classifier removes the other displayed
+branches, the interval $I$ is the observation window, and the tail
+inequality records that undisplayed modes cannot cancel the selected
+radial readout.  The object is local and finite: it does not by itself
+claim a global zero theorem.
+\end{principle}
+
+\section{Prime-Side Realization}
+\label{sec:rh-fixed-window-prime-side-realization}
+
+\begin{definition}[Prime-effective dominance realization]
+\label{def:rh-prime-effective-dominance-realization}
+A prime-effective realization of a fixed window dominance certificate
+is an admissible compact explicit-formula test row $h$ whose zero-side
+readout is the scalar audit of the dominated interval and whose
+archimedean, trivial-zero, and pole correction row is displayed in the
+ledger of \autoref{def:rh-abstract-explicit-formula-ledger}.  It is
+prime-effective when the correction-subtracted prime side is nonzero:
+$$
+\mathcal P(h)=\mathcal Z(h)-\mathcal A(h)\ne0.
+$$
+For compact support in $[-A,A]$, this prime side has finite support:
+$$
+\mathcal P(h)
+=
+\sum_{p^k\le e^A}c_{p,k}(h)[p^k].
+$$
+\end{definition}
+
+\begin{theorem}[Prime-effective dominance gives a finite prime residual]
+\label{thm:rh-prime-effective-dominance-finite-prime-residual}
+If an off-critical mirror exponent pair admits a fixed window dominance
+certificate with a prime-effective realization, then there is a
+nonzero finite prime-power residual
+$$
+R_S(h)=\sum_{q\in S}c_q(h)[q].
+$$
+\end{theorem}
+
+\begin{proof}
+By \autoref{def:rh-prime-effective-dominance-realization},
+the correction-subtracted prime side is nonzero.  Compact support of
+$h$ makes the explicit-formula prime ledger a finite sum over
+$p^k\le e^A$.  Taking $S$ to be that finite support gives the displayed
+nonzero finite residual.
+\end{proof}
+
+\begin{theorem}[Fixed-window dominance supplies filtered prime detection]
+\label{thm:rh-fixed-window-dominance-supplies-filtered-prime-detection}
+Assume an off-critical mirror exponent pair admits a fixed window
+dominance certificate with a prime-effective realization.  Then there
+is a finite Dirichlet classifier whose filtered prime-distribution
+curve detects the corresponding nonunit residual.
+\end{theorem}
+
+\begin{proof}
+\autoref{thm:rh-prime-effective-dominance-finite-prime-residual}
+supplies a nonzero finite prime-power residual.  The finite Dirichlet
+separation theorem
+\autoref{thm:rh-finite-dirichlet-classifiers-separate-residuals}
+supplies a finite character with nonzero readout on that residual.
+Then
+\autoref{thm:rh-finite-residual-detection-supplies-filtered-curve}
+turns the finite classifier readout into the corresponding filtered
+prime-distribution curve.
+\end{proof}
+
+\begin{definition}[SpectralPacketCert]
+\label{def:rh-spectral-packet-cert}
+Let
+$$
+\rho_+=\frac12+r+i\gamma,
+\qquad
+\rho_-=\frac12-r+i\gamma,
+\qquad
+r\ne0
+$$
+be an off-critical mirror zero pair, and set
+$$
+\lambda_\pm=\rho_\pm-\frac12.
+$$
+The certificate
+$$
+\mathsf{SpectralPacketCert}(\rho_+,\rho_-)
+$$
+asserts that there exist a finite spectral window $\Lambda$, a
+mirror-odd differential classifier $P_\pm$, a compact interval
+$I\subset\mathbb R$, a margin $\delta>0$, and an admissible compact
+explicit-formula test row $h$ such that $\lambda_+,\lambda_-\in\Lambda$,
+$$
+\mathsf{DomCert}(\Lambda,P_\pm,I,\delta)
+$$
+holds, and $h$ is a prime-effective realization of that fixed window
+dominance certificate.
+\end{definition}
+
+\begin{theorem}[Spectral packet certificate gives filtered prime detection]
+\label{thm:rh-spectral-packet-cert-gives-filtered-prime-detection}
+If $\mathsf{SpectralPacketCert}(\rho_+,\rho_-)$ holds for an
+off-critical mirror zero pair, then some finite Dirichlet classifier
+detects the corresponding nonunit residual on a filtered
+prime-distribution curve.
+\end{theorem}
+
+\begin{proof}
+Unpack \autoref{def:rh-spectral-packet-cert}.  It supplies a fixed
+window dominance certificate together with a prime-effective
+realization.  Apply
+\autoref{thm:rh-fixed-window-dominance-supplies-filtered-prime-detection}.
+\end{proof}
+
+\section{Zeta Target}
+\label{sec:rh-fixed-window-zeta-target}
+
+\begin{definition}[UniversalSpectralPacketCert]
+\label{def:rh-universal-spectral-packet-cert}
+The row
+$$
+\mathsf{UniversalSpectralPacketCert}
+$$
+asserts that every off-critical mirror pair in the completed zeta
+zero ledger admits its certificate
+$$
+\mathsf{SpectralPacketCert}(\rho_+,\rho_-).
+$$
+\end{definition}
+
+\begin{definition}[ZetaFixedWindowDominance]
+\label{def:rh-zeta-fixed-window-dominance}
+The row
+$$
+\mathsf{ZetaFixedWindowDominance}
+$$
+is the zeta-facing interface exported by
+$$
+\mathsf{UniversalSpectralPacketCert}.
+$$
+Unpacked at a single mirror pair, it consists of the finite spectral
+window, mirror-odd classifier, fixed observation interval, positive
+dominance margin, tail inequality, and prime-effective
+explicit-formula row carried by
+$\mathsf{SpectralPacketCert}(\rho_+,\rho_-)$.
+\end{definition}
+
+\begin{theorem}[Universal spectral packets supply fixed-window dominance]
+\label{thm:rh-universal-spectral-packets-supply-fixed-window-dominance}
+If $\mathsf{UniversalSpectralPacketCert}$ holds, then
+$\mathsf{ZetaFixedWindowDominance}$ holds.
+\end{theorem}
+
+\begin{proof}
+This is the interface translation of
+\autoref{def:rh-universal-spectral-packet-cert} through
+\autoref{def:rh-zeta-fixed-window-dominance}: each off-critical mirror
+pair receives the finite packet required by the zeta fixed-window row.
+\end{proof}
+
+\begin{theorem}[ZetaFixedWindowDominance supplies PrimeDistributionCurveCompleteness]
+\label{thm:rh-zeta-fixed-window-dominance-supplies-prime-distribution-completeness}
+Assume $\mathsf{ZetaFixedWindowDominance}$.  Then every off-critical
+zeta mirror pair has a filtered prime-distribution curve on which its
+nonunit radial residual is visible.  In the terminology of
+\autoref{def:rh-prime-distribution-curve-completeness}, the fixed window
+certificate supplies the local witness required by
+$$
+\mathsf{PrimeDistributionCurveCompleteness}.
+$$
+\end{theorem}
+
+\begin{proof}
+Apply \autoref{def:rh-zeta-fixed-window-dominance} to the off-critical
+mirror pair.  The unpacked
+$\mathsf{SpectralPacketCert}(\rho_+,\rho_-)$ gives filtered prime
+detection by
+\autoref{thm:rh-spectral-packet-cert-gives-filtered-prime-detection}.
+This is precisely the visible filtered curve required by
+\autoref{def:rh-prime-distribution-curve-completeness}.
+\end{proof}
+
+\begin{corollary}[Fixed-window route to the conditional fixed-half readout]
+\label{cor:rh-fixed-window-route-conditional-fixed-half-readout}
+Assume $\mathsf{ZetaFixedWindowDominance}$ and the hypotheses of
+\autoref{cor:rh-prime-distribution-curve-conditional-fixed-half-readout}.
+Then every admitted nontrivial zero has fixed-half readout.
+\end{corollary}
+
+\begin{proof}
+By
+\autoref{thm:rh-zeta-fixed-window-dominance-supplies-prime-distribution-completeness},
+the required instance of
+$\mathsf{PrimeDistributionCurveCompleteness}$ is available.  Apply
+\autoref{cor:rh-prime-distribution-curve-conditional-fixed-half-readout}.
+\end{proof}
+
+\begin{corollary}[Universal spectral packets give the conditional fixed-half readout]
+\label{cor:rh-universal-spectral-packets-conditional-fixed-half-readout}
+Assume $\mathsf{UniversalSpectralPacketCert}$ and the hypotheses of
+\autoref{cor:rh-prime-distribution-curve-conditional-fixed-half-readout}.
+Then every admitted nontrivial zero has fixed-half readout.
+\end{corollary}
+
+\begin{proof}
+By
+\autoref{thm:rh-universal-spectral-packets-supply-fixed-window-dominance},
+$\mathsf{ZetaFixedWindowDominance}$ holds.  Apply
+\autoref{cor:rh-fixed-window-route-conditional-fixed-half-readout}.
+\end{proof}
+
+\begin{definition}[TailDominance]
+\label{def:rh-tail-dominance}
+For an off-critical mirror pair, the row
+$$
+\mathsf{TailDominance}(\rho_+,\rho_-)
+$$
+asserts that there are a finite spectral window $\Lambda$, its
+mirror-odd classifier $P_\pm$, a compact interval $I$, and a margin
+$\delta>0$ such that
+$$
+\inf_{u\in I}
+\left|
+P_\pm(D)\Psi_\Lambda(u)
+\right|
+\ge\delta
+$$
+and
+$$
+\sup_{u\in I}
+\left|
+P_\pm(D)E_\Lambda(u)
+\right|
+<
+\frac{\delta}{2}.
+$$
+It is the analytic dominance part of
+$\mathsf{SpectralPacketCert}(\rho_+,\rho_-)$, separated from the finite
+Lagrange projector and from the prime-effective explicit-formula
+realization.
+\end{definition}
+
+\begin{theorem}[Tail dominance packages the spectral certificate]
+\label{thm:rh-tail-dominance-packages-spectral-certificate}
+If $\mathsf{TailDominance}(\rho_+,\rho_-)$ holds and the displayed
+dominance row has a prime-effective compact explicit-formula
+realization, then
+$$
+\mathsf{SpectralPacketCert}(\rho_+,\rho_-)
+$$
+holds.
+\end{theorem}
+
+\begin{proof}
+The tail-dominance row supplies the finite spectral window, mirror-odd
+classifier, interval, margin, main-term lower bound, and tail upper
+bound.  These rows are exactly
+$\mathsf{DomCert}(\Lambda,P_\pm,I,\delta)$.  Adding the
+prime-effective compact explicit-formula realization supplies the last
+row required by \autoref{def:rh-spectral-packet-cert}.
+\end{proof}
+
+\begin{principle}[Audit boundary for the fixed-window route]
+\label{prin:rh-fixed-window-route-audit-boundary}
+The proof obligation is concentrated in
+$$
+\mathsf{UniversalSpectralPacketCert}.
+$$
+For each off-critical mirror pair one must display the finite spectral
+window, the mirror-odd polynomial classifier, the compact interval, the
+positive dominance margin, the tail bound, and the compact
+explicit-formula row whose prime side is nonzero after the recorded
+correction rows.  The finite-window and Lagrange-projector rows are
+already local certificate data; the unresolved analytic core is the
+tail-dominance inequality for the selected zeta spectral packet.
+\end{principle}

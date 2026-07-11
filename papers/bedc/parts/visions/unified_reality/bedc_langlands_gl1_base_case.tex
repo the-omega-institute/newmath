@@ -1,0 +1,311 @@
+\section{BEDC--Langlands Base Case for \texorpdfstring{$GL_1$}{GL1}}
+\label{sec:unified-reality-bedc-langlands-gl1-base-case}
+
+The abelian case makes the BEDC--Langlands proof chain completely
+explicit. For $G=GL_1$, Langlands reciprocity is global class field
+theory. The automorphic side is the group of Hecke characters of the
+idele class group, the Galois side is the group of continuous characters
+of the abelianized Weil group, and the finite Hecke--Frobenius detector
+is a single unramified place.
+
+\begin{definition}[\texorpdfstring{$GL_1$}{GL1} Langlands packet]
+\label{def:unified-reality-gl1-langlands-packet}
+Let $F$ be a global field and set
+$$
+C_F:=F^{\times}\backslash\mathbb A_F^{\times}.
+$$
+A $GL_1$ automorphic object is a Hecke character
+$$
+\chi:C_F\to\mathbb C^{\times}.
+$$
+A $GL_1$ Galois parameter is a continuous character
+$$
+\phi:W_F^{\mathrm{ab}}\to\mathbb C^{\times}.
+$$
+A BEDC--$GL_1$ Langlands packet is a row
+$$
+\mathcal O^{\uparrow}=(\chi,\phi,\Lambda_{\mathcal O}),
+$$
+where $\Lambda_{\mathcal O}$ records ramified places, conductor,
+archimedean type, norm-scale factors, local $\epsilon/\gamma$ factors,
+and the Artin reciprocity normalization.
+\end{definition}
+
+\begin{definition}[\texorpdfstring{$GL_1$}{GL1} detector and residual]
+\label{def:unified-reality-gl1-detector-residual}
+For an unramified place $v$, let $\varpi_v$ be a uniformizer and let
+$\operatorname{Frob}_v$ be the corresponding Frobenius element under the
+chosen reciprocity convention. The $GL_1$ detector residual is
+$$
+D_v(\chi,\phi)
+:=
+\chi(\varpi_v)-\phi(\operatorname{Frob}_v).
+$$
+The packet matches on the detector $v$ exactly when
+$$
+D_v(\chi,\phi)=0.
+$$
+\end{definition}
+
+\begin{definition}[\texorpdfstring{$GL_1$}{GL1} three-properties rows]
+\label{def:unified-reality-gl1-three-properties}
+The $GL_1$ time row sends an unramified place to the paired readout
+$$
+v\longmapsto(\operatorname{Frob}_v,\varpi_v).
+$$
+The unity row says that a unitary finite-order character takes values in
+$S^1$, while a general Hecke character is decomposed as
+$$
+\chi=\chi_{\mathrm{unit}}\cdot|\cdot|^s
+$$
+with the norm-scale factor $|\cdot|^s$ recorded in the ledger. The
+ledger row is precisely the list of ramified, conductor, infinity-type,
+normalization, and local-factor data not seen by unramified finite
+detectors.
+\end{definition}
+
+\begin{theorem}[\texorpdfstring{$GL_1$}{GL1} finite detector uniqueness]
+\label{thm:unified-reality-gl1-finite-detector-uniqueness}
+Let
+$$
+\phi,\phi':W_F^{\mathrm{ab}}\to\mathbb C^{\times}
+$$
+be continuous characters. If
+$$
+\phi(\operatorname{Frob}_v)=\phi'(\operatorname{Frob}_v)
+$$
+for almost all unramified places $v$, then
+$$
+\phi=\phi'.
+$$
+\end{theorem}
+\begin{proof}
+Chebotarev density says that the unramified Frobenius classes are dense
+in the abelianized Galois or Weil quotient on the declared scope. The
+two characters are continuous and agree on a dense subset, hence agree
+on its closure. Therefore they are equal.
+\end{proof}
+
+\begin{corollary}[\texorpdfstring{$GL_1$}{GL1} no-hidden residual]
+\label{cor:unified-reality-gl1-no-hidden-residual}
+For a BEDC--$GL_1$ packet, any mismatch outside the unramified finite
+detectors must lie in the ramified, conductor, infinity-type,
+norm-scale, or local-factor ledger.
+\end{corollary}
+\begin{proof}
+The unramified detector values determine the continuous abelian
+parameter by
+\autoref{thm:unified-reality-gl1-finite-detector-uniqueness}. A residual
+not seen there is therefore not an unramified Frobenius mismatch. The
+only remaining declared rows are the ledger rows listed in
+\autoref{def:unified-reality-gl1-three-properties}.
+\end{proof}
+
+\begin{definition}[Class field reciprocity certificate]
+\label{def:unified-reality-class-field-reciprocity-certificate}
+The class field reciprocity certificate for $F$ is the Artin
+reciprocity map
+$$
+\operatorname{Art}_F:C_F\to W_F^{\mathrm{ab}}
+$$
+with the convention row fixed so that, at unramified places,
+$$
+\operatorname{Art}_F(\varpi_v)=\operatorname{Frob}_v.
+$$
+Changing the inverse convention changes only this normalization row; the
+detector equality is transported with it.
+\end{definition}
+
+\begin{theorem}[\texorpdfstring{$GL_1$}{GL1} reciprocity]
+\label{thm:unified-reality-gl1-reciprocity}
+Assume the class field reciprocity certificate. For every continuous
+character
+$$
+\phi:W_F^{\mathrm{ab}}\to\mathbb C^{\times},
+$$
+the character
+$$
+\chi_{\phi}:=\phi\circ\operatorname{Art}_F
+$$
+is a Hecke character and satisfies
+$$
+\chi_{\phi}(\varpi_v)
+=
+\phi(\operatorname{Frob}_v)
+$$
+for almost all unramified places $v$. Conversely, every Hecke character
+$\chi:C_F\to\mathbb C^{\times}$ gives the abelian parameter
+$$
+\phi_{\chi}:=\chi\circ\operatorname{Art}_F^{-1}
+$$
+with the same unramified detector equality.
+\end{theorem}
+\begin{proof}
+The class field reciprocity certificate identifies the idele class group
+with the abelian Weil side under the declared normalization. Composing a
+continuous abelian Weil character with $\operatorname{Art}_F$ gives a
+continuous character of $C_F$, hence a Hecke character. At an
+unramified place,
+$$
+\chi_{\phi}(\varpi_v)
+=
+\phi(\operatorname{Art}_F(\varpi_v))
+=
+\phi(\operatorname{Frob}_v).
+$$
+The converse is the same argument applied to the inverse reciprocity
+map.
+\end{proof}
+
+\begin{theorem}[\texorpdfstring{$GL_1$}{GL1} finite projector]
+\label{thm:unified-reality-gl1-finite-projector}
+Let $S$ be a fixed finite set of unramified places and let
+$$
+\mathsf{Aut}_{S,B}(GL_1)=\{\chi_1,\ldots,\chi_M\}
+$$
+be a finite bounded candidate list. For every abelian parameter
+$\phi$, there is a Laurent polynomial Hecke test function
+$f_{\phi,S,B}$ on $(\mathbb C^{\times})^S$ such that
+$$
+\chi_i(\varpi_v)_{v\in S}\ne
+\phi(\operatorname{Frob}_v)_{v\in S}
+\quad\Longrightarrow\quad
+\operatorname{tr}\chi_i(f_{\phi,S,B})=0,
+$$
+while a matching character evaluates nontrivially.
+\end{theorem}
+\begin{proof}
+For $GL_1$, the spherical Hecke algebra on $S$ is the Laurent
+polynomial coordinate ring of $(\mathbb C^{\times})^S$. The bounded
+candidate list gives finitely many points
+$$
+X_i=(\chi_i(\varpi_v))_{v\in S},
+$$
+and the parameter gives the point
+$$
+X_{\phi}=(\phi(\operatorname{Frob}_v))_{v\in S}.
+$$
+The Laurent coordinate ring separates finite closed point sets, so the
+same interpolation argument as
+\autoref{thm:unified-reality-finite-hecke-projector-cert} gives a
+function equal to $1$ at $X_{\phi}$ and $0$ at every displayed
+nonmatching $X_i$.
+\end{proof}
+
+\begin{theorem}[\texorpdfstring{$GL_1$}{GL1} BEDC closure]
+\label{thm:unified-reality-gl1-bedc-closure}
+For $G=GL_1$, the BEDC--Langlands existence, uniqueness, finite
+detection, and no-hidden-residual rows are closed by global class field
+theory.
+\end{theorem}
+\begin{proof}
+Existence is
+\autoref{thm:unified-reality-gl1-reciprocity}: every abelian parameter
+$\phi$ produces the Hecke character $\chi_{\phi}$, and every Hecke
+character produces the abelian parameter $\phi_{\chi}$. Finite
+detection and uniqueness are
+\autoref{thm:unified-reality-gl1-finite-detector-uniqueness}. Any
+remaining residual is forced by
+\autoref{cor:unified-reality-gl1-no-hidden-residual} into the ramified,
+conductor, infinity-type, norm-scale, or local-factor ledger. A closed
+packet carries no unresolved ledger row. Hence the paired object has no
+hidden mismatch.
+\end{proof}
+
+\begin{corollary}[\texorpdfstring{$GL_1$}{GL1} cofinal bridge]
+\label{cor:unified-reality-gl1-cofinal-bridge}
+For $G=GL_1$, if each finite Hecke window is read through the character
+$\chi_{\phi}$ of
+\autoref{thm:unified-reality-gl1-reciprocity}, then the cofinal
+window-to-global bridge has the global alternative immediately: the same
+Hecke character realizes every unramified window.
+\end{corollary}
+\begin{proof}
+For every unramified place $v$, the equality
+$$
+\chi_{\phi}(\varpi_v)=\phi(\operatorname{Frob}_v)
+$$
+holds outside the declared ramified ledger. Therefore the same
+automorphic character realizes every finite window in the cofinal tower.
+The automorphic tail alternative of
+\autoref{thm:unified-reality-window-global-alternative} is not needed in
+this abelian base case, because a global realizing row is already
+present.
+\end{proof}
+
+\begin{theorem}[Quadratic splitting detector]
+\label{thm:unified-reality-gl1-quadratic-splitting-detector}
+Let $K=\mathbb Q(i)$ and let $\chi_{-4}$ be the quadratic character
+attached to $K/\mathbb Q$. For every odd prime $p$, the following
+conditions are equivalent:
+$$
+p=a^2+b^2,
+$$
+$$
+p\equiv 1\pmod 4,
+$$
+$$
+p\text{ splits in }\mathbb Q(i),
+$$
+$$
+\chi_{-4}(\operatorname{Frob}_p)=1.
+$$
+Under $GL_1$ reciprocity, these are also equivalent to the corresponding
+Hecke character $\omega_{-4}$ satisfying
+$$
+\omega_{-4}(p)=1.
+$$
+\end{theorem}
+\begin{proof}
+Fermat's two-square theorem gives the equivalence between
+$p=a^2+b^2$ and $p\equiv 1\pmod 4$ for odd primes. In
+$\mathbb Q(i)$, a prime $p\ne2$ splits exactly when $-1$ is a square
+modulo $p$, which is again equivalent to $p\equiv 1\pmod 4$. Splitting
+means that the Frobenius element in
+$\operatorname{Gal}(\mathbb Q(i)/\mathbb Q)\cong\{\pm1\}$ is the
+identity, so $\chi_{-4}(\operatorname{Frob}_p)=1$. The last equivalence
+is the detector equality supplied by
+\autoref{thm:unified-reality-gl1-reciprocity}.
+\end{proof}
+
+\begin{corollary}[Two-square theorem as the minimal detector]
+\label{cor:unified-reality-two-square-minimal-langlands-detector}
+The statement that an odd prime is represented by $a^2+b^2$ is the
+minimal visible finite detector of $GL_1$ reciprocity for the quadratic
+extension $\mathbb Q(i)/\mathbb Q$.
+\end{corollary}
+\begin{proof}
+By
+\autoref{thm:unified-reality-gl1-quadratic-splitting-detector}, the
+two-square condition is exactly the assertion that the quadratic
+Frobenius readout equals $1$. Under class field reciprocity, the same
+readout is the Hecke character value $\omega_{-4}(p)$. Thus the
+classical arithmetic predicate is a single $GL_1$ Hecke--Frobenius
+detector.
+\end{proof}
+
+\begin{theorem}[Nonabelian lift boundary]
+\label{thm:unified-reality-gl1-nonabelian-lift-boundary}
+The $GL_1$ base case closes the abelian Langlands packet. For a general
+reductive group $G$, the detector $v$ is replaced by $(v,r)$ with
+$r:{}^LG\to GL(V_r)$, and the character value is replaced by
+$$
+\operatorname{tr}r(s_v(\pi))
+\quad\text{and}\quad
+\operatorname{tr}r(\phi(\operatorname{Frob}_v)).
+$$
+The nonabelian existence problem is therefore not the $GL_1$ class field
+certificate, but the construction of the automorphic packet through the
+stable trace formula, geometric Langlands functor, or cohomological
+realization.
+\end{theorem}
+\begin{proof}
+For $GL_1$, every finite-dimensional representation of the dual group is
+a character, and class field reciprocity supplies the global
+automorphic character directly. For general $G$, finite-dimensional
+characters of ${}^LG$ separate semisimple conjugacy classes by the
+Tannakian row, while Chebotarev controls Frobenius density. Those rows
+close uniqueness and residual detection once a packet exists. The
+existence of the packet is the separate certificate isolated in
+\autoref{sec:unified-reality-bedc-langlands-existence-bridge}.
+\end{proof}

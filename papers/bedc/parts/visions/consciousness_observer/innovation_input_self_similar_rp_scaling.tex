@@ -1,0 +1,377 @@
+\chapter{Innovation Input Self-Similar RP Scaling}
+\label{ch:visions-innovation-input-self-similar-rp-scaling}
+\origin{ai}
+
+\autoref{ch:visions-innovation-input-pentary-palindromic-rp-exclusion}
+excludes the palindromic pentary Q3 locus from anchored $L=3$ neutral RP.
+This chapter records the scale principle behind such finite-window
+obstructions. The ledger machine is not primarily a state table; it is a
+self-similar refinement rule. A displayed state is a section of one layer,
+while the same local refinement rule is the invariant object repeated
+across all scales.
+
+\section{Self-Substitution Rule}
+\label{sec:innovation-input-self-substitution-rule}
+
+\begin{definition}[Constant-length phase self-substitution]
+\label{def:innovation-input-constant-length-phase-self-substitution}
+Let $N\ge2$ and let
+$$
+v=(v_0,\ldots,v_{N-1})\in\mathbb T^N.
+$$
+A constant-length phase self-substitution row is a phase sequence
+$(u_n)$ satisfying
+$$
+u_{Nn+a}=v_a u_n,
+\qquad
+a=0,\ldots,N-1.
+$$
+If additionally
+$$
+\sum_{a=0}^{N-1}v_a=\sqrt N,
+$$
+then the row is Q3-compatible, equivalently $v\in\mathcal Q_N$.
+\end{definition}
+
+\begin{principle}[Rule before section]
+\label{prin:innovation-input-rule-before-section}
+The invariant object of a self-substitution ledger is the local
+refinement rule
+$$
+u_{Nn+a}=v_a u_n.
+$$
+A finite state row is only a section through one refinement layer. The
+cross-layer datum is the repeated rule, not a completed external table of
+states.
+\end{principle}
+
+\section{Scale Dilation}
+\label{sec:innovation-input-scale-dilation}
+
+\begin{definition}[Block dilation]
+\label{def:innovation-input-block-dilation}
+For an integer $M\ge1$, define the dilation of basis blocks by
+$$
+D_M\delta_j:=\delta_{Mj}.
+$$
+For a signed block $\alpha=\sum_j e_j\delta_j$ in the sense of
+\autoref{def:innovation-input-signed-block}, set
+$$
+D_M\alpha:=\sum_j e_j\delta_{Mj}.
+$$
+\end{definition}
+
+\begin{theorem}[Balanced correlation scale invariance]
+\label{thm:innovation-input-balanced-correlation-scale-invariance}
+Let $\alpha$ be a balanced block in the sense of
+\autoref{def:innovation-input-balanced-block}. For every $k\ge0$,
+$$
+\Gamma(D_{N^k}\alpha)=\Gamma(\alpha).
+$$
+In particular,
+$$
+\Gamma(D_N\alpha)=\Gamma(\alpha).
+$$
+\end{theorem}
+
+\begin{proof}
+It suffices to prove the case $k=1$. Write
+$$
+\alpha=\sum_j e_j\delta_{r_j}.
+$$
+Then
+$$
+\Gamma(D_N\alpha)
+=
+\left\langle
+\prod_j u_{n+Nr_j}^{e_j}
+\right\rangle_n.
+$$
+Split $n=Nq+a$, where $a=0,\ldots,N-1$. Then
+$$
+n+Nr_j=N(q+r_j)+a,
+$$
+and the self-substitution rule gives
+$$
+u_{N(q+r_j)+a}=v_a u_{q+r_j}.
+$$
+Hence
+$$
+\prod_j u_{n+Nr_j}^{e_j}
+=
+\prod_j (v_a u_{q+r_j})^{e_j}
+=
+v_a^{\sum_j e_j}
+\prod_j u_{q+r_j}^{e_j}.
+$$
+Since $\alpha$ is balanced, $\sum_j e_j=0$, so the residue factor is
+$v_a^0=1$. Every residue class gives the same average as $\Gamma(\alpha)$,
+and averaging over $a$ does not change the result. Iteration gives the
+formula for $D_{N^k}$.
+\end{proof}
+
+\begin{corollary}[Scale copying of finite correlation defects]
+\label{cor:innovation-input-scale-copying-correlation-defects}
+If a balanced block $\alpha$ has
+$$
+\operatorname{Im}\Gamma(\alpha)\ne0,
+$$
+then every dilated block $D_{N^k}\alpha$ has the same nonzero imaginary
+part. If
+$$
+\Gamma(\alpha)<0,
+$$
+then every $D_{N^k}\alpha$ has the same negative value.
+\end{corollary}
+
+\begin{proof}
+This is immediate from
+\autoref{thm:innovation-input-balanced-correlation-scale-invariance}.
+\end{proof}
+
+\begin{principle}[Smooth projection]
+\label{prin:innovation-input-smooth-projection}
+Microscopic refinement repeatedly introduces local digit choices. A
+balanced finite observation does not see a single choice in isolation; it
+sees the fixed point of the repeated self-substitution rule:
+$$
+\Gamma(\alpha)
+=
+\Gamma(D_N\alpha)
+=
+\Gamma(D_{N^2}\alpha)
+=
+\cdots.
+$$
+The apparent smoothness of a macroscopic correlation read is therefore a
+projection of infinitely repeated local choices onto a scale-invariant
+balanced observable.
+\end{principle}
+
+\section{Reflection-Centered Dilation}
+\label{sec:innovation-input-reflection-centered-dilation}
+
+\begin{definition}[Reflection-centered dilation]
+\label{def:innovation-input-reflection-centered-dilation}
+Assume $N$ is odd. Define
+$$
+\mathcal D_N^\theta(\delta_j)
+:=
+\delta_{\frac{1+N(2j-1)}2}.
+$$
+Equivalently, in the half-integer coordinate $x=j-\frac12$, the map is
+$$
+x\mapsto Nx.
+$$
+Because $N$ is odd, $\frac{1+N(2j-1)}2$ is an integer.
+\end{definition}
+
+\begin{lemma}[Reflection-centered dilation commutes with reflection]
+\label{lem:innovation-input-reflection-centered-dilation-commutes}
+For odd $N$,
+$$
+\theta\mathcal D_N^\theta
+=
+\mathcal D_N^\theta\theta.
+$$
+\end{lemma}
+
+\begin{proof}
+It is enough to compute on a basis index. First dilate and then reflect:
+$$
+\theta\mathcal D_N^\theta(j)
+=
+1-\frac{1+N(2j-1)}2
+=
+\frac{1-N(2j-1)}2.
+$$
+Reflect first and then dilate:
+$$
+\mathcal D_N^\theta(1-j)
+=
+\frac{1+N(2(1-j)-1)}2
+=
+\frac{1-N(2j-1)}2.
+$$
+The two expressions agree.
+\end{proof}
+
+\begin{lemma}[Reflection-centered dilation is ordinary dilation up to translation]
+\label{lem:innovation-input-reflection-centered-dilation-translation}
+For odd $N$,
+$$
+\mathcal D_N^\theta(\delta_j)
+=
+\delta_{Nj-\frac{N-1}{2}}.
+$$
+Thus on balanced blocks, $\mathcal D_N^\theta$ has the same correlation
+read as $D_N$.
+\end{lemma}
+
+\begin{proof}
+The displayed equality is the simplification
+$$
+\frac{1+N(2j-1)}2
+=
+Nj-\frac{N-1}{2}.
+$$
+The shift by $-(N-1)/2$ is common to every site in the block. Translation
+does not change balanced finite-block correlations by
+\autoref{def:innovation-input-block-translation}; hence the correlation
+read agrees with that of $D_N$.
+\end{proof}
+
+\section{RP Window Scaling}
+\label{sec:innovation-input-rp-window-scaling}
+
+\begin{definition}[Finite neutral RP window]
+\label{def:innovation-input-finite-neutral-rp-window}
+Let
+$$
+\mathcal B=\{\alpha_0,\ldots,\alpha_m\}
+$$
+be a finite family of balanced future blocks. Its neutral RP matrix is
+$$
+M_{\mathcal B}(v)_{ij}
+:=
+\Gamma(\alpha_j-\theta\alpha_i).
+$$
+\end{definition}
+
+\begin{definition}[Reflection-centered window dilation]
+\label{def:innovation-input-reflection-centered-window-dilation}
+For odd $N$, define
+$$
+\mathcal D_N^\theta\mathcal B
+:=
+\{\mathcal D_N^\theta\alpha_0,\ldots,\mathcal D_N^\theta\alpha_m\}.
+$$
+\end{definition}
+
+\begin{theorem}[Odd-length RP window self-similarity]
+\label{thm:innovation-input-odd-rp-window-self-similarity}
+Assume $N$ is odd. For every finite neutral RP window $\mathcal B$,
+$$
+M_{\mathcal D_N^\theta\mathcal B}(v)
+=
+M_{\mathcal B}(v).
+$$
+More generally,
+$$
+M_{(\mathcal D_N^\theta)^k\mathcal B}(v)
+=
+M_{\mathcal B}(v)
+\qquad
+k\ge0.
+$$
+\end{theorem}
+
+\begin{proof}
+The $(i,j)$ entry of the dilated-window matrix is
+$$
+\Gamma(
+\mathcal D_N^\theta\alpha_j
+-\theta\mathcal D_N^\theta\alpha_i
+).
+$$
+By
+\autoref{lem:innovation-input-reflection-centered-dilation-commutes},
+$$
+\theta\mathcal D_N^\theta\alpha_i
+=
+\mathcal D_N^\theta\theta\alpha_i.
+$$
+Thus the entry is
+$$
+\Gamma(
+\mathcal D_N^\theta(\alpha_j-\theta\alpha_i)
+).
+$$
+The block $\alpha_j-\theta\alpha_i$ is balanced because both
+$\alpha_i$ and $\alpha_j$ are balanced. By
+\autoref{lem:innovation-input-reflection-centered-dilation-translation}
+and
+\autoref{thm:innovation-input-balanced-correlation-scale-invariance},
+$$
+\Gamma(
+\mathcal D_N^\theta(\alpha_j-\theta\alpha_i)
+)
+=
+\Gamma(\alpha_j-\theta\alpha_i).
+$$
+This is exactly the $(i,j)$ entry of $M_{\mathcal B}(v)$. Iteration gives
+the statement for $(\mathcal D_N^\theta)^k$.
+\end{proof}
+
+\begin{corollary}[Scale copying of RP failure]
+\label{cor:innovation-input-scale-copying-rp-failure}
+For odd $N$, if $M_{\mathcal B}(v)$ has a negative eigenvalue, then every
+dilated matrix
+$$
+M_{(\mathcal D_N^\theta)^k\mathcal B}(v)
+$$
+has the same negative eigenvalue.
+\end{corollary}
+
+\begin{proof}
+The matrices are equal by
+\autoref{thm:innovation-input-odd-rp-window-self-similarity}, so their
+spectra are equal.
+\end{proof}
+
+\section{Primitive RP Shapes}
+\label{sec:innovation-input-primitive-rp-shapes}
+
+\begin{definition}[Neutral RP feasibility class]
+\label{def:innovation-input-neutral-rp-feasibility-class}
+Let $\mathcal R_{N,L,R}^{\mathrm{neu}}$ denote the set of Q3 rows
+$v\in\mathcal Q_N$ whose anchored neutral windows of size parameters
+$(L,R)$ have positive-semidefinite RP matrices. Define the full neutral
+finite-window class by
+$$
+\mathcal R_N^{\mathrm{neu}}
+:=
+\bigcap_{L,R}\mathcal R_{N,L,R}^{\mathrm{neu}}.
+$$
+\end{definition}
+
+\begin{definition}[Reflection-centered primitive window]
+\label{def:innovation-input-reflection-centered-primitive-window}
+For odd $N$, a finite neutral RP window $\mathcal B$ is
+$N$-primitive when there is no finite neutral RP window $\mathcal C$ and
+no $k\ge1$ such that
+$$
+\mathcal B=(\mathcal D_N^\theta)^k\mathcal C.
+$$
+\end{definition}
+
+\begin{corollary}[Primitive-window reduction]
+\label{cor:innovation-input-primitive-window-reduction}
+For odd $N$, nonprimitive windows do not add new RP matrix constraints.
+Each such window has the same RP matrix as its primitive root.
+\end{corollary}
+
+\begin{proof}
+Apply
+\autoref{thm:innovation-input-odd-rp-window-self-similarity} to the
+primitive root and iterate until the displayed nonprimitive window is
+reached.
+\end{proof}
+
+\begin{principle}[Pentary primitive search]
+\label{prin:innovation-input-pentary-primitive-search}
+For $N=5$, reflection-centered dilation sends
+$$
+1\mapsto3,
+\qquad
+2\mapsto8,
+\qquad
+3\mapsto13.
+$$
+Thus windows supported on $\{1,2,3\}$ and on $\{3,8,13\}$ belong to the
+same RP scale class. A negative finite-window value at one representative
+is not a small-scale accident; it is a fixed obstruction on the whole
+reflection-centered dilation tower. Subsequent pentary searches should
+therefore enumerate primitive RP shapes modulo $\mathcal D_5^\theta$
+before testing Hermitian symmetry and positive semidefiniteness.
+\end{principle}

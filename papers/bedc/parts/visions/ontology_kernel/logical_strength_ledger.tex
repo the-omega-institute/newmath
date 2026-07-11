@@ -1,0 +1,150 @@
+\chapter{Logical Strength Ledger of the Kernel Layers}
+\label{ch:visions-ontology-kernel-logical-strength-ledger}
+\origin{ai}
+
+The generating acts of \autoref{ch:visions-ontology-kernel-categorical-generation-spine}
+are not uniform in logical strength.  The arithmetic and algebraic base ---
+term generation, relation quotient, and localization --- is finitistic and
+constructively innocent.  The completion, inverse-limit, spectrum, and
+globalization acts import genuine non-constructive strength, and it is exactly
+there that choice fragments and impredicative comprehension enter.  This chapter
+grades each layer against standard proof-theoretic and reverse-mathematical
+benchmarks and pins the two places where the kernel's own zero-choice discipline
+is crossed.  The ledger is a strength survey; it is not a proof that any layer
+is dispensable, and it does not certify any layer as constructive beyond the
+benchmark cited.
+
+\section{The stratification}
+\label{sec:ontology-kernel-strength-stratification}
+
+The layers below are ordered as in the spine.  Each row records the objects it
+produces, a strength benchmark sufficient to develop it, and its constructive
+status.  Benchmarks name the weakest standard system in which the stated
+development is routine; a heavier consumer of the same object may need more.
+
+\begin{center}
+\begin{tabular}{@{}p{2.7cm}p{4.3cm}p{3.2cm}p{3.2cm}@{}}
+\toprule
+\textbf{Layer} & \textbf{Derived objects} & \textbf{Benchmark} & \textbf{Status}\\
+\midrule
+term / quotient / localization &
+$\mathbb N,\mathbb Z,\mathbb Q,\mathbb Z[i]$; $a^2+b^2$; residues mod $4$ and
+mod $P$; split-prime law; unique factorization; Godel and Zeckendorf codes &
+$\mathrm{PRA}$ to $\mathrm{EFA}$ / $I\Delta_0+\exp$ &
+fully constructive, finitistic \\
+\addlinespace
+completion &
+$\mathbb R,\mathbb C$ &
+$\mathrm{RCA}_0$ to define; $\mathrm{ACA}_0$ or $\mathrm{WKL}_0$ for
+completeness, Heine--Borel, intermediate value &
+non-constructive content begins here \\
+\addlinespace
+inverse limit &
+$\mathbb Z_p$, $\widehat{\mathbb Z}\cong\prod_p\mathbb Z_p$ &
+infinitary; comfortable above $\mathrm{ACA}_0$ &
+first genuine use of an infinite completed object \\
+\addlinespace
+spectrum &
+$\operatorname{Spec}R$ for general commutative $R$ &
+prime-ideal existence $\equiv$ Boolean prime ideal theorem &
+choice fragment; explicit for $\mathbb Z,\mathbb Z[i],\mathbb F_P,\mathbb Z_p$ \\
+\addlinespace
+globalization &
+finite-window to global passage; compactness &
+finite intersection property; specific profinite spaces at $\mathrm{WKL}_0$;
+arbitrary products at full choice &
+Tychonoff in general is equivalent to the axiom of choice \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\begin{principle}[The base is choice-free and finitistic]
+\label{prin:ontology-kernel-base-finitistic}
+Everything through the localization layer --- and therefore the full arithmetic
+payload of the split-prime law $P=a^2+b^2\iff P\equiv1\pmod4$, unique
+factorization, and the Godel and Zeckendorf codings --- is developed with
+bounded induction and totality of exponentiation.  No completed infinite object,
+no impredicative comprehension, and no choice principle is used.  This is the
+part of the kernel that matches a strictly constructive reading.
+\end{principle}
+
+\section{The two choice red-points}
+\label{sec:ontology-kernel-choice-red-points}
+
+Two later acts are not merely infinitary; they are equivalent to fragments of
+choice, which the kernel's zero-choice discipline forbids.
+
+\begin{principle}[Spectrum existence is a prime-ideal choice principle]
+\label{prin:ontology-kernel-spectrum-choice}
+For an arbitrary nonzero commutative ring, the statement that a prime ideal
+exists --- so that $\operatorname{Spec}R$ is nonempty --- is equivalent to the
+Boolean prime ideal theorem.  Strengthening ``prime'' to ``maximal'' raises the
+equivalence to the full axiom of choice.  The spectrum functor of the ontology
+kernel therefore silently uses a choice fragment on general rings.  The rings
+that actually occur in the arithmetic spine --- $\mathbb Z$, $\mathbb Z[i]$,
+finite fields $\mathbb F_P$, and $\mathbb Z_p$ --- have explicitly exhibited
+primes and need no choice; the cost appears only when the functor is asked to
+range over all rings.
+\end{principle}
+
+\begin{principle}[Global compactness is Tychonoff-strength]
+\label{prin:ontology-kernel-global-compactness}
+The finite-window to global passage uses compactness through the finite
+intersection property.  For the specific profinite spaces of the arithmetic
+tower, such as $\mathbb Z_p$ and Cantor-type symbol spaces, this sits at the
+$\mathrm{WKL}_0$ level.  For an arbitrary indexed family the compactness of the
+product is Tychonoff's theorem, which is equivalent to the axiom of choice.  A
+globalization act stated for arbitrary families therefore also crosses the
+zero-choice line.
+\end{principle}
+
+These two points are the precise locations where a faithful low-strength reading
+of the kernel must either restrict the objects --- to rings with exhibited
+primes and to profinite or otherwise effectively compact spaces --- or else
+declare the imported choice fragment.  The escape-recording discipline for the
+non-compact case is the finite-window principle of
+\autoref{ch:visions-rh-fixed-window-dominance-certificate}: a conclusion proved
+inside a fixed window may not be upgraded to a growing-window conclusion without
+a separate compactness or tail certificate.
+
+\section{The universe caveat}
+\label{sec:ontology-kernel-universe-caveat}
+
+A last cost is not about any single object but about the meta-level collection.
+
+\begin{principle}[``Category of all $X$'' wants a universe]
+\label{prin:ontology-kernel-universe-caveat}
+The object-level constructions --- a given free algebra, quotient,
+localization, completion, or spectrum --- are innocent for a standard set
+theory.  But the categorical spine's ambient categories, ``all
+$\Sigma$-algebras'', ``all commutative rings'', ``all finite-dimensional
+representations'', are proper classes.  Making the spine fully rigorous as a
+category of everything wants a Grothendieck universe, which is a mild large-set
+assumption beyond plain $\mathrm{ZFC}$, or a two-sorted class theory.  The
+generative reading avoids this only by staying with set-indexed or small
+diagrams; the moment one quantifies over the category of all interpretations,
+the meta-level strength rises.
+\end{principle}
+
+\section{Reading of the ledger}
+\label{sec:ontology-kernel-ledger-reading}
+
+The ledger locates a single boundary.  Below the completion layer the kernel is
+finitistic and choice-free, and its arithmetic-geometric payload --- culminating
+in $a^2+b^2$ as the minimal split-prime classifier --- lives entirely in that
+region.  At and above completion the kernel begins to consume completed infinite
+objects; at the spectrum and globalization acts it consumes choice fragments
+outright; and at the meta-level of ``all interpretations'' it consumes a
+universe assumption.  A kernel that advertises a zero-choice, constructive
+discipline is faithful to that discipline exactly on the base, and the ledger
+names where and by how much it departs.
+
+\begin{principle}[The ledger is descriptive, not eliminative]
+\label{prin:ontology-kernel-ledger-descriptive}
+Recording that a layer needs the Boolean prime ideal theorem or Tychonoff's
+theorem does not show that the corresponding object could be rebuilt without it,
+nor that it should be removed.  The ledger reports strength; it neither lowers
+nor licenses it.  Any claim that a red-point object admits a genuinely
+choice-free construction on a restricted domain must be proved separately, on
+that domain, with the restriction displayed.
+\end{principle}

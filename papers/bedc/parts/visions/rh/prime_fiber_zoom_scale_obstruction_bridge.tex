@@ -1,0 +1,268 @@
+\chapter{Prime-Fiber Zoom Scale Obstruction Bridge}
+\label{ch:visions-rh-prime-fiber-zoom-scale-obstruction-bridge}
+\origin{ai}
+
+\autoref{ch:visions-rh-prime-fiber-zoom-renormalization-tower} records the
+local prime-fiber zoom step: history is appended, the selected cell is
+renormalized to the visible surface, the residual address is orthogonal to
+the previous register row, and the exterior of the selected cell is retained
+by a gap ledger.  The present chapter records the scale-obstruction bridge
+needed to consume such steps in RH-facing towers.  A legal zoom tower is not
+only a sequence of selected cells.  It must also preserve every finite
+balanced correlation or reflection-positive obstruction that is invariant
+under its self-similar dilation rule.
+
+\section{Self-Substitution Interface}
+\label{sec:rh-pfz-self-substitution-interface}
+
+\begin{definition}[PFZ self-substitution interface]
+\label{def:rh-pfz-self-substitution-interface}
+A prime-fiber zoom tower carries a self-substitution interface when its
+address refinement row is equipped with a constant-length phase
+self-substitution row in the sense of
+\autoref{def:innovation-input-constant-length-phase-self-substitution}:
+$$
+u_{Nn+a}=v_a u_n,
+\qquad
+a=0,\ldots,N-1.
+$$
+The index $n$ is the previous visible section, and $a$ is the local digit
+selected inside the prime-fiber cell.  The interface is Q3-compatible
+when
+$$
+\sum_{a=0}^{N-1}v_a=\sqrt N.
+$$
+\end{definition}
+
+\begin{principle}[Rule before visible section]
+\label{prin:rh-pfz-rule-before-visible-section}
+In a PFZ tower, the invariant object is the repeated refinement rule, not
+one displayed visible section.  A section records a finite layer; the rule
+records how each selected prime-fiber cell is expanded into the next
+visible surface.  This is the RH-facing use of
+\autoref{prin:innovation-input-rule-before-section}: scale invariants must
+be tested on the rule and its dilation tower, not only on a single finite
+window.
+\end{principle}
+
+\begin{definition}[PFZ balanced obstruction row]
+\label{def:rh-pfz-balanced-obstruction-row}
+Let $\alpha$ be a balanced signed block and let
+$$
+\Gamma(\alpha)
+$$
+be its correlation read in the self-substitution interface.  A PFZ
+balanced obstruction row is either a non-real balanced read
+$$
+\operatorname{Im}\Gamma(\alpha)\ne0,
+$$
+or a negative balanced read
+$$
+\Gamma(\alpha)<0.
+$$
+It is scale-stable when the same obstruction is displayed for every
+dilated block $D_{N^k}\alpha$.
+\end{definition}
+
+\begin{theorem}[PFZ balanced obstruction persists under dilation]
+\label{thm:rh-pfz-balanced-obstruction-dilation-persistence}
+In any PFZ tower carrying the self-substitution interface of
+\autoref{def:rh-pfz-self-substitution-interface}, every PFZ balanced
+obstruction row is scale-stable:
+$$
+\Gamma(D_{N^k}\alpha)=\Gamma(\alpha)
+\qquad
+(k\ge0).
+$$
+\end{theorem}
+
+\begin{proof}
+This is exactly the balanced-correlation scale invariance of
+\autoref{thm:innovation-input-balanced-correlation-scale-invariance},
+read through the PFZ interface.  The equality of reads gives persistence
+of the imaginary part and of the sign, as in
+\autoref{cor:innovation-input-scale-copying-correlation-defects}.
+\end{proof}
+
+\section{Reflection-Positive Windows}
+\label{sec:rh-pfz-reflection-positive-windows}
+
+\begin{definition}[PFZ reflection-centered dilation row]
+\label{def:rh-pfz-reflection-centered-dilation-row}
+For odd $N$, the PFZ reflection-centered dilation row is the transported
+block dilation
+$$
+\mathcal D_N^\theta(\delta_j)
+:=
+\delta_{\frac{1+N(2j-1)}2}
+$$
+from \autoref{def:innovation-input-reflection-centered-dilation}.  It is
+allowed in the PFZ tower only together with the reflection-commutation row
+$$
+\theta\mathcal D_N^\theta
+=
+\mathcal D_N^\theta\theta
+$$
+of \autoref{lem:innovation-input-reflection-centered-dilation-commutes}.
+\end{definition}
+
+\begin{definition}[PFZ RP obstruction row]
+\label{def:rh-pfz-rp-obstruction-row}
+Let $\mathcal B$ be a finite neutral reflection-positive window with
+matrix
+$$
+M_{\mathcal B}(v)_{ij}
+:=
+\Gamma(\alpha_j-\theta\alpha_i).
+$$
+A PFZ RP obstruction row is the presence of a negative direction in
+$M_{\mathcal B}(v)$.  The obstruction is scale-stable when every reflected
+dilation
+$$
+M_{(\mathcal D_N^\theta)^k\mathcal B}(v)
+$$
+carries the same negative direction.
+\end{definition}
+
+\begin{theorem}[PFZ RP obstruction persists under reflection-centered dilation]
+\label{thm:rh-pfz-rp-obstruction-dilation-persistence}
+Assume $N$ is odd.  In a PFZ tower carrying the
+reflection-centered dilation row of
+\autoref{def:rh-pfz-reflection-centered-dilation-row}, every PFZ RP
+obstruction row is scale-stable:
+$$
+M_{(\mathcal D_N^\theta)^k\mathcal B}(v)
+=
+M_{\mathcal B}(v)
+\qquad
+(k\ge0).
+$$
+\end{theorem}
+
+\begin{proof}
+Apply the odd-length RP window self-similarity theorem
+\autoref{thm:innovation-input-odd-rp-window-self-similarity}.  Equality
+of the matrices preserves their spectra, so the negative direction is
+the same one recorded in
+\autoref{cor:innovation-input-scale-copying-rp-failure}.
+\end{proof}
+
+\begin{principle}[Finite obstruction is not scale noise]
+\label{prin:rh-pfz-finite-obstruction-not-scale-noise}
+A finite balanced-correlation defect or finite RP negative direction
+cannot be dismissed as a local artefact of the selected cell.  Once the
+PFZ tower carries the relevant self-substitution or reflection-centered
+dilation rule, the finite obstruction is copied by the rule itself.  A
+legal zoom operation may move the visible surface, but it may not hide
+such an obstruction in the gap ledger, the solenoid fibre, or a coarser
+visible section.
+\end{principle}
+
+\section{Smooth Branch Gate}
+\label{sec:rh-pfz-smooth-branch-gate}
+
+\begin{definition}[PFZ smooth branch gate]
+\label{def:rh-pfz-smooth-branch-gate}
+A local PFZ passage direction is admissible as a smooth branch only when
+it satisfies every displayed linear audit attached to the same window:
+the Q3 tangent row, the Hermitian or RP defect rows, the balanced
+correlation rows, and the gap-ledger compatibility row.  Passing one
+projection is not enough to license the branch as a BEDC continuation
+object.
+\end{definition}
+
+\begin{theorem}[Pythagorean boundary has no antisymmetric PFZ passage]
+\label{thm:rh-pfz-pythagorean-boundary-no-antisymmetric-passage}
+At the Pythagorean pentary row of
+\autoref{def:innovation-input-pythagorean-antisymmetric-phase-perturbation},
+no nonzero mirror-antisymmetric tangent direction is admissible through
+the PFZ smooth branch gate.
+\end{theorem}
+
+\begin{proof}
+The Q3 tangent row alone allows the mirror-antisymmetric coordinates
+$(x,y)$ by
+\autoref{prop:innovation-input-pythagorean-antisymmetric-qthree-tangent}.
+The anchored three-link Hermitian audit then applies
+\autoref{thm:innovation-input-pythagorean-first-order-hermitian-rigidity},
+which forces
+$$
+x=0,
+\qquad
+y=0.
+$$
+Thus every nonzero mirror-antisymmetric tangent fails the full PFZ branch
+gate.
+\end{proof}
+
+\begin{principle}[Branch admissibility is multi-projection]
+\label{prin:rh-pfz-branch-admissibility-multiprojection}
+The PFZ tower may display many local digit choices, but a smooth
+continuation branch is not licensed by local choice alone.  It must pass
+the phase, Hermitian, balanced-correlation, RP, and gap-ledger reads at
+the same time.  The Pythagorean pentary boundary is the local model:
+phase-sum compatibility leaves apparent tangent directions, while the
+Hermitian reads remove the non-palindromic first-order directions.
+\end{principle}
+
+\section{Zeta-Facing Closure Obligations}
+\label{sec:rh-pfz-zeta-facing-closure-obligations}
+
+\begin{definition}[PFZ closure envelope]
+\label{def:rh-pfz-closure-envelope}
+The PFZ closure envelope is the union of all objects generated from the
+base endpoint fibre by legal prime-fiber zoom steps satisfying the rows
+of \autoref{def:rh-prime-fiber-zoom-history-tower}, the
+self-substitution interface of
+\autoref{def:rh-pfz-self-substitution-interface}, the scale-obstruction
+rows of \autoref{def:rh-pfz-balanced-obstruction-row} and
+\autoref{def:rh-pfz-rp-obstruction-row}, and the smooth branch gate of
+\autoref{def:rh-pfz-smooth-branch-gate}.  A member of the envelope
+therefore carries history containment, exponential self-similarity,
+orthogonal residual accounting, gap recording, and obstruction
+persistence as ledger rows.
+\end{definition}
+
+\begin{definition}[ZetaPFZEmbedding]
+\label{def:rh-zeta-pfz-embedding}
+The obligation
+$$
+\mathsf{ZetaPFZEmbedding}
+$$
+asserts that the Dirichlet monomial rows, Euler product rows, analytic
+continuation rows, completed zero packets, and Li--Weil--Nyman
+projection rows used by the completed zeta route enter the PFZ closure
+envelope of \autoref{def:rh-pfz-closure-envelope}.  It is not the claim
+that the PFZ envelope proves RH; it is the source-admission claim that
+the zeta-facing objects are generated with their prime-fiber, phase,
+scale, and gap ledgers visible.
+\end{definition}
+
+\begin{definition}[NoHiddenRadialPFZ]
+\label{def:rh-no-hidden-radial-pfz}
+The obligation
+$$
+\mathsf{NoHiddenRadialPFZ}
+$$
+asserts that a nonzero radial coordinate in a centered zero packet cannot
+be absorbed by PFZ zoom, solenoid phase projection, balanced-correlation
+dilation, reflection-centered RP dilation, or smooth branch selection.
+If the radial factor is present, it is a displayed positive-real scale
+row.  If it is omitted, the packet has an unledgered residual and is not
+a legal PFZ closure object.
+\end{definition}
+
+\begin{principle}[RH role of the PFZ obstruction bridge]
+\label{prin:rh-pfz-obstruction-bridge-rh-role}
+For a completed zero packet with
+$$
+z(\rho)=1-\frac1\rho=e^{\ell+i\theta},
+$$
+the phase coordinate $\theta$ may be read through PFZ phase and solenoid
+rows, while $\ell$ is a radial scale coordinate.  Under
+$\mathsf{ZetaPFZEmbedding}$, the zero packet must enter the PFZ closure
+envelope.  Under $\mathsf{NoHiddenRadialPFZ}$, the case $\ell\ne0$ cannot
+be hidden by zoom, dilation, reflection, or branch selection.  The RH
+route must therefore supply these two obligations before the PFZ bridge
+can contribute to fixed-half readout.
+\end{principle}

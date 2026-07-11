@@ -256,4 +256,12 @@ theorem FinitePrefixMachineCarrier_prefix_determinacy
   rcases carrier with ⟨routeEndpoint, _routeAcceptance, _sameReplay, _sameName, _sameState⟩
   exact ⟨cont_deterministic routeEndpoint routeEndpoint', sameAccepted⟩
 
+theorem FinitePrefixMachineCarrier_nonescape {M Q T F E A H C N terminal : BHist} :
+    FinitePrefixMachineCarrier M Q T F E A H C N →
+      Cont M F terminal → hsame terminal E ∧ hsame H T ∧ hsame N M := by
+  -- BEDC touchpoint anchor: BHist BMark Cont hsame
+  intro carrier terminalRoute
+  rcases carrier with ⟨endpointRoute, _acceptanceRoute, replaySame, nameSame, _stateSame⟩
+  exact ⟨hsame_symm (cont_deterministic endpointRoute terminalRoute), replaySame, nameSame⟩
+
 end BEDC.Derived.FinitePrefixMachineUp

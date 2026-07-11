@@ -1,0 +1,73 @@
+\chapter{A Concrete Naming Certificate for $\GaussMapUp$}
+\label{ch:concrete-instances-gauss-map-namecert}
+\origin{human}
+
+Following Gauss and Khinchin on continued fractions, the $\GaussMapUp$ packet records the finite BEDC surface for the map that sends a positive real input in the unit interval to the fractional part of its reciprocal. It consumes the real-name row of \autoref{ch:concrete-instances-real-namecert}, the reciprocal route of \autoref{ch:concrete-instances-real-reciprocal-namecert}, the floor row of \autoref{ch:concrete-instances-floor-function-namecert}, the residual row of \autoref{ch:concrete-instances-fractional-part-namecert}, the finite continued-fraction prefix row of \autoref{ch:concrete-instances-continuedfraction-namecert}, the finite window and regular-rational readback rows of \autoref{ch:concrete-instances-streamname-namecert} and \autoref{ch:concrete-instances-regseqrat-namecert}, and the terminal $\RealUp$ seal. The packet names a constructive dynamics step; it is not a host real function, an infinite continued-fraction shift, quotient equality of real names, trichotomy, choice, or ambient $\RealUp$ completeness.
+
+\begin{definition}[Gauss map carrier]
+\label{def:gauss-map-carrier}
+A $\GaussMapUp$ carrier is a finite $\BHist$ packet
+$$
+G=(R,Z,V,F,Q,A,E,H,C,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $R$ is the source $\RealUp$ row for the input real name.
+\item $Z$ is the nonzero positive unit-interval guard row attached to the same real source.
+\item $V$ is the $\RealReciprocalUp$ row displaying the reciprocal read permitted by $Z$.
+\item $F$ is the $\FloorFunctionUp$ row for the integer part of the reciprocal read.
+\item $Q$ is the $\FractionalPartUp$ residual row bound to the same reciprocal and floor rows.
+\item $A$ is the $\ContinuedFractionUp$ finite-prefix handoff row, recording the partial-quotient prefix visible after the reciprocal and floor read.
+\item $E$ is the terminal $\RealUp$ seal row for the fractional residual.
+\item $H$ records componentwise $\hsame$ transport for the source, guard, reciprocal, floor, residual, prefix, seal, replay, provenance, and local naming rows.
+\item $C$ records displayed $\Cont$ replay from the source real and guard through reciprocal, floor, fractional residual, continued-fraction prefix, and terminal seal.
+\item $P$ is the $\Pkg$ provenance over $\GaussMapUp$, $\RealUp$, $\RealReciprocalUp$, $\FloorFunctionUp$, $\FractionalPartUp$, $\ContinuedFractionUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$.
+\item $N$ is the local $\NameCert_{\GaussMapUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through these eleven rows. It has no coordinate for a host Gauss-map function, quotient real equality, an infinite continued-fraction stream, a selected representative, trichotomy, countable choice, or detached $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[Gauss map NameCert obligations]
+\label{thm:gauss-map-namecert-obligations}
+For every accepted $\GaussMapUp$ carrier $G=(R,Z,V,F,Q,A,E,H,C,P,N)$, the local $\NameCert_{\GaussMapUp}$ surface consists exactly of carrier admission for the source $\RealUp$ row, the nonzero positive unit-interval guard, the $\RealReciprocalUp$ row, the $\FloorFunctionUp$ row, the $\FractionalPartUp$ residual row, the $\ContinuedFractionUp$ prefix handoff, the terminal $\RealUp$ seal, componentwise $\hsame$ transport, displayed $\Cont$ replay, $\Pkg$ provenance, and local naming. No NameCert obligation is stored outside these rows.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:gauss-map-carrier}. The source row $R$ and guard row $Z$ are the only admission data for the real input; the reciprocal row $V$ is public only after those rows have been displayed.
+
+Read the arithmetic route next. The floor row $F$ and fractional residual row $Q$ are tied to the same reciprocal row, and the continued-fraction prefix row $A$ records only the finite partial-quotient handoff visible from that route.
+
+Finally inspect the seal and structural rows. The row $E$ is a $\RealUp$ seal for the displayed residual, while $H,C,P,N$ transport, replay, source, and name the same finite packet. Since the carrier has no further coordinate, the listed rows exhaust the local NameCert surface.
+\end{proof}
+
+\begin{theorem}[Gauss map fractional-part route]
+\label{thm:gauss-map-fractional-part-route}
+Every dynamics-facing read exported by an accepted $\GaussMapUp$ carrier factors through
+$$
+R\longmapsto Z\longmapsto V\longmapsto F\longmapsto Q\longmapsto A\longmapsto E
+$$
+together with $H,C,P,N$. Consequently the public read is a finite reciprocal, floor, fractional-part, continued-fraction-prefix, and real-seal route, not a host function evaluation, an infinite shift on continued fractions, quotient equality of real names, a selected representative, or an ambient completeness principle.
+\end{theorem}
+\leanstmt{BEDC.Derived.GaussMapUp}
+\begin{proof}
+Start from the accepted carrier. The guard row $Z$ keeps the reciprocal request attached to the displayed positive nonzero interval data of the source row $R$, so the reciprocal row $V$ is not detached from the input name.
+
+Apply the floor and fractional-part sibling routes. The floor row $F$ supplies the integer part of the reciprocal read, and $Q$ records the residual on the same reciprocal and floor data before any continued-fraction prefix is exposed.
+
+The finite-prefix handoff $A$ and seal row $E$ are downstream of that residual. Transport, replay, provenance, and local naming preserve the same route, and the excluded host-function, infinite-stream, quotient, representative, choice, and completeness coordinates are absent from the carrier.
+\end{proof}
+
+\falsifiablePrediction{Every $\GaussMapUp$ dynamics read factors through $\RealUp$, $\RealReciprocalUp$, $\FloorFunctionUp$, $\FractionalPartUp$, $\ContinuedFractionUp$, $\StreamNameUp$, $\RegSeqRatUp$, and a terminal $\RealUp$ seal before the local $\NameCert_{\GaussMapUp}$ row is consumed.}
+
+\independenceWitness{real, real-reciprocal, floor-function, fractional-part, continuedfraction, streamname, regseqrat: $\GaussMapUp$ is not bijective to any listed sibling because it jointly carries a source Real row, positive nonzero interval guard, reciprocal row, floor row, fractional-part residual, continued-fraction prefix handoff, Real seal, transport, replay, provenance, and local naming while refusing host function evaluation and infinite continued-fraction shifts.}
+
+\closureat{GaussMapUp}{seedStr}
+
+\begin{closurestatus}{\GaussMapUp}
+  \constructivestory{A $\GaussMapUp$ packet is generated from a source RealUp row, a nonzero positive interval guard, a RealReciprocal row, a FloorFunction row, a FractionalPart residual row, a ContinuedFraction prefix handoff, a Real seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:gauss-map-carrier}, \autoref{thm:gauss-map-namecert-obligations}, and \autoref{thm:gauss-map-fractional-part-route} seed the finite reciprocal, floor, fractional-part, continued-fraction-prefix, and Real-seal route for the Gauss map.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close host real functions, infinite continued-fraction shifts, quotient real equality, trichotomy, selected representatives, countable choice, ambient $\RealUp$ completeness, checked Lean obligations, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, guard exactness, reciprocal routing, floor and fractional-part handoff, continued-fraction prefix handoff, Real seal nonescape, transport, replay, provenance, and local naming for BEDC.Derived.GaussMapUp.}
+\end{closurestatus}

@@ -1,0 +1,56 @@
+\chapter{A Compact Real Interval Choice-Guard Certificate for $\CompactRealIntervalChoiceGuardUp$}
+\label{ch:concrete-instances-compact-real-interval-choice-guard-namecert}
+\origin{human}
+
+Following Bishop and Bridges, the $\CompactRealIntervalChoiceGuardUp$ packet records the finite guard that lets a compact real interval consumer read only bounded window data before a terminal $\RealUp$ seal. It sits after the real-name carrier of \autoref{ch:concrete-instances-real-namecert}, the interval enclosure of \autoref{ch:concrete-instances-real-interval-enclosure-namecert}, the compact-metric finite packet of \autoref{ch:concrete-instances-compactmetric-namecert}, the StreamName and RegSeqRat readback rows of \autoref{ch:concrete-instances-streamname-namecert} and \autoref{ch:concrete-instances-regseqrat-namecert}, and the dyadic arithmetic core of \autoref{ch:concrete-instances-dyadicratcore-namecert}. The guard exposes finite cover-window reads for interval consumers; it is not Heine--Borel compactness, an open-cover theorem, a selected finite subcover, quotient equality of real names, countable choice, or ambient completeness of $\RealUp$.
+
+\begin{definition}[Compact real interval choice-guard carrier]
+\label{def:compact-real-interval-choice-guard-carrier}
+A $\CompactRealIntervalChoiceGuardUp$ carrier is a finite $\BHist$ packet
+$$
+G=(I,C,M,S,R,H,T,P,N)
+$$
+with the following displayed rows:
+\begin{enumerate}
+\item $I$ is the compact real interval source row, naming the displayed endpoint histories and the interval enclosure data read through $\RealUp$.
+\item $C$ is the finite cover-window request row, recording only the cover probes and interval window requested by the consumer.
+\item $M$ is the $\DyadicRatCoreUp$ mesh row attached to that same finite window.
+\item $S$ is the combined $\StreamNameUp/\RegSeqRatUp$ readback row for endpoint, window, mesh, and probe histories.
+\item $R$ is the terminal $\RealUp$ seal row reached only after $I,C,M,S$ have been displayed.
+\item $H$ records componentwise $\hsame$ transport for the interval source, cover-window request, mesh, readback, Real seal, replay, provenance, and local name.
+\item $T$ records displayed $\Cont$ replay from interval admission through cover-window request, dyadic mesh, StreamName and RegSeqRat readback, and terminal Real sealing.
+\item $P$ is the $\Pkg$ provenance over $\CompactRealIntervalChoiceGuardUp$, $\RealUp$, $\RealIntervalEnclosureUp$, $\CompactMetricUp$, $\StreamNameUp$, $\RegSeqRatUp$, $\DyadicRatCoreUp$, $\BHist$, $\hsame$, $\Cont$, and $\NameCert$ rows.
+\item $N$ is the local $\NameCert_{\CompactRealIntervalChoiceGuardUp}$ row.
+\end{enumerate}
+The classifier compares accepted packets only through these nine rows. It has no coordinate for open-cover compactness, a selected finite subcover, quotient real equality, countable choice, detached endpoint representatives, or ambient $\RealUp$ completeness.
+\end{definition}
+
+\begin{theorem}[Compact real interval choice-guard NameCert obligations]
+\label{thm:compact-real-interval-choice-guard-namecert-obligations}
+For every accepted $\CompactRealIntervalChoiceGuardUp$ carrier
+$$
+G=(I,C,M,S,R,H,T,P,N),
+$$
+the local $\NameCert_{\CompactRealIntervalChoiceGuardUp}$ surface consists exactly of carrier admission for the compact real interval source, finite cover-window exposure, dyadic mesh compatibility, StreamName and RegSeqRat readback, Real seal handoff, componentwise $\hsame$ transport, displayed $\Cont$ replay, provenance, and local naming. The packet refuses open-cover compactness, countable choice, selected subcovers, quotient real equality, detached endpoint representatives, and ambient $\RealUp$ completeness.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:compact-real-interval-choice-guard-carrier}. The row $I$ is the only compact interval source, and the row $C$ is the only finite cover-window request accepted by the guard.
+
+Read the finite route next. The dyadic mesh row $M$ is attached to the same window as $C$, and the combined readback row $S$ exposes the StreamName and RegSeqRat data available from the interval, window, mesh, and probe histories.
+
+The Real seal handoff is downstream of those rows. The row $R$ can be consumed only after $I,C,M,S$ have been displayed, while $H,T,P,N$ transport, replay, source, and name the same finite packet.
+
+The refusal clauses follow from absence of carrier coordinates. No row stores an open-cover compactness theorem, a countable-choice selector, a selected finite subcover, quotient real equality, detached endpoint representatives, or ambient Real completeness.
+\end{proof}
+
+\closureat{CompactRealIntervalChoiceGuardUp}{seedStr}
+
+\begin{closurestatus}{\CompactRealIntervalChoiceGuardUp}
+  \constructivestory{A $\CompactRealIntervalChoiceGuardUp$ packet is generated from a compact real interval source row, a finite cover-window request, a dyadic mesh row, StreamName and RegSeqRat readback, a RealUp seal, componentwise hsame transport, displayed Cont replay, Pkg provenance, and a local NameCert row.}
+  \theoryclosure{\seedClosure}
+  \scopeclosed{\autoref{def:compact-real-interval-choice-guard-carrier} and \autoref{thm:compact-real-interval-choice-guard-namecert-obligations} seed the finite cover-window, mesh, readback, Real-seal, transport, replay, provenance, and local naming route for compact real interval consumers.}
+  \formalstatus{\unformalizedV}
+  \bridgestatus{none}
+  \notclaimed{This chapter does not close Heine--Borel compactness, open-cover compactness, selected finite subcovers, countable choice, quotient real equality, detached endpoint representatives, ambient Real completeness, Lean verification, or bridge checking.}
+  \upgradepath{Obligation closure requires checked carrier admission, finite cover-window exposure, dyadic mesh compatibility, StreamName and RegSeqRat readback, Real seal handoff, transport, replay, provenance, and local naming for BEDC.Derived.CompactRealIntervalChoiceGuardUp.}
+\end{closurestatus}

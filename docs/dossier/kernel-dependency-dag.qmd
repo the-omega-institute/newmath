@@ -1,0 +1,133 @@
+---
+title: "Kernel Dependency DAG"
+subtitle: "The PZG–BEDC unified kernel is 82 Lean modules over mathlib. This is the dependency graph the compiler actually walks — the checked core at the base, the RH-homing frontier at the top, and every open leaf named where it really sits."
+author: "The Omega Institute"
+date: 2026-07-08
+description: "A dependency DAG of the PZG–BEDC unified-theory kernel (papers/unified_theory), extracted from the real Lean import graph: 82 internal modules, 71 internal edges, laid out as a tower with Foundation/Arithmetic at the base and the RH-homing Zeta layer on top. Includes the structural finding that the Zeta frontier is a fan of independent bricks, not a chain, and a table locating each open leaf."
+---
+
+## What this graph is
+
+The unified kernel — the PZG–BEDC tower formalized in `papers/unified_theory/lean4/UnifiedTheory/` — is **82 Lean modules** built on mathlib. Every module `import`s the modules it depends on, and `lake` topologically orders that graph to compile. So a dependency DAG already exists: it lives in the `import` lines, and the compiler walks it on every build. What has been missing is a *reading* of it — a picture that says, at a glance, where the checked core sits, where the RH-homing frontier sits, and which open leaves actually block which downstream claims.
+
+This page renders that DAG directly from the import lines. Nothing here is hand-asserted about status; the edges are exactly the internal imports (`82` modules, `71` internal edges), and the leaf classification tracks the [full-tower gap map](https://github.com/the-omega-institute/newmath/blob/dev/papers/unified_theory/formalization/full_tower_gap_map.md). It is regenerable from source in one pass (see [Provenance](#provenance)).
+
+## The tower spine
+
+Grouping the 82 modules by layer gives a clean partial order. Arrows point from a layer to what it depends on. The base is `Foundation` (mark / history / rewriting) and `Arithmetic` (prime axes); the top is `Kernel` (the total object) and — carrying every open leaf of the whole tower — `Zeta`, the RH-homing layer.
+
+```{mermaid}
+graph TD
+  classDef solid fill:#d7f0d7,stroke:#2f7d2f,color:#123;
+  classDef frontier fill:#fdeecb,stroke:#c8891f,color:#123;
+
+  Zeta["Zeta &middot; RH homing<br/>(12 modules &middot; all open leaves live here)"]:::frontier
+  Kernel["Kernel &middot; total object<br/>(4)"]:::solid
+  SelfCode["SelfCode &middot; self-coding<br/>(9)"]:::solid
+  Golden["Golden &middot; golden / Beatty<br/>(27)"]:::solid
+  Dynamics["Dynamics &middot; phase / cost<br/>(7)"]:::solid
+  PZG["PZG &middot; carry carrier<br/>(8)"]:::solid
+  Arithmetic["Arithmetic &middot; prime axes<br/>(9)"]:::solid
+  Foundation["Foundation &middot; mark / history / rewriting<br/>(3)"]:::solid
+
+  Zeta --> Golden
+  Zeta --> Dynamics
+  Zeta --> Arithmetic
+  Kernel --> Golden
+  Kernel --> PZG
+  Kernel --> Arithmetic
+  Kernel --> Foundation
+  SelfCode --> Golden
+  Golden --> PZG
+  Golden --> Arithmetic
+  Dynamics --> Arithmetic
+  Dynamics --> Foundation
+  PZG --> Arithmetic
+  PZG --> Foundation
+```
+
+`Golden` is the heaviest layer (27 modules): golden-integer arithmetic, Beatty / Zeckendorf reading, the deficit and carry theory, the golden-weight arithmetic functions. It sits mid-tower — above `PZG` and `Arithmetic`, and everything self-referential (`SelfCode`) or spectral (`Zeta`) is built on top of it.
+
+## The frontier is a fan, not a chain
+
+The single most useful thing the DAG shows — invisible in a flat status table — is the **internal shape of the `Zeta` layer**. Of the 12 modules in the RH-homing layer, there are only **3 internal edges** between them:
+
+- `WeilArchimedean → WeilExplicit`
+- `WeilPrimeSideZeta → WeilExplicit`
+- `ZeroFreeLine → RHBridge`
+
+Everything else — the heart-electrode window analysis, the Möbius and `1/ζ` facts, the golden↔Weil bridge, the chamber count, the completed-zeta and Euler-product wrappers — are **independent leaves**, each importing mathlib directly and none importing the others. The frontier is a **fan of independent bricks**, not a dependency chain.
+
+That is why the layer can be advanced brick by brick in parallel: there is almost no internal coupling to serialize against. And it relocates the real closure question. The tower does not converge at some internal Zeta join; it converges at the *open leaf inside each brick* — the analytic positivity, the missing oscillation theorem, the ledger that is honestly a restatement rather than a proof.
+
+```{mermaid}
+graph TD
+  classDef solid fill:#d7f0d7,stroke:#2f7d2f,color:#123;
+  classDef open fill:#f6d0d0,stroke:#b33,color:#123;
+
+  WeilExplicit["WeilExplicit"]:::solid
+  WeilArchimedean["WeilArchimedean<br/>(holds O-6 positivity open leaf)"]:::open
+  WeilPrimeSideZeta["WeilPrimeSideZeta"]:::solid
+  RHBridge["RHBridge<br/>(RH ledger &middot; restatement, not a proof)"]:::open
+  ZeroFreeLine["ZeroFreeLine"]:::solid
+
+  HeartMellin["HeartMellin<br/>(F-1 decay, sinh no-miss)"]:::solid
+  HeartMobius["HeartMobius"]:::solid
+  HeartOneOverZeta["HeartOneOverZeta<br/>(F-2, 1/&zeta; zero)"]:::solid
+  WeilGoldenBridge["WeilGoldenBridge"]:::solid
+  WeilChamberCount["WeilChamberCount"]:::solid
+  Completed["Completed"]:::solid
+  EulerProduct["EulerProduct"]:::solid
+
+  WeilArchimedean --> WeilExplicit
+  WeilPrimeSideZeta --> WeilExplicit
+  ZeroFreeLine --> RHBridge
+```
+
+Green modules compile `0-sorryAx` (only `propext` / `Classical.choice` / `Quot.sound`, i.e. plain mathlib). The two red modules are honest about what they are: `WeilArchimedean` *registers* the O-6 archimedean positivity as an open `Prop` rather than proving it, and `RHBridge` is a faithful re-encoding of "no off-line zeros" — a ledger, never a proof.
+
+## Where the open leaves actually sit
+
+Because the frontier is a fan, "what is left to close" is not one monolith but a short list of named leaves, each inside one brick:
+
+| Open leaf | Lives in | What it blocks | Why it is open |
+|---|---|---|---|
+| O-6 archimedean positivity | `WeilArchimedean` | closing the finite-packet Weil positivity | analytic positivity, month-scale |
+| Landau Ω-oscillation theorem | *(absent from mathlib)* | the Delange → H.8 lower-bound chain | mathlib has no oscillation/Ω theorem |
+| char-group Pontryagin duality | *(not yet built)* | prime-axis ↔ $\widehat{\mathbb{Z}}$ duality | needs the profinite $\widehat{\mathbb{Z}}$ |
+| RH ledger | `RHBridge` | — | a faithful restatement; equivalent to RH, so never a self-standing proof |
+
+No leaf is faked with `True.intro` or hidden behind a statement-only stub. The checked content is genuinely checked; the open content is genuinely open and named where it lives.
+
+## Provenance {#provenance}
+
+Both graphs are derived from the repository, not maintained by hand. The single source of truth is the set of `import UnifiedTheory.*` lines under `papers/unified_theory/lean4/UnifiedTheory/`. To regenerate the edge list and the layer counts:
+
+```bash
+cd papers/unified_theory/lean4
+python3 - <<'PY'
+import os, re, collections
+root = "UnifiedTheory"
+edges = collections.defaultdict(set); mods = set()
+for dp, _, fs in os.walk(root):
+    for f in fs:
+        if not f.endswith(".lean"): continue
+        m = os.path.join(dp, f)[:-5].replace("/", ".")
+        if m == "UnifiedTheory.All": continue
+        mods.add(m)
+        for line in open(os.path.join(dp, f)):
+            g = re.match(r"\s*import\s+(UnifiedTheory\.[\w.]+)", line)
+            if g: edges[m].add(g.group(1))
+for m in edges: edges[m] &= mods
+layer = lambda m: m.split(".")[1] if len(m.split(".")) > 2 else "root"
+le = collections.defaultdict(set)
+for s, ts in edges.items():
+    for t in ts:
+        if layer(s) != layer(t): le[layer(s)].add(layer(t))
+print(f"{len(mods)} modules, {sum(len(v) for v in edges.values())} internal edges")
+for s in sorted(le):
+    for t in sorted(le[s]): print(f"  {s} -> {t}")
+PY
+```
+
+Counts on this page (`82` modules, `71` internal edges, `3` internal `Zeta` edges) are the output of that pass; rerun it against any commit to get the current figures.

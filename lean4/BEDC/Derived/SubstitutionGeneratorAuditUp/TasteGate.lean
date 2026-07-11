@@ -1,9 +1,11 @@
+import BEDC.FKernel.Cont
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.SubstitutionGeneratorAuditUp
 
+open BEDC.FKernel.Cont
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
 open BEDC.GroundCompiler.EventFlow
@@ -286,5 +288,38 @@ theorem SubstitutionGeneratorAuditTasteGate_single_carrier_alignment :
           · intro x y heq
             exact substitutionGeneratorAuditToEventFlow_injective heq
           · rfl
+
+theorem SubstitutionGeneratorAudit_route_lock_rows
+    {T C R S K W H Q P N T' C' R' S' K' W' H' Q' P' N' : BHist}
+    (sameDisplay :
+      substitutionGeneratorAuditToEventFlow (SubstitutionGeneratorAuditUp.mk T C R S K W H Q P N) =
+        substitutionGeneratorAuditToEventFlow
+          (SubstitutionGeneratorAuditUp.mk T' C' R' S' K' W' H' Q' P' N'))
+    (shiftRoute : Cont C R W)
+    (substitutionRoute : Cont C S W)
+    (compositionReplay : Cont K W Q) :
+    hsame C C' ∧ hsame R R' ∧ hsame S S' ∧ hsame K K' ∧ hsame W W' ∧
+      Cont C' R' W' ∧ Cont C' S' W' ∧ Cont K' W' Q' := by
+  -- BEDC touchpoint anchor: BHist BMark
+  have carrierEq :
+      SubstitutionGeneratorAuditUp.mk T C R S K W H Q P N =
+        SubstitutionGeneratorAuditUp.mk T' C' R' S' K' W' H' Q' P' N' :=
+    substitutionGeneratorAuditToEventFlow_injective sameDisplay
+  cases carrierEq
+  constructor
+  · rfl
+  · constructor
+    · rfl
+    · constructor
+      · rfl
+      · constructor
+        · rfl
+        · constructor
+          · rfl
+          · constructor
+            · exact shiftRoute
+            · constructor
+              · exact substitutionRoute
+              · exact compositionReplay
 
 end BEDC.Derived.SubstitutionGeneratorAuditUp

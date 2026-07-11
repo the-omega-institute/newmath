@@ -209,6 +209,34 @@ instance axisNatReplacementRefusalChapterTasteGate :
     intro x y hxy heq
     exact hxy (axisNatReplacementRefusalToEventFlow_injective heq)
 
+instance axisNatReplacementRefusalFieldFaithful :
+    FieldFaithful AxisNatReplacementRefusalUp where
+  -- BEDC touchpoint anchor: BHist BMark
+  fields := fun
+    | AxisNatReplacementRefusalUp.mk axisNat nat bridge cannotClaim transports routes
+        provenance name =>
+        [axisNat, nat, bridge, cannotClaim, transports, routes, provenance, name]
+  field_faithful := by
+    intro x y hfields
+    cases x with
+    | mk axisNat₁ nat₁ bridge₁ cannotClaim₁ transports₁ routes₁ provenance₁ name₁ =>
+        cases y with
+        | mk axisNat₂ nat₂ bridge₂ cannotClaim₂ transports₂ routes₂ provenance₂ name₂ =>
+            cases hfields
+            rfl
+
+instance axisNatReplacementRefusalNontrivial :
+    Nontrivial AxisNatReplacementRefusalUp where
+  -- BEDC touchpoint anchor: BHist BMark
+  witness_pair :=
+    ⟨AxisNatReplacementRefusalUp.mk (BHist.e0 BHist.Empty) BHist.Empty BHist.Empty
+        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
+      AxisNatReplacementRefusalUp.mk (BHist.e1 BHist.Empty) BHist.Empty BHist.Empty
+        BHist.Empty BHist.Empty BHist.Empty BHist.Empty BHist.Empty,
+      by
+        intro h
+        cases h⟩
+
 theorem AxisNatReplacementRefusalTasteGate_single_carrier_alignment :
     (∀ h : BHist,
       axisNatReplacementRefusalDecodeBHist (axisNatReplacementRefusalEncodeBHist h) = h) ∧
@@ -228,5 +256,20 @@ theorem AxisNatReplacementRefusalTasteGate_single_carrier_alignment :
       · intro x y heq
         exact axisNatReplacementRefusalToEventFlow_injective heq
       · rfl
+
+theorem AxisNatReplacementRefusalCarrier_namecert_obligations
+    (q : AxisNatReplacementRefusalUp) :
+    ∃ A N B K H C P L : BHist,
+      q = AxisNatReplacementRefusalUp.mk A N B K H C P L ∧
+        axisNatReplacementRefusalEncodeBHist BHist.Empty = ([] : List BMark) ∧
+          axisNatReplacementRefusalFromEventFlow
+            (axisNatReplacementRefusalToEventFlow q) = some q := by
+  -- BEDC touchpoint anchor: BHist BMark
+  cases q with
+  | mk A N B K H C P L =>
+      refine ⟨A, N, B, K, H, C, P, L, rfl, rfl, ?_⟩
+      exact
+        (AxisNatReplacementRefusalTasteGate_single_carrier_alignment).2.1
+          (AxisNatReplacementRefusalUp.mk A N B K H C P L)
 
 end BEDC.Derived.AxisNatReplacementRefusalUp

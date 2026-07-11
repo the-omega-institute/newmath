@@ -1,0 +1,350 @@
+\section{BEDC--Langlands Exact Globalization Contract}
+\label{sec:unified-reality-bedc-langlands-exact-globalization-contract}
+
+The Langlands closure chain can be compressed into a certificate DAG
+statement. Local packet rows, finite Hecke windows, parameter states,
+trace identities, multiplicity formulae, endoscopic transfers,
+Tannakian separation, Chebotarev uniqueness, cofinal tail closure, and
+no-hidden residual discipline are separate certificates. Exact
+globalization says that once they are connected by complete NameCert
+and ledger-pullback data, their composite has no unaddressed residual.
+
+\begin{definition}[Langlands certificate DAG]
+\label{def:unified-reality-langlands-certificate-dag}
+A Langlands certificate DAG is a finite acyclic graph
+$$
+\mathcal D_{\mathrm{Lan}}
+$$
+whose nodes are drawn from the certificate interfaces
+$$
+\mathsf{LocalPacketCert},\quad
+\mathsf{ParameterStateCert},\quad
+\mathsf{FiniteHeckeProjectorCert},
+$$
+$$
+\mathsf{StabilizedTraceFormulaCert},\quad
+\mathsf{StableMultiplicityFormulaCert},\quad
+\mathsf{EndoscopicTransferCert},
+$$
+$$
+\mathsf{TannakianSeparationCert},\quad
+\mathsf{ChebotarevCert},\quad
+\mathsf{CofinalAutomorphicTailClosure},\quad
+\mathsf{NoHiddenLanglandsResidual}.
+$$
+Each node $C$ carries a NameCert row
+$$
+\operatorname{NameCert}(C)
+=
+(\operatorname{SourceSpec}_C,
+\operatorname{PatternSpec}_C,
+\operatorname{ClassifierSpec}_C,
+\operatorname{StabilityCert}_C,
+\operatorname{LedgerPolicy}_C).
+$$
+The sink node is the closed global Langlands row
+$$
+\mathsf{GlobalLanglandsObject}(\Pi_\psi,\psi).
+$$
+\end{definition}
+
+\begin{definition}[Ledger pullback edge]
+\label{def:unified-reality-langlands-ledger-pullback-edge}
+An edge
+$$
+C\longrightarrow C'
+$$
+of $\mathcal D_{\mathrm{Lan}}$ consists of a readout map from the
+source interface to the target interface and a pullback ledger
+$$
+\Lambda_{C\to C'}
+$$
+with the following property. Any residual created by composing the two
+interfaces either projects to a residual already visible in
+$\operatorname{LedgerPolicy}_C$, projects to a residual already visible
+in $\operatorname{LedgerPolicy}_{C'}$, or is recorded as an
+edge-compatibility row in $\Lambda_{C\to C'}$.
+\end{definition}
+
+\begin{definition}[Node exactness]
+\label{def:unified-reality-langlands-node-exactness}
+A node $C$ of the certificate DAG is exact when every residual in the
+readout scope of $C$ is finite-visible through a detector named by
+$C$, or is recorded by $\operatorname{LedgerPolicy}_C$. A closed exact
+node carries no unresolved ledger row.
+\end{definition}
+
+\begin{definition}[Finite-window exactness]
+\label{def:unified-reality-langlands-finite-window-exactness}
+For a finite Hecke window
+$$
+\mathcal W=(S,R,\mathcal B)
+$$
+as in \autoref{def:unified-reality-finite-hecke-window}, a packet
+$\Pi$ is exact over $\mathcal W$ for $\psi$ when
+$$
+\lambda_{\mathcal W}(\Pi)
+=
+a_{\mathcal W}(\psi)
+$$
+and every residual not measured inside $\mathcal W$ is recorded in the
+window-tail ledger attached to the bound $\mathcal B$.
+\end{definition}
+
+\begin{theorem}[Ledger pullback preserves exactness]
+\label{thm:unified-reality-ledger-pullback-preserves-exactness}
+Let $C\to C'$ be a ledger pullback edge. If $C$ and $C'$ are exact, then
+their composite interface is exact.
+\end{theorem}
+\begin{proof}
+Let $\rho$ be a residual of the composite interface. If its projection
+to the source interface is nonzero, exactness of $C$ makes it
+finite-visible or records it in $\operatorname{LedgerPolicy}_C$. If its
+projection to the target interface is nonzero, exactness of $C'$ does
+the same using $\operatorname{LedgerPolicy}_{C'}$.
+
+It remains to consider the case in which both projections vanish but
+the composite residual is still asserted to be nonzero. Such a residual
+is not a source residual and not a target residual; it is precisely a
+compatibility failure of the edge. By
+\autoref{def:unified-reality-langlands-ledger-pullback-edge}, every
+edge-compatibility failure is recorded in $\Lambda_{C\to C'}$. Hence
+the composite is exact.
+\end{proof}
+
+\begin{theorem}[Certificate DAG induction]
+\label{thm:unified-reality-langlands-certificate-dag-induction}
+Let $\mathcal D_{\mathrm{Lan}}$ be a Langlands certificate DAG. Suppose
+every source node is exact and every edge is a ledger pullback edge.
+Then every node obtained by composing certificates along
+$\mathcal D_{\mathrm{Lan}}$ is exact. If the sink is closed, the sink
+has no unresolved residual.
+\end{theorem}
+\begin{proof}
+Choose a topological ordering of the finite acyclic graph. Source nodes
+are exact by hypothesis. Assume all predecessors of a node $C'$ are
+exact. Composing $C'$ with each predecessor along its incoming ledger
+pullback edge preserves exactness by
+\autoref{thm:unified-reality-ledger-pullback-preserves-exactness}.
+Since the incoming set is finite, repeated application gives exactness
+of the composite interface at $C'$. Induction over the topological
+ordering proves exactness for every node, including the sink.
+
+At a closed sink, any finite-visible residual must be recorded by the
+sink ledger policy, and any ledger residual is incompatible with
+closedness if unresolved. Omitting it violates ledger discipline. Thus
+the closed sink carries no unresolved residual.
+\end{proof}
+
+\begin{theorem}[Cofinal exactness dichotomy]
+\label{thm:unified-reality-cofinal-exactness-dichotomy}
+Assume every window of a cofinal Hecke tower has an exact
+finite-window realization of $\psi$. If bounded automorphic finiteness
+and the complete automorphic tail ledger hold, then either there is a
+global packet $\Pi_\psi$ matching every certified finite detector, or a
+cofinal realization sequence enters the automorphic tail ledger.
+\end{theorem}
+\begin{proof}
+Choose one exact realizing packet on each finite window. This gives a
+cofinal window realization in the sense of
+\autoref{def:unified-reality-cofinal-window-realization}. The
+window-to-global alternative of
+\autoref{thm:unified-reality-window-global-alternative} applies:
+bounded complexity along an infinite subsequence gives a global packet
+matching all certified unramified finite detectors, while absence of
+such a subsequence sends the realization sequence to the automorphic
+tail ledger.
+\end{proof}
+
+\begin{corollary}[Closed cofinal exactness gives a global packet]
+\label{cor:unified-reality-closed-cofinal-exactness-global-packet}
+Under the hypotheses of
+\autoref{thm:unified-reality-cofinal-exactness-dichotomy}, if closed
+accepted Langlands rows carry no unresolved automorphic tail ledger,
+then there is a global packet $\Pi_\psi$ matching every certified finite
+detector.
+\end{corollary}
+\begin{proof}
+The dichotomy gives either a global packet or an automorphic tail row.
+The tail row is either unrecorded, contradicting ledger discipline, or
+recorded but unresolved, contradicting closedness. Hence the global
+packet alternative remains.
+\end{proof}
+
+\begin{definition}[Exact globalization contract]
+\label{def:unified-reality-exact-globalization-contract-lan}
+The contract
+$$
+\mathsf{ExactGlobalizationContract}_{\mathrm{Lan}}
+$$
+consists of:
+\begin{itemize}
+\item a Langlands certificate DAG with NameCert data at every node;
+\item complete ledger pullback on every edge;
+\item exact finite-window realization on a cofinal Hecke tower;
+\item bounded automorphic finiteness and a complete automorphic tail
+ledger;
+\item the no-hidden residual certificate of
+\autoref{def:unified-reality-no-hidden-residual-completeness-certificates};
+\item closedness against unresolved residual ledgers.
+\end{itemize}
+\end{definition}
+
+\begin{theorem}[ExactGlobalizationContract for Langlands]
+\label{thm:unified-reality-exact-globalization-contract-lan}
+Assume
+$$
+\mathsf{ExactGlobalizationContract}_{\mathrm{Lan}}.
+$$
+Then there is a global packet $\Pi_\psi$ and
+$$
+R_{\mathrm{Lan}}(\Pi_\psi,\psi)=0.
+$$
+\end{theorem}
+\begin{proof}
+The certificate DAG induction of
+\autoref{thm:unified-reality-langlands-certificate-dag-induction}
+shows that the composed Langlands interface is exact: every residual is
+finite-visible or ledgered. Exact finite-window realization on the
+cofinal tower, together with
+\autoref{cor:unified-reality-closed-cofinal-exactness-global-packet},
+produces a global packet $\Pi_\psi$ matching every certified finite
+detector.
+
+Assume that
+$$
+R_{\mathrm{Lan}}(\Pi_\psi,\psi)\ne0.
+$$
+By
+\autoref{thm:unified-reality-no-hidden-langlands-residual-master-lemma},
+the residual is finite-visible or ledgered. A finite-visible residual
+is already in the DAG readout scope and must be recorded by the relevant
+ledger policy. A ledger residual is recorded by construction. In both
+cases an unresolved row contradicts closedness, while omission
+contradicts ledger discipline. Therefore no residual remains.
+\end{proof}
+
+\begin{theorem}[BEDC--Langlands exact closure]
+\label{thm:unified-reality-bedc-langlands-exact-closure}
+If the Langlands certificate DAG has NameCert data at every node,
+complete ledger pullbacks on every edge, exact finite-window
+realization on a cofinal tower, no-hidden residual completeness, and
+closedness, then Langlands reciprocity holds on the certified
+unramified finite detector scope:
+$$
+\lambda_{v,r}(\Pi_\psi)
+=
+\operatorname{tr}r(\psi(\operatorname{Frob}_v)).
+$$
+\end{theorem}
+\begin{proof}
+The hypotheses are exactly the data of
+\autoref{def:unified-reality-exact-globalization-contract-lan}. By
+\autoref{thm:unified-reality-exact-globalization-contract-lan}, there
+is a global packet and the total Langlands residual vanishes. Projecting
+the equality
+$$
+R_{\mathrm{Lan}}(\Pi_\psi,\psi)=0
+$$
+to the unramified summand gives
+$$
+R_{\mathrm{unr}}=0.
+$$
+For the detector $(v,r)$, this is precisely
+$$
+\lambda_{v,r}(\Pi_\psi)
+=
+\operatorname{tr}r(\psi(\operatorname{Frob}_v)).
+$$
+\end{proof}
+
+\begin{corollary}[Functorial exact closure]
+\label{cor:unified-reality-functorial-exact-closure}
+Let
+$$
+\eta:{}^LH\to{}^LG
+$$
+be an $L$-group homomorphism. If a closed $H$-side packet
+$(\Pi_H,\psi_H)$ is given and the target parameter
+$$
+\psi_G:=\eta\circ\psi_H
+$$
+satisfies the exact globalization contract on the $G$-side, then there
+is a $G$-side packet $\Pi_G$ such that
+$$
+\lambda_{v,r}(\Pi_G)
+=
+\operatorname{tr}r(\eta(\psi_H(\operatorname{Frob}_v))).
+$$
+\end{corollary}
+\begin{proof}
+Apply
+\autoref{thm:unified-reality-bedc-langlands-exact-closure} to the
+target parameter $\psi_G$. The resulting packet satisfies
+$$
+\lambda_{v,r}(\Pi_G)
+=
+\operatorname{tr}r(\psi_G(\operatorname{Frob}_v)).
+$$
+Substitute $\psi_G=\eta\circ\psi_H$.
+\end{proof}
+
+\begin{corollary}[$GL_n$ exact closure]
+\label{cor:unified-reality-gln-exact-closure}
+For $G=GL_n$, assume the local $GL_n$ packet certificate, the
+Rankin--Selberg detector closure used by the converse theorem, exact
+finite twist windows, the twist tail ledger, and closedness. Then the
+$GL_n$ Langlands reciprocity readout holds on the certified
+unramified scope.
+\end{corollary}
+\begin{proof}
+For $GL_n$, local packets are singleton packets, and the component and
+endoscopic rows of the general certificate DAG reduce to the local
+packet, converse-theorem, and twist-ledger rows. The
+\autoref{thm:unified-reality-gln-converse-bridge-closure} supplies the
+global automorphic packet whenever all finite Rankin--Selberg detector
+conditions hold or sends the failure to the twist tail ledger.
+Closedness excludes unresolved twist-tail data. The exact globalization
+contract then removes the remaining Hecke--Frobenius residual.
+\end{proof}
+
+\begin{corollary}[$GL_1$ two-square shadow]
+\label{cor:unified-reality-exact-globalization-gl1-two-square-shadow}
+For $G=GL_1$, $F=\mathbb Q$, and $K=\mathbb Q(i)$, the exact closure
+readout specializes at odd primes to
+$$
+p=a^2+b^2
+\quad\Longleftrightarrow\quad
+\chi_{-4}(\operatorname{Frob}_p)=1.
+$$
+\end{corollary}
+\begin{proof}
+The $GL_1$ certificate DAG is class field theory with singleton
+packets and scalar Hecke--Frobenius detectors. The quadratic character
+of $\mathbb Q(i)/\mathbb Q$ has value $1$ exactly at split odd primes.
+Splitting in $\mathbb Q(i)$ is equivalent to
+$$
+p\equiv 1\pmod 4,
+$$
+and Fermat's two-square theorem identifies this condition with
+$p=a^2+b^2$.
+\end{proof}
+
+\begin{theorem}[Boundary of exact globalization]
+\label{thm:unified-reality-exact-globalization-boundary}
+The exact globalization contract is a conditional composition theorem.
+It does not construct the local packet certificates, stable trace
+formula, stable multiplicity formula, endoscopic transfer, Chebotarev
+input, bounded automorphic finiteness, or cofinal tail certificate. It
+states that, once those nodes and their ledger pullbacks are supplied as
+NameCert data, their composite cannot hide a residual outside the
+finite-detector or ledger alternatives.
+\end{theorem}
+\begin{proof}
+The proof of the contract uses only DAG induction, edge ledger
+pullback, the cofinal window-to-global dichotomy, and the no-hidden
+residual master lemma. Each analytic or representation-theoretic
+ingredient is consumed as a certificate node. Thus the theorem records
+the exact BEDC globalization mechanism and leaves construction of the
+input certificates to their own modules.
+\end{proof}

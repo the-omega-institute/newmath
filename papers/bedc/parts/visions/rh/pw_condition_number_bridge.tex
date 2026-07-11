@@ -1,0 +1,414 @@
+\chapter{Paley--Wiener Condition Number Bridge}
+\label{ch:visions-rh-pw-condition-number-bridge}
+\origin{ai}
+
+\autoref{ch:visions-rh-pw-zero-pair-tail-control} reduces the
+zero-side part of the negative-Weil route to uniform control of compact
+test rows that interpolate a finite zero window.  The present chapter
+expresses that uniform control as a condition-number estimate.  The
+analytic target is no longer an unspecified global test function.  It
+is the growth rate of the least vertical-decay cost of the finite
+Paley--Wiener interpolation problem, with optional finite archimedean
+null constraints.
+
+\section{Vertical Decay Cost}
+\label{sec:rh-pw-condition-number-vertical-decay-cost}
+
+\begin{definition}[Vertical Paley--Wiener seminorm]
+\label{def:rh-vertical-pw-seminorm}
+Fix a vertical strip
+$$
+\sigma_0\le \operatorname{Re}(s)\le\sigma_1
+$$
+containing the critical strip, and let $N\ge1$.  For a compact
+explicit-formula test row $f$, define
+$$
+|f|_{A,N}
+:=
+\sup_{\sigma\in[\sigma_0,\sigma_1]}
+\sup_{t\in\mathbb R}
+(1+|t|)^N|\widehat f(\sigma+it)|.
+$$
+Thus
+$$
+|\widehat f(\sigma+it)|
+\le
+|f|_{A,N}(1+|t|)^{-N}
+$$
+throughout the strip.
+\end{definition}
+
+\begin{definition}[Symmetric height zero window]
+\label{def:rh-symmetric-height-zero-window}
+For $T>0$, let
+$$
+\mathcal Z_T
+:=
+\{\rho:\ \rho\text{ is a nontrivial completed zeta zero and }
+|\operatorname{Im}\rho|\le T\}
+$$
+with the completed zeta multiplicity convention.  For an off-critical
+mirror pair $\rho_+,\rho_-$ contained in $\mathcal Z_T$, define the
+mirror target row
+$$
+b_T(\rho_+):=1,
+\qquad
+b_T(\rho_-):=-1,
+\qquad
+b_T(\rho):=0
+\quad
+(\rho\in\mathcal Z_T\setminus\{\rho_+,\rho_-\}).
+$$
+\end{definition}
+
+\begin{definition}[Paley--Wiener interpolation condition number]
+\label{def:rh-pw-interpolation-condition-number}
+For $N\ge1$, the finite zero-window interpolation condition number is
+$$
+\mathfrak K_N(T)
+:=
+\inf
+\left\{
+|f|_{A,N}:
+f\in C_c^\infty(-A,A),\
+\widehat f(\rho)=b_T(\rho)\text{ for all }\rho\in\mathcal Z_T
+\right\},
+$$
+where the infimum is taken over compact supports and compact test rows
+admissible for the explicit-formula ledger.
+\end{definition}
+
+\begin{lemma}[Finite condition number is finite]
+\label{lem:rh-finite-condition-number-is-finite}
+For every finite zero window $\mathcal Z_T$ containing an off-critical
+mirror pair and every $N\ge1$,
+$$
+\mathfrak K_N(T)<\infty.
+$$
+\end{lemma}
+
+\begin{proof}
+The finite interpolation row
+\autoref{cor:rh-finite-zero-readout-interpolation} gives a compact
+smooth $f$ realizing the target values $b_T$ on $\mathcal Z_T$.  Its
+Laplace--Fourier transform is rapidly decaying in every fixed vertical
+strip, so $|f|_{A,N}<\infty$.  Hence the displayed infimum is finite.
+\end{proof}
+
+\section{Condition Number Tail Estimate}
+\label{sec:rh-condition-number-tail-estimate}
+
+\begin{definition}[Symmetric zero tail]
+\label{def:rh-symmetric-zero-tail}
+For a row $f$ realizing the mirror target on $\mathcal Z_T$, the
+symmetric zero tail is
+$$
+\operatorname{Tail}_T(f)
+:=
+\sum_{\rho\notin\mathcal Z_T}
+\widehat f(\rho)\,
+\overline{\widehat f(\iota(\rho))}.
+$$
+\end{definition}
+
+\begin{theorem}[Condition-number zero-tail bound]
+\label{thm:rh-condition-number-zero-tail-bound}
+Assume the standard nontrivial-zero counting bound
+$$
+\#\{\rho:\ Y<|\operatorname{Im}\rho|\le2Y\}
+\le
+C\,Y\log(Y+2)
+$$
+for $Y\ge1$.  Let $N>1$.  If $f$ realizes the mirror target on
+$\mathcal Z_T$ and
+$$
+|f|_{A,N}\le K,
+$$
+then
+$$
+|\operatorname{Tail}_T(f)|
+\le
+C_N K^2 T^{1-2N}\log(T+2),
+$$
+where $C_N$ is independent of $T$ and of $f$ except through the displayed
+seminorm bound.
+\end{theorem}
+
+\begin{proof}
+The mirror involution preserves imaginary height.  For every zero
+outside $\mathcal Z_T$,
+$$
+|\widehat f(\rho)|\,|\widehat f(\iota(\rho))|
+\le
+K^2(1+|\operatorname{Im}\rho|)^{-2N}.
+$$
+Apply dyadic decomposition to the ranges
+$$
+2^jT<|\operatorname{Im}\rho|\le2^{j+1}T.
+$$
+The contribution of the $j$th range is bounded by
+$$
+C\,2^jT\log(2^jT+2)\,K^2(2^jT)^{-2N}.
+$$
+Summing in $j$ gives
+$$
+C K^2T^{1-2N}
+\sum_{j\ge0}2^{j(1-2N)}\log(2^jT+2).
+$$
+Since $N>1$, the dyadic series is bounded by a constant multiple of
+$\log(T+2)$.  This gives the required estimate.
+\end{proof}
+
+\begin{theorem}[Condition growth gives UniformPWInterpolationTailControl]
+\label{thm:rh-condition-growth-gives-uniform-pw-tail-control}
+Suppose there are $N>1$ and a sequence $T\to\infty$ such that
+$$
+\mathfrak K_N(T)^2T^{1-2N}\log(T+2)\to0.
+$$
+Then $\mathsf{UniformPWInterpolationTailControl}$ holds for the
+off-critical mirror pair.
+\end{theorem}
+
+\begin{proof}
+For each $T$, choose a compact interpolation row $f_T$ realizing $b_T$
+and satisfying
+$$
+|f_T|_{A,N}\le2\mathfrak K_N(T).
+$$
+The factor $2$ only records a near-minimizer for the infimum.  By
+\autoref{thm:rh-condition-number-zero-tail-bound},
+$$
+|\operatorname{Tail}_T(f_T)|
+\le
+4C_N\mathfrak K_N(T)^2T^{1-2N}\log(T+2).
+$$
+The right side tends to zero.  Given $\varepsilon>0$, choose $T$ in the
+sequence so that the displayed bound is less than $\varepsilon$.  The
+row $f_T$ realizes the finite window interpolation and has the required
+tail bound, which is
+$\mathsf{UniformPWInterpolationTailControl}$.
+\end{proof}
+
+\begin{corollary}[Condition growth gives negative zero-side readout]
+\label{cor:rh-condition-growth-negative-zero-side-readout}
+Under the condition-growth hypothesis of
+\autoref{thm:rh-condition-growth-gives-uniform-pw-tail-control}, an
+off-critical mirror pair admits an admissible compact row $f$ with
+$$
+\mathcal W_Z(f)<0.
+$$
+\end{corollary}
+
+\begin{proof}
+Apply
+\autoref{thm:rh-condition-growth-gives-uniform-pw-tail-control} and then
+\autoref{cor:rh-uniform-tail-row-negative-zero-side-weil-readout}.
+\end{proof}
+
+\section{Archimedean Condition Number}
+\label{sec:rh-archimedean-condition-number}
+
+\begin{definition}[Finite archimedean null row]
+\label{def:rh-finite-archimedean-null-row}
+A finite archimedean null row is a finite family of continuous linear
+test-function functionals
+$$
+L_1,\ldots,L_J
+$$
+representing a finite truncation of the archimedean, trivial-zero, and
+pole correction ledger.  A test row is $J$-arch-null when
+$$
+L_j(f)=0
+\qquad
+(1\le j\le J).
+$$
+\end{definition}
+
+\begin{definition}[Arch-null interpolation condition number]
+\label{def:rh-arch-null-interpolation-condition-number}
+For a finite archimedean null row, define
+$$
+\mathfrak K^{\mathrm{arch}}_{N,J}(T)
+:=
+\inf
+\left\{
+|f|_{A,N}:
+\widehat f(\rho)=b_T(\rho)\text{ for all }\rho\in\mathcal Z_T,\
+L_j(f)=0\text{ for }1\le j\le J
+\right\}.
+$$
+\end{definition}
+
+\begin{lemma}[Finite arch-null interpolation is finite under independence]
+\label{lem:rh-finite-arch-null-interpolation-finite-under-independence}
+Assume the functionals
+$$
+\{\widehat{(\cdot)}(\rho):\rho\in\mathcal Z_T\}
+\cup
+\{L_1,\ldots,L_J\}
+$$
+are linearly independent on $C_c^\infty(-A,A)$.  Then
+$$
+\mathfrak K^{\mathrm{arch}}_{N,J}(T)<\infty.
+$$
+\end{lemma}
+
+\begin{proof}
+Consider the linear map sending $f$ to the vector of zero evaluations
+and archimedean reads:
+$$
+f\mapsto
+\left(
+(\widehat f(\rho))_{\rho\in\mathcal Z_T},
+L_1(f),\ldots,L_J(f)
+\right).
+$$
+If this map were not onto, a nonzero linear functional on the finite
+target space would annihilate its range, giving a nontrivial linear
+relation among the displayed source functionals.  This contradicts the
+independence hypothesis.  Hence the target values $b_T$ and the zero
+arch reads can be prescribed simultaneously.  The resulting compact
+smooth row has finite $|\,\cdot\,|_{A,N}$ seminorm.
+\end{proof}
+
+\begin{definition}[ArchLimitControl]
+\label{def:rh-arch-limit-control}
+The row
+$$
+\mathsf{ArchLimitControl}
+$$
+asserts that the full archimedean, trivial-zero, and pole correction
+quadratic form is approximated by finite archimedean null rows on the
+near-minimizing interpolation family.  In the normalized form used here,
+there are $J$ and a sequence $T\to\infty$ such that for the chosen
+near-minimizers $f_T$,
+$$
+|\mathcal W_A(f_T)|\to0.
+$$
+\end{definition}
+
+\begin{theorem}[Arch condition growth gives NegativeWeilIsolator]
+\label{thm:rh-arch-condition-growth-gives-negative-weil-isolator}
+Assume there are $N>1$, a finite archimedean null row $J$, and a
+sequence $T\to\infty$ such that
+$$
+\left(\mathfrak K^{\mathrm{arch}}_{N,J}(T)\right)^2
+T^{1-2N}\log(T+2)\to0,
+$$
+and assume $\mathsf{ArchLimitControl}$ for the corresponding
+near-minimizing rows.  Then an off-critical mirror pair gives a compact
+test row $f$ satisfying
+$$
+\mathcal W(f)<0.
+$$
+\end{theorem}
+
+\begin{proof}
+Choose near-minimizing rows $f_T$ satisfying the zero interpolation and
+the finite arch-null constraints, with
+$$
+|f_T|_{A,N}
+\le
+2\mathfrak K^{\mathrm{arch}}_{N,J}(T).
+$$
+The zero-tail estimate gives
+$$
+|\operatorname{Tail}_T(f_T)|\to0.
+$$
+The finite zero window contributes exactly $-2$: the mirror pair has
+values $1$ and $-1$, while every other zero in $\mathcal Z_T$ has value
+$0$.  The finite arch rows vanish by construction, and the remaining
+arch correction tends to zero by $\mathsf{ArchLimitControl}$.  For $T$
+sufficiently large,
+$$
+|\operatorname{Tail}_T(f_T)|<\frac14,
+\qquad
+|\mathcal W_A(f_T)|<\frac14.
+$$
+Thus
+$$
+\mathcal W(f_T)
+<
+-2+\frac14+\frac14
+=
+-\frac32
+<
+0.
+$$
+\end{proof}
+
+\section{Condition-Number RH Interface}
+\label{sec:rh-condition-number-rh-interface}
+
+\begin{definition}[PWInterpolationConditionBound]
+\label{def:rh-pw-interpolation-condition-bound}
+The row
+$$
+\mathsf{PWInterpolationConditionBound}
+$$
+asserts that for every off-critical mirror pair there are $N>1$, a
+finite archimedean null row $J$, and a sequence $T\to\infty$ for which
+$$
+\left(\mathfrak K^{\mathrm{arch}}_{N,J}(T)\right)^2
+T^{1-2N}\log(T+2)\to0
+$$
+and $\mathsf{ArchLimitControl}$ holds on the associated near-minimizing
+rows.
+\end{definition}
+
+\begin{theorem}[Condition-number negative residual theorem]
+\label{thm:rh-condition-number-negative-residual-theorem}
+Assume $\mathsf{PWInterpolationConditionBound}$ and the paired
+explicit-formula ledger.  If an off-critical mirror pair exists, then it
+produces a finite prime negative residual detected by a finite
+Dirichlet classifier.
+\end{theorem}
+
+\begin{proof}
+\autoref{def:rh-pw-interpolation-condition-bound} supplies the
+hypotheses of
+\autoref{thm:rh-arch-condition-growth-gives-negative-weil-isolator}, so
+there is $f$ with $\mathcal W(f)<0$.  The paired explicit formula and
+\autoref{thm:rh-negative-weil-direction-gives-finite-prime-negative-residual}
+turn this into a finite prime negative residual.  The classifier readout
+is then supplied by
+\autoref{cor:rh-negative-isolator-gives-classifier-visible-residual}.
+\end{proof}
+
+\begin{corollary}[Condition-number PFZ fixed-half readout]
+\label{cor:rh-condition-number-pfz-fixed-half-readout}
+Assume $\mathsf{PWInterpolationConditionBound}$, the paired
+explicit-formula ledger, and the PFZ rule that finite negative residuals
+cannot be hidden as legal closure data.  Then every zeta-facing PFZ
+legal zero packet has fixed-half readout.
+\end{corollary}
+
+\begin{proof}
+If a legal zero packet had $\ell\ne0$, then
+\autoref{lem:rh-li-radius-reverses-across-mirror} would place it in an
+off-critical mirror pair.  By
+\autoref{thm:rh-condition-number-negative-residual-theorem}, that pair
+produces a finite prime negative residual detected by a finite
+classifier.  By
+\autoref{prin:rh-negative-residuals-pfz-visible-obstructions}, the
+residual cannot be hidden in a legal PFZ closure object.  Hence
+$\ell=0$, and \autoref{thm:rh-li-coordinate-fixed-half-circle} gives
+fixed-half readout.
+\end{proof}
+
+\begin{principle}[Polynomial condition-number target]
+\label{prin:rh-polynomial-condition-number-target}
+The analytic frontier can be attacked through the growth of
+$\mathfrak K^{\mathrm{arch}}_{N,J}(T)$.  A polynomial estimate
+$$
+\mathfrak K^{\mathrm{arch}}_{N,J}(T)=O(T^M)
+$$
+would be enough after choosing $N>M+\frac12$, because then
+$$
+\left(\mathfrak K^{\mathrm{arch}}_{N,J}(T)\right)^2
+T^{1-2N}\log(T+2)\to0.
+$$
+Thus the remaining zero-isolation problem is a finite-dimensional
+Paley--Wiener interpolation condition-number estimate, rather than an
+unstructured request for a global separating test function.
+\end{principle}

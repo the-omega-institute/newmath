@@ -1,0 +1,117 @@
+\chapter{The Golden-Mean Zeta Denominator as a Fifth-Cyclotomic Pentagon Certificate}
+\label{ch:concrete-instances-window6-golden-mean-cyclotomic-pentagon}
+\origin{ai}
+
+The golden-mean reciprocal zeta denominator $1-t-t^2$ has a finite fifth-cyclotomic lift.  Let $\zeta=\zeta_5$ satisfy $\Phi_5(\zeta)=\zeta^4+\zeta^3+\zeta^2+\zeta+1=0$, and put
+$$
+D_k(t,y)=1-\zeta^k t-y\zeta^{2k}t^2=\det(I-\zeta^k tT_y),
+\qquad
+T_y=\begin{pmatrix}1&y\\1&0\end{pmatrix}.
+$$
+The certificate below records the primitive fifth-cyclotomic norm of the golden-mean denominator, its scalar $y$-weighted norm, and the pentagon Gram bridge to the golden field.  It is a finite algebraic identity in $\mathbb Z[\zeta_5]$ and in $\mathbb Z[y,t]$, not a numerical coincidence.
+
+\section{The Fifth-Cyclotomic Twisted Norm}
+\label{sec:window6-golden-mean-cyclotomic-norm}
+
+Define
+$$
+\begin{aligned}
+Q_5(t,y)={}&1+t+(1+y)t^2+(1+2y)t^3+(1+3y+y^2)t^4\\
+&-(y+2y^2)t^5+(y^2+y^3)t^6-y^3t^7+y^4t^8.
+\end{aligned}
+$$
+Then the scalar norm identity is
+$$
+(1-t-yt^2)Q_5(t,y)=1-(1+5y+5y^2)t^5-y^5t^{10}
+=\det(I-t^5T_y^5).
+$$
+At $y=1$, the primitive cyclotomic twists collapse from $\mathbb Z[\zeta_5]$ to integer coefficients:
+$$
+\prod_{k=1}^{4}(1-\zeta^k t-\zeta^{2k}t^2)
+=1+t+2t^2+3t^3+5t^4-3t^5+2t^6-t^7+t^8,
+$$
+and the full fifth norm is
+$$
+\prod_{k=0}^{4}(1-\zeta^k t-\zeta^{2k}t^2)=1-11t^5-t^{10}.
+$$
+The number $11$ is the fifth Lucas trace $C_5(1)=\operatorname{tr}(T_1^5)$.
+
+\begin{theorem}[Fifth-cyclotomic twisted norm]
+\label{thm:window6-golden-mean-cyclotomic-twisted-norm}
+The four primitive $\zeta_5$-twists of $1-t-t^2$ multiply to $Q_5(t,1)$, the five twists multiply to $1-11t^5-t^{10}$, and the bivariate scalar identity
+$$
+(1-t-yt^2)Q_5(t,y)=1-(1+5y+5y^2)t^5-y^5t^{10}
+$$
+holds by finite polynomial multiplication.
+\end{theorem}
+\leanchecked{BEDC.Derived.Window6GoldenMeanCyclotomicPentagon.golden\_mean\_cyclotomic\_pentagon\_certificate}
+
+\section{The Pentagon Bridge}
+\label{sec:window6-golden-mean-pentagon-bridge}
+
+Let
+$$
+u=\zeta+\zeta^{-1}=\zeta+\zeta^4.
+$$
+Since
+$$
+u^2+u-1=\zeta^2+\zeta+1+\zeta^{-1}+\zeta^{-2}
+=\zeta^{-2}\Phi_5(\zeta)=0,
+$$
+the real element $u$ is $2\cos 72^\circ=(\sqrt5-1)/2=1/\varphi$.  Thus $1+u=\varphi$ and $-u=-1/\varphi$, and the golden denominator factors in $\mathbb Z[\zeta_5][t]$ as
+$$
+1-t-t^2=(1-(1+u)t)(1+ut).
+$$
+Equivalently, the transfer characteristic polynomial
+$$
+x^2-x-1=(x-(1+u))(x+u)
+$$
+has spectrum $\{1+u,-u\}=\{\varphi,-1/\varphi\}$.
+
+The same pentagon element appears in the Gram matrix
+$$
+G_{ij}=\zeta^{i-j}+\zeta^{j-i},
+\qquad i,j\in\mathbb Z/5\mathbb Z.
+$$
+Its first row is
+$$
+[2,\ u,\ -1-u,\ -1-u,\ u],
+$$
+and finite multiplication gives
+$$
+G^2=5G.
+$$
+The two nontrivial Gram inner products $u=1/\varphi$ and $-1-u=-\varphi$ are exactly the two roots of $1-t-t^2=0$.
+
+\begin{theorem}[Pentagon Gram and golden factorisation]
+\label{thm:window6-golden-mean-pentagon-gram}
+In $\mathbb Z[\zeta_5]$, the element $u=\zeta+\zeta^{-1}$ satisfies $u^2+u-1=0$, the golden denominator factors as
+$$
+1-t-t^2=(1-(1+u)t)(1+ut),
+$$
+and the pentagon Gram matrix $G_{ij}=\zeta^{i-j}+\zeta^{j-i}$ satisfies $G^2=5G$.
+\end{theorem}
+\leanvariant{BEDC.Derived.Window6GoldenMeanCyclotomicPentagon.u\_min\_poly}
+\leanvariant{BEDC.Derived.Window6GoldenMeanCyclotomicPentagon.golden\_denominator\_cyclotomic\_factor}
+\leanvariant{BEDC.Derived.Window6GoldenMeanCyclotomicPentagon.pentagon\_gram\_idempotent}
+
+\section{Scope}
+\label{sec:window6-golden-mean-cyclotomic-scope}
+
+This is a finite cyclotomic-norm and pentagon-Gram identity bridging the golden-mean zeta to the fifth cyclotomic field; it is not a proof of the Riemann Hypothesis, not about the Riemann xi, and not a zero-line statement.
+
+The precise $\Phi_5$ and pentagon link is canonical at $y=1$: the golden field is the maximal real subfield of $\mathbb Q(\zeta_5)$, and $u=\zeta+\zeta^{-1}=1/\varphi$ satisfies $u^2+u-1=0$.  The scalar twisted norm holds for all $y$, but the generic transfer spectrum lies in $\mathbb Q(\sqrt{1+4y})$, not canonically in the fifth cyclotomic field.  The pentagon Gram identity $G^2=5G$ also does not by itself prove any reflection-positivity deficit theorem; that would require a separately defined reflection-positivity functional.
+
+\falsifiablePrediction{A direct finite recomputation in $\mathbb Z[\zeta_5]$ that violates $u^2+u-1=0$, the primitive twist product $\prod_{k=1}^{4}D_k(t,1)=Q_5(t,1)$, the full fifth norm $\prod_{k=0}^{4}D_k(t,1)=1-11t^5-t^{10}$, the bivariate scalar norm $(1-t-yt^2)Q_5(t,y)=1-(1+5y+5y^2)t^5-y^5t^{10}$, the factorisation $1-t-t^2=(1-(1+u)t)(1+ut)$, or $G^2=5G$ refutes this packet.}
+
+\independenceWitness{riemann-hypothesis-roadmap, riemann-zeta, reflection-positivity-deficit: this packet is the finite fifth-cyclotomic twisted norm and pentagon Gram certificate for the golden-mean zeta denominator only; it makes no claim about the Riemann $\xi$, the critical line, prime-channel zero statistics, or any reflection-positivity deficit theorem.}
+
+\begin{closurestatus}{Window6GoldenMeanCyclotomicPentagon}
+  \theoryclosure{\scopedClosure}
+  \scopeclosed{\autoref{thm:window6-golden-mean-cyclotomic-twisted-norm} closes the finite primitive and full fifth-cyclotomic twisted norm identities for the golden-mean denominator, including the scalar bivariate norm in $\mathbb Z[y,t]$; \autoref{thm:window6-golden-mean-pentagon-gram} closes the pentagon bridge $u^2+u-1=0$, the golden factorisation, and the Gram identity $G^2=5G$ in $\mathbb Z[\zeta_5]$.}
+  \formalstatus{\theoremCheckedV}
+  \leantarget{BEDC.Derived.Window6GoldenMeanCyclotomicPentagon.golden\_mean\_cyclotomic\_pentagon\_certificate}
+  \bridgestatus{none}
+  \notclaimed{not a proof of RH; finite fifth-cyclotomic twisted norm and pentagon Gram identities for the golden-mean zeta denominator only; the RP-deficit theorem is not proven here.}
+  \upgradepath{extend the twisted norm to the full $\mathbb Z[\zeta_5][y]$ factorisation for all $y$, and connect the pentagon Gram to a defined reflection-positivity deficit functional.}
+\end{closurestatus}

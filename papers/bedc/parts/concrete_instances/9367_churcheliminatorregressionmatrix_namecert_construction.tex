@@ -50,6 +50,7 @@ The exactness row $X$ exhausts the local NameCert surface. The rows $H,K,P,N$ pr
 \label{thm:church-eliminator-regression-matrix-family-exactness}
 Every accepted $\ChurchEliminatorRegressionMatrixUp$ packet has exactly four eliminator families: Church booleans, Church natural numbers, Church lists, and Church sums. Each family row carries its displayed gallery, eliminator-shape, checker, beta-regression, and spend cells, and every displayed checker or beta-regression cell belongs to one of those four family rows.
 \end{theorem}
+\leanchecked{BEDC.Derived.ChurchEliminatorRegressionMatrixUp.ChurchEliminatorRegressionMatrixCarrier\_family\_exactness}
 \begin{proof}
 Read the family row $F$ and the exactness row $X$. By construction, $F$ has the four displayed Church eliminator families and no fifth family coordinate.
 
@@ -79,6 +80,22 @@ No coordinate in the carrier names an ambient checker theorem, an arbitrary beta
 \independenceWitness{Nearest siblings: metacictypedexamplesgallery, typedexamplecoveragematrix, typedexampleauditbudget, metacictypedexamplesapplicationroute, betastepboundary. None is bijective to ChurchEliminatorRegressionMatrixUp because each sibling omits at least one row among the four-family eliminator index, checker cells, beta-regression cells, spend cells, and local exactness row.}
 
 The Lean follow-up for namespace $\mathsf{BEDC.Derived.ChurchEliminatorRegressionMatrixUp.TasteGate}$ must include $\mathsf{Nontrivial}\ \ChurchEliminatorRegressionMatrixUp$ and $\mathsf{FieldFaithful}\ \ChurchEliminatorRegressionMatrixUp$ instances with an explicit witness pair and mk-field projections.
+
+\begin{theorem}[Church eliminator regression matrix obligation surface]
+\label{thm:church-eliminator-regression-matrix-obligation-surface}
+Every accepted $\ChurchEliminatorRegressionMatrixUp$ packet must expose the finite obligation rows for the eliminator source, regression matrix entries, closed checker route, transport, replay, provenance, and local NameCert:
+$$
+F,G,L,C,B,S,X,H,K,P,N.
+$$
+The accepted surface has no coordinate for evaluator equality, quotient term equality, unrestricted normalization, or kernel consistency.
+\end{theorem}
+\begin{proof}
+Project the carrier of \autoref{def:church-eliminator-regression-matrix-carrier}. The rows $F,G,L$ expose the eliminator source and its displayed shape, while $C,B,S,X$ expose the closed checker route, beta-regression cells, spend cells, and row exactness.
+
+Apply the NameCert obligations, family exactness, and non-escape theorems of \autoref{thm:church-eliminator-regression-matrix-namecert-obligations}, \autoref{thm:church-eliminator-regression-matrix-family-exactness}, and \autoref{thm:church-eliminator-regression-matrix-nonescape}. Together they force each regression matrix entry to remain paired with one of the four Church eliminator families and with its checker and beta-regression rows.
+
+The rows $H,K,P,N$ supply transport, replay, provenance, and local naming for the same finite packet. Since evaluator equality, quotient term equality, unrestricted normalization, and kernel consistency are not carrier fields, no consumer can obtain them from the obligation surface.
+\end{proof}
 
 \closureat{ChurchEliminatorRegressionMatrixUp}{seedStr}
 

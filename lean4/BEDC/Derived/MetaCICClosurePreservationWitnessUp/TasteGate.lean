@@ -1,11 +1,23 @@
+import BEDC.Derived.ClosurePreservationAuditWitnessUp
+import BEDC.FKernel.Ask
+import BEDC.FKernel.Bundle
+import BEDC.FKernel.Cont
 import BEDC.FKernel.Hist
 import BEDC.FKernel.Mark
+import BEDC.FKernel.Package
+import BEDC.FKernel.Unary
 import BEDC.Meta.TasteGate
 
 namespace BEDC.Derived.MetaCICClosurePreservationWitnessUp
 
 open BEDC.FKernel.Hist
 open BEDC.FKernel.Mark
+open BEDC.FKernel.Ask
+open BEDC.FKernel.Bundle
+open BEDC.FKernel.Cont
+open BEDC.FKernel.Package
+open BEDC.FKernel.Unary
+open BEDC.Derived.ClosurePreservationAuditWitnessUp
 open BEDC.GroundCompiler.EventFlow
 open BEDC.Meta.TasteGate
 
@@ -187,5 +199,76 @@ theorem MetaCICClosurePreservationWitnessTasteGate_single_carrier_alignment :
       (fun _ _ heq =>
         MetaCICClosurePreservationWitnessTasteGate_single_carrier_alignment_injective heq),
       rfl⟩
+
+theorem MetaCICClosurePreservationWitness_audit_substitution_handoff [AskSetup]
+    [PackageSetup]
+    {S V F B R H C P N substitutionRead fullSubstitutionRead
+      A T D L Hwit Cwit Pwit Nwit witnessRead : BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ClosurePreservationAuditWitnessCarrier S V F B R H C P N bundle pkg →
+      Cont S V substitutionRead →
+        Cont substitutionRead F fullSubstitutionRead →
+          PkgSig bundle fullSubstitutionRead pkg →
+            hsame A fullSubstitutionRead →
+              UnaryHistory D →
+                Cont A D witnessRead →
+                  MetaCICClosurePreservationWitnessUp.mk A T D L Hwit Cwit Pwit Nwit =
+                      MetaCICClosurePreservationWitnessUp.mk
+                        fullSubstitutionRead T D L Hwit Cwit Pwit Nwit ∧
+                    UnaryHistory A ∧ UnaryHistory D ∧ UnaryHistory witnessRead ∧
+                      Cont S V substitutionRead ∧
+                        Cont substitutionRead F fullSubstitutionRead ∧
+                          Cont A D witnessRead ∧ PkgSig bundle P pkg ∧
+                            PkgSig bundle fullSubstitutionRead pkg := by
+  -- BEDC touchpoint anchor: BHist Cont ProbeBundle PkgSig UnaryHistory
+  intro carrier substitutionRoute fullSubstitutionRoute fullSubstitutionPkg auditSame dUnary
+    witnessRoute
+  obtain ⟨_sUnary, _vUnary, _fUnary, _substitutionUnary, fullSubstitutionUnary,
+    substitutionRoute', fullSubstitutionRoute', provenancePkg, fullSubstitutionPkg'⟩ :=
+      ClosurePreservationAuditWitness_substitution_row carrier substitutionRoute
+        fullSubstitutionRoute fullSubstitutionPkg
+  have auditUnary : UnaryHistory A :=
+    unary_transport fullSubstitutionUnary (hsame_symm auditSame)
+  have witnessUnary : UnaryHistory witnessRead :=
+    unary_cont_closed auditUnary dUnary witnessRoute
+  constructor
+  · cases auditSame
+    rfl
+  · exact
+      ⟨auditUnary, dUnary, witnessUnary, substitutionRoute',
+        fullSubstitutionRoute', witnessRoute, provenancePkg, fullSubstitutionPkg'⟩
+
+theorem MetaCICClosurePreservationWitness_audit_beta_star_handoff [AskSetup]
+    [PackageSetup]
+    {S V F B R H C P N betaStarRead A T D L Hwit Cwit Pwit Nwit witnessRead :
+      BHist}
+    {bundle : ProbeBundle ProbeName} {pkg : Pkg} :
+    ClosurePreservationAuditWitnessCarrier S V F B R H C P N bundle pkg →
+      Cont R N betaStarRead →
+        PkgSig bundle betaStarRead pkg →
+          hsame A betaStarRead →
+            UnaryHistory D →
+              Cont A D witnessRead →
+                MetaCICClosurePreservationWitnessUp.mk A T D L Hwit Cwit Pwit Nwit =
+                    MetaCICClosurePreservationWitnessUp.mk
+                      betaStarRead T D L Hwit Cwit Pwit Nwit ∧
+                  UnaryHistory A ∧ UnaryHistory D ∧ UnaryHistory witnessRead ∧
+                    Cont B R C ∧ Cont R N betaStarRead ∧ Cont A D witnessRead ∧
+                      PkgSig bundle P pkg ∧ PkgSig bundle betaStarRead pkg := by
+  -- BEDC touchpoint anchor: BHist Cont ProbeBundle PkgSig UnaryHistory
+  intro carrier betaStarRoute betaStarPkg auditSame dUnary witnessRoute
+  obtain ⟨_bUnary, _rUnary, betaStarUnary, betaStepRoute, betaStarRoute',
+    provenancePkg, betaStarPkg'⟩ :=
+      ClosurePreservationAuditWitness_beta_star_row carrier betaStarRoute betaStarPkg
+  have auditUnary : UnaryHistory A :=
+    unary_transport betaStarUnary (hsame_symm auditSame)
+  have witnessUnary : UnaryHistory witnessRead :=
+    unary_cont_closed auditUnary dUnary witnessRoute
+  constructor
+  · cases auditSame
+    rfl
+  · exact
+      ⟨auditUnary, dUnary, witnessUnary, betaStepRoute, betaStarRoute',
+        witnessRoute, provenancePkg, betaStarPkg'⟩
 
 end BEDC.Derived.MetaCICClosurePreservationWitnessUp
