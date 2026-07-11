@@ -1,653 +1,685 @@
 {
-  "version": "window-codon-bridge-experiments",
-  "experiments": [
-    {
-      "experiment_id": "bc1_cardinality_forcing",
-      "claim_id": "bridge.window6_codon_q6.cardinality_forcing",
-      "script_path": "tools/window_codon_bridge/experiments/run_bc1_cardinality_forcing.py",
-      "status": "open",
-      "timeout_seconds": 600,
-      "note": "Head-start: computes Fibonacci horizon + bio counts + tests 2-bit codon encodings. Emits coincidence (count match is encoding-independent => not yet a structural forcing). Next: construct a code-structure-specific map or conclude numerology."
-    },
-    {
-      "experiment_id": "bc2_markov_kernel_spectrum",
-      "claim_id": "bridge.window6_codon_q6.spectral_correspondence",
-      "script_path": "tools/window_codon_bridge/experiments/run_bc2_markov_kernel_spectrum.py",
-      "status": "open",
-      "timeout_seconds": 600,
-      "note": "Computes Window6 coarse Markov kernel spectrum vs bio lambda scalars. First run: refuted (subdominant eig do not match; mu>1 not a stochastic eigenvalue)."
-    },
-    {
-      "experiment_id": "bc3_foldbin_correspondence",
-      "claim_id": "bridge.window6_codon_q6.foldbin_codon_positions",
-      "script_path": null,
-      "status": "open",
-      "timeout_seconds": 600,
-      "note": "Needs derivation: formalize the map Foldbin tail-cube (c7,c8,c9) -> codon 3 positions / wobble, and test against the bio Q^(2) result. Author via codex."
-    },
-    {
-      "experiment_id": "bc2_killed_walk_spectrum",
-      "claim_id": "bridge.window6_codon_q6.killed_walk_spectral_correspondence",
-      "script_path": "tools/window_codon_bridge/experiments/run_bc2_killed_walk_spectrum.py",
-      "status": "open",
-      "timeout_seconds": 600,
-      "note": "Refined BC2 after the coarse Markov kernel was refuted. Reconstructs the bio killed-walk operator (1/6 * induced 6-cube subgraph adjacency spectral radius) on R and M=median-closure(R), reproduces lambda_M/lambda_R/mu/radial-cubic, and compares structurally to the Window6 Fibonacci cube Gamma6/Gamma5. Same operator FORM, different graphs (|M|=20 vs |Gamma6|=21; distinct adjacency char-polys; golden x^2-x-1 in Gamma5 but not in bio M/R) -> refuted."
-    },
-    {
-      "experiment_id": "bc3_foldbin_codon_correspondence",
-      "claim_id": "bridge.window6_codon_q6.foldbin_codon_positions",
-      "script_path": "tools/window_codon_bridge/experiments/run_bc3_foldbin_codon_correspondence.py",
-      "status": "coincidence",
-      "timeout_seconds": 600,
-      "note": "Negative forcing audit: 3=3 count match, no structure-preserving map; verdict coincidence."
-    },
-    {
-      "experiment_id": "bc4_cyclic_sector_frame_symmetry",
-      "claim_id": "bridge.window6_codon_q6.cyclic_sector_frame_symmetry",
-      "script_path": "tools/window_codon_bridge/experiments/run_bc4_cyclic_sector_frame_symmetry.py",
-      "status": "refuted",
-      "timeout_seconds": 600,
-      "note": "Codon-position rotation preserves only 4/64 labels; structurally refuted."
-    },
-    {
-      "experiment_id": "bc5_right_boundary_selection_axis",
-      "claim_id": "bridge.window6_codon_q6.right_boundary_selection_axis",
-      "script_path": "tools/window_codon_bridge/experiments/run_bc5_right_boundary_selection_axis.py",
-      "status": "open",
-      "timeout_seconds": 600,
-      "note": "Bio data delivered (codon_q6_selection_vectors.json). U_R={UGA,GUU,CUG,GCC,CUC,GUG} reconstructed from Window6 Fold preimage (oracle-confirmed independently), escape 8/9 reproduced. Tested U_R escape vs tRNA/d_perp/optimal axes by sign/rank/projection vs size-6 null: no alignment beyond null (null_p~0.35), tRNA direction slightly rich not poor -> coincidence."
-    },
-    {
-      "experiment_id": "bc6_fold_residual_wobble",
-      "claim_id": "bridge.window6_codon_q6.fold_residual_wobble_correspondence",
-      "script_path": "tools/window_codon_bridge/experiments/run_bc6_fold_residual_wobble.py",
-      "status": "open",
-      "timeout_seconds": 600,
-      "note": "Oracle-designed (conv_a21ca96c74f74ad2). Tests user's high/low-energy <-> two-fold intuition as label-free invariants. STRONG (Fold6 partition ~= codon-family partition) REFUTED: Window6 fibers are one-bit error-detecting (e_in=0) while codon families are wobble-tolerant (69 synonymous 1-edges, 64 third-position) -- directionally inverse. WEAK/H-wobble (Window tail-offset residual ~= codon third-position wobble residual; low=first-two-box core, high=third-position) COINCIDENCE: both have hidden residuals + lumpability failure but hidden-mode alignment fails the wobble-preserving null (codon slow modes box-core dominated; Window6 mixes core+tail). All oracle self-checks reproduced both sides."
-    },
-    {
-      "experiment_id": "bc7_edge_isoperimetric_contravariance",
-      "claim_id": "bridge.window6_codon_q6.edge_isoperimetric_contravariance",
-      "script_path": "tools/window_codon_bridge/experiments/run_bc7_edge_isoperimetric_contravariance.py",
-      "status": "open",
-      "timeout_seconds": 600,
-      "note": "FIRST CERTIFIED (scoped to C-0 contravariant-extremality, NOT forcing). Label-free local-edge-hiding functional e_in (one-step micrograph edges hidden inside a family). Window6 Fold6: e_in=0=e_min -> tau_W=0 EXACT separating endpoint (theorem: every Q6 1-bit edge changes the Zeckendorf type). Standard code on H(3,4): e_in=69 (64 third-position), e_max=72 -> tau_C=0.958 near tolerant endpoint. D_minus=0.958. Survives nulls: free same-size null max 25, wobble/box-preserving null max 55, both << observed 69 (p~2.5e-4). So the genetic code's near-maximal mutation-hiding is NOT a box-structure artifact. Certificate: the two systems realize OPPOSITE achievable extremes of one functional (one maximizes local-perturbation visibility, one near-maximizes hiding) -- NOT isomorphism, NOT 64->21 biology, NOT high/low<->DNA/RNA."
-    },
-    {
-      "experiment_id": "bc_parry_usage_correspondence",
-      "claim_id": "bridge.window6_codon_q6.parry_measure_usage_correspondence",
-      "script_path": "tools/window_codon_bridge/experiments/run_bc_parry_usage_correspondence.py",
-      "status": "open",
-      "timeout_seconds": 600,
-      "note": "Window6 Parry golden-maximal-entropy measure (transfer op [[1,1],[1,0]], Perron phi) per-codon weight vs codon usage-frequency axis (d_perp) + optimal + tRNA, via Spearman/projection. COINCIDENCE: alignment weak (d_perp Spearman ~0.04) and fails both label-permutation (p~0.25) and Q6-automorphism (p~0.18) nulls. Parry measure canonical but does not correspond to codon usage."
-    },
-    {
-      "experiment_id": "bc_smith_normal_form_cokernel",
-      "claim_id": "bridge.window6_codon_q6.smith_normal_form_cokernel",
-      "script_path": "tools/window_codon_bridge/experiments/run_bc_smith_normal_form_cokernel.py",
-      "status": "open",
-      "timeout_seconds": 600,
-      "note": "Label-free algebraic invariant (group isomorphism). Window6 four-cell edge-flux matrix coker = Z/3 + Z/3450; codon Q6 adjacency coker = (Z/2)^10+(Z/6)^2+Z^20 (and H(3,4)/family-quotient candidates) -> NOT isomorphic -> refuted."
-    },
-    {
-      "experiment_id": "bc_three_rigidity_codon_graph",
-      "claim_id": "bridge.window6_codon_q6.three_rigidity_codon_graph",
-      "script_path": "tools/window_codon_bridge/experiments/run_bc_three_rigidity_codon_graph.py",
-      "status": "open",
-      "timeout_seconds": 600,
-      "note": "Window6 type-quotient (21 nodes, 93 edges) vs codon family-quotient (21 nodes, 85 edges). Share only GENERIC invariants (node count, diameter 3, WL-discrete, trivial Aut, null_p~0.55); differ on edge count, degree sequence, distance distribution, spectral moments, char-poly -> refuted (not rigidity-equivalent)."
-    },
-    {
-      "experiment_id": "bc10_mod3_flux_frame_obstruction",
-      "claim_id": "bridge.window6_codon_q6.mod3_flux_frame_obstruction",
-      "script_path": "tools/window_codon_bridge/experiments/run_bc10_mod3_flux_frame_obstruction.py",
-      "status": "open",
-      "timeout_seconds": 600,
-      "note": "Z3-Hodge cohomology. Both Window6 edge-flux and codon reading-frame/f3 have NONZERO mod-3 cohomology class + compatible cycle integrals, but codon harmonic fraction T3 not extreme vs frame-destroying/wobble/family nulls (p~0.4-0.57) -> coincidence (obstruction-level similarity, not certified)."
-    },
-    {
-      "experiment_id": "bc11_partition_quotient_wobble_foldbin",
-      "claim_id": "bridge.window6_codon_q6.partition_quotient_wobble_foldbin",
-      "script_path": "tools/window_codon_bridge/experiments/run_bc11_partition_quotient_wobble_foldbin.py",
-      "status": "open",
-      "timeout_seconds": 600,
-      "note": "Partition-lattice signature (meet/join, VI, equitable defect, boundary profile, quotient SNF), label-free, no block-count. Window fold/zyl pair VI=5.75 (near-independent) vs codon box/family pair VI=0.82 (near-nested) -> partition geometries structurally different -> coincidence."
-    },
-    {
-      "experiment_id": "bc13_green_spectral_codon_q_spectra",
-      "claim_id": "bridge.window6_codon_q6.green_spectral_codon_q_spectra",
-      "script_path": "tools/window_codon_bridge/experiments/run_bc13_green_spectral_codon_q_spectra.py",
-      "status": "open",
-      "timeout_seconds": 600,
-      "note": "Window6 Green/resolvent = 4-state reversible Markov spectrum (alpha readout ignored as needs-external); codon q1/q3/q4 = 21-family quotient coface-affinity spectra. Dimension/spectral-density/gap/moment profiles incompatible vs null -> refuted (sharp spectral, distinct from BC2 scalar)."
-    },
-    {
-      "experiment_id": "bc_meta_edge_exhaustion_certificate",
-      "claim_id": "bridge.window6_codon_q6.edge_exhaustion_meta_certificate",
-      "script_path": "tools/window_codon_bridge/experiments/run_bc_meta_edge_exhaustion_certificate.py",
-      "status": "open",
-      "timeout_seconds": 600,
-      "note": "CAPSTONE CERTIFIED. Edge-exhaustion meta-certificate: tau_W=0, tau_C=0.958; residual battery (spectral/Parry/SNF/mod3/partition/rigidity) conditionally independent given e_in/tau (A_res=0.117, p_res=0.43, all BH q non-sig); mechanism polarization A_W_sep=0 (isotropic) vs A_C_hid=0.891 (anisotropic), joint_p=0.0038; strict C-1 profile-duality REFUTED (delta_prof=0.33, p_prof=1.0). The whole Window6<->codon structural signal is exhausted by the single local-edge-hiding functional."
-    },
-    {
-      "experiment_id": "bcd_fourcell_selection_enrichment",
-      "claim_id": "bridge.window6_codon_q6.fourcell_selection_enrichment",
-      "script_path": "tools/window_codon_bridge/experiments/run_bcd_fourcell_selection_enrichment.py",
-      "status": "open",
-      "timeout_seconds": 600,
-      "note": "DATA basic-match vs real per-codon 4D selection vectors (codon_q6_selection_vectors.json). Window6 4-cell partition (27/22/9/6): MANOVA R2_cell=0.033; p_size_preserving=0.74, p_gc_conservative=0.21 -> REFUTED (explains no more selection variance than random same-size partitions; not a real codon stratification)."
-    },
-    {
-      "experiment_id": "genetic_code_fold_cert",
-      "claim_id": "bridge.genetic_code.fold_structure_64_16_25_21",
-      "script_path": "tools/window_codon_bridge/experiments/run_genetic_code_fold_cert.py",
-      "status": "open",
-      "timeout_seconds": 600,
-      "note": "Exact enumeration of NCBI standard code: fold chain [64,16,25,21], box decomp [8,7,1], degeneracy spectrum 1^2,2^9,3^2,4^5,6^3, 4 cross-box merges (Leu/Ser/Arg/Stop). HARD structural fact (certified). Golden/Zeckendorf/ratio parts flagged non-forcing in honesty field."
-    },
-    {
-      "experiment_id": "neutral_adjacency_cert",
-      "claim_id": "bridge.genetic_code.neutral_hamming_adjacency",
-      "script_path": "tools/window_codon_bridge/experiments/run_neutral_adjacency_cert.py",
-      "status": "open",
-      "timeout_seconds": 600,
-      "note": "Exact: histogram 0:2,1:22,2:8,3:28,4:4 -> 28/22/8/6 (certified hard fact). Tested Ti/Tv, wobble, sense-only, tRNA weightings: best (sense-only) gives [28,20,7,9], none reaches 27/22/9/6 -> the near-match to physics is NOT bridged by a natural weighting (honest)."
-    },
-    {
-      "experiment_id": "codon_usage_projection_cert",
-      "claim_id": "bridge.genetic_code.fold_order_parameter_usage",
-      "script_path": "tools/window_codon_bridge/experiments/run_codon_usage_projection_cert.py",
-      "status": "open",
-      "timeout_seconds": 600,
-      "note": "REAL DATA (29 organisms, per-gene codon_counts). m_bio vs GC3 corr=0.97; GC-controlled residual null_p=0.43, non_gc_residual_signal=False -> m_bio is a GC3 PROXY, no independent fold signal -> coincidence."
-    },
-    {
-      "experiment_id": "claim20_neutral_trna_edge_coupling",
-      "claim_id": "bridge.genetic_code.neutral_trna_edge_coupling",
-      "script_path": "tools/window_codon_bridge/experiments/run_claim20_neutral_trna_edge_coupling.py",
-      "status": "open",
-      "timeout_seconds": 600,
-      "note": "REAL DATA (29 organisms, 725 genes, 30799 gene-edge obs). Tests if Window6 edge score H modulates tRNA-usage synonymous-edge coupling (interaction beta_bridge). FIRST PASS with GLOBAL tRNA proxy -> T and T*H are constant per edge -> ABSORBED by edge fixed effect (strict_edge_fe norms=0) -> DEGENERATE, cannot estimate the interaction. beta_bridge~0.0017, CV fails (median dLL=-2.34, 0% folds), Null1 p=0.17, Null2 p=0.26 -> coincidence. NOTE: proper test REQUIRES per-species tRNA (GtRNAdb) so T_{s,e} varies across species and is not absorbed by edge FE."
-    },
-    {
-      "experiment_id": "claim20_per_species_trna_edge_coupling",
-      "claim_id": "bridge.genetic_code.neutral_trna_edge_coupling",
-      "script_path": "tools/window_codon_bridge/experiments/run_claim20_per_species_trna_edge_coupling.py",
-      "status": "coincidence",
-      "timeout_seconds": 3600,
-      "note": "AUTHORITATIVE per-species version (fixes first-pass degeneracy). Fetched GtRNAdb tRNA for 29/29 species; strict_edge_fe_TH_norm=55.5 (interaction now estimable). beta_T=0.73 (real tRNA-adaptation) but beta_bridge=0.031 fails CV (median dLL=-1.58, 26% folds) + Null1 p=0.089 + Null2 p=0.69 + Null3 p=0.90 -> coincidence. The certified Window6 edge score does NOT modulate real per-organism tRNA-usage coupling."
-    },
-    {
-      "experiment_id": "twolayer_fold_extremality",
-      "claim_id": "bridge.genetic_code.twolayer_fold_edge_hiding_extremality",
-      "script_path": "tools/window_codon_bridge/experiments/run_twolayer_fold_extremality.py",
-      "status": "open",
-      "timeout_seconds": 600,
-      "note": "CERTIFIED. Edge-hiding contravariant extremality ITERATES across the two-layer fold. Box layer (64->16 first-two-base): e_in=96=e_max EXACT (each box=K4=6, max for size-4x16) -> tau_box=1.0, null p=2.5e-4. Family layer (BC7): e_in=69, tau_family=0.958, null p=2.5e-4. Both in extreme upper tail. Window6 contrast: Fold6 e_in=0, tau=0 (opposite extreme). Statement restricted to iteration of edge-hiding extremes; no isomorphism/biological-forcing."
-    },
-    {
-      "experiment_id": "bc15_foldlayer_zigzag_extremality",
-      "claim_id": "bridge.genetic_code.foldlayer_zigzag_extremality",
-      "script_path": "tools/window_codon_bridge/experiments/run_bc15_foldlayer_zigzag_extremality.py",
-      "status": "open",
-      "timeout_seconds": 600,
-      "note": "Finite label-free zig-zag edge-hiding certificate on B <- M=B meet F -> F. The first-two-base box layer and the box-family fragment layer are exact edge-hiding endpoints; the family layer is near-maximal with a small deficit. Scope excludes monotone tower, isomorphism, biological forcing, and live-usage claims."
-    },
-    {
-      "experiment_id": "bc1617_halfbox_fibonacci_tower",
-      "claim_id": "bridge.genetic_code.halfbox_fibonacci_tower",
-      "script_path": "tools/window_codon_bridge/experiments/run_bc1617_halfbox_fibonacci_tower.py",
-      "status": "open",
-      "timeout_seconds": 600,
-      "note": "Audits exact halfbox and family-meet edge-hiding endpoint facts, then tests whether 13/21/34/55 forms a strict naturally generated Fibonacci tower rather than cherry-picked numerology."
-    },
-    {
-      "experiment_id": "window_fold_tower_extremality",
-      "claim_id": "bridge.window6.fold_tower_separating_extremality",
-      "script_path": "tools/window_codon_bridge/experiments/run_window_fold_tower_extremality.py",
-      "status": "open",
-      "timeout_seconds": 600,
-      "note": "Tests cross-width Window fold-tower edge-separating extremality under the value-window convention that reproduces the Window6 certificate."
-    },
-    {
-      "experiment_id": "edge_defect_axis_cert",
-      "claim_id": "bridge.genetic_code.edge_defect_axis_cert",
-      "script_path": "tools/window_codon_bridge/experiments/run_edge_defect_axis_cert.py",
-      "status": "open",
-      "timeout_seconds": 600,
-      "note": "Enumerates the standard-code internal synonymous Hamming-1 edge deficit by family, verifies whether the whole 72-69 deficit is Stop:1 plus Ser:2, constructs SerSplitDefect and sense family-defect vectors, and tests their projection onto delivered codon-Q6 selection axes. If no independent d_resid4 axis is present, the in-packet optimal residual is reported only as a candidate."
-    },
-    {
-      "experiment_id": "edge_defect_projection_harness",
-      "claim_id": "bridge.genetic_code.edge_defect_projection_harness",
-      "script_path": "tools/window_codon_bridge/experiments/run_edge_defect_projection_harness.py",
-      "status": "open",
-      "timeout_seconds": 600,
-      "note": "Local audit harness for oracle-proposed edge-defect axes. It constructs SerSplit, forbidden controls, residualization, within-Ser exact null, sixfold-family exact null, and matched-support null. It certifies only harness behavior, not a biological SerSplit axis."
-    },
-    {
-      "experiment_id": "ser_island_fidelity_cost",
-      "claim_id": "bridge.genetic_code.ser_island_fidelity_cost",
-      "script_path": "tools/window_codon_bridge/experiments/run_ser_island_fidelity_cost.py",
-      "status": "coincidence",
-      "timeout_seconds": 600,
-      "note": "Ser UCN has higher mean visible near-cognate cost than AGY in the deterministic amino-acid-property audit, but the delta is not exceptional under matched random codon partitions and is comparable to other sixfold-family four-versus-two splits; this remains a mechanistic candidate rather than a certificate."
-    },
-    {
-      "experiment_id": "synthetic_negative_control_axis_pack",
-      "claim_id": "bridge.genetic_code.synthetic.negative.control.axis.pack",
-      "script_path": "tools/window_codon_bridge/experiments/run_synthetic_negative_control_axis_pack.py",
-      "status": "open",
-      "timeout_seconds": 600,
-      "note": "the forbidden-control matrix makes the SerSplit contrast non-testable, so this negative-control pack cannot audit projection selectivity"
-    },
-    {
-      "experiment_id": "sersplit_edge_defect_nonestimability_certificate",
-      "claim_id": "bridge.genetic_code.sersplit.edge_defect.nonestimability.certificate",
-      "script_path": "tools/window_codon_bridge/experiments/run_sersplit_edge_defect_nonestimability_certificate.py",
-      "status": "open",
-      "timeout_seconds": 600,
-      "note": "exact rational proof the Ser-split edge-defect contrast lies in span(registered forbidden controls), verified against actual registered z-scored columns; non-estimable -> certified bounding negative. within-Ser subspace NOT fully absorbed (permutation null non-degenerate)."
-    },
-    {
-      "experiment_id": "foldboundary_residual_exhaustion_certificate",
-      "claim_id": "bridge.genetic_code.foldboundary.residual.exhaustion.certificate",
-      "script_path": "tools/window_codon_bridge/experiments/run_foldboundary_residual_exhaustion_certificate.py",
-      "status": "open",
-      "timeout_seconds": 600,
-      "note": "exhaustion extension: the q6-label-free fold-boundary subspaces box-split-type, degeneracy-class, fold-layer are all exactly absorbed (residual rank 0) by the registered composition control frame; window6_4cell is q6-correspondence-derived and barred (survival expected, not forcing)."
-    },
-    {
-      "experiment_id": "box_partition_composition_collapse_certificate",
-      "claim_id": "bridge.genetic_code.box_partition.composition_collapse.certificate",
-      "script_path": "tools/window_codon_bridge/experiments/run_box_partition_composition_collapse_certificate.py",
-      "status": "open",
-      "timeout_seconds": 600,
-      "note": "exact rational proof: Ser/Leu/Arg 4-vs-2 within-amino-acid branch splits all lie in span(registered C); full mean-zero 16-box partition has exact residual rank 0 -> the 64->16 box partition is composition (absorbed)."
-    },
-    {
-      "experiment_id": "forcing_direction_closure_metacertificate",
-      "claim_id": "bridge.window6_codon_q6.forcing_direction_closure.metacertificate",
-      "script_path": "tools/window_codon_bridge/experiments/run_forcing_direction_closure_metacertificate.py",
-      "status": "open",
-      "timeout_seconds": 600,
-      "note": "consolidation meta-certificate: full label-free fold-boundary battery (box+degeneracy+fold-layer+Ser/Leu/Arg 4/2) union exactly in span(C) (rank 29 unchanged); window6_4cell q6-derived barred; math->bio forcing closed-as-not-supported under current frame with falsifiable reopening condition."
-    },
-    {
-      "experiment_id": "h3_higherorder_complement_stresstest",
-      "claim_id": "bridge.genetic_code.h3_higherorder.complement_stresstest",
-      "script_path": "tools/window_codon_bridge/experiments/run_h3_higherorder_complement_stresstest.py",
-      "status": "open",
-      "timeout_seconds": 600,
-      "note": "stress-test of the composition-exhaustion closure: claim 'closure extends to the higher-order H3 class' is REFUTED (h3_residual_rank 26/27 outside span(C)) -> higher-order three-position chemistry survives; delimitation, NOT a forcing reopening (no Window6-necessitation / frozen null)."
-    },
-    {
-      "experiment_id": "fibcube_embedding_conventionrobust_test",
-      "claim_id": "bridge.window6_codon_q6.fibcube_embedding.conventionrobust_test",
-      "script_path": "tools/window_codon_bridge/experiments/run_fibcube_embedding_conventionrobust_test.py",
-      "status": "open",
-      "timeout_seconds": 900,
-      "note": "reopening attempt (non-q6 embedding): tests if the Fibonacci-cube vertex set S (21 no-adjacent-1 6-bit words) is a convention-robust code-structure outlier across all 17280 base/bit conventions. Result needs_derivation: NO signal (q6_class_outlier False, nonq6 outlier fraction 0.047 << 0.5 threshold) -> the Gamma6->Q6 isometric-inclusion route yields no forcing; route exhausted on the pre-declared battery (not an exhaustive impossibility)."
-    },
-    {
-      "experiment_id": "fibcube_codonfamily_graphiso_test",
-      "claim_id": "bridge.window6_codon_q6.fibcube_codonfamily_graphiso_test",
-      "script_path": "tools/window_codon_bridge/experiments/run_fibcube_codonfamily_graphiso_test.py",
-      "status": "open",
-      "timeout_seconds": 300,
-      "note": "convention-free reopening route: Gamma_6 (21V/38E) vs codon-family adjacency graph (21V/85E incl Stop; 20V/75E excl Stop). REFUTED by necessary graph-iso invariants (edge count 38!=85) under all family-graph definitions -> not isomorphic; 21<->21 is graph-level coincidence."
-    },
-    {
-      "experiment_id": "codon_synfiber_quotient_extremality",
-      "claim_id": "bridge.genetic_code.synfiber_quotient.extremality",
-      "script_path": "tools/window_codon_bridge/experiments/run_codon_synfiber_quotient_extremality.py",
-      "status": "open",
-      "timeout_seconds": 900,
-      "note": "factory 2nd instance: is the genetic code's degeneracy ASSIGNMENT extremal (equitability) on Q6 among size-matched partitions? COINCIDENCE: extreme under weak size-only null (p=4e-5) but REDUCIBLE -- p=0.496 under box/wobble-preserving null -> the equitability is the already-certified box/wobble composition, not independent forcing."
-    },
-    {
-      "experiment_id": "square_motif_residual_extremality",
-      "claim_id": "bridge.genetic_code.square_motif_residual.extremality",
-      "script_path": "tools/window_codon_bridge/experiments/run_square_motif_residual_extremality.py",
-      "status": "open",
-      "timeout_seconds": 900,
-      "note": "oracle-planned non-reducible frontier (factory 3rd instance). Cross-box square 2-face motif residual under conditioned null Omega_BW,E (conditions out e_in+box/wobble+edge-margins; 162468 states, exact enumeration). COINCIDENCE: prerequisite passed (null non-trivial, residual variance real) but code not extremal (omnibus T=2.54, p=0.246) -> 2-face/diagonal-recurrence structure carries no independent forcing beyond what's conditioned out; closure deepens."
-    },
-    {
-      "experiment_id": "bypass_conductance_extremality",
-      "claim_id": "bridge.genetic_code.bypass_conductance.extremality",
-      "script_path": "tools/window_codon_bridge/experiments/run_bypass_conductance_extremality.py",
-      "status": "open",
-      "timeout_seconds": 900,
-      "note": "oracle Route 3 (strongest global complement). External bypass conductance between disconnected fiber components (ambient placement edges/2-faces miss), component-conditioned null (conditions out e_in+box/wobble+edge+boundary-degrees+component-structure; 162468 states exact). COINCIDENCE: both prerequisite gates pass (nonzero variance + multi-orbit) but code typical (T=10.31, p=0.202); not tailored to Ser/Stop. Closure now confirmed across edges/2-faces/global-conductance."
-    },
-    {
-      "experiment_id": "quotient_spanningtree_extremality",
-      "claim_id": "bridge.genetic_code.quotient_spanningtree.extremality",
-      "script_path": "tools/window_codon_bridge/experiments/run_quotient_spanningtree_extremality.py",
-      "status": "open",
-      "timeout_seconds": 900,
-      "note": "oracle Route 3-of-3 (spanning-tree compression, flagged weakest). Quotient multigraph weighted spanning-tree count tau (exact Bareiss, =2.5e20), T_chan=-log tau, boundary-degree-conditioned null (162468 exact). COINCIDENCE: both gates pass but code typical (borderline p=0.0647, > cert threshold 0.01). Completes the 3-route oracle sweep -- ALL coincidence."
-    },
-    {
-      "experiment_id": "code_edge_hiding_optimality",
-      "claim_id": "bridge.genetic_code.edge_hiding_optimality",
-      "script_path": "tools/window_codon_bridge/experiments/run_code_edge_hiding_optimality.py",
-      "status": "open",
-      "timeout_seconds": 900,
-      "note": "e_in (BC7's certified functional) extremality vs the natural degeneracy-matched code null. Standard code e_in=67 sense/69 all vs Omega_deg mean 12.4 (max 30), z=17, p_hide=0.0. CERTIFIED: the code's codon ASSIGNMENT is edge-hiding-optimal among degeneracy-matched codes -- connects the bridge's lone certified positive (e_in) to the classic genetic-code error-minimization optimality. Confirmation+connection of BC7 vs a natural null, NOT a new independent functional. Structural foundation of the relayed DMS-robustness mediation test."
-    },
-    {
-      "experiment_id": "codon_v4cubed_eigenspace_canonicity",
-      "claim_id": "bridge.genetic_code.codon_v4cubed_eigenspace.canonicity",
-      "script_path": "tools/window_codon_bridge/experiments/run_codon_v4cubed_eigenspace_canonicity.py",
-      "status": "open",
-      "timeout_seconds": 300,
-      "note": "foundation of the new spectral direction. Codon space = V4^3 via chemical characters chi_R/chi_W/chi_K (Klein-four, chi_R*chi_W*chi_K=-1); R^64 = H(3,4) Krawtchouk eigenspaces E0+E1+E2+E3 (dims 1/9/27/27, eigenvalues 9/5/1/-3); the bridge H3 = E3 = canonical lambda=-3 highest-frequency eigenspace (exact ranks). CERTIFIED. Upgrades H3 arbitrary->canonical; opens number-theory entry (association scheme/Krawtchouk)."
-    },
-    {
-      "experiment_id": "altcode_edge_hiding_tau",
-      "claim_id": "bridge.genetic_code.altcode_edge_hiding.tau_conservation",
-      "script_path": "tools/window_codon_bridge/experiments/run_altcode_edge_hiding_tau.py",
-      "status": "open",
-      "timeout_seconds": 600,
-      "note": "edge-hiding CONSERVED across the 27 NCBI genetic codes. Natural codes' synonymous Hamming-1 edge-hiding is systematically far above degeneracy-matched random (all 27 per-code profile-matched-null p at the 1/(20001) MC floor; min null_z=15.4) and survives a 9-cluster phylogenetic bootstrap (p=5e-5). |R|=13 reproduced. CERTIFIED (conservation; NO global-maximality claim -- broken-optimizer e_max/tau dropped after review)."
-    },
-    {
-      "experiment_id": "bstar_q6_e3_spectral_concentration",
-      "claim_id": "bridge.genetic_code.bstar_q6_e3_spectral_concentration",
-      "script_path": "tools/window_codon_bridge/experiments/run_bstar_q6_e3_spectral_concentration.py",
-      "status": "closed",
-      "timeout_seconds": 600,
-      "note": "REFUTED. Tests whether bio's B*_Q6 translation-residual basis (9 within-synonymous zero-sum contrasts) concentrates in E3 = canonical lambda=-3 Krawtchouk eigenspace of H(3,4). T3=0.401 vs matched-synonymous null mean 0.528 (z=-5.6, lower_p=5e-5; secondary all-family null 0.531). B*_Q6 is ANTI-concentrated in E3 (lives more in E1/E2). Projectors exact (dims [1,9,27,27], sumP=I max_abs 0); null faithful (support+per-fiber-zero-sum+norm preserved); adversarially verified (no E2<->E3 swap, fair null). H3=E3 does NOT host/force the translation residual."
-    },
-    {
-      "experiment_id": "bstar_q6_eigenspace_concentration_profile",
-      "claim_id": "bridge.genetic_code.bstar_q6_eigenspace_concentration_profile",
-      "script_path": "tools/window_codon_bridge/experiments/run_bstar_q6_eigenspace_concentration_profile.py",
-      "status": "open",
-      "timeout_seconds": 600,
-      "note": "CERTIFIED (scoped spectral-localization). Pre-registered Bonferroni (alpha 0.001/3 over E1,E2,E3) per-eigenspace excess of bio's B*_Q6 residual basis vs the matched-synonymous null. E1 (lambda=5, first-order/single-position, dim 9): excess +0.102, z=+7.94, p=5e-5 -> CONCENTRATED. E3 (lambda=-3): depleted (re-confirms the prior refutation). E2 (lambda=1): not significant (p=0.057). Adversarially verified: E1 label correct (rank 9), null fair + reaches E1 on cross-box support, excess survives leave-one-out of f3_stress (above all 5000 null draws), E3 deficit matches the landed refutation exactly."
-    },
-    {
-      "experiment_id": "bstar_q6_first_order_position_character",
-      "claim_id": "bridge.genetic_code.bstar_q6_first_order_position_character",
-      "script_path": "tools/window_codon_bridge/experiments/run_bstar_q6_first_order_position_character.py",
-      "status": "open",
-      "timeout_seconds": 600,
-      "note": "CERTIFIED. Decomposes the certified E1 (lambda=5 first-order) concentration of B*_Q6 into 9 single-position chemical-character components (3 codon positions x chi_R/chi_W/chi_K), vs the matched-synonymous null, Bonferroni alpha 0.001/6 over 3 positions + 3 characters. Significant excess carriers: position3/wobble (z=8.76, dominant), position1 (z=4.53, from cross-box contrasts), chi_W weak/strong (z=10.05, dominant), chi_R purine/pyrimidine (z=3.47). NOT significant: position2, chi_K keto/amino. Dominant single component p3_W (third-position weak/strong). E1-basis exact (sum e e^T = P_E1, max_abs 0; orthonormal rank 9); adversarially verified (apples-to-apples null, 3rd-position excess genuine not artifact)."
-    },
-    {
-      "experiment_id": "codon_e1_heldout_crossorganism_gate",
-      "claim_id": "bridge.genetic_code.codon_e1_heldout_crossorganism_conservation",
-      "script_path": "tools/window_codon_bridge/experiments/run_codon_e1_heldout_crossorganism_gate.py",
-      "status": "open",
-      "timeout_seconds": 900,
-      "note": "CERTIFIED held-out cross-organism gate (oracle frozen spec). Across 29 organisms / 18 genera (public NCBI codon counts, synced/codon_e1_heldout_panel.json), each organism's synonymous codon-usage residual d_resid4 puts T_heldout=0.571 of its norm^2 in the 6-dim codon-E1 subspace B1, vs matched-synonymous-relabel null mean 0.137 (z=8.75, one-sided p=5e-5; = chance projection onto 6 of 41 dims, independently confirmed 6/41=0.146), cluster-bootstrap (18 genera) lower-95% excess 0.352>0. Both gate conditions met. Clears the 26/41 chance-projection trap. Adversarially verified (null = fair chance baseline, B1 rank-6 exact, no trivial alignment, panel clean). Scoped: conserved codon-E1 component of d_resid4; NOT Window6; mostly-bacteria panel."
-    },
-    {
-      "experiment_id": "window6_codon_e1_intertwiner_impossibility",
-      "claim_id": "bridge.window6_codon_q6.intertwiner_impossibility",
-      "script_path": "tools/window_codon_bridge/experiments/run_window6_codon_e1_intertwiner_impossibility.py",
-      "status": "closed",
-      "timeout_seconds": 300,
-      "note": "CERTIFIED impossibility. No nonzero intertwiner J:R^21->R^64 with A_H(3,4) J = J A_Gamma6 (Sylvester has nonzero solution iff shared eigenvalue). Gamma6 (Fibonacci cube, 21V/38E) char-poly evaluated at H(3,4) eigenvalues {9,5,1,-3} is nonzero everywhere (det(A-I)=144, det(A+3I)=-1.307e8, etc.; spectral radius 3.9); poly-gcd=1. So codon E1 (and every codon eigenspace) is provably NOT a Window6 adjacency-spectral image/quotient -> formally closes the Window6-spectral-order path. Independently cross-verified (worker char-poly + orchestrator Bareiss integer det, matching to the digit)."
-    },
-    {
-      "experiment_id": "codon_e1_sense_restriction_kernel",
-      "claim_id": "bridge.genetic_code.codon_e1_sense_restriction_positional_rank",
-      "script_path": "tools/window_codon_bridge/experiments/run_codon_e1_sense_restriction_kernel.py",
-      "status": "closed",
-      "timeout_seconds": 300,
-      "note": "CERTIFIED pure-math sharpening of the codon-E1 results. The sense-restricted synonymous-centered map M=Q_syn R U1 (U1 = 9-dim first-order E1 character basis) has rank 6, kernel = span{e_{1,R}-e_{1,W}+e_{1,K}, e_{2,W}, e_{2,R}-e_{2,K}} (dim 3). Positional ranks (2,1,3) -- wobble position 3 retains all 3 first-order dof. Character ranks R=3, W=2, K=3 -> K-family keeps FULL rank 3, so the empirical chi_K non-enrichment in the E1-localization result is NOT a dimensional artifact. Independently cross-verified (worker + orchestrator exact-Fraction recompute, matching)."
-    },
-    {
-      "experiment_id": "dms_codon_escape_conditional_logit",
-      "claim_id": "bridge.genetic_code.dms_codon_escape_conditional_allocation",
-      "script_path": "tools/window_codon_bridge/experiments/run_dms_codon_escape_conditional_logit.py",
-      "status": "closed",
-      "timeout_seconds": 600,
-      "note": "COINCIDENCE (adversarially-verified TRUE null). Flagship functional test of BC7 edge-hiding via public ProteinGym DMS + UniProt/ENA native CDS (frozen panel synced/dms_codon_escape_panel.json: 144 assays, 119 proteins, 27 organisms, 6307 Leu/Arg/Ser sites). Oracle's VALID conditional codon-choice logit (not the invalid permutation null): does site intolerance favor high synonymous-escape-degree codons BEYOND codon composition + optimality? beta_h=0.015, Wald p=0.31, cluster-bootstrap lower-95<0; h identifiable (collinearity h-comp 0.35); POSITIVE CONTROL beta_RSCU=0.068 p=0.016 significant -> model works, h-null is real + well-powered. CONCLUSION: edge-hiding has NO detected functional codon-allocation signal in DMS fitness data beyond composition/optimality; organisms bias codons at intolerant sites toward OPTIMAL (not high-escape) codons. tAI/decoding-accuracy + dinucleotide/dMFE are documented sensitivity extensions (not expected to revive a null marginal)."
-    },
-    {
-      "experiment_id": "codon_e1_transport_gate",
-      "claim_id": "bridge.genetic_code.codon_e1_conservation_transportability",
-      "script_path": "tools/window_codon_bridge/experiments/run_codon_e1_transport_gate.py",
-      "status": "open",
-      "timeout_seconds": 600,
-      "note": "CERTIFIED transportability. Extends #18 (codon-E1 conservation across 29 bacteria) to archaea + eukaryotes as SEPARATE strata (Kazusa CUTG standard-code codon usage, frozen synced/codon_e1_transport_panel.json: 12 archaea + 14 eukaryotes, all genetic code table 1). Each domain's d_resid4 projected onto the #18 codon-E1 subspace B1 (rank 6) vs the matched-synonymous-relabel null. ARCHAEA: T=0.522 vs null 0.137 (z=9.6, p=5e-5, bootstrap-lo95 0.294>0) -> conserved. EUKARYOTA: T=0.515 vs null 0.140 (z=8.8, p=5e-5, bootstrap-lo95 0.270>0) -> conserved. Both independently pass; chance baseline 6/41=0.146. Adversarially verified (Kazusa counts live-matched to all 26 taxids, standard-code-only, fair null ~chance, same B1, separate strata). With #18 (bacteria T=0.571) -> codon-E1 first-order conservation holds across ALL 3 domains of life. NOT Window6, NOT causal."
-    },
-    {
-      "experiment_id": "translation_kernel_golden_impossibility",
-      "claim_id": "bridge.translation_kernel.golden_fibonacci_impossibility",
-      "script_path": "tools/window_codon_bridge/experiments/run_translation_kernel_golden_impossibility.py",
-      "status": "open",
-      "timeout_seconds": 600,
-      "note": "Closes bridge direction C (dynamical-kernel Fibonacci program). Certifies an impossibility: no biology-defined translation kernel K_theta can carry x^2-x-1 (root phi>1). Any column-(sub)stochastic decoding matrix P has rho(P)<=1<phi so x^2-x-1 cannot divide chi_P; any CTMC generator Q has eigenvalues with non-positive real part (and inverse-time units); the golden companion [[1,1],[1,0]] needs an unnormalized 2-state no-consecutive-state counting quotient biology does not supply. Oracle-derived spectral-radius argument + codex-implemented + orchestrator re-ran (status refuted, stdlib structural-bounds fallback since the env is numpy-free)."
-    },
-    {
-      "experiment_id": "edge_hiding_e1_orientation_same_signal",
-      "claim_id": "bridge.genetic_code.edge_hiding_e1_orientation_same_signal",
-      "script_path": "tools/window_codon_bridge/experiments/run_edge_hiding_e1_orientation_same_signal.py",
-      "status": "open",
-      "timeout_seconds": 1200,
-      "note": "Are the two certified positives (edge-hiding e_in / BC7 vs codon-E1 usage residual) the SAME signal? REFUTED -> operationally independent. Anti-tautology guard (oracle): tr(U1^T S_g U1)=(5/32)e_in EXACTLY for every code, so 'edge-hiding has E1 mass' is algebraically guaranteed; deflate it (C_g=U1^T S_g U1-(5 e_in/288)I; B_g=P C_g P-(tr/6)P, rank-6 P=L^+L) and test orientation alignment T_same=tr[Sigma_bio B_g^2/tr(B_g^2)] vs the EXACT Omega_{BW,E,d,comp} null (162468 states, conditions out e_in+box/wobble+edge-margins+boundary-degrees+component-structure). Per domain: bacteria p=0.984/lo95 -0.024, archaea p=0.677/lo95 -0.014, eukaryota p=0.443/lo95 -0.023 -> no exceptional alignment in any domain. |R|=13 support excluded (design-induced). Identity sanity check passed (10.46875). Adversarially verified, numpy-free."
-    },
-    {
-      "experiment_id": "codon_e1_frameshift_mpra_tcausal",
-      "claim_id": "bridge.genetic_code.codon_e1_frameshift_mpra_translation_dependent_function",
-      "script_path": "tools/window_codon_bridge/experiments/run_codon_e1_frameshift_mpra_tcausal.py",
-      "status": "open",
-      "timeout_seconds": 1800,
-      "note": "Functional test of the certified codon-E1 positive: does codon-E1 have a TRANSLATION-DEPENDENT effect on mRNA level? Bridge reran the Chen-2023 yeast 8x-dicodon MPRA pipeline from raw SRA (PRJNA974090; in-frame pHPSC1142 + -1 frameshift pHPSC1114; validated against known destabilizing dipeptides KK/RR/KW/proline + frameshift relief) -> per-codon-pair Delta_y=y_inframe-y_frameshift. v_star=leave-S.cerevisiae-out cross-domain codon-E1 consensus (54 orgs, non-circular); T_causal=residualized weighted corr vs within-syn 100k permutation null + CSC validity gate. RESULT coincidence: baseline |T|=0.154 (two-sided p=0.005, CI excludes 0) COLLAPSES to |T|=0.029 (p=0.61, CI includes 0) after GC3+dinucleotide controls -> apparent association is the GC/RNA-folding composition confound (frame-invariant, survives the frameshift subtraction), NOT a GC-orthogonal codon-E1 translation effect. CSC gate passed (p=0.001). sshx-adjudicated (caught the one-sided/sign-arbitrary + omitted-GC flaw, GC control was the decisive fix). codon-E1 stays a conserved usage GEOMETRY without a detected direct functional phenotype. Exact ViennaRNA-DeltaMFE + MAVE causal version relayed to bio."
-    },
-    {
-      "experiment_id": "fibonacci_tracka_wobble_vs_codon_e1",
-      "claim_id": "bridge.fibonacci_tracka.wobble_boundary_vs_codon_e1",
-      "script_path": "tools/window_codon_bridge/experiments/run_fibonacci_tracka_wobble_vs_codon_e1.py",
-      "status": "open",
-      "timeout_seconds": 900,
-      "note": "Bridge adjudication of fibonacci_reality's homeless Track-A codon-wobble-boundary-response (its math-only paper gates out Codon/Wobble vocab). Track-A reproduces as a REAL cross-organism bio signal (yeast delta_r2=0.020 null-pct 1.0 n=5785; human delta_r2=0.0047 null-pct 1.0 n=18974: wobble-decoding-required codons show a tRNA-supply boundary). Adjudicated vs the bridge's certified positives: NOT codon-E1 (rho_E1=0.183 vs null 0.104, p=0.11 -> not significantly concentrated), NOT edge-hiding (|R| overlap 3 codons = chance, p=0.91), and the Window6 connection is q6_circular (no non-circular forcing map). VERDICT needs_derivation: a distinct bio-internal codon/tRNA supply-boundary fact, housed by the bridge, that does not reduce to the bridge's positives and does not create a new Window6 link."
-    },
-    {
-      "experiment_id": "codon_e1_alternative_code_deformation",
-      "claim_id": "bridge.genetic_code.codon_e1_alternative_code_deformation",
-      "script_path": "tools/window_codon_bridge/experiments/run_codon_e1_alternative_code_deformation.py",
-      "status": "open",
-      "timeout_seconds": 600,
-      "note": "Alternative-code codon-E1 deformation test on NCBI accession-level table-assigned mitochondrial CDS (transl_table verified). Emits one JSON verdict line; certified/refuted/coincidence/needs_external. Not Window6 forcing."
-    },
-    {
-      "experiment_id": "codon_e1_trna_decoding_supply_orientation",
-      "claim_id": "bridge.genetic_code.codon_e1_trna_decoding_supply_orientation",
-      "script_path": "tools/window_codon_bridge/experiments/run_codon_e1_trna_decoding_supply_orientation.py",
-      "status": "open",
-      "timeout_seconds": 900,
-      "note": "E1-tRNA decoding-supply orientation test on RefSeq accession-level bacterial/archaeal CDS + GBFF-annotated tRNA anticodons. B1 reused (not refit). Verdict gated on full-residual positive control + B1-minus-p3W/GC3-collapse + restricted relabel null. Not Window6, not causal."
-    },
-    {
-      "experiment_id": "codon_e1_mutation_pressure_orientation",
-      "claim_id": "bridge.genetic_code.codon_e1_mutation_pressure_orientation",
-      "script_path": "tools/window_codon_bridge/experiments/run_codon_e1_mutation_pressure_orientation.py",
-      "status": "open",
-      "timeout_seconds": 900,
-      "note": "Mutation-pressure/GC-drift orientation vs frozen codon-E1 (Ruis clade SBS spectra + paired clade reference CDS). Primary endpoint GC-equilibrium-residualized + GC-stratified null. Mycobacterium-scoped (n=6). Not Window6, not causal."
-    },
-    {
-      "experiment_id": "codon_e1_expression_selection_orientation",
-      "claim_id": "bridge.genetic_code.codon_e1_expression_selection_orientation",
-      "script_path": "tools/window_codon_bridge/experiments/run_codon_e1_expression_selection_orientation.py",
-      "status": "refuted",
-      "timeout_seconds": 1200,
-      "note": "REQUIRES numpy (run via venv); NOT daemon-reproducible under numpy-free system python3 -- registered terminal (refuted) so the daemon does not execute it. PaxDB-v6/RefSeq expression-selection orientation vs frozen codon-E1, leave-one-genus-out + GC3/tRNA controls + matched null + positive control. Not Window6, not causal."
-    },
-    {
-      "experiment_id": "edge_hiding_alternative_code_reassignment",
-      "claim_id": "bridge.genetic_code.edge_hiding_alternative_code_reassignment",
-      "script_path": "tools/window_codon_bridge/experiments/run_edge_hiding_alternative_code_reassignment.py",
-      "status": "open",
-      "timeout_seconds": 600,
-      "note": "Path-level evolutionary edge-hiding test: natural alternative-code codon reassignments vs exact transition-matrix matched-permutation null on H(3,4). e_all primary (Stop as label), e_sense sensitivity; cluster-by-transition-matrix Stouffer combine; mito/nuclear sensitivity. Pure Python stdlib (daemon-runnable). Not causal, not a Window6 repetition; deepens the certified edge-hiding positive."
-    },
-    {
-      "experiment_id": "edge_hiding_reassignment_specificity",
-      "claim_id": "bridge.genetic_code.edge_hiding_reassignment_specificity",
-      "script_path": "tools/window_codon_bridge/experiments/run_edge_hiding_reassignment_specificity.py",
-      "status": "open",
-      "timeout_seconds": 900,
-      "note": "AAindex1-backed specificity control for the certified alternative-code edge-hiding path signal. WOEC730101 polar requirement primary + GRAR740102/GRAR740103/KYTJ820101 sensitivity; missense-only PR-stratified + omnibus physicochemical matched nulls inside exact transition-matrix clusters; B=200000 cluster-product MC; 4 gates. Pure Python stdlib (daemon-runnable). Tests reducibility to missense-only physicochemical conservation, NOT independence from identity-inclusive error-minimization. Not causal, not a Window6 repetition."
-    },
-    {
-      "experiment_id": "edge_hiding_nonmito_generalization",
-      "claim_id": "bridge.genetic_code.edge_hiding_nonmito_generalization",
-      "script_path": "tools/window_codon_bridge/experiments/run_edge_hiding_nonmito_generalization.py",
-      "status": "open",
-      "timeout_seconds": 900,
-      "note": "Shulgina-Eddy/Codetta non-mitochondrial reassignment stress test (5 events / 4 clusters), exact transition + outgroup codon-availability/GC matched null, support-gated with honest low-power scope. Pure Python stdlib (xlsx via zipfile+xml.etree). Verdict coincidence: edge-hiding does not generalize beyond mito under availability control. Not causal, not Window6."
-    },
-    {
-      "experiment_id": "tracka_exact_cognate_wobble_boundary",
-      "claim_id": "bridge.genetic_code.tracka_exact_cognate_wobble_boundary",
-      "script_path": "tools/window_codon_bridge/experiments/run_tracka_exact_cognate_wobble_boundary.py",
-      "status": "open",
-      "timeout_seconds": 1200,
-      "note": "Track-A discrete exact-cognate decoding-boundary test (RefSeq bacteria/archaea GBFF, 24 genera). Collinearity-gated (B_o-vs-S_o); per-genome family-centered OLS with smooth-supply/GC3/codon-E1/edge-hiding controls; within-family permutation null; W-sensitivity (main/exact-only/loose). Pure Python stdlib. Verdict refuted: boundary penalty does not generalize / is W-inconsistent. Not causal, not a codon-E1/edge-hiding/Window6 duplicate."
-    },
-    {
-      "experiment_id": "codon_e1_missense_error_cost_orientation",
-      "claim_id": "bridge.genetic_code.codon_e1_missense_error_cost_orientation",
-      "script_path": "tools/window_codon_bridge/experiments/run_codon_e1_missense_error_cost_orientation.py",
-      "status": "open",
-      "timeout_seconds": 1200,
-      "note": "Codon-E1 local missense-error-cost orientation test on a three-domain codon-usage panel (Bacteria/Archaea from the supply panel + Eukaryota from Kazusa CUTG). Pure-Python stdlib (numpy-free). Frozen standard-code rank-6 B1 reused not refit; AAindex1 PR (WOEC730101) main scale + Grantham/Kyte-Doolittle battery for max-null. Version-B GC/wobble/edge-orthogonalized certification; within-family cost-relabel nulls A/B/C; estimability gates + code-table error-min sanity + Stop-artifact gate. Not Window6, not causal."
-    },
-    {
-      "experiment_id": "codon_e1_known_force_union_irreducibility",
-      "claim_id": "bridge.genetic_code.codon_e1_known_force_union_irreducibility",
-      "script_path": "tools/window_codon_bridge/experiments/run_codon_e1_known_force_union_irreducibility.py",
-      "status": "open",
-      "timeout_seconds": 1200,
-      "note": "Codon-E1 known-force-union irreducibility on a three-domain-capable panel (Bacteria+Archaea certified scope via NCBI RefSeq GBFF tRNA+HEG+CDS; Eukaryota exploratory). Pure-Python stdlib (numpy-free). Frozen rank-6 B1 reused not refit; GC/mutation force = LOW-RANK neutral 4-fold-degenerate equilibrium gradient (must NOT include position-base one-hots that span B1); AAindex missense battery; precomputed per-organism projectors with matvec-only nulls. Studentized T_KFU + sign-free T_orient; Null A + force-fit-matched audited Null B + composition-preserving orientation null; estimability gates route absorption-collapse to needs_external. Not Window6, not causal."
-    },
-    {
-      "experiment_id": "codon_second_conserved_geometry",
-      "claim_id": "bridge.genetic_code.codon_second_conserved_geometry",
-      "script_path": "tools/window_codon_bridge/experiments/run_codon_second_conserved_geometry.py",
-      "status": "open",
-      "timeout_seconds": 1200,
-      "note": "Second cross-domain conserved geometry audit beyond the known-force union. Pure-Python stdlib (numpy-free). Reuses the E1_KFU three-domain panel + four-force union construction + frozen B1. Pre-specified second-order Krawtchouk candidate orthogonalized against B1 and the union; held-out Bacteria->Archaea cross-domain agreement; GC-preserving per-draw-refit relabel null; FWL completeness gate (GC higher moments folded into residualization). Verdict refuted: no detectable second geometry (power-bounded). Not Window6, not causal."
-    },
-    {
-      "experiment_id": "edge_hiding_boundary_mutational_predictor",
-      "claim_id": "bridge.genetic_code.edge_hiding_boundary_mutational_predictor",
-      "script_path": "tools/window_codon_bridge/experiments/run_edge_hiding_boundary_mutational_predictor.py",
-      "status": "open",
-      "timeout_seconds": 1200,
-      "note": "Mechanistic predictor of the edge-hiding mito/non-mito boundary. Pure-Python stdlib. Reuses the edge-hiding reassignment preservation functional + Shulgina-Eddy catalogue + 4-fold neutral GC/AT estimator. Single pre-registered predictor (GC/AT-equilibrium), mito label held out as covariate, within-stratum + out-of-taxon transfer, block-permutation null + sister control. Power-bounded by the small non-mito reassignment count (needs_external). Not Window6, not causal."
-    },
-    {
-      "experiment_id": "edge_hiding_mito_table_mutational_gradient",
-      "claim_id": "bridge.genetic_code.edge_hiding_mito_table_mutational_gradient",
-      "script_path": "tools/window_codon_bridge/experiments/run_edge_hiding_mito_table_mutational_gradient.py",
-      "status": "open",
-      "timeout_seconds": 1200,
-      "note": "Table-level AT-regime -> edge-hiding preservation gradient across organellar/alternative genetic codes. Pure-Python stdlib. Reuses the edge-hiding reassignment preservation functional + NCBI gc.prt code tables + 4-fold AT estimator. Single pre-registered predictor, reassignment-count control (partial correlation), table-level permutation null. Verdict refuted: edge-hiding preservation tracks reassignment count, not mutational regime; the two flagships do not unify. Not Window6, not causal."
-    },
-    {
-      "experiment_id": "asd_shadow_exclusion",
-      "claim_id": "bridge.genetic_code.asd_shadow_exclusion",
-      "script_path": "tools/window_codon_bridge/experiments/run_asd_shadow_exclusion.py",
-      "status": "open",
-      "timeout_seconds": 1800,
-      "note": "ASD-shadow exclusion (oracle frontier). Pure-Python stdlib. Carrier = organism's own 16S rRNA 3' anti-SD tail (independent of CDS); HEG-vs-matched-background synonymous-recoding depletion; decoy-rank null with composition + pairing-strength + heterologous foreign-16S decoys; Gate-N2 true-tail-vs-canonical necessity; k-mer precompute; GTDB block bootstrap; resumable cached NCBI fetch with backoff. Env knobs (ASD_TARGET_BACTERIA/ASD_ANALYSIS_ORGANISM_LIMIT/ASD_NULL_R/ASD_N_DECOYS/...) control panel + compute scale. Pilot (n=31) directionally anti-predicted (median_D=+0.95, decoy-rank=0.62) -> needs_external. Scoped to canonical-SD taxa; not causal. Not Window6."
-    },
-    {
-      "experiment_id": "rm_motif_escape",
-      "claim_id": "bridge.host_defense.rm_motif_escape_necessity",
-      "script_path": "tools/window_codon_bridge/experiments/run_rm_motif_escape.py",
-      "status": "done",
-      "timeout_seconds": 7200,
-      "note": "Full RM-motif-escape signal, Tier-B sensitivity arm. Carrier = Blow et al. 2016 (PLOS Genetics S4) SMRT methylome motifs mapped to NCBI assemblies (TIER-B per oracle: methylome/mutation-ecology, NOT active R/M; PRIMARY Tier-A1 REBASE-Genomes active-R+M scrape still pending). Target = Flinders PhiSpy bulk prophage coordinates (figshare 39664894, CC0; host Decision==Kept). Pure stdlib. Primary evidence = carrier-specific decoy rank (true host RM motifs vs RM_DECOY_K matched decoy carriers by length/degeneracy/palindrome), family-weighted, GTDB family-block bootstrap. Nulls A(3-mer shuffle)/B(coding-aware codon-class; fell back to A, 0% CDS overlap)/C(decoy). Negative controls NC1(same-host chromosome non-prophage windows), NC2(within-family cross-host target swap), NC3(orphan MTase). Env: RM_CARRIER_SOURCE=blow RM_TARGET_SOURCE=prophage RM_NULL_N RM_DECOY_K RM_HOST_LIMIT RM_FETCH_DEADLINE_SECONDS; NC2 cross-host swap is the n_hosts^2 cost bottleneck (use RM_HOST_LIMIT). RESULT (n_hosts=38, 30 families, NULL_N=80 DECOY_K=80, runtime~110min): robust carrier-specificity (median carrier_rank=0.038, 63%<=0.10, true median_D=-0.795 vs decoy -0.177, block-bootstrap p=5e-4) BUT both specificity guards fail -- NC1 host-chromosome also strongly depleted (-0.568, only 29% of avoidance prophage-specific) and NC2 cross-host swap retains/strengthens depletion (-1.031, NOT host-specific) -> avoidance is family-level genomic composition, not host-RM-escape. Consistent with oracle's Tier-B caveat. verdict=needs_external (exploratory; Tier-A1 active-R/M primary required to test the residual prophage-specific increment). WITHIN-HOST W-GATE (compute_within_host_w, RM_SKIP_NC2): turns NC1 chromosome into the denominator. n_hosts=38/30 families, NULL_N=40 DECOY_K=40, ~167min. gate=ambiguous_underpowered: median_E=-0.152897 (decoy-corrected within-host avoidance, just passes -0.15 -> weak prophage-specific residual survives chromosome differencing) but median_S=0.033072 (own-vs-same-family-cross FAILS -> not host-specific; n_hosts_S=15 underpowered). Decision: do NOT scrape Tier-A1 (host-specificity already fails within-host); residual is family-typical ecology not host-RM-escape. Cost is O(n_hosts*decoy*null*seqlen) param-independent of null counts -> vectorize/cache before any at-scale rerun."
-    },
-    {
-      "experiment_id": "cognate_anti_defense_enrichment",
-      "claim_id": "bridge.host_defense.cognate_anti_defense_enrichment",
-      "script_path": "tools/window_codon_bridge/experiments/run_cognate_anti_defense.py",
-      "status": "terminal",
-      "timeout_seconds": 7200,
-      "note": "Cognate anti-defense payload necessity (oracle Q2). NON-daemon terminal experiment: needs external binary hmmsearch (HMMER) and _q2ref/seed_family_mapping.tsv (dbAPIS cognate map) present at repo root; daemon never runs it (orchestrator-run, like the numpy-path precedent). Pure-stdlib fetch (PADS Arsenal CSV carrier + NCBI Flinders-prophage FAA/GFF target + dbAPIS.hmm), CDS-prophage overlap>=80%, hmmsearch --cut_ga|-E, cognate via seed_family_mapping, necessity null + non-cognate decoy + cross-host swap + chromosome control, 5-way verdict. Env: CAD_CLASSES/CAD_HOST_LIMIT/CAD_FETCH_DEADLINE_SECONDS/CAD_EVALUE/CAD_OVERLAP_MIN/CAD_BOOTSTRAP_N. Full 40-host run: verdict=data_gate_failed, n_matched_pairs=0 (resident-prophage cognate hits ~0 + PADS over-calls defense [4/5 classes 39+/1-] + only 7/31 GTDB families have >=2 hosts). Upgrade: DefenseFinder binary calls + larger denser host set + anti-defense-richer phage target. data_gate_failed != refuted; necessity claim untested."
-    },
-    {
-      "experiment_id": "cognate_anti_defense_virjendb",
-      "claim_id": "bridge.host_defense.cognate_anti_defense_virjendb",
-      "script_path": "tools/window_codon_bridge/experiments/run_cognate_anti_defense_virjendb.py",
-      "status": "terminal",
-      "timeout_seconds": 86400,
-      "note": "VirJenDB exact-host cognate anti-defense (oracle Q3 rescue). NON-daemon terminal experiment: needs a venv with DefenseFinder (mdmparis-defense-finder) + pyrodigal (CAD_DF_VENV), hmmsearch (HMMER), _q2ref/seed_family_mapping.tsv, and _q2ref/virjendb_sample.tsv host manifest. Pipeline: VirJenDB /v2/sequence (prophage nucleotides by vj id) -> pyrodigal proteins (target); NCBI FTP protein.faa.gz for GCA/GCF host assemblies (efetch for WGS contigs) -> DefenseFinder complete-system carrier; hmmsearch dbAPIS -> cognate via seed_family_mapping; oracle Y/N/D/S estimator + same-genus necessity / non-cognate decoy / cross-host swap / chromosome nulls + hard preflight power gate + 5-way verdict. Env CAD_HOST_LIMIT/CAD_CLASSES/CAD_DF_VENV/CAD_FETCH_DEADLINE_SECONDS/CAD_EVALUE/CAD_BOOTSTRAP_N/CAD_MANIFEST. Exploratory 150-host (n_ok=85) -> data_gate_failed: c+/c- structure exists (RM 64/21, BREX 5/80, GABIJA 13/72, THOERIS 8/77) but below the >=100/>=100 gate; cognate payload RM-only (non-RM 0 hits); median_D=+0.024, prophage>chromosome, median_S=0. Scale path: GCF-filtered manifest (cut 45% FTP attrition) + larger host set. data_gate_failed != refuted."
-    },
-    {
-      "experiment_id": "crispr_spacer_prophage_crypticness",
-      "claim_id": "bridge.host_defense.crispr_spacer_prophage_crypticness",
-      "script_path": "tools/window_codon_bridge/experiments/run_crispr_prophage_crypticness.py",
-      "status": "terminal",
-      "timeout_seconds": 86400,
-      "note": "CRISPR spacer-exposure -> prophage crypticness (oracle Q5, no anti-CRISPR DB). NON-daemon terminal experiment: needs CRISPRCasdb spacer_seqName.fsa (carrier, precomputed -- NO CCTyper, which is too fragile on macOS), the Flinders PhiSpy bulk (phispy_all_predictions.tsv.gz, CC_FLINDERS_BULK), NCBI efetch (host genome fna + CDS products), and the host_universe_contigs manifest (8,789 genomes with both spacer and Kept-prophage). Pipeline: spacer inverted index (header acc1+acc2+... per spacer) -> host spacer set; Flinders Kept prophage regions per host; NCBI genome -> prophage nt + CDS products; exposure E=exact>=28nt spacer match (both strands); 5-module CrypticScore/IntactLike; R/B within-host estimator (exposed vs matched same-host unexposed); N1-N5 nulls incl shuffled-spacer; hard preflight; 5-way verdict. Env CC_HOST_LIMIT/CC_FLINDERS_BULK/CC_FETCH_DEADLINE_SECONDS/CC_MIN_SPACER_MATCH/CC_BOOTSTRAP_N/CC_MANIFEST/CC_SPACER_FSA. 800-host run -> data_gate_failed: exposure real+artifact-free (404 events, N2 shuffled->0) but within-host design underpowered (only 32/786 hosts exposed, 32 matched <50 gate, Klebsiella 28.5% >20%). Scale path: full 8,789 universe or <=1-mismatch sensitivity. data_gate_failed != refuted. CLOSURE (CC_CLOSURE_MODE=1, full 8789-host universe, ~12h nohup): genus-capped estimand (10% per-genus weight cap, closure_preflight >=20 genera matched/>=10 genera >=3 matched, leave-one-genus-out sign stability, Klebsiella-excluded non-reversal). Cleared all closure gates (195213 events, 470 matched across 60 genera) -> verdict REFUTED (median_R=median_B=0, non-degenerate R spread -5..+5; weak anti-trend mean_R=-0.52). N5 self-target ratio 41.7 (CRISPR self-targeting genome-wide). Upgraded claim 72 data_gate_failed->refuted. Cached scratchpad/cc_closure_full.json."
-    },
-    {
-      "experiment_id": "crispr_spacer_known_acr",
-      "claim_id": "bridge.host_defense.crispr_spacer_known_acr_payload",
-      "script_path": "tools/window_codon_bridge/experiments/run_crispr_spacer_known_acr.py",
-      "status": "terminal",
-      "timeout_seconds": 86400,
-      "note": "CRISPR spacer-exposure -> known anti-CRISPR (AcrDB) cognate payload (oracle Q7, AcrHub-free). NON-daemon terminal experiment (needs diamond + NCBI + CRISPRCasdb ccpp_db subtype lookup + AcrDB 122 KnownAcr + Flinders bulk). Env CA_MANIFEST/CA_SPACER_FSA/CA_FLINDERS_BULK/CA_GCA_SUBTYPES/CA_ACR_FAA/CA_DIAMOND/CA_HOST_LIMIT/CA_FETCH_DEADLINE_SECONDS. carrier=(h,p,t) single-subtype host spacer+CRISPRCasdb subtype; payload=diamond blastp prophage proteins vs sanitized AcrDB 122 KnownAcr; cognate=Acr-family-header->subtype; Y/W/D/S genus-capped; N1-N6 (N6=subtype-label permutation); hard preflight (>=100 matched/>=25 known-Acr+/>=10 genera/no-genus>20%/>=2 subtypes/leave-one-out-stable); 5-way verdict. IMPORTANT: ensure_acr_diamond_db sanitizes the AcrDB FASTA before makedb (AcrDB seqs have embedded spaces that hang diamond makedb; commit a40111aeef). Full-universe run -> data_gate_failed (only 8 known-Acr-positive genera <10 gate; median_W=-0.167 non-supportive). data_gate_failed != refuted. Cached scratchpad/cc_q4acr_full.json."
-    },
-    {
-      "experiment_id": "alt_code_profile_edge_hiding",
-      "claim_id": "bridge.genetic_code.alt_code_profile_edge_hiding",
-      "script_path": "tools/window_codon_bridge/experiments/run_alt_code_profile_edge_hiding.py",
-      "status": "open",
-      "timeout_seconds": 600,
-      "note": "Profile-normalized alt-code edge-hiding. Pure-stdlib, no network (25 NCBI translation tables from tools/bio_reality/data/ncbi_genetic_codes.json). e_max via exact H(3,4) edge-isoperimetric profile bound beta={1:0,2:1,3:3,4:6,5:7,6:9,7:12,8:16}. Standard code e_in=69/e_max=72/tau=0.958. 5-way verdict certified/coincidence/refuted/needs_derivation/data_gate_failed."
-    },
-    {
-      "experiment_id": "h3_residual_specificity",
-      "claim_id": "bridge.genetic_code.h3_residual_specificity_d_resid4",
-      "script_path": "tools/window_codon_bridge/experiments/run_h3_residual_specificity.py",
-      "status": "terminal",
-      "timeout_seconds": 1800,
-      "note": "Corrected semipartial degree-split H3-specificity test for d_resid4. Pure-stdlib, no network, reuses bio_reality B*_Q6 residual extraction + fibonacci_reality CDS-abundance (12 organisms). --null-reps=N (default 50000). Verdict failed: d_resid4 conserved geometry is low-order (E1E2) not degree-3 (H3)."
-    },
-    {
-      "experiment_id": "e2_unique_concentration",
-      "claim_id": "bridge.genetic_code.e2_unique_concentration_d_resid4",
-      "script_path": "tools/window_codon_bridge/experiments/run_e2_unique_concentration.py",
-      "status": "terminal",
-      "timeout_seconds": 1800,
-      "note": "E2-unique concentration test for d_resid4 low-order-after-H3 conserved geometry. Pure-stdlib, reuses H3 residual-specificity machinery. --null-reps=N (default 50000). Verdict refuted: not degree-2-concentrated."
-    },
-    {
-      "experiment_id": "asd_w6_self_tail_exact_null",
-      "claim_id": "bridge.host_defense.asd_w6_self_tail_erasability",
-      "script_path": "tools/window_codon_bridge/experiments/run_asd_w6_exact_null.py",
-      "status": "terminal",
-      "timeout_seconds": 86400,
-      "note": "ASD-W6 self-tail-erasability test with EXACT analytical gene-wise within-AA synonymous null E_g[c,d] (replaces 400x Monte-Carlo shuffles; ~42s/genome). Pure-stdlib, fetches RefSeq assemblies. env ASD_W6_MAX_GENOMES / ASD_W6_NULL_REPLICATES / ASD_W6_CACHE_DIR; --selftest exercises exact-E vs MC (max abs err <0.012 @50000 MC). 1300-genome run verdict data_gate_failed (preflight) with aggregate null/mild-anti (no erasability). Non-daemon (long fetch+compute)."
-    },
-    {
-      "experiment_id": "w6_offframe_stop_ambush",
-      "claim_id": "bridge.genetic_code.w6_offframe_stop_ambush",
-      "script_path": "tools/window_codon_bridge/experiments/run_w6_offframe_stop_ambush.py",
-      "status": "terminal",
-      "timeout_seconds": 86400,
-      "note": "W6-OffFrameStopAmbush: Window6 hidden off-frame stop codon-pair forcing test. Carrier = table-11 K_total mask on Opp>0 aa-pairs; EXACT gene-wise within-AA synonymous null E_g[c,d]; 10000 composition-matched pseudo-stop decoys (deduped over 624-set exhaustive universe, MIN_DISTINCT_DECOY_SETS floor=100 replacing infeasible >=5000 gate) + genus-block bootstrap B=10000 + internal-only null. Pure-stdlib, fetches RefSeq _cds_from_genomic.fna.gz. env W6AMB_MAX_GENOMES/W6AMB_CACHE_DIR/W6AMB_BOOTSTRAPS/W6AMB_DECOY_POOLS; --selftest exercises carrier/Opp/exact-E-vs-MC/decoy-gen/verdict. 1400-genome run verdict refuted (OR_pool=0.909, hidden stops depleted). Non-daemon (long fetch+compute). Per-genome cost dominated by CDS parse+61x61 matrix build ~5s."
-    },
-    {
-      "experiment_id": "kpsi_w6_ucluster_transducer",
-      "claim_id": "bridge.genetic_code.kpsi_w6_ucluster_transducer",
-      "script_path": "tools/window_codon_bridge/experiments/run_kpsi_w6_ucluster_transducer.py",
-      "status": "terminal",
-      "timeout_seconds": 3600,
-      "note": "Kψ-W6-UClusterTransducer: Window6 U-cluster transducer (Kψ=choose(#U,2), Z_order-isolated via B=500 synonymous shuffles) vs m¹Ψ polysome-load shift ΔPLI. Carrier = Nature Suppl Table 1 fluc_library XLSX (pure-stdlib zipfile+xml parse, static-content.springer.com MOESM3); readout = GEO GSE309271 library_reads.tsv.gz. env KPSI_CARRIER_XLSX/KPSI_READOUT_TSVGZ/KPSI_CACHE_DIR/KPSI_B_VARIANT/KPSI_B_GLOBAL/KPSI_B_LABEL; --selftest exercises xlsx-decode/ORF/Kψ/Z_order/PLI/nulls/decoys/verdict. 304-variant run verdict coincidence (U-content coincidence, not Window6 transducer). Small all-local analysis (~minutes), non-daemon. Oracle-amended power gate ≥250 (not ≥500); verdict precedence coincidence>needs_more_data on necessity failure."
-    }
-  ]
+ "version": "window-codon-bridge-experiments",
+ "experiments": [
+  {
+   "experiment_id": "bc1_cardinality_forcing",
+   "claim_id": "bridge.window6_codon_q6.cardinality_forcing",
+   "script_path": "tools/window_codon_bridge/experiments/run_bc1_cardinality_forcing.py",
+   "status": "open",
+   "timeout_seconds": 600,
+   "note": "Head-start: computes Fibonacci horizon + bio counts + tests 2-bit codon encodings. Emits coincidence (count match is encoding-independent => not yet a structural forcing). Next: construct a code-structure-specific map or conclude numerology."
+  },
+  {
+   "experiment_id": "bc2_markov_kernel_spectrum",
+   "claim_id": "bridge.window6_codon_q6.spectral_correspondence",
+   "script_path": "tools/window_codon_bridge/experiments/run_bc2_markov_kernel_spectrum.py",
+   "status": "open",
+   "timeout_seconds": 600,
+   "note": "Computes Window6 coarse Markov kernel spectrum vs bio lambda scalars. First run: refuted (subdominant eig do not match; mu>1 not a stochastic eigenvalue)."
+  },
+  {
+   "experiment_id": "bc3_foldbin_correspondence",
+   "claim_id": "bridge.window6_codon_q6.foldbin_codon_positions",
+   "script_path": null,
+   "status": "open",
+   "timeout_seconds": 600,
+   "note": "Needs derivation: formalize the map Foldbin tail-cube (c7,c8,c9) -> codon 3 positions / wobble, and test against the bio Q^(2) result. Author via codex."
+  },
+  {
+   "experiment_id": "bc2_killed_walk_spectrum",
+   "claim_id": "bridge.window6_codon_q6.killed_walk_spectral_correspondence",
+   "script_path": "tools/window_codon_bridge/experiments/run_bc2_killed_walk_spectrum.py",
+   "status": "open",
+   "timeout_seconds": 600,
+   "note": "Refined BC2 after the coarse Markov kernel was refuted. Reconstructs the bio killed-walk operator (1/6 * induced 6-cube subgraph adjacency spectral radius) on R and M=median-closure(R), reproduces lambda_M/lambda_R/mu/radial-cubic, and compares structurally to the Window6 Fibonacci cube Gamma6/Gamma5. Same operator FORM, different graphs (|M|=20 vs |Gamma6|=21; distinct adjacency char-polys; golden x^2-x-1 in Gamma5 but not in bio M/R) -> refuted."
+  },
+  {
+   "experiment_id": "bc3_foldbin_codon_correspondence",
+   "claim_id": "bridge.window6_codon_q6.foldbin_codon_positions",
+   "script_path": "tools/window_codon_bridge/experiments/run_bc3_foldbin_codon_correspondence.py",
+   "status": "coincidence",
+   "timeout_seconds": 600,
+   "note": "Negative forcing audit: 3=3 count match, no structure-preserving map; verdict coincidence."
+  },
+  {
+   "experiment_id": "bc4_cyclic_sector_frame_symmetry",
+   "claim_id": "bridge.window6_codon_q6.cyclic_sector_frame_symmetry",
+   "script_path": "tools/window_codon_bridge/experiments/run_bc4_cyclic_sector_frame_symmetry.py",
+   "status": "refuted",
+   "timeout_seconds": 600,
+   "note": "Codon-position rotation preserves only 4/64 labels; structurally refuted."
+  },
+  {
+   "experiment_id": "bc5_right_boundary_selection_axis",
+   "claim_id": "bridge.window6_codon_q6.right_boundary_selection_axis",
+   "script_path": "tools/window_codon_bridge/experiments/run_bc5_right_boundary_selection_axis.py",
+   "status": "open",
+   "timeout_seconds": 600,
+   "note": "Bio data delivered (codon_q6_selection_vectors.json). U_R={UGA,GUU,CUG,GCC,CUC,GUG} reconstructed from Window6 Fold preimage (oracle-confirmed independently), escape 8/9 reproduced. Tested U_R escape vs tRNA/d_perp/optimal axes by sign/rank/projection vs size-6 null: no alignment beyond null (null_p~0.35), tRNA direction slightly rich not poor -> coincidence."
+  },
+  {
+   "experiment_id": "bc6_fold_residual_wobble",
+   "claim_id": "bridge.window6_codon_q6.fold_residual_wobble_correspondence",
+   "script_path": "tools/window_codon_bridge/experiments/run_bc6_fold_residual_wobble.py",
+   "status": "open",
+   "timeout_seconds": 600,
+   "note": "Oracle-designed (conv_a21ca96c74f74ad2). Tests user's high/low-energy <-> two-fold intuition as label-free invariants. STRONG (Fold6 partition ~= codon-family partition) REFUTED: Window6 fibers are one-bit error-detecting (e_in=0) while codon families are wobble-tolerant (69 synonymous 1-edges, 64 third-position) -- directionally inverse. WEAK/H-wobble (Window tail-offset residual ~= codon third-position wobble residual; low=first-two-box core, high=third-position) COINCIDENCE: both have hidden residuals + lumpability failure but hidden-mode alignment fails the wobble-preserving null (codon slow modes box-core dominated; Window6 mixes core+tail). All oracle self-checks reproduced both sides."
+  },
+  {
+   "experiment_id": "bc7_edge_isoperimetric_contravariance",
+   "claim_id": "bridge.window6_codon_q6.edge_isoperimetric_contravariance",
+   "script_path": "tools/window_codon_bridge/experiments/run_bc7_edge_isoperimetric_contravariance.py",
+   "status": "open",
+   "timeout_seconds": 600,
+   "note": "FIRST CERTIFIED (scoped to C-0 contravariant-extremality, NOT forcing). Label-free local-edge-hiding functional e_in (one-step micrograph edges hidden inside a family). Window6 Fold6: e_in=0=e_min -> tau_W=0 EXACT separating endpoint (theorem: every Q6 1-bit edge changes the Zeckendorf type). Standard code on H(3,4): e_in=69 (64 third-position), e_max=72 -> tau_C=0.958 near tolerant endpoint. D_minus=0.958. Survives nulls: free same-size null max 25, wobble/box-preserving null max 55, both << observed 69 (p~2.5e-4). So the genetic code's near-maximal mutation-hiding is NOT a box-structure artifact. Certificate: the two systems realize OPPOSITE achievable extremes of one functional (one maximizes local-perturbation visibility, one near-maximizes hiding) -- NOT isomorphism, NOT 64->21 biology, NOT high/low<->DNA/RNA."
+  },
+  {
+   "experiment_id": "bc_parry_usage_correspondence",
+   "claim_id": "bridge.window6_codon_q6.parry_measure_usage_correspondence",
+   "script_path": "tools/window_codon_bridge/experiments/run_bc_parry_usage_correspondence.py",
+   "status": "open",
+   "timeout_seconds": 600,
+   "note": "Window6 Parry golden-maximal-entropy measure (transfer op [[1,1],[1,0]], Perron phi) per-codon weight vs codon usage-frequency axis (d_perp) + optimal + tRNA, via Spearman/projection. COINCIDENCE: alignment weak (d_perp Spearman ~0.04) and fails both label-permutation (p~0.25) and Q6-automorphism (p~0.18) nulls. Parry measure canonical but does not correspond to codon usage."
+  },
+  {
+   "experiment_id": "bc_smith_normal_form_cokernel",
+   "claim_id": "bridge.window6_codon_q6.smith_normal_form_cokernel",
+   "script_path": "tools/window_codon_bridge/experiments/run_bc_smith_normal_form_cokernel.py",
+   "status": "open",
+   "timeout_seconds": 600,
+   "note": "Label-free algebraic invariant (group isomorphism). Window6 four-cell edge-flux matrix coker = Z/3 + Z/3450; codon Q6 adjacency coker = (Z/2)^10+(Z/6)^2+Z^20 (and H(3,4)/family-quotient candidates) -> NOT isomorphic -> refuted."
+  },
+  {
+   "experiment_id": "bc_three_rigidity_codon_graph",
+   "claim_id": "bridge.window6_codon_q6.three_rigidity_codon_graph",
+   "script_path": "tools/window_codon_bridge/experiments/run_bc_three_rigidity_codon_graph.py",
+   "status": "open",
+   "timeout_seconds": 600,
+   "note": "Window6 type-quotient (21 nodes, 93 edges) vs codon family-quotient (21 nodes, 85 edges). Share only GENERIC invariants (node count, diameter 3, WL-discrete, trivial Aut, null_p~0.55); differ on edge count, degree sequence, distance distribution, spectral moments, char-poly -> refuted (not rigidity-equivalent)."
+  },
+  {
+   "experiment_id": "bc10_mod3_flux_frame_obstruction",
+   "claim_id": "bridge.window6_codon_q6.mod3_flux_frame_obstruction",
+   "script_path": "tools/window_codon_bridge/experiments/run_bc10_mod3_flux_frame_obstruction.py",
+   "status": "open",
+   "timeout_seconds": 600,
+   "note": "Z3-Hodge cohomology. Both Window6 edge-flux and codon reading-frame/f3 have NONZERO mod-3 cohomology class + compatible cycle integrals, but codon harmonic fraction T3 not extreme vs frame-destroying/wobble/family nulls (p~0.4-0.57) -> coincidence (obstruction-level similarity, not certified)."
+  },
+  {
+   "experiment_id": "bc11_partition_quotient_wobble_foldbin",
+   "claim_id": "bridge.window6_codon_q6.partition_quotient_wobble_foldbin",
+   "script_path": "tools/window_codon_bridge/experiments/run_bc11_partition_quotient_wobble_foldbin.py",
+   "status": "open",
+   "timeout_seconds": 600,
+   "note": "Partition-lattice signature (meet/join, VI, equitable defect, boundary profile, quotient SNF), label-free, no block-count. Window fold/zyl pair VI=5.75 (near-independent) vs codon box/family pair VI=0.82 (near-nested) -> partition geometries structurally different -> coincidence."
+  },
+  {
+   "experiment_id": "bc13_green_spectral_codon_q_spectra",
+   "claim_id": "bridge.window6_codon_q6.green_spectral_codon_q_spectra",
+   "script_path": "tools/window_codon_bridge/experiments/run_bc13_green_spectral_codon_q_spectra.py",
+   "status": "open",
+   "timeout_seconds": 600,
+   "note": "Window6 Green/resolvent = 4-state reversible Markov spectrum (alpha readout ignored as needs-external); codon q1/q3/q4 = 21-family quotient coface-affinity spectra. Dimension/spectral-density/gap/moment profiles incompatible vs null -> refuted (sharp spectral, distinct from BC2 scalar)."
+  },
+  {
+   "experiment_id": "bc_meta_edge_exhaustion_certificate",
+   "claim_id": "bridge.window6_codon_q6.edge_exhaustion_meta_certificate",
+   "script_path": "tools/window_codon_bridge/experiments/run_bc_meta_edge_exhaustion_certificate.py",
+   "status": "open",
+   "timeout_seconds": 600,
+   "note": "CAPSTONE CERTIFIED. Edge-exhaustion meta-certificate: tau_W=0, tau_C=0.958; residual battery (spectral/Parry/SNF/mod3/partition/rigidity) conditionally independent given e_in/tau (A_res=0.117, p_res=0.43, all BH q non-sig); mechanism polarization A_W_sep=0 (isotropic) vs A_C_hid=0.891 (anisotropic), joint_p=0.0038; strict C-1 profile-duality REFUTED (delta_prof=0.33, p_prof=1.0). The whole Window6<->codon structural signal is exhausted by the single local-edge-hiding functional."
+  },
+  {
+   "experiment_id": "bcd_fourcell_selection_enrichment",
+   "claim_id": "bridge.window6_codon_q6.fourcell_selection_enrichment",
+   "script_path": "tools/window_codon_bridge/experiments/run_bcd_fourcell_selection_enrichment.py",
+   "status": "open",
+   "timeout_seconds": 600,
+   "note": "DATA basic-match vs real per-codon 4D selection vectors (codon_q6_selection_vectors.json). Window6 4-cell partition (27/22/9/6): MANOVA R2_cell=0.033; p_size_preserving=0.74, p_gc_conservative=0.21 -> REFUTED (explains no more selection variance than random same-size partitions; not a real codon stratification)."
+  },
+  {
+   "experiment_id": "genetic_code_fold_cert",
+   "claim_id": "bridge.genetic_code.fold_structure_64_16_25_21",
+   "script_path": "tools/window_codon_bridge/experiments/run_genetic_code_fold_cert.py",
+   "status": "open",
+   "timeout_seconds": 600,
+   "note": "Exact enumeration of NCBI standard code: fold chain [64,16,25,21], box decomp [8,7,1], degeneracy spectrum 1^2,2^9,3^2,4^5,6^3, 4 cross-box merges (Leu/Ser/Arg/Stop). HARD structural fact (certified). Golden/Zeckendorf/ratio parts flagged non-forcing in honesty field."
+  },
+  {
+   "experiment_id": "neutral_adjacency_cert",
+   "claim_id": "bridge.genetic_code.neutral_hamming_adjacency",
+   "script_path": "tools/window_codon_bridge/experiments/run_neutral_adjacency_cert.py",
+   "status": "open",
+   "timeout_seconds": 600,
+   "note": "Exact: histogram 0:2,1:22,2:8,3:28,4:4 -> 28/22/8/6 (certified hard fact). Tested Ti/Tv, wobble, sense-only, tRNA weightings: best (sense-only) gives [28,20,7,9], none reaches 27/22/9/6 -> the near-match to physics is NOT bridged by a natural weighting (honest)."
+  },
+  {
+   "experiment_id": "codon_usage_projection_cert",
+   "claim_id": "bridge.genetic_code.fold_order_parameter_usage",
+   "script_path": "tools/window_codon_bridge/experiments/run_codon_usage_projection_cert.py",
+   "status": "open",
+   "timeout_seconds": 600,
+   "note": "REAL DATA (29 organisms, per-gene codon_counts). m_bio vs GC3 corr=0.97; GC-controlled residual null_p=0.43, non_gc_residual_signal=False -> m_bio is a GC3 PROXY, no independent fold signal -> coincidence."
+  },
+  {
+   "experiment_id": "claim20_neutral_trna_edge_coupling",
+   "claim_id": "bridge.genetic_code.neutral_trna_edge_coupling",
+   "script_path": "tools/window_codon_bridge/experiments/run_claim20_neutral_trna_edge_coupling.py",
+   "status": "open",
+   "timeout_seconds": 600,
+   "note": "REAL DATA (29 organisms, 725 genes, 30799 gene-edge obs). Tests if Window6 edge score H modulates tRNA-usage synonymous-edge coupling (interaction beta_bridge). FIRST PASS with GLOBAL tRNA proxy -> T and T*H are constant per edge -> ABSORBED by edge fixed effect (strict_edge_fe norms=0) -> DEGENERATE, cannot estimate the interaction. beta_bridge~0.0017, CV fails (median dLL=-2.34, 0% folds), Null1 p=0.17, Null2 p=0.26 -> coincidence. NOTE: proper test REQUIRES per-species tRNA (GtRNAdb) so T_{s,e} varies across species and is not absorbed by edge FE."
+  },
+  {
+   "experiment_id": "claim20_per_species_trna_edge_coupling",
+   "claim_id": "bridge.genetic_code.neutral_trna_edge_coupling",
+   "script_path": "tools/window_codon_bridge/experiments/run_claim20_per_species_trna_edge_coupling.py",
+   "status": "coincidence",
+   "timeout_seconds": 3600,
+   "note": "AUTHORITATIVE per-species version (fixes first-pass degeneracy). Fetched GtRNAdb tRNA for 29/29 species; strict_edge_fe_TH_norm=55.5 (interaction now estimable). beta_T=0.73 (real tRNA-adaptation) but beta_bridge=0.031 fails CV (median dLL=-1.58, 26% folds) + Null1 p=0.089 + Null2 p=0.69 + Null3 p=0.90 -> coincidence. The certified Window6 edge score does NOT modulate real per-organism tRNA-usage coupling."
+  },
+  {
+   "experiment_id": "twolayer_fold_extremality",
+   "claim_id": "bridge.genetic_code.twolayer_fold_edge_hiding_extremality",
+   "script_path": "tools/window_codon_bridge/experiments/run_twolayer_fold_extremality.py",
+   "status": "open",
+   "timeout_seconds": 600,
+   "note": "CERTIFIED. Edge-hiding contravariant extremality ITERATES across the two-layer fold. Box layer (64->16 first-two-base): e_in=96=e_max EXACT (each box=K4=6, max for size-4x16) -> tau_box=1.0, null p=2.5e-4. Family layer (BC7): e_in=69, tau_family=0.958, null p=2.5e-4. Both in extreme upper tail. Window6 contrast: Fold6 e_in=0, tau=0 (opposite extreme). Statement restricted to iteration of edge-hiding extremes; no isomorphism/biological-forcing."
+  },
+  {
+   "experiment_id": "bc15_foldlayer_zigzag_extremality",
+   "claim_id": "bridge.genetic_code.foldlayer_zigzag_extremality",
+   "script_path": "tools/window_codon_bridge/experiments/run_bc15_foldlayer_zigzag_extremality.py",
+   "status": "open",
+   "timeout_seconds": 600,
+   "note": "Finite label-free zig-zag edge-hiding certificate on B <- M=B meet F -> F. The first-two-base box layer and the box-family fragment layer are exact edge-hiding endpoints; the family layer is near-maximal with a small deficit. Scope excludes monotone tower, isomorphism, biological forcing, and live-usage claims."
+  },
+  {
+   "experiment_id": "bc1617_halfbox_fibonacci_tower",
+   "claim_id": "bridge.genetic_code.halfbox_fibonacci_tower",
+   "script_path": "tools/window_codon_bridge/experiments/run_bc1617_halfbox_fibonacci_tower.py",
+   "status": "open",
+   "timeout_seconds": 600,
+   "note": "Audits exact halfbox and family-meet edge-hiding endpoint facts, then tests whether 13/21/34/55 forms a strict naturally generated Fibonacci tower rather than cherry-picked numerology."
+  },
+  {
+   "experiment_id": "window_fold_tower_extremality",
+   "claim_id": "bridge.window6.fold_tower_separating_extremality",
+   "script_path": "tools/window_codon_bridge/experiments/run_window_fold_tower_extremality.py",
+   "status": "open",
+   "timeout_seconds": 600,
+   "note": "Tests cross-width Window fold-tower edge-separating extremality under the value-window convention that reproduces the Window6 certificate."
+  },
+  {
+   "experiment_id": "edge_defect_axis_cert",
+   "claim_id": "bridge.genetic_code.edge_defect_axis_cert",
+   "script_path": "tools/window_codon_bridge/experiments/run_edge_defect_axis_cert.py",
+   "status": "open",
+   "timeout_seconds": 600,
+   "note": "Enumerates the standard-code internal synonymous Hamming-1 edge deficit by family, verifies whether the whole 72-69 deficit is Stop:1 plus Ser:2, constructs SerSplitDefect and sense family-defect vectors, and tests their projection onto delivered codon-Q6 selection axes. If no independent d_resid4 axis is present, the in-packet optimal residual is reported only as a candidate."
+  },
+  {
+   "experiment_id": "edge_defect_projection_harness",
+   "claim_id": "bridge.genetic_code.edge_defect_projection_harness",
+   "script_path": "tools/window_codon_bridge/experiments/run_edge_defect_projection_harness.py",
+   "status": "open",
+   "timeout_seconds": 600,
+   "note": "Local audit harness for oracle-proposed edge-defect axes. It constructs SerSplit, forbidden controls, residualization, within-Ser exact null, sixfold-family exact null, and matched-support null. It certifies only harness behavior, not a biological SerSplit axis."
+  },
+  {
+   "experiment_id": "ser_island_fidelity_cost",
+   "claim_id": "bridge.genetic_code.ser_island_fidelity_cost",
+   "script_path": "tools/window_codon_bridge/experiments/run_ser_island_fidelity_cost.py",
+   "status": "coincidence",
+   "timeout_seconds": 600,
+   "note": "Ser UCN has higher mean visible near-cognate cost than AGY in the deterministic amino-acid-property audit, but the delta is not exceptional under matched random codon partitions and is comparable to other sixfold-family four-versus-two splits; this remains a mechanistic candidate rather than a certificate."
+  },
+  {
+   "experiment_id": "synthetic_negative_control_axis_pack",
+   "claim_id": "bridge.genetic_code.synthetic.negative.control.axis.pack",
+   "script_path": "tools/window_codon_bridge/experiments/run_synthetic_negative_control_axis_pack.py",
+   "status": "open",
+   "timeout_seconds": 600,
+   "note": "the forbidden-control matrix makes the SerSplit contrast non-testable, so this negative-control pack cannot audit projection selectivity"
+  },
+  {
+   "experiment_id": "sersplit_edge_defect_nonestimability_certificate",
+   "claim_id": "bridge.genetic_code.sersplit.edge_defect.nonestimability.certificate",
+   "script_path": "tools/window_codon_bridge/experiments/run_sersplit_edge_defect_nonestimability_certificate.py",
+   "status": "open",
+   "timeout_seconds": 600,
+   "note": "exact rational proof the Ser-split edge-defect contrast lies in span(registered forbidden controls), verified against actual registered z-scored columns; non-estimable -> certified bounding negative. within-Ser subspace NOT fully absorbed (permutation null non-degenerate)."
+  },
+  {
+   "experiment_id": "foldboundary_residual_exhaustion_certificate",
+   "claim_id": "bridge.genetic_code.foldboundary.residual.exhaustion.certificate",
+   "script_path": "tools/window_codon_bridge/experiments/run_foldboundary_residual_exhaustion_certificate.py",
+   "status": "open",
+   "timeout_seconds": 600,
+   "note": "exhaustion extension: the q6-label-free fold-boundary subspaces box-split-type, degeneracy-class, fold-layer are all exactly absorbed (residual rank 0) by the registered composition control frame; window6_4cell is q6-correspondence-derived and barred (survival expected, not forcing)."
+  },
+  {
+   "experiment_id": "box_partition_composition_collapse_certificate",
+   "claim_id": "bridge.genetic_code.box_partition.composition_collapse.certificate",
+   "script_path": "tools/window_codon_bridge/experiments/run_box_partition_composition_collapse_certificate.py",
+   "status": "open",
+   "timeout_seconds": 600,
+   "note": "exact rational proof: Ser/Leu/Arg 4-vs-2 within-amino-acid branch splits all lie in span(registered C); full mean-zero 16-box partition has exact residual rank 0 -> the 64->16 box partition is composition (absorbed)."
+  },
+  {
+   "experiment_id": "forcing_direction_closure_metacertificate",
+   "claim_id": "bridge.window6_codon_q6.forcing_direction_closure.metacertificate",
+   "script_path": "tools/window_codon_bridge/experiments/run_forcing_direction_closure_metacertificate.py",
+   "status": "open",
+   "timeout_seconds": 600,
+   "note": "consolidation meta-certificate: full label-free fold-boundary battery (box+degeneracy+fold-layer+Ser/Leu/Arg 4/2) union exactly in span(C) (rank 29 unchanged); window6_4cell q6-derived barred; math->bio forcing closed-as-not-supported under current frame with falsifiable reopening condition."
+  },
+  {
+   "experiment_id": "h3_higherorder_complement_stresstest",
+   "claim_id": "bridge.genetic_code.h3_higherorder.complement_stresstest",
+   "script_path": "tools/window_codon_bridge/experiments/run_h3_higherorder_complement_stresstest.py",
+   "status": "open",
+   "timeout_seconds": 600,
+   "note": "stress-test of the composition-exhaustion closure: claim 'closure extends to the higher-order H3 class' is REFUTED (h3_residual_rank 26/27 outside span(C)) -> higher-order three-position chemistry survives; delimitation, NOT a forcing reopening (no Window6-necessitation / frozen null)."
+  },
+  {
+   "experiment_id": "fibcube_embedding_conventionrobust_test",
+   "claim_id": "bridge.window6_codon_q6.fibcube_embedding.conventionrobust_test",
+   "script_path": "tools/window_codon_bridge/experiments/run_fibcube_embedding_conventionrobust_test.py",
+   "status": "open",
+   "timeout_seconds": 900,
+   "note": "reopening attempt (non-q6 embedding): tests if the Fibonacci-cube vertex set S (21 no-adjacent-1 6-bit words) is a convention-robust code-structure outlier across all 17280 base/bit conventions. Result needs_derivation: NO signal (q6_class_outlier False, nonq6 outlier fraction 0.047 << 0.5 threshold) -> the Gamma6->Q6 isometric-inclusion route yields no forcing; route exhausted on the pre-declared battery (not an exhaustive impossibility)."
+  },
+  {
+   "experiment_id": "fibcube_codonfamily_graphiso_test",
+   "claim_id": "bridge.window6_codon_q6.fibcube_codonfamily_graphiso_test",
+   "script_path": "tools/window_codon_bridge/experiments/run_fibcube_codonfamily_graphiso_test.py",
+   "status": "open",
+   "timeout_seconds": 300,
+   "note": "convention-free reopening route: Gamma_6 (21V/38E) vs codon-family adjacency graph (21V/85E incl Stop; 20V/75E excl Stop). REFUTED by necessary graph-iso invariants (edge count 38!=85) under all family-graph definitions -> not isomorphic; 21<->21 is graph-level coincidence."
+  },
+  {
+   "experiment_id": "codon_synfiber_quotient_extremality",
+   "claim_id": "bridge.genetic_code.synfiber_quotient.extremality",
+   "script_path": "tools/window_codon_bridge/experiments/run_codon_synfiber_quotient_extremality.py",
+   "status": "open",
+   "timeout_seconds": 900,
+   "note": "factory 2nd instance: is the genetic code's degeneracy ASSIGNMENT extremal (equitability) on Q6 among size-matched partitions? COINCIDENCE: extreme under weak size-only null (p=4e-5) but REDUCIBLE -- p=0.496 under box/wobble-preserving null -> the equitability is the already-certified box/wobble composition, not independent forcing."
+  },
+  {
+   "experiment_id": "square_motif_residual_extremality",
+   "claim_id": "bridge.genetic_code.square_motif_residual.extremality",
+   "script_path": "tools/window_codon_bridge/experiments/run_square_motif_residual_extremality.py",
+   "status": "open",
+   "timeout_seconds": 900,
+   "note": "oracle-planned non-reducible frontier (factory 3rd instance). Cross-box square 2-face motif residual under conditioned null Omega_BW,E (conditions out e_in+box/wobble+edge-margins; 162468 states, exact enumeration). COINCIDENCE: prerequisite passed (null non-trivial, residual variance real) but code not extremal (omnibus T=2.54, p=0.246) -> 2-face/diagonal-recurrence structure carries no independent forcing beyond what's conditioned out; closure deepens."
+  },
+  {
+   "experiment_id": "bypass_conductance_extremality",
+   "claim_id": "bridge.genetic_code.bypass_conductance.extremality",
+   "script_path": "tools/window_codon_bridge/experiments/run_bypass_conductance_extremality.py",
+   "status": "open",
+   "timeout_seconds": 900,
+   "note": "oracle Route 3 (strongest global complement). External bypass conductance between disconnected fiber components (ambient placement edges/2-faces miss), component-conditioned null (conditions out e_in+box/wobble+edge+boundary-degrees+component-structure; 162468 states exact). COINCIDENCE: both prerequisite gates pass (nonzero variance + multi-orbit) but code typical (T=10.31, p=0.202); not tailored to Ser/Stop. Closure now confirmed across edges/2-faces/global-conductance."
+  },
+  {
+   "experiment_id": "quotient_spanningtree_extremality",
+   "claim_id": "bridge.genetic_code.quotient_spanningtree.extremality",
+   "script_path": "tools/window_codon_bridge/experiments/run_quotient_spanningtree_extremality.py",
+   "status": "open",
+   "timeout_seconds": 900,
+   "note": "oracle Route 3-of-3 (spanning-tree compression, flagged weakest). Quotient multigraph weighted spanning-tree count tau (exact Bareiss, =2.5e20), T_chan=-log tau, boundary-degree-conditioned null (162468 exact). COINCIDENCE: both gates pass but code typical (borderline p=0.0647, > cert threshold 0.01). Completes the 3-route oracle sweep -- ALL coincidence."
+  },
+  {
+   "experiment_id": "code_edge_hiding_optimality",
+   "claim_id": "bridge.genetic_code.edge_hiding_optimality",
+   "script_path": "tools/window_codon_bridge/experiments/run_code_edge_hiding_optimality.py",
+   "status": "open",
+   "timeout_seconds": 900,
+   "note": "e_in (BC7's certified functional) extremality vs the natural degeneracy-matched code null. Standard code e_in=67 sense/69 all vs Omega_deg mean 12.4 (max 30), z=17, p_hide=0.0. CERTIFIED: the code's codon ASSIGNMENT is edge-hiding-optimal among degeneracy-matched codes -- connects the bridge's lone certified positive (e_in) to the classic genetic-code error-minimization optimality. Confirmation+connection of BC7 vs a natural null, NOT a new independent functional. Structural foundation of the relayed DMS-robustness mediation test."
+  },
+  {
+   "experiment_id": "codon_v4cubed_eigenspace_canonicity",
+   "claim_id": "bridge.genetic_code.codon_v4cubed_eigenspace.canonicity",
+   "script_path": "tools/window_codon_bridge/experiments/run_codon_v4cubed_eigenspace_canonicity.py",
+   "status": "open",
+   "timeout_seconds": 300,
+   "note": "foundation of the new spectral direction. Codon space = V4^3 via chemical characters chi_R/chi_W/chi_K (Klein-four, chi_R*chi_W*chi_K=-1); R^64 = H(3,4) Krawtchouk eigenspaces E0+E1+E2+E3 (dims 1/9/27/27, eigenvalues 9/5/1/-3); the bridge H3 = E3 = canonical lambda=-3 highest-frequency eigenspace (exact ranks). CERTIFIED. Upgrades H3 arbitrary->canonical; opens number-theory entry (association scheme/Krawtchouk)."
+  },
+  {
+   "experiment_id": "altcode_edge_hiding_tau",
+   "claim_id": "bridge.genetic_code.altcode_edge_hiding.tau_conservation",
+   "script_path": "tools/window_codon_bridge/experiments/run_altcode_edge_hiding_tau.py",
+   "status": "open",
+   "timeout_seconds": 600,
+   "note": "edge-hiding CONSERVED across the 27 NCBI genetic codes. Natural codes' synonymous Hamming-1 edge-hiding is systematically far above degeneracy-matched random (all 27 per-code profile-matched-null p at the 1/(20001) MC floor; min null_z=15.4) and survives a 9-cluster phylogenetic bootstrap (p=5e-5). |R|=13 reproduced. CERTIFIED (conservation; NO global-maximality claim -- broken-optimizer e_max/tau dropped after review)."
+  },
+  {
+   "experiment_id": "bstar_q6_e3_spectral_concentration",
+   "claim_id": "bridge.genetic_code.bstar_q6_e3_spectral_concentration",
+   "script_path": "tools/window_codon_bridge/experiments/run_bstar_q6_e3_spectral_concentration.py",
+   "status": "closed",
+   "timeout_seconds": 600,
+   "note": "REFUTED. Tests whether bio's B*_Q6 translation-residual basis (9 within-synonymous zero-sum contrasts) concentrates in E3 = canonical lambda=-3 Krawtchouk eigenspace of H(3,4). T3=0.401 vs matched-synonymous null mean 0.528 (z=-5.6, lower_p=5e-5; secondary all-family null 0.531). B*_Q6 is ANTI-concentrated in E3 (lives more in E1/E2). Projectors exact (dims [1,9,27,27], sumP=I max_abs 0); null faithful (support+per-fiber-zero-sum+norm preserved); adversarially verified (no E2<->E3 swap, fair null). H3=E3 does NOT host/force the translation residual."
+  },
+  {
+   "experiment_id": "bstar_q6_eigenspace_concentration_profile",
+   "claim_id": "bridge.genetic_code.bstar_q6_eigenspace_concentration_profile",
+   "script_path": "tools/window_codon_bridge/experiments/run_bstar_q6_eigenspace_concentration_profile.py",
+   "status": "open",
+   "timeout_seconds": 600,
+   "note": "CERTIFIED (scoped spectral-localization). Pre-registered Bonferroni (alpha 0.001/3 over E1,E2,E3) per-eigenspace excess of bio's B*_Q6 residual basis vs the matched-synonymous null. E1 (lambda=5, first-order/single-position, dim 9): excess +0.102, z=+7.94, p=5e-5 -> CONCENTRATED. E3 (lambda=-3): depleted (re-confirms the prior refutation). E2 (lambda=1): not significant (p=0.057). Adversarially verified: E1 label correct (rank 9), null fair + reaches E1 on cross-box support, excess survives leave-one-out of f3_stress (above all 5000 null draws), E3 deficit matches the landed refutation exactly."
+  },
+  {
+   "experiment_id": "bstar_q6_first_order_position_character",
+   "claim_id": "bridge.genetic_code.bstar_q6_first_order_position_character",
+   "script_path": "tools/window_codon_bridge/experiments/run_bstar_q6_first_order_position_character.py",
+   "status": "open",
+   "timeout_seconds": 600,
+   "note": "CERTIFIED. Decomposes the certified E1 (lambda=5 first-order) concentration of B*_Q6 into 9 single-position chemical-character components (3 codon positions x chi_R/chi_W/chi_K), vs the matched-synonymous null, Bonferroni alpha 0.001/6 over 3 positions + 3 characters. Significant excess carriers: position3/wobble (z=8.76, dominant), position1 (z=4.53, from cross-box contrasts), chi_W weak/strong (z=10.05, dominant), chi_R purine/pyrimidine (z=3.47). NOT significant: position2, chi_K keto/amino. Dominant single component p3_W (third-position weak/strong). E1-basis exact (sum e e^T = P_E1, max_abs 0; orthonormal rank 9); adversarially verified (apples-to-apples null, 3rd-position excess genuine not artifact)."
+  },
+  {
+   "experiment_id": "codon_e1_heldout_crossorganism_gate",
+   "claim_id": "bridge.genetic_code.codon_e1_heldout_crossorganism_conservation",
+   "script_path": "tools/window_codon_bridge/experiments/run_codon_e1_heldout_crossorganism_gate.py",
+   "status": "open",
+   "timeout_seconds": 900,
+   "note": "CERTIFIED held-out cross-organism gate (oracle frozen spec). Across 29 organisms / 18 genera (public NCBI codon counts, synced/codon_e1_heldout_panel.json), each organism's synonymous codon-usage residual d_resid4 puts T_heldout=0.571 of its norm^2 in the 6-dim codon-E1 subspace B1, vs matched-synonymous-relabel null mean 0.137 (z=8.75, one-sided p=5e-5; = chance projection onto 6 of 41 dims, independently confirmed 6/41=0.146), cluster-bootstrap (18 genera) lower-95% excess 0.352>0. Both gate conditions met. Clears the 26/41 chance-projection trap. Adversarially verified (null = fair chance baseline, B1 rank-6 exact, no trivial alignment, panel clean). Scoped: conserved codon-E1 component of d_resid4; NOT Window6; mostly-bacteria panel."
+  },
+  {
+   "experiment_id": "window6_codon_e1_intertwiner_impossibility",
+   "claim_id": "bridge.window6_codon_q6.intertwiner_impossibility",
+   "script_path": "tools/window_codon_bridge/experiments/run_window6_codon_e1_intertwiner_impossibility.py",
+   "status": "closed",
+   "timeout_seconds": 300,
+   "note": "CERTIFIED impossibility. No nonzero intertwiner J:R^21->R^64 with A_H(3,4) J = J A_Gamma6 (Sylvester has nonzero solution iff shared eigenvalue). Gamma6 (Fibonacci cube, 21V/38E) char-poly evaluated at H(3,4) eigenvalues {9,5,1,-3} is nonzero everywhere (det(A-I)=144, det(A+3I)=-1.307e8, etc.; spectral radius 3.9); poly-gcd=1. So codon E1 (and every codon eigenspace) is provably NOT a Window6 adjacency-spectral image/quotient -> formally closes the Window6-spectral-order path. Independently cross-verified (worker char-poly + orchestrator Bareiss integer det, matching to the digit)."
+  },
+  {
+   "experiment_id": "codon_e1_sense_restriction_kernel",
+   "claim_id": "bridge.genetic_code.codon_e1_sense_restriction_positional_rank",
+   "script_path": "tools/window_codon_bridge/experiments/run_codon_e1_sense_restriction_kernel.py",
+   "status": "closed",
+   "timeout_seconds": 300,
+   "note": "CERTIFIED pure-math sharpening of the codon-E1 results. The sense-restricted synonymous-centered map M=Q_syn R U1 (U1 = 9-dim first-order E1 character basis) has rank 6, kernel = span{e_{1,R}-e_{1,W}+e_{1,K}, e_{2,W}, e_{2,R}-e_{2,K}} (dim 3). Positional ranks (2,1,3) -- wobble position 3 retains all 3 first-order dof. Character ranks R=3, W=2, K=3 -> K-family keeps FULL rank 3, so the empirical chi_K non-enrichment in the E1-localization result is NOT a dimensional artifact. Independently cross-verified (worker + orchestrator exact-Fraction recompute, matching)."
+  },
+  {
+   "experiment_id": "dms_codon_escape_conditional_logit",
+   "claim_id": "bridge.genetic_code.dms_codon_escape_conditional_allocation",
+   "script_path": "tools/window_codon_bridge/experiments/run_dms_codon_escape_conditional_logit.py",
+   "status": "closed",
+   "timeout_seconds": 600,
+   "note": "COINCIDENCE (adversarially-verified TRUE null). Flagship functional test of BC7 edge-hiding via public ProteinGym DMS + UniProt/ENA native CDS (frozen panel synced/dms_codon_escape_panel.json: 144 assays, 119 proteins, 27 organisms, 6307 Leu/Arg/Ser sites). Oracle's VALID conditional codon-choice logit (not the invalid permutation null): does site intolerance favor high synonymous-escape-degree codons BEYOND codon composition + optimality? beta_h=0.015, Wald p=0.31, cluster-bootstrap lower-95<0; h identifiable (collinearity h-comp 0.35); POSITIVE CONTROL beta_RSCU=0.068 p=0.016 significant -> model works, h-null is real + well-powered. CONCLUSION: edge-hiding has NO detected functional codon-allocation signal in DMS fitness data beyond composition/optimality; organisms bias codons at intolerant sites toward OPTIMAL (not high-escape) codons. tAI/decoding-accuracy + dinucleotide/dMFE are documented sensitivity extensions (not expected to revive a null marginal)."
+  },
+  {
+   "experiment_id": "codon_e1_transport_gate",
+   "claim_id": "bridge.genetic_code.codon_e1_conservation_transportability",
+   "script_path": "tools/window_codon_bridge/experiments/run_codon_e1_transport_gate.py",
+   "status": "open",
+   "timeout_seconds": 600,
+   "note": "CERTIFIED transportability. Extends #18 (codon-E1 conservation across 29 bacteria) to archaea + eukaryotes as SEPARATE strata (Kazusa CUTG standard-code codon usage, frozen synced/codon_e1_transport_panel.json: 12 archaea + 14 eukaryotes, all genetic code table 1). Each domain's d_resid4 projected onto the #18 codon-E1 subspace B1 (rank 6) vs the matched-synonymous-relabel null. ARCHAEA: T=0.522 vs null 0.137 (z=9.6, p=5e-5, bootstrap-lo95 0.294>0) -> conserved. EUKARYOTA: T=0.515 vs null 0.140 (z=8.8, p=5e-5, bootstrap-lo95 0.270>0) -> conserved. Both independently pass; chance baseline 6/41=0.146. Adversarially verified (Kazusa counts live-matched to all 26 taxids, standard-code-only, fair null ~chance, same B1, separate strata). With #18 (bacteria T=0.571) -> codon-E1 first-order conservation holds across ALL 3 domains of life. NOT Window6, NOT causal."
+  },
+  {
+   "experiment_id": "translation_kernel_golden_impossibility",
+   "claim_id": "bridge.translation_kernel.golden_fibonacci_impossibility",
+   "script_path": "tools/window_codon_bridge/experiments/run_translation_kernel_golden_impossibility.py",
+   "status": "open",
+   "timeout_seconds": 600,
+   "note": "Closes bridge direction C (dynamical-kernel Fibonacci program). Certifies an impossibility: no biology-defined translation kernel K_theta can carry x^2-x-1 (root phi>1). Any column-(sub)stochastic decoding matrix P has rho(P)<=1<phi so x^2-x-1 cannot divide chi_P; any CTMC generator Q has eigenvalues with non-positive real part (and inverse-time units); the golden companion [[1,1],[1,0]] needs an unnormalized 2-state no-consecutive-state counting quotient biology does not supply. Oracle-derived spectral-radius argument + codex-implemented + orchestrator re-ran (status refuted, stdlib structural-bounds fallback since the env is numpy-free)."
+  },
+  {
+   "experiment_id": "edge_hiding_e1_orientation_same_signal",
+   "claim_id": "bridge.genetic_code.edge_hiding_e1_orientation_same_signal",
+   "script_path": "tools/window_codon_bridge/experiments/run_edge_hiding_e1_orientation_same_signal.py",
+   "status": "open",
+   "timeout_seconds": 1200,
+   "note": "Are the two certified positives (edge-hiding e_in / BC7 vs codon-E1 usage residual) the SAME signal? REFUTED -> operationally independent. Anti-tautology guard (oracle): tr(U1^T S_g U1)=(5/32)e_in EXACTLY for every code, so 'edge-hiding has E1 mass' is algebraically guaranteed; deflate it (C_g=U1^T S_g U1-(5 e_in/288)I; B_g=P C_g P-(tr/6)P, rank-6 P=L^+L) and test orientation alignment T_same=tr[Sigma_bio B_g^2/tr(B_g^2)] vs the EXACT Omega_{BW,E,d,comp} null (162468 states, conditions out e_in+box/wobble+edge-margins+boundary-degrees+component-structure). Per domain: bacteria p=0.984/lo95 -0.024, archaea p=0.677/lo95 -0.014, eukaryota p=0.443/lo95 -0.023 -> no exceptional alignment in any domain. |R|=13 support excluded (design-induced). Identity sanity check passed (10.46875). Adversarially verified, numpy-free."
+  },
+  {
+   "experiment_id": "codon_e1_frameshift_mpra_tcausal",
+   "claim_id": "bridge.genetic_code.codon_e1_frameshift_mpra_translation_dependent_function",
+   "script_path": "tools/window_codon_bridge/experiments/run_codon_e1_frameshift_mpra_tcausal.py",
+   "status": "open",
+   "timeout_seconds": 1800,
+   "note": "Functional test of the certified codon-E1 positive: does codon-E1 have a TRANSLATION-DEPENDENT effect on mRNA level? Bridge reran the Chen-2023 yeast 8x-dicodon MPRA pipeline from raw SRA (PRJNA974090; in-frame pHPSC1142 + -1 frameshift pHPSC1114; validated against known destabilizing dipeptides KK/RR/KW/proline + frameshift relief) -> per-codon-pair Delta_y=y_inframe-y_frameshift. v_star=leave-S.cerevisiae-out cross-domain codon-E1 consensus (54 orgs, non-circular); T_causal=residualized weighted corr vs within-syn 100k permutation null + CSC validity gate. RESULT coincidence: baseline |T|=0.154 (two-sided p=0.005, CI excludes 0) COLLAPSES to |T|=0.029 (p=0.61, CI includes 0) after GC3+dinucleotide controls -> apparent association is the GC/RNA-folding composition confound (frame-invariant, survives the frameshift subtraction), NOT a GC-orthogonal codon-E1 translation effect. CSC gate passed (p=0.001). sshx-adjudicated (caught the one-sided/sign-arbitrary + omitted-GC flaw, GC control was the decisive fix). codon-E1 stays a conserved usage GEOMETRY without a detected direct functional phenotype. Exact ViennaRNA-DeltaMFE + MAVE causal version relayed to bio."
+  },
+  {
+   "experiment_id": "fibonacci_tracka_wobble_vs_codon_e1",
+   "claim_id": "bridge.fibonacci_tracka.wobble_boundary_vs_codon_e1",
+   "script_path": "tools/window_codon_bridge/experiments/run_fibonacci_tracka_wobble_vs_codon_e1.py",
+   "status": "open",
+   "timeout_seconds": 900,
+   "note": "Bridge adjudication of fibonacci_reality's homeless Track-A codon-wobble-boundary-response (its math-only paper gates out Codon/Wobble vocab). Track-A reproduces as a REAL cross-organism bio signal (yeast delta_r2=0.020 null-pct 1.0 n=5785; human delta_r2=0.0047 null-pct 1.0 n=18974: wobble-decoding-required codons show a tRNA-supply boundary). Adjudicated vs the bridge's certified positives: NOT codon-E1 (rho_E1=0.183 vs null 0.104, p=0.11 -> not significantly concentrated), NOT edge-hiding (|R| overlap 3 codons = chance, p=0.91), and the Window6 connection is q6_circular (no non-circular forcing map). VERDICT needs_derivation: a distinct bio-internal codon/tRNA supply-boundary fact, housed by the bridge, that does not reduce to the bridge's positives and does not create a new Window6 link."
+  },
+  {
+   "experiment_id": "codon_e1_alternative_code_deformation",
+   "claim_id": "bridge.genetic_code.codon_e1_alternative_code_deformation",
+   "script_path": "tools/window_codon_bridge/experiments/run_codon_e1_alternative_code_deformation.py",
+   "status": "open",
+   "timeout_seconds": 600,
+   "note": "Alternative-code codon-E1 deformation test on NCBI accession-level table-assigned mitochondrial CDS (transl_table verified). Emits one JSON verdict line; certified/refuted/coincidence/needs_external. Not Window6 forcing."
+  },
+  {
+   "experiment_id": "codon_e1_trna_decoding_supply_orientation",
+   "claim_id": "bridge.genetic_code.codon_e1_trna_decoding_supply_orientation",
+   "script_path": "tools/window_codon_bridge/experiments/run_codon_e1_trna_decoding_supply_orientation.py",
+   "status": "open",
+   "timeout_seconds": 900,
+   "note": "E1-tRNA decoding-supply orientation test on RefSeq accession-level bacterial/archaeal CDS + GBFF-annotated tRNA anticodons. B1 reused (not refit). Verdict gated on full-residual positive control + B1-minus-p3W/GC3-collapse + restricted relabel null. Not Window6, not causal."
+  },
+  {
+   "experiment_id": "codon_e1_mutation_pressure_orientation",
+   "claim_id": "bridge.genetic_code.codon_e1_mutation_pressure_orientation",
+   "script_path": "tools/window_codon_bridge/experiments/run_codon_e1_mutation_pressure_orientation.py",
+   "status": "open",
+   "timeout_seconds": 900,
+   "note": "Mutation-pressure/GC-drift orientation vs frozen codon-E1 (Ruis clade SBS spectra + paired clade reference CDS). Primary endpoint GC-equilibrium-residualized + GC-stratified null. Mycobacterium-scoped (n=6). Not Window6, not causal."
+  },
+  {
+   "experiment_id": "codon_e1_expression_selection_orientation",
+   "claim_id": "bridge.genetic_code.codon_e1_expression_selection_orientation",
+   "script_path": "tools/window_codon_bridge/experiments/run_codon_e1_expression_selection_orientation.py",
+   "status": "refuted",
+   "timeout_seconds": 1200,
+   "note": "REQUIRES numpy (run via venv); NOT daemon-reproducible under numpy-free system python3 -- registered terminal (refuted) so the daemon does not execute it. PaxDB-v6/RefSeq expression-selection orientation vs frozen codon-E1, leave-one-genus-out + GC3/tRNA controls + matched null + positive control. Not Window6, not causal."
+  },
+  {
+   "experiment_id": "edge_hiding_alternative_code_reassignment",
+   "claim_id": "bridge.genetic_code.edge_hiding_alternative_code_reassignment",
+   "script_path": "tools/window_codon_bridge/experiments/run_edge_hiding_alternative_code_reassignment.py",
+   "status": "open",
+   "timeout_seconds": 600,
+   "note": "Path-level evolutionary edge-hiding test: natural alternative-code codon reassignments vs exact transition-matrix matched-permutation null on H(3,4). e_all primary (Stop as label), e_sense sensitivity; cluster-by-transition-matrix Stouffer combine; mito/nuclear sensitivity. Pure Python stdlib (daemon-runnable). Not causal, not a Window6 repetition; deepens the certified edge-hiding positive."
+  },
+  {
+   "experiment_id": "edge_hiding_reassignment_specificity",
+   "claim_id": "bridge.genetic_code.edge_hiding_reassignment_specificity",
+   "script_path": "tools/window_codon_bridge/experiments/run_edge_hiding_reassignment_specificity.py",
+   "status": "open",
+   "timeout_seconds": 900,
+   "note": "AAindex1-backed specificity control for the certified alternative-code edge-hiding path signal. WOEC730101 polar requirement primary + GRAR740102/GRAR740103/KYTJ820101 sensitivity; missense-only PR-stratified + omnibus physicochemical matched nulls inside exact transition-matrix clusters; B=200000 cluster-product MC; 4 gates. Pure Python stdlib (daemon-runnable). Tests reducibility to missense-only physicochemical conservation, NOT independence from identity-inclusive error-minimization. Not causal, not a Window6 repetition."
+  },
+  {
+   "experiment_id": "edge_hiding_nonmito_generalization",
+   "claim_id": "bridge.genetic_code.edge_hiding_nonmito_generalization",
+   "script_path": "tools/window_codon_bridge/experiments/run_edge_hiding_nonmito_generalization.py",
+   "status": "open",
+   "timeout_seconds": 900,
+   "note": "Shulgina-Eddy/Codetta non-mitochondrial reassignment stress test (5 events / 4 clusters), exact transition + outgroup codon-availability/GC matched null, support-gated with honest low-power scope. Pure Python stdlib (xlsx via zipfile+xml.etree). Verdict coincidence: edge-hiding does not generalize beyond mito under availability control. Not causal, not Window6."
+  },
+  {
+   "experiment_id": "tracka_exact_cognate_wobble_boundary",
+   "claim_id": "bridge.genetic_code.tracka_exact_cognate_wobble_boundary",
+   "script_path": "tools/window_codon_bridge/experiments/run_tracka_exact_cognate_wobble_boundary.py",
+   "status": "open",
+   "timeout_seconds": 1200,
+   "note": "Track-A discrete exact-cognate decoding-boundary test (RefSeq bacteria/archaea GBFF, 24 genera). Collinearity-gated (B_o-vs-S_o); per-genome family-centered OLS with smooth-supply/GC3/codon-E1/edge-hiding controls; within-family permutation null; W-sensitivity (main/exact-only/loose). Pure Python stdlib. Verdict refuted: boundary penalty does not generalize / is W-inconsistent. Not causal, not a codon-E1/edge-hiding/Window6 duplicate."
+  },
+  {
+   "experiment_id": "codon_e1_missense_error_cost_orientation",
+   "claim_id": "bridge.genetic_code.codon_e1_missense_error_cost_orientation",
+   "script_path": "tools/window_codon_bridge/experiments/run_codon_e1_missense_error_cost_orientation.py",
+   "status": "open",
+   "timeout_seconds": 1200,
+   "note": "Codon-E1 local missense-error-cost orientation test on a three-domain codon-usage panel (Bacteria/Archaea from the supply panel + Eukaryota from Kazusa CUTG). Pure-Python stdlib (numpy-free). Frozen standard-code rank-6 B1 reused not refit; AAindex1 PR (WOEC730101) main scale + Grantham/Kyte-Doolittle battery for max-null. Version-B GC/wobble/edge-orthogonalized certification; within-family cost-relabel nulls A/B/C; estimability gates + code-table error-min sanity + Stop-artifact gate. Not Window6, not causal."
+  },
+  {
+   "experiment_id": "codon_e1_known_force_union_irreducibility",
+   "claim_id": "bridge.genetic_code.codon_e1_known_force_union_irreducibility",
+   "script_path": "tools/window_codon_bridge/experiments/run_codon_e1_known_force_union_irreducibility.py",
+   "status": "open",
+   "timeout_seconds": 1200,
+   "note": "Codon-E1 known-force-union irreducibility on a three-domain-capable panel (Bacteria+Archaea certified scope via NCBI RefSeq GBFF tRNA+HEG+CDS; Eukaryota exploratory). Pure-Python stdlib (numpy-free). Frozen rank-6 B1 reused not refit; GC/mutation force = LOW-RANK neutral 4-fold-degenerate equilibrium gradient (must NOT include position-base one-hots that span B1); AAindex missense battery; precomputed per-organism projectors with matvec-only nulls. Studentized T_KFU + sign-free T_orient; Null A + force-fit-matched audited Null B + composition-preserving orientation null; estimability gates route absorption-collapse to needs_external. Not Window6, not causal."
+  },
+  {
+   "experiment_id": "codon_second_conserved_geometry",
+   "claim_id": "bridge.genetic_code.codon_second_conserved_geometry",
+   "script_path": "tools/window_codon_bridge/experiments/run_codon_second_conserved_geometry.py",
+   "status": "open",
+   "timeout_seconds": 1200,
+   "note": "Second cross-domain conserved geometry audit beyond the known-force union. Pure-Python stdlib (numpy-free). Reuses the E1_KFU three-domain panel + four-force union construction + frozen B1. Pre-specified second-order Krawtchouk candidate orthogonalized against B1 and the union; held-out Bacteria->Archaea cross-domain agreement; GC-preserving per-draw-refit relabel null; FWL completeness gate (GC higher moments folded into residualization). Verdict refuted: no detectable second geometry (power-bounded). Not Window6, not causal."
+  },
+  {
+   "experiment_id": "edge_hiding_boundary_mutational_predictor",
+   "claim_id": "bridge.genetic_code.edge_hiding_boundary_mutational_predictor",
+   "script_path": "tools/window_codon_bridge/experiments/run_edge_hiding_boundary_mutational_predictor.py",
+   "status": "open",
+   "timeout_seconds": 1200,
+   "note": "Mechanistic predictor of the edge-hiding mito/non-mito boundary. Pure-Python stdlib. Reuses the edge-hiding reassignment preservation functional + Shulgina-Eddy catalogue + 4-fold neutral GC/AT estimator. Single pre-registered predictor (GC/AT-equilibrium), mito label held out as covariate, within-stratum + out-of-taxon transfer, block-permutation null + sister control. Power-bounded by the small non-mito reassignment count (needs_external). Not Window6, not causal."
+  },
+  {
+   "experiment_id": "edge_hiding_mito_table_mutational_gradient",
+   "claim_id": "bridge.genetic_code.edge_hiding_mito_table_mutational_gradient",
+   "script_path": "tools/window_codon_bridge/experiments/run_edge_hiding_mito_table_mutational_gradient.py",
+   "status": "open",
+   "timeout_seconds": 1200,
+   "note": "Table-level AT-regime -> edge-hiding preservation gradient across organellar/alternative genetic codes. Pure-Python stdlib. Reuses the edge-hiding reassignment preservation functional + NCBI gc.prt code tables + 4-fold AT estimator. Single pre-registered predictor, reassignment-count control (partial correlation), table-level permutation null. Verdict refuted: edge-hiding preservation tracks reassignment count, not mutational regime; the two flagships do not unify. Not Window6, not causal."
+  },
+  {
+   "experiment_id": "asd_shadow_exclusion",
+   "claim_id": "bridge.genetic_code.asd_shadow_exclusion",
+   "script_path": "tools/window_codon_bridge/experiments/run_asd_shadow_exclusion.py",
+   "status": "open",
+   "timeout_seconds": 1800,
+   "note": "ASD-shadow exclusion (oracle frontier). Pure-Python stdlib. Carrier = organism's own 16S rRNA 3' anti-SD tail (independent of CDS); HEG-vs-matched-background synonymous-recoding depletion; decoy-rank null with composition + pairing-strength + heterologous foreign-16S decoys; Gate-N2 true-tail-vs-canonical necessity; k-mer precompute; GTDB block bootstrap; resumable cached NCBI fetch with backoff. Env knobs (ASD_TARGET_BACTERIA/ASD_ANALYSIS_ORGANISM_LIMIT/ASD_NULL_R/ASD_N_DECOYS/...) control panel + compute scale. Pilot (n=31) directionally anti-predicted (median_D=+0.95, decoy-rank=0.62) -> needs_external. Scoped to canonical-SD taxa; not causal. Not Window6."
+  },
+  {
+   "experiment_id": "rm_motif_escape",
+   "claim_id": "bridge.host_defense.rm_motif_escape_necessity",
+   "script_path": "tools/window_codon_bridge/experiments/run_rm_motif_escape.py",
+   "status": "done",
+   "timeout_seconds": 7200,
+   "note": "Full RM-motif-escape signal, Tier-B sensitivity arm. Carrier = Blow et al. 2016 (PLOS Genetics S4) SMRT methylome motifs mapped to NCBI assemblies (TIER-B per oracle: methylome/mutation-ecology, NOT active R/M; PRIMARY Tier-A1 REBASE-Genomes active-R+M scrape still pending). Target = Flinders PhiSpy bulk prophage coordinates (figshare 39664894, CC0; host Decision==Kept). Pure stdlib. Primary evidence = carrier-specific decoy rank (true host RM motifs vs RM_DECOY_K matched decoy carriers by length/degeneracy/palindrome), family-weighted, GTDB family-block bootstrap. Nulls A(3-mer shuffle)/B(coding-aware codon-class; fell back to A, 0% CDS overlap)/C(decoy). Negative controls NC1(same-host chromosome non-prophage windows), NC2(within-family cross-host target swap), NC3(orphan MTase). Env: RM_CARRIER_SOURCE=blow RM_TARGET_SOURCE=prophage RM_NULL_N RM_DECOY_K RM_HOST_LIMIT RM_FETCH_DEADLINE_SECONDS; NC2 cross-host swap is the n_hosts^2 cost bottleneck (use RM_HOST_LIMIT). RESULT (n_hosts=38, 30 families, NULL_N=80 DECOY_K=80, runtime~110min): robust carrier-specificity (median carrier_rank=0.038, 63%<=0.10, true median_D=-0.795 vs decoy -0.177, block-bootstrap p=5e-4) BUT both specificity guards fail -- NC1 host-chromosome also strongly depleted (-0.568, only 29% of avoidance prophage-specific) and NC2 cross-host swap retains/strengthens depletion (-1.031, NOT host-specific) -> avoidance is family-level genomic composition, not host-RM-escape. Consistent with oracle's Tier-B caveat. verdict=needs_external (exploratory; Tier-A1 active-R/M primary required to test the residual prophage-specific increment). WITHIN-HOST W-GATE (compute_within_host_w, RM_SKIP_NC2): turns NC1 chromosome into the denominator. n_hosts=38/30 families, NULL_N=40 DECOY_K=40, ~167min. gate=ambiguous_underpowered: median_E=-0.152897 (decoy-corrected within-host avoidance, just passes -0.15 -> weak prophage-specific residual survives chromosome differencing) but median_S=0.033072 (own-vs-same-family-cross FAILS -> not host-specific; n_hosts_S=15 underpowered). Decision: do NOT scrape Tier-A1 (host-specificity already fails within-host); residual is family-typical ecology not host-RM-escape. Cost is O(n_hosts*decoy*null*seqlen) param-independent of null counts -> vectorize/cache before any at-scale rerun."
+  },
+  {
+   "experiment_id": "cognate_anti_defense_enrichment",
+   "claim_id": "bridge.host_defense.cognate_anti_defense_enrichment",
+   "script_path": "tools/window_codon_bridge/experiments/run_cognate_anti_defense.py",
+   "status": "terminal",
+   "timeout_seconds": 7200,
+   "note": "Cognate anti-defense payload necessity (oracle Q2). NON-daemon terminal experiment: needs external binary hmmsearch (HMMER) and _q2ref/seed_family_mapping.tsv (dbAPIS cognate map) present at repo root; daemon never runs it (orchestrator-run, like the numpy-path precedent). Pure-stdlib fetch (PADS Arsenal CSV carrier + NCBI Flinders-prophage FAA/GFF target + dbAPIS.hmm), CDS-prophage overlap>=80%, hmmsearch --cut_ga|-E, cognate via seed_family_mapping, necessity null + non-cognate decoy + cross-host swap + chromosome control, 5-way verdict. Env: CAD_CLASSES/CAD_HOST_LIMIT/CAD_FETCH_DEADLINE_SECONDS/CAD_EVALUE/CAD_OVERLAP_MIN/CAD_BOOTSTRAP_N. Full 40-host run: verdict=data_gate_failed, n_matched_pairs=0 (resident-prophage cognate hits ~0 + PADS over-calls defense [4/5 classes 39+/1-] + only 7/31 GTDB families have >=2 hosts). Upgrade: DefenseFinder binary calls + larger denser host set + anti-defense-richer phage target. data_gate_failed != refuted; necessity claim untested."
+  },
+  {
+   "experiment_id": "cognate_anti_defense_virjendb",
+   "claim_id": "bridge.host_defense.cognate_anti_defense_virjendb",
+   "script_path": "tools/window_codon_bridge/experiments/run_cognate_anti_defense_virjendb.py",
+   "status": "terminal",
+   "timeout_seconds": 86400,
+   "note": "VirJenDB exact-host cognate anti-defense (oracle Q3 rescue). NON-daemon terminal experiment: needs a venv with DefenseFinder (mdmparis-defense-finder) + pyrodigal (CAD_DF_VENV), hmmsearch (HMMER), _q2ref/seed_family_mapping.tsv, and _q2ref/virjendb_sample.tsv host manifest. Pipeline: VirJenDB /v2/sequence (prophage nucleotides by vj id) -> pyrodigal proteins (target); NCBI FTP protein.faa.gz for GCA/GCF host assemblies (efetch for WGS contigs) -> DefenseFinder complete-system carrier; hmmsearch dbAPIS -> cognate via seed_family_mapping; oracle Y/N/D/S estimator + same-genus necessity / non-cognate decoy / cross-host swap / chromosome nulls + hard preflight power gate + 5-way verdict. Env CAD_HOST_LIMIT/CAD_CLASSES/CAD_DF_VENV/CAD_FETCH_DEADLINE_SECONDS/CAD_EVALUE/CAD_BOOTSTRAP_N/CAD_MANIFEST. Exploratory 150-host (n_ok=85) -> data_gate_failed: c+/c- structure exists (RM 64/21, BREX 5/80, GABIJA 13/72, THOERIS 8/77) but below the >=100/>=100 gate; cognate payload RM-only (non-RM 0 hits); median_D=+0.024, prophage>chromosome, median_S=0. Scale path: GCF-filtered manifest (cut 45% FTP attrition) + larger host set. data_gate_failed != refuted."
+  },
+  {
+   "experiment_id": "crispr_spacer_prophage_crypticness",
+   "claim_id": "bridge.host_defense.crispr_spacer_prophage_crypticness",
+   "script_path": "tools/window_codon_bridge/experiments/run_crispr_prophage_crypticness.py",
+   "status": "terminal",
+   "timeout_seconds": 86400,
+   "note": "CRISPR spacer-exposure -> prophage crypticness (oracle Q5, no anti-CRISPR DB). NON-daemon terminal experiment: needs CRISPRCasdb spacer_seqName.fsa (carrier, precomputed -- NO CCTyper, which is too fragile on macOS), the Flinders PhiSpy bulk (phispy_all_predictions.tsv.gz, CC_FLINDERS_BULK), NCBI efetch (host genome fna + CDS products), and the host_universe_contigs manifest (8,789 genomes with both spacer and Kept-prophage). Pipeline: spacer inverted index (header acc1+acc2+... per spacer) -> host spacer set; Flinders Kept prophage regions per host; NCBI genome -> prophage nt + CDS products; exposure E=exact>=28nt spacer match (both strands); 5-module CrypticScore/IntactLike; R/B within-host estimator (exposed vs matched same-host unexposed); N1-N5 nulls incl shuffled-spacer; hard preflight; 5-way verdict. Env CC_HOST_LIMIT/CC_FLINDERS_BULK/CC_FETCH_DEADLINE_SECONDS/CC_MIN_SPACER_MATCH/CC_BOOTSTRAP_N/CC_MANIFEST/CC_SPACER_FSA. 800-host run -> data_gate_failed: exposure real+artifact-free (404 events, N2 shuffled->0) but within-host design underpowered (only 32/786 hosts exposed, 32 matched <50 gate, Klebsiella 28.5% >20%). Scale path: full 8,789 universe or <=1-mismatch sensitivity. data_gate_failed != refuted. CLOSURE (CC_CLOSURE_MODE=1, full 8789-host universe, ~12h nohup): genus-capped estimand (10% per-genus weight cap, closure_preflight >=20 genera matched/>=10 genera >=3 matched, leave-one-genus-out sign stability, Klebsiella-excluded non-reversal). Cleared all closure gates (195213 events, 470 matched across 60 genera) -> verdict REFUTED (median_R=median_B=0, non-degenerate R spread -5..+5; weak anti-trend mean_R=-0.52). N5 self-target ratio 41.7 (CRISPR self-targeting genome-wide). Upgraded claim 72 data_gate_failed->refuted. Cached scratchpad/cc_closure_full.json."
+  },
+  {
+   "experiment_id": "crispr_spacer_known_acr",
+   "claim_id": "bridge.host_defense.crispr_spacer_known_acr_payload",
+   "script_path": "tools/window_codon_bridge/experiments/run_crispr_spacer_known_acr.py",
+   "status": "terminal",
+   "timeout_seconds": 86400,
+   "note": "CRISPR spacer-exposure -> known anti-CRISPR (AcrDB) cognate payload (oracle Q7, AcrHub-free). NON-daemon terminal experiment (needs diamond + NCBI + CRISPRCasdb ccpp_db subtype lookup + AcrDB 122 KnownAcr + Flinders bulk). Env CA_MANIFEST/CA_SPACER_FSA/CA_FLINDERS_BULK/CA_GCA_SUBTYPES/CA_ACR_FAA/CA_DIAMOND/CA_HOST_LIMIT/CA_FETCH_DEADLINE_SECONDS. carrier=(h,p,t) single-subtype host spacer+CRISPRCasdb subtype; payload=diamond blastp prophage proteins vs sanitized AcrDB 122 KnownAcr; cognate=Acr-family-header->subtype; Y/W/D/S genus-capped; N1-N6 (N6=subtype-label permutation); hard preflight (>=100 matched/>=25 known-Acr+/>=10 genera/no-genus>20%/>=2 subtypes/leave-one-out-stable); 5-way verdict. IMPORTANT: ensure_acr_diamond_db sanitizes the AcrDB FASTA before makedb (AcrDB seqs have embedded spaces that hang diamond makedb; commit a40111aeef). Full-universe run -> data_gate_failed (only 8 known-Acr-positive genera <10 gate; median_W=-0.167 non-supportive). data_gate_failed != refuted. Cached scratchpad/cc_q4acr_full.json."
+  },
+  {
+   "experiment_id": "alt_code_profile_edge_hiding",
+   "claim_id": "bridge.genetic_code.alt_code_profile_edge_hiding",
+   "script_path": "tools/window_codon_bridge/experiments/run_alt_code_profile_edge_hiding.py",
+   "status": "open",
+   "timeout_seconds": 600,
+   "note": "Profile-normalized alt-code edge-hiding. Pure-stdlib, no network (25 NCBI translation tables from tools/bio_reality/data/ncbi_genetic_codes.json). e_max via exact H(3,4) edge-isoperimetric profile bound beta={1:0,2:1,3:3,4:6,5:7,6:9,7:12,8:16}. Standard code e_in=69/e_max=72/tau=0.958. 5-way verdict certified/coincidence/refuted/needs_derivation/data_gate_failed."
+  },
+  {
+   "experiment_id": "h3_residual_specificity",
+   "claim_id": "bridge.genetic_code.h3_residual_specificity_d_resid4",
+   "script_path": "tools/window_codon_bridge/experiments/run_h3_residual_specificity.py",
+   "status": "terminal",
+   "timeout_seconds": 1800,
+   "note": "Corrected semipartial degree-split H3-specificity test for d_resid4. Pure-stdlib, no network, reuses bio_reality B*_Q6 residual extraction + fibonacci_reality CDS-abundance (12 organisms). --null-reps=N (default 50000). Verdict failed: d_resid4 conserved geometry is low-order (E1E2) not degree-3 (H3)."
+  },
+  {
+   "experiment_id": "e2_unique_concentration",
+   "claim_id": "bridge.genetic_code.e2_unique_concentration_d_resid4",
+   "script_path": "tools/window_codon_bridge/experiments/run_e2_unique_concentration.py",
+   "status": "terminal",
+   "timeout_seconds": 1800,
+   "note": "E2-unique concentration test for d_resid4 low-order-after-H3 conserved geometry. Pure-stdlib, reuses H3 residual-specificity machinery. --null-reps=N (default 50000). Verdict refuted: not degree-2-concentrated."
+  },
+  {
+   "experiment_id": "asd_w6_self_tail_exact_null",
+   "claim_id": "bridge.host_defense.asd_w6_self_tail_erasability",
+   "script_path": "tools/window_codon_bridge/experiments/run_asd_w6_exact_null.py",
+   "status": "terminal",
+   "timeout_seconds": 86400,
+   "note": "ASD-W6 self-tail-erasability test with EXACT analytical gene-wise within-AA synonymous null E_g[c,d] (replaces 400x Monte-Carlo shuffles; ~42s/genome). Pure-stdlib, fetches RefSeq assemblies. env ASD_W6_MAX_GENOMES / ASD_W6_NULL_REPLICATES / ASD_W6_CACHE_DIR; --selftest exercises exact-E vs MC (max abs err <0.012 @50000 MC). 1300-genome run verdict data_gate_failed (preflight) with aggregate null/mild-anti (no erasability). Non-daemon (long fetch+compute)."
+  },
+  {
+   "experiment_id": "w6_offframe_stop_ambush",
+   "claim_id": "bridge.genetic_code.w6_offframe_stop_ambush",
+   "script_path": "tools/window_codon_bridge/experiments/run_w6_offframe_stop_ambush.py",
+   "status": "terminal",
+   "timeout_seconds": 86400,
+   "note": "W6-OffFrameStopAmbush: Window6 hidden off-frame stop codon-pair forcing test. Carrier = table-11 K_total mask on Opp>0 aa-pairs; EXACT gene-wise within-AA synonymous null E_g[c,d]; 10000 composition-matched pseudo-stop decoys (deduped over 624-set exhaustive universe, MIN_DISTINCT_DECOY_SETS floor=100 replacing infeasible >=5000 gate) + genus-block bootstrap B=10000 + internal-only null. Pure-stdlib, fetches RefSeq _cds_from_genomic.fna.gz. env W6AMB_MAX_GENOMES/W6AMB_CACHE_DIR/W6AMB_BOOTSTRAPS/W6AMB_DECOY_POOLS; --selftest exercises carrier/Opp/exact-E-vs-MC/decoy-gen/verdict. 1400-genome run verdict refuted (OR_pool=0.909, hidden stops depleted). Non-daemon (long fetch+compute). Per-genome cost dominated by CDS parse+61x61 matrix build ~5s."
+  },
+  {
+   "experiment_id": "kpsi_w6_ucluster_transducer",
+   "claim_id": "bridge.genetic_code.kpsi_w6_ucluster_transducer",
+   "script_path": "tools/window_codon_bridge/experiments/run_kpsi_w6_ucluster_transducer.py",
+   "status": "terminal",
+   "timeout_seconds": 3600,
+   "note": "Kψ-W6-UClusterTransducer: Window6 U-cluster transducer (Kψ=choose(#U,2), Z_order-isolated via B=500 synonymous shuffles) vs m¹Ψ polysome-load shift ΔPLI. Carrier = Nature Suppl Table 1 fluc_library XLSX (pure-stdlib zipfile+xml parse, static-content.springer.com MOESM3); readout = GEO GSE309271 library_reads.tsv.gz. env KPSI_CARRIER_XLSX/KPSI_READOUT_TSVGZ/KPSI_CACHE_DIR/KPSI_B_VARIANT/KPSI_B_GLOBAL/KPSI_B_LABEL; --selftest exercises xlsx-decode/ORF/Kψ/Z_order/PLI/nulls/decoys/verdict. 304-variant run verdict coincidence (U-content coincidence, not Window6 transducer). Small all-local analysis (~minutes), non-daemon. Oracle-amended power gate ≥250 (not ≥500); verdict precedence coincidence>needs_more_data on necessity failure."
+  },
+  {
+   "experiment_id": "dms_edge_hiding_robustness",
+   "claim_id": "bridge.genetic_code.dms_edge_hiding_robustness",
+   "script_path": "tools/window_codon_bridge/experiments/run_dms_edge_hiding_robustness.py",
+   "status": "certified",
+   "timeout_seconds": 3600,
+   "note": "e_in edge-hiding vs empirical ProteinGym DMS replacement-loss; exact degeneracy-preserving null; certified (rescoped non-causal, sshx-reviewed)."
+  },
+  {
+   "experiment_id": "dms_exposed_edge_microcanonical",
+   "claim_id": "bridge.genetic_code.dms_exposed_edge_microcanonical",
+   "script_path": "tools/window_codon_bridge/experiments/run_dms_exposed_edge_microcanonical.py",
+   "status": "certified",
+   "timeout_seconds": 3600,
+   "note": "exposed non-synonymous edge DMS loss at fixed e_in=67 microcanonical null; independent second error-minimization beyond edge-hiding; sshx-reviewed."
+  },
+  {
+   "experiment_id": "altcode_dms_edge_hiding_panel",
+   "claim_id": "bridge.genetic_code.altcode_dms_edge_hiding_panel",
+   "script_path": "tools/window_codon_bridge/experiments/run_altcode_dms_edge_hiding_panel.py",
+   "status": "coincidence",
+   "timeout_seconds": 3600,
+   "note": "per-code DMS edge-hiding vs own degeneracy null across 25 NCBI codes; universality bounded by non-independence."
+  },
+  {
+   "experiment_id": "trna_decoding_pressure_hidden_edges",
+   "claim_id": "bridge.genetic_code.trna_decoding_pressure_hidden_edges",
+   "script_path": "tools/window_codon_bridge/experiments/run_trna_decoding_pressure_hidden_edges.py",
+   "status": "needs_derivation",
+   "timeout_seconds": 3600,
+   "note": "code-tRNA co-adaptation at fixed e_in; N_67 MCMC does not mix for H_tRNA; mixing-independent permutation control null (no co-adaptation)."
+  }
+ ]
 }
